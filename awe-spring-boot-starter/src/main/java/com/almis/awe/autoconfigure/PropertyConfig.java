@@ -1,0 +1,91 @@
+package com.almis.awe.autoconfigure;
+
+import com.almis.awe.model.settings.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.support.DefaultConversionService;
+
+/**
+ * Initialize properties
+ * @author pgarcia
+ */
+@Configuration
+@Order(Ordered.HIGHEST_PRECEDENCE)
+@PropertySource("classpath:config/security.properties")
+@PropertySource("classpath:config/base.properties")
+@PropertySource("classpath:config/library.properties")
+@PropertySource("classpath:config/numeric.properties")
+@PropertySource("classpath:config/email.properties")
+@PropertySource("classpath:config/database.properties")
+@PropertySource("classpath:config/microservices.properties")
+@PropertySource("classpath:config/session.properties")
+@PropertySource("classpath:config/web.properties")
+@PropertySource("classpath:config/cache.properties")
+@PropertySource(value = "${properties.specific}", ignoreResourceNotFound = true)
+public class PropertyConfig {
+
+  /**
+   * Allow reading property comma separated
+   * @return conversion service
+   */
+  @Bean
+  public ConversionService conversionService() {
+    return new DefaultConversionService();
+  }
+
+  /**
+   * Web settings
+   * @return Web settings bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public WebSettings webSettings() {
+    return new WebSettings();
+  }
+
+  /**
+   * Web number options
+   * @return Web number options bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public WebNumberOptions webNumberOptions() {
+    return new WebNumberOptions();
+  }
+
+  /**
+   * Web chart options
+   * @return Web chart options bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public WebChartOptions webChartOptions() {
+    return new WebChartOptions();
+  }
+
+
+  /**
+   * Web pivot options
+   * @return Web pivot options bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public WebPivotOptions webPivotOptions() {
+    return new WebPivotOptions();
+  }
+
+  /**
+   * Web tooltip options
+   * @return Web tooltip options bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public WebTooltip webTooltip() {
+    return new WebTooltip();
+  }
+}

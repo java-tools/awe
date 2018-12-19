@@ -1,0 +1,11 @@
+<label ng-show="controller.visible" class="criterion btn btn-awe validator input {{criterionClass}} focus-target" ng-class="{'active btn-primary': checked, 'disabled': controller.readonly}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <input type="checkbox" class="form-control px {{classes}}" ng-attr-id="{{::controller.id}}" ng-attr-name="{{::controller.id}}"
+         ng-model="checked" ng-change="updateSelected(checked)" ng-disabled="controller.readonly" ng-focus="focus()" ng-blur="blur()"/>
+  <i ng-if="::controller.icon !== ''" class="fa fa-{{::controller.icon}}"></i>
+  <span class="lbl label-{{::size}}">
+    <i ng-if="::controller.help" class="help-target fa fa-fw fa-question-circle"></i>
+    {{controller.label| translateMultiple}}
+  </span>
+  <awe-loader class="loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</label>

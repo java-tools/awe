@@ -1,0 +1,12 @@
+<div class="panel panel-awe {{::panelClass + ' panel-' + size}} expandible-vertical" ng-class="{'maximized': maximized, 'maximizing': maximizing, 'resizing resizeTarget': panelResizing, 'expand': isExpandible || maximized}" ng-cloak>
+  <div ng-show="::panelTitle" class="awe-panel-heading panel-heading" ng-cloak>
+    <i ng-if="::panelIcon" class="panel-title-icon fa fa-{{::panelIcon}}"></i>
+    <span translate-multiple="{{::panelTitle}}"></span>
+    <div ng-if="::maximize" class="btn-group pull-right">
+      <button role="button" type="button" class="maximize-button" aria-hidden="true" ng-click="togglePanel()" title="{{togglePanelText| translateMultiple}}">
+        <i class="fa {{iconMaximized ? 'fa-compress' : 'fa-expand'}}"></i>
+      </button>
+    </div>
+  </div>
+  <div ng-transclude class="awe-panel-content panel-content maximize-content expandible-{{::expandDirection}}" ng-class="{'expand': isExpandible || maximized}" ng-cloak></div>
+</div>

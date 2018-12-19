@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : LogViw.xml
+    Created on : 19 de Diciembre de 2014
+    Author     : Pablo Vidal
+    Description: Log List - View Log
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_LOG_VIW" help="HELP_SCREEN_TITLE_LOG_VIW">
+  <tag source="hidden">
+    <criteria id="path" component="hidden" variable="Fil.selected" />
+    <criteria id="content-type" component="hidden" value="text/plain" />
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button button-type="button" label="BUTTON_PRINT" icon="print" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="print"/>
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand" label="SCREEN_TEXT_DATA" icon="file-text-o">
+      <widget type="log-viewer" id="logViewer" style="expand scrollable" server-action="get-log-file" autorefresh="5" autoload="true">
+        <widget-parameter type="boolean" name="stickBottom" value="true"/>
+      </widget>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : MdlUpd.xml
+    Created on : 22 de Febrero de 2013
+    Author     : Pablo Vidal
+    Description: Module Tools - Update Module
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_SIT_UPD" help="HELP_SCREEN_TITLE_SIT_UPD">
+  <tag source="hidden">
+    <criteria id="IdeSit" component="text" variable="IdeSit" />
+    <message id="UpdMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE" />
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button button-type="button" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" />
+      <button-action type="check-records-saved" target="SitModDbsLst" />
+      <button-action type="confirm" target="UpdMsg" />
+      <button-action type="server" server-action="maintain" target-action="SitUpd" />
+      <button-action type="server" server-action="data" target-action="SitNamByOpeSel" target="site" context="base" />
+      <button-action type="back" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="static criteria" label="SCREEN_TEXT_SITE" icon="edit">
+      <tag type="div" style="panel-body static">
+        <criteria label="PARAMETER_NAME" id="Nam" variable="Nam" component="text" validation="required" style="col-xs-12 col-sm-6 col-lg-4" />
+        <criteria label="PARAMETER_ORDER" id="OrdCrt" variable="Ord" component="text" style="col-xs-6 col-sm-3 col-lg-2" />
+        <criteria label="PARAMETER_ACTIVE" id="Act" variable="Act" component="select" validation="required" initial-load="enum" target-action="Es1Es0" style="col-xs-6 col-sm-3 col-lg-2" />
+      </tag>
+    </window>
+    <window style="expand" label="SCREEN_TEXT_CONFIGURATION" icon="list">
+      <grid id="SitModDbsLst" style="expand" server-action="data" target-action="QryLstModDbsBySit" editable="true" send-operations="true" autoload="true">
+        <column sort-field="IdeSitModDbs" name="IdeSitModDbs" hidden="true" />
+        <column label="PARAMETER_MODULE" name="IdeMod" sort-field="IdeMod" align="left" charlength="40" component="select" validation="required" server-action="data" initial-load="query"
+                target-action="ModSelBD" />
+        <column label="PARAMETER_DB_ALS" name="IdeDbs" sort-field="IdeDbs" align="left" charlength="60" component="select" validation="required" server-action="data" initial-load="query"
+                target-action="DbsSel" />
+        <column label="PARAMETER_ORDER" name="Ord" sort-field="Ord" align="center" charlength="10" component="text" />
+        <button label="BUTTON_NEW" icon="plus-circle" id="ButGrdAdd">
+          <button-action type="add-row" target="SitModDbsLst" silent="true" />
+        </button>
+        <button label="BUTTON_DELETE" icon="trash" id="ButGrdDel">
+          <button-action type="delete-row" target="SitModDbsLst" silent="true" />
+          <dependency target-type="enable" initial="true">
+            <dependency-element id="SitModDbsLst" attribute="selectedRows" condition="eq" value="1" />
+          </dependency>
+        </button>
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

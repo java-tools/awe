@@ -1,0 +1,10 @@
+<div ng-show="component.controller.visible" class="column-input text-{{::component.controller.align}} no-animate" ui-dependency="dependencies" ng-mouseup="onClick()" ng-cloak title="{{component.visibleValue}}">
+  <span class="{{classes}} {{component.model.values[0].style}} col-xs-{{(component.controller.unit || component.model.values[0].unit) ? '10' : '12'}}" ng-cloak>
+    <span ng-if="component.controller.icon || component.model.values[0].icon" class="text-icon fa fa-fw fa-{{component.controller.icon || component.model.values[0].icon}}" ng-cloak></span>
+    <span class="text-value" ng-cloak>{{component.visibleValue}}</span>
+  </span>
+  <span ng-if="component.controller.unit || component.model.values[0].unit" class="col-xs-2 text-right" ng-cloak>
+    <span class="label label-warning" translate-multiple="{{component.controller.unit || component.model.values[0].unit}}"></span>
+  </span>
+  <awe-loader class="loader no-animate" ng-if="component.controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</div>

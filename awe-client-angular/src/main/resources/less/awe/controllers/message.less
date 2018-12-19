@@ -1,0 +1,53 @@
+/*******************************************************************************
+ MESSAGE ATTRIBUTES
+*******************************************************************************/
+
+.alert .close {
+  outline: 0;
+}
+
+.alert-zone {
+  position: absolute;
+  z-index: 2000;
+  width: 100%;
+}
+
+.alert.alert-awe {
+  margin-bottom: 0px;
+  border-radius: 0;
+  border-top-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  overflow: hidden;
+}
+
+.alert-awe.alert-danger span.description {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .alert-awe.alert-danger span.description {
+    white-space: pre-wrap;
+  }
+}
+
+/* Alert animations */
+.alert.ng-enter,
+.alert.ng-leave {
+  .transition-multiple (margin-top, ease, 300ms, opacity, ease, 300ms);
+  display: block;
+  position: relative;
+  overflow: hidden !important;
+}
+
+.alert.ng-enter.ng-enter-active,
+.alert.ng-leave {
+  margin-top: 0;
+  .opacity(1);
+}
+
+.alert.ng-leave.ng-leave-active,
+.alert.ng-enter {
+  margin-top: -30%;
+  .opacity(0);
+}

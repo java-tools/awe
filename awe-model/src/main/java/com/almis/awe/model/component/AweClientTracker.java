@@ -1,0 +1,49 @@
+package com.almis.awe.model.component;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
+import java.util.Observable;
+
+/**
+ * ClientTracker Class
+ * Bean class with user navigation info
+ *
+ * @author Pablo GARCIA - 03/Aug/2017
+ */
+public class AweClientTracker extends Observable {
+
+  private String lastScreen = "";
+
+  /**
+   * @return the lastFrameChanged
+   */
+  public String getLastScreenChanged() {
+    return lastScreen;
+  }
+
+  /**
+   * @param screen the last screen to set
+   */
+  public void setLastScreenChange(String screen) {
+    this.lastScreen = screen == null ? "" : screen;
+    this.setChanged();
+    this.notifyObservers(lastScreen);
+  }
+
+  /**
+   * Change screen for view
+   *
+   * @param screen New screen
+   */
+  public void navigateToScreen(String screen) {
+    this.setLastScreenChange(screen);
+  }
+
+  /**
+   * Notify observers on destroy
+   */
+  public void removeObservers() {
+    setLastScreenChange("");
+  }
+}

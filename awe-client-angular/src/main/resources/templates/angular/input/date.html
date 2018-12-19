@@ -1,0 +1,19 @@
+<div ng-show="controller.visible" class="criterion {{criterionClass}}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <div ng-class="::groupClass" ng-cloak>
+    <label ng-attr-for="{{::controller.id}}" ng-class="::labelClass" ng-style="::labelStyle" ng-cloak>
+      <i ng-if="::controller.help" class="help-target fa fa-fw fa-question-circle"></i>
+      {{controller.label| translateMultiple}}
+    </label>
+    <div class="validator input-group input-append date {{::validatorGroup}} focus-target" ui-date="aweDateOptions" initialized="initialized" ng-readonly="controller.readonly">
+      <span ng-if="::controller.icon" ng-class="::iconClass" ng-cloak></span>
+      <input type="text" class="form-control {{classes}}" placeholder="{{controller.placeholder| translateMultiple}}" autocomplete="off" ng-click="click($event)"
+             ng-attr-id="{{::controller.id}}" ng-attr-name="{{::controller.id}}" ng-disabled="controller.readonly" ng-model="model.selected" ng-change="component.modelChange()"
+             ng-model-options="{updateOn: 'change'}" ng-focus="focus()" ng-blur="blur()" ng-press-enter="submit($event)"/>
+      <awe-loader class="loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+      <span class="input-group-addon add-on">
+        <i class="fa fa-calendar"></i>
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div role="columnheader" class="text-center no-animate" ng-class="{ 'sortable': sortable }" ui-grid-one-bind-aria-labelledby-grid="col.uid + '-header-text ' + col.uid + '-sortdir-text'" aria-sort="{{col.sort.direction == asc ? 'ascending' : ( col.sort.direction == desc ? 'descending' : (!col.sort.direction ? 'none' : 'other'))}}">
+  <div role="button" tabindex="0" class="no-animate ui-grid-cell-contents ui-grid-header-cell-primary-focus" col-index="renderIndex" title="TOOLTIP">
+    <span ui-grid-one-bind-id-grid="col.uid + '-sortdir-text'" ui-grid-visible="col.sort.direction" aria-label="{{getSortDirectionAriaLabel()}}">
+      <i class="fa" ng-class="{ 'fa-sort-asc': col.sort.direction == asc, 'fa-sort-desc': col.sort.direction == desc}" title="{{col.sort.priority ? i18n.headerCell.priority + ' ' + col.sort.priority : null}}" aria-hidden="true"></i>
+    </span>
+    <span class="no-animate ui-grid-header-cell-label" ui-grid-one-bind-id-grid="col.uid + '-header-text'" translate-multiple="{{col.displayName}}"></span>
+  </div>
+  <!--<div role="button" tabindex="0" ui-grid-one-bind-id-grid="col.uid + '-menu-button'" class="ui-grid-column-menu-button" ng-if="grid.options.enableColumnMenus && !col.isRowHeader && col.colDef.enableColumnMenu !== false" ng-click="toggleMenu($event)" ng-class="{'ui-grid-column-menu-button-last-col': isLastCol}" ui-grid-one-bind-aria-label="i18n.headerCell.aria.columnMenuButtonLabel" aria-haspopup="true">
+    <i class="fa fa-filter" aria-hidden="true"></i>
+  </div>-->
+  <div ui-grid-filter></div>
+</div>

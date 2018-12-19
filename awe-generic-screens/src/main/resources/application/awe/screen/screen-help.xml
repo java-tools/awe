@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="help">
+  <tag source="center">
+    <dialog id="HlpOpt" modal="true" style="modal-lg expand" label="SCREEN_HELP" icon="question-circle" help="HELP_SCREEN_HELP">
+      <tag type="div" style="modal-body scrollable expand">
+        <widget type="help-viewer" id="helpViewer"/>
+      </tag>
+      <tag type="div" style="modal-footer">
+        <tag type="div" style="pull-right">
+          <button label="BUTTON_CLOSE" icon="close" id="ButHlpClo" button-type="submit" help="HELP_CLOSE_HELP_BUTTON">
+            <button-action type="close" target="HlpOpt" />
+          </button>
+        </tag>
+      </tag>
+    </dialog>
+  </tag>
+</screen>

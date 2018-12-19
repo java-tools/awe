@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--
+  ==============================================================================
+  Definition
+  ==============================================================================
+  -->
+  
+  <xs:annotation>
+    <xs:appinfo>awe Base Variables Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">
+    This Schema defines the way an awe Variable must be structured
+    </xs:documentation>
+  </xs:annotation> 
+  
+  <!--
+  ==============================================================================
+  Includes
+  ==============================================================================
+  -->  
+  
+  <xs:include schemaLocation="general.xsd"/>    
+  
+  <!--
+  ==============================================================================
+  Attribute Groups 
+  ==============================================================================
+  -->  
+  
+  <!-- Variable Attributes -->
+  <xs:attributeGroup name="variableAttr">     
+    <xs:attribute name="id" use="required" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="session" type="xs:string"/>
+    <xs:attribute name="property" type="xs:string"/>
+    <xs:attribute name="optional" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <!--
+  ==============================================================================
+  Type definitions
+  ==============================================================================
+  -->
+  
+  <!-- Variable Type -->
+  <xs:complexType name="variableType">
+    <xs:attributeGroup ref="variableAttr"/>
+    <xs:attribute name="type" use="required" type="variableRestriction"/>        
+  </xs:complexType>
+
+  <!-- Variable Type -->
+  <xs:complexType name="variableScriptType">
+    <xs:attributeGroup ref="variableAttr"/> 
+  </xs:complexType>  
+  
+  <!-- Variable Email Type -->
+  <xs:complexType name="variableEmailType">
+    <xs:attributeGroup ref="variableAttr"/>
+    <xs:attribute name="type" use="required" type="variableRestriction"/>    
+  </xs:complexType>
+  
+</xs:schema>

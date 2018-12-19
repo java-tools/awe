@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ThmNew.xml
+    Created on : 13 de febrero de 2013
+    Author     : Pablo VIDAL
+    Description: Ventana de herramientas - Alta de Tema
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_THM_NEW" help="HELP_SCREEN_TITLE_THM_NEW">
+  <tag source="hidden">
+    <message id="NewMsg" title="CONFIRM_TITLE_NEW" message="CONFIRM_MESSAGE_NEW" />
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button button-type="button" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" />
+      <button-action type="confirm" target="NewMsg" />
+      <button-action type="server" server-action="maintain" target-action="ThmNew" />
+      <button-action type="back" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand" label="SCREEN_TEXT_DATA" icon="plus-circle">
+      <tag type="div" style="panel-body static">
+        <criteria label="PARAMETER_THEME" id="Nam" component="text" variable="Nam" validation="required" style="col-xs-12 col-sm-6 col-lg-3" />
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

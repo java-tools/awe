@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Document : Queries.xml Created on : 11 de marzo de 2010, 11:03 Author : Pablo GARCIA Description: AWE Queries File -->
+
+<queries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/queries.xsd">
+
+  <!-- SQL Extract -->
+  <query id="selectExtract" service="selectExtract">
+    <variable id="select" type="STRING" name="selectCriteria" />
+    <variable id="type" type="STRING" name="sqlType" />
+  </query>
+
+  <!-- Get Select Files -->
+  <query id="getSel" service="GetSelectFile">
+    <field id="value" alias="value" />
+    <field id="label" alias="label" />
+  </query>
+
+  <!-- Load Select sentence -->
+  <query id="loadSelect" service="loadSelect">
+    <field id="value" alias="value" />
+    <field id="label" alias="label" />
+    <variable id="fileName" type="STRING" name="CrtFle" />
+  </query>
+
+  <!-- Check duplicated Files -->
+  <query id="duplicatedFile" service="duplicatedFile">
+    <field id="value" />
+    <field id="label" />
+    <variable id="fileName" type="STRING" name="CrtSavFil" />
+  </query>
+
+</queries>

@@ -1,0 +1,21 @@
+//
+// Themes / Dust
+// --------------------------------------------------
+
+.theme-dust {
+  @theme-color: lighten(#7a6f6f, 10%);
+  // Main menu background color
+  @menu-color: #433d3c;
+  // Primary color
+  @primary-color: #7a6f6f;
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(@primary-color);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

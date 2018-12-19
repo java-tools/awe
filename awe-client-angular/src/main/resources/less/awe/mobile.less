@@ -1,0 +1,73 @@
+// Mobile management
+.mobile-buttons {
+  display: none;
+}
+
+@media (max-width: @screen-xs-max) {
+  .breadcrumb {
+    margin-bottom: 0px;
+  }
+  .window-center {
+    padding-top: 10px;
+  }
+
+  .window-buttons {
+    margin-bottom: 0px;
+    margin-right: 0px;
+    padding-top: 0px;
+  }
+
+  .window-buttons,
+  .panel-footer > .pull-right {
+    position: static;
+    margin-left: -6px;
+    float: none;
+    .btn-group-justified;
+    .btn {
+      .btn-lg;
+      border-radius: 0px !important;
+      overflow: hidden;
+      i {
+        position: relative;
+        top: -6px;
+      }
+      .button-text {
+        display: block;
+        font-size: 10px;
+        line-height: 0px;
+        text-align: center;
+        margin-left: -16px;
+        margin-right: -16px;
+      }
+    }
+  }
+  .panel, .wizard-panel {
+    .panel-footer {
+      padding: 0 !important;
+      margin-left: -6px;
+      &:after {
+        content: initial;
+      }
+    }
+  }
+
+  .panel .btn-group > .maximize-button,
+  .tab-container .maximize-handler {
+    display: none;
+  }
+
+  .tab-container, .grid, .chart {
+    min-height: 300px;
+  }
+
+  .panel.expand, .tab-container.expand {
+    .flex(none);
+  }
+
+  .expandible-horizontal {
+    .flex-direction(column);
+    &.expand {
+      .flex(none);
+    }
+  }
+}

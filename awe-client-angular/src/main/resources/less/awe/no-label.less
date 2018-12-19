@@ -1,0 +1,28 @@
+// Custom no label
+.no-label {
+  .control-label {
+    display: none;
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  .no-label-xs {
+    .no-label;
+  }
+}
+
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+  .no-label-sm {
+    .no-label;
+  }
+}
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+  .no-label-md {
+    .no-label;
+  }
+}
+@media (min-width: @screen-lg-min) {
+  .no-label-lg {
+    .no-label;
+  }
+}

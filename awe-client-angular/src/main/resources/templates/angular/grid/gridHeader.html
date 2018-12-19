@@ -1,0 +1,12 @@
+<div class="no-animate ui-grid-top-panel">
+  <div class="no-animate ui-grid-header-viewport">
+    <div class="no-animate grid-header-scroller ui-grid-header-canvas">
+      <!-- fixes scrollbar issue -->
+      <div class="no-animate ui-grid-header-cell-wrapper">
+        <div class="no-animate ui-grid-header-cell ui-grid-clearfix" ng-repeat="cat in categories track by $index" style="width: {{cat.width}}px">
+          <div class="no-animate ui-grid-cell-contents" style="text-align:center">{{cat.displayName| translateMultiple}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

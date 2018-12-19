@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<enumerated xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../schemas/awe/enumerated.xsd">
+  <!-- LANGUAGES -->
+  <group id="format-selection">
+    <option label="ENUM_FORMAT_TEXT" value="TEXT" />
+    <option label="ENUM_FORMAT_MARKDOWN" value="MARKDOWN" />
+  </group>
+</enumerated>

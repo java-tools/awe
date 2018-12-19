@@ -1,0 +1,17 @@
+<div ng-show="controller.visible" class="criterion {{criterionClass}}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <div ng-class="::groupClass" ng-cloak>
+    <label ng-attr-for="{{::controller.id}}" ng-class="::labelClass" ng-cloak></label>
+    <div class="validator input">
+      <label class="radio">
+        <input type="radio" class="form-control px {{classes}}" ng-attr-id="{{::controller.id}}" ng-attr-name="{{::controller.group}}"
+               ng-model="component.model.selected" ng-value="component.value" ng-change="component.modelChange()" ng-disabled="controller.readonly"/>
+        <span class="lbl label-{{::size}}">
+          <i ng-if="::controller.help" class="help-target fa fa-fw fa-question-circle"></i>
+          {{controller.label| translateMultiple}}
+        </span>
+        <awe-loader class="loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+      </label>
+    </div>
+  </div>
+</div>

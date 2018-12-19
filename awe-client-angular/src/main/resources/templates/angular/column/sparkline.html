@@ -1,0 +1,9 @@
+<div ng-show="component.controller.visible" class="column-input criterion column-checkbox {{component.model.values[0].style}} no-animate" ui-dependency="dependencies" ng-cloak>
+  <div class="validator input">
+    <label class="checkbox">
+      <input type="checkbox" class="px" ng-model="checked" ng-change="updateSelected(checked)" ng-disabled="component.controller.readonly || !component.editing"/>
+      <span class="lbl"></span>
+    </label>
+  </div>
+  <awe-loader class="loader no-animate" ng-if="component.controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</div>

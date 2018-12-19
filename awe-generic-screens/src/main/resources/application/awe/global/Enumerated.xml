@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Enumerated.xml
+    Created on : 11 de marzo de 2010, 11:03
+    Author     : Pablo GARCIA
+    Description:
+        Purpose of the document follows.
+-->
+
+<enumerated xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/enumerated.xsd">
+
+  <group id="Es1Es0">
+    <option label="ENUM_NO" value="0" />
+    <option label="ENUM_YES" value="1" />
+  </group>
+
+  <group id="EsyEnn">
+    <option label="ENUM_NO" value="N" />
+    <option label="ENUM_YES" value="Y" />
+  </group>
+
+  <group id="BthSta">
+    <option label="ENUM_BTH_MAN_ERR" value="4" />
+    <option label="ENUM_BTH_MAN_SUC" value="3" />
+    <option label="ENUM_BTH_CAN" value="2" />
+    <option label="ENUM_BTH_RUN" value="1" />
+    <option label="ENUM_BTH_SUC" value="0" />
+    <option label="ENUM_BTH_ERR" value="-1" />
+    <option label="ENUM_BTH_WAR" value="-2" />
+  </group>
+
+  <group id="EmlSnd">
+    <option label="ENUM_EML_NO" value="0" />
+    <option label="ENUM_EML_ERR" value="1" />
+    <option label="ENUM_EML_ALL" value="2" />
+    <option label="ENUM_EML_REP_ERR" value="3" />
+    <option label="ENUM_EML_REP_ALL" value="4" />
+  </group>
+
+  <group id="EmlTyp">
+    <option label="ENUM_EML_TYP_USR" value="usr" />
+    <option label="ENUM_EML_TYP_GRP" value="grp" />
+  </group>
+
+  <group id="AudTyp">
+    <option label="ENUM_AUD_TYP_INS" value="I" />
+    <option label="ENUM_AUD_TYP_UPD" value="U" />
+    <option label="ENUM_AUD_TYP_DEL" value="D" />
+  </group>
+
+  <!-- LANGUAGES -->
+  <group id="Lan">
+    <option label="ENUM_LAN_ES" value="es" />
+    <option label="ENUM_LAN_EN" value="en" />
+    <option label="ENUM_LAN_FR" value="fr" />
+  </group>
+
+  <!-- PRINTING TABS -->
+  <group id="printTabs">
+    <option label="PRINT_TAB_GENERAL" value="GENERAL"/>
+    <option label="PRINT_TAB_ADVANCE" value="ADVANCE"/>
+  </group>
+
+  <!-- LANGUAGES -->
+  <group id="LanUsr">
+    <option label="ENUM_LAN_ES" value="ESP" />
+    <option label="ENUM_LAN_EN" value="ENG" />
+    <option label="ENUM_LAN_FR" value="FRA" />
+  </group>
+
+  <!-- PRINTING ACTIONS -->
+  <group id="PrnAct">
+    <option label="ENUM_PRN_ACT_MAIL" value="0" />
+    <option label="ENUM_PRN_ACT_PRINT" value="1" />
+    <option label="ENUM_PRN_ACT_CREATE" value="2" />
+  </group>
+
+  <!-- PRINTING ACTIONS -->
+  <group id="PrnActNotPrn">
+    <option label="ENUM_PRN_ACT_MAIL" value="0" />
+    <option label="ENUM_PRN_ACT_CREATE" value="2" />
+  </group>
+
+  <!-- PRINTING TYPE (ALL/TAB) -->
+  <group id="PrnTyp">
+    <option label="ENUM_PRN_TYP_ALL" value="0" />
+    <option label="ENUM_PRN_TYP_TAB" value="1" />
+  </group>
+
+  <!-- PRINTING FORMATS -->
+  <group id="PrnFmt">
+    <option label="ENUM_PRN_FMT_PDF" value="PDF" />
+    <option label="ENUM_PRN_FMT_XLS" value="XLS" />
+    <option label="ENUM_PRN_FMT_XLSX" value="XLSX" />
+    <option label="ENUM_PRN_FMT_CSV" value="CSV" />
+    <option label="ENUM_PRN_FMT_RTF" value="RTF" />
+    <option label="ENUM_PRN_FMT_DOCX" value="DOCX" />
+    <option label="ENUM_PRN_FMT_TEXT" value="TEXT" />
+  </group>
+
+  <!-- DOUBLE FORMATS -->
+  <group id="DblPrnFmt">
+    <option label="ENUM_PRN_FMT_EUR" value="0" />
+    <option label="ENUM_PRN_FMT_AME" value="1" />
+    <option label="ENUM_PRN_FMT_EUR_NO_THOU" value="2" />
+    <option label="ENUM_PRN_FMT_AME_NO_THOU" value="3" />
+  </group>
+
+  <!-- EMAIL DESTINATIONS -->
+  <group id="EmlDst">
+    <option label="ENUM_EML_DST_USR" value="EmlUsrLst" />
+    <!--Move to ALU <option label="ENUM_EML_DST_GRP" value="EmlGrpLst" /> -->
+  </group>
+
+  <!-- USERS-PROFILES BY MODULE -->
+  <group id="EnuAweSelUsrPrfByMdl">
+    <option label="ENUM_MDL_USERS" value="MdlUsr" />
+    <option label="ENUM_MDL_PROFILES" value="MdlPrf" />
+  </group>
+
+  <!-- DATA BASE CONNECTION TYPES -->
+  <group id="DbsTyp">
+    <option label="ENUM_DBS_TYP_JDBC" value="J" />
+    <option label="ENUM_DBS_TYP_DATASOURCE" value="D" />
+  </group>
+
+  <!-- DATABASE MANAGER SYSTEM -->
+  <group id="EnuDbmSys">
+    <option label="ENUM_DBM_ORACLE" value="ora" />
+    <option label="ENUM_DBM_SQLSERVER" value="sqs" />
+    <option label="ENUM_DBM_SYBASE" value="syb" />
+    <option label="ENUM_DBM_HSQL" value="syb" />
+    <option label="ENUM_DBM_MYSQL" value="mys" />
+  </group>
+
+  <!-- DATABASE BEAN TRANSLATION -->
+  <group id="DatabaseBeanTranslation">
+    <option label="oracle" value="ora" />
+    <option label="sqlserver" value="sqs" />
+    <option label="sybase" value="syb" />
+    <option label="hsql" value="hsql" />
+    <option label="h2" value="h2" />
+    <option label="mysql" value="mysql" />
+    <option label="teradata" value="teradata" />
+    <option label="postgre" value="postgre" />
+  </group>
+
+  <!-- DATABASE DRIVERS TYPE -->
+  <group id="DrvTyp">
+    <option label="ENUM_DRV_ORACLE" value="oracle.jdbc.driver.OracleDriver" />
+    <option label="ENUM_DRV_SQLSERVER" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+    <option label="ENUM_DRV_SYBASE" value="com.sybase.jdbc3.jdbc.SybDriver" />
+  </group>
+
+  <!-- ENVIROMENTS -->
+  <group id="EnvTyp">
+    <option label="ENUM_ENV_DES" value="Des" />
+    <option label="ENUM_ENV_PRE" value="Pre" />
+    <option label="ENUM_ENV_PRO" value="Pro" />
+  </group>
+
+  <!-- RESTRICTION ACCESS MODE -->
+  <group id="ResAccModSel">
+    <option label="ENUM_REST_MODE_RESTRICTED" value="R" />
+    <option label="ENUM_REST_MODE_ALLOW" value="A" />
+  </group>
+
+  <!-- ATTRIBUTE SCREEN CONFIG TYPE -->
+  <group id="ScrCnfAtrTyp">
+    <option label="ENUM_SCR_ATR_REQUIRED" value="required" />
+    <option label="ENUM_SCR_ATR_VALIDATION" value="validation" />
+    <option label="ENUM_SCR_ATR_STYLE" value="style" />
+    <option label="ENUM_SCR_ATR_LABEL" value="label" />
+    <option label="ENUM_SCR_ATR_VALUE" value="value" />
+    <option label="ENUM_SCR_ATR_SESSION" value="session" />
+    <option label="ENUM_SCR_ATR_VARIABLE" value="variable" />
+    <option label="ENUM_SCR_ATR_COMPONENT" value="component" />
+    <option label="ENUM_SCR_ATR_INITLOAD" value="initialLoad" />
+    <option label="ENUM_SCR_ATR_FORMAT" value="format" />
+    <option label="ENUM_SCR_ATR_NUMFORMAT" value="numberFormat" />
+    <option label="ENUM_SCR_ATR_CAPITALIZE" value="capitalize" />
+    <option label="ENUM_SCR_ATR_VISIBLE" value="visible" />
+    <option label="ENUM_SCR_ATR_READONLY" value="readonly" />
+    <option label="ENUM_SCR_ATR_CHECKED" value="checked" />
+    <option label="ENUM_SCR_ATR_STRICT" value="strict" />
+    <option label="ENUM_SCR_ATR_SERVERACTION" value="serverAction" />
+    <option label="ENUM_SCR_ATR_TARGETACTION" value="targetAction" />
+    <option label="ENUM_SCR_ATR_MESSAGE" value="message" />
+    <option label="ENUM_SCR_ATR_FORMULE" value="formule" />
+    <option label="ENUM_SCR_ATR_OPTIONAL" value="optional" />
+    <option label="ENUM_SCR_ATR_MAX" value="max" />
+    <option label="ENUM_SCR_ATR_MOVABLE" value="movable" />
+    <option label="ENUM_SCR_ATR_PRINTABLE" value="printable" />
+    <option label="ENUM_SCR_ATR_UNIT" value="unit" />
+    <option label="ENUM_SCR_ATR_CHECKEMPTY" value="checkEmpty" />
+    <option label="ENUM_SCR_ATR_CHECKINITIAL" value="checkInitial" />
+    <option label="ENUM_SCR_ATR_CHECKTARGET" value="checkTarget" />
+    <option label="ENUM_SCR_ATR_SPECIFIC" value="specific" />
+    <option label="ENUM_SCR_ATR_TIMEOUT" value="timeout" />
+    <option label="ENUM_SCR_ATR_FIELD" value="field" />
+    <option label="ENUM_SCR_ATR_WIDTH" value="width" />
+    <option label="ENUM_SCR_ATR_CHARLENGTH" value="charLength" />
+    <option label="ENUM_SCR_ATR_ALIGN" value="align" />
+    <option label="ENUM_SCR_ATR_INPUTTYPE" value="inputType" />
+    <option label="ENUM_SCR_ATR_SORTABLE" value="sortable" />
+    <option label="ENUM_SCR_ATR_HIDDEN" value="hidden" />
+    <option label="ENUM_SCR_ATR_SENDABLE" value="sendable" />
+    <option label="ENUM_SCR_ATR_SUMMARYTYPE" value="summaryType" />
+    <option label="ENUM_SCR_ATR_FORMATTER" value="formatter" />
+    <option label="ENUM_SCR_ATR_FORMATOPTIONS" value="formatOptions" />
+    <option label="ENUM_SCR_ATR_FROZEN" value="frozen" />
+    <option label="ENUM_SCR_ATR_POSITION" value="position" />
+    <option label="ENUM_SCR_ATR_AUTOLOAD" value="autoload" />
+    <option label="ENUM_SCR_ATR_TOTALIZE" value="totalize" />
+    <option label="ENUM_SCR_ATR_SHOWTOTALS" value="showTotals" />
+    <option label="ENUM_SCR_ATR_AUTOREFRESH" value="autorefresh" />
+    <option label="ENUM_SCR_ATR_RESTRICTED_VALUE" value="restrictedValueList" />
+    <option label="ENUM_SCR_ATR_SENDOPERATIONS" value="sendOperations" />
+    <option label="ENUM_SCR_ATR_TREEGRID" value="treegrid" />
+    <option label="ENUM_SCR_ATR_EDITABLE" value="editable" />
+    <option label="ENUM_SCR_ATR_MULTISELECT" value="multiselect" />
+    <option label="ENUM_SCR_ATR_EXPANDCOLUMN" value="expandcolumn" />
+    <option label="ENUM_SCR_ATR_DISABLE_PAGINATION" value="disablePagination" />
+    <option label="ENUM_SCR_ATR_PAGER_VALUES" value="pagerValues" />    
+    <option label="ENUM_SCR_ATR_DECIMAL_NUMBERS" value="decimalNumbers" />
+    <option label="ENUM_SCR_ATR_THOUSAND_SEPARATOR" value="thousandSeparator" />
+    <option label="ENUM_SCR_ATR_DECIMAL_SEPARATOR" value="decimalSeparator" />     
+  </group>
+  <group id="StlTyp">
+    <option value="TitStl" label="ENUM_TIT_STL" />
+    <option value="SubTitStl" label="ENUM_SUB_TIT_STL" />
+    <option value="CrtStl" label="ENUM_CRT_STL" />
+    <option value="HdgStl" label="ENUM_HDG_STL" />
+    <option value="GrdStl" label="ENUM_GRD_STL" />
+    <option value="TotStl" label="ENUM_TOT_STL" />
+    <option value="SubTotStl1" label="ENUM_SUB_STL" />
+  </group>
+  <group id="FntLst">
+    <option value="Times New Roman" label="Times New Roman" />
+    <option value="Arial" label="Arial" />
+    <option value="Courier New" label="Courier New" />
+    <option value="Verdana" label="Verdana" />
+    <option value="SansSerif" label="Sans Serif" />
+  </group>
+  <group id="CatParTyp">
+    <option label="ENUM_CATEGORY_GENERAL" value="0" />
+    <option label="ENUM_CATEGORY_SECURITY" value="1" />
+    <option label="ENUM_CATEGORY_REPORTS" value="2" />
+  </group>
+  <group id="EnuPwdPat">
+    <option label="ENUM_PWD_ONLY_CHAR" value="(?=.*[a-zA-Z])" />
+    <option label="ENUM_PWD_ALPHANUM" value="(?=.*\\\\d)(?=.*[a-zA-Z])" />
+    <option label="ENUM_PWD_WITH_SYMBOL" value="(?=.*\\\\d)(?=.*[a-zA-Z])(?=.*\\\\W)" />
+  </group>
+  <group id="EnuQueConTyp">
+    <option label="ENUM_QUE_JNDI" value="J" />
+    <option label="ENUM_QUE_REMOTE" value="R" />
+  </group>
+  <group id="EnuQueTyp">
+    <option label="ENUM_QUE" value="QUEUE" />
+    <option label="ENUM_TOP" value="TOPIC" />
+  </group>
+  <group id="EnuQueTabSel">
+    <option label="ENUM_GRID" value="QueGrd" />
+    <option label="ENUM_CHART" value="QueChr" />
+  </group>
+  <group id="EnuTrnJmsMsg">
+    <option label="ok" value="0" />
+    <option label="warning" value="1" />
+    <option label="info" value="2" />
+    <option label="error" value="-1" />
+  </group>
+
+  <!--
+  SCHEDULER
+  -->
+  <group id="StaTyp">
+    <option label="ENUM_STATUS_OK" value="0"/>
+    <option label="ENUM_STATUS_ERROR" value="1"/>
+    <option label="ENUM_STATUS_WARNING" value="2"/>
+    <option label="ENUM_STATUS_STOPPED" value="3"/>
+    <option label="ENUM_STATUS_RUNNING" value="4"/>
+    <option label="ENUM_STATUS_QUEUED" value="5"/>
+    <option label="ENUM_STATUS_INTERRUPTED" value="6"/>
+  </group>
+  <group id="LchTyp">
+    <option label="ENUM_LAUNCH_MANUAL" value="0"/>
+    <option label="ENUM_LAUNCH_SCHEDULED" value="1"/>
+    <option label="ENUM_LAUNCH_FILE" value="2"/>
+  </group>
+  <group id="SchedulerTaskSteps">
+    <option label="ENUM_TASK_STEP_CONFIG" value="Configuration"/>
+    <option label="ENUM_TASK_STEP_PARAMS" value="Parameters"/>
+    <option label="ENUM_TASK_STEP_LAUNCH" value="Launch"/>
+    <option label="ENUM_TASK_STEP_DEPENDENCIES" value="Dependencies"/>
+    <option label="ENUM_TASK_STEP_REPORT" value="Report"/>
+  </group>
+  <group id="SchedulerServSteps">
+    <option label="ENUM_TASK_STEP_CONFIG" value="Configuration"/>
+  </group>
+  <group id="ExeTyp">
+    <option label="ENUM_EXECUTE_COMMAND" value="0"/>
+    <option label="ENUM_EXECUTE_MAINTAIN" value="1"/>
+  </group>
+  <group id="conType">
+    <!--<option label="CONNECTION_TYPE_HTTP" value="http"/>-->
+    <!--<option label="CONNECTION_TYPE_HTTPS" value="https"/>-->
+    <option label="CONNECTION_TYPE_FTP" value="ftp"/>
+    <option label="CONNECTION_TYPE_FOLDER" value="folder"/>
+    <!--<option label="CONNECTION_TYPE_SSH" value="ssh"/>-->
+
+  </group>
+  <group id="RptTyp">
+    <option label="ENUM_REPEAT_SECONDS" value="0"/>
+    <option label="ENUM_REPEAT_MINUTES" value="1"/>
+    <option label="ENUM_REPEAT_HOURS" value="2"/>
+    <option label="ENUM_REPEAT_DAYS" value="3"/>
+    <option label="ENUM_REPEAT_MONTHS" value="4"/>
+    <option label="ENUM_REPEAT_YEARS" value="5"/>
+    <option label="ENUM_REPEAT_ONCE" value="6"/>
+    <option label="ENUM_REPEAT_CUSTOM" value="7"/>
+  </group>
+  <group id="RepTyp">
+    <option label="ENUM_REPEAT_NONE" value="0"/>
+    <option label="ENUM_REPEAT_EMAIL" value="1"/>
+    <option label="ENUM_REPEAT_BROADCAST" value="2"/>
+    <option label="ENUM_REPEAT_MAINTAIN" value="3"/>
+  </group>
+  <group id="SchParSrc">
+    <option label="PARAMETER_VALUE" value="0"/>
+    <option label="PARAMETER_VARIABLE" value="1"/>
+    <option label="PARAMETER_PROPERTY" value="2"/>
+  </group>
+  <group id="SchParTyp">
+    <option label="PARAMETER_STRING" value="STRING"/>
+    <option label="PARAMETER_DATE" value="DATE"/>
+    <option label="PARAMETER_TIME" value="TIME"/>
+    <option label="PARAMETER_INTEGER" value="INTEGER"/>
+    <option label="PARAMETER_FLOAT" value="FLOAT"/>
+    <option label="PARAMETER_DOUBLE" value="DOUBLE"/>
+    <option label="PARAMETER_LONG" value="LONG"/>
+    <option label="PARAMETER_OBJECT" value="OBJECT"/>
+
+  </group>
+
+  <group id="monthSelect">
+    <option label="PARAMETER_SELECT_ALL" value="*"/>
+    <option label="PARAMETER_MONTH_JANUARY" value="JAN"/>
+    <option label="PARAMETER_MONTH_FEBRUARY" value="FEB"/>
+    <option label="PARAMETER_MONTH_MARCH" value="MAR"/>
+    <option label="PARAMETER_MONTH_APRIL" value="APR"/>
+    <option label="PARAMETER_MONTH_MAY" value="MAY"/>
+    <option label="PARAMETER_MONTH_JUNE" value="JUN"/>
+    <option label="PARAMETER_MONTH_JULY" value="JUL"/>
+    <option label="PARAMETER_MONTH_AUGUST" value="AUG"/>
+    <option label="PARAMETER_MONTH_SEPTEMBER" value="SEP"/>
+    <option label="PARAMETER_MONTH_OCTOBER" value="OCT"/>
+    <option label="PARAMETER_MONTH_NOVEMBER" value="NOV"/>
+    <option label="PARAMETER_MONTH_DECEMBER" value="DEC"/>
+  </group>
+
+  <group id="hourSelect">
+    <option label="PARAMETER_SELECT_ALL" value="*"/>
+    <option label="00:00" value="0"/>
+    <option label="1:00" value="1"/>
+    <option label="2:00" value="2"/>
+    <option label="3:00" value="3"/>
+    <option label="4:00" value="4"/>
+    <option label="5:00" value="5"/>
+    <option label="6:00" value="6"/>
+    <option label="7:00" value="7"/>
+    <option label="8:00" value="8"/>
+    <option label="9:00" value="9"/>
+    <option label="10:00" value="10"/>
+    <option label="11:00" value="11"/>
+    <option label="12:00" value="12"/>
+    <option label="13:00" value="13"/>
+    <option label="14:00" value="14"/>
+    <option label="15:00" value="15"/>
+    <option label="16:00" value="16"/>
+    <option label="17:00" value="17"/>
+    <option label="18:00" value="18"/>
+    <option label="19:00" value="19"/>
+    <option label="20:00" value="20"/>
+    <option label="21:00" value="21"/>
+    <option label="22:00" value="22"/>
+    <option label="23:00" value="23"/>
+  </group>
+
+  <group id="daySelect">
+    <option label="PARAMETER_SELECT_ALL" value="*"/>
+    <option label="1" value="1"/>
+    <option label="2" value="2"/>
+    <option label="3" value="3"/>
+    <option label="4" value="4"/>
+    <option label="5" value="5"/>
+    <option label="6" value="6"/>
+    <option label="7" value="7"/>
+    <option label="8" value="8"/>
+    <option label="9" value="9"/>
+    <option label="10" value="10"/>
+    <option label="11" value="11"/>
+    <option label="12" value="12"/>
+    <option label="13" value="13"/>
+    <option label="14" value="14"/>
+    <option label="15" value="15"/>
+    <option label="16" value="16"/>
+    <option label="17" value="17"/>
+    <option label="18" value="18"/>
+    <option label="19" value="19"/>
+    <option label="20" value="20"/>
+    <option label="21" value="21"/>
+    <option label="22" value="22"/>
+    <option label="23" value="23"/>
+    <option label="24" value="24"/>
+    <option label="25" value="25"/>
+    <option label="26" value="26"/>
+    <option label="27" value="27"/>
+    <option label="28" value="28"/>
+    <option label="29" value="29"/>
+    <option label="30" value="30"/>
+    <option label="31" value="31"/>
+  </group>
+
+  <group id="timeSelect">
+    <option label="PARAMETER_SELECT_ALL" value="*"/>
+    <option label="0" value="0"/>
+    <option label="1" value="1"/>
+    <option label="2" value="2"/>
+    <option label="3" value="3"/>
+    <option label="4" value="4"/>
+    <option label="5" value="5"/>
+    <option label="6" value="6"/>
+    <option label="7" value="7"/>
+    <option label="8" value="8"/>
+    <option label="9" value="9"/>
+    <option label="10" value="10"/>
+    <option label="11" value="11"/>
+    <option label="12" value="12"/>
+    <option label="13" value="13"/>
+    <option label="14" value="14"/>
+    <option label="15" value="15"/>
+    <option label="16" value="16"/>
+    <option label="17" value="17"/>
+    <option label="18" value="18"/>
+    <option label="19" value="19"/>
+    <option label="20" value="20"/>
+    <option label="21" value="21"/>
+    <option label="22" value="22"/>
+    <option label="23" value="23"/>
+    <option label="24" value="24"/>
+    <option label="25" value="25"/>
+    <option label="26" value="26"/>
+    <option label="27" value="27"/>
+    <option label="28" value="28"/>
+    <option label="29" value="29"/>
+    <option label="30" value="30"/>
+    <option label="31" value="31"/>
+    <option label="32" value="32"/>
+    <option label="33" value="33"/>
+    <option label="34" value="34"/>
+    <option label="35" value="35"/>
+    <option label="36" value="36"/>
+    <option label="37" value="37"/>
+    <option label="38" value="38"/>
+    <option label="39" value="39"/>
+    <option label="40" value="40"/>
+    <option label="41" value="41"/>
+    <option label="42" value="42"/>
+    <option label="43" value="43"/>
+    <option label="44" value="44"/>
+    <option label="45" value="45"/>
+    <option label="46" value="46"/>
+    <option label="47" value="47"/>
+    <option label="48" value="48"/>
+    <option label="49" value="49"/>
+    <option label="50" value="50"/>
+    <option label="51" value="51"/>
+    <option label="52" value="52"/>
+    <option label="53" value="53"/>
+    <option label="54" value="54"/>
+    <option label="55" value="55"/>
+    <option label="56" value="56"/>
+    <option label="57" value="57"/>
+    <option label="58" value="58"/>
+    <option label="59" value="59"/>
+  </group>
+
+  <group id="weekSelect">
+    <option label="PARAMETER_SELECT_ALL" value="*"/>
+    <option label="PARAMETER_WEEKDAY_MONDAY" value="MON"/>
+    <option label="PARAMETER_WEEKDAY_TUESDAY" value="TUE"/>
+    <option label="PARAMETER_WEEKDAY_WEDNESDAY" value="WED"/>
+    <option label="PARAMETER_WEEKDAY_THURSDAY" value="THU"/>
+    <option label="PARAMETER_WEEKDAY_FRIDAY" value="FRI"/>
+    <option label="PARAMETER_WEEKDAY_SATURDAY" value="SAT"/>
+    <option label="PARAMETER_WEEKDAY_SUNDAY" value="SUN"/>
+  </group>
+
+  <group id="report-orientation">
+    <option label="ENUM_REPORT_ORIENTATION_PORTRAIT" value="PORTRAIT" />
+    <option label="ENUM_REPORT_ORIENTATION_LANDSCAPE" value="LANDSCAPE" />
+  </group>
+
+</enumerated>

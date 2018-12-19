@@ -1,0 +1,17 @@
+<div ng-show="controller.visible" class="criterion {{criterionClass}}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <div ng-class="::groupClass" ng-cloak>
+    <label ng-attr-for="{{::controller.id}}" ng-class="::labelClass" ng-style="::labelStyle" ng-cloak>
+      <i ng-if="::controller.help" class="help-target fa fa-fw fa-question-circle"></i>
+      {{controller.label| translateMultiple}}
+    </label>
+    <div class="validator input {{::leftLabelInput}} focus-target">
+      <span ng-if="::controller.icon" ng-class="::iconClass" ng-cloak></span>
+      <textarea class="validator form-control {{classes}}" ng-model="model.selected" ng-disabled="controller.readonly" autocomplete="off"
+                ng-attr-id="{{::controller.id}}" ng-attr-name="{{::controller.id}}" placeholder="{{controller.placeholder| translateMultiple}}"
+                rows="{{controller.areaRows}}" ng-model-options="{updateOn: 'change'}"
+                ng-focus="focus()" ng-blur="blur()" ng-change="component.modelChange()"></textarea>
+      <awe-loader class="loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+    </div>
+  </div>
+</div>

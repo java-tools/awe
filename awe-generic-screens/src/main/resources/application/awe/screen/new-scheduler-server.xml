@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : new-scheduler-server.xml
+    Created on : 10 de Noviembre del 2015
+    Author     : David FUENTES
+    Description: Ventana para la creacion de un nuevo servidor
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="MENU_NEW_SCHEDULER_SERVER" help="HELP_SCREEN_NEW_SCHEDULER_SERVER">
+  <!--
+    MESSAGES
+  -->
+  <tag source="hidden">
+    <message id="NewMsg" title="CONFIRM_TITLE_NEW" message="CONFIRM_MESSAGE_NEW" />
+  </tag>
+  <!--
+    BUTTONS
+  -->
+  <tag source="buttons">
+    <button label="BUTTON_BACK" icon="arrow-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="screen" target="scheduler_servers" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_CONFIRM" icon="check" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" target="Report" />
+      <button-action type="confirm" target="NewMsg" />
+      <button-action type="server" server-action="maintain" target-action="NewSchedulerServer"/>
+      <button-action type="screen" target="scheduler_servers" />
+    </button>
+  </tag>
+  <!--
+    BODY
+  -->
+  <tag source="center" expandible="vertical">
+    <window style="expand" id="new-scheduler-server" label="MENU_NEW_SCHEDULER_SERVER">
+      <tag type="div" style="panel-body">
+        <criteria label="PARAMETER_NAME" component="text" id="Nom" style="col-xs-12 col-sm-6 col-lg-4" validation="required"/>
+        <criteria label="PARAMETER_SERVER" component="text" id="Hst" style="col-xs-12 col-sm-6 col-lg-4" validation="required">
+          <dependency initial="true" source-type="value" target-type="input" value="localhost">
+            <dependency-element id="Pro" condition="eq" value="folder"/>
+          </dependency>
+          <dependency initial="true" source-type="launcher" target-type="hide">
+            <dependency-element id="Pro" condition="eq" value="folder"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SERVER_PORT" component="text" id="Prt" style="col-xs-12 col-sm-4 col-lg-2" validation="{maxlengthCriterion:5} required integer">
+          <dependency initial="true" source-type="value" target-type="input" value="0">
+            <dependency-element id="Pro" condition="eq" value="folder"/>
+          </dependency>
+          <dependency initial="true" source-type="value" target-type="input" value="21">
+            <dependency-element id="Pro" condition="eq" value="ftp"/>
+          </dependency>
+          <dependency initial="true" source-type="value" target-type="input" value="80">
+            <dependency-element id="Pro" condition="eq" value="http"/>
+          </dependency>
+          <dependency initial="true" source-type="value" target-type="input" value="443">
+            <dependency-element id="Pro" condition="eq" value="https"/>
+          </dependency>
+          <dependency initial="true" source-type="value" target-type="input" value="22">
+            <dependency-element id="Pro" condition="eq" value="ssh"/>
+          </dependency>
+          <dependency initial="true" source-type="launcher" target-type="hide">
+            <dependency-element id="Pro" condition="eq" value="folder"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_CONN_TYPE" component="select" id="Pro" initial-load="enum" target-action="conType" style="col-xs-12 col-sm-3 col-lg-1" validation="required"/>
+        <criteria label="PARAMETER_ACTIVE" component="select"  id="Act" initial-load="enum" target-action="Es1Es0" value="1" style="ccol-xs-12 col-sm-3 col-lg-1" validation="required"/>
+      </tag>
+    </window>
+  </tag>
+  <!--
+    POP-UPs
+  -->
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

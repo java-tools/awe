@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--
+  ==============================================================================
+  Definition
+  ==============================================================================
+  -->
+
+  <xs:annotation>
+    <xs:appinfo>awe Components Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">
+      This Schema defines the way an awe Components file must be structured
+    </xs:documentation>
+  </xs:annotation>
+
+  <!--
+  ==============================================================================
+  Includes
+  ==============================================================================
+  -->
+
+  <xs:include schemaLocation="general.xsd"/>
+
+  <!--
+  ==============================================================================
+  Elements
+  ==============================================================================
+  -->
+
+  <!-- Components Element -->
+  <xs:element name="components" type="componentsType"/>
+
+  <!-- Components  Group Element -->
+  <xs:element name="component_group" type="componentGroupType"/>
+
+  <!-- Component Element -->
+  <xs:element name="component" type="componentType"/>
+
+  <!-- Zone Element -->
+  <xs:element name="zone" type="zoneType"/>
+
+  <!--
+  ==============================================================================
+  Attribute Groups
+  ==============================================================================
+  -->
+
+  <!-- Description Attributes -->
+  <xs:attributeGroup name="descriptionAttr">
+    <xs:attribute name="label"   use="required" type="xs:string"/>
+    <xs:attribute name="name"    use="required" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <!-- Component Attributes -->
+  <xs:attributeGroup name="componentAttr">
+    <xs:attributeGroup ref="descriptionAttr"/>
+    <xs:attribute name="style"   use="required" type="xs:string"/>
+    <xs:attribute name="accept"  type="xs:string"/>
+    <xs:attribute name="type"  type="xs:string"/>
+    <xs:attribute name="attributes"  type="xs:string"/>
+    <xs:attribute name="canvas_style"  type="xs:string"/>
+  </xs:attributeGroup>
+
+  <!--
+  ==============================================================================
+  Group definitions
+  ==============================================================================
+  -->
+
+  <!-- Components Group -->
+  <xs:group name="componentsGroup">
+    <xs:choice>
+      <xs:element ref="component_group"/>
+    </xs:choice>
+  </xs:group>
+
+  <!-- Component Group Group -->
+  <xs:group name="componentGroupGroup">
+    <xs:choice>
+      <xs:element ref="component"/>
+    </xs:choice>
+  </xs:group>
+
+  <!-- Component Group -->
+  <xs:group name="componentGroup">
+    <xs:choice>
+      <xs:element ref="zone"/>
+    </xs:choice>
+  </xs:group>
+
+  <!--
+  ==============================================================================
+  Type definitions
+  ==============================================================================
+  -->
+
+  <!-- Components Type -->
+  <xs:complexType name="componentsType">
+    <xs:group ref="componentsGroup" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:complexType>
+
+  <!-- Component Group Type -->
+  <xs:complexType name="componentGroupType">
+    <xs:group ref="componentGroupGroup" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:attributeGroup ref="descriptionAttr"/>
+  </xs:complexType>
+
+  <!-- Component Type -->
+  <xs:complexType name="componentType">
+    <xs:group ref="componentGroup" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:attributeGroup ref="componentAttr"/>
+    <xs:attribute name="xmltag" use="required" type="xs:string"/>
+    <xs:attribute name="widget"  type="xs:string"/>
+  </xs:complexType>
+
+  <!-- Zone Type -->
+  <xs:complexType name="zoneType">
+    <xs:attributeGroup ref="componentAttr"/>
+    <xs:attribute name="xmltag" type="xs:string"/>
+    <xs:attribute name="zone_style" type="xs:string"/>
+  </xs:complexType>
+
+</xs:schema>

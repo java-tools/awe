@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<queries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../../schemas/awe/queries.xsd">
+  <!-- Developer queries -->
+
+  <!-- Service to show all alerts -->
+  <query id="LitTra" service="LitTra" public="true">
+    <field id="value" />
+    <variable id="text" type="STRING" name="CrtLitTrn" />
+    <variable id="fromLanguage" type="STRING" name="CrtLitLanFro" />
+    <variable id="toLanguage" type="STRING" name="CrtLitLanTo" />
+  </query>
+
+  <!-- Search literal -->
+  <query id="LitLst" service="LitLst" distinct="false" public="true"
+    cacheable="false">
+    <field id="key" alias="id" />
+    <field id="key" alias="cod" />
+    <field id="value" alias="lit" />
+    <variable id="literal" type="STRING" name="CrtSchIde" />
+    <variable id="language" type="STRING" name="CrtSchLan" />
+  </query>
+
+  <!-- Get translation -->
+  <query id="GetTraSer" service="GetTraSer" distinct="false"
+    public="true" cacheable="false">
+    <field id="key" alias="id" />
+    <field id="key" alias="idio" />
+    <field id="value" alias="lite" />
+    <field id="code" alias="code" />
+    <computed format="[idio]" alias="LanTxt" translate="Lan" />
+    <compound alias="LanImg">
+      <computed format="images/flags/[idio].svg" alias="image" />
+      <computed format="[LanTxt]" alias="label" />
+    </compound>
+    <variable id="code" type="STRING" name="cod.selected" />
+  </query>
+
+  <!-- Get selected local service -->
+  <query id="GetSelectedLocale" service="GetSelectedLocale" public="true">
+    <variable id="code" type="STRING" name="code.selected" />
+    <variable id="language" type="STRING" name="idio.selected" />
+  </query>
+
+  <!-- Get session language service -->
+  <query id="LanSesVar" service="LanSesVarSer" public="true">
+    <field id="label" />
+    <field id="value" />
+  </query>
+
+  <!-- Switch text language -->
+  <query id="SwitchLanguagesTxt" service="SwitchLanguages" public="true">
+    <variable id="fromLanguage" type="STRING" name="CrtLitLanFroTxt" />
+    <variable id="toLanguage" type="STRING" name="CrtLitLanToTxt" />
+    <variable id="fromTarget" type="STRING" value="CrtLitLanFroTxt" />
+    <variable id="toTarget" type="STRING" value="CrtLitLanToTxt" />
+  </query>
+
+  <!-- Switch markdown language -->
+  <query id="SwitchLanguagesMrk" service="SwitchLanguages" public="true">
+    <variable id="fromLanguage" type="STRING" name="CrtLitLanFroMrk" />
+    <variable id="toLanguage" type="STRING" name="CrtLitLanToMrk" />
+    <variable id="fromTarget" type="STRING" value="CrtLitLanFroMrk" />
+    <variable id="toTarget" type="STRING" value="CrtLitLanToMrk" />
+  </query>
+
+  <!-- Check Path -->
+  <query id="checkPath" service="checkPath" public="true">
+    <field id="paths" alias="CrtPth" />
+  </query>
+</queries>

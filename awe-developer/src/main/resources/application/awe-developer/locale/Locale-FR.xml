@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Document   : Locale-FR
+  Description: Application Locales
+-->
+
+<!--$Id$-->
+
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../schemas/awe/locale.xsd">
+  <locale name="BUTTON_TRANSLATE" value="Traduire"/>
+  <locale name="COLUMN_CODE" value="Code"/>
+  <locale name="COLUMN_LANGUAGE" value="Langue"/>
+  <locale name="COLUMN_LOCAL" value="Littéral"/>
+  <locale name="CONFIRM_MESSAGE_UPDATE_WRK_DIR" value="Le chemin de travail a été enregistré avec succès"/>
+  <locale name="CONFIRM_TITLE_UPDATE_WRK_DIR" value="Chemin d&apos;accès de mise à jour avec succès"/>
+  <locale name="ENUM_FORMAT_MARKDOWN" value="Markdown"/>
+  <locale name="ENUM_FORMAT_TEXT" value="Texte"/>
+  <locale name="ERROR_MESSAGE_UPDATE_WRK_DIR" value="Le chemin d&apos;accès n&apos;existe pas"/>
+  <locale name="ERROR_TITLE_CLOSE_STREAM" value="Erreur à la fermeture du fichier"/>
+  <locale name="ERROR_TITLE_RETRIEVING_TRANSLATION" value="Erreur lors de la récupération de traduction"/>
+  <locale name="ERROR_TITLE_STORE_FILE" value="Erreur de stocker le fichier"/>
+  <locale name="ERROR_TITLE_STORING_TRANSLATION" value="Erreur de stockage de traduction"/>
+  <locale name="ERROR_TITLE_UPDATE_WRK_DIR" value="Erreur de mise à jour chemin"/>
+  <locale name="HELP_CLOSE_DIALOG_BUTTON" value="Fermer le dialogue sans rien faire d&apos;autre chose"/>
+  <locale name="HELP_SCREEN_MNG_PTH"><![CDATA[Cet écran permet au développeur de définir le chemin d'accès où sont les fichiers XML de votre projet, pour travailler avec les outils de développement]]></locale>
+  <locale name="HELP_SCREEN_TITLE_MNG_LIT"><![CDATA[Dans cet écran, vous pouvez créer, supprimer ou mettre les textes des langues de l'application]]></locale>
+  <locale name="HELP_SWITCH_LANGUAGES_BUTTON"><![CDATA[Basculer les valeurs des sélecteurs de langue]]></locale>
+  <locale name="HELP_TRANSLATE_BUTTON"><![CDATA[Traduire la valeur de la langue source vers la langue cible sélectionnée]]></locale>
+  <locale name="OK_TITLE_LOCAL_UPDATED" value="Paramètre régionaux mis à jour avec succès"/>
+  <locale name="OK_TITLE_NEW_LOCAL" value="Nouvelle localee générée"/>
+  <locale name="OK_TITLE_REMOVED_LOCAL" value="Locale supprimé avec succès"/>
+  <locale name="PARAMETER_IDENTIFIER" value="Identificateur"/>
+  <locale name="PARAMETER_LOCAL_VALUE" value="Valeur"/>
+  <locale name="PARAMETER_NEW_PATH" value="Nouveau chemin"/>
+  <locale name="PARAMETER_PATH" value="Chemin d&apos;accès actuel"/>
+  <locale name="PARAMETER_SEARCH" value="Recherche"/>
+  <locale name="SCREEN_TITLE_MNG_LIT" value="Gestion des paramètres régionaux"/>
+  <locale name="SCREEN_TITLE_MNG_PTH" value="Le gestionnaire  de la route de développement"/>
+  <locale name="SCREEN_TITLE_NEW_LOCAL" value="Nouveau paramètre régionaux"/>
+  <locale name="TITLE_LOCALS" value="Littéraux"/>
+  <locale name="TITLE_PATH" value="Chemin"/>
+  <locale name="TITLE_SEARCH" value="Recherche"/>
+  <locale name="TITLE_TRANSLATION" value="Traduction"/>
+  <locale name="TITLE_TRANSLATIONS" value="Traductions"/>
+  <locale name="WARNING_MESSAGE_TRANSLATION_FAILED" value="Impossible de se connecter avec l&apos;API de traduction"/>
+  <locale name="WARNING_TITLE_NEW_LOCAL" value="Paramètres régionaux déjà existant"/>
+</locales>

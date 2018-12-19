@@ -1,0 +1,248 @@
+//
+// Main menu horizontal
+// --------------------------------------------------
+
+// Variables
+@main-menu-height: 30px;
+
+// Styles
+#main-wrapper.horizontal {
+  padding-left: 0px !important;
+}
+
+#main-navbar.horizontal #main-menu-toggle {
+  .navbar-icon {
+    left: 22px;
+    top: 26px;
+  }
+
+  .navbar-icon:after {
+    content: "\f0d8";
+    top: -9px;
+    right: 3px;
+  }
+}
+
+.mmc {
+  #main-navbar.horizontal #main-menu-toggle {
+    .navbar-icon {
+      top: 20px;
+    }
+
+    .navbar-icon:after {
+      content: "\f0dd";
+      top: 7px;
+    }
+  }
+}
+
+#main-menu.horizontal {
+  &,
+  #main-menu-bg {
+    width: auto;
+    position: relative;
+    overflow: hidden;
+    left: 0;
+    height: auto;
+  }
+
+  ul.navigation {
+    & {
+      padding: 0px;
+      height: @main-menu-height;
+      margin: 0px;
+    }
+
+    &.ng-hide-add,
+    &.ng-hide-remove {
+      .transition-multiple (height, ease, 250ms, opacity, ease, 250ms);
+      display:block !important;
+      overflow: hidden !important;
+    }
+
+    &.ng-hide-add.ng-hide-add-active,
+    &.ng-hide-remove {
+      height: 0;
+      .opacity(0);
+    }
+
+    &.ng-hide-add,
+    &.ng-hide-remove.ng-hide-remove-active {
+      height: @main-menu-height;
+      .opacity(1);
+    }
+
+    > li {
+      width: auto !important;
+      display: inline-block;
+      position: relative;
+      border-top: 0;
+      border-bottom: 0;
+
+      &.divider {
+        width: 0 !important;
+        height: 20px;
+        border-left-width: 1px;
+        border-left-style: solid;
+        .opacity(0.4);
+        margin: 0px 2px 2px 2px;
+        vertical-align: middle;
+      }
+
+      > a {
+        display: inline-block;
+        border-bottom: 0;
+        padding: 5px 14px 5px 10px;
+      }
+
+      > a:after {
+        top: auto;
+        bottom: 0;
+        height: 4px;
+        right: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      > ul {
+        width: auto;
+        position: fixed;
+        z-index: 1900;
+        max-height: 100%;
+        overflow-y: auto;
+        padding-top: 76px;
+        top: 0;
+        clip: rect(76px,1000px,1000px,0px);
+      }
+    }
+
+    > li.mm-dropdown.open > a {
+      border-bottom: 0;
+    }
+
+    a {
+      line-height: 18px;
+
+      span{
+        white-space: nowrap;
+      }
+    }
+
+    > li.mm-dropdown {
+      > a:before {
+        display: none;
+      }
+    }
+
+    .mm-dropdown-first {
+      &.opened-add,
+      &.opened-remove {
+        .transition-multiple(opacity, ease, 0.25s, margin-left, ease, 0.25s);
+        display:block !important;
+        overflow: hidden !important;
+      }
+
+      &.opened-add.opened-add-active,
+      &.opened-remove {
+        margin-left: 0px;
+        left: auto;
+        .opacity(1);
+      }
+
+      &.opened-add,
+      &.opened-remove.opened-remove-active {
+        margin-left: -50px;
+        .opacity(0);
+        left: auto;
+      }
+    }
+
+    .mm-dropdown-target {
+      &.ng-hide-add,
+      &.ng-hide-remove {
+        .transition(all, ease-in-out, 0.5s);
+        display:block !important;
+        overflow: hidden !important;
+        position: relative !important;
+      }
+
+      &.ng-hide-add.ng-hide-add-active,
+      &.ng-hide-remove {
+        max-height: 0px;
+        left: -20px;
+        .opacity(0);
+      }
+
+      &.ng-hide-add,
+      &.ng-hide-remove.ng-hide-remove-active {
+        max-height: 100vh;
+        left: 0px;
+        .opacity(1);
+      }
+    }
+
+    .mm-dropdown>ul {
+      >li>a {
+        padding-left: 20px;
+      }
+      >.mm-dropdown>ul {
+        >li>a {
+          padding-left: 40px;
+        }
+        >.mm-dropdown>ul {
+          >li>a {
+            padding-left: 60px;
+          }
+          >.mm-dropdown>ul>li>a {
+            padding-left: 80px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/******************************************************************************
+ MEDIA QUERIES FOR RESPONSIVE DESIGN
+*******************************************************************************/
+
+// Phone and tablet
+@media (max-width: @screen-tablet){
+  #main-menu.horizontal {
+    #main-menu-bg {
+      width: auto;
+      height: auto !important;
+      left: 0px;
+      position: relative;
+      overflow: visible;
+    }
+
+    ul.navigation {
+      >li {
+        &.mm-dropdown.open>ul {
+          display: block;
+        }
+
+        >a {
+          & {
+            padding: 5px 10px;
+          }
+
+          >.mm-text {
+            display: none;
+          }
+          >.menu-icon {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Computers
+@media (min-width: @screen-tablet) {
+  #main-menu.horizontal .navigation>li>a>.mm-text {
+    display: inline-block;
+  }
+}

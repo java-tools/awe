@@ -1,0 +1,4 @@
+<div class="resizable resizable-awe expandible-vertical {{::resizableStyle}}" ng-cloak>
+  <div ng-transclude class="expand expandible-vertical" ng-cloak></div>
+  <div ng-repeat="direction in directions track by direction" class="{{'rg-' + direction}}" ng-mousedown="dragStart($event, direction)"><span class="fa"></span></div>
+</div>

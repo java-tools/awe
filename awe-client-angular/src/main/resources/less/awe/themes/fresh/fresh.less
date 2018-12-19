@@ -1,0 +1,27 @@
+//
+// Themes / Fresh
+// --------------------------------------------------
+
+.theme-fresh {
+  @theme-color: #94c53e;
+  // Main menu background color
+  @menu-color: #43474b;
+  // Primary color
+  @primary-color: #64bed8;
+  // Navbar end color
+  @navbar-end-color: #94c53e;
+
+  #main-navbar .dropdown-menu a {
+    margin: 0px;
+  }
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@navbar-end-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(darken(@primary-color, 10%));
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Inf.xml
+    Created on : 8 de febrero de 2010, 16:31
+    Author     : pgarcia
+    Description: Information message screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="full" label="SCREEN_TITLE_INFO" help="HELP_SCREEN_TITLE_INFO">
+  <tag source="center" type="div" style="fullHeight panel-transparent">
+    <tag type="div" style="panel-body">
+      <tag type="div" style="note note-info">
+        <tag type="h4" style="note-title" label="SCREEN_TEXT_INFORMATION_TITLE" />
+        <tag type="p" label="SCREEN_TEXT_INFORMATION_MESSAGE_1" />
+        <tag type="p" label="SCREEN_TEXT_INFORMATION_MESSAGE_2" />
+      </tag>
+    </tag>
+  </tag>
+</screen>

@@ -1,0 +1,16 @@
+<div ng-show="component.controller.visible" class="validator column-input criterion text-{{::component.controller.align}} no-animate" ui-dependency="dependencies" ng-cloak>
+  <span class="visible-value" ng-cloak>{{component.visibleValue}}</span>
+  <span class="edition">
+    <div class="input-group input-group-{{::size}} input-append date focus-target">
+      <input type="text" ui-time="aweTimeOptions" class="form-control add-on col-xs-12 {{classes}} {{component.model.values[0].style}}"
+             ng-press-enter="saveRow($event)" autocomplete="off" ng-model="component.model.selected" ng-disabled="component.controller.readonly"
+             ng-model-options="{updateOn: 'change'}" placeholder="{{::component.controller.placeholder| translateMultiple}}" ng-focus="focus()"
+             ng-blur="blur()" ng-click="click($event)" ng-change="component.columnModelChange()" initialized="initialized"/>
+      <span class="input-group-addon add-on">
+        <i class="fa fa-clock-o"></i>
+      </span>
+    </div>
+    <span ng-if="::component.controller.icon" ng-class="::iconClass" ng-cloak></span>
+  </span>
+  <awe-loader class="loader no-animate" ng-if="component.controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</div>

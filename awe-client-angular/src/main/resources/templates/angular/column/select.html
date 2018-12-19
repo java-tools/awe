@@ -1,0 +1,11 @@
+<div ng-show="component.controller.visible" class="validator column-input criterion text-{{::component.controller.align}} no-animate {{component.model.values[0].style}}" ui-dependency="dependencies" ng-cloak>
+  <span class="visible-value" ng-cloak>{{component.visibleValue}}</span>
+  <span class="edition">
+    <div class="input input-group-{{::size}} focus-target">
+      <input type="hidden" ui-select2="aweSelectOptions" class="form-control col-xs-12 {{classes}}" value="{{component.model.selected}}"
+             ng-disabled="component.controller.readonly" initialized="initialized" autocomplete="off"/>
+    </div>
+    <span ng-if="::component.controller.icon" ng-class="::iconClass" ng-cloak></span>
+  </span>
+  <awe-loader class="loader no-animate" ng-if="component.controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</div>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : EmlActUsr.xml
+    Created on : 11 de Enero de 2012
+    Author     : Aitor UGARTE
+    Description: Envio de mails a usuarios conectados
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_APP_INF" help="HELP_SCREEN_TITLE_APP_INF">
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window label="SCREEN_TEXT_DATA" icon="compass">
+      <tag type="div" style="panel-body">
+        <criteria label="PARAMETER_APPLICATION" id="PrtNam" icon="server" component="text-view" style="col-xs-12 col-sm-4 col-md-3 col-lg-2" property="application.name"/>
+        <criteria label="PARAMETER_APPLICATION_ACRONIME" id="PrtAls" icon="file-text-o" component="text-view" style="col-xs-12 col-sm-2 col-lg-1" property="application.acronym"/>
+        <criteria label="PARAMETER_RELEASE" id="PrtRel" icon="code-fork" component="text-view" style="col-xs-12 col-sm-2 col-lg-1" property="application.version"/>
+        <criteria label="PARAMETER_DB_ALS" id="DbsAls" icon="database" component="text-view" style="col-xs-12 col-sm-3 col-lg-2" session="database"/>
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

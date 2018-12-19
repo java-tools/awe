@@ -1,0 +1,78 @@
+//
+// Themes / Sea
+// --------------------------------------------------
+
+.theme-sea {
+  // Theme color
+  @theme-color: #418ce4;
+  // Main menu background color
+  @menu-color: #6363B1;
+  // Primary color
+  @primary-color: #3690e6;
+
+  // Panel colors
+  @awe-color: lighten(@menu-color, 10%);
+  @awe-text-color: #fff;
+  @awe-border-color: darken(@awe-color, 10%);
+
+  // Button colors
+  @button-color: #ddd;
+
+  // Copy adminflare theme
+  .theme-adminflare;
+
+  // Define panel and button default
+  .panel-awe {
+    .pixel-panel(@awe-color, @awe-text-color, @awe-border-color);
+  }
+
+  // Allow overwrite background color
+  #main-menu ul,
+  #main-menu.horizontal ul {
+    background: #6363B1;
+  }
+
+  #main-menu.horizontal #main-menu-bg {
+    border: 0;
+  }
+
+  #main-menu ul li,
+  #main-menu.horizontal ul.navigation,
+  #main-menu.horizontal ul ul li {
+    /*border-top: 1px solid lighten(@menu-color, 10%);
+    border-bottom: 1px solid darken(@menu-color, 10%);*/
+    border-top: 0px;
+    border-bottom: 0px;
+  }
+  
+  .grid, .treegrid {
+    .ui-jqgrid, .tree-grid {
+      .table {
+        tbody {
+          tr.ui-state-hover td,
+          tr:hover td{
+            color: white;
+          }
+          tr.ui-state-highlight,
+          tr.active td {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+  
+
+  // Body background
+  background: #ddf;
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(darken(@theme-color, 30%), @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(dark);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(#fff);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

@@ -1,0 +1,100 @@
+/*******************************************************************************
+ HELP DIRECTIVE
+*******************************************************************************/
+
+.help.popover {
+  display: block;
+  position: absolute;
+  top: -10000px;
+  left: -10000px;
+  min-width: 300px;
+  max-width: 400px;
+  &.ng-hide-add,
+  &.ng-hide-remove {
+    .transition(opacity, ease-in-out, 200ms);
+    display: block !important;
+  }
+
+  &.ng-hide-add.ng-hide-add-active,
+  &.ng-hide-remove {
+    .opacity(0);
+  }
+
+  &.ng-hide-add,
+  &.ng-hide-remove.ng-hide-remove-active {
+    .opacity(1);
+  }
+
+  .popover-content {
+    overflow: hidden;
+    position: relative;
+
+    // Background icon
+    .bg-icon {
+      top: 0;
+      color: rgba(0, 0, 0, .05);
+      font-size: 70px;
+      line-height: 70px;
+      height: 70px;
+      position: absolute;
+      right: 0;
+      text-align: center;
+      width: 70px;
+    }
+  }
+}
+
+.help-target {
+  &.fa {
+    cursor: help;
+    .opacity(0.6);
+  }
+}
+
+.tocify {
+  .nav-pills>li {
+    margin-right: 0px;
+    float: none;
+    > a {
+      border-radius: 0px;
+    }
+  }
+}
+
+.help-viewer {
+  img {
+    max-width: 100%;
+  }
+}
+
+@media print {
+  .awe-view .expand,
+  .awe-view .scrollable,
+  .awe-view .expandible-vertical {
+    overflow: visible !important;
+  }
+  .help-viewer {
+    overflow: visible !important;
+    &.container {
+      width: 100% !important;
+      .col-print-12 {
+        width: 100% !important;
+      }
+    }
+    .help-snippet {
+      page-break-inside: avoid !important;
+      page-break-after: always !important;
+    }
+    .help-content,
+    .application-help {
+      overflow: visible !important;
+    }
+    img {
+      max-width: 500px;
+    }
+  }
+  .tocify-extend-page {
+    display: none;
+    height: 0 !important;
+  }
+}

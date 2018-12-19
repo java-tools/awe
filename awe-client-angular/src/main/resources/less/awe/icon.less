@@ -1,0 +1,93 @@
+//
+// awe default icons
+// --------------------------------------------------
+
+/* Authentication status */
+.AUTHENTICATION_STATUS_0{
+  &:before{content: @fa-var-unlock;}
+}
+.AUTHENTICATION_STATUS_1{
+  &:before{content: @fa-var-lock;}
+}
+/* General status */
+.GENERAL_STATUS_FA_0,
+.GENERAL_STATUS_0 {
+  .text-danger;
+  &:before { content: @fa-var-times; }
+}
+.GENERAL_STATUS_FA_1,
+.GENERAL_STATUS_1 {
+  .text-success;
+  &:before { content: @fa-var-check; }
+}
+/* Process status */
+.PROCESS_STATUS_0-SUCCESS,
+.PROCESS_STATUS_0-SUC,
+.PROCESS_STATUS_SUC {
+  .text-success;
+  &:before { content: @fa-var-check; }
+}
+.PROCESS_STATUS_1-WARNING,
+.PROCESS_STATUS_1-WAR,
+.PROCESS_STATUS_WAR {
+  .text-warning;
+  &:before { content: @fa-var-exclamation-triangle; }
+}
+.PROCESS_STATUS_2-ERROR,
+.PROCESS_STATUS_2-ERR,
+.PROCESS_STATUS_ERR {
+  .text-danger;
+  &:before { content: @fa-var-times; }
+}
+.PROCESS_STATUS_3-RUNNING,
+.PROCESS_STATUS_3-RUN,
+.PROCESS_STATUS_RUN {
+  .fa-spin;
+  .text-info;
+  &:before { content: @fa-var-refresh; }
+}
+
+/* Scheduler launch type */
+.SCHEDULER_LAUNCH_TYPE_FA_0 {
+  .text-info;
+  &:before { content: @fa-var-hand-paper-o; }
+}
+.SCHEDULER_LAUNCH_TYPE_FA_1 {
+  .text-info;
+  &:before { content: @fa-var-calendar; }
+}
+.SCHEDULER_LAUNCH_TYPE_FA_2 {
+  .text-info;
+  &:before { content: @fa-var-file-o; }
+}
+
+/* Scheduler launch type */
+.SCHEDULER_STATUS_FA_0 {
+  .text-success;
+  &:before { content: @fa-var-check; }
+}
+.SCHEDULER_STATUS_FA_1 {
+  .text-danger;
+  &:before { content: @fa-var-times; }
+}
+.SCHEDULER_STATUS_FA_2 {
+  .text-warning;
+  &:before { content: @fa-var-exclamation-triangle; }
+}
+.SCHEDULER_STATUS_FA_3 {
+  .text-danger;
+  &:before { content: @fa-var-pause; }
+}
+.SCHEDULER_STATUS_FA_4 {
+  .fa-spin;
+  .text-info;
+  &:before { content: @fa-var-refresh; }
+}
+.SCHEDULER_STATUS_FA_5 {
+  .text-light-gray;
+  &:before { content: @fa-var-hourglass; }
+}
+.SCHEDULER_STATUS_FA_6 {
+  .text-info;
+  &:before { content: @fa-var-chain-broken; }
+}

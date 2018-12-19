@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ChdPwd.xml
+    Created on : 14 de junio de 2010
+    Author     : Pablo GARCIA
+    Description: Tools window - Change Password
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_CHD_PWD" help="HELP_SCREEN_TITLE_CHD_PWD">
+  <tag source="hidden">
+    <message id="UpdMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE" />
+  </tag>
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button button-type="button" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" />
+      <button-action type="confirm" target="UpdMsg" />
+      <button-action type="server" server-action="maintain" target-action="ChdPwd" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand" label="SCREEN_TEXT_DATA">
+      <tag type="div" style="panel-body static">
+        <tag type="div" style="line">
+          <criteria style="nolabel" id="Usr" component="hidden" session="user" />
+          <criteria label="PARAMETER_PASSWD_NEW" id="Pas" component="text" value="" style="col2" />
+          <criteria label="PARAMETER_RETYPE_PASSWD" id="RetPas" component="text" validation="{eq:{criterion:'Pas', message:'VALIDATOR_MESSAGE_REPEAT_PASSWORD'}}" value="" style="col2" />
+          <tag type="div" style="information_text" label="MSG_PASSWD_NEW" />
+        </tag>
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

@@ -1,0 +1,40 @@
+/*******************************************************************************
+ BUTTON DIRECTIVE
+*******************************************************************************/
+
+.btn-group > .btn:first-child {
+  margin-left: 6px;
+}
+
+.btn-group > .criterion.btn:first-child {
+  margin-left: 0px;
+}
+
+.btn-group > .btn-group > .btn {
+  margin-left: 0px;
+}
+
+// Button Sizes (inside column)
+// --------------------------------------------------
+
+.column .btn-lg {
+  // line-height: ensure even-numbered height of button next to large input
+  .button-size(@padding-large-vertical - 2px; @padding-large-horizontal; @font-size-large; @line-height-large - 2px; @border-radius-large);
+}
+.column .btn-md {
+  // line-height: ensure proper height of button next to base input
+  .button-size(@padding-base-vertical - 2px; @padding-base-horizontal; @font-size-base; @line-height-base - 2px; @border-radius-base);
+}
+.column .btn-sm {
+  // line-height: ensure proper height of button next to small input
+  .button-size(@padding-small-vertical - 2px; @padding-small-horizontal; @font-size-small; @line-height-small - 2px; @border-radius-small);
+}
+.column .btn-xs {
+  .button-size(@padding-xs-vertical - 2px; @padding-xs-horizontal; @font-size-small; @line-height-small - 2px; @border-radius-small);
+}
+
+@media (max-width: @screen-small) {
+  .btn .button-text {
+    display: none;
+  }
+}

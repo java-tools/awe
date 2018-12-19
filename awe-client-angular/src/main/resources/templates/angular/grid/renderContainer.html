@@ -1,0 +1,16 @@
+<div ng-switch="::colContainer.grid.appScope.component.hasFrozen" class="expand expandible-vertical">
+  <div ng-switch-when="true" role="grid" ui-grid-one-bind-id-grid="'grid-container'" class="no-animate ui-grid-render-container expand expandible-vertical" ng-style="{ 'margin-left': colContainer.getMargin('left') + 'px'}">
+    <!-- All of these dom elements are replaced in place -->
+    <div ui-grid-header></div>
+    <div ui-grid-viewport></div>
+    <div ng-if="colContainer.needsHScrollbarPlaceholder()" class="no-animate ui-grid-scrollbar-placeholder" ng-style="{height:colContainer.grid.scrollbarHeight + 'px'}"></div>
+    <ui-grid-footer ng-if="::grid.options.showColumnFooter"></ui-grid-footer>
+  </div>
+  <div ng-switch-when="false" role="grid" ui-grid-one-bind-id-grid="'grid-container'" class="no-animate ui-grid-render-container expand expandible-vertical">
+    <!-- All of these dom elements are replaced in place -->
+    <div ui-grid-header></div>
+    <div ui-grid-viewport></div>
+    <div ng-if="colContainer.needsHScrollbarPlaceholder()" class="no-animate ui-grid-scrollbar-placeholder" ng-style="{height:colContainer.grid.scrollbarHeight + 'px'}"></div>
+    <ui-grid-footer ng-if="::grid.options.showColumnFooter"></ui-grid-footer>
+  </div>
+</div>

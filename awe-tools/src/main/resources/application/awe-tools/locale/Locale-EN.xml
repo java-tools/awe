@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Document   : Locale-EN
+  Description: Application Locales
+-->
+
+<!--$Id$-->
+
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/locale.xsd">
+  <locale name="BUTTON_LOAD" value="Load"/>
+  <locale name="BUTTON_SAVE" value="Save"/>
+  <locale name="DATABASE_MESSAGE_RESPONSE_OK" value="The operation was completed successfully"/>
+  <locale name="DATABASE_MESSAGE_TITLE" value="Database message"/>
+  <locale name="ERROR_MESSAGE_BUILD_COLUMNS" value="Error while building the columns"/>
+  <locale name="ERROR_MESSAGE_PERMISION_DENIED" value="You don&apos;t have permission to perform this action"/>
+  <locale name="ERROR_MESSAGE_PRINTING" value="Error while printing"/>
+  <locale name="ERROR_MESSAGE_SELECT_RUN" value="Failed to execute SQL statement"/>
+  <locale name="ERROR_MESSAGE_SESSION_EXPIRED" value="Your connection has expired. You must login again."/>
+  <locale name="ERROR_MESSAGE_SQL" value="SQL error"/>
+  <locale name="ERROR_MESSAGE_WRITING_SELECTS" value="Error while writing SELECT clauses"/>
+  <locale name="ERROR_TITLE_BUILD_COLUMNS" value="Column error"/>
+  <locale name="ERROR_TITLE_PRINTING" value="Printing error"/>
+  <locale name="ERROR_TITLE_SESSION_EXPIRED" value="Session expired"/>
+  <locale name="ERROR_TITLE_WRITING_SELECTS" value="SQL error"/>
+  <locale name="HELP_LOAD_BUTTON" value="Click here to load SQL statements from file"/>
+  <locale name="HELP_SAVE_BUTTON" value="Click here to save SQL statements to a file"/>
+  <locale name="MENU_FILE_MANAGER" value="File manager"/>
+  <locale name="PARAMETER_DATABASE" value="Data base"/>
+  <locale name="PARAMETER_FILE" value="File"/>
+  <locale name="PARAMETER_SAVE_FILE" value="File name"/>
+  <locale name="SCREEN_TITLE_LOAD_SELECT" value="Load query"/>
+  <locale name="SCREEN_TITLE_SAVE_SELECT" value="Save query"/>
+  <locale name="SCREEN_TITLE_SQL_EXTRACTOR" value="SQL Extractor"/>
+  <locale name="WARNING_MESSAGE_DUPLICATED_FILE" value="A file with this name already exists. Do you want to replace it?"/>
+  <locale name="WARNING_TITLE_DUPLICATED_FILE" value="Duplicated"/>
+</locales>

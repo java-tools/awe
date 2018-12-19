@@ -1,0 +1,55 @@
+//
+// Themes / Sky
+// --------------------------------------------------
+
+.theme-sky {
+  // Theme color
+  @theme-color: #418ce4;
+  // Main menu background color
+  @menu-color: #6363B1;
+  // Primary color
+  @primary-color: #3690e6;
+
+  // Panel colors
+  @awe-color: lighten(@menu-color, 10%);
+  @awe-text-color: #fff;
+  @awe-border-color: darken(@awe-color, 10%);
+
+  // Button colors
+  @button-color: #ddd;
+
+  // Copy adminflare theme
+  .theme-adminflare;
+
+  // Define panel and button default
+  .panel-awe {
+    .pixel-panel(@awe-color, @awe-text-color, @awe-border-color);
+  }
+
+  // Allow overwrite background color
+  #main-menu ul,
+  #main-menu.horizontal ul {
+    background: #6363B1;
+  }
+
+  #main-menu.horizontal #main-menu-bg {
+    border: 0;
+  }
+
+  #main-menu ul li,
+  #main-menu.horizontal ul.navigation,
+  #main-menu.horizontal ul ul li {
+    border-top: 0px solid lighten(@menu-color, 10%);
+    border-bottom: 0px solid darken(@menu-color, 10%);
+  }
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(#fff);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

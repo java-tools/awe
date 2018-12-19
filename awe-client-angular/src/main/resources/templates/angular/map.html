@@ -1,0 +1,20 @@
+<div ui-dependency="dependencies">
+  <ui-gmap-google-map center='map.center' zoom='map.zoom' control='map.control'>
+    <ui-gmap-markers ng-if="!showRoute" models="map.markers" coords="'self'" icon="'icon'" control="map.control" doCluster="'true'" click="'onMarkerClicked'">
+      <ui-gmap-windows show="'showWindow'" closeClick="'closeClick'" ng-cloak>
+        <article>
+          <p ng-non-bindable>Id : {{idMov}}</p>
+          <div>{{'SCREEN_TEXT_LATITUDE'| translateMultiple}}<span ng-non-bindable> : {{ latitude | number:2 }}</span></div>
+          <p ng-non-bindable>{{'SCREEN_TEXT_LONGITUDE'| translateMultiple}} : {{ longitude | number:2 }}</p>
+          <p ng-non-bindable>{{'SCREEN_TEXT_LOCATION'| translateMultiple}} : {{ lugar}}</p>
+          <p ng-non-bindable>{{'SCREEN_TEXT_SPEED'| translateMultiple}} : {{ velocidad}}</p>
+          <p ng-non-bindable>KM : {{ km}}</p>
+          <p ng-non-bindable>{{'SCREEN_TEXT_DIRECTION'| translateMultiple}} : {{ dir}}</p>
+          <p ng-non-bindable>{{'SCREEN_TEXT_COUNTRY'| translateMultiple}} : {{ pais}}</p>
+        </article>
+      </ui-gmap-windows>
+    </ui-gmap-markers>
+    <ui-gmap-polyline ng-if="showRoute" ng-repeat="p in polylines" path="p.path" stroke="p.stroke" visible='p.visible'
+                      geodesic='p.geodesic' fit="false" editable="p.editable" draggable="p.draggable" icons='p.icons'></ui-gmap-polyline>
+  </ui-gmap-google-map>
+</div>

@@ -1,0 +1,41 @@
+/*
+    Created on : 26-mar-2014, 14:23:20
+    Author     : pgarcia
+*/
+.scrollable {
+  overflow-x: hidden;
+  overflow-y: auto !important;
+}
+
+.scrollable-both {
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+}
+
+.animationContainer .scrollable {
+  overflow-y: hidden !important;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment  {
+  display: none;
+}
+
+::-webkit-scrollbar-track-piece  {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  border-radius: 6px;
+  background-color: #999;
+  .opacity(0.6);
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background-color: #999;
+  .opacity(0.6);
+}

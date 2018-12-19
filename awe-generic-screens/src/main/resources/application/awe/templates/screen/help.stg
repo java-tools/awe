@@ -1,0 +1,239 @@
+helpEmpty(e,label,content,developers) ::= "$content$"
+helpApplication(content) ::= <<
+<div id="help-content" class="help-content col-md-8 col-print-12" role="main">
+  <div class="application-help">
+  $content$
+  </div>
+</div>
+<div class="col-md-4 hidden-print hidden-xs hidden-sm" role="complementary">
+  <nav ui-toc="help-content" scroll="help-container" class="tocify nav-pills"></nav>
+</div>
+>>
+helpOption(e,title,level,content) ::= <<
+<h$level$ id="$title$" class="help-snippet text-primary">
+  $if(e.icon)$<i class="fa fa-$e.icon$ fa-lg fa-fw"></i>$endif$
+  {{'$title$'| translateMultiple}}
+</h$level$>
+<hr/>
+$content$
+>>
+helpScreen(e,content) ::= <<
+<div class="help-snippet">
+  $if(e.help)$<p class="note note-warning text-justify" translate-multiple="$e.help$"></p>$endif$
+  $if(e.helpImage)$<div class="panel-body text-center">
+    <img ng-src="{{'$e.helpImage$' | translateMultiple}}"/>
+  </div>$endif$
+</div>
+$content$
+>>
+helpButton(e,label,content,developers) ::= <<
+<div class="help-snippet padding-sm-vr no-padding-t">
+  $if(e.label)$
+  $if(developers)$$if(e.type)$<span class="badge $if(e.submit)$badge-primary$endif$ pull-right">$type$</span>$endif$$endif$
+  <h6 class="text-default text-semibold text-sm">
+    <i class="fa fa-youtube-play fa-fw"></i>
+    <span class="text-bold text-uppercase" translate-multiple="$e.label$"></span>
+    <span translate-multiple="HELP_BUTTON" class="text-xxs text-uppercase"></span>
+    $if(developers)$(<code title="{{'HELP_BUTTON_IDENTIFIER' | translateMultiple}}">$e.id$</code>)$endif$
+  </h6>$endif$
+  $if(e.help)$<p class="$if(developers)$well$endif$ no-margin text-justify" translate-multiple="$e.help$"></p>$endif$
+  $if(e.helpImage)$<div class="panel-body text-center">
+    <img ng-src="{{'$e.helpImage$' | translateMultiple}}"/>
+  </div>$endif$
+</div>
+>>
+helpButtonGrid(e,label,content,developers) ::= <<
+<tr>
+  <td><strong translate-multiple="$e.label$"></strong></td>
+  $if(developers)$
+  <td><code>$e.id$</code></td>
+  $endif$
+  <td translate-multiple="$e.help$"></td>
+  <td>$if(e.helpImage)$<div class="helpImage"><img ng-src="{{'$e.helpImage$' | translateMultiple}}"/></div>$endif$</td>
+</tr>
+>>
+helpChart(e,label,content,developers) ::= <<
+<div class="help-snippet padding-sm-vr no-padding-t">
+  $if(label)$
+  $if(developers)$<span class="badge badge-info pull-right">$e.type$</span>$endif$
+  <h6 class="text-info text-semibold text-sm">
+    <i class="fa fa-bar-chart fa-fw"></i>
+    <span class="text-bold text-uppercase" translate-multiple="$label$"></span>
+    <span translate-multiple="HELP_CHART" class="text-xxs text-uppercase"></span>
+    $if(developers)$(<code title="{{'HELP_CHART_IDENTIFIER' | translateMultiple}}">$e.id$</code>)$endif$
+  </h6>
+  $endif$
+  $if(e.help)$<p class="$if(developers)$well$endif$ no-margin text-justify" translate-multiple="$e.help$"></p>$endif$
+  $if(e.helpImage)$<div class="panel-body text-center">
+    <img ng-src="{{'$e.helpImage$' | translateMultiple}}"/>
+  </div>$endif$
+</div>
+>>
+helpColumn(e,label,content,developers) ::= <<
+<tr>
+  <td><strong translate-multiple="$e.label$"></strong></td>
+  $if(developers)$
+  <td><code>$e.name$</code></td>
+  <td><span class="badge">$e.component$</span></td>
+  $endif$
+  <td translate-multiple="$e.help$"></td>
+  <td>$if(e.helpImage)$<div class="helpImage"><img ng-src="{{'$e.helpImage$' | translateMultiple}}"/></div>$endif$</td>
+</tr>
+>>
+helpCriterion(e,label,content,developers) ::= <<
+<div class="help-snippet padding-sm-vr no-padding-t">
+  $if(e.label)$
+  $if(developers)$<span class="badge badge-success pull-right">$e.component$</span>$endif$
+  <h6 class="text-success text-semibold text-sm">
+    <i class="fa fa-pencil-square-o fa-fw"></i>
+    <span class="text-bold text-uppercase" translate-multiple="$e.label$"></span>
+    <span translate-multiple="HELP_CRITERION" class="text-xxs text-uppercase"></span>
+    $if(developers)$(<code title="{{'HELP_CRITERION_IDENTIFIER' | translateMultiple}}">$e.id$</code>)$endif$
+  </h6>
+  $endif$
+  $if(e.help)$<p class="$if(developers)$well$endif$ no-margin text-justify" translate-multiple="$e.help$"></p>$endif$
+  $if(e.helpImage)$<div class="panel-body text-center">
+    <img ng-src="{{'$e.helpImage$' | translateMultiple}}"/>
+  </div>$endif$
+</div>
+>>
+helpDialog(e,label,content,developers) ::= <<
+<div class="padding-sm-vr no-padding-t">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <i class="panel-title-icon fa fa-list-alt fa-fw"></i>
+      <span class="panel-title" translate-multiple="$e.label$"></span>
+    </div>
+    <div class="panel-body">
+      <div class="help-snippet">
+        $if(e.help)$<p class="note note-info text-justify" translate-multiple="$e.help$"></p>$endif$
+        $if(e.helpImage)$<div class="panel-body text-center">
+          <img ng-src="{{'$e.helpImage$' | translateMultiple}}"/>
+        </div>$endif$
+      </div>
+      $content$
+    </div>
+  </div>
+</div>
+>>
+helpContainer(e,label,content,developers) ::= <<
+<div class="help-snippet padding-sm-vr no-padding-t">
+  $if(label)$
+  $if(developers)$<span class="badge badge-info pull-right">$e.type$</span>$endif$
+  <h6 class="text-light-gray text-semibold text-sm">
+    <span class="text-bold text-uppercase text-underline" translate-multiple="$label$"></span>
+  </h6>
+  $endif$
+  $if(e.help)$<p class="$if(developers)$well$endif$ no-margin text-justify" translate-multiple="$e.help$"></p>$endif$
+  $if(e.helpImage)$<div class="panel-body text-center">
+    <img ng-src="{{'$e.helpImage$' | translateMultiple}}"/>
+  </div>$endif$
+</div>
+$content$
+<hr/>
+>>
+helpElement(e,label,content,developers) ::= <<
+$if(e.help||e.helpImage)$<div class="help-snippet padding-sm-vr no-padding-t">
+  $if(e.label)$<h6 class="text-light-gray text-semibold text-xs text-uppercase" translate-multiple="$e.label$"></h6>$endif$
+  $if(e.help)$<p class="$if(developers)$well$endif$ no-margin text-justify" translate-multiple="$e.help$"></p>$endif$
+  $if(e.helpImage)$<div class="panel-body text-center">
+    <img ng-src="{{'$e.helpImage$' | translateMultiple}}"/>
+  </div>$endif$
+</div>$endif$
+$content$
+>>
+helpGrid(e,label,developers,columns,buttons) ::= <<
+<div class="help-snippet padding-sm-vr no-padding-t">
+  <h6 class="text-primary text-semibold text-sm">
+    <i class="fa fa-table fa-fw"></i>
+    <span class="text-bold text-uppercase" translate-multiple="$label$"></span>
+    <span translate-multiple="HELP_GRID" class="text-xxs text-uppercase"></span>
+    $if(developers)$(<code title="{{'HELP_GRID_IDENTIFIER' | translateMultiple}}">$id$</code>)$endif$
+  </h6>
+  $if(developers)$
+  <div class="stat-panel $if(e.help)$no-margin$endif$">
+    <div class="stat-row">
+      <div class="stat-counters bordered text-center">
+        <div class="stat-cell col-xs-3 padding-sm no-padding-hr">
+          <div class="text-xs text-uppercase" translate-multiple="HELP_TYPE"></div>
+          <div class="text-bg text-uppercase"><span class="badge badge-primary" translate-multiple="$if(e.treegrid)$HELP_TREEGRID$else$HELP_GRID$endif$"></span></div>
+        </div>
+        <div class="stat-cell col-xs-3 padding-sm no-padding-hr">
+          <div class="text-xs text-uppercase" translate-multiple="$if(e.treegrid)$HELP_LOADALL$else$HELP_MULTISELECT$endif$"></div>
+          <div class="text-bg"><i class="fa fa-$if(e.loadall)$check text-success$elseif(e.multiselect)$check text-success$else$times text-danger$endif$"></i></div>
+        </div>
+        <div class="stat-cell col-xs-3 padding-sm no-padding-hr">
+          <div class="text-xs text-uppercase" translate-multiple="$if(e.multioperation)$HELP_MULTIOPERATION$else$HELP_EDITABLE$endif$"></div>
+          <div class="text-bg"><i class="fa fa-$if(e.multioperation)$check text-success$elseif(e.editable)$check text-success$else$times text-danger$endif$"></i></div>
+        </div>
+        $if(!treegrid)$
+        <div class="stat-cell col-xs-3 padding-sm no-padding-hr">
+          <div class="text-xs text-uppercase" translate-multiple="HELP_TOTALIZE"></div>
+          <div class="text-bg"><i class="fa fa-$if(e.totalize)$check text-success$else$times text-danger$endif$"></i></div>
+        </div>
+        <div class="stat-cell col-xs-3 padding-sm no-padding-hr">
+          <div class="text-xs text-uppercase" translate-multiple="HELP_ROWS_PER_PAGE"></div>
+          <div class="text-bg text-uppercase"><strong>$e.max$</strong></div>
+        </div>
+        $endif$
+      </div>
+    </div>
+  </div>
+  $endif$
+  $if(e.help)$<p class="$if(developers)$well no-border-t$endif$ text-justify" translate-multiple="$e.help$"></p>$endif$
+  $if(e.helpImage)$<div class="panel-body text-center">
+    <img ng-src="{{'$e.helpImage$' | translateMultiple}}"/>
+  </div>$endif$
+  $if(columns)$
+  <div class="panel-body no-padding-vr">
+    <div class="table-light panel panel-success panel-sm">
+      <div class="panel-heading">
+        <i class="panel-title-icon fa fa-columns fa-fw"></i>
+        <span class="panel-title" translate-multiple="HELP_COLUMNS"></span>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th translate-multiple="HELP_NAME"></th>
+            $if(developers)$
+            <th translate-multiple="HELP_IDENTIFIER"></th>
+            <th translate-multiple="HELP_COMPONENT"></th>
+            $endif$
+            <th translate-multiple="HELP_DESCRIPTION"></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        $columns$
+        </tbody>
+      </table>
+    </div>
+  </div>
+  $endif$
+  $if(buttons)$
+  <div class="panel-body no-padding-vr">
+    <div class="table-light panel panel-sm">
+      <div class="panel-heading">
+        <i class="panel-title-icon fa fa-youtube-play fa-fw"></i>
+        <span class="panel-title" translate-multiple="HELP_BUTTONS"></span>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th translate-multiple="HELP_NAME"></th>
+            $if(developers)$
+            <th translate-multiple="HELP_IDENTIFIER"></th>
+            $endif$
+            <th translate-multiple="HELP_DESCRIPTION"></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        $buttons$
+        </tbody>
+      </table>
+    </div>
+  </div>
+  $endif$
+</div>
+>>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : SitViw.xml
+    Created on : 03 de Marzo de 2013
+    Author     : Pablo VIDAL
+    Description: Ventana de sites - Consulta de sitio
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_SIT_VIW" help="HELP_SCREEN_TITLE_SIT_VIW">
+  <tag source="hidden">
+    <criteria id="IdeSit" component="text" variable="IdeSit" />
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window label="SCREEN_TEXT_CRITERIA" icon="eye">
+      <tag type="div" style="panel-body expand">
+        <criteria label="PARAMETER_NAME" id="Nam" component="text" variable="Nam" readonly="true" style="col-xs-12 col-sm-6 col-lg-4" />
+        <criteria label="PARAMETER_ORDER" id="Ord" component="text" variable="Ord" readonly="true" style="col-xs-6 col-sm-3 col-lg-2" />
+        <criteria label="PARAMETER_ACTIVE" id="Act" component="select" variable="Act" initial-load="enum" target-action="Es1Es0" readonly="true" style="col-xs-6 col-sm-3 col-lg-2" />
+      </tag>
+    </window>
+    <window style="expand" maximize="true" label="SCREEN_TEXT_CONFIGURATION" icon="list">
+      <grid id="SitModDbsLst" style="expand" server-action="data" target-action="QryLstModDbsBySit" initial-load="query" max="20">
+        <column label="COLUMN_MOD" sort-field="Mod" name="Mod" align="left" charlength="25" />
+        <column label="COLUMN_DBA" sort-field="Als" name="Als" align="left" charlength="40" />
+        <column label="COLUMN_ORD" sort-field="Ord" name="Ord" align="center" charlength="10" />
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

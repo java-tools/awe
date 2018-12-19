@@ -1,0 +1,171 @@
+.pvtUi {
+  color: #333;
+  select {
+    width: 100%;
+  }
+}
+
+table.pvtTable {
+  font-size: 8pt;
+  text-align: left;
+  border-collapse: collapse;
+}
+table.pvtTable tr th, table.pvtTable tr th {
+  background-color: #e6EEEE;
+  border: 1px solid #CDCDCD;
+  font-size: 8pt;
+  padding: 5px;
+}
+
+table.pvtTable .pvtColLabel {text-align: center;}
+table.pvtTable .pvtTotalLabel {text-align: right;}
+
+.pivotTable .input-group-sm {
+  select {
+    height: 26px;
+  }
+}
+
+.pivotTable .input-group-md {
+  select {
+    height: @input-height-base;
+    font-size: @font-size-base;
+  }
+}
+
+.pivotTable .input-group-lg {
+  select {
+    height: @input-height-large;
+    font-size: @font-size-large;
+  }
+}
+
+table.pvtTable tr td {
+  color: #3D3D3D;
+  padding: 5px;
+  background-color: #FFF;
+  border: 1px solid #CDCDCD;
+  vertical-align: top;
+  text-align: right;
+}
+
+.pvtTotal, .pvtGrandTotal { font-weight: bold; }
+
+.pvtVal::before,
+.pvtTotal::before,
+.pvtGrandTotal::before {
+  content: "\00a0";
+}
+
+.pvtVals { text-align: center;}
+.pvtAggregator { margin-bottom: 5px ;}
+
+.pvtRendererControl {
+  padding: 5px;
+  min-width: 150px;
+}
+
+.pvtAxisContainer, .pvtVals {
+  border: 1px solid gray;
+  background: #EEE;
+  padding: 5px;
+  min-width: 150px;
+  min-height: 20px;
+}
+.pvtAxisContainer li {
+  padding: 8px 6px;
+  list-style-type: none;
+  cursor:move;
+}
+.pvtAxisContainer li.pvtPlaceholder {
+  padding: 3px 15px;
+  border-radius: 5px;
+  border: 1px dashed #aaa;
+}
+
+.pvtAxisContainer li span.pvtAttr {
+  background: #F3F3F3;
+  border: 1px solid #DEDEDE;
+  padding: 2px 5px;
+  white-space:nowrap;
+  border-radius: 5px;
+}
+
+.pvtTriangle {
+  cursor:pointer;
+  color: grey;
+}
+
+.pvtHorizList li { display: inline; }
+.pvtVertList { vertical-align: top; }
+
+.pvtFilteredAttribute { font-style: italic }
+
+.pvtFilterBox{
+  z-index: 100;
+  width: 280px;
+  border: 1px solid gray;
+  background-color: #fff;
+  position: absolute;
+  padding: 20px;
+  text-align: center;
+}
+
+.pvtFilterBox h4{ margin:0; }
+.pvtFilterBox p { margin: 1em auto; }
+.pvtFilterBox label { font-weight: normal; }
+.pvtFilterBox input[type='checkbox'] { margin-right: 5px; }
+
+.pvtCheckContainer{
+  text-align: left;
+  overflow: scroll;
+  width: 100%;
+  max-height: 200px;
+}
+.pvtCheckContainer p{ margin: 5px; }
+
+.pvtRendererArea { padding: 5px;}
+
+.pvtColLabel.pvtSortable, .pvtRowLabel.pvtSortable, .pvtTotalLabel.pvtTotalColSortable, .pvtTotalLabel.pvtTotalRowSortable {
+  cursor:pointer;
+  padding: 0px 16px;
+}
+
+.pvtColLabel.pvtSortable.pvtSortDesc, .pvtTotalRowSortable.pvtSortDesc,
+.pvtColLabel.pvtSortable.pvtSortAsc, .pvtTotalRowSortable.pvtSortAsc,
+.pvtRowLabel.pvtSortable.pvtSortDesc, .pvtTotalColSortable.pvtSortDesc,
+.pvtRowLabel.pvtSortable.pvtSortAsc, .pvtTotalColSortable.pvtSortAsc {
+  padding-right: 0px;
+}
+.pvtColLabel.pvtSortable.pvtSortDesc::after, .pvtTotalRowSortable.pvtSortDesc::after  {
+  //content:" ↓";
+  content: @fa-var-long-arrow-down;
+  .fa-icon();
+  margin: 0px 2px;
+  width: 12px;
+  text-align: center;
+}
+.pvtColLabel.pvtSortable.pvtSortAsc::after, .pvtTotalRowSortable.pvtSortAsc::after {
+  //content:" ↑";
+  content: @fa-var-long-arrow-up;
+  .fa-icon();
+  margin: 0px 2px;
+  width: 12px;
+  text-align: center;
+}
+.pvtRowLabel.pvtSortable.pvtSortDesc::after, .pvtTotalColSortable.pvtSortDesc::after  {
+  //content:" →";
+  content: @fa-var-long-arrow-right;
+  .fa-icon();
+  margin: 0px 2px;
+  width: 12px;
+  text-align: center;
+}
+.pvtRowLabel.pvtSortable.pvtSortAsc::after, .pvtTotalColSortable.pvtSortAsc::after {
+  //content:" ←";
+  content: @fa-var-long-arrow-left;
+  .fa-icon();
+  margin: 0px 2px;
+  width: 12px;
+  text-align: center;
+}

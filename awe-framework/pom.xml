@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.almis.awe</groupId>
+    <artifactId>awe-dependencies</artifactId>
+    <version>4.0.3-SNAPSHOT</version>
+    <relativePath>../awe-dependencies/pom.xml</relativePath>
+  </parent>
+  <artifactId>awe-framework</artifactId>
+  <packaging>pom</packaging>
+  <name>AWE Framework (V${project.version})</name>
+  <description>AWE Framework Build</description>  
+  
+  <modules>
+    <module>../awe-model</module>
+    <module>../awe-generic-screens</module>
+    <module>../awe-client-angular</module>    
+    <module>../awe-annotation</module>
+    <module>../awe-annotations-spring-boot-starter</module>    
+    <module>../awe-controller</module>
+    <module>../awe-builder</module>    
+    <module>../awe-builder-spring-boot-starter</module>   
+    <module>../awe-developer</module>
+    <module>../awe-developer-spring-boot-starter</module>    
+    <module>../awe-tools</module>
+    <module>../awe-tools-spring-boot-starter</module>    
+    <module>../awe-rest</module>
+    <module>../awe-rest-spring-boot-starter</module>
+    <module>../awe-spring-boot-starter</module>
+    <module>../awe-boot-archetype</module>
+  </modules>
+  
+</project>

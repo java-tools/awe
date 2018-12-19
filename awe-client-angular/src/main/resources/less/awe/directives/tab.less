@@ -1,0 +1,87 @@
+/*
+    Created on : 26-mar-2014, 14:23:20
+    Author     : pgarcia
+*/
+// Tab content
+.tab-content {
+  padding: 0px;
+  > .active {
+    .display-flex;
+  }
+}
+
+// Tab pane
+.tab-pane {
+  &.active-add{
+    .transition(all, ease-in-out, 250ms);
+    .display-flex;
+    .opacity(0);
+  }
+
+  &.active-add.active-add-active{
+    .opacity(1);
+  }
+
+  > div > .panel:not(.maximizing):not(.maximized) {
+    margin-left:0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+  }
+}
+
+.tab-container {
+  .nav-tabs {
+    > li > a {
+      cursor: pointer;
+    }
+    &.disabled > li > a {
+      cursor: not-allowed;
+      .opacity(.6);
+    }
+  }
+
+  /* Animation styles */
+  &.resizeAnimation {
+    position: absolute;
+    z-index: 1050;
+    &.maximized {
+      z-index: 1049;
+    }
+    margin: 0px;
+    //.opacity(0.8);
+
+    .maximize-content {
+      background: white;
+      .panel-bordered;
+    }
+  }
+
+  .maximize-handler > a {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    margin-right: 0px;
+  }
+}
+
+.tab-container-sm {
+  margin: @panel-margin-sm;
+  margin-top: 0px;
+  .nav-tabs > li > a {
+    padding: 5px 20px;
+    font-size: @font-size-small;
+  }
+}
+
+.tab-container-md {
+  margin: @panel-margin-md;
+  margin-top: 0px;
+}
+
+.tab-container-lg {
+  margin: @panel-margin-lg;
+  margin-top: 0px;
+  .nav-tabs > li > a {
+    padding: 10px 20px;
+    font-size: @font-size-large;
+  }
+}

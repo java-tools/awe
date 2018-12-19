@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : RepGenPdf.xml
+    Created on : 25 de febrero de 2014
+    Author     : Pablo VIDAL
+    Description: Report List Screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_REP_GEN" help="HELP_SCREEN_TITLE_REP_GEN" keep-criteria="true">
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button button-type="button" label="BUTTON_VIEW" icon="eye" id="ButViw" help="HELP_VIEW_BUTTON">
+      <button-action type="check-one-selected" target="GrdRepGenLst" />
+      <button-action type="screen" target="view_report" />
+      <dependency target-type="disable" initial="true">
+        <dependency-element id="GrdRepGenLst" condition="ne" value="1" />
+      </dependency>
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand" label="SCREEN_TEXT_DATA">
+      <grid id="GrdRepGenLst" style="expand" server-action="data" target-action="RepGenPdfLst" multiselect="true" autoload="true" max="100">
+        <column name="Fil" sort-field="Fil" hidden="true" />
+        <column label="PARAMETER_REPORT" name="Nam" sort-field="Nam" align="left" charlength="80" />
+        <column label="PARAMETER_DATE" name="Dat" sort-field="Dat" align="center" charlength="20" />
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

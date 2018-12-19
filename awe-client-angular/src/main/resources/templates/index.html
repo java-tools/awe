@@ -1,0 +1,60 @@
+<!doctype html>
+<!--[if IE 9 ]><html xmlns:th="http://www.thymeleaf.org" class="ie gt-ie8 gt-ie9 pxajs" lang="{{settings.language}}" ng-app="aweApplication" ng-controller="AppController"><![endif]-->
+<!--[if !IE]><!--><html xmlns:th="http://www.thymeleaf.org" class="{{::isIE}} gt-ie8 gt-ie9 pxajs" lang="{{settings.language}}" ng-app="aweApplication" ng-controller="AppController"><!--<![endif]-->
+  <head>
+    <base th:href="@{/}"/>
+    <link rel="stylesheet" type="text/css" href="css/splash.css"/>
+    <title ng-bind-template="{{screen.title| translate}} | {{'APP_NAME'| translate}}" translate="APP_NAME">Loading...</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Cache-control" content="public"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link rel="stylesheet" href="css/styles.css?v=@awe.build.timestamp@" th:href="@{/css/styles.css}"/>
+    <link rel="stylesheet" href="css/specific.css?v=@awe.build.timestamp@" th:href="@{/css/specific.css}"/>
+    <link rel="shortcut icon" th:href="${@environment.getProperty('application.icon.favicon')}"/>
+    <link rel="apple-touch-icon" th:href="${@environment.getProperty('application.icon.tablet')}"/>
+  </head>
+  <body class="theme-{{settings.theme}} page-{{screen.name}} size-{{settings.defaultComponentSize}}" ng-init="loading = false" ng-controller="ScreenController" ng-keydown="onKeydown($event)">
+    <h1 class="hidden" ng-cloak></h1>
+    <p class="hidden" ng-cloak></p>
+    <div class="alert-zone" ng-controller="MessageController" ng-cloak>
+      <div uib-alert class="alert alert-dark alert-awe alert-{{alert.type}}" ng-animate="alert" ng-repeat="alert in alerts" close="closeAlert($index)"><strong translate="{{::alert.title}}" ng-cloak>.</strong>&nbsp; <span class="description" translate="{{::alert.msg}}" ng-cloak></span></div>
+      <awe-confirm ng-cloak></awe-confirm>
+      <awe-help ng-cloak></awe-help>
+    </div>
+    <form action="javascript://" method="post" autocomplete="off" class="fullScreen" role="form" name="aweForm" awe-form="" novalidate="novalidate" ng-cloak>
+      <div ui-view="base" class="fullScreen maximize-target" ng-class="{visible:visible}" ng-cloak></div>
+      <div class="error-container has-error dark {{validationStyle}}" ng-click="showValidation = false" ng-show="showValidation">
+        <div class="jquery-validate-error help-block">{{validationMessage}}</div>
+      </div>
+    </form>
+    <div class="actions-zone" ng-cloak>
+      <div class="async-zone" ng-cloak>
+        <div ng-if="showActions()" class="action-stack-list" ng-cloak>
+          <div class="action async" ng-repeat="action in asyncStack" ng-class="{'running': action.attr('running') &amp;&amp; action.attr('alive'), 'silent': action.attr('silent')}" ng-click="action.showInfo()" ng-cloak>{{::action.attr("type")}} {{::action.attr("target")}}</div>
+        </div>
+      </div>
+      <div class="sync-zone" ng-cloak>
+        <div ng-if="showActions()" class="action-stack-list" ng-cloak>
+          <div ng-repeat="stack in syncStacks| reverse" class="action-stack" ng-cloak>
+            <div class="action" ng-repeat="action in stack" ng-class="{'running': action.attr('running') &amp;&amp; action.attr('alive'), 'silent': action.attr('silent')}" ng-click="action.showInfo()" ng-cloak>{{::action.attr("type")}} {{::action.attr("target")}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="download-zone" ng-controller="DownloadController" ng-cloak>
+      <downloader ng-repeat="download in downloads" file="download" on-load="finishDownload(download)" on-fail="failDownload(download)" class="ng-cloak"></downloader>
+    </div>
+    <div id="splash">
+      <div id="splashBackground"></div>
+      <div class="spinner"><div class="dot1"></div><div class="dot2"></div></div>
+    </div>
+    <script type="text/javascript" src="js/commons.js?v=@awe.build.timestamp@" th:src="@{/js/commons.js}"></script>
+    <script type="text/javascript" src="js/bundle.js?v=@awe.build.timestamp@" th:src="@{/js/bundle.js}"></script>
+    <script type="text/javascript" src="js/specific.js?v=@awe.build.timestamp@" th:src="@{/js/specific.js}"></script>
+  </body>
+</html>

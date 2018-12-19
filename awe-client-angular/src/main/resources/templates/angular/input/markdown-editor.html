@@ -1,0 +1,6 @@
+<div ng-show="controller.visible" class="criterion {{criterionClass}}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <textarea class="validator form-control {{classes}}" ng-model="model.selected" ng-disabled="controller.readonly" ng-attr-id="{{::controller.id}}"
+            ng-attr-name="{{::controller.id}}" placeholder="{{controller.placeholder| translateMultiple}}" rows="{{controller.areaRows}}"
+            ng-model-options="{updateOn: 'change'}" ng-focus="focus()" ng-blur="blur()" ng-change="component.modelChange()" autocomplete="off"></textarea>
+  <awe-loader class="loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</div>

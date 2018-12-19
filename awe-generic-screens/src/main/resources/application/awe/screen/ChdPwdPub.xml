@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ChdPwdPub.xml
+    Created on : 11 de septiembre de 2013
+    Author     : Pablo VIDAL
+    Description: Tools window - Change Password
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="login" label="SCREEN_TITLE_CHD_PWD" help="HELP_SCREEN_TITLE_CHD_PWD">
+  <tag source="hidden">
+    <message id="UpdMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE" />
+  </tag>
+  <tag source="center">
+    <window style="change_password" label="SCREEN_TEXT_CHANGE_PWD">
+      <tag type="div" style="panel-body expand">
+        <criteria label="PARAMETER_USER" id="Usr" component="text" variable="cod_usr" readonly="true" style="col2" />
+        <criteria id="cod_usr" component="hidden" variable="cod_usr" />
+        <criteria label="PARAMETER_OLD_PASSWD" id="OldPas" component="text" validation="{required: true, eq:{criterion:'CrtOldPas', message:'VALIDATOR_MESSAGE_OLD_PASSWORD'}}" style="col2" />
+        <criteria id="CrtOldPas" component="hidden" variable="pwd_usr" />
+        <criteria label="PARAMETER_PASSWD" id="Pas" component="text" validation="{required: true, pattern:{setting:'passwordPattern'}, ne:{criterion:'OldPas', message:'VALIDATOR_MESSAGE_REPEAT_OLD_PASSWORD'}, minlength:{setting:'minlengthPassword'}}" style="col2" />
+        <criteria id="pwd_usr" component="hidden" value="" variable="Pas">
+          <dependency source-type="criteria-value" target-type="input" initial="true" target-action="Pas">
+            <dependency-element id="Pas" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_RETYPE_PASSWD" id="RetPas" component="text" validation="{required: true, eq:{criterion:'Pas', message:'VALIDATOR_MESSAGE_REPEAT_PASSWORD'}}" style="col2" />
+        <criteria id="MinPwd" component="hidden" property="MinPwd" />
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="submit" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+            <button-action type="validate" />
+            <button-action type="confirm" target="UpdMsg" />
+            <button-action type="server" server-action="maintain" target-action="ChdPwd" />
+            <button-action type="server" server-action="login" />
+          </button>
+          <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+            <button-action type="screen" target="Lgn" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+  </tag>
+</screen>

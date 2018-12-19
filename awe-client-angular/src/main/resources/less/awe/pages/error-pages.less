@@ -1,0 +1,114 @@
+//
+// Pages / Error pages
+//
+// --------------------------------------------------
+.page-500 {
+  background: @danger-color !important;
+
+  .error-text {
+    margin-bottom: 80px !important;
+  }
+}
+
+// Error pages
+//
+
+.page-500 .header {
+  height: 0px;
+  .logo {
+    display: none;
+  }
+}
+
+.initial-page .page-500 {
+  height: 100%;
+  .header {
+    height: 47px;
+    .logo {
+      display: inline-block;
+    }
+  }
+}
+
+.page-404,
+.page-500 {
+  text-align: center;
+
+  // Page header
+  //
+  .header {
+    background: #fff;
+    padding: 0;
+
+    .box-shadow(0 4px 0 rgba(0, 0, 0, .1));
+
+    .logo {
+      background:url('@{application-images-path}/logo/@{application-logo}') no-repeat center center;
+      margin:0px;
+      padding:0px;
+      height:58px;
+      width:300px;
+      color: @text-color;
+      font-size: 16px;
+      line-height: 47px;
+      opacity: .6;
+      .transition(all .3s);
+
+      &[href]:hover {
+        opacity: 1;
+      }
+    }
+
+    // Demo
+    .demo-logo {
+      display: inline-block;
+      height: 24px;
+      line-height: 24px;
+      background: @text-color !important;
+    }
+  }
+
+  // Error code
+  //
+
+  .error-code {
+    color: #fff;
+    font-size: 120px;
+    font-weight: 700;
+    line-height: 140px;
+    margin-top: 60px;
+    text-shadow: 0 4px 0 rgba(0,0,0,.1);
+  }
+
+  // Error text
+  //
+
+  .error-text {
+    color: #fff;
+    color: rgba(0, 0, 0, .5);
+    font-size: 20px;
+    font-weight: 600;
+    padding: 0 20px;
+
+    .oops {
+      font-size: 50px;
+    }
+
+    // Divider
+    .hr {
+      background: #fff;
+      background: rgba(0, 0, 0, .2);
+      display: inline-block;
+      height: 5px;
+      margin: 20px 0;
+      width: 40px;
+    }
+
+    .solve {
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 400;
+      margin-top: 15px;
+    }
+  }
+}

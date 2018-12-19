@@ -1,0 +1,10 @@
+<div ng-show="component.controller.visible" class="validator column-input criterion text-{{::component.controller.align}} no-animate" ui-dependency="dependencies" ng-cloak>
+  <span class="visible-value text-right" ng-cloak>{{component.visibleValue}}</span>
+  <div class="edition input input-group-{{::size}} focus-target">
+    <input ui-numeric="aweNumericOptions" class="form-control text-right col-xs-12 {{classes}} {{component.model.values[0].style}}" autocomplete="off"
+           ng-disabled="component.controller.readonly" ng-focus="focus()" ng-blur="blur()"
+           placeholder="{{::component.controller.placeholder| translateMultiple}}" ng-click="click($event)" ng-press-enter="saveRow($event)"/>
+    <span ng-if="::component.controller.icon" ng-class="::iconClass" ng-cloak></span>
+  </div>
+  <awe-loader class="loader no-animate" ng-if="component.controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</div>

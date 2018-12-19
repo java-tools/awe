@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ScrEncTxt.xml
+    Created on : 17 de Junio de 2013
+    Author     : Pablo VIDAL
+    Description: Ventana de herramientas - Encriptar cadenas
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_ENC" help="HELP_SCREEN_TITLE_ENC">
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button button-type="reset" label="BUTTON_RESET" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
+    <button button-type="submit" label="BUTTON_ENCRYPT" icon="lock" id="ButEnc">
+      <button-action type="server" server-action="value" target-action="GetEncTxt" target="CrtEnc" async="true"/>
+      <button-action type="server" server-action="value" target-action="GetEncPpt" target="CrtPptEnc" async="true"/>
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand" label="SCREEN_TEXT_CRITERIA" icon="filter">
+      <tag type="div" style="expand panel-body">
+        <criteria label="PARAMETER_TEXT" component="text" id="CrtTxt" server-action="data" style="col-xs-12 col-sm-6 col-lg-4" />
+        <criteria label="PARAMETER_PHRASEKEY" component="text" id="CrtPhr" server-action="data" style="col-xs-12 col-sm-6 col-lg-6" />
+        <criteria label="PARAMETER_ENCRYPT" component="text" id="CrtEnc" server-action="data" style="col-xs-12 col-sm-6 col-lg-4" readonly="true" />
+        <criteria label="PARAMETER_PROPERTY_ENCRYPT" component="text" id="CrtPptEnc" server-action="data" style="col-xs-12 col-sm-6 col-lg-6" readonly="true" />
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

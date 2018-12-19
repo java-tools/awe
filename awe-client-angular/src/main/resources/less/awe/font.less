@@ -1,0 +1,102 @@
+//
+// awe default fonts
+// --------------------------------------------------
+
+@font-face {
+  font-family: 'Open Sans'; font-style: normal; font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url('@{fonts-path}/open-sans/OpenSans-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans'; font-style: normal; font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url('@{fonts-path}/open-sans/OpenSans-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans'; font-style: normal; font-weight: 600;
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url('@{fonts-path}/open-sans/OpenSans-Semibold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans'; font-style: normal; font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url('@{fonts-path}/open-sans/OpenSans-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans'; font-style: italic; font-weight: 300;
+  src: local('Open Sans Light Italic'), local('OpenSansLight-Italic'), url('@{fonts-path}/open-sans/OpenSans-LightItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans'; font-style: italic; font-weight: 400;
+  src: local('Open Sans Italic'), local('OpenSans-Italic'), url('@{fonts-path}/open-sans/OpenSans-Italic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans'; font-style: italic; font-weight: 600;
+  src: local('Open Sans Semibold Italic'), local('OpenSans-SemiboldItalic'), url('@{fonts-path}/open-sans/OpenSans-SemiboldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Open Sans'; font-style: italic; font-weight: 700;
+  src: local('Open Sans Bold Italic'), local('OpenSans-BoldItalic'), url('@{fonts-path}/open-sans/OpenSans-BoldItalic.ttf') format('truetype');
+}
+/*html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, dialog, figure, footer, header,
+hgroup, menu, nav, section,
+time, mark, audio, video, input, textarea {
+  font-family: proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 12px;
+}*/
+
+/* Status font-weight */
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header  .ui-state-default,
+/* Window titles */
+.window_title,
+.window .ui-title,
+/* Buttons */
+.button .button_text
+{
+  font-weight: 600;
+}
+
+/* Headers */
+h2 span {
+  font-size:26px;
+  font-weight: 600;
+}
+
+/* Loading: Remove font */
+td.container_loading
+{
+  font-size:0px !important;
+  font-weight: lighter !important;
+}
+
+/* Chart legends */
+.jqplot-table-legend.jqplot-table-legend-swatch,
+.jqplot-table-legend.jqplot-table-legend-label
+{
+  font-size: 11px;
+}
+
+/* Context menu sublevels hover */
+.context_menu li a,
+.ie7 .context_menu li a {
+	font-weight: normal !important;
+}
+
+/* Progress */
+.progress .progress-text
+{
+  font-weight: 600;
+}
+
+/* Font awesome icons */
+i
+{
+  font-size: 14px;
+}

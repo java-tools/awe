@@ -1,0 +1,54 @@
+//
+// Themes / Amazonia
+// --------------------------------------------------
+
+.theme-amazonia {
+  // Primary color
+  @primary-color: #00965e;
+  @secondary-color: #dfdddc;
+  @theme-color: darken(@primary-color, 20%);
+  // Main menu background color
+  @awe-text-color: #fff;
+  @awe-border-color: darken(@primary-color, 10%);
+  @button-color: darken(@secondary-color, 30%);
+
+  // Copy dust theme
+  .theme-dust;
+
+  // Set background color
+  background-color: #e6e6e6;
+
+  // Define panel and button default
+  .panel-awe {
+    .pixel-panel(@primary-color, @awe-text-color, @awe-border-color);
+  }
+  .btn-default {
+    .pixel-button(@color: @button-color, @font-color: @btn-default-color);
+  }
+
+  // Define navbar specific backgrounds
+  #main-navbar,
+  &.mmc #main-navbar {
+    .navbar-header {
+      background: #fff;
+    }
+    #main-menu-toggle {
+      background: #00965e;
+    }
+  }
+
+  // Mixins
+  .awe-main-menu(@primary-color);
+  .awe-grid(#666, lighten(@primary-color, 10%));
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@button-color, @primary-color);
+  .awe-loading-bar(@primary-color);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@primary-color);
+  
+  // Font color menu
+  #main-menu ul.navigation li>a {
+    color: #fff !important;
+  }
+}

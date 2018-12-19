@@ -1,0 +1,21 @@
+//
+// Themes / Clean
+// --------------------------------------------------
+
+.theme-clean {
+  @theme-color: lighten(#3d4a5d, 20%);
+  // Main menu background color
+  @menu-color: #edf0f1;
+  // Primary color
+  @primary-color: #67cea6;
+
+  // Mixins
+  .awe-main-menu(@menu-color,light);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(@primary-color);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

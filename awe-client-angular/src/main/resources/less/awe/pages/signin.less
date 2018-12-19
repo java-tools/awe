@@ -1,0 +1,67 @@
+/*******************************************************************************
+ LOGIN SCREEN
+*******************************************************************************/
+
+.page-signin {
+  h1 {
+    background:url('@{application-images-path}/logo/@{signin-logo}') no-repeat center center;
+    margin:0px;
+    padding:0px;
+    height: 100px;
+    filter: drop-shadow( 3px 2px 3px #444 );
+    span {
+      display:none;
+    }
+  }
+
+  .overlay-image {
+    background:url('@{application-images-path}/background/signin-bg-1.jpg') no-repeat center center;
+  }
+
+  .signin-with .form-actions {
+    margin-top: 0px;
+  }
+
+  .awe-signin.signin-container {
+    margin: 20px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-group.w-icon .signin-form-icon {
+    border-right-color: #888;
+    color: #888;
+  }
+  .form-group + .form-group {
+    margin: 0;
+  }
+  .copyright{
+    color: white;
+    text-shadow: 3px 2px black;
+    font-size:small;
+    z-index:1000;
+    position:absolute;
+    right:0;
+    bottom:0;
+    padding:0 20px 5px 0;
+  }
+
+  .slogan {
+    text-align: center;
+    font-variant: small-caps;
+    font-weight: 800;
+    font-size: medium;
+  }
+}
+
+@media (min-width: 700px) {
+  .page-signin .awe-signin.signin-container {
+    margin: 80px auto;
+  }
+}
+
+@media (max-width: @screen-small) {
+  .page-signin .btn .button-text {
+    display: inline-block;
+  }
+}

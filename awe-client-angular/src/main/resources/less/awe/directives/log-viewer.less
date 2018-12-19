@@ -1,0 +1,31 @@
+/*
+    Created on : 26-ene-2015, 14:23:20
+    Author     : pvidal
+*/
+
+.log-viewer {
+  overflow-x: auto;
+
+  pre {
+    background-color: #FFFFFF !important;
+    border: 0px !important;
+  }
+
+  .content {
+    position: relative;
+    .visible-text {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background: red;
+      overflow: visible;
+      white-space: pre;
+    }
+    .test-line {
+      position: absolute;
+      top: -10000px;
+      left: -10000px;
+    }
+  }
+}
+

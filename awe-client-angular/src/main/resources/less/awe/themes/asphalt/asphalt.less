@@ -1,0 +1,21 @@
+//
+// Themes / Asphalt
+// --------------------------------------------------
+
+.theme-asphalt {
+  @theme-color: #35ae98;
+  // Main menu background color
+  @menu-color: #515151;
+  // Primary color
+  @primary-color: #52bdb4;
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(@primary-color);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

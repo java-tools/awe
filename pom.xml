@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-dependencies</artifactId>
+    <version>1.5.10.RELEASE</version>
+    <relativePath />
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.almis.awe</groupId>
+  <artifactId>awe-parent</artifactId>
+  <version>4.0.3-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>AWE (V${project.version})</name>
+  <description>Almis Web Engine: Web application development platform based on XML descriptors</description>
+  <url>http://www.awe-framework.com</url>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Pablo García</name>
+      <email>pablo.garcia@almis.com</email>
+      <organization>Almis I.F.</organization>
+      <organizationUrl>http://www.almis.com</organizationUrl>
+    </developer>
+    <developer>
+      <name>Pablo Vidal</name>
+      <email>pablo.vidal@almis.com</email>
+      <organization>Almis I.F.</organization>
+      <organizationUrl>http://www.almis.com</organizationUrl>
+    </developer>
+    <developer>
+      <name>Isaac Serna</name>
+      <email>isaac.serna@almis.com</email>
+      <organization>Almis I.F.</organization>
+      <organizationUrl>http://www.almis.com</organizationUrl>
+    </developer>
+    <developer>
+      <name>Aitor Ugarte</name>
+      <email>aitor.ugarte@almis.com</email>
+      <organization>Almis I.F.</organization>
+      <organizationUrl>http://www.almis.com</organizationUrl>
+    </developer>
+  </developers>
+
+  <properties>
+    <!-- Project versions -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+
+    <!-- Application properties -->
+    <application.version>V4.0</application.version>
+    <application.acronym>awe</application.acronym>
+    <application.acronym.min>awe</application.acronym.min>
+    <application.name>${application.acronym}_${application.version}</application.name>
+
+    <!-- Build properties -->
+    <project.build.frontend>${project.build.directory}/classes/static/</project.build.frontend>
+    <check.xml.directory>${project.build.directory}/classes/application/</check.xml.directory>
+
+    <!-- Sonar configuration -->
+    <sonar.junit.reportPath>target/surefire-reports</sonar.junit.reportPath>
+    <sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <jacoco.version>0.8.1</jacoco.version>
+  </properties>
+
+  <modules>	
+    <module>awe-dependencies</module>
+	<module>awe-framework</module>
+  </modules>
+
+  <build>
+    <plugins>
+      <!-- Jacoco coverage -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <append>true</append>
+              <destFile>${sonar.jacoco.reportPaths}</destFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Gitflow -->
+      <plugin>
+        <groupId>external.atlassian.jgitflow</groupId>
+        <artifactId>jgitflow-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <configuration>
+          <pushFeatures>true</pushFeatures>
+          <pushHotfixes>true</pushHotfixes>
+          <pushReleases>true</pushReleases>
+          <enableSshAgent>false</enableSshAgent>
+          <flowInitContext>
+            <masterBranchName>master</masterBranchName>
+            <developBranchName>develop</developBranchName>
+            <featureBranchPrefix>feature/</featureBranchPrefix>
+            <releaseBranchPrefix>release/</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+            <versionTagPrefix>awe-</versionTagPrefix>
+          </flowInitContext>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <show>public</show>
+          <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.5.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <distributionManagement>
+    <repository>
+      <id>releases</id>
+      <name>Releases</name>
+      <url>https://mvn.almis.com/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>Snapshots</name>
+      <url>https://mvn.almis.com/content/repositories/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>

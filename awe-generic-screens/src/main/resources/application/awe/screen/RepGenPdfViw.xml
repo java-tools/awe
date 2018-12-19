@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : RepGenPdfViw.xml
+    Created on : 08 de Enero de 2015
+    Author     : Pablo Vidal
+    Description: Pdf viewer
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_REP_GEN_VIW" help="HELP_SCREEN_TITLE_REP_GEN_VIW">
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+  </tag>
+  <tag source="center" expandible="vertical">
+    <widget type="pdf-viewer" id="pdfViewer" style="expand" server-action="view-pdf-file"/>
+  </tag>
+  <tag source="hidden">
+    <criteria id="Pth" component="hidden" variable="Fil" />
+    <criteria id="Nam" component="hidden" variable="Nam" />
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

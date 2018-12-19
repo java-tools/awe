@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ScrAccRes.xml
+    Created on : 15 de Enero de 2014
+    Author     : Pablo Vidal
+    Description: Ventana de herramientas - Gesti?n de acceso a las opciones de Men?
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_SECURITY_SCREEN" help="HELP_SCREEN_TITLE_SECURITY_SCREEN">
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_PRINT" icon="print" id="ButScr">
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+    <button label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" target="ScreenCriteria" />
+      <button-action type="confirm" target="UpdMsg" />
+      <button-action type="server" server-action="maintain" target-action="updateScreenRestriction" />
+      <button-action type="server" server-action="refresh-menu"/>
+      <button-action type="filter" target="GrdScrAccLst" />
+    </button>
+  </tag>
+  <tag source="center" type="div" style="expand" expandible="vertical" id="ScreenCriteria">
+    <window label="SCREEN_TEXT_CRITERIA" maximize="true" icon="pencil-square-o" expandible="vertical">
+      <tag type="div" style="panel-body expand-maximize" id="AllCriteria">
+        <criteria label="PARAMETER_USER" component="suggest-multiple" id="CrtOpe" icon="user" initial-load="query" target-action="UsrSug" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_PROFILE" component="suggest" id="CrtPro" icon="group" server-action="data" target-action="ProSug" style="col-xs-12 col-sm-6 col-lg-2" />
+        <criteria label="PARAMETER_OPTION" component="suggest-multiple" id="CrtOpc" icon="list" server-action="data" target-action="getOptionList" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_ACCESS_MODE" component="select" id="CrtAccMod" icon="key" initial-load="enum" target-action="ResAccModSel" style="col-xs-6 col-sm-3 col-lg-2" optional="true" />
+        <criteria label="PARAMETER_ACTIVE" component="select" id="CrtSta" icon="check" initial-load="enum" target-action="Es1Es0" style="col-xs-6 col-sm-3 col-lg-2" optional="true" />
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="reset" label="BUTTON_RESET" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
+          <button button-type="submit" label="BUTTON_SEARCH" icon="search" id="ButSch" help="HELP_SEARCH_BUTTON">
+            <button-action type="filter" target="GrdScrAccLst" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <window id="WinGrd" style="expand" maximize="true" label="SCREEN_TEXT_RESTRICTIONS">
+      <grid id="GrdScrAccLst" style="expand" server-action="data" target-action="ScrAccLst" initial-load="query" editable="true" send-operations="true" max="20">
+        <column name="IdeAweScrRes" hidden="true" />
+        <column name="IdeMod" hidden="true" />
+        <column label="PARAMETER_USER" name="IdeOpe" sort-field="ope.IdeOpe" align="left" charlength="25" initial-load="query" component="suggest" server-action="data" target-action="UsrSug">
+          <dependency target-type="set-editable" initial="true">
+            <dependency-element id="GrdScrAccLst" column="IdePro" attribute="selectedRowValue" condition="eq" value="" />
+          </dependency>
+        </column>
+        <column label="PARAMETER_PROFILE" name="IdePro" sort-field="IdePro" align="left" charlength="25" initial-load="query" component="select" target-action="ProSel" optional="true">
+          <dependency target-type="set-editable" initial="true">
+            <dependency-element id="GrdScrAccLst" column="IdeOpe" attribute="selectedRowValue" condition="eq" value="" />
+          </dependency>
+        </column>
+        <column label="PARAMETER_OPTION" name="Opt" sort-field="Opt" align="left" charlength="30" component="suggest" server-action="data" target-action="getOptionList" validation="required" />
+        <column label="PARAMETER_ACCESS_MODE" name="AccMod" sort-field="AccMod" align="center" charlength="30" component="select" initial-load="query" server-action="data" target-action="ResAccModSel"
+                validation="required" />
+        <column label="PARAMETER_ACTIVE" name="Act" sort-field="Act" align="center" charlength="10" component="select" validation="required" initial-load="enum" server-action="data"
+                target-action="Es1Es0" value="1" />
+        <button label="BUTTON_NEW" icon="plus-circle" id="ButGrdAdd">
+          <button-action type="add-row" target="GrdScrAccLst" silent="true" />
+        </button>
+        <button label="BUTTON_DELETE" icon="trash" id="ButGrdDel">
+          <button-action type="delete-row" target="GrdScrAccLst" silent="true" />
+          <dependency target-type="enable" initial="true">
+            <dependency-element id="GrdScrAccLst" attribute="selectedRows" condition="eq" value="1" />
+          </dependency>
+        </button>
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+  <tag source="hidden">
+    <message id="UpdMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE" />
+  </tag>
+</screen>

@@ -1,0 +1,2043 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Maintain.xml
+    Created on : 11 de marzo de 2010, 11:03
+    Author     : Ismael SERRANO
+    Description: AWE Maintain File
+-->
+
+<maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/maintain.xsd">
+
+  <!--
+  ACCESS
+  -->
+  <target name="login" public="true">
+    <serve service="loginMaintain"/>
+  </target>
+  <target name="logout" public="true">
+    <serve service="logoutMaintain"/>
+  </target>
+
+  <!--
+  TOOLS
+  -->
+
+  <!-- Users -->
+  <target name="UsrNew">
+    <insert>
+      <table id="ope" />
+      <field id="IdeOpe" sequence="OpeKey" variable="IdeOpe" />
+      <field id="l1_nom" variable="Usr" />
+      <field id="l1_pas" variable="Pas" />
+      <field id="OpePas" variable="OpePas" />
+      <field id="l1_act" variable="Sta" />
+      <field id="WebPrn" variable="WebPrn" />
+      <field id="PcPrn" variable="PcPrn" />
+      <field id="EmlAdr" variable="Eml" />
+      <field id="EmlSrv" variable="EmlSrv" />
+      <field id="l1_lan" variable="Lan" />
+      <field id="l1_con" variable="Con" />
+      <field id="OpeNam" variable="Nam" />
+      <field id="IdePro" variable="Pro" />
+      <field id="IdeThm" variable="Thm" />
+      <field id="ScrIni" variable="ScrIni" />
+      <field id="Res" variable="Res" />
+      <field id="PwdLck" variable="PwdLck" />
+      <variable id="IdeOpe" type="INTEGER" name="IdeOpe" />
+      <variable id="Usr" type="STRING" name="Usr" />
+      <variable id="Pas" type="STRING_HASH_RIPEMD160" name="Pas" />
+      <variable id="OpePas" type="STRING_HASH_SHA" name="Pas" />
+      <variable id="Sta" type="INTEGER" name="Sta" />
+      <variable id="WebPrn" type="STRINGN" name="WebPrn" />
+      <variable id="PcPrn" type="STRINGN" name="PcPrn" />
+      <variable id="Eml" type="STRING" name="Eml" />
+      <variable id="EmlSrv" type="STRING" name="EmlSrv" />
+      <variable id="Lan" type="STRING" name="Lan" />
+      <variable id="Con" type="INTEGER" value="0" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="Pro" type="INTEGER" name="Pro" />
+      <variable id="Thm" type="INTEGER" name="Thm" />
+      <variable id="ScrIni" type="STRING" name="ScrIni" />
+      <variable id="Res" type="STRING" name="Res" />
+      <variable id="PwdLck" type="INTEGER" name="PwdLck" />
+    </insert>
+  </target>
+
+  <target name="UsrUpd">
+    <update>
+      <table id="ope" />
+      <field id="l1_act" variable="Sta" />
+      <field id="WebPrn" variable="WebPrn" />
+      <field id="PcPrn" variable="PcPrn" />
+      <field id="EmlAdr" variable="Eml" />
+      <field id="EmlSrv" variable="EmlSrv" />
+      <field id="l1_lan" variable="Lan" />
+      <field id="OpeNam" variable="Nam" />
+      <field id="IdePro" variable="Pro" />
+      <field id="IdeThm" variable="Thm" />
+      <field id="ScrIni" variable="ScrIni" />
+      <field id="Res" variable="Res" />
+      <field id="PwdLck" variable="PwdLck" />
+      <where>
+        <and>
+          <filter left-field="IdeOpe" condition="eq" right-variable="IdeOpe" />
+        </and>
+      </where>
+      <variable id="IdeOpe" type="INTEGER" name="IdeOpe" />
+      <variable id="Sta" type="INTEGER" name="Sta" />
+      <variable id="WebPrn" type="STRINGN" name="WebPrn" />
+      <variable id="PcPrn" type="STRINGN" name="PcPrn" />
+      <variable id="Eml" type="STRINGN" name="Eml" />
+      <variable id="EmlSrv" type="STRINGN" name="EmlSrv" />
+      <variable id="Lan" type="STRINGN" name="Lan" />
+      <variable id="Nam" type="STRINGN" name="Nam" />
+      <variable id="Pro" type="INTEGER" name="Pro" />
+      <variable id="Thm" type="INTEGER" name="Thm" />
+      <variable id="ScrIni" type="STRING" name="ScrIni" />
+      <variable id="Res" type="STRING" name="Res" />
+      <variable id="PwdLck" type="INTEGER" name="PwdLck" />
+    </update>
+    <update>
+      <table id="ope" />
+      <field id="l1_pas" variable="Pwd" />
+      <field id="OpePas" variable="OpePas" />
+      <field id="l1_psd" variable="l1_psd" />
+      <field id="PwdLck" variable="PwdLck" />
+      <field id="NumLog" variable="NumLog" />
+      <where>
+        <and>
+          <filter left-field="IdeOpe" condition="eq" right-variable="IdeOpe" />
+          <filter left-variable="one" condition="eq" right-variable="FlgPwdUpd" />
+        </and>
+      </where>
+      <variable id="IdeOpe" type="INTEGER" name="IdeOpe" />
+      <variable id="Pwd" type="STRING_HASH_RIPEMD160" name="Pas" />
+      <variable id="OpePas" type="STRING_HASH_SHA" name="Pas" />
+      <variable id="l1_psd" type="DATE" value="" />
+      <variable id="PwdLck" type="INTEGER" value="0" />
+      <variable id="NumLog" type="INTEGER" value="0" />
+      <variable id="FlgPwdUpd" type="INTEGER" name="FlgPwdUpd" />
+      <variable id="one" type="INTEGER" value="1" />
+    </update>
+  </target>
+
+  <target name="UsrUpdPwd">
+    <update>
+      <table id="ope" />
+      <field id="l1_pas" variable="Pwd" />
+      <field id="OpePas" variable="NewPwd" />
+      <where>
+        <and>
+          <filter left-field="IdeOpe" condition="eq" right-variable="Nom" />
+        </and>
+      </where>
+      <variable id="Nom" type="INTEGER" name="IdeOpe" />
+      <variable id="Pwd" type="STRING" name="Pwd" />
+      <variable id="NewPwd" type="STRING" name="NewPwd" />
+    </update>
+  </target>
+
+  <target name="ChdPwd" public="true">
+    <update>
+      <table id="ope" />
+      <field id="l1_pas" variable="l1_pas" />
+      <field id="OpePas" variable="OpePas" />
+      <field id="l1_psd" variable="SysDat" />
+      <where>
+        <and>
+          <filter left-field="l1_nom" condition="eq" right-variable="l1_nom" trim="true" />
+        </and>
+      </where>
+      <variable id="l1_nom" type="STRING" name="Usr" />
+      <variable id="l1_pas" type="STRING_HASH_RIPEMD160" name="Pas" />
+      <variable id="OpePas" type="STRING_HASH_SHA" name="Pas" />
+      <variable id="SysDat" type="SYSTEM_DATE" />
+    </update>
+  </target>
+
+  <target name="UsrDel">
+    <delete multiple="true">
+      <table id="ope" />
+      <where>
+        <and>
+          <filter left-field="IdeOpe" condition="eq" right-variable="IdeOpe" />
+        </and>
+      </where>
+      <variable id="IdeOpe" type="INTEGER" name="IdeOpe" />
+    </delete>
+  </target>
+
+
+  <!-- Modules -->
+  <target name="ModNew">
+    <insert audit="HISAweMod">
+      <table id="AweMod" />
+      <field id="IdeMod" sequence="ModKey" variable="IdeMod" />
+      <field id="Nam" variable="Nam" />
+      <field id="IdeThm" variable="Thm" />
+      <field id="ScrIni" variable="Scr" />
+      <field id="Act" variable="Act" />
+      <variable id="Nam" type="STRINGN" name="Nam" />
+      <variable id="Thm" type="INTEGER" name="Thm" />
+      <variable id="Scr" type="STRING" name="Scr" />
+      <variable id="Act" type="INTEGER" name="Act" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+    </insert>
+    <multiple grid="MdlUsrLst" audit="HISAweModOpe">
+      <table id="AweModOpe" />
+      <field id="IdeModOpe" sequence="ModOpeKey" key="true" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="IdeOpe" variable="IdeOpe" />
+      <field id="IdeThm" variable="IdeThm" />
+      <variable id="IdeModOpe" type="INTEGER" name="IdeModOpe" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeOpe" type="INTEGER" name="IdeOpe" />
+      <variable id="IdeThm" type="INTEGER" name="IdeThm" />
+    </multiple>
+    <multiple grid="MdlPrfLst" audit="HISAweModPro">
+      <table id="AweModPro" />
+      <field id="IdeModPro" sequence="ModProKey" key="true" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="IdePro" variable="IdePro" />
+      <variable id="IdeModPro" type="INTEGER" name="IdeModPro" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdePro" type="INTEGER" name="IdePro" />
+    </multiple>
+    <multiple grid="MdlSitDbsLst" audit="HISAweSitModDbs">
+      <table id="AweSitModDbs" />
+      <field id="IdeSitModDbs" sequence="SitModDbsKey" key="true" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="IdeSit" variable="IdeSit" />
+      <field id="IdeDbs" variable="IdeDbs" />
+      <field id="Ord" variable="Ord" />
+      <variable id="IdeSitModDbs" type="INTEGER" name="IdeSitModDbs" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeSit" type="INTEGER" name="IdeSit" />
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+      <variable id="Ord" type="INTEGER" name="SitModOrd" />
+    </multiple>
+  </target>
+
+  <target name="ModUpd">
+    <update audit="HISAweMod">
+      <table id="AweMod" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="Nam" variable="Nam" />
+      <field id="ScrIni" variable="ScrIni" />
+      <field id="IdeThm" variable="IdeThm" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="IdeMod" condition="eq" right-variable="IdeMod" />
+        </and>
+      </where>
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="Nam" type="STRINGN" name="Nam" />
+      <variable id="IdeThm" type="INTEGER" name="Thm" />
+      <variable id="ScrIni" type="STRING" name="Scr" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </update>
+    <multiple audit="HISAweModOpe" grid="MdlUsrLst">
+      <table id="AweModOpe" />
+      <field id="IdeModOpe" variable="IdeModOpe" sequence="ModOpeKey" key="true" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="IdeOpe" variable="IdeOpe" />
+      <field id="IdeThm" variable="IdeThm" />
+      <variable id="IdeModOpe" type="INTEGER" name="IdeModOpe" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeOpe" type="INTEGER" name="IdeOpe" />
+      <variable id="IdeThm" type="INTEGER" name="IdeThm" />
+    </multiple>
+    <multiple audit="HISAweModPro" grid="MdlPrfLst">
+      <table id="AweModPro" />
+      <field id="IdeModPro" variable="IdeModPro" sequence="ModProKey" key="true" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="IdePro" variable="IdePro" />
+      <variable id="IdeModPro" type="INTEGER" name="IdeModPro" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdePro" type="INTEGER" name="IdePro" />
+    </multiple>
+    <multiple audit="HISAweSitModDbs" grid="MdlSitDbsLst">
+      <table id="AweSitModDbs" />
+      <field id="IdeSitModDbs" variable="IdeSitModDbs" sequence="SitModDbsKey" key="true" />
+      <field id="IdeSit" variable="IdeSit" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="IdeDbs" variable="IdeDbs" />
+      <field id="Ord" variable="Ord" />
+      <variable id="IdeSitModDbs" type="INTEGER" name="IdeSitModDbs" />
+      <variable id="IdeSit" type="INTEGER" name="IdeSit" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+      <variable id="Ord" type="INTEGER" name="SitModOrd" />
+    </multiple>
+  </target>
+
+  <target name="ModDel">
+    <delete multiple="true" audit="HISAweModOpe">
+      <table id="AweModOpe" />
+      <field id="IdeMod" variable="IdeMod" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeMod" condition="eq" right-variable="IdeMod" />
+        </and>
+      </where>
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+    </delete>
+    <delete multiple="true" audit="HISAweModPro">
+      <table id="AweModPro" />
+      <field id="IdeMod" variable="IdeMod" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeMod" condition="eq" right-variable="IdeMod" />
+        </and>
+      </where>
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+    </delete>
+    <delete multiple="true" audit="HISAweSitModDbs">
+      <table id="AweSitModDbs" />
+      <field id="IdeMod" variable="IdeMod" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeMod" condition="eq" right-variable="IdeMod" />
+        </and>
+      </where>
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+    </delete>
+    <delete multiple="true" audit="HISAweMod">
+      <table id="AweMod" />
+      <field id="IdeMod" variable="IdeMod" audit="true" />
+      <field id="Nam" variable="Nam" audit="true" />
+      <field id="ScrIni" variable="ScrIni" audit="true" />
+      <field id="IdeThm" variable="IdeThm" audit="true" />
+      <field id="Act" variable="Act" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeMod" condition="eq" right-variable="IdeMod" />
+        </and>
+      </where>
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="IdeThm" type="INTEGER" name="IdeThm" />
+      <variable id="ScrIni" type="STRINGN" name="ScrIni" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </delete>
+  </target>
+
+  <!-- Sites -->
+  <target name="SitNew">
+    <insert audit="HISAweSit">
+      <table id="AweSit" />
+      <field id="IdeSit" sequence="SitKey" variable="IdeSit" />
+      <field id="Nam" variable="Nam" />
+      <field id="Ord" variable="Ord" />
+      <field id="Act" variable="Act" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="Ord" type="INTEGER" name="Ord" />
+      <variable id="Act" type="INTEGER" name="Act" />
+      <variable id="IdeSit" type="INTEGER" name="IdeSit" />
+    </insert>
+    <multiple audit="HISAweSitModDbs" grid="SitModDbsLst">
+      <table id="AweSitModDbs" />
+      <field id="IdeSitModDbs" sequence="SitModDbsKey" key="true" />
+      <field id="IdeSit" variable="IdeSit" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="IdeDbs" variable="IdeDbs" />
+      <field id="Ord" variable="Order" />
+      <variable id="IdeSitModDbs" type="INTEGER" name="IdeSitModDbs" />
+      <variable id="IdeSit" type="INTEGER" name="IdeSit" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+      <variable id="Order" type="INTEGER" name="Order" />
+    </multiple>
+  </target>
+
+  <target name="SitUpd">
+    <update audit="HISAweSit">
+      <table id="AweSit" />
+      <field id="IdeSit" variable="IdeSit" />
+      <field id="Nam" variable="Nam" />
+      <field id="Ord" variable="OrdCrt" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="IdeSit" condition="eq" right-variable="IdeSit" />
+        </and>
+      </where>
+      <variable id="IdeSit" type="INTEGER" name="IdeSit" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="OrdCrt" type="INTEGER" name="OrdCrt" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </update>
+
+    <multiple audit="HISAweSitModDbs" grid="SitModDbsLst">
+      <table id="AweSitModDbs" />
+      <field id="IdeSitModDbs" variable="IdeSitModDbs" sequence="SitModDbsKey" key="true" />
+      <field id="IdeSit" variable="IdeSit" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="IdeDbs" variable="IdeDbs" />
+      <field id="Ord" variable="Ord" />
+      <variable id="IdeSitModDbs" type="INTEGER" name="IdeSitModDbs" />
+      <variable id="IdeSit" type="INTEGER" name="IdeSit" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+      <variable id="Ord" type="INTEGER" name="Ord" />
+    </multiple>
+  </target>
+
+  <target name="SitDel">
+    <delete multiple="true" audit="HISAweSitModDbs">
+      <table id="AweSitModDbs" />
+      <field id="IdeSit" variable="IdeSit" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeSit" condition="eq" right-variable="IdeSit" />
+        </and>
+      </where>
+      <variable id="IdeSit" type="INTEGER" name="IdeSit" />
+    </delete>
+    <delete multiple="true" audit="HISAweSit">
+      <table id="AweSit" />
+      <field id="IdeSit" variable="IdeSit" audit="true" />
+      <field id="Nam" variable="Nam" audit="true" />
+      <field id="Ord" variable="Ord" audit="true" />
+      <field id="Act" variable="Act" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeSit" condition="eq" right-variable="IdeSit" />
+        </and>
+      </where>
+      <variable id="IdeSit" type="INTEGER" name="IdeSit" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="Ord" type="INTEGER" name="Ord" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </delete>
+  </target>
+
+  <!-- Profiles -->
+  <target name="ProNew">
+    <insert audit="HISAwePro">
+      <table id="AwePro" />
+      <field id="IdePro" sequence="ProKey" />
+      <field id="Acr" variable="Acr" />
+      <field id="Nam" variable="Nam" />
+      <field id="IdeThm" variable="IdeThm" />
+      <field id="ScrIni" variable="ScrIni" />
+      <field id="Res" variable="Res" />
+      <field id="Act" variable="Act" />
+      <variable id="Acr" type="STRINGN" name="Acr" />
+      <variable id="Nam" type="STRINGN" name="Nam" />
+      <variable id="IdeThm" type="INTEGER" name="IdeThm" />
+      <variable id="ScrIni" type="STRING" name="ScrIni" />
+      <variable id="Res" type="STRING" name="Res" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </insert>
+  </target>
+
+  <target name="ProUpd">
+    <update audit="HISAwePro">
+      <table id="AwePro" />
+      <field id="IdePro" variable="IdePro" />
+      <field id="Acr" variable="Acr" />
+      <field id="Nam" variable="Nam" />
+      <field id="IdeThm" variable="IdeThm" />
+      <field id="ScrIni" variable="ScrIni" />
+      <field id="Res" variable="Res" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="IdePro" condition="eq" right-variable="IdePro" />
+        </and>
+      </where>
+      <variable id="IdePro" type="INTEGER" name="IdePro" />
+      <variable id="Acr" type="STRINGN" name="Acr" />
+      <variable id="Nam" type="STRINGN" name="Nam" />
+      <variable id="IdeThm" type="INTEGER" name="IdeThm" />
+      <variable id="ScrIni" type="STRING" name="ScrIni" />
+      <variable id="Res" type="STRING" name="Res" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </update>
+  </target>
+
+  <target name="ProDel">
+    <delete multiple="true" audit="HISAweModPro">
+      <table id="AweModPro" />
+      <field id="IdePro" variable="IdePro" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdePro" condition="eq" right-variable="IdePro" />
+        </and>
+      </where>
+      <variable id="IdePro" type="INTEGER" name="IdePro" />
+    </delete>
+    <delete multiple="true" audit="HISAweScrRes">
+      <table id="AweScrRes" />
+      <field id="IdePro" variable="IdePro" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdePro" condition="eq" right-variable="IdePro" />
+        </and>
+      </where>
+      <variable id="IdePro" type="INTEGER" name="IdePro" />
+    </delete>
+    <delete multiple="audit" audit="HISAwePro">
+      <table id="AwePro" />
+      <field id="IdePro" variable="IdePro" audit="true" />
+      <field id="Acr" variable="Acr" audit="true" />
+      <field id="Nam" variable="Nam" audit="true" />
+      <field id="IdeThm" variable="IdeThm" audit="true" />
+      <field id="ScrIni" variable="ScrIni" audit="true" />
+      <field id="Res" variable="Res" audit="true" />
+      <field id="Act" variable="Act" audit="true" />
+      <where>
+        <and>
+          <!--<filter field="IdePro" condition="eq" variable="IdePro"/>-->
+          <filter left-field="IdePro" condition="in" right-variable="IdePro" />
+        </and>
+      </where>
+      <variable id="IdePro" type="INTEGER" name="IdePro" />
+      <variable id="Acr" type="STRING" name="Acr" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="IdeThm" type="INTEGER" name="IdeThm" />
+      <variable id="ScrIni" type="STRINGN" name="ScrIni" />
+      <variable id="Res" type="STRINGN" name="Res" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </delete>
+  </target>
+
+  <!-- Screen Access Multiple -->
+  <target name="updateScreenRestriction">
+    <multiple audit="HISAweScrRes" grid="GrdScrAccLst">
+      <table id="AweScrRes" />
+      <field id="IdeAweScrRes" variable="IdeAweScrRes" sequence="ScrResKey" key="true" />
+      <field id="IdePro" variable="IdePro" />
+      <field id="IdeOpe" variable="IdeOpe" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="Opt" variable="Opt" />
+      <field id="AccMod" variable="AccMod" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeAweScrRes" type="INTEGER" name="IdeAweScrRes" />
+      <variable id="IdeOpe" type="INTEGER" name="IdeOpe"/>
+      <variable id="IdePro" type="INTEGER" name="IdePro"/>
+      <variable id="IdeMod" type="INTEGER" name="IdeMod"/>
+      <variable id="Opt" type="STRING" name="Opt" />
+      <variable id="AccMod" type="STRING" name="AccMod" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </multiple>
+  </target>
+
+  <!-- Screen configuration Multiple -->
+  <target name="updateScreenConfiguration">
+    <multiple grid="GrdScrCnf">
+      <table id="AweScrCnf" />
+      <field id="IdeAweScrCnf" variable="IdeAweScrCnf" sequence="ScrCnfKey" key="true" />
+      <field id="IdeOpe" variable="IdeOpe" />
+      <field id="IdePro" variable="IdePro" />
+      <field id="Scr" variable="Scr" />
+      <field id="Nam" variable="Nam" />
+      <field id="Atr" variable="Atr" />
+      <field id="Val" variable="Val" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeAweScrCnf" type="INTEGER" name="IdeAweScrCnf" />
+      <variable id="IdeOpe" type="INTEGER" name="IdeOpe"/>
+      <variable id="IdePro" type="INTEGER" name="IdePro"/>
+      <variable id="Scr" type="STRING" name="Scr" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="Atr" type="STRING" name="Atr" />
+      <variable id="Val" type="STRING" name="Val" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </multiple>
+  </target>
+
+  <!-- Clear profile Cache -->
+  <target name="ClrCchPrf">
+    <serve service="ClrCch">
+      <variable id="cache" type="STRING" value="PROFILE" />
+    </serve>
+  </target>
+
+  <!-- AweKey Update Multiple -->
+  <target name="AweKeyUpd">
+    <multiple grid="GrdKeyLst">
+      <table id="AweKey" />
+      <field id="KeyNam" variable="KeyNam" key="true" />
+      <field id="KeyVal" variable="KeyVal" />
+      <field id="Act" variable="Act" />
+      <variable id="KeyNam" type="STRING" name="KeyNam" />
+      <variable id="KeyVal" type="INTEGER" name="KeyVal" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </multiple>
+  </target>
+
+  <!-- AweAppPar Application parameters -->
+  <target name="AweAppParMul">
+    <multiple grid="GrdAppParLst" audit="HISAweAppPar">
+      <table id="AweAppPar" />
+      <field id="IdeAweAppPar" variable="IdeAweAppPar" sequence="AppParKey" key="true" />
+      <field id="ParNam" variable="ParNam" />
+      <field id="ParVal" variable="ParVal" />
+      <field id="Cat" variable="Cat" />
+      <field id="Des" variable="Des" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeAweAppPar" type="INTEGER" name="IdeAweAppPar" />
+      <variable id="ParNam" type="STRING" name="ParNam" />
+      <variable id="ParVal" type="STRING" name="ParVal" />
+      <variable id="Cat" type="INTEGER" name="Cat" />
+      <variable id="Des" type="STRING" name="Des" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </multiple>
+  </target>
+
+  <!-- Security application parameters -->
+  <target name="AppParSecUpd">
+    <update audit="HISAweAppPar">
+      <table id="AweAppPar" />
+      <field id="ParVal" variable="ParVal" />
+      <where>
+        <and>
+          <filter left-field="ParNam" condition="eq" right-variable="Val" />
+        </and>
+      </where>
+      <variable id="Val" type="STRING" value="PwdExp" />
+      <variable id="ParVal" type="STRING" name="CrtPwdExp" />
+    </update>
+    <update audit="HISAweAppPar">
+      <table id="AweAppPar" />
+      <field id="ParVal" variable="ParVal" />
+      <where>
+        <and>
+          <filter left-field="ParNam" condition="eq" right-variable="Val" />
+        </and>
+      </where>
+      <variable id="Val" type="STRING" value="PwdMaxNumLog" />
+      <variable id="ParVal" type="STRING" name="CrtNumLog" />
+    </update>
+    <update audit="HISAweAppPar">
+      <table id="AweAppPar" />
+      <field id="ParVal" variable="ParVal" />
+      <where>
+        <and>
+          <filter left-field="ParNam" condition="eq" right-variable="Val" />
+        </and>
+      </where>
+      <variable id="Val" type="STRING" value="MinPwd" />
+      <variable id="ParVal" type="STRING" name="CrtPwdMin" />
+    </update>
+    <update audit="HISAweAppPar">
+      <table id="AweAppPar" />
+      <field id="ParVal" variable="ParVal" />
+      <where>
+        <and>
+          <filter left-field="ParNam" condition="eq" right-variable="Val" />
+        </and>
+      </where>
+      <variable id="Val" type="STRING" value="PwdPat" />
+      <variable id="ParVal" type="STRING" name="CrtPwdPat" />
+    </update>
+  </target>
+
+  <!-- Themes -->
+  <target name="ThmNew">
+    <insert audit="HISAweThm">
+      <table id="AweThm" />
+      <field id="IdeThm" sequence="ThmKey" />
+      <field id="Nam" variable="Nam" />
+      <variable id="Nam" type="STRINGN" name="Nam" />
+    </insert>
+  </target>
+
+  <target name="ThmUpd">
+    <update audit="HISAweThm">
+      <table id="AweThm" />
+      <field id="IdeThm" variable="IdeThm" audit="true" />
+      <field id="Nam" variable="Nam" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="IdeThm" condition="eq" right-variable="IdeThm" />
+        </and>
+      </where>
+      <variable id="IdeThm" type="INTEGER" name="IdeThm" />
+      <variable id="Nam" type="STRINGN" name="Nam" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </update>
+  </target>
+
+  <target name="ThmDel">
+    <delete multiple="true" audit="HISAweThm">
+      <table id="AweThm" />
+      <field id="IdeThm" variable="IdeThm" audit="true" />
+      <field id="Nam" variable="Nam" audit="true" />
+      <field id="Act" variable="Act" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeThm" condition="eq" right-variable="IdeThm" />
+        </and>
+      </where>
+      <variable id="IdeThm" type="INTEGER" name="IdeThm" />
+      <variable id="Nam" type="STRINGN" name="Nam" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </delete>
+  </target>
+
+  <!-- Data base connections -->
+  <target name="DbsNew">
+    <insert audit="HISAweDbs">
+      <table id="AweDbs" />
+      <field id="IdeDbs" sequence="DbsKey" variable="IdeDbs" />
+      <field id="Als" variable="Als" />
+      <field id="Des" variable="Des" />
+      <field id="Dct" variable="Dct" />
+      <field id="Typ" variable="Typ" />
+      <field id="Dbt" variable="Dbt" />
+      <field id="Dbc" variable="Dbc" />
+      <field id="Drv" variable="Drv" />
+      <field id="DbsUsr" variable="DbsUsr" />
+      <field id="DbsPwd" variable="DbsPwd" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+      <variable id="Als" type="STRING" name="Als" />
+      <variable id="Des" type="STRING" name="Des" />
+      <variable id="Dct" type="STRING" name="Dct" />
+      <variable id="Dbt" type="STRING" name="Dbt" />
+      <variable id="Typ" type="STRING" name="Typ" />
+      <variable id="Dbc" type="STRING" name="Dbc" />
+      <variable id="Drv" type="STRING" name="Drv" />
+      <variable id="DbsUsr" type="STRING" name="DbsUsr" />
+      <variable id="DbsPwd" type="STRING_ENCRYPT" name="DbsPwd" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </insert>
+    <multiple audit="HISAweSitModDbs" grid="SitModDbsLst">
+      <table id="AweSitModDbs" />
+      <field id="IdeSitModDbs" sequence="SitModDbsKey" key="true" />
+      <field id="IdeSit" variable="IdeSit" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="IdeDbs" variable="IdeDbs" />
+      <field id="Ord" variable="Ord" />
+      <variable id="IdeSitModDbs" type="INTEGER" name="IdeSitModDbs" />
+      <variable id="IdeSit" type="INTEGER" name="IdeSit" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+      <variable id="Ord" type="INTEGER" name="Ord" />
+    </multiple>
+    <commit />
+    <serve service="ReloadDatabaseConnections" />
+  </target>
+
+  <target name="DbsUpd">
+    <update audit="HISAweDbs">
+      <table id="AweDbs" />
+      <field id="IdeDbs" variable="IdeDbs" audit="true" />
+      <field id="Als" variable="Als" />
+      <field id="Des" variable="Des" />
+      <field id="Dct" variable="Dct" />
+      <field id="Typ" variable="Typ" />
+      <field id="Dbt" variable="Dbt" />
+      <field id="Dbc" variable="Dbc" />
+      <field id="Drv" variable="Drv" />
+      <field id="DbsUsr" variable="DbsUsr" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="IdeDbs" condition="eq" right-variable="IdeDbs" />
+        </and>
+      </where>
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+      <variable id="Als" type="STRING" name="Als" />
+      <variable id="Des" type="STRINGN" name="Des" />
+      <variable id="Dct" type="STRING" name="Dct" />
+      <variable id="Typ" type="STRING" name="Typ" />
+      <variable id="Dbt" type="STRING" name="Dbt" />
+      <variable id="Dbc" type="STRING" name="Dbc" />
+      <variable id="Drv" type="STRING" name="Drv" />
+      <variable id="DbsUsr" type="STRING" name="DbsUsr" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </update>
+    <update audit="HISAweDbs">
+      <table id="AweDbs" />
+      <field id="DbsPwd" variable="DbsPwd" />
+      <where>
+        <and>
+          <filter left-variable="one" condition="eq" right-variable="FlgPwd" />
+          <filter left-field="IdeDbs" condition="eq" right-variable="IdeDbs" />
+        </and>
+      </where>
+      <variable id="FlgPwd" type="INTEGER" name="FlgPwd" />
+      <variable id="DbsPwd" type="STRING_ENCRYPT" name="DbsPwd" />
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+      <variable id="one" type="INTEGER" value="1" />
+    </update>
+    <multiple audit="HISAweSitModDbs" grid="SitModDbsLst">
+      <table id="AweSitModDbs" />
+      <field id="IdeSitModDbs" variable="IdeSitModDbs" sequence="SitModDbsKey" key="true" />
+      <field id="IdeSit" variable="IdeSit" />
+      <field id="IdeMod" variable="IdeMod" />
+      <field id="IdeDbs" variable="IdeDbs" />
+      <field id="Ord" variable="Ord" />
+      <variable id="IdeSitModDbs" type="INTEGER" name="IdeSitModDbs" />
+      <variable id="IdeSit" type="INTEGER" name="IdeSit" />
+      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+      <variable id="Ord" type="INTEGER" name="Ord" />
+    </multiple>
+    <commit />
+    <serve service="ReloadDatabaseConnections" />
+  </target>
+
+  <target name="DbsDel">
+    <delete multiple="true" audit="HISAweSitModDbs">
+      <table id="AweSitModDbs" />
+      <field id="IdeDbs" variable="IdeDbs" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeDbs" condition="eq" right-variable="IdeDbs" />
+        </and>
+      </where>
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+    </delete>
+    <delete multiple="true" audit="HISAweDbs">
+      <table id="AweDbs" />
+      <field id="IdeDbs" variable="IdeDbs" audit="true" />
+      <field id="Als" variable="Als" audit="true" />
+      <field id="Des" variable="Des" audit="true" />
+      <field id="Dct" variable="Dct" audit="true" />
+      <field id="Typ" variable="Typ" audit="true" />
+      <field id="Dbt" variable="Dbt" audit="true" />
+      <field id="Dbc" variable="Dbc" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeDbs" condition="eq" right-variable="IdeDbs" />
+        </and>
+      </where>
+      <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
+      <variable id="Als" type="STRING" name="Als" />
+      <variable id="Des" type="STRINGN" name="Des" />
+      <variable id="Dct" type="STRING" name="Dct" />
+      <variable id="Dbt" type="STRING" name="Dbt" />
+      <variable id="Typ" type="STRING" name="Typ" />
+      <variable id="Dbc" type="STRING" name="Dbc" />
+    </delete>
+    <commit />
+    <serve service="ReloadDatabaseConnections" />
+  </target>
+
+  <!-- System Options -->
+  <target name="OptUpd">
+    <serve service="UpdAppOpt">
+      <variable id="ide" type="STRING" name="Opt" />
+      <variable id="val" type="STRING" name="Val" />
+      <variable id="pas" type="STRING" name="Pas" />
+      <variable id="dat" type="STRING" name="Dat" />
+    </serve>
+  </target>
+
+  <!-- Manage User Login process -->
+  <target name="loginUser">
+    <!-- Register loggin in dabase -->
+    <update>
+      <table id="ope" />
+      <field id="l1_con" variable="Con" />
+      <field id="l1_dat" variable="SysDat" />
+      <where>
+        <and>
+          <filter left-field="l1_nom" condition="eq" right-variable="Usr" ignorecase="true" />
+        </and>
+      </where>
+      <variable id="Con" type="INTEGER" value="1" />
+      <variable id="SysDat" type="SYSTEM_DATE" />
+      <variable id="Usr" type="STRING" session="user" />
+    </update>
+  </target>
+
+  <!-- Manage User Login process -->
+  <target name="logoutUser">
+    <!-- Register logout from dabase -->
+    <update>
+      <table id="ope" />
+      <field id="l1_con" variable="Con" />
+      <field id="l1_dat" variable="SysDat" />
+      <where>
+        <and>
+          <filter left-field="l1_nom" condition="eq" right-variable="Usr" ignorecase="true" />
+        </and>
+      </where>
+      <variable id="Con" type="INTEGER" value="0" />
+      <variable id="SysDat" type="SYSTEM_DATE" />
+      <variable id="Usr" type="STRING" session="user" />
+    </update>
+  </target>
+
+  <!-- Manage User Login process -->
+  <target name="MgrUsrLogIn">
+    <!-- Register loggin in dabase -->
+    <update>
+      <table id="ope" />
+      <field id="l1_con" variable="Con" />
+      <field id="l1_dat" variable="SysDat" />
+      <where>
+        <and>
+          <filter left-field="l1_nom" condition="eq" right-variable="Usr" ignorecase="true" />
+        </and>
+      </where>
+      <variable id="Con" type="INTEGER" value="1" />
+      <variable id="SysDat" type="SYSTEM_DATE" />
+      <variable id="Usr" type="STRING" session="user" />
+    </update>
+  </target>
+
+  <!-- Manage User as logged out -->
+  <target name="MgrUsrLogOut" public="true">
+    <!-- Mark User as logged out -->
+    <update>
+      <table id="ope" />
+      <field id="l1_con" variable="Con" />
+      <field id="l1_dat" variable="SysDat" />
+      <where>
+        <and>
+          <filter left-field="l1_nom" condition="eq" right-variable="Usr" ignorecase="true" />
+        </and>
+      </where>
+      <variable id="Con" type="INTEGER" value="0" />
+      <variable id="SysDat" type="SYSTEM_DATE" />
+      <variable id="Usr" type="STRING" session="user"/>
+    </update>
+  </target>
+
+  <!-- Send reports by e-mail -->
+  <target name="SndRep">
+    <send-email id="SndRep" />
+  </target>
+
+  <target name="EmlActUsr">
+    <send-email id="EmlActUsr" />
+  </target>
+
+  <target name="MsgUsr">
+    <serve service="sendMessageToUser">
+      <variable id="target" type="STRINGN" name="MsgTar" />
+      <variable id="message" type="STRING" name="MsgDes" />
+    </serve>
+  </target>
+
+  <target name="AppInf">
+    <serve service="AppInf" />
+  </target>
+
+  <!-- STORE SESSION VARIABLE 'date' (sample)
+  <target name="SesVarDat">
+    <serve service="storeSessionString">
+      <variable id="name" type="STRING" value="date"/>
+      <variable id="value" type="STRING" name="date"/>
+    </serve>
+  </target>
+  -->
+
+  <!-- STORE SESSION VARIABLE 'module' -->
+  <target name="SesVarMod">
+    <serve service="storeSessionString">
+      <variable id="name" type="STRING" value="module" />
+      <variable id="value" type="STRING" name="module" />
+    </serve>
+  </target>
+
+  <!-- STORE SESSION VARIABLE 'site' -->
+  <target name="SesVarSit">
+    <serve service="storeSessionString">
+      <variable id="name" type="STRING" value="site" />
+      <variable id="value" type="STRING" name="site" />
+    </serve>
+  </target>
+
+  <!-- STORE SESSION VARIABLE 'database' -->
+  <target name="SesVarDbs">
+    <serve service="storeSessionString">
+      <variable id="name" type="STRING" value="database" />
+      <variable id="value" type="STRING" name="database" />
+    </serve>
+    <serve service="LogChgDbs">
+      <variable id="database" type="STRING" session="database" />
+    </serve>
+  </target>
+
+  <!-- STORE SESSION VARIABLE 'language' -->
+  <target name="SesVarLan">
+    <serve service="changeLanguage">
+      <variable id="language" type="STRING" name="language" />
+    </serve>
+  </target>
+
+  <!-- STORE SESSION VARIABLE 'theme' -->
+  <target name="SesVarThm">
+    <serve service="storeSessionString">
+      <variable id="name" type="STRING" value="theme" />
+      <variable id="value" type="STRING" name="theme" />
+    </serve>
+  </target>
+
+  <!-- Style configuration Multiple -->
+  <target name="StlCnfMul">
+    <multiple grid="GrdStlCnf">
+      <table id="AweStlCnf" />
+      <field id="IdeAweStlCnf" variable="IdeAweStlCnf" sequence="StlCnfKey" key="true" />
+      <field id="IdeOpe" variable="IdeOpe" />
+      <field id="IdePro" variable="IdePro" />
+      <field id="Stl" variable="Stl" />
+      <field id="Fnt" variable="Fnt" />
+      <field id="FntSiz" variable="FntSiz" />
+      <field id="BckCol" variable="BckCol" />
+      <field id="TxtCol" variable="TxtCol" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeAweStlCnf" type="INTEGER" name="IdeAweStlCnf" />
+      <variable id="IdeOpe" type="INTEGER" name="IdeOpe"/>
+      <variable id="IdePro" type="INTEGER" name="IdePro"/>
+      <variable id="Stl" type="STRING" name="Stl" />
+      <variable id="Fnt" type="STRING" name="Fnt" />
+      <variable id="FntSiz" type="INTEGER" name="FntSiz" />
+      <variable id="BckCol" type="STRING" name="BckCol" />
+      <variable id="TxtCol" type="STRING" name="TxtCol" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </multiple>
+    <commit />
+  </target>
+
+  <!-- Update count loggin -->
+  <target name="UpdCntLog" public="true">
+    <update>
+      <table id="ope" />
+      <field id="NumLog" variable="NumLog" />
+      <where>
+        <and>
+          <filter left-field="l1_nom" condition="eq" right-variable="Usr" ignorecase="true" />
+        </and>
+      </where>
+      <variable id="Usr" type="STRING" name="Usr" />
+      <variable id="NumLog" type="INTEGER" name="UpdCntLog" />
+    </update>
+  </target>
+
+  <!-- Update flag password blocked -->
+  <target name="UpdPwdLck" public="true">
+    <update>
+      <table id="ope" />
+      <field id="PwdLck" variable="PwdLck" />
+      <where>
+        <and>
+          <filter left-field="l1_nom" condition="eq" right-variable="Usr" ignorecase="true" />
+        </and>
+      </where>
+      <variable id="Usr" type="STRING" name="Usr" />
+      <variable id="PwdLck" type="INTEGER" name="PwdLck" />
+    </update>
+  </target>
+
+  <!-- EMAIL SERVER -->
+  <target name="EmlSrvNew">
+    <insert audit="HISAweEmlSrv">
+      <table id="AweEmlSrv" />
+      <field id="IdeAweEmlSrv" sequence="EmlSrvKey" variable="IdeAweEmlSrv" />
+      <field id="SrvNam" variable="SrvNam" />
+      <field id="Hst" variable="Hst" />
+      <field id="Ath" variable="Ath" />
+      <field id="EmlUsr" variable="EmlUsr" />
+      <field id="EmlPwd" variable="EmlPwd" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeAweEmlSrv" type="INTEGER" name="IdeAweEmlSrv" />
+      <variable id="SrvNam" type="STRING" name="SrvNam" />
+      <variable id="Hst" type="STRING" name="Hst" />
+      <variable id="Ath" type="INTEGER" name="Ath" />
+      <variable id="EmlUsr" type="STRING" name="EmlUsr" />
+      <variable id="EmlPwd" type="STRING_ENCRYPT" name="EmlPwd" />
+      <variable id="Act" type="INTEGER" name="Act" value="1" />
+    </insert>
+  </target>
+
+  <target name="EmlSrvDel">
+    <delete audit="HISAweEmlSrv" multiple="true">
+      <table id="AweEmlSrv" />
+      <field id="IdeAweEmlSrv" variable="IdeAweEmlSrv" audit="true" />
+      <field id="SrvNam" variable="SrvNam" audit="true" />
+      <field id="Hst" variable="Hst" audit="true" />
+      <field id="Ath" variable="Ath" audit="true" />
+      <field id="EmlUsr" variable="EmlUsr" audit="true" />
+      <field id="EmlPwd" variable="EmlPwd" audit="true" />
+      <field id="Act" variable="Act" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeAweEmlSrv" condition="eq" right-variable="IdeAweEmlSrv" />
+        </and>
+      </where>
+      <variable id="IdeAweEmlSrv" type="INTEGER" name="IdeAweEmlSrv" />
+      <variable id="SrvNam" type="STRING" name="SrvNam" />
+      <variable id="Hst" type="STRING" name="Hst" />
+      <variable id="Ath" type="INTEGER" name="Ath" />
+      <variable id="EmlUsr" type="STRING" name="EmlUsr" />
+      <variable id="EmlPwd" type="STRING" name="EmlPwd" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </delete>
+  </target>
+
+  <target name="EmlSrvUpd">
+    <update audit="HISAweEmlSrv">
+      <table id="AweEmlSrv" />
+      <field id="SrvNam" variable="SrvNam" />
+      <field id="Hst" variable="Hst" />
+      <field id="Ath" variable="Ath" />
+      <field id="EmlUsr" variable="EmlUsr" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="IdeAweEmlSrv" condition="eq" right-variable="IdeAweEmlSrv" />
+        </and>
+      </where>
+      <variable id="IdeAweEmlSrv" type="INTEGER" name="IdeAweEmlSrv" />
+      <variable id="SrvNam" type="STRING" name="SrvNam" />
+      <variable id="Hst" type="STRING" name="Hst" />
+      <variable id="Ath" type="INTEGER" name="Ath" />
+      <variable id="EmlUsr" type="STRINGN" name="EmlUsr" />
+      <variable id="EmlPwd" type="STRING_ENCRYPT" name="EmlPwd" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </update>
+    <update>
+      <table id="AweEmlSrv" />
+      <field id="EmlPwd" variable="EmlPwd" />
+      <where>
+        <and>
+          <filter left-field="IdeAweEmlSrv" condition="eq" right-variable="IdeAweEmlSrv" />
+          <filter left-variable="one" condition="eq" right-variable="FlgPwdUpd" />
+        </and>
+      </where>
+      <variable id="IdeAweEmlSrv" type="INTEGER" name="IdeAweEmlSrv" />
+      <variable id="EmlPwd" type="STRING_ENCRYPT" name="EmlPwd" />
+      <variable id="FlgPwdUpd" type="INTEGER" name="FlgPwdUpd" />
+      <variable id="one" type="INTEGER" value="1" />
+    </update>
+  </target>
+
+  <!-- QUEUE MESSAGES MAINTAINS -->
+  <target name="QueNew">
+    <insert audit="HISAweQue">
+      <table id="AweQue" />
+      <field id="IdeAweQue" sequence="JmsKey" variable="IdeAweQue" />
+      <field id="Als" variable="Als" />
+      <field id="Des" variable="Des" />
+      <field id="QueTyp" variable="QueTyp" />
+      <field id="ConTyp" variable="ConTyp" />
+      <field id="JmsBrk" variable="JmsBrk" />
+      <field id="JmsUsr" variable="JmsUsr" />
+      <field id="JmsPwd" variable="JmsPwd" />
+      <field id="DstNam" variable="DstNam" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeAweQue" type="INTEGER" name="IdeAweQue" />
+      <variable id="Als" type="STRING" name="Als" />
+      <variable id="Des" type="STRING" name="Des" />
+      <variable id="QueTyp" type="STRING" name="QueTyp" />
+      <variable id="ConTyp" type="STRING" name="ConTyp" />
+      <variable id="JmsBrk" type="STRING" name="JmsBrk" />
+      <variable id="JmsUsr" type="STRING" name="JmsUsr" />
+      <variable id="JmsPwd" type="STRING_ENCRYPT" name="JmsPwd" />
+      <variable id="DstNam" type="STRING" name="DstNam" />
+      <variable id="Act" type="INTEGER" name="Act" value="1" />
+    </insert>
+    <commit />
+    <serve service="RelJmsCon" />
+  </target>
+
+  <target name="QueUpd">
+    <update audit="HISAweQue">
+      <table id="AweQue" />
+      <field id="Als" variable="Als" />
+      <field id="Des" variable="Des" />
+      <field id="QueTyp" variable="QueTyp" />
+      <field id="ConTyp" variable="ConTyp" />
+      <field id="JmsBrk" variable="JmsBrk" />
+      <field id="JmsUsr" variable="JmsUsr" />
+      <field id="JmsPwd" variable="JmsPwd" />
+      <field id="DstNam" variable="DstNam" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="IdeAweQue" condition="eq" right-variable="IdeAweQue" />
+        </and>
+      </where>
+      <variable id="IdeAweQue" type="INTEGER" name="IdeAweQue" />
+      <variable id="Als" type="STRING" name="Als" />
+      <variable id="Des" type="STRING" name="Des" />
+      <variable id="QueTyp" type="STRING" name="QueTyp" />
+      <variable id="ConTyp" type="STRING" name="ConTyp" />
+      <variable id="JmsBrk" type="STRING" name="JmsBrk" />
+      <variable id="JmsUsr" type="STRING" name="JmsUsr" />
+      <variable id="JmsPwd" type="STRING_ENCRYPT" name="JmsPwd" />
+      <variable id="DstNam" type="STRING" name="DstNam" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </update>
+    <update>
+      <table id="AweQue" />
+      <field id="JmsPwd" variable="JmsPwd" />
+      <where>
+        <and>
+          <filter left-field="IdeAweQue" condition="eq" right-variable="IdeAweQue" />
+          <filter left-variable="one" condition="eq" right-variable="FlgPwdUpd" />
+        </and>
+      </where>
+      <variable id="IdeAweQue" type="INTEGER" name="IdeAweQue" />
+      <variable id="JmsPwd" type="STRING_ENCRYPT" name="JmsPwd" />
+      <variable id="FlgPwdUpd" type="INTEGER" name="FlgPwdUpd" />
+      <variable id="one" type="INTEGER" value="1" />
+    </update>
+    <commit />
+    <serve service="RelJmsCon" />
+  </target>
+
+  <target name="QueDel">
+    <delete audit="HISAweQue" multiple="true">
+      <table id="AweQue" />
+      <field id="IdeAweQue" variable="IdeAweQue" audit="true" />
+      <field id="Als" variable="Als" audit="true" />
+      <field id="Des" variable="Des" audit="true" />
+      <field id="QueTyp" variable="QueTyp" audit="true" />
+      <field id="ConTyp" variable="ConTyp" audit="true" />
+      <field id="JmsBrk" variable="JmsBrk" audit="true" />
+      <field id="JmsUsr" variable="JmsUsr" audit="true" />
+      <field id="JmsPwd" variable="JmsPwd" audit="true" />
+      <field id="DstNam" variable="DstNam" audit="true" />
+      <field id="Act" variable="Act" audit="true" />
+      <where>
+        <and>
+          <filter left-field="IdeAweQue" condition="eq" right-variable="IdeAweQue" />
+        </and>
+      </where>
+      <variable id="IdeAweQue" type="INTEGER" name="IdeAweQue" />
+      <variable id="Als" type="STRING" name="Als" />
+      <variable id="Des" type="STRING" name="Des" />
+      <variable id="QueTyp" type="STRING" name="QueTyp" />
+      <variable id="ConTyp" type="STRING" name="ConTyp" />
+      <variable id="JmsBrk" type="STRING" name="JmsBrk" />
+      <variable id="JmsUsr" type="STRING" name="JmsUsr" />
+      <variable id="JmsPwd" type="STRING" name="JmsPwd" />
+      <variable id="DstNam" type="STRING" name="DstNam" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </delete>
+    <commit />
+    <serve service="RelJmsCon" />
+  </target>
+
+  <!--
+  PRINT
+  -->
+  <!-- Generate, Print and Email files -->
+  <target name="ExpFil">
+    <serve service="ExpFil" />
+  </target>
+
+  <!--
+  HELP
+  -->
+
+  <!-- Get application manual file -->
+  <target name="application-manual">
+    <serve service="getApplicationManual">
+      <variable id="manualHeader" type="STRING" name="fileName" />
+    </serve>
+  </target>
+
+  <!--
+  CACHE
+  -->
+  <!-- Launch Clear Cache Process -->
+  <target name="ClrCch">
+    <serve service="ClrDatCch" />
+  </target>
+
+  <!-- Reload properties of application -->
+  <target name="refreshDatabaseProperties">
+    <serve service="refreshDatabaseProperties" />
+  </target>
+
+  <!-- Launch Clear Cache Process -->
+  <target name="ClrGenCch">
+    <serve service="ClrCch">
+      <variable id="cache" type="STRING" name="cache" />
+    </serve>
+  </target>
+
+  <!--
+  SCHEDULER
+  -->
+
+  <!--
+  SCHEDULER SERVER
+  -->
+  <!-- Insert new server -->
+  <target name="NewSchedulerServer">
+    <insert audit="HISAweSchSrv">
+      <table id="AweSchSrv" />
+      <field id="Ide" sequence="SchTskSrv" variable="IdeSrv"/>
+      <field id="Nom" variable="Nom" />
+      <field id="Pro" variable="Pro" />
+      <field id="Hst" variable="Hst" />
+      <field id="Prt" variable="Prt" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeSrv" type="INTEGER" name="IdeSrv" />
+      <variable id="Nom" type="STRING" name="Nom" />
+      <variable id="Pro" type="STRING" name="Pro" />
+      <variable id="Hst" type="STRING" name="Hst" />
+      <variable id="Prt" type="INTEGER" name="Prt" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </insert>
+  </target>
+
+  <!--Delete server-->
+  <target name="DeleteSchedulerServer">
+    <delete multiple="true">
+      <table id="AweSchSrv" />
+      <field id="Ide" variable="Ide"/>
+      <where>
+        <and>
+          <filter left-field="Ide" condition="in" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+    </delete>
+  </target>
+
+  <!--Update server-->
+  <target name="UpdSchSrv">
+    <update>
+      <table id="AweSchSrv" />
+      <field id="Nom" variable="Nom" />
+      <field id="Pro" variable="Pro" />
+      <field id="Hst" variable="Hst" />
+      <field id="Prt" variable="Prt" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="IdeSrv" />
+      <variable id="Nom" type="STRING" name="Nom" />
+      <variable id="Pro" type="STRING" name="Pro" />
+      <variable id="Hst" type="STRING" name="Hst" />
+      <variable id="Prt" type="INTEGER" name="Prt" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </update>
+  </target>
+  <!--Deactivate-->
+  <target name="DeaSchSrv">
+    <update>
+      <table id="AweSchSrv" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide.selected" />
+      <variable id="Act" type="STRING" value="0"/>
+    </update>
+  </target>
+
+  <!--Activate-->
+  <target name="ActSchSrv">
+    <update>
+      <table id="AweSchSrv" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+      <variable id="Act" type="STRING" value="1"/>
+    </update>
+  </target>
+
+  <!--
+  SCHEDULER TASK
+  -->
+  <!-- Insert scheduled task -->
+  <target name="NewSchedulerTask">
+    <insert audit="HISAweSchTsk">
+      <table id="AweSchTsk" />
+      <field id="Ide" sequence="SchTskKey" variable="IdeTsk" />
+      <field id="Nam" variable="Nam" />
+      <field id="Des" variable="Des" />
+      <field id="NumStoExe" variable="NumStoExe" />
+      <field id="TimOutExe" variable="TimOutExe" />
+      <field id="TypExe" variable="TypExe" />
+      <field id="IdeSrvExe" variable="IdeSrvExe" />
+      <field id="CmdExePth" variable="CmdExePth"/>
+      <field id="CmdExe" variable="CmdExe" />
+      <field id="LchDepWrn" variable="LchDepWrn" />
+      <field id="LchDepErr" variable="LchDepErr" />
+      <field id="LchSetWrn" variable="LchSetWrn" />
+      <field id="TypLch" variable="TypLch" />
+      <field id="RepTyp" variable="RepTyp" />
+      <field id="RepEmaSrv" variable="RepEmaSrv" />
+      <field id="RepTit" variable="RepTit" />
+      <field id="RepMsg" variable="RepMsg" />
+      <field id="Act" variable="Act" />
+      <field id="RepSndSta" variable="inCaseOf"/>
+      <field id="RepEmaDst" variable="emails"/>
+      <field id="RepUsrDst" variable="users"/>
+      <field id="RepMntId" variable="RepMntId" />
+
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="Des" type="STRING" name="Des"/>
+      <variable id="NumStoExe" type="INTEGER" name="NumStoExe" />
+      <variable id="TimOutExe" type="INTEGER" name="TimOutExe" />
+      <variable id="TypExe" type="INTEGER" name="TypExe" />
+      <variable id="IdeSrvExe" type="INTEGER" name="IdeSrvExe" />
+      <variable id="CmdExePth" type="STRING" name="CmdExePth"/>
+      <variable id="CmdExe" type="STRING" name="CmdExe" />
+      <variable id="LchDepWrn" type="INTEGER" name="LchDepWrn" />
+      <variable id="LchDepErr" type="INTEGER" name="LchDepErr" />
+      <variable id="LchSetWrn" type="INTEGER" name="LchSetWrn" />
+      <variable id="TypLch" type="INTEGER" name="TypLch" />
+      <variable id="RepTyp" type="INTEGER" name="RepTyp" />
+      <variable id="RepEmaSrv" type="INTEGER" name="RepEmaSrv" />
+      <variable id="RepTit" type="STRING" name="RepTit" />
+      <variable id="RepMsg" type="STRING" name="RepMsg" />
+      <variable id="Act" type="INTEGER" name="Act"/>
+      <variable id="emails" type="STRINGN" name="emails"/>
+      <variable id="users" type="STRINGN" name="users"/>
+      <variable id="inCaseOf" type="STRINGN" name="inCaseOf"/>
+      <variable id="RepMntId" type="STRING" name="RepMntId"/>
+    </insert>
+
+    <insert audit="HISAweSchTskLch">
+      <table id="AweSchTskLch" />
+      <field id="Ide" sequence="SchTskLch" variable="IdeTskLch"/>
+      <field id="IdeTsk" variable="IdeTsk" />
+      <field id="RptNum" variable="RptNum" />
+      <field id="RptTyp" variable="RptTyp" />
+      <field id="IniDat" variable="IniDat" />
+      <field id="EndDat" variable="EndDat" />
+      <field id="IniTim" variable="IniTim" />
+      <field id="EndTim" variable="EndTim" />
+      <field id="IdeCal" variable="IdeCal" />
+      <field id="WeekDays" variable="WeekDays" />
+      <field id="ExeYrs" variable="ExeYrs" />
+      <field id="ExeMth" variable="ExeMth" />
+      <field id="ExeDay" variable="ExeDay" />
+      <field id="ExeHrs" variable="ExeHrs" />
+      <field id="ExeMin" variable="ExeMin" />
+      <field id="ExeSec" variable="ExeSec" />
+      <field id="ExeDte" variable="ExeDte" />
+      <field id="ExeTim" variable="ExeTim" />
+      <field id="IdSrv"  variable="IdSrv" />
+      <field id="Pth" variable="Pth" />
+      <field id="Pat" variable="Pat" />
+      <field id="SrvUsr" variable="SrvUsr"/>
+      <field id="SrvPwd" variable="SrvPwd"/>
+      <variable id="IdeTskLch" type="INTEGER" name="IdeTskLch" />
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="RptNum" type="INTEGER" name="RptNum" />
+      <variable id="RptTyp" type="INTEGER" name="RptTyp" />
+      <variable id="IniDat" type="DATE" name="IniDat" />
+      <variable id="EndDat" type="DATE" name="EndDat" />
+      <variable id="IniTim" type="STRING" name="IniTim" />
+      <variable id="EndTim" type="STRING" name="EndTim" />
+      <variable id="IdeCal" type="INTEGER" name="IdeCal" />
+      <variable id="WeekDays" type="STRING" name="weekDays" />
+      <variable id="IdSrv"  type="INTEGER" name="LchSrv" />
+      <variable id="Pth" type="STRING" name="LchPth" />
+      <variable id="Pat" type="STRING" name="LchPat" />
+      <variable id="SrvUsr" type="STRING" name="LchUsr" />
+      <variable id="SrvPwd" type="STRING" name="LchPwd" />
+      <variable id="ExeYrs" type="STRING" name="years" />
+      <variable id="ExeMth" type="STRING" name="months" />
+      <variable id="ExeDay" type="STRING" name="days" />
+      <variable id="ExeHrs" type="STRING" name="hours" />
+      <variable id="ExeMin" type="STRING" name="minutes" />
+      <variable id="ExeSec" type="STRING" name="seconds" />
+      <variable id="ExeDte"  type="DATE" name="schExeDate" />
+      <variable id="ExeTim" type="STRING" name="schExeTime" />
+    </insert>
+
+    <!--
+    <delete>
+      <table id="AweSchTskPar"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk"/>
+    </delete>
+    -->
+
+    <multiple grid="ParameterList">
+      <table id="AweSchTskPar" />
+      <field id="Ide" sequence="SchTskPar" variable="IdePar" key="true"/>
+      <field id="IdeTsk" variable="IdeTsk" />
+      <field id="Nam" variable="Nam" />
+      <field id="Src" variable="Src" />
+      <field id="Typ" variable="Typ" />
+      <field id="Val" variable="Val" />
+      <variable id="IdePar" type="INTEGER" name="IdePar"/>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="Nam" type="STRING" name="ParNam" />
+      <variable id="Src" type="INTEGER" name="ParSrc" />
+      <variable id="Typ" type="STRING" name="ParTyp" />
+      <variable id="Val" type="STRING" name="ParVal" />
+    </multiple>
+
+    <multiple grid="DependencyList">
+      <table id="AweSchTskDpn"/>
+      <field id="IdeTsk" variable="IdeTsk" key="true"/>
+      <field id="IdePrn" variable="IdePrn" key="true"/>
+      <field id="IsBlk" variable="IsBlk" />
+      <field id="DpnOrd" variable="DpnOrd" />
+      <variable id="IdePrn" type="INTEGER" name="IdeTsk" />
+      <variable id="IdeTsk" type="INTEGER" name="DepTskIde" />
+      <variable id="IsBlk" type="INTEGER" name="DepTskBlk" />
+      <variable id="DpnOrd" type="INTEGER" name="DepTskOrd" />
+    </multiple>
+
+    <commit/>
+
+    <serve service="insertSchedulerTask">
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="SendStatus" type="INTEGER" name="RepSndSta" />
+      <variable id="SendDestination" type="INTEGER" name="RepSndDst" />
+    </serve>
+  </target>
+
+  <!-- Insert scheduler task average time -->
+  <target name="insertSchedulerTaskExeTime" public="true" exclusive="true">
+    <insert>
+      <table id="AweSchTskAvgTim" />
+      <field id="Ide" sequence="SchTskAvgTimKey" variable="IdeTskAvg"/>
+      <field id="IdeTsk" variable="IdeTsk" />
+      <field id="AvgTim" variable="AvgTim" />
+      <field id="ExeDatTim" variable="ExeDatTim"/>
+      <variable id="IdeTskAvg" type="INTEGER" name="IdeTskAvg" />
+      <variable id="IdeTsk" type="INTEGER" name="Ide" />
+      <variable id="ExeDatTim" type="STRING" name="ExeDatTim" />
+      <variable id="AvgTim" type="FLOAT" name="AvgTim" />
+    </insert>
+  </target>
+
+  <!-- delete scheduler task average time -->
+  <target name="deleteSchedulerTaskExeTime" public="true" exclusive="true">
+    <delete >
+      <table id="AweSchTskAvgTim"/>
+      <field id="ExeDatTim" variable="ExeDatTim" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="not in" right-variable="IdeList"/>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk"/>
+      <variable id="IdeList" type="STRING" name="IdeLst"/>
+    </delete>
+  </target>
+
+  <!-- Update scheduled task -->
+  <target name="UpdateSchedulerTask">
+    <update audit="HISAweSchTsk">
+      <table id="AweSchTsk" />
+      <field id="Nam" variable="Nam" />
+      <field id="Des" variable="Des" />
+      <field id="NumStoExe" variable="NumStoExe" />
+      <field id="TimOutExe" variable="TimOutExe" />
+      <field id="TypExe" variable="TypExe" />
+      <field id="IdeSrvExe" variable="IdeSrvExe" />
+      <field id="CmdExePth" variable="CmdExePth"/>
+      <field id="CmdExe" variable="CmdExe" />
+      <field id="LchDepWrn" variable="LchDepWrn" />
+      <field id="LchDepErr" variable="LchDepErr" />
+      <field id="LchSetWrn" variable="LchSetWrn" />
+      <field id="TypLch" variable="TypLch" />
+      <field id="RepTyp" variable="RepTyp" />
+      <field id="RepEmaSrv" variable="RepEmaSrv" />
+      <field id="RepTit" variable="RepTit" />
+      <field id="RepMsg" variable="RepMsg" />
+      <field id="Act" variable="Act" />
+      <field id="RepSndSta" variable="inCaseOf"/>
+      <field id="RepEmaDst" variable="emails"/>
+      <field id="RepUsrDst" variable="users"/>
+      <field id="RepMntId" variable="RepMntId" />
+
+      <where>
+        <and>
+          <filter left-field="Ide"  condition="eq" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="Ide" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="Des" type="STRING" name="Des" />
+      <variable id="NumStoExe" type="INTEGER" name="NumStoExe" />
+      <variable id="TimOutExe" type="INTEGER" name="TimOutExe" />
+      <variable id="TypExe" type="INTEGER" name="TypExe" />
+      <variable id="IdeSrvExe" type="INTEGER" name="IdeSrvExe" />
+      <variable id="CmdExePth" type="STRING" name="CmdExePth"/>
+      <variable id="CmdExe" type="STRING" name="CmdExe" />
+      <variable id="LchDepWrn" type="INTEGER" name="LchDepWrn" />
+      <variable id="LchDepErr" type="INTEGER" name="LchDepErr" />
+      <variable id="LchSetWrn" type="INTEGER" name="LchSetWrn" />
+      <variable id="TypLch" type="INTEGER" name="TypLch" />
+      <variable id="RepTyp" type="INTEGER" name="RepTyp" />
+      <variable id="RepEmaSrv" type="INTEGER" name="RepEmaSrv" />
+      <variable id="RepTit" type="STRING" name="RepTit" />
+      <variable id="RepMsg" type="STRING" name="RepMsg" />
+      <variable id="Act" type="INTEGER" name="Act" />
+      <variable id="emails" type="STRINGN" name="emails" />
+      <variable id="users" type="STRINGN" name="users" />
+      <variable id="inCaseOf" type="STRINGN" name="inCaseOf" />
+      <variable id="RepMntId" type="STRING" name="RepMntId"/>
+    </update>
+
+    <update audit="HISAweSchTskLch">
+      <table id="AweSchTskLch" />
+      <field id="RptNum" variable="RptNum" />
+      <field id="RptTyp" variable="RptTyp" />
+      <field id="IniDat" variable="IniDat" />
+      <field id="EndDat" variable="EndDat" />
+      <field id="IniTim" variable="IniTim" />
+      <field id="EndTim" variable="EndTim" />
+      <field id="IdeCal" variable="IdeCal" />
+      <field id="WeekDays" variable="WeekDays" />
+      <field id="ExeYrs" variable="ExeYrs" />
+      <field id="ExeMth" variable="ExeMth" />
+      <field id="ExeDay" variable="ExeDay" />
+      <field id="ExeHrs" variable="ExeHrs" />
+      <field id="ExeMin" variable="ExeMin" />
+      <field id="ExeSec" variable="ExeSec" />
+      <field id="ExeDte" variable="ExeDte" />
+      <field id="ExeTim" variable="ExeTim" />
+      <field id="IdSrv"  variable="IdSrv" />
+      <field id="Pth" variable="Pth" />
+      <field id="Pat" variable="Pat" />
+      <field id="SrvUsr" variable="SrvUsr" />
+      <field id="SrvPwd" variable="SrvPwd" />
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="Ide" />
+      <variable id="RptNum" type="INTEGER" name="RptNum" />
+      <variable id="RptTyp" type="INTEGER" name="RptTyp" />
+      <variable id="IniDat" type="DATE" name="IniDat" />
+      <variable id="EndDat" type="DATE" name="EndDat" />
+      <variable id="IniTim" type="STRING" name="IniTim" />
+      <variable id="EndTim" type="STRING" name="EndTim" />
+      <variable id="IdeCal" type="INTEGER" name="IdeCal" />
+      <variable id="WeekDays" type="STRING" name="weekDays" />
+      <variable id="IdSrv"  type="INTEGER" name="LchSrv" />
+      <variable id="Pth" type="STRING" name="LchPth" />
+      <variable id="Pat" type="STRING" name="LchPat" />
+      <variable id="SrvUsr" type="STRING" name="LchUsr" />
+      <variable id="SrvPwd" type="STRING" name="LchPwd" />
+      <variable id="ExeYrs" type="STRING" name="years"/>
+      <variable id="ExeMth" type="STRING" name="months" />
+      <variable id="ExeDay" type="STRING" name="days" />
+      <variable id="ExeHrs" type="STRING" name="hours" />
+      <variable id="ExeMin" type="STRING" name="minutes"/>
+      <variable id="ExeSec" type="STRING" name="seconds"/>
+      <variable id="ExeDte"  type="DATE" name="schExeDate" />
+      <variable id="ExeTim" type="STRING" name="schExeTime" />
+    </update>
+
+    <delete multiple="true">
+      <table id="AweSchTskDpn"/>
+      <field id="IdeTsk"/>
+      <field id="LchTyp" variable="TypLch"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+          <filter left-field="LchTyp" condition="ne" right-variable="zero"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk"/>
+      <variable id="TypLch" type="INTEGER" name="TypLch"/>
+      <variable id="zero" type="INTEGER" value="0" />
+    </delete>
+
+    <multiple grid="ParameterList">
+      <table id="AweSchTskPar" />
+      <field id="Ide" sequence="SchTskPar" variable="IdePar" key="true"/>
+      <field id="IdeTsk" variable="IdeTsk" />
+      <field id="Nam" variable="Nam" />
+      <field id="Src" variable="Src" />
+      <field id="Typ" variable="Typ" />
+      <field id="Val" variable="Val" />
+      <variable id="IdePar" type="INTEGER" name="IdePar" />
+      <variable id="IdeTsk" type="INTEGER" name="Ide" />
+      <variable id="Nam" type="STRING" name="ParNam" />
+      <variable id="Src" type="INTEGER" name="ParSrc" />
+      <variable id="Typ" type="STRING" name="ParTyp" />
+      <variable id="Val" type="STRING" name="ParVal" />
+    </multiple>
+
+    <multiple grid="DependencyList">
+      <table id="AweSchTskDpn"/>
+      <field id="IdeTsk" variable="IdeTsk" key="true"/>
+      <field id="IdePrn" variable="IdePrn" key="true"/>
+      <field id="IsBlk" variable="IsBlk" />
+      <field id="DpnOrd" variable="DpnOrd"/>
+      <variable id="IdePrn" type="INTEGER" name="Ide" />
+      <variable id="IdeTsk" type="INTEGER" name="DepTskIde" />
+      <variable id="IsBlk" type="INTEGER" name="DepTskBlk" />
+      <variable id="DpnOrd" type="INTEGER" name="DepTskOrd"/>
+    </multiple>
+
+    <commit/>
+
+    <serve service="updateSchedulerTask">
+      <variable id="IdeTsk" type="INTEGER" name="Ide" />
+      <variable id="SendStatus" type="INTEGER" name="RepSndSta" />
+      <variable id="SendDestination" type="INTEGER" name="RepSndDst" />
+    </serve>
+
+  </target>
+
+  <!--Deactivate Scheduler Task-->
+  <target name="DeaSchTsk" public="true">
+    <update>
+      <table id="AweSchTsk" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="IdeTsk.selected" />
+      <variable id="Act" type="STRING" value="0"/>
+    </update>
+    <serve service="pauseTask">
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk.selected" />
+    </serve>
+  </target>
+
+  <!--Activate Scheduler Task-->
+  <target name="ActSchTsk" public="true">
+    <update>
+      <table id="AweSchTsk" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="IdeTsk.selected" />
+      <variable id="Act" type="STRING" value="1"/>
+    </update>
+    <serve service="resumeTask">
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk.selected" />
+    </serve>
+  </target>
+
+  <target name="LchTsk">
+    <serve service="executeTaskNow">
+      <variable id="taskIde" type="INTEGER" name="IdeTsk.selected"/>
+    </serve>
+  </target>
+
+  <!-- Delete scheduled task -->
+  <target name="DeleteSchedulerTask">
+    <delete multiple="true">
+      <table id="AweSchTskDpn" />
+      <field id="IdePrn" variable="IdeTsk"/>
+      <where>
+        <and>
+          <filter left-field="IdePrn" condition="in" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <delete audit="HISAweSchTskPar" multiple="audit">
+      <table id="AweSchTskPar" />
+      <field id="IdeTsk" variable="IdeTsk" audit="true"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="in" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <!-- DELETE scheduler task average time -->
+    <delete multiple="true">
+      <table id="AweSchTskAvgTim" />
+      <field id="IdeTsk" variable="IdeTsk" />
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="in" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <delete audit="HISAweSchTskLch" multiple="audit">
+      <table id="AweSchTskLch" />
+      <field id="IdeTsk" variable="IdeTsk" audit="true"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="in" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <delete audit="HISAweSchTsk" multiple="audit">
+      <table id="AweSchTsk" />
+      <field id="Ide" variable="IdeTsk" audit="true"/>
+      <where>
+        <and>
+          <filter left-field="Ide" condition="in" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <delete multiple="true">
+      <table id="AweSchTskDpn"/>
+      <field id="IdeTsk" variable="IdeTsk" />
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <serve service="deleteSchedulerTask">
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk"/>
+    </serve>
+  </target>
+
+  <!--
+  SCHEDULER CALENDAR
+  -->
+  <!-- Insert Scheduler Calendar -->
+  <target name="NewSchedulerCalendar">
+    <insert audit="HISAweSchCal">
+      <table id="AweSchCal" />
+      <field id="Ide" sequence="SchTskCal" variable="IdeCal"/>
+      <field id="Nom" variable="Nom" />
+      <field id="Des" variable="Des" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeCal" type="INTEGER" name="IdeCal" />
+      <variable id="Nom" type="STRING" name="Nom" />
+      <variable id="Des" type="STRING" name="Des" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </insert>
+
+    <commit/>
+    <serve service="insertSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="IdeCal" />
+    </serve>
+  </target>
+
+  <!-- Delete Scheduler Calendar -->
+  <target name="DeleteSchedulerCalendar">
+    <delete multiple="true">
+      <table id="AweSchCalDat" />
+      <field id="IdeCal" variable="Ide"/>
+      <where>
+        <and>
+          <filter left-field="IdeCal" condition="in" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+    </delete>
+    <delete multiple="true">
+      <table id="AweSchCal" />
+      <field id="Ide" variable="Ide"/>
+      <where>
+        <and>
+          <filter left-field="Ide" condition="in" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+    </delete>
+    <serve service="deleteSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="Ide" />
+    </serve>
+  </target>
+
+  <!-- Remove calendar from Scheduler tasks -->
+  <target name="UpdSchTskWthCal" public="true">
+    <update audit="HISAweSchTskLch">
+      <table id="AweSchTskLch"/>
+      <field id="IdeCal" value="''"/>
+      <where>
+        <and>
+          <filter left-field="IdeCal" condition="eq" right-variable="IdeCal"/>
+        </and>
+      </where>
+      <variable id="IdeCal" type="INTEGER" name="IdeCal" />
+    </update>
+  </target>
+
+  <!-- Update Scheduler Calendar -->
+  <target name="UpdSchCal">
+    <update>
+      <table id="AweSchCal" />
+      <field id="Nom" variable="Nom" />
+      <field id="Des" variable="Des" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="CalIde"/>
+        </and>
+      </where>
+      <variable id="CalIde" type="INTEGER" name="CalIde" />
+      <variable id="Nom" type="STRING" name="CalNme" />
+      <variable id="Des" type="STRING" name="CalDes" />
+      <variable id="Act" type="INTEGER" name="CalAct" />
+    </update>
+    <multiple grid="GrdDatLst">
+      <table id="AweSchCalDat" />
+      <field id="Ide" variable="Ide" sequence="SchTskCalDat" key="true" />
+      <field id="IdeCal" variable="CalIde" />
+      <field id="Nom" variable="Nom" />
+      <field id="Dat" variable="Dat" />
+      <variable id="Ide" type="INTEGER" name="IdeDat" />
+      <variable id="CalIde" type="INTEGER" name="CalIde" />
+      <variable id="Nom" type="STRING" name="Nom" />
+      <variable id="Dat" type="DATE" name="Dat" />
+    </multiple>
+    <commit/>
+    <serve service="updateSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="CalIde" />
+    </serve>
+  </target>
+
+  <!--Deactivate-->
+  <!--Deactivate Scheduler Calendar-->
+  <target name="DeaSchCal">
+    <update>
+      <table id="AweSchCal" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide.selected" />
+      <variable id="Act" type="STRING" value="0"/>
+    </update>
+    <serve service="deactivateSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="Ide.selected"/>
+    </serve>
+  </target>
+
+  <!--Activate Scheduler Calendar-->
+  <target name="ActSchCal">
+    <update>
+      <table id="AweSchCal" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+      <variable id="Act" type="STRING" value="1"/>
+    </update>
+    <serve service="activateSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="Ide.selected"/>
+    </serve>
+  </target>
+
+  <!--
+  SCHEDULER CALENDAR DATE
+  -->
+  <!-- Insert Scheduler Date -->
+  <target name="NewSchedulerCalendarDate">
+    <insert audit="HISAweSchCalDat">
+      <table id="AweSchCalDat" />
+      <field id="Ide" sequence="SchTskCalDat" variable="IdeDat"/>
+      <field id="IdeCal" variable="IdeCal" />
+      <field id="Nom" variable="Nom" />
+      <field id="Dat" variable="Dat" />
+      <variable id="IdeDat" type="INTEGER" name="IdeDat" />
+      <variable id="IdeCal" type="INTEGER" name="CalIde" />
+      <variable id="Nom" type="STRING" name="CrtCalNom" />
+      <variable id="Dat" type="DATE" name="CrtCalDat" />
+    </insert>
+    <commit/>
+    <serve service="updateSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="CalIde" />
+    </serve>
+  </target>
+
+  <!-- Delete Scheduler Calendar -->
+  <target name="DeleteSchedulerCalendarDate">
+    <delete multiple="true">
+      <table id="AweSchCalDat" />
+      <field id="Ide" variable="Ide"/>
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="STRING" name="IdeDat" />
+    </delete>
+    <serve service="updateSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="Ide" />
+    </serve>
+  </target>
+  <!--
+  SCHEDULER CALENDAR
+  -->
+  <!-- insert new file -->
+  <target name="InsFil" public="true">
+    <insert>
+      <table id="AweSchTskFilMod" />
+      <field id="IdeTsk" variable="IdeTsk"/>
+      <field id="FilPth" variable="FilPth"/>
+      <field id="ModDat" variable="ModDat"/>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="FilPth" type="STRING" name="FilPth"/>
+      <variable id="ModDat" type="TIMESTAMP" name="ModDat"/>
+    </insert>
+  </target>
+
+  <!-- update new file -->
+  <target name="UpdFil" public="true">
+    <update>
+      <table id="AweSchTskFilMod" />
+      <field id="IdeTsk" variable="IdeTsk"/>
+      <field id="FilPth" variable="FilPth"/>
+      <field id="ModDat" variable="ModDat"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+          <filter left-field="FilPth" condition="like" right-variable="FilPth"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="FilPth" type="STRING" name="FilPth"/>
+      <variable id="ModDat" type="TIMESTAMP" name="ModDat"/>
+    </update>
+  </target>
+
+  <!-- delete new file -->
+  <target name="DelFil" public="true">
+    <delete>
+      <table id="AweSchTskFilMod" />
+      <field id="IdeTsk" variable="IdeTsk"/>
+      <field id="FilPth" variable="FilPth"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+          <filter left-field="FilPth" condition="like" right-variable="FilPth" optional="true"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="FilPth" type="STRING" name="FilPth"/>
+    </delete>
+  </target>
+
+  <target name="SchTskEmaRep">
+    <send-email id="SchTskEmaRep" label="TEST LABEL" />
+  </target>
+</maintain>

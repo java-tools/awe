@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : home_navbar.xml
+    Created on : 8 de febrero de 2010, 16:30
+    Author     : Pablo GARCIA
+    Description: Navigation bar
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="full">
+
+  <!-- Center Zone: Show menu and reports -->
+  <tag source="center">
+    <tag type="div" style="navbar-inner">
+      <tag type="div" style="navbar-header no-padding">
+        <tag type="h1">
+          <tag type="span" label="APP_CLIENT"></tag>
+        </tag>
+        <button button-type="button" style="no-class navbar-toggle collapsed" id="ButNavCol" icon="bars icon navbar-icon">
+          <button-action type="toggle-navbar" />
+        </button>
+      </tag>
+      <tag type="div" id="main-navbar-collapse" style="collapse navbar-collapse main-navbar-collapse">
+        <tag type="div" style="right clearfix">
+          <tag type="ul" style="nav navbar-nav pull-right right-navbar-nav">
+            <info id="InfLog" icon="user" title="BUTTON_LOGIN">
+              <info-criteria icon="user" title="SCREEN_TEXT_USER" placeholder="SCREEN_TEXT_USER" component="text" id="cod_usr" validation="required" style="col-xs-12 no-label" info-style="form-group"/>
+              <info-criteria icon="key" title="SCREEN_TEXT_PASS" placeholder="SCREEN_TEXT_PASS" component="password" id="pwd_usr" validation="required" style="col-xs-12 no-label" info-style="form-group"/>
+              <info-button id="ButLogIn" icon="sign-in" label="BUTTON_LOGIN">
+                <button-action type="validate" target="InfLog"/>
+                <button-action type="server" server-action="login" />
+              </info-button>
+            </info>
+          </tag>
+        </tag>
+      </tag>
+    </tag>
+  </tag>
+</screen>

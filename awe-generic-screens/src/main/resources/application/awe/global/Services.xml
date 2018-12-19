@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--$Id$ -->
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/services.xsd">
+  <service id="SysDat">
+    <java classname="com.almis.awe.service.SystemService" method="getDate" />
+  </service>
+  <service id="storeSessionString">
+    <java classname="com.almis.awe.service.SessionService" method="setSessionParameter">
+      <service-parameter type="STRING" name="name" />
+      <service-parameter type="STRING" name="value" />
+    </java>
+  </service>
+  <service id="storeSessionObject">
+    <java classname="com.almis.awe.service.SessionService" method="setSessionParameter">
+      <service-parameter type="STRING" name="name" />
+      <service-parameter type="OBJECT" name="value" />
+    </java>
+  </service>
+  <service id="changeLanguage">
+    <java classname="com.almis.awe.service.LocaleService" method="changeLanguage">
+      <service-parameter type="STRING" name="language" />
+    </java>
+  </service>
+  <service id="loadSessionParameters">
+    <java classname="com.almis.awe.service.SessionService" method="setDefaultParameters" />
+  </service>
+  <service id="login">
+    <java classname="com.almis.awe.service.AccessService" method="login" />
+  </service>
+  <service id="logout">
+    <java classname="com.almis.awe.service.AccessService" method="logout" />
+  </service>
+  <service id="loginMaintain">
+    <java classname="com.almis.awe.service.AccessService" method="loginMaintain" />
+  </service>
+  <service id="logoutMaintain">
+    <java classname="com.almis.awe.service.AccessService" method="logoutMaintain" />
+  </service>
+  <service id="EncTxt">
+    <java classname="com.almis.awe.service.AccessService" method="encryptText" />
+  </service>
+  <service id="SerEncTxt">
+    <java classname="com.almis.awe.service.AccessService" method="encryptText">
+      <service-parameter type="STRING" name="text" />
+      <service-parameter type="STRING" name="phraseKey" />
+    </java>
+  </service>
+  <service id="SerEncPpt">
+    <java classname="com.almis.awe.service.AccessService" method="encryptProperty">
+      <service-parameter type="STRING" name="text" />
+      <service-parameter type="STRING" name="phraseKey" />
+    </java>
+  </service>
+  <service id="ProFilLst">
+    <java classname="com.almis.awe.service.AccessService" method="getProfileNameFileList" />
+  </service>
+  <service id="launchMaintain">
+    <java classname="com.almis.awe.service.MaintainService" method="launchMaintainAction" />
+  </service>
+  <service id="getMaintainList">
+    <java classname="com.almis.awe.service.MaintainService" method="getMaintainList">
+      <service-parameter name="maintainKey" type="STRING" />
+      <service-parameter name="isPublic" type="BOOLEAN" />
+    </java>
+  </service>
+  <service id="ExpFil">
+    <java classname="com.almis.awe.service.ReportService" method="printScreen" />
+  </service>
+  <service id="ShwPrn">
+    <java classname="com.almis.awe.service.ReportService" method="getShowPrint" />
+  </service>
+  <service id="PrnAct">
+    <java classname="com.almis.awe.service.ReportService" method="getPrintActions" />
+  </service>
+  <service id="launchQuery">
+    <java classname="com.almis.awe.service.QueryService" method="launchQueryAction" />
+  </service>
+  <service id="updateModel">
+    <java classname="com.almis.awe.service.QueryService" method="updateModelAction" />
+  </service>
+  <service id="checkUnique">
+    <java classname="com.almis.awe.service.QueryService" method="checkUniqueAction" />
+  </service>
+  <service id="InitDatabaseConnections" launch-phase="CLIENT_START">
+    <java classname="com.almis.awe.service.QueryService" method="initDatasourceConnections" />
+  </service>
+  <service id="ReloadDatabaseConnections">
+    <java classname="com.almis.awe.service.QueryService" method="reloadDatasourceConnections" />
+  </service>
+  <service id="getScreenData">
+    <java classname="com.almis.awe.service.ScreenService" method="getScreenDataAction" />
+  </service>
+  <service id="getOptionList">
+    <java classname="com.almis.awe.service.MenuService" method="getNameOptionList">
+      <service-parameter type="STRING" name="option" />
+    </java>
+  </service>
+  <service id="getScreenList">
+    <java classname="com.almis.awe.service.MenuService" method="getAvailableScreenList">
+      <service-parameter type="STRING" name="screen" />
+    </java>
+  </service>
+  <service id="getModuleList">
+    <java classname="com.almis.awe.service.MenuService" method="getModuleList" />
+  </service>
+  <service id="getScreenRestrictions">
+    <java classname="com.almis.awe.service.MenuService" method="getScreenRestrictions">
+      <service-parameter type="STRING" name="restriction" />
+    </java>
+  </service>
+  <service id="getScreenElementList">
+    <java classname="com.almis.awe.service.ScreenService" method="getScreenElementList">
+      <service-parameter type="STRING" name="screenName" />
+      <service-parameter type="STRING" name="element" />
+    </java>
+  </service>
+  <service id="getAttributeNameList">
+    <java classname="com.almis.awe.service.ScreenService" method="getAttributeNameList">
+      <service-parameter name="attributeKey" type="STRING" />
+    </java>
+  </service>
+  <service id="refreshDatabaseProperties">
+    <java classname="com.almis.awe.service.PropertyService" method="refreshDatabaseProperties" />
+  </service>
+  <service id="refreshMenu">
+    <java classname="com.almis.awe.service.MenuService" method="refreshMenu" />
+  </service>
+  <service id="getFileInformation">
+    <java classname="com.almis.awe.service.FileService" method="getFileInfo"/>
+  </service>
+  <service id="deleteFile">
+    <java classname="com.almis.awe.service.FileService" method="deleteFile"/>
+  </service>
+  <service id="BatLch">
+    <java classname="com.almis.awe.core.services.controller.BatchController" method="launchSingle" />
+  </service>
+  <service id="BatLstLch">
+    <java classname="com.almis.awe.core.services.controller.BatchController" method="launchList" />
+  </service>
+  <service id="getLogList">
+    <java classname="com.almis.awe.service.LogService" method="getLogList">
+      <service-parameter type="STRING" name="file" />
+      <service-parameter type="STRING" name="date" />
+      <service-parameter type="STRING" name="startTime" />
+      <service-parameter type="STRING" name="endTime" />
+    </java>
+  </service>
+  <service id="getLogFile">
+    <java classname="com.almis.awe.service.FileService" method="getLogFile" />
+  </service>
+
+  <service id="LogChgDbs">
+    <java classname="com.almis.awe.service.LogService" method="logChangeDatabase">
+      <service-parameter type="STRING" name="database" />
+    </java>
+  </service>
+  <service id="ChgLogLvl">
+    <java classname="com.almis.awe.service.LogService" method="changeLevel" />
+  </service>
+  <service id="RepGenPdfLst">
+    <java classname="com.almis.awe.service.ReportService" method="getReportList" />
+  </service>
+  <service id="viewPdf">
+    <java classname="com.almis.awe.service.ReportService" method="viewPdfFile" />
+  </service>
+  <service id="sendMessageToUser">
+    <java classname="com.almis.awe.service.BroadcastService" method="sendMessageToUser">
+      <service-parameter type="STRING" name="target" />
+      <service-parameter type="STRING" name="message" />
+    </java>
+  </service>
+  <service id="GetPrnLst">
+    <java classname="com.almis.awe.service.PrinterService" method="getPrinterList" />
+  </service>
+  <service id="TstSrvQryTot">
+    <java classname="com.almis.awe.service.QueryService" method="launchQueryAsService">
+      <service-parameter type="STRING" name="qryNam" />
+      <service-parameter type="STRING" name="fldLst" />
+    </java>
+  </service>
+  <service id="subscribe">
+    <java classname="com.almis.awe.service.QueryService" method="subscribeAction" />
+  </service>
+  <service id="getApplicationLocales">
+    <java classname="com.almis.awe.service.LocaleService" method="getApplicationLocales" />
+  </service>
+  <service id="getApplicationManual">
+    <java classname="com.almis.awe.service.HelpService" method="getApplicationManual">
+      <service-parameter type="STRING" name="manualHeader" />
+    </java>
+  </service>
+
+  <!-- Year select/suggest service, returns the next 100 years -->
+  <service id="yearSelectService">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="yearSelectService" />
+  </service>
+
+  <!-- SCHEDULER SERVICES -->
+
+  <!-- scheduler tserviceices -->
+  <service id="getSchedulerTaskList">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="getTaskList" />
+  </service>
+  <service id="pauseTask">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="pauseTask">
+      <service-parameter name="IdeTsk" type="INTEGER" />
+    </java>
+  </service>
+  <service id="resumeTask">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="resumeTask">
+      <service-parameter name="IdeTsk" type="INTEGER" />
+    </java>
+  </service>
+  <service id="executeTaskNow">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="executeTaskNow">
+      <service-parameter name="taskIde" type="INTEGER" />
+    </java>
+  </service>
+  <service id="insertSchedulerTask">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="insertSchedulerTask">
+      <service-parameter name="IdeTsk" type="INTEGER" />
+      <service-parameter name="SendStatus" type="INTEGER" list="true" />
+      <service-parameter name="SendDestination" type="INTEGER" list="true" />
+    </java>
+  </service>
+  <service id="updateSchedulerTask">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="updateSchedulerTask">
+      <service-parameter name="IdeTsk" type="INTEGER" />
+      <service-parameter name="SendStatus" type="INTEGER" list="true" />
+      <service-parameter name="SendDestination" type="INTEGER" list="true" />
+    </java>
+  </service>
+  <service id="deleteSchedulerTask">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="deleteSchedulerTask">
+      <service-parameter name="IdeTsk" type="INTEGER" list="true" />
+    </java>
+  </service>
+
+  <!-- Scheduler calenserviceices -->
+  <service id="insertSchedulerCalendar">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="insertSchedulerCalendar">
+      <service-parameter name="calendarIde" type="INTEGER" />
+    </java>
+  </service>
+  <service id="updateSchedulerCalendar">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="updateSchedulerCalendar">
+      <service-parameter name="calendarIde" type="INTEGER" />
+    </java>
+  </service>
+  <service id="deleteSchedulerCalendar">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="deleteSchedulerCalendar">
+      <service-parameter name="calendarIde" type="INTEGER" list="true" />
+    </java>
+  </service>
+  <service id="checkTriggerContainsCalendar">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="checkCalendarExist">
+      <service-parameter name="calendarIde" type="INTEGER" list="true" />
+    </java>
+  </service>
+  <service id="deactivateSchedulerCalendar">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="deactivateCalendar">
+      <service-parameter name="calendarIde" type="INTEGER" />
+    </java>
+  </service>
+  <service id="activateSchedulerCalendar">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="activateCalendar">
+      <service-parameter name="calendarIde" type="INTEGER" />
+    </java>
+  </service>
+
+  <service id="loadMaintainVariables">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="loadMaintainVariables">
+      <service-parameter name="maintainStr" type="STRING" />
+    </java>
+  </service>
+
+  <service id="nextExecutions">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="computeNextFiretimes">
+      <service-parameter name="fireTimes" type="INTEGER" />
+    </java>
+  </service>
+</services>

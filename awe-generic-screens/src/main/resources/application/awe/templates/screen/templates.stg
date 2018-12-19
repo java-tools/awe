@@ -1,0 +1,51 @@
+document(breadcrumbs, title, buttons, center, modal, hidden) ::= <<
+<div class="expand expandible-vertical report-container document">
+  <div class="window-header">
+    <ul class="breadcrumb breadcrumb-page">
+      <div class="breadcrumb-label text-light-gray"><i class="fa fa-home"></i></div>
+        $breadcrumbs$
+        <li class="active" translate-multiple="$title$"></li>
+      </ul>
+    </div>
+  <div class="window-center expand expandible-vertical scrollable maximize-target">$center$</div>
+  <div class="window-buttons">$buttons$</div>
+  </div>
+<div>$modal$</div>
+<div class="hidden">$hidden$</div>
+>>
+window(breadcrumbs, title, buttons, center, modal, hidden) ::= <<
+<div class="expand expandible-vertical report-container">
+  <div class="window-header">
+    <ul class="breadcrumb breadcrumb-page">
+      <div class="breadcrumb-label"><i class="fa fa-home"></i></div>
+        $breadcrumbs$
+        <li class="active" translate-multiple="$title$"></li>
+      </ul>
+    </div>
+  <div class="window-center expand expandible-vertical scrollable maximize-target">$center$</div>
+  <div class="window-buttons">$buttons$</div>
+  </div>
+<div>$modal$</div>
+<div class="hidden">$hidden$</div>
+>>
+full(breadcrumbs, title, buttons, center, modal, hidden) ::= <<
+$center$
+<div>$modal$</div>
+<div class="hidden">$hidden$</div>
+>>
+help(help) ::= <<
+$help$
+>>
+error(title, message) ::= <<
+<div class="page-500 fullScreen">
+  <div class="header">
+    <a href="/" class="logo"></a>
+  </div>
+  <div class="error-code"><i class="fa fa-exclamation-triangle"></i></div>
+  <div class="error-text">
+    <span class="oops">$title$</span><br>
+    <span class="hr"></span><br/>
+    <span class="solve">$message$</span>
+  </div>
+</div>
+>>

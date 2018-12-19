@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : PrfNew.xml
+    Created on : 14 de junio de 2010
+    Author     : Pablo GARCIA
+    Description: Ventana de herramientas - Alta de Perfil
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_PRF_NEW" help="HELP_SCREEN_TITLE_PRF_NEW">
+  <tag source="hidden">
+    <message id="NewMsg" title="CONFIRM_TITLE_NEW" message="CONFIRM_MESSAGE_NEW" />
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button button-type="button" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" />
+      <button-action type="confirm" target="NewMsg" />
+      <button-action type="server" server-action="maintain" target-action="ProNew" />
+      <button-action type="back" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand" label="SCREEN_TEXT_DATA" icon="plus-circle">
+      <tag type="div" style="panel-body static">
+        <criteria label="PARAMETER_ACRONYM" id="Acr" component="text" variable="Acr" validation="required" style="col-xs-12 col-sm-4 col-lg-3" />
+        <criteria label="PARAMETER_NAME" id="Nam" component="text" variable="Nam" validation="required" style="col-xs-12 col-sm-8 col-lg-9" />
+        <criteria label="PARAMETER_THEME" id="IdeThm" component="suggest" server-action="data" target-action="ThmSug" variable="IdeThm" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_SCREEN" id="ScrIni" component="suggest" server-action="data" target-action="getScreenList" variable="ScrIni" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_FILE_RESTRICTION" id="Res" component="select" optional="true" variable="Res" initial-load="query" target-action="ProNamLst" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_ACTIVE" id="Act" component="select" variable="Act" initial-load="enum" target-action="Es1Es0" validation="required" style="col-xs-12 col-sm-6 col-lg-3" />
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

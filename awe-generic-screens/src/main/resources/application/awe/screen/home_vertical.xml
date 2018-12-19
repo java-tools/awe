@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : home_vertical.xml
+    Created on : 8 de febrero de 2010, 16:30
+    Author     : Pablo GARCIA
+    Description: New Home page (Menu and Report)
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="full" onload="MgrUsrLogIn">
+
+  <!--
+  SAMPLE DEFAULT PARAMETER LOADING
+  target="SesPrm" -->
+
+  <!-- Center Zone: Show menu and reports -->
+  <tag source="center" type="div" style="fullScreen" expandible="vertical">
+    <tag type="div" id="main-wrapper" style="expand" expandible="vertical">
+      <tag type="div" id="main-navbar" style="navbar navbar-inverse">
+        <button label="BUTTON_HIDE_MENU" button-type="button" id="main-menu-toggle" icon="bars icon navbar-icon" style="no-class">
+          <button-action type="toggle-menu" />
+        </button>
+        <include target-screen="home_navbar" target-source="center" />
+      </tag>
+      <tag type="div" id="main-menu" style="menu-shadow vertical">
+        <tag type="div" id="main-menu-bg" style="main-menu-inner">
+          <menu-container id="MainMenu" style="navigation vertical" />
+        </tag>
+      </tag>
+      <tag type="div" id="content-wrapper" style="expand" expandible="vertical">
+        <view name="report" style="expand reportView expandible-vertical"/>
+      </tag>
+    </tag>
+  </tag>
+</screen>

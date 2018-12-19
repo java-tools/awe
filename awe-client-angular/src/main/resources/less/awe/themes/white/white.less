@@ -1,0 +1,22 @@
+//
+// Themes / White
+// --------------------------------------------------
+
+.theme-white {
+  @theme-color: #4ab6d5;
+  // Main menu background color
+  @menu-color: #fff;
+  // Primary color
+  @primary-color: #4ab6d5;
+  // Grid colors
+
+  // Mixins
+  .awe-main-menu(@menu-color,light);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(@primary-color);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

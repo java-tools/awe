@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--$Id$-->
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/services.xsd">
+
+  <!-- Extract sql -->
+  <service id="selectExtract">
+    <java classname="com.almis.awe.tools.service.SqlExtractorService" method="extractData">
+      <service-parameter name="select" type="STRING" />
+      <service-parameter name="type" type="STRING" />
+    </java>
+  </service>
+  <!-- Get Select File -->
+  <service id="GetSelectFile">
+    <java classname="com.almis.awe.tools.service.SqlExtractorService" method="getSelectFile">
+    </java>
+  </service>
+
+  <!-- Load Select sentence -->
+  <service id="loadSelect">
+    <java classname="com.almis.awe.tools.service.SqlExtractorService" method="loadSelectSentence">
+      <service-parameter name="fileName" type="STRING" />
+    </java>
+  </service>
+
+  <!-- Save select file -->
+  <service id="SaveSelectFile">
+    <java classname="com.almis.awe.tools.service.SqlExtractorService" method="saveSelectFile">
+      <service-parameter name="saveFileName" type="STRING" />
+      <service-parameter name="selectsText" type="STRING" />
+    </java>
+  </service>
+
+  <!-- Load Select sentence -->
+  <service id="duplicatedFile">
+    <java classname="com.almis.awe.tools.service.SqlExtractorService" method="checkFile">
+      <service-parameter name="fileName" type="STRING" />
+    </java>
+  </service>
+
+  <!-- Load Select sentence -->
+  <service id="DelSqlCol">
+    <java classname="com.almis.awe.tools.service.SqlExtractorService" method="deleteColumns">
+    </java>
+  </service>
+  <service id="ExpFilSql">
+    <java classname="com.almis.awe.tools.service.SqlExtractorService" method="printColumns">
+      <service-parameter name="select" type="STRING" />
+      <service-parameter name="formats" type="STRING" list="true" />
+    </java>
+  </service>
+
+</services>

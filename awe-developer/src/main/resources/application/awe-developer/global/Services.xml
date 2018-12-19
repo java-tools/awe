@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--$Id$ -->
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../../schemas/awe/services.xsd">
+  <!-- dev -->
+  <service id="LitTra">
+    <java classname="com.almis.awe.developer.service.LiteralsService"
+      method="translate">
+      <service-parameter name="text" type="STRING" />
+      <service-parameter name="fromLanguage" type="STRING" />
+      <service-parameter name="toLanguage" type="STRING" />
+    </java>
+  </service>
+  <service id="LitLst">
+    <java classname="com.almis.awe.developer.service.LiteralsService"
+      method="getLocaleMatches">
+      <service-parameter name="literal" type="STRING" />
+      <service-parameter name="language" type="STRING" />
+    </java>
+  </service>
+  <service id="GetTraSer">
+    <java classname="com.almis.awe.developer.service.LiteralsService"
+      method="getTranslationList">
+      <service-parameter name="code" type="STRING" />
+    </java>
+  </service>
+  <service id="LitSavSer">
+    <java classname="com.almis.awe.developer.service.LiteralsService"
+      method="saveTranslation">
+      <service-parameter name="formatSelector" type="STRING" />
+      <service-parameter name="text" type="STRING" />
+      <service-parameter name="markdown" type="STRING" />
+      <service-parameter name="language" type="STRING" />
+      <service-parameter name="searchLanguage" type="STRING" />
+      <service-parameter name="code" type="STRING" />
+    </java>
+  </service>
+  <service id="LitNewSer">
+    <java classname="com.almis.awe.developer.service.LiteralsService"
+      method="newLiteral">
+      <service-parameter name="language" type="STRING" />
+      <service-parameter name="code" type="STRING" />
+      <service-parameter name="literal" type="STRING" />
+    </java>
+  </service>
+  <service id="LitDelSer">
+    <java classname="com.almis.awe.developer.service.LiteralsService"
+      method="deleteLiteral">
+      <service-parameter name="code" type="STRING" />
+    </java>
+  </service>
+  <service id="LanSesVarSer">
+    <java classname="com.almis.awe.developer.service.LiteralsService"
+      method="getUsingLanguage" />
+  </service>
+  <service id="GetSelectedLocale">
+    <java classname="com.almis.awe.developer.service.LiteralsService"
+      method="getSelectedLocale">
+      <service-parameter name="language" type="STRING" />
+      <service-parameter name="code" type="STRING" />
+    </java>
+  </service>
+  <service id="SwitchLanguages">
+    <java classname="com.almis.awe.developer.service.LiteralsService"
+      method="switchLanguages">
+      <service-parameter name="fromLanguage" type="STRING" />
+      <service-parameter name="toLanguage" type="STRING" />
+      <service-parameter name="fromTarget" type="STRING" />
+      <service-parameter name="toTarget" type="STRING" />
+    </java>
+  </service>
+
+  <!-- Check Path -->
+  <service id="checkPath">
+    <java classname="com.almis.awe.developer.service.PathService"
+      method="checkPath">
+    </java>
+  </service>
+  <!-- Set Path -->
+  <service id="SetPath">
+    <java classname="com.almis.awe.developer.service.PathService"
+      method="setPath">
+      <service-parameter name="pathval" type="STRING" />
+    </java>
+  </service>
+</services>

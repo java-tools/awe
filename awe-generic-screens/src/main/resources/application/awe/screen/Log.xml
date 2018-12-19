@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Log.xml
+    Created on : 24 de septiembre de 2013
+    Author     : Pablo Vidal
+    Description: Log List Screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_LOG" help="HELP_SCREEN_TITLE_LOG" keep-criteria="true">
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button button-type="button" label="BUTTON_VIEW" icon="eye" id="ButViw" help="HELP_VIEW_BUTTON">
+      <button-action type="check-one-selected" target="GrdLogLst" />
+      <dependency target-type="disable" initial="true">
+        <dependency-element id="GrdLogLst" condition="ne" value="1" />
+      </dependency>
+      <button-action type="screen" target="view-log" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="static criteria" label="SCREEN_TEXT_CRITERIA" icon="filter">
+      <tag type="div" style="panel-body static">
+        <criteria label="PARAMETER_FILE_NAME" component="text" id="CrtFil" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_DATE" component="date" id="CrtDat" style="col-xs-12 col-sm-4 col-lg-2" />
+        <criteria label="PARAMETER_HOUR_INI" component="time" id="HouIni" validation="{le:{criterion:'HouFin'}}" style="col-xs-6 col-sm-4 col-lg-2">
+          <dependency target-type="set-readonly" initial="true">
+            <dependency-element id="CrtDat" condition="eq" value="" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_HOUR_FIN" component="time" id="HouFin" validation="{ge:{criterion:'HouIni'}}" style="col-xs-6 col-sm-4 col-lg-2">
+          <dependency target-type="set-readonly" initial="true">
+            <dependency-element id="CrtDat" condition="eq" value="" />
+          </dependency>
+        </criteria>
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button icon="eraser" label="BUTTON_RESET" id="ButRst" help="HELP_RESET_BUTTON" button-type="button">
+            <button-action type="reset" />
+          </button>
+          <button button-type="submit" label="BUTTON_SEARCH" icon="search" id="ButSch" help="HELP_SEARCH_BUTTON">
+            <button-action type="validate" />
+            <button-action type="filter" target="GrdLogLst" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <window style="expand" label="SCREEN_TEXT_DATA" icon="list" maximize="true">
+      <grid id="GrdLogLst" style="expand" initial-load="query" server-action="data" target-action="getLogList" multiselect="true" max="50">
+        <column name="Fil" hidden="true" />
+        <column label="PARAMETER_LOG" name="Nam" sort-field="Nam" align="left" charlength="80" />
+        <column label="PARAMETER_DATE" name="Dat" sort-field="Dat" align="center" charlength="20" />
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

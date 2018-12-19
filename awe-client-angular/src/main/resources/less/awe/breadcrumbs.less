@@ -1,0 +1,47 @@
+//
+// Breadcrumbs
+// --------------------------------------------------
+
+
+.breadcrumb.breadcrumb-page {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+}
+
+.size-sm .breadcrumb-page {
+  padding-bottom: 6px;
+  padding-top: 6px;
+}
+
+.size-md .breadcrumb {
+  padding: 10px @breadcrumb-padding-horizontal;
+
+  &.breadcrumb-page {
+    padding-bottom: 9px;
+    padding-top: 10px;
+  }
+
+  > li {
+    font-size: @font-size-base;
+    + li:before {
+      padding: 0 5px;
+    }
+  }
+}
+
+.size-lg .breadcrumb {
+  padding: 12px @breadcrumb-padding-horizontal;
+
+  &.breadcrumb-page {
+    padding-bottom: 14px;
+    padding-top: 12px;
+  }
+
+  > li {
+    font-size: @font-size-large;
+    + li:before {
+      padding: 0 5px;
+    }
+  }
+}

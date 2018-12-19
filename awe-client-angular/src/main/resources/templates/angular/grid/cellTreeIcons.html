@@ -1,0 +1,3 @@
+<div class="ui-grid-tree-base-row-header-buttons" column-id="{{col.name}}" ng-class="{'ui-grid-tree-base-header': row.treeLevel > -1 }" ng-style="::{'padding-left': grid.options.treeIndent * row.treeLevel + 'px'}">
+  <i class="tree-icon fa {{row.entity.$$treeIcon}}" ng-click="grid.appScope.component.treeButtonClick(row, $event)"></i> &nbsp;
+</div>

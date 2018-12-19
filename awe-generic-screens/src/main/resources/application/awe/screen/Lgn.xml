@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Lgn.xml
+    Created on : 8 de febrero de 2010, 16:30
+    Author     : Pablo GARCIA
+    Description: Login screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="login" label="SCREEN_TITLE_LOGIN" help="HELP_SCREEN_TITLE_LOGIN">
+  <javascript id="text" />
+  <javascript id="replace_top" />
+  <tag source="center">
+    <window style="login" label="SCREEN_TITLE_LOGIN">
+      <tag type="i" style="login_icon icon-key" />
+      <tag type="div" style="panel-body expand">
+        <criteria label="SCREEN_TEXT_USER" component="text" id="cod_usr" validation="required" />
+        <criteria label="SCREEN_TEXT_PASS" component="text" id="pwd_usr" validation="required" />
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="submit" label="BUTTON_LOGIN" icon="signin" id="ButLogIn">
+            <button-action type="validate" />
+            <button-action type="server" server-action="login" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+  </tag>
+</screen>

@@ -1,0 +1,1466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Actions.xml
+    Created on : 5 de febrero de 2010, 12:46
+    Author     : Pablo GARCIA
+    Description:
+        Purpose of the document follows.
+-->
+
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/actions.xsd">
+
+  <!-- DEFAULT ERROR! DO NOT REMOVE -->
+  <action id="DEFAULT_ERROR" format="JSON">
+    <call service="NONE" />
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- LOGIN ACTION -->
+  <action id="login" format="HTML">
+    <call service="login"/>
+  </action>
+
+  <!-- LOGIN ACTION -->
+  <action id="loginRedirect" format="JSON">
+    <call service="login" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- LOGOUT ACTION -->
+  <action id="logout" format="HTML">
+    <call service="logout" />
+  </action>
+
+  <!-- LOGOUT ACTION -->
+  <action id="logoutRedirect" format="JSON">
+    <call service="logout" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- REFRESH MENU ACTION -->
+  <action id="refresh-menu" format="JSON">
+    <call service="refreshMenu"/>
+    <answer type="ok">
+      <response>
+        <type>change-menu</type>
+        <parameters>
+          <parameter name="options" variable="MENU_OPTIONS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type"   variable="MESSAGE_TYPE" />
+          <parameter name="title"   variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- MAINTAIN ACTION -->
+  <action id="maintain" format="JSON">
+    <call service="launchMaintain" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+          <parameter name="result_details" variable="MESSAGE_RESULT_DETAILS" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" value="error" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- MAINTAIN SILENT ACTION -->
+  <action id="maintain-silent" format="JSON">
+    <call service="launchMaintain" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" value="error" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- MAINTAIN ASYNC ACTION (LIKE MAINTAIN SILENT, BUT WITHOUT RESPONSE) -->
+  <action id="maintain-async" format="JSON">
+    <call service="launchMaintain" />
+  </action>
+
+  <!-- DATA SILENT ACTION -->
+  <action id="data-silent" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" value="error" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- DATA SILENT ACTION -->
+  <action id="update-model" format="JSON">
+    <call service="updateModel" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" value="error" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- DATA REQUEST ACTION -->
+  <action id="data" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>fill</type>
+        <parameters>
+          <parameter name="datalist" variable="DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>fill</type>
+        <parameters>
+          <parameter name="datalist" variable="DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>fill</type>
+        <parameters>
+          <parameter name="datalist" variable="DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- TREE BRANCH REQUEST ACTION -->
+  <action id="tree-branch" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>tree-branch</type>
+        <parameters>
+          <parameter name="datalist" variable="DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>tree-branch</type>
+        <parameters>
+          <parameter name="datalist" variable="DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>tree-branch</type>
+        <parameters>
+          <parameter name="datalist" variable="DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- DATA REQUEST ACTION -->
+  <action id="polyline" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>polyline</type>
+        <parameters>
+          <parameter name="rows" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>polyline</type>
+        <parameters>
+          <parameter name="rows" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>polyline</type>
+        <parameters>
+          <parameter name="rows" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- UPDATE CONTROLLER REQUEST ACTION -->
+  <action id="update-controller" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>update-controller</type>
+        <parameters>
+          <parameter name="attribute" parameter="controllerAttribute" />
+          <parameter name="target" parameter="componentId" />
+          <parameter name="datalist" variable="DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- DATA SUBSCRIBE ACTION -->
+  <action id="subscribe" format="JSON">
+    <call service="subscribe" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- VALUE REQUEST ACTION -->
+  <action id="value" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>select</type>
+        <parameters>
+          <parameter name="values" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>select</type>
+        <parameters>
+          <parameter name="values" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>select</type>
+        <parameters>
+          <parameter name="values" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- VALIDATE ACTION -->
+  <action id="validate" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>set-valid</type>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>set-invalid</type>
+        <parameters>
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>set-invalid</type>
+        <parameters>
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- UNIQUE ACTION -->
+  <action id="unique" format="JSON">
+    <call service="checkUnique" />
+    <answer type="ok">
+      <response>
+        <type>set-valid</type>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>set-invalid</type>
+        <parameters>
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- CONTROL ACTION -->
+  <action id="control" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- CONTROL CANCEL -->
+  <action id="control-cancel" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- CONTROL AND DIALOG ACTION -->
+  <action id="control-confirm" format="JSON">
+    <call service="checkUnique" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>confirm</type>
+        <parameters>
+          <parameter name="target" parameter="target" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- CONTROL AND DIALOG ACTION (CANCEL THE REST OF THE ACTIONS)-->
+  <action id="control-confirm-cancel" format="JSON">
+    <call service="checkUnique" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>confirm</type>
+        <parameters>
+          <parameter name="target" parameter="target" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- CONTROL AND DIALOG ACTION -->
+  <action id="control-confirm-message" format="JSON">
+    <call service="checkUnique" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>confirm</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- CONTROL UNIQUE AND CANCEL -->
+  <action id="control-unique-cancel" format="JSON">
+    <call service="checkUnique" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" value="warning" />
+          <parameter name="target" parameter="target" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- GET GENERATED FILE -->
+  <action id="get-file" format="FILE">
+    <call service="GetGenFil" />
+  </action>
+
+  <!-- GET GENERATED FILE (VIA SERVICE CALL) -->
+  <action id="get-file-maintain" format="FILESTREAM">
+    <call service="launchMaintain" />
+  </action>
+
+  <!-- GET SCREEN DATA -->
+  <action id="screen-data" format="JSON">
+    <call service="getScreenData" />
+    <answer type="ok">
+      <response>
+        <type>screen-data</type>
+        <parameters>
+          <parameter name="view" parameter="view"/>
+          <parameter name="screenData" variable="SCREEN_DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>screen-data</type>
+        <parameters>
+          <parameter name="view" parameter="view" />
+          <parameter name="screenData" variable="SCREEN_DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- RELOAD SCREEN ACTION -->
+  <action id="reload" format="HTML">
+    <call service="ScrRel" />
+  </action>
+
+  <!-- CLEAR ALL CACHES -->
+  <action id="clear-cache" format="TEXT">
+    <call service="ClrAllCch" />
+  </action>
+
+  <!-- CLEAR DATA CACHE -->
+  <action id="clear-data-cache" format="TEXT">
+    <call service="ClrDatCch" />
+  </action>
+
+  <!-- CLEAR FILE CACHE -->
+  <action id="clear-file-cache" format="TEXT">
+    <call service="ClrFilCch" />
+  </action>
+
+  <!-- ENCRYPT TEXT -->
+  <action id="encrypt" format="TEXT">
+    <call service="EncTxt" />
+  </action>
+
+  <!-- UPLOAD FILE -->
+  <action id="upload-file" format="JSON">
+    <call service="UplFil" />
+  </action>
+
+  <!-- GET UPLOADING STATUS -->
+  <action id="file-status" format="JSON">
+    <call service="StaFil" />
+    <answer type="ok">
+      <response>
+        <type>file-uploaded</type>
+        <parameters>
+          <parameter name="name" variable="FILE_NAME" />
+          <parameter name="size" variable="FILE_SIZE" />
+          <parameter name="path" variable="FILE_PATH" />
+          <parameter name="type" variable="FILE_TYPE" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>file-status</type>
+        <parameters>
+          <parameter name="percent" variable="FILE_PERCENT" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>clear-file</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- GET UPLOADING STATUS -->
+  <action id="file-info" format="JSON">
+    <call service="getFileInformation" />
+    <answer type="ok">
+      <response>
+        <type>file-uploaded</type>
+        <parameters>
+          <parameter name="name" variable="FILE_NAME" />
+          <parameter name="size" variable="FILE_SIZE" />
+          <parameter name="path" variable="FILE_PATH" />
+          <parameter name="type" variable="FILE_TYPE" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>clear-file</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- DELETE UPLOADED FILE -->
+  <action id="delete-file" format="JSON">
+    <call service="deleteFile" />
+    <answer type="ok">
+      <response>
+        <type>clear-file</type>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>clear-file</type>
+      </response>
+    </answer>
+  </action>
+
+  <!-- GET UPLOADED FILE -->
+  <action id="download-file" format="FILE">
+    <call service="GetUplFil" />
+  </action>
+
+  <!-- VIEW PDF FILE -->
+  <action id="view-pdf-file" format="PDF_VIEWER">
+    <call service="viewPdf" />
+  </action>
+
+  <!-- GET FILE FROM SERVER -->
+  <action id="get-server-file" format="FILE">
+    <call service="GetServerFile" />
+  </action>
+
+  <!-- APPLICATION LOCALS RETRIEVAL -->
+  <action id="get-locals" format="JSON">
+    <call service="getApplicationLocales" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>locals-retrieved</type>
+        <parameters>
+          <parameter name="language" variable="LANGUAGE" />
+          <parameter name="translations" variable="LOCALS" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- GET LOG FILE -->
+  <action id="get-log-file" format="JSON">
+    <call service="getLogFile" />
+    <answer type="ok">
+      <response>
+        <type>log-delta</type>
+        <parameters>
+          <parameter name="log" variable="LOG_CONTENT" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+  <!-- CHANGE LOG LEVEL -->
+  <action id="change-log-level" format="TEXT">
+    <call service="ChgLogLvl" />
+  </action>
+
+  <!-- TARGET MESSAGE ACTIONS -->
+  <action id="data-target-message" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>fill</type>
+        <parameters>
+          <parameter name="data" variable="DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>fill</type>
+        <parameters>
+          <parameter name="datalist" variable="DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>fill</type>
+        <parameters>
+          <parameter name="datalist" variable="DATA" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+  <!-- VALUE REQUEST ACTION -->
+  <action id="value-target-message" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>select</type>
+        <parameters>
+          <parameter name="values" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>select</type>
+        <parameters>
+          <parameter name="values" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>select</type>
+        <parameters>
+          <parameter name="values" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+  <!-- MAINTAIN ACTION -->
+  <action id="maintain-target-message" format="JSON">
+    <call service="launchMaintain" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>select</type>
+        <parameters>
+          <parameter name="values" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>select</type>
+        <parameters>
+          <parameter name="values" variable="ROWS" />
+        </parameters>
+      </response>
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>message</type>
+        <parameters>
+          <parameter name="type" value="error" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+      <response>
+        <type>cancel</type>
+      </response>
+    </answer>
+  </action>
+  <!-- CONTROL ACTION -->
+  <action id="control-target-message" format="JSON">
+    <call service="launchQuery" />
+    <answer type="ok">
+      <response>
+        <type>end-load</type>
+      </response>
+    </answer>
+    <answer type="warning">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="info">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+    <answer type="error">
+      <response>
+        <type>end-load</type>
+      </response>
+      <response>
+        <type>target-message</type>
+        <parameters>
+          <parameter name="type" variable="MESSAGE_TYPE" />
+          <parameter name="title" variable="MESSAGE_TITLE" />
+          <parameter name="message" variable="MESSAGE_DESCRIPTION" />
+        </parameters>
+      </response>
+    </answer>
+  </action>
+
+</actions>
+

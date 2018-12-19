@@ -1,0 +1,7 @@
+<div ng-show="component.controller.visible" class="column text-{{::component.controller.align}} no-animate" ui-dependency="dependencies" ng-click="click($event)" ng-cloak>
+  <button type="button" id="{{component.id}}" title="{{component.model.values[0].title| translateMultiple}}"
+          class="{{classes}} {{component.model.values[0].style}}" ng-disabled="isDisabled()" ng-click="onClick($event)" ng-mousedown="onMouseDown()" ng-cloak>
+    <i ng-if="component.controller.icon || component.model.values[0].icon" class="fa {{component.model.values[0].icon || component.controller.icon}}"></i>
+    <span ng-if="component.model.values[0].label" class="button-text" translate-multiple="{{component.model.values[0].label}}"></span>
+  </button>
+</div>

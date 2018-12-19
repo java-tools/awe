@@ -1,0 +1,8 @@
+tag(e,children) ::= "$if(e.type)$<$e.type$$if(e.id)$ id=\"$e.id$\"$endif$$if(e.style||e.expand)$ class=\"$e.style$$if(e.expand)$ expandible-$e.expand$$endif$\"$endif$>$endif$$if(e.label)$<span translate$if(e.title)$ title=\"{{'$e.title$' | translateMultiple}}\"$endif$>$e.label$</span>$else$$if(e.value)$$e.value$$else$$children$$endif$$endif$$if(e.type)$</$e.type$>$endif$"
+info(e,children) ::= "<awe-info$if(e.id)$ id=\"$e.id$\"$endif$$if(e.title)$ info-title=\"$e.title$\"$endif$$if(e.infoStyle)$ info-style=\"$e.infoStyle$\"$endif$>$children$</awe-info>"
+component(e,component,children) ::= "$if(component)$<awe-$component$ $component$-id=\"$e.id$\">$children$</awe-$component$>$endif$"
+view(e,children) ::= "<div ui-view=\"$e.name$\" class=\"awe-view $e.style$\" ng-class=\"{visible:visible}\" autoscroll=\"false\">$children$</div>"
+taglist(e,component,children) ::= "<$if(e.type)$$e.type$$else$div$endif$ awe-tag-list=\"$e.id$\" class=\"$e.style$\"></$if(e.type)$$e.type$$else$div$endif$>"
+breadcrumb(text) ::= "<li title=\"{{'$text$' | translateMultiple}}\" translate-multiple=\"$text$\"></li>"
+empty(e,component,children) ::= ""
+children(e,component,children) ::= "$children$"

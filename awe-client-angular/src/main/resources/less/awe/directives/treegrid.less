@@ -1,0 +1,324 @@
+/* Angular grid configuration */
+.treegrid {
+  min-height: 150px;
+  position: relative;
+  overflow: hidden !important;
+  margin-bottom: 0px;
+  &.grid-bordered {
+    border: 1px solid @table-border-color;
+  }
+
+  .table.table-bordered {
+    th, td {
+      border-left: 0px;
+      border-top: 0px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      display: block;
+    }
+    th {
+      text-align:center;
+      vertical-align: middle;
+    }
+  }
+
+  .fixed-height:after {
+    content: "\00a0";
+  }
+  .table-footer {
+    border-width: 0;
+    border-top-width: 1px;
+    margin-top: 0;
+    min-height: 30px;
+  }
+
+  td.component {
+    .column-input {
+      .visible-value {
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .loader {
+        width: 100%;
+        position: absolute;
+        height: 100%;
+        vertical-align: middle;
+        text-align: center;
+        z-index: 10;
+      }
+    }
+  }
+
+  td.merged {
+    border-right: 0px solid transparent;
+    margin-right: 1px;
+  }
+
+  &.treegrid-sm {
+    .table.table-bordered {
+      th, td {
+        font-size: @font-size-small;
+      }
+      th {
+        padding: 5px 4px;
+        div {
+          line-height: 17px;
+        }
+      }
+      td {
+        line-height: @input-height-small + 1px;
+        padding: 0px 4px;
+        height: @input-height-small + 1px;
+        overflow: hidden;
+        cursor: pointer;
+        vertical-align: middle;
+      }
+      td.component {
+        padding: 0px;
+        .column-input {
+          width: 100%;
+          height: @input-height-small;
+          textarea {
+            height: @input-height-small;
+          }
+          label.checkbox {
+            margin: 0px 0px 0px 6px;
+            top: -12px;
+            position: relative;
+          }
+          .visible-value {
+            padding: 0px 4px;
+            line-height: @input-height-small + 1px;
+          }
+        }
+      }
+    }
+    .table-footer {
+      padding: 3px 12px 2px 12px;
+      line-height: 24px;
+      height: 28px;
+    }
+    .pagination-content {
+      line-height: 23px;
+    }
+    .grid-buttons {
+      margin: -1px;
+    }
+    .loader {
+      line-height: 26px;
+    }
+  }
+  &.treegrid-md {
+    .table.table-bordered {
+      th, td {
+        font-size: @font-size-base;
+      }
+      th {
+        padding: 8px 4px;
+        div {
+          line-height: 19px;
+        }
+      }
+      td {
+        padding: 0px 4px;
+        line-height: @input-height-base + 1px;
+        height: @input-height-base + 1px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      td.component {
+        padding: 0px;
+        .column-input {
+          width: 100%;
+          textarea {
+            height: @input-height-base;
+          }
+          label.checkbox {
+            margin: 0px 0px 0px 6px;
+            position: relative;
+            top: -14px;
+            height: 32px;
+          }
+          .visible-value {
+            padding: 0px 4px;
+            line-height: @input-height-base + 1px;
+          }
+        }
+      }
+    }
+    .table-footer {
+      padding: 2px 12px 2px 12px;
+      line-height: 34px;
+      height: 38px;
+      .pagination-content {
+        font-size: @font-size-base;
+      }
+      .pagination-number {
+        line-height: 32px;
+      }
+    }
+    .pagination-content {
+    }
+    .grid-buttons {
+      margin: -2px;
+    }
+    .loader {
+      line-height: 32px;
+    }
+  }
+  &.treegrid-lg {
+    .table.table-bordered {
+      th, td {
+        font-size: @font-size-large;
+      }
+      th {
+        padding: 10px 4px;
+        div {
+          line-height: 21px;
+        }
+      }
+      td {
+        cursor: pointer;
+        padding: 0px 4px;
+        height: @input-height-large + 1px;
+        overflow: hidden;
+        line-height: @input-height-large + 1px;
+      }
+      td.component {
+        padding: 0px;
+        .column-input {
+          width: 100%;
+          textarea {
+            height: @input-height-large;
+          }
+          label.checkbox {
+            margin: 8px 0px 0px 6px;
+            position: relative;
+            top: -23px;
+            height: 36px;
+          }
+          .visible-value {
+            padding: 0px 4px;
+            line-height: @input-height-large + 1px;
+          }
+        }
+      }
+    }
+    .table-footer {
+      padding: 2px 12px 2px 12px;
+      line-height: 38px;
+      height: 42px;
+      .pagination-content {
+        font-size: @font-size-large;
+      }
+      .pagination-number {
+        line-height: 36px;
+      }
+    }
+    .pagination-content {
+    }
+    .grid-buttons {
+      margin: -2px;
+    }
+    .loader {
+      line-height: 36px;
+    }
+  }
+
+  .pagination {
+    overflow: hidden;
+  }
+
+  .pagination-content {
+    overflow:hidden;
+    padding: 0px !important;
+  }
+
+  .pagination-number {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .pagination-sm {
+    a {
+      padding: 2px 8px;
+    }
+  }
+
+  .save-button {
+    position: absolute;
+    top: -10000px;
+    left: -10000px;
+    padding: 4px;
+    border: 1px solid @table-border-color;
+    border-top: 0px;
+    white-space: nowrap;
+    z-index: 1;
+  }
+
+  // Subtotal grid style
+  tr.SUBTOTAL {
+    background-color: #eee !important;
+  }
+
+  // Total grid style
+  tr.TOTAL {
+    background-color:#ddd !important;
+    border-top: solid #ccc 2px;
+    td {
+      font-weight: bold !important;
+    }
+  }
+
+  td.component > .expanding-cell {
+    padding-left: 4px;
+  }
+
+  .expanding-cell {
+    .display-flex;
+    > .tree-icon {
+      .flex-align-self(center);
+      padding:5px;
+    }
+    > .tree-label {
+      .flex(1);
+    }
+  }
+
+  .table {
+    width: auto;
+    max-width: auto;
+  }
+
+  .treeFirstRow, .treeFirstRow > td {
+    height: 0px !important;
+  }
+
+  .table-header > .table {
+    position: relative;
+  }
+
+  .tree-grid-header-row,
+  .tree-grid-row {
+    .display-flex;
+  }
+}
+
+.tree-icon {
+  &.icon-collapse-remove {
+    .rotate(90deg);
+  }
+
+  &.icon-expand-remove {
+    .rotate(-90deg);
+  }
+
+  &.icon-expand-add.icon-expand-add-active,
+  &.icon-expand-remove.icon-expand-remove-active{
+    .transition(all, cubic-bezier(.4,0,.2,1), 200ms);
+    .rotate(0deg);
+  }
+}

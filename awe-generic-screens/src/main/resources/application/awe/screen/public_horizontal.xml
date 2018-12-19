@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : home.xml
+    Created on : 8 de febrero de 2010, 16:30
+    Author     : Pablo GARCIA
+    Description: New Home page (Menu and Report)
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="full">
+
+  <!--
+  SAMPLE DEFAULT PARAMETER LOADING
+  target="SesPrm" -->
+
+  <!-- Center Zone: Show menu and reports -->
+  <tag id="main-wrapper" source="center" type="div" style="fullScreen horizontal" expandible="vertical">
+    <tag type="div" style="horizontal-header">
+      <tag type="div" id="main-navbar" style="navbar navbar-inverse horizontal">
+        <!-- Uncomment this to show the menu toggler
+        <button id="main-menu-toggle" icon="bars icon navbar-icon" style="no-class">
+          <button-action type="toggle-menu" />
+        </button>
+        -->
+        <include target-screen="public_navbar" target-source="center" />
+      </tag>
+    </tag>
+    <tag type="div" id="main-menu" style="horizontal menu-shadow">
+      <tag type="div" id="main-menu-bg" style="main-menu-inner">
+        <menu-container id="MainMenu" style="horizontal navigation" />
+      </tag>
+    </tag>
+    <tag type="div" id="horizontal-content-wrapper" style="expand reportView" expandible="vertical">
+      <view name="report" style="expand expandible-vertical"/>
+    </tag>
+  </tag>
+</screen>

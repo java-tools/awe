@@ -1,0 +1,22 @@
+//
+// Print management
+// --------------------------------------------------
+
+@media print {
+  body, html, form,
+  .expand, .scrollable, .fullScreen, .fullHeight,
+  .panel .panel-content.expand {
+    overflow-y: visible !important;
+    height: auto !important;
+  }
+  #main-menu, .horizontal-header,
+  .btn, .btn-group, .pagination, .select2-hidden-accessible {
+    display: none !important;
+  }
+
+  pre,
+  blockquote {
+    page-break-inside: auto !important;
+    font-size: 8px !important;
+  }
+}

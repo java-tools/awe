@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ScrCnf.xml
+    Created on : 28 de Junio de 2013
+    Author     : Pablo VIDAL
+    Description: Ventana de herramientas - Configuraci?n de pantallas
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_SCR_CNF" help="HELP_SCREEN_TITLE_SCR_CNF">
+  <tag source="hidden">
+    <message id="UpdMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE" />
+  </tag>
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_PRINT" icon="print" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="validate" />
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+    <button label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" />
+      <button-action type="confirm" target="UpdMsg" />
+      <button-action type="server" server-action="maintain" target-action="updateScreenConfiguration" />
+      <button-action type="filter" target="GrdScrCnf" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="static criteria" label="SCREEN_TEXT_CRITERIA" icon="filter">
+      <tag type="div" style="panel-body static">
+        <criteria label="PARAMETER_SCREEN" component="suggest" id="CrtScr" server-action="data" target-action="getScreenList" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_USER" component="suggest" id="CrtUsr" server-action="data" target-action="UsrSug" optional="true" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_PROFILE" component="select" id="CrtPro" initial-load="query" target-action="ProSel" optional="true" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_ACTIVE" component="select" id="CrtAct" initial-load="enum" target-action="Es1Es0" optional="true" style="col-xs-12 col-sm-6 col-lg-3" />
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="reset" label="BUTTON_RESET" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
+          <button button-type="submit" label="BUTTON_SEARCH" icon="search" id="ButSch" help="HELP_SEARCH_BUTTON">
+            <button-action type="filter" target="GrdScrCnf" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <window style="expand" maximize="true" label="SCREEN_TEXT_DATA" icon="list">
+      <grid id="GrdScrCnf" style="expand" server-action="data" target-action="ScrCnfLst" initial-load="query" editable="true" send-operations="true" max="30">
+        <column label="PARAMETER_IDE" name="IdeAweScrCnf" sort-field="IdeAweScrCnf" hidden="true" align="center" />
+        <column label="PARAMETER_SCREEN" name="Scr" sort-field="Scr" align="left" charlength="30" component="suggest" server-action="data" target-action="getScreenList" validation="required" />
+        <column label="PARAMETER_USER" name="IdeOpe" sort-field="IdeOpe" align="left" charlength="25" component="suggest" server-action="data" target-action="UsrSug">
+          <dependency target-type="set-readonly" initial="true">
+            <dependency-element id="GrdScrCnf" column="IdePro" attribute="selectedRowValue" condition="is not empty"/>
+            <dependency-element id="GrdScrCnf" event="after-add-row" optional="true"/>
+          </dependency>
+        </column>
+        <column label="PARAMETER_PROFILE" name="IdePro" sort-field="IdePro" align="left" charlength="25" component="select" initial-load="query" server-action="data" target-action="ProSel"
+                optional="true">
+          <dependency target-type="set-readonly" initial="true">
+            <dependency-element id="GrdScrCnf" column="IdeOpe" attribute="selectedRowValue" condition="is not empty"/>
+            <dependency-element id="GrdScrCnf" event="after-add-row" optional="true"/>
+          </dependency>
+        </column>
+        <column label="PARAMETER_ELEMENT" name="Nam" sort-field="Nam" align="left" charlength="30" component="suggest" server-action="data" target-action="getScreenElementList" check-initial="false">
+          <dependency target-type="set-readonly" initial="true">
+            <dependency-element id="GrdScrCnf" column="Scr" attribute="selectedRowValue" condition="is empty"/>
+            <dependency-element id="GrdScrCnf" event="after-add-row" optional="true"/>
+          </dependency>
+          <dependency target-type="set-required" initial="true" invert="true">
+            <dependency-element id="GrdScrCnf" column="Scr" attribute="selectedRowValue" condition="is empty"/>
+            <dependency-element id="GrdScrCnf" event="after-add-row" optional="true"/>
+          </dependency>
+        </column>
+        <column label="PARAMETER_ATTRIBUTE" name="Atr" sort-field="Atr" align="left" charlength="30" component="suggest" server-action="data" target-action="getAttributeNameList" max="0">
+          <dependency target-type="set-readonly" initial="true">
+            <dependency-element id="GrdScrCnf" column="Nam" attribute="selectedRowValue" condition="is empty"/>
+            <dependency-element id="GrdScrCnf" event="after-add-row" optional="true"/>
+          </dependency>
+          <dependency target-type="set-required" initial="true" invert="true">
+            <dependency-element id="GrdScrCnf" column="Nam" attribute="selectedRowValue" condition="is empty"/>
+            <dependency-element id="GrdScrCnf" event="after-add-row" optional="true"/>
+          </dependency>
+        </column>
+        <column label="PARAMETER_VALUE" name="Val" sort-field="Val" align="left" charlength="30" component="text">
+          <dependency target-type="set-readonly" initial="true">
+            <dependency-element id="GrdScrCnf" column="Atr" attribute="selectedRowValue" condition="is empty"/>
+            <dependency-element id="GrdScrCnf" event="after-add-row" optional="true"/>
+          </dependency>
+          <dependency target-type="set-required" initial="true" invert="true">
+            <dependency-element id="GrdScrCnf" column="Atr" attribute="selectedRowValue" condition="is empty"/>
+            <dependency-element id="GrdScrCnf" event="after-add-row" optional="true"/>
+          </dependency>
+        </column>
+        <column label="PARAMETER_ACTIVE" name="Act" sort-field="Act" align="center" charlength="10" component="select" initial-load="query" validation="required" server-action="data"
+                target-action="Es1Es0" value="1" />
+        <button label="BUTTON_NEW" icon="plus-circle" id="ButGrdAdd">
+          <button-action type="add-row" target="GrdScrCnf" silent="true" />
+        </button>
+        <button label="BUTTON_DELETE" icon="trash" id="ButGrdDel">
+          <button-action type="delete-row" target="GrdScrCnf" silent="true" />
+          <dependency target-type="enable" initial="true">
+            <dependency-element id="GrdScrCnf" attribute="selectedRows" condition="eq" value="1" />
+          </dependency>
+        </button>
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

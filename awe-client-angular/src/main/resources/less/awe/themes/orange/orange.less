@@ -1,0 +1,141 @@
+//
+// Themes / Orange
+// --------------------------------------------------
+
+.theme-orange {
+  // Window color background
+  background: #FFEBD3;
+  // Main menu background color
+  @menu-color: #F05E31;
+  // Theme color
+  @theme-color: darken(@menu-color, 10%);
+  // Primary color
+  @primary-color: lighten(#482e1b, 5%); //lighten(@menu-color, 5%);
+
+  @awe-color: lighten(@menu-color, 15%);
+  @awe-text-color: #fff;
+  @awe-border-color: darken(@awe-color, 10%);
+  @button-color: #F05E31;
+
+  // Main navbar gradient
+  @navbar-start-color: #482e1b;
+  @navbar-end-color: lighten(@navbar-start-color, 5%);
+
+  // Main navbar text color
+  @navbar-text-color: #fff;
+
+  // Main navbar text shadow
+  @navbar-text-shadow: 0 -1px 0 rgba(0,0,0,.2);
+
+  // Navbar icon buttons
+  .nav-icon-btn-theme(@primary-color);
+
+  // Progress bars
+  .progress-bars-theme(@primary-color);
+
+  // Labels
+  .labels-theme(@primary-color);
+
+  // Badges
+  .badges-theme(@primary-color);
+
+  // Tables
+  .tables-theme(@primary-color);
+
+  // Tabs
+  .tabs-theme(@primary-color);
+
+  // Pills
+  .pills-theme(@primary-color);
+
+  // Dropdowns
+  .dropdowns-theme(@primary-color, #fff);
+
+  // Button groups
+  .button-groups-theme(@primary-color);
+
+  // Pagination
+  .pagination-theme(@primary-color);
+
+  // List groups
+  .list-groups-theme(@primary-color);
+
+  // Forms theme
+  .forms-theme(@primary-color);
+
+  // Text color
+  .text-primary {
+    .pixel-text-color(@primary-color);
+  }
+
+  // Background color
+  .bg-primary {
+    .pixel-bg-color(@primary-color);
+  }
+
+  // Plugins
+  //
+
+  // jQuery UI
+  .ui-slider-theme(@primary-color);
+  .ui-autocomplete-theme(@primary-color, #fff);
+  .ui-menu-theme(@primary-color);
+  .ui-progressbar-theme(@primary-color);
+  .ui-tabs-theme(@primary-color);
+  .ui-datepicker-theme(@primary-color);
+
+  // Plugins
+  .select2-theme(@primary-color);
+  .switcher-theme(@primary-color);
+  .pixel-file-input-theme(@primary-color);
+  .bootstrap-datepicker-theme(@primary-color);
+  .bootstrap-timepicker-theme(@primary-color);
+  .datepaginator-theme(@primary-color);
+  .editable-typeahead-theme(@primary-color);
+  .data-table-theme(@primary-color);
+  .dropzone-theme(@primary-color);
+  .md-editor-theme(@primary-color);
+
+  // Define panel and button default
+  .panel-awe {
+    .pixel-panel(@awe-color, @awe-text-color, @awe-border-color);
+  }
+
+  .signin-info {
+    background: rgba(85, 51, 51, 0.75);
+  }
+
+  #main-menu ul li,
+  #main-menu.horizontal ul.navigation,
+  #main-menu.horizontal ul ul li {
+    border-top: 0px solid lighten(@menu-color, 10%);
+    border-bottom: 0px solid darken(@menu-color, 10%);
+  }
+
+  //
+  // Themes / Orange / Main menu
+  // --------------------------------------------------
+
+  .navbar-inverse {
+    background-color: #482e1b;
+    .navbar-header,
+    .navbar-collapse {
+      background-color: #482e1b;
+    }
+  }
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(dark);
+  .awe-buttons(darken(@menu-color, 25%), lighten(@primary-color, 10%), lighten(@menu-color, 40%));
+  .awe-navbar(@navbar-start-color, @navbar-end-color, @navbar-text-color, @navbar-text-shadow, @menu-color, lighten(@menu-color, 25%));
+  .awe-loading-bar(lighten(@primary-color, 30%));
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+
+  #main-navbar .dropdown-menu a {
+    margin: 0px;
+  }
+}

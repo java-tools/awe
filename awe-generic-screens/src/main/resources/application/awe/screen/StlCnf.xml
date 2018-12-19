@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Document   : StlCnf.xml
+  Description: Style configuration
+-->
+
+<!--$Id$-->
+<screen label="SCREEN_TITLE_STL_CNF" help="HELP_SCREEN_TITLE_STL_CNF" template="window" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd">
+  <tag source="hidden">
+    <message id="UpdMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE" />
+  </tag>
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button icon="print" label="BUTTON_PRINT" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="validate" />
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+    <button icon="save" label="BUTTON_CONFIRM" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" />
+      <button-action type="confirm" target="UpdMsg" />
+      <button-action type="server" server-action="maintain" target-action="StlCnfMul" />
+      <button-action type="filter" target="GrdStlCnf" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="static criteria" label="SCREEN_TEXT_CRITERIA" icon="filter">
+      <tag type="div" style="static panel-body">
+        <criteria label="PARAMETER_STYLE" id="CrtStl" component="select" initial-load="enum" target-action="StlTyp" optional="true" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_USER" id="CrtUsr" component="suggest" server-action="data" target-action="UsrSug" optional="true" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_PROFILE" id="CrtPro" component="select" initial-load="query" target-action="ProSel" optional="true" style="col-xs-12 col-sm-6 col-lg-3" />
+        <criteria label="PARAMETER_ACTIVE" id="CrtAct" component="select" initial-load="enum" target-action="Es1Es0" optional="true" style="col-xs-12 col-sm-6 col-lg-3" />
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="reset" label="BUTTON_RESET" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
+          <button button-type="submit" label="BUTTON_SEARCH" icon="search" id="ButSch" help="HELP_SEARCH_BUTTON">
+            <button-action type="filter" target="GrdStlCnf" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <window style="expand" label="SCREEN_TEXT_DATA" maximize="true" icon="list">
+      <grid id="GrdStlCnf" style="expand" initial-load="query" server-action="data" target-action="UsrStlLstScr" max="30" editable="true" send-operations="true">
+        <column align="center" name="IdeAweStlCnf" sort-field="IdeAweStlCnf" hidden="true" />
+        <column align="left" label="COLUMN_STYLE" name="Stl" component="select" validation="required" initial-load="query" server-action="data" target-action="StlLst" sort-field="Stl"
+                charlength="20" />
+        <column align="left" label="PARAMETER_USER" name="IdeOpe" component="suggest" server-action="data" target-action="UsrSug" sort-field="IdeOpe" charlength="25" />
+        <column align="left" label="PARAMETER_PROFILE" name="IdePro" component="select" initial-load="query" server-action="data" target-action="ProSel" optional="true" sort-field="IdePro"
+                charlength="25" />
+        <column align="left" label="COLUMN_FONT" name="Fnt" component="select" initial-load="query" server-action="data" target-action="FntLst" sort-field="Fnt" optional="true" />
+        <column align="center" label="COLUMN_MAX_FNT_SIX" name="FntSiz" component="numeric" sort-field="FntSiz" />
+        <column align="left" label="COLUMN_BCK_COL" name="BckCol" component="color" sort-field="BckCol" charlength="40" />
+        <column align="left" label="COLUMN_TXT_COL" name="TxtCol" component="color" sort-field="TxtCol" charlength="40" />
+        <column align="left" label="COLUMN_ACT" name="Act" value="1" initial-load="query" component="select" validation="required" server-action="data" target-action="Es1Es0" sort-field="Act" />
+        <button icon="plus-circle" label="BUTTON_NEW" id="ButGrdAdd">
+          <button-action type="add-row" target="GrdStlCnf" />
+        </button>
+        <button icon="trash" label="BUTTON_DELETE" id="ButGrdDel">
+          <button-action type="delete-row" target="GrdStlCnf" />
+          <dependency initial="true" target-type="enable">
+            <dependency-element id="GrdStlCnf" condition="eq" value="1" />
+          </dependency>
+        </button>
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : EmlSrvNew.xml
+    Created on : 24 de Octubre de 2013
+    Author     : Pablo VIDAL
+    Description: Tools window - New Email server
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_EML_SRV_NEW" help="HELP_SCREEN_TITLE_EML_SRV_NEW">
+  <tag source="hidden">
+    <message id="NewMsg" title="CONFIRM_TITLE_NEW" message="CONFIRM_MESSAGE_NEW" />
+    <message id="UniMsg" title="WARNING_TITLE_DUPLICATED_SERVER" message="WARNING_MESSAGE_DUPLICATED_SERVER" />
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button button-type="button" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" />
+      <button-action type="confirm" target="NewMsg" />
+      <button-action type="server" server-action="control-unique-cancel" target-action="EmlSrvNamUni" target="UniMsg" />
+      <button-action type="server" server-action="maintain" target-action="EmlSrvNew" />
+      <button-action type="back" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand" label="SCREEN_TEXT_DATA" icon="plus-circle">
+      <tag type="div" style="panel-body static">
+        <criteria label="PARAMETER_ALIAS" id="SrvNam" variable="SrvNam" component="text" validation="required" style="col-xs-12 col-sm-4 col-lg-3" />
+        <criteria label="PARAMETER_SERVER" id="Hst" variable="Hst" component="text" validation="required" style="col-xs-12 col-sm-8 col-lg-6 col-lg-offset-right-3" />
+        <criteria label="PARAMETER_USER" id="EmlUsr" variable="EmlUsr" component="text" style="col-xs-12 col-sm-4 col-lg-3">
+          <dependency target-type="set-editable" initial="true">
+            <dependency-element id="Ath" condition="eq" value="1" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_PASSWD" id="EmlPwd" component="password" variable="EmlPwd" style="col-xs-12 col-sm-4 col-lg-3">
+          <dependency target-type="set-editable" initial="true">
+            <dependency-element id="Ath" condition="eq" value="1" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_AUTH" id="Ath" variable="Ath" component="checkbox" style="no-label-xs col-xs-12 col-sm-4 col-lg-6" />
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

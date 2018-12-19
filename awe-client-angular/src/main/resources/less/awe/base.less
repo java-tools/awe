@@ -1,0 +1,199 @@
+//
+// awe base definition
+// --------------------------------------------------
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
+.ng-cloak, .x-ng-cloak,
+.ng-hide {
+  display: none !important;
+}
+ng\:form {
+  display: block;
+}
+
+html, body {
+  margin:0px;
+  padding:0px;
+  width:100% !important;
+  height:100% !important;
+  overflow-x: hidden;
+}
+
+.actions-zone {
+  position: absolute;
+  bottom: 2px;
+  z-index: 999999;
+  width: 100%;
+}
+.async-zone {
+  float: left;
+  position: absolute;
+  left: 2px;
+  bottom: 0px;
+}
+
+.sync-zone {
+  float:right;
+  position: absolute;
+  right: 2px;
+  bottom: 0px;
+}
+
+.download-zone {
+  display: none;
+}
+
+.action {
+  width:200px;
+  color: #fff;
+  background:#6E9CC1;
+  text-align:center;
+  .opacity(0.9);
+  margin: 2px;
+  padding:4px;
+  cursor: pointer;
+}
+
+.action.running {
+  box-shadow: 0 0 10px 2px yellow;
+}
+
+.action.silent {
+  .opacity(0.6);
+}
+
+.action.async {
+  background: #060;
+}
+
+.action-stack-list {
+  .action-stack {
+    vertical-align: baseline;
+    display:inline-block;
+  }
+}
+
+/* List icons */
+.list_icon {
+  width:16px;
+  height:16px;
+  display:block;
+  margin:3px;
+  margin-left:auto;
+  margin-right:auto;
+  background: transparent no-repeat center center;
+}
+
+/*******************************************************************************
+ FA Fix (.em to px)
+*******************************************************************************/
+[class^="icon-"].icon-fixed-width, [class*=" icon-"].icon-fixed-width {
+  width: 16px;
+  padding-right: 3px;
+}
+
+[class^="icon-"].pull-left, [class*=" icon-"].pull-left {
+  margin-right: 4px;
+}
+
+/*******************************************************************************
+ ANGULARJS structures
+*******************************************************************************/
+.row {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+.fullScreen {
+  height: 100%;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.videoBackground{
+  position:fixed!important;
+  min-width:100%;
+  width:auto;
+  min-height:100%;
+}
+
+.fullView {
+  margin: -18px -8px -8px -8px;
+}
+
+.staticWidthSample {
+  width: 300px;
+}
+
+.header {
+  background:#fff url('@{application-images-path}/background/fondo_cabecera.png') repeat-x;
+  height:50px;
+  overflow:hidden;
+}
+
+.menu {
+  height: 30px;
+}
+
+#loading-bar-spinner {
+  left: auto !important;
+  right: 10px !important;
+}
+
+.report-container {
+  position: relative;
+}
+
+.text-xxs {
+  font-size: 10px;
+}
+
+// Variable min-heights
+.height-sm {
+  min-height: 150px !important;
+}
+
+.height-md {
+  min-height: 250px !important;
+}
+
+.height-lg {
+  min-height: 350px !important;
+}
+
+.height-200 {
+  min-height: 200px !important;
+}
+
+
+@media (min-width: @screen-sm-min) {
+  // Window buttons in full screen
+  .window-buttons {
+    z-index: 5;
+    right: 10px;
+    top: 3px;
+    position: absolute;
+  }
+
+  .fullHeight {
+    height: 100%;
+  }
+}
+
+@media (max-width: @screen-sm-min){
+  .hideOnPhone{
+    display:none;
+  }
+}
+
+// Modal background
+.modal-backdrop {
+  z-index: @zindex-modal-background;
+  height: 100%;
+}
+
+.text-underline {
+  text-decoration: underline;
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Queues.xml
+    Created on : 31 de octubre de 2013
+    Author     : Pablo GARCIA
+    Description: JMS queue connection definition
+-->
+
+<queues xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/queues.xsd">
+
+</queues>
+

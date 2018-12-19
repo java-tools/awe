@@ -1,0 +1,11 @@
+<div role="rowgroup" class="ui-grid-viewport" ng-style="colContainer.getViewportStyle()" ng-click="grid.appScope.component.viewportClick($event)" ng-right-click="grid.appScope.component.viewportContextMenu($event)">
+  <!-- tbody -->
+  <div class="ui-grid-canvas">
+    <!--  -->
+    <div ng-repeat="(rowRenderIndex, row) in rowContainer.renderedRows track by row.uid" class="no-animate ui-grid-row {{row.entity[grid.appScope.component.constants.ROW_CLASS_FIELD]}}"
+         ng-style="Viewport.rowStyle(rowRenderIndex)" ng-right-click="grid.appScope.component.rowContextMenu($event, row)" ng-mouseenter="grid.hover = row.uid" ng-mouseleave="grid.hover = null"
+         ng-class="{'ui-grid-row-hover': grid.hover === row.uid }" ng-attr-id="{{row.entity[grid.appScope.component.constants.ROW_IDENTIFIER]}}">
+      <div role="row" class="no-animate" ui-grid-row="row" row-render-index="rowRenderIndex" ng-attr-row-id="{{row.entity[grid.appScope.component.constants.ROW_IDENTIFIER]}}"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+//
+// Themes / Default
+// --------------------------------------------------
+
+.theme-default {
+  @theme-color: lighten(#23272d, 38%);
+  // Main menu background color
+  @menu-color: #23272d;
+  // Primary color
+  @primary-color: #1d89cf;
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(@primary-color);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

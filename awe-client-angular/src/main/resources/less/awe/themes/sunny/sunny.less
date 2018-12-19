@@ -1,0 +1,45 @@
+//
+// Themes / Sunny
+// --------------------------------------------------
+
+.theme-sunny {
+  // Main menu background color
+  @menu-color: #A3A345;
+  // Theme color
+  @theme-color: lighten(@menu-color, 10%);
+  // Primary color
+  @primary-color: lighten(@menu-color, 40%);
+
+  @awe-color: lighten(@menu-color, 15%);
+  @awe-text-color: #fff;
+  @awe-border-color: darken(@awe-color, 10%);
+  @button-color: #ddd;
+
+  // Copy fresh theme
+  .theme-default;
+
+  // Define panel and button default
+  .panel-awe {
+    .pixel-panel(@awe-color, @awe-text-color, @awe-border-color);
+  }
+  .btn-default {
+    .pixel-button(@color: @button-color, @font-color: @btn-default-color);
+  }
+
+  #main-menu ul li,
+  #main-menu.horizontal ul.navigation,
+  #main-menu.horizontal ul ul li {
+    border-top: 0px solid lighten(@menu-color, 10%);
+    border-bottom: 0px solid darken(@menu-color, 10%);
+  }
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(darken(@primary-color, 20%));
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

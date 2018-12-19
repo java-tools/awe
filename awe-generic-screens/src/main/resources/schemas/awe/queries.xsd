@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- ============================================================================== Definition ============================================================================== -->
+
+  <xs:annotation>
+    <xs:appinfo>awe Queries Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">
+      This Schema defines the way an awe Queries file must be structured
+    </xs:documentation>
+  </xs:annotation>
+
+  <!-- ============================================================================== Includes ============================================================================== -->
+
+  <xs:include schemaLocation="query.xsd" />
+
+  <!-- ============================================================================== Elements ============================================================================== -->
+
+  <!-- Queries Element -->
+  <xs:element name="queries" type="queriesType">
+    <xs:unique name="QueryNameUnique">
+      <xs:selector xpath=".//query" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+  </xs:element>
+
+  <!-- Table Element -->
+  <xs:element name="table" type="tableType" />
+
+  <!-- Field Element -->
+  <xs:element name="field" type="fieldType" />
+
+  <!-- Concat Element -->
+  <xs:element name="concat" type="concatType" />
+
+  <!-- Query Element -->
+  <xs:element name="query" type="queryType" />
+
+  <!-- Computed Element -->
+  <xs:element name="computed" type="computedType" />
+
+  <!-- Compound Element -->
+  <xs:element name="compound" type="compoundType" />
+
+  <!-- Join Element -->
+  <xs:element name="join" type="joinType" />
+
+  <!-- Union Element -->
+  <xs:element name="union" type="unionType" />
+
+  <!-- Group By Element -->
+  <xs:element name="group-by" type="groupByType" />
+
+  <!-- Order By Element -->
+  <xs:element name="order-by" type="orderByType" />
+
+  <!-- Totalize element -->
+  <xs:element name="totalize" type="totalizeType" />
+
+  <!-- Totalize By Element -->
+  <xs:element name="totalize-by" type="totalizeElementType" />
+
+  <!-- Totalize Field Element -->
+  <xs:element name="totalize-field" type="totalizeElementType" />
+
+  <!-- ============================================================================== Attribute Groups ============================================================================== -->
+
+  <!-- Server Call Attributes -->
+  <xs:attributeGroup name="orderAttr">
+    <xs:attribute name="field" use="required" type="xs:string" />
+    <xs:attribute name="table" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- ============================================================================== Group definitions ============================================================================== -->
+
+  <!-- Queries Group -->
+  <xs:group name="queryGroup">
+    <xs:choice>
+      <xs:element ref="table" />
+      <xs:element ref="computed" />
+      <xs:element ref="compound" />
+      <xs:element ref="field" />
+      <xs:element ref="join" />
+      <xs:element ref="union" />
+      <xs:element ref="variable" />
+      <xs:element ref="where" />
+      <xs:element ref="having" />
+      <xs:element ref="order-by" />
+      <xs:element ref="group-by" />
+      <xs:element ref="totalize" />
+    </xs:choice>
+  </xs:group>
+
+  <!-- ============================================================================== Type definitions ============================================================================== -->
+
+  <!-- Queries Type -->
+  <xs:complexType name="queriesType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="query" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Query Type -->
+  <xs:complexType name="queryType">
+    <xs:group ref="queryGroup" minOccurs="0" maxOccurs="unbounded" />
+    <xs:attribute name="distinct" type="booleanEnum" />
+    <xs:attribute name="enumerated" type="xs:string" />
+    <xs:attribute name="id" use="required" type="xs:string" />
+    <xs:attribute name="service" type="xs:string" />
+    <xs:attribute name="queue" type="xs:string" />
+    <xs:attribute name="cacheable" type="booleanEnum" />
+    <xs:attribute name="managed-pagination" type="booleanEnum" />
+    <xs:attribute name="public" type="booleanEnum" />
+  </xs:complexType>
+
+  <!-- Table Type -->
+  <xs:complexType name="tableType">
+    <xs:attributeGroup ref="tableQueryAttr" />
+  </xs:complexType>
+
+  <!-- Field Type -->
+  <xs:complexType name="fieldType">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="concat" />
+    </xs:sequence>
+    <xs:attributeGroup ref="fieldQueryAttr" />
+  </xs:complexType>
+
+  <!-- Concat type -->
+  <xs:complexType name="concatType">
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="table" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Compound type -->
+  <xs:complexType name="compoundType">
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:element ref="computed" />
+    </xs:sequence>
+    <xs:attribute name="alias" use="required" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Computed Element -->
+  <xs:complexType name="computedType">
+    <xs:attribute name="alias" use="required" type="xs:string" />
+    <xs:attribute name="format" use="required" />
+    <xs:attribute name="eval" type="booleanEnum" />
+    <xs:attribute name="nullValue" type="xs:string" />
+    <xs:attribute name="transform" type="transformType" />
+    <xs:attribute name="pattern" type="xs:string" />
+    <xs:attribute name="translate" type="xs:string" />
+    <xs:attribute name="label" type="xs:string" />
+  </xs:complexType>
+
+
+  <!-- Join Element -->
+  <xs:complexType name="joinType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="table" />
+      <xs:element ref="or" />
+      <xs:element ref="and" />
+    </xs:choice>
+    <xs:attribute name="type" type="joinElementType" />
+  </xs:complexType>
+
+  <!-- Union Element -->
+  <xs:complexType name="unionType">
+    <xs:attribute name="query" use="required" type="xs:string" />
+    <xs:attribute name="type" type="unionElementType" />
+  </xs:complexType>
+
+  <!-- Group By Element -->
+  <xs:complexType name="groupByType">
+    <xs:attributeGroup ref="orderAttr" />
+  </xs:complexType>
+
+  <!-- Order By Type -->
+  <xs:complexType name="orderByType">
+    <xs:attributeGroup ref="orderAttr" />
+    <xs:attribute name="type" type="orderType" />
+  </xs:complexType>
+
+  <!-- Totalize Type -->
+  <xs:complexType name="totalizeType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="totalize-by" />
+      <xs:element ref="totalize-field" />
+    </xs:choice>
+    <xs:attribute name="function" use="required" type="totalizeFunctionType" />
+    <xs:attribute name="label" use="required" type="xs:string" />
+    <xs:attribute name="field" use="required" type="xs:string" />
+    <xs:attribute name="style" use="required" type="totalizeStyleType" />
+  </xs:complexType>
+
+  <!-- Totalize Element Type -->
+  <xs:complexType name="totalizeElementType">
+    <xs:attribute name="field" use="required" type="xs:string" />
+  </xs:complexType>
+
+  <!-- =================================== Restriction definitions ========================================= -->
+
+  <!-- Totalize Function Enumeration -->
+  <xs:simpleType name="totalizeFunctionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SUM" />
+      <xs:enumeration value="AVG" />
+      <xs:enumeration value="MAX" />
+      <xs:enumeration value="MIN" />
+      <xs:enumeration value="CNT" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Totalize Style Enumeration -->
+  <xs:simpleType name="totalizeStyleType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TOTAL" />
+      <xs:enumeration value="SUBTOTAL" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Order Type Enumeration -->
+  <xs:simpleType name="orderType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ASC" />
+      <xs:enumeration value="DESC" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Join Type Enumeration -->
+  <xs:simpleType name="joinElementType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FULL" />
+      <xs:enumeration value="INNER" />
+      <xs:enumeration value="LEFT" />
+      <xs:enumeration value="RIGHT" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Union Type Enumeration -->
+  <xs:simpleType name="unionElementType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ALL" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

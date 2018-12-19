@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ModViw.xml
+    Created on : 22 de Febrero de 2013
+    Author     : Pablo VIDAL
+    Description: Ventana de herramientas - Consulta de M?dulo
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_MDL_VIW" help="HELP_SCREEN_TITLE_MDL_VIW">
+  <tag source="hidden">
+    <criteria id="IdeMod" component="text" variable="IdeMod" />
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window label="SCREEN_TEXT_DATA" icon="eye">
+      <tag type="div" style="panel-body">
+        <criteria label="PARAMETER_NAME" id="Nam" component="text" variable="Nam" readonly="true" style="col-xs-12 col-sm-6 col-lg-4" />
+        <criteria label="PARAMETER_SCREEN" id="Scr" component="suggest" server-action="data" target-action="getScreenList" variable="ScrIni" readonly="true" style="col-xs-12 col-sm-6 col-lg-4" />
+        <criteria label="PARAMETER_THEME" id="Thm" component="text" variable="ThmTxt" readonly="true" style="col-xs-6 col-sm-6 col-lg-2" />
+        <criteria label="PARAMETER_ACTIVE" id="Act" component="text" variable="ActTxt" readonly="true" style="col-xs-6 col-sm-6 col-lg-2" />
+      </tag>
+    </window>
+    <tag type="div" style="expand expandible-horizontal">
+      <window style="expand" label="SCREEN_TEXT_USERS" icon="user">
+        <grid id="ModUsrLst" style="expand" initial-load="query" server-action="data" target-action="QryLstUsrByMod" max="20">
+          <column label="COLUMN_USER" sort-field="l1_nom" name="l1_nom" charlength="10" />
+          <column label="COLUMN_NAM" sort-field="OpeNam" name="OpeNam" charlength="25" />
+          <column label="COLUMN_EML" sort-field="EmlAdr" name="EmlAdr" charlength="25" />
+          <column label="COLUMN_THM" sort-field="OpeThm" name="OpeThm" charlength="10" />
+        </grid>
+      </window>
+      <window style="expand" label="SCREEN_TEXT_PROFILES" icon="group">
+        <grid id="ModProLst" style="expand" initial-load="query" server-action="data" target-action="QryLstProByMod" max="20">
+          <column label="COLUMN_ACR" sort-field="ProAcr" name="ProAcr" charlength="10" />
+          <column label="COLUMN_NAM" sort-field="ProNam" name="ProNam" charlength="25" />
+        </grid>
+      </window>
+    </tag>
+    <window style="expand" label="SCREEN_TEXT_CONFIGURATION" icon="cogs">
+      <grid id="ModSitDbsLst" style="expand" initial-load="query" server-action="data" target-action="QryLstSitDbsByMod" max="20">
+        <column label="COLUMN_SIT" sort-field="SitNam" name="SitNam" charlength="25" />
+        <column label="COLUMN_DBA" sort-field="DbsDes" name="DbsDes" charlength="40" />
+        <column label="COLUMN_ORD" sort-field="SitModOrd" name="SitModOrd" charlength="10" align="center" />
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

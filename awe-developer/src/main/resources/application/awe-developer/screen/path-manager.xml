@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Document : literal_manager.xml Created on : 12 de Mayo de 2015, 15:30
+Author : Andoni GOMEZ Description: Manage literals screen -->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../schemas/awe/screen.xsd" template="window"
+        label="SCREEN_TITLE_MNG_PTH" help="HELP_SCREEN_MNG_PTH" target="checkPath">
+
+  <!-- Buttons Zone: Show buttons -->
+  <tag source="buttons">
+    <tag id="buttons" type="div">
+      <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+        <button-action type="dialog" target="HlpOpt" />
+      </button>
+    </tag>
+  </tag>
+  <!-- Center Zone: Show menu and reports -->
+  <tag source="center">
+    <window label="TITLE_PATH">
+      <tag type="div" style="panel-body">
+        <tag type="div" style="col-xs-12 col-sm-6 col-lg-6 padding-sm">
+          <criteria id="CrtPth"  label="PARAMETER_PATH" readonly="true" style="col-xs-12 col-sm-12 col-lg-12 padding-sm" component="text">
+            <dependency source-type="criteria-value" target-type="input" target-action="CrtPthVal">
+              <dependency-element id="CrtPthVal"/>
+              <dependency-element id="ButAddPth" event="click"/>
+            </dependency>
+          </criteria>
+        </tag>
+        <tag type="div" style="col-xs-12 col-sm-6 col-lg-6 padding-sm">
+          <criteria id="CrtPthVal" label="PARAMETER_NEW_PATH" style="col-xs-12 padding-sm" component="text" />
+        </tag>
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="submit" label="BUTTON_UPDATE" icon="pencil" id="ButAddPth" help="HELP_UPDATE_BUTTON">
+            <button-action type="server" server-action="maintain" target-action="SetPath" />
+            <button-action type="reset" target="CrtPthVal"/>
+          </button>
+        </tag>
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

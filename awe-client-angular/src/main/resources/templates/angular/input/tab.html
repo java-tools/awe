@@ -1,0 +1,22 @@
+<div class="tab-container tab-container-{{::size}} expand expandible-vertical" ng-class="{'maximized': maximized, 'maximizing': maximizing, 'resizing resizeTarget': panelResizing, 'expand': isExpandible || maximized}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <div class="{{::criterionClass}} expand expandible-vertical">
+    <ul class="nav nav-tabs" ui-tabdrop ng-class="{disabled:isDisabled()}">
+        <li ng-class="{'active':$parent.model.selected === tab.value}" ng-repeat="tab in model.values"
+            ng-attr-id="tab-{{::tab.value}}">
+        <a ng-click="clickTab(tab.value)">
+          <i ng-if="::tab.icon" class="panel-title-icon fa fa-{{::tab.icon}}"></i>
+          <span translate-multiple="{{::tab.label}}"></span>
+        </a>
+      </li>
+      <li ng-if="::maximize" class="maximize-handler pull-right active">
+        <a>
+          <button role="button" type="button" class="maximize-button" aria-hidden="true" ng-click="togglePanel()" title="{{togglePanelText| translate}}">
+            <i class="fa {{iconMaximized ? 'fa-compress' : 'fa-expand'}}"></i>
+          </button>
+        </a>
+      </li>
+    </ul>
+    <div ng-transclude class="tab-content maximize-content expand expandible-vertical"></div>
+  </div>
+</div>

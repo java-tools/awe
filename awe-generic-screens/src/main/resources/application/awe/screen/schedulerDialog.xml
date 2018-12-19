@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : new-scheduler-task.xml
+    Created on : 10 de Noviembre del 2015
+    Author     : David FUENTES
+    Description: Creacion de una tarea del Scheduler
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="MENU_NEW_SCHEDULER_TASK" help="HELP_SCREEN_NEW_SCHEDULER_TASK">
+  <tag source="hidden">
+    <message id="NewMsg" title="CONFIRM_TITLE_NEW" message="CONFIRM_MESSAGE_NEW" />
+  </tag>
+
+  <tag source="center">
+    <dialog id="NewSchTskDia" modal="true">
+      <include target-screen="new-scheduler-task" target-source="center"/>
+    </dialog>
+  </tag>
+</screen>

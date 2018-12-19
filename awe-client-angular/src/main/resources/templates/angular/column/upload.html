@@ -1,0 +1,25 @@
+<div ng-show="component.controller.visible" class="validator column-input criterion uploader text-{{::component.controller.align}} {{component.model.values[0].style}} no-animate" ui-dependency="dependencies" ng-cloak>
+  <div class="visible-value" ng-cloak>{{component.visibleValue}}</div>
+  <div class="edition focus-target">
+    <div ng-show="component.uploading" class="uploading-{{::size}} no-animate">
+      <div class="progress progress-striped active" ng-if="component.uploading">
+        <div class="progress-bar" ng-style="{width: component.uploadProgress}"></div>
+      </div>
+    </div>
+    <div ng-show="component.model.selected === null && !component.uploading" class="pixel-file-input {{classes}} no-animate"
+         ng-disabled="component.controller.readonly" ngf-select ngf-change="chooseFile($files)" ngf-validate-fn="validate($file)">
+      <span ng-if="::component.controller.icon" ng-class="::iconClass" ng-cloak></span>
+      <span class="pfi-filename pfi-placeholder">{{::component.controller.placeholder| translateMultiple}}</span>
+      <div class="pfi-actions" ng-if="!component.controller.readonly">
+        <button type="button" class="btn btn-xs btn-primary pfi-choose" translate-multiple="BUTTON_CHOOSE" ng-focus="focus()" ng-blur="blur()"></button>
+      </div>
+    </div>
+    <div ng-show="component.model.selected !== null && !component.uploading" class="pixel-file-input {{classes}} no-animate" ng-disabled="component.controller.readonly">
+      <span ng-if="::component.controller.icon" ng-class="::iconClass" ng-cloak></span>
+      <span class="pfi-filename" ng-click="downloadFile($event)">{{component.visibleValue}}</span>
+      <div class="pfi-actions" ng-if="!component.controller.readonly">
+        <button type="button" ng-click="clearFile($event)" class="btn btn-xs" ng-disabled="component.deleting" ng-focus="focus()" ng-blur="blur()"><i class="fa {{component.deleting ? 'fa-refresh fa-spin' : 'fa-times'}}"></i> <span translate-multiple="BUTTON_CLEAR"></span></button>
+      </div>
+    </div>
+  </div>
+</div>

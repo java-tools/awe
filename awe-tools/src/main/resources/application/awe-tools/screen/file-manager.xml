@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : file-manager.xml
+    Created on : 15 de Septiembre de 2016
+    Author     : Pablo GARCIA
+    Description: File manager screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="filemanager" label="MENU_FILE_MANAGER"/>

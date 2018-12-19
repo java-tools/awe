@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window">
+  <tag source="hidden">
+    <message id="DupFilMes" title="WARNING_TITLE_DUPLICATED_FILE" message="WARNING_MESSAGE_DUPLICATED_FILE" />
+  </tag>
+  <tag source="center">
+    <dialog id="save-select" modal="true" style="normal" label="SCREEN_TITLE_SAVE_SELECT" icon="plus-circle">
+      <tag type="div" style="modal-body row">
+        <criteria id="CrtSavFil" label="PARAMETER_SAVE_FILE" placeholder="SCREEN_TEXT_SELECT_FILE" style="col-xs-12" component="text"/>
+      </tag>
+      <tag type="div" style="modal-footer">
+        <button button-type="submit" id="ButSavSel" label="BUTTON_SAVE" icon="floppy-o" help="HELP_CREATE_NEW_LOCAL_BUTTON">
+          <button-action type="server" server-action="control-confirm-message" target-action="duplicatedFile" target="DupFilMes"/>
+          <button-action type="server" server-action="maintain" target-action="SaveSelectFile" />
+          <button-action type="close" target="save-select" />
+        </button>
+      </tag>
+    </dialog>
+  </tag>
+</screen>

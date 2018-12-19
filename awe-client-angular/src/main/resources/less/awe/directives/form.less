@@ -1,0 +1,111 @@
+/*******************************************************************************
+ FORM ATTRIBUTES
+*******************************************************************************/
+
+// CRITERIA ICONS
+.form-group.w-icon {
+  .form-icon {
+    border-right: 1px solid #888;
+    color: #888;
+    display: block;
+    font-size: 14px;
+    left: 0px;
+    line-height: 26px;
+    position: absolute;
+    text-align: center;
+    top: 3px;
+    width: 35px;
+    z-index: 3;
+    .transition(opacity, ease-in-out, 0.3s);
+    .opacity(0.4);
+  }
+  .input>input,
+  .input>textarea,
+  .input-group>input {
+    padding-left: 45px !important;
+  }
+  .select2-chosen {
+    padding-left: 30px !important;
+  }
+  .select2-choices {
+    padding-left: 36px !important;
+  }
+
+  .focused + .form-icon {
+    .opacity(1);
+  }
+
+  .form-icon.w-label {
+    /*top: 26px;*/
+  }
+
+  .help-block {
+    margin-left: 34px;
+  }
+}
+// Form group without icon
+.form-group {
+  .checkbox,
+  .radio {
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+
+  .checkbox > .lbl:extend(.text-normal) {
+    cursor: pointer;
+  }
+  .radio > .lbl:extend(.text-normal) {
+    cursor: pointer;
+  }
+}
+
+.gt-ie8 input.px+.lbl:before,
+.gt-ie8 input.px+.lbl:after {
+  margin-top: 1px !important;
+  cursor: pointer;
+}
+
+.error-container {
+  position: absolute !important;
+  display: block;
+  z-index: 1100;
+  &.ng-hide-add,
+  &.ng-hide-remove {
+    .transition(opacity, ease-in-out, 200ms);
+    display: block !important;
+  }
+
+  &.ng-hide-add.ng-hide-add-active,
+  &.ng-hide-remove {
+    .opacity(0);
+  }
+
+  &.ng-hide-add,
+  &.ng-hide-remove.ng-hide-remove-active {
+    .opacity(1);
+  }
+}
+
+.required {
+  background-color:#dfd;
+}
+
+.select2-container.required {
+  .select2-choice,
+  .select2-choices {
+    background-color:transparent;
+  }
+}
+
+// VALIDATION
+.has-error {
+  .help-block {
+    .opacity(1);
+  }
+  .checkbox, .radio {
+    .lbl:before {
+      border:1px solid #a94442 !important;
+      background-color:#fee !important;
+    }
+  }
+}

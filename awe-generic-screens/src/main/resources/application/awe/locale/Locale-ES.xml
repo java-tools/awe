@@ -1,0 +1,1244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Document   : Locale-ES
+  Description: Application Locales
+-->
+
+<!--$Id$-->
+
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/locale.xsd">
+  <locale name="APP_CLIENT" value="Almis I.F."/>
+  <locale name="APP_NAME" value="Almis Web Engine"/>
+  <locale name="BUTTON_ACCEPT" value="Aceptar"/>
+  <locale name="BUTTON_ACTIVATE" value="Activar"/>
+  <locale name="BUTTON_ACTIVATE_BATCH" value="Activar tareas seleccionadas"/>
+  <locale name="BUTTON_ADD" value="Agregar"/>
+  <locale name="BUTTON_AUDIT" value="Auditoría"/>
+  <locale name="BUTTON_BACK" value="Volver"/>
+  <locale name="BUTTON_CANCEL" value="Cancelar"/>
+  <locale name="BUTTON_CHOOSE" value="Seleccionar"/>
+  <locale name="BUTTON_CLEAR" value="Borrar"/>
+  <locale name="BUTTON_CLOSE" value="Cerrar"/>
+  <locale name="BUTTON_CONFIRM" value="Confirmar"/>
+  <locale name="BUTTON_COPY" value="Copiar"/>
+  <locale name="BUTTON_DEACTIVATE" value="Desactivar"/>
+  <locale name="BUTTON_DEACTIVATE_BATCH" value="Desactivar tareas seleccionadas"/>
+  <locale name="BUTTON_DELETE" value="Borrar"/>
+  <locale name="BUTTON_EDIT" value="Editar"/>
+  <locale name="BUTTON_ENCRYPT" value="Encriptar"/>
+  <locale name="BUTTON_EXPORT" value="Exportar"/>
+  <locale name="BUTTON_FINISH" value="Terminar"/>
+  <locale name="BUTTON_HIDE_MENU" value="OCULTAR MENU"/>
+  <locale name="BUTTON_LOGIN" value="Acceder"/>
+  <locale name="BUTTON_LOGOUT" value="Salir"/>
+  <locale name="BUTTON_MODIFY" value="Modificar"/>
+  <locale name="BUTTON_NEW" value="Nuevo"/>
+  <locale name="BUTTON_NEW_ROW_DOWN" value="1 fila debajo"/>
+  <locale name="BUTTON_NEW_ROW_UP" value="1 fila encima"/>
+  <locale name="BUTTON_NEXT" value="Siguiente"/>
+  <locale name="BUTTON_PREVIOUS" value="Anterior"/>
+  <locale name="BUTTON_PRINT" value="Imprimir"/>
+  <locale name="BUTTON_PRINT_SELECTED_TAB" value="Imprimir selección"/>
+  <locale name="BUTTON_RESET" value="Reset"/>
+  <locale name="BUTTON_RUN" value="Comenzar"/>
+  <locale name="BUTTON_SAVE_MARKDOWN" value="Guardar markdown"/>
+  <locale name="BUTTON_SAVE_ROW" value="Guardar fila"/>
+  <locale name="BUTTON_SAVE_TEXT" value="Guardar texto"/>
+  <locale name="BUTTON_SCREEN_HELP" value="Ayuda"/>
+  <locale name="BUTTON_SEARCH" value="Buscar"/>
+  <locale name="BUTTON_SEND" value="Envío"/>
+  <locale name="BUTTON_UNBLOCK_BATCH_KO" value="Desbloquear batch como NO válido"/>
+  <locale name="BUTTON_UNBLOCK_BATCH_OK" value="Desbloquear batch como válido"/>
+  <locale name="BUTTON_UPDATE" value="Modificar"/>
+  <locale name="BUTTON_VIEW" value="Consultar"/>
+  <locale name="BUTTON_VIEW_ERROR_MESSAGES" value="Ver mensajes de error"/>
+  <locale name="COLUMN_ACR" value="Acrónimo"/>
+  <locale name="COLUMN_ACT" value="Activo"/>
+  <locale name="COLUMN_ALS" value="Alias"/>
+  <locale name="COLUMN_APP" value="Aplicación"/>
+  <locale name="COLUMN_ARG" value="Argumento"/>
+  <locale name="COLUMN_BAT" value="Batch"/>
+  <locale name="COLUMN_BCK_COL" value="Color de fondo"/>
+  <locale name="COLUMN_BDD" value="F. inicio"/>
+  <locale name="COLUMN_BDT" value="H. inicio"/>
+  <locale name="COLUMN_BROKER" value="Broker"/>
+  <locale name="COLUMN_CATEGORY" value="Categoría"/>
+  <locale name="COLUMN_CONCEPT" value="Concepto"/>
+  <locale name="COLUMN_DAT" value="Fecha"/>
+  <locale name="COLUMN_DAYS" value="Días"/>
+  <locale name="COLUMN_DBA" value="DataBase alias"/>
+  <locale name="COLUMN_DES" value="Descripción"/>
+  <locale name="COLUMN_DESCRIPTION" value="Observaciones"/>
+  <locale name="COLUMN_DESTINATION" value="Cola"/>
+  <locale name="COLUMN_DST" value="Email destino"/>
+  <locale name="COLUMN_EDD" value="F. fin"/>
+  <locale name="COLUMN_EDT" value="H. fin"/>
+  <locale name="COLUMN_EML" value="Email"/>
+  <locale name="COLUMN_EMPTY" value=""/>
+  <locale name="COLUMN_ERR" value="Fichero error"/>
+  <locale name="COLUMN_FONT" value="Fuente"/>
+  <locale name="COLUMN_FORMULE" value="Fórmula"/>
+  <locale name="COLUMN_FRQ" value="Frecuencia"/>
+  <locale name="COLUMN_INT_PATH" value="Ruta en integración"/>
+  <locale name="COLUMN_MAX_FNT_SIX" value="Tamaño máximo de fuente"/>
+  <locale name="COLUMN_MOD" value="Módulo"/>
+  <locale name="COLUMN_MUL" value="Multiples"/>
+  <locale name="COLUMN_NAM" value="Nombre"/>
+  <locale name="COLUMN_ORD" value="Orden"/>
+  <locale name="COLUMN_PAR" value="Parámetro"/>
+  <locale name="COLUMN_PRO_PATH" value="Ruta en producción"/>
+  <locale name="COLUMN_PROFILE" value="Perfil"/>
+  <locale name="COLUMN_PURGUE" value="Purga"/>
+  <locale name="COLUMN_SIT" value="Site"/>
+  <locale name="COLUMN_SML" value="Simultaneo"/>
+  <locale name="COLUMN_STA" value="Estado"/>
+  <locale name="COLUMN_STYLE" value="Estilo"/>
+  <locale name="COLUMN_SUBTASK" value="Subtarea"/>
+  <locale name="COLUMN_THM" value="Tema"/>
+  <locale name="COLUMN_TRY" value="Intentos"/>
+  <locale name="COLUMN_TSK" value="Tarea"/>
+  <locale name="COLUMN_TXT_COL" value="Text color"/>
+  <locale name="COLUMN_TYPE" value="Tipo"/>
+  <locale name="COLUMN_TYPE_QUEUE" value="Tipo de cola"/>
+  <locale name="COLUMN_USER" value="Usuario"/>
+  <locale name="COLUMN_VALUE" value="Valor"/>
+  <locale name="CONFIRM_MESSAGE_ACTIVATE_BATCH" value="Se van a activar las tareas seleccionadas. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_ACTIVATE_TASK" value="Va a activar las tareas seleccionadas. ¿Estás de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_BATCH_REPORT" value="Se va a generar el informe seleccionado en los criterios. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_DEACTIVATE_BATCH" value="Se van a desactivar las tareas seleccionadas. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_DEACTIVATE_TASK" value="Va a desactivar las tareas seleccionadas. ¿Estás de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_DELETE" value="Se van a eliminar los registros seleccionados. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_DELETE_TASK" value="Se va a eliminar la tarea seleccionada del planificador y de las dependencias que la contengan. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_EMPTY_DATA" value="Atención, todos los criterios están vacíos ¿Desea continuar?"/>
+  <locale name="CONFIRM_MESSAGE_EXPORT_DOC" value="Se va a generar un fichero DOC con los datos de la pantalla ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_EXPORT_EXL" value="Se va a generar un fichero EXCEL con los datos de la pantalla ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_EXPORT_PDF" value="Se va a generar un fichero PDF con los datos de la pantalla ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_NEW" value="Se van a almacenar los datos insertados. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_NOT_UPDATED_DATA" value="Atención, no se ha modificado ningún dato ¿Desea continuar?"/>
+  <locale name="CONFIRM_MESSAGE_PRINT_FILE" value="Se va a lanzar una impresión de los datos de la pantalla ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_SND_EML" value="Se va a enviar un e-mail a los usuarios activos. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_TASK_LAUNCH" value="Se va a lanzar la tarea seleccionada. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_TRIGGER_WITH_CALENDAR_EXIST" value="Los calendarios seleccionados están asociados a una o varias tareas. ¿Está seguro de que quiere continuar?"/>
+  <locale name="CONFIRM_MESSAGE_UNBLOCK_BATCH_KO" value="Se van a desbloquear los batches seleccionados marcándolos como no válidos. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_UNBLOCK_BATCH_OK" value="Se van a desbloquear los batches seleccionados marcándolos como válidos. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_UPDATE" value="Se van a almacenar los datos modificados. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_UPDATE_TASK" value="Se van a almacenar los datos modificados, si el tipo de ejecución se modifica de manual a cualquier otro tipo, también sera eliminada de todas las dependencias. ¿Está de acuerdo?"/>
+  <locale name="CONFIRM_MESSAGE_UPDATED_DATA" value="Atención, los datos introducidos se perderán ¿Desea continuar?"/>
+  <locale name="CONFIRM_TITLE_ACTIVATE_BATCH" value="Confirmación de activación de tareas"/>
+  <locale name="CONFIRM_TITLE_ACTIVATE_TASK" value="Confirmación de activación de tareas"/>
+  <locale name="CONFIRM_TITLE_BATCH_REPORT" value="Confirmación de generación de informe"/>
+  <locale name="CONFIRM_TITLE_DEACTIVATE_BATCH" value="Confirmación de desactivación de tareas"/>
+  <locale name="CONFIRM_TITLE_DEACTIVATE_TASK" value="Confirmación de desactivación de tareas"/>
+  <locale name="CONFIRM_TITLE_DELETE" value="Confirmación de borrado"/>
+  <locale name="CONFIRM_TITLE_EMPTY_DATA" value="Datos vacíos"/>
+  <locale name="CONFIRM_TITLE_EXPORT_FILE" value="Confirmación de generación de fichero"/>
+  <locale name="CONFIRM_TITLE_NEW" value="Confirmación de alta"/>
+  <locale name="CONFIRM_TITLE_NOT_UPDATED_DATA" value="Datos no modificados"/>
+  <locale name="CONFIRM_TITLE_PRINT_FILE" value="Confirmación de impresión de fichero"/>
+  <locale name="CONFIRM_TITLE_SND_EML" value="Confirmación de envío"/>
+  <locale name="CONFIRM_TITLE_TASK_LAUNCH" value="Confirmación de lanzamiento de tarea"/>
+  <locale name="CONFIRM_TITLE_TRIGGER_WITH_CALENDAR_EXIST" value="Confirmación de calendario asociado a una o varias tareas."/>
+  <locale name="CONFIRM_TITLE_UNBLOCK_BATCH" value="Confirmación de desbloqueo de batch"/>
+  <locale name="CONFIRM_TITLE_UPDATE" value="Confirmación de modificación"/>
+  <locale name="CONFIRM_TITLE_UPDATED_DATA" value="Datos modificados"/>
+  <locale name="CONNECTION_TYPE_FOLDER" value="Directorio"/>
+  <locale name="CONNECTION_TYPE_FTP" value="ftp"/>
+  <locale name="CONNECTION_TYPE_HTTP" value="http"/>
+  <locale name="CONNECTION_TYPE_HTTPS" value="https"/>
+  <locale name="CONNECTION_TYPE_SSH" value="ssh"/>
+  <locale name="ELEMENT_GENERIC_HELP" value="Tipo de elemento --&gt;"/>
+  <locale name="ELEMENT_HELP_LABEL" value="Etiqueta"/>
+  <locale name="ELEMENT_TYPE_BUTTON" value="Boton"/>
+  <locale name="ELEMENT_TYPE_BUTTONACTION" value="Acción del Botón"/>
+  <locale name="ELEMENT_TYPE_COLUMN" value="Columna"/>
+  <locale name="ELEMENT_TYPE_CONTEXTBUTTON" value="Boton de Contexto"/>
+  <locale name="ELEMENT_TYPE_CONTEXTSEPARATOR" value="Separador"/>
+  <locale name="ELEMENT_TYPE_CRITERIA" value="Criterio"/>
+  <locale name="ELEMENT_TYPE_DEPENDENCY" value="Dependencia"/>
+  <locale name="ELEMENT_TYPE_DEPENDENCYACTION" value="Acción de dependencia"/>
+  <locale name="ELEMENT_TYPE_DEPENDENCYELEMENT" value="Elemento de Dependencia"/>
+  <locale name="ELEMENT_TYPE_DIALOG" value="Dialogo"/>
+  <locale name="ELEMENT_TYPE_FRAME" value="Elemento Frame"/>
+  <locale name="ELEMENT_TYPE_GROUPHEADER" value="Cabecera Agrupadora"/>
+  <locale name="ELEMENT_TYPE_HELP" value="Ayuda"/>
+  <locale name="ELEMENT_TYPE_HELP_IMAGE" value="Imagen de Ayuda"/>
+  <locale name="ELEMENT_TYPE_INCLUDE" value="Include"/>
+  <locale name="ELEMENT_TYPE_JAVASCRIPT" value="JavaScript"/>
+  <locale name="ELEMENT_TYPE_MESSAGE" value="Mensaje"/>
+  <locale name="ELEMENT_TYPE_SCREEN" value="Pantalla"/>
+  <locale name="ELEMENT_TYPE_TAB" value="Pestaña"/>
+  <locale name="ELEMENT_TYPE_TABCONTAINER" value="Pestaña"/>
+  <locale name="ELEMENT_TYPE_TAG" value="Tag"/>
+  <locale name="ELEMENT_TYPE_WIDGET" value="Widget"/>
+  <locale name="ELEMENT_TYPE_WIDGETPARAMETER" value="Parametro de Widget"/>
+  <locale name="ELEMENT_TYPE_WINDOW" value="Ventana"/>
+  <locale name="EMAIL_FILE_DOC" value="[#ScrTitFil#]-[#DatFil#].doc"/>
+  <locale name="EMAIL_FILE_PDF" value="[#ScrTitFil#]-[#DatFil#].pdf"/>
+  <locale name="EMAIL_FILE_XLS" value="[#ScrTitFil#]-[#DatFil#].xls"/>
+  <locale name="EMAIL_MESSAGE_HTML_BOTTOM" value="&lt;/body&gt;&lt;/html&gt;"/>
+  <locale name="EMAIL_MESSAGE_HTML_GENERAL" value="[#EmlTxt#]"/>
+  <locale name="EMAIL_MESSAGE_HTML_HEADER" value="&lt;html&gt;&lt;head&gt;&lt;style&gt;* {font-family:Arial, sans-serif;font-size:12px;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;"/>
+  <locale name="EMAIL_MESSAGE_HTML_REPORT" value="Se han generado los siguientes archivos para su envío por correo&lt;br/&gt;"/>
+  <locale name="EMAIL_MESSAGE_TEXT_GENERAL" value="[#EmlTxt#]"/>
+  <locale name="EMAIL_MESSAGE_TEXT_REPORT" value="Se han generado los siguientes archivos para su envío por correo\n"/>
+  <locale name="EMAIL_SUBJECT_GENERAL" value="[#EmlSub#]"/>
+  <locale name="EMAIL_SUBJECT_REPORT" value="Informe de la ventana: [#ScrTit#]"/>
+  <locale name="ENUM_AUD_TYP_DEL" value="Borrado"/>
+  <locale name="ENUM_AUD_TYP_INS" value="Alta"/>
+  <locale name="ENUM_AUD_TYP_UPD" value="Modificación"/>
+  <locale name="ENUM_BATCH" value="Batch"/>
+  <locale name="ENUM_BTH_CAN" value="Batch cancelado en ejecución"/>
+  <locale name="ENUM_BTH_ERR" value="Batch finalizado con error"/>
+  <locale name="ENUM_BTH_MAN_ERR" value="Batch finalizado manualmente como error"/>
+  <locale name="ENUM_BTH_MAN_SUC" value="Batch finalizado manualmente como correcto"/>
+  <locale name="ENUM_BTH_RUN" value="Batch en ejecución"/>
+  <locale name="ENUM_BTH_SUC" value="Batch finalizado correctamente"/>
+  <locale name="ENUM_BTH_WAR" value="Batch finalizado con alertas"/>
+  <locale name="ENUM_CATEGORY_GENERAL" value="General"/>
+  <locale name="ENUM_CATEGORY_REPORTS" value="Listados"/>
+  <locale name="ENUM_CATEGORY_SECURITY" value="Seguridad"/>
+  <locale name="ENUM_CHART" value="Gráfica"/>
+  <locale name="ENUM_CRT_STL" value="Estilo de criterios"/>
+  <locale name="ENUM_DBM_ORACLE" value="ORACLE"/>
+  <locale name="ENUM_DBM_SQLSERVER" value="SQLSERVER"/>
+  <locale name="ENUM_DBM_SYBASE" value="SYBASE"/>
+  <locale name="ENUM_DBS_TYP_DATASOURCE" value="Datasource"/>
+  <locale name="ENUM_DBS_TYP_JDBC" value="Jdbc"/>
+  <locale name="ENUM_DJR" value="Jasper reports"/>
+  <locale name="ENUM_DRV_ORACLE" value="ORACLE"/>
+  <locale name="ENUM_DRV_SQLSERVER" value="SQLSERVER"/>
+  <locale name="ENUM_DRV_SYBASE" value="SYBASE"/>
+  <locale name="ENUM_EML_ALL" value="Enviar siempre"/>
+  <locale name="ENUM_EML_DST_GRP" value="Envío a grupos"/>
+  <locale name="ENUM_EML_DST_USR" value="Envío a usuarios"/>
+  <locale name="ENUM_EML_ERR" value="Enviar si hay un error"/>
+  <locale name="ENUM_EML_NO" value="No enviar"/>
+  <locale name="ENUM_EML_REP_ALL" value="Enviar auditoría siempre"/>
+  <locale name="ENUM_EML_REP_ERR" value="Enviar auditoría si hay un error"/>
+  <locale name="ENUM_EML_TYP_GRP" value="Grupo de correo"/>
+  <locale name="ENUM_EML_TYP_USR" value="Usuario"/>
+  <locale name="ENUM_ENV_DES" value="Desarrollo"/>
+  <locale name="ENUM_ENV_PRE" value="Preprodución"/>
+  <locale name="ENUM_ENV_PRO" value="Produción"/>
+  <locale name="ENUM_EXECUTE_COMMAND" value="Comando"/>
+  <locale name="ENUM_EXECUTE_MAINTAIN" value="Mantenimiento"/>
+  <locale name="ENUM_GRD_STL" value="Estilo de matriz"/>
+  <locale name="ENUM_GRID" value="Matriz"/>
+  <locale name="ENUM_HDG_STL" value="Estilo de cabecera"/>
+  <locale name="ENUM_JAVA" value="Java"/>
+  <locale name="ENUM_LAN_EN" value="Inglés"/>
+  <locale name="ENUM_LAN_ES" value="Español"/>
+  <locale name="ENUM_LAN_FR" value="Francés"/>
+  <locale name="ENUM_LAUNCH_DEPENDENCY" value="Dependencia"/>
+  <locale name="ENUM_LAUNCH_FILE" value="Por fichero"/>
+  <locale name="ENUM_LAUNCH_MANUAL" value="Manual"/>
+  <locale name="ENUM_LAUNCH_SCHEDULED" value="Planificado"/>
+  <locale name="ENUM_MDL_PROFILES" value="Perfiles"/>
+  <locale name="ENUM_MDL_USERS" value="Usuarios"/>
+  <locale name="ENUM_NO" value="No"/>
+  <locale name="ENUM_PRN_ACT_CREATE" value="Generar ficheros"/>
+  <locale name="ENUM_PRN_ACT_MAIL" value="Enviar mail"/>
+  <locale name="ENUM_PRN_ACT_PRINT" value="Imprimir"/>
+  <locale name="ENUM_PRN_FMT_AME" value="Americano"/>
+  <locale name="ENUM_PRN_FMT_AME_NO_THOU" value="Americano (sin miles)"/>
+  <locale name="ENUM_PRN_FMT_CSV" value="CSV"/>
+  <locale name="ENUM_PRN_FMT_DOC" value="DOC"/>
+  <locale name="ENUM_PRN_FMT_DOCX" value="WORD 2010"/>
+  <locale name="ENUM_PRN_FMT_EUR" value="Europeo"/>
+  <locale name="ENUM_PRN_FMT_EUR_NO_THOU" value="Europeo (sin miles)"/>
+  <locale name="ENUM_PRN_FMT_PDF" value="PDF"/>
+  <locale name="ENUM_PRN_FMT_RTF" value="RTF"/>
+  <locale name="ENUM_PRN_FMT_TEXT" value="TEXTO"/>
+  <locale name="ENUM_PRN_FMT_XLS" value="EXCEL"/>
+  <locale name="ENUM_PRN_FMT_XLSX" value="EXCEL 2010"/>
+  <locale name="ENUM_PRN_TYP_ALL" value="Todas las pestañas"/>
+  <locale name="ENUM_PRN_TYP_TAB" value="Pestaña actual"/>
+  <locale name="ENUM_PWD_ALPHANUM" value="Caracteres alfanuméricos con al menos uno numérico"/>
+  <locale name="ENUM_PWD_ONLY_CHAR" value="Al menos un carácter alfabético"/>
+  <locale name="ENUM_PWD_WITH_SYMBOL" value="Caracteres alfanuméricos con al menos un número y un símbolo especial"/>
+  <locale name="ENUM_QUE" value="QUEUE"/>
+  <locale name="ENUM_QUE_JNDI" value="JNDI"/>
+  <locale name="ENUM_QUE_REMOTE" value="Remota"/>
+  <locale name="ENUM_REPEAT_BROADCAST" value="Difusión"/>
+  <locale name="ENUM_REPEAT_CUSTOM" value="Personalizado"/>
+  <locale name="ENUM_REPEAT_DAYS" value="Días"/>
+  <locale name="ENUM_REPEAT_EMAIL" value="E-mail"/>
+  <locale name="ENUM_REPEAT_HOURS" value="Horas"/>
+  <locale name="ENUM_REPEAT_MAINTAIN" value="Mantenimiento"/>
+  <locale name="ENUM_REPEAT_MINUTES" value="Minutos"/>
+  <locale name="ENUM_REPEAT_MONTHS" value="Meses"/>
+  <locale name="ENUM_REPEAT_NONE" value="Ninguna"/>
+  <locale name="ENUM_REPEAT_ONCE" value="Una vez"/>
+  <locale name="ENUM_REPEAT_SECONDS" value="Segundos"/>
+  <locale name="ENUM_REPEAT_WEEKS" value="Semanas"/>
+  <locale name="ENUM_REPEAT_YEARS" value="Años"/>
+  <locale name="ENUM_REPORT_ORIENTATION_LANDSCAPE" value="Horizontal"/>
+  <locale name="ENUM_REPORT_ORIENTATION_PORTRAIT" value="Vertical"/>
+  <locale name="ENUM_REST_MODE_ALLOW" value="Permitido"/>
+  <locale name="ENUM_REST_MODE_RESTRICTED" value="Restringido"/>
+  <locale name="ENUM_SCR_ATR_ALIGN" value="Align"/>
+  <locale name="ENUM_SCR_ATR_AUTOLOAD" value="Autoload"/>
+  <locale name="ENUM_SCR_ATR_AUTOREFRESH" value="Auto refresh"/>
+  <locale name="ENUM_SCR_ATR_CAPITALIZE" value="Capitalize"/>
+  <locale name="ENUM_SCR_ATR_CHARLENGTH" value="Charlength"/>
+  <locale name="ENUM_SCR_ATR_CHECKED" value="Checked"/>
+  <locale name="ENUM_SCR_ATR_CHECKEMPTY" value="Check empty"/>
+  <locale name="ENUM_SCR_ATR_CHECKINITIAL" value="Check initial"/>
+  <locale name="ENUM_SCR_ATR_CHECKTARGET" value="Check target"/>
+  <locale name="ENUM_SCR_ATR_COMPONENT" value="Component"/>
+  <locale name="ENUM_SCR_ATR_DECIMAL_NUMBERS" value="Number of decimals"/>
+  <locale name="ENUM_SCR_ATR_DISABLE_PAGINATION" value="Disable pagination"/>
+  <locale name="ENUM_SCR_ATR_EDITABLE" value="Editable"/>
+  <locale name="ENUM_SCR_ATR_EXPANDCOLUMN" value="ExpandColumn"/>
+  <locale name="ENUM_SCR_ATR_FIELD" value="Field"/>
+  <locale name="ENUM_SCR_ATR_FORMAT" value="Format"/>
+  <locale name="ENUM_SCR_ATR_FORMATOPTIONS" value="Format options"/>
+  <locale name="ENUM_SCR_ATR_FORMATTER" value="Formatter"/>
+  <locale name="ENUM_SCR_ATR_FORMULE" value="Formule"/>
+  <locale name="ENUM_SCR_ATR_FROZEN" value="Frozen"/>
+  <locale name="ENUM_SCR_ATR_HIDDEN" value="Hidden"/>
+  <locale name="ENUM_SCR_ATR_INITLOAD" value="Initial load"/>
+  <locale name="ENUM_SCR_ATR_INPUTTYPE" value="Input type"/>
+  <locale name="ENUM_SCR_ATR_LABEL" value="Label"/>
+  <locale name="ENUM_SCR_ATR_MAX" value="Max"/>
+  <locale name="ENUM_SCR_ATR_MESSAGE" value="Message"/>
+  <locale name="ENUM_SCR_ATR_MOVABLE" value="Movable"/>
+  <locale name="ENUM_SCR_ATR_MULTISELECT" value="Multiselect"/>
+  <locale name="ENUM_SCR_ATR_NUMFORMAT" value="Number format"/>
+  <locale name="ENUM_SCR_ATR_OPTIONAL" value="Optional"/>
+  <locale name="ENUM_SCR_ATR_PAGER_VALUES" value="Pager values"/>
+  <locale name="ENUM_SCR_ATR_POSITION" value="Position"/>
+  <locale name="ENUM_SCR_ATR_PRINTABLE" value="Printable"/>
+  <locale name="ENUM_SCR_ATR_READONLY" value="Read only"/>
+  <locale name="ENUM_SCR_ATR_REQUIRED" value="Required"/>
+  <locale name="ENUM_SCR_ATR_RESTRICTED_VALUE" value="Restricted value"/>
+  <locale name="ENUM_SCR_ATR_SENDABLE" value="Sendable"/>
+  <locale name="ENUM_SCR_ATR_SENDOPERATIONS" value="Send operations"/>
+  <locale name="ENUM_SCR_ATR_SERVERACTION" value="Server action"/>
+  <locale name="ENUM_SCR_ATR_SESSION" value="Session"/>
+  <locale name="ENUM_SCR_ATR_SHOWTOTALS" value="Show totals"/>
+  <locale name="ENUM_SCR_ATR_SORTABLE" value="Sortable"/>
+  <locale name="ENUM_SCR_ATR_SPECIFIC" value="Specific"/>
+  <locale name="ENUM_SCR_ATR_STRICT" value="Strict"/>
+  <locale name="ENUM_SCR_ATR_STYLE" value="Style"/>
+  <locale name="ENUM_SCR_ATR_SUMMARYTYPE" value="Summary type"/>
+  <locale name="ENUM_SCR_ATR_TARGETACTION" value="Target action"/>
+  <locale name="ENUM_SCR_ATR_THOUSAND_SEPARATOR" value="Thousand separator"/>
+  <locale name="ENUM_SCR_ATR_TIMEOUT" value="Time out"/>
+  <locale name="ENUM_SCR_ATR_TOTALIZE" value="Totalize"/>
+  <locale name="ENUM_SCR_ATR_TREEGRID" value="Tree grid"/>
+  <locale name="ENUM_SCR_ATR_UNIT" value="Unit"/>
+  <locale name="ENUM_SCR_ATR_VALIDATION" value="Validation"/>
+  <locale name="ENUM_SCR_ATR_VALUE" value="Value"/>
+  <locale name="ENUM_SCR_ATR_VARIABLE" value="Variable"/>
+  <locale name="ENUM_SCR_ATR_VISIBLE" value="Visible"/>
+  <locale name="ENUM_SCR_ATR_WIDTH" value="Width"/>
+  <locale name="ENUM_STATUS_ERROR" value="Error"/>
+  <locale name="ENUM_STATUS_INTERRUPTED" value="Interrumpido"/>
+  <locale name="ENUM_STATUS_OK" value="Ok"/>
+  <locale name="ENUM_STATUS_QUEUED" value="En espera"/>
+  <locale name="ENUM_STATUS_RUNNING" value="En ejecución"/>
+  <locale name="ENUM_STATUS_STOPPED" value="Parado"/>
+  <locale name="ENUM_STATUS_WARNING" value="Advertencia"/>
+  <locale name="ENUM_SUB_STL" value="Estilo de subtotales"/>
+  <locale name="ENUM_SUB_TIT_STL" value="Estilo de Subtitulo"/>
+  <locale name="ENUM_TASK_STEP_CONFIG" value="Configuración"/>
+  <locale name="ENUM_TASK_STEP_DEPENDENCIES" value="Dependencias"/>
+  <locale name="ENUM_TASK_STEP_LAUNCH" value="Lanzamiento"/>
+  <locale name="ENUM_TASK_STEP_PARAMS" value="Parámetros"/>
+  <locale name="ENUM_TASK_STEP_REPORT" value="Informe"/>
+  <locale name="ENUM_TIT_STL" value="Estilo de título"/>
+  <locale name="ENUM_TOP" value="TOPIC"/>
+  <locale name="ENUM_TOT_STL" value="Estilo de subtotales"/>
+  <locale name="ENUM_WEB" value="Web"/>
+  <locale name="ENUM_YES" value="Si"/>
+  <locale name="ERROR_COMETUUID_PARSE" value="Error al parsear el cometUUID"/>
+  <locale name="ERROR_GENERATING_AREA_CHART" value="Error generando el diagrama de area"/>
+  <locale name="ERROR_GENERATING_BAR_CHART" value="Error generando el diagrama de barras"/>
+  <locale name="ERROR_GENERATING_LINE_CHART" value="Error generando el diagrama de líneas"/>
+  <locale name="ERROR_GENERATING_PIE_CHART" value="Error generando el diagrama de tarta"/>
+  <locale name="ERROR_LOG" value="Registro de Error"/>
+  <locale name="ERROR_MESSAGE_ACCESS_DENIED" value="El acceso a la pantalla seleccionada ha sido denegado - {0}"/>
+  <locale name="ERROR_MESSAGE_ACTION_NOT_DEFINED" value="La acción no ha sido definida"/>
+  <locale name="ERROR_MESSAGE_ADDING_COMPOUND_FIELDS" value="Ha habido un problema añadiendo los campos compuestos calculados de una consulta"/>
+  <locale name="ERROR_MESSAGE_ADDING_COMPUTED_FIELDS" value="Ha habido un problema añadiendo los campos calculados de una consulta"/>
+  <locale name="ERROR_MESSAGE_ADDING_TOTALS" value="Ha habido un error añadiendo los totalizadores de la consulta {1} en la fila {0}"/>
+  <locale name="ERROR_MESSAGE_AUTHENTICATE" value="Ha habido un problema realizando la autenticación"/>
+  <locale name="ERROR_MESSAGE_BAD_INCLUDE_DEFINITION" value="La etiqueta &apos;include&apos; en la pantalla {0} no ha encontrado los siguientes elementos: screen: {1}, source: {2}"/>
+  <locale name="ERROR_MESSAGE_BAD_QUEUE_REQUEST_DEFINITION_FORMAT" value="No se ha definido un mensaje de envío en la cola {0}"/>
+  <locale name="ERROR_MESSAGE_BAD_QUEUE_RESPONSE_DEFINITION_FORMAT" value="No se ha definido un mensaje de recepción en la cola {0}"/>
+  <locale name="ERROR_MESSAGE_BLOCKED_PASSWORD" value="Contraseña bloqueada para el usuario {0}. Contacta con el administrador del sistema."/>
+  <locale name="ERROR_MESSAGE_CLASS_NOT_DEFINED" value="La clase que se quiere generar no está definida {0}"/>
+  <locale name="ERROR_MESSAGE_CLOSE_SESSION" value="Ha habido un problema cerrando la sesión. Por favor, inténtelo de nuevo"/>
+  <locale name="ERROR_MESSAGE_CLOSE_STREAM" value="Ha habido un problema tratando de cerrar el archivo {0}"/>
+  <locale name="ERROR_MESSAGE_CLOSING_CONNECTION" value="Ha habido un problema durante el cierre de la conexión a la Base de Datos"/>
+  <locale name="ERROR_MESSAGE_CONNECTION_MICROSERVICE" value="Ha habido un problema tratando de conectarse al microservicio - {0}"/>
+  <locale name="ERROR_MESSAGE_CONTENT_TYPE_NOT_FOUND" value="Tipo de contenido no encontrado"/>
+  <locale name="ERROR_MESSAGE_DATABASE_DISABLED" value="Compruebe la configuración de la conexión de la base de datos"/>
+  <locale name="ERROR_MESSAGE_DEFAULT_SESSION_PARAMETERS" value="Ha habido un problema generando las variables por defecto de la sesión. Por favor, inténtelo de nuevo"/>
+  <locale name="ERROR_MESSAGE_DESTINATION_FAILED" value="Ha habido un problema tratando de conectar con la cola {0}"/>
+  <locale name="ERROR_MESSAGE_DUPLICATED_IDENTIFIER" value="Se ha encontrado un identificador duplicado en la pantalla. Identificador: &apos;&apos;{0}&apos;&apos;, Pantalla: &apos;&apos;{1}&apos;&apos;"/>
+  <locale name="ERROR_MESSAGE_DURING_EMAIL_SEND" value="Ha habido un problema enviando el correo"/>
+  <locale name="ERROR_MESSAGE_DURING_MAINTAIN" value="Ha habido un problema en el proceso de mantenimiento"/>
+  <locale name="ERROR_MESSAGE_DURING_ROLLBACK" value="Ha habido un problema realizando el rollback de la transacción"/>
+  <locale name="ERROR_MESSAGE_EMAIL_ADD_ATTACH" value="Se ha producido un error adjuntando los ficheros"/>
+  <locale name="ERROR_MESSAGE_EMAIL_GENERATE_CC" value="Se ha producido un error generando la parte [CC]"/>
+  <locale name="ERROR_MESSAGE_EMAIL_GENERATE_CCO" value="Se ha producido un error generando la parte [CCO]"/>
+  <locale name="ERROR_MESSAGE_EMAIL_GENERATE_DESTINATION" value="Se ha producido un error generando el destino"/>
+  <locale name="ERROR_MESSAGE_EMAIL_GENERATE_FROM" value="Se ha producido un error generando la parte [De] con valor {0}"/>
+  <locale name="ERROR_MESSAGE_EMAIL_GENERATE_MESSAGE" value="Se ha producido un error generando el mensaje {0}"/>
+  <locale name="ERROR_MESSAGE_EMAIL_GENERATE_TO" value="Se ha producido un error generando la parte [Para]"/>
+  <locale name="ERROR_MESSAGE_EMPTY_LIST_OPTIONAL" value="Si la lista puede ser vacía, utilice optional en el filtro: {0}"/>
+  <locale name="ERROR_MESSAGE_EMPTY_MAINTAIN_OUTPUT" value="La operación de mantenimiento -{0}- no ha finalizado correctamente"/>
+  <locale name="ERROR_MESSAGE_EMPTY_QUERY_OUTPUT" value="La consulta no ha finalizado correctamente"/>
+  <locale name="ERROR_MESSAGE_EMPTY_SERVICE_OUTPUT" value="El servicio no ha finalizado correctamente"/>
+  <locale name="ERROR_MESSAGE_ERROR_CALLING_METHOD" value="La ejecución del método {1} de la clase {0} ha ocasionado un problema"/>
+  <locale name="ERROR_MESSAGE_ERROR_INITIALIZING_INSTANCE" value="Ha habido un problema tratando de generar una instancia de la clase"/>
+  <locale name="ERROR_MESSAGE_EXECUTING_SERVICE_QUERY" value="Ha habido un problema ejecutando la consulta {0}"/>
+  <locale name="ERROR_MESSAGE_EXPORTING_FILE" value="Ha habido un error exportando el archivo"/>
+  <locale name="ERROR_MESSAGE_EXPRESSION_EVALUATION" value="Ha habido un error tratando de evaluar la expresión:\n{0}"/>
+  <locale name="ERROR_MESSAGE_FILE_ACCESS" value="Ha habido un problema tratando de acceder al fichero: {0}"/>
+  <locale name="ERROR_MESSAGE_FILE_DELETE" value="Ha habido un problema tratando de eliminar el fichero"/>
+  <locale name="ERROR_MESSAGE_FILE_INFO" value="Ha habido un problema recuperando la información del fichero: {0}"/>
+  <locale name="ERROR_MESSAGE_FILE_NOT_DEFINED" value="El fichero al que se está accediendo no ha sido encontrado"/>
+  <locale name="ERROR_MESSAGE_FILE_PARSING" value="Ha habido un problema interpretando el fichero"/>
+  <locale name="ERROR_MESSAGE_FILE_READING_ERROR" value="Ha habido un problema tratando de acceder al fichero: {0}"/>
+  <locale name="ERROR_MESSAGE_FILE_TYPE_NOT_DEFINED" value="Tipo de fichero no definido"/>
+  <locale name="ERROR_MESSAGE_FILE_UPLOAD" value="Ha habido un problema subiendo el fichero a la aplicación"/>
+  <locale name="ERROR_MESSAGE_FILE_UPLOAD_STATUS" value="Ha habido un problema recuperando el estado de la subida del fichero"/>
+  <locale name="ERROR_MESSAGE_FILENAME_SIZE_LIMIT" value="El nombre del fichero subido tiene una longitud de {0} caracteres, superior al máximo permitido: 160 caracteres"/>
+  <locale name="ERROR_MESSAGE_FILL_STATEMENT_VARIABLES" value="Error en variable. Índice {0} - Tipo: {1} - Valor: {2}"/>
+  <locale name="ERROR_MESSAGE_FORMAT_COMPUTED" value="Ha habido un problema formateando el campo compuesto con valor {0}"/>
+  <locale name="ERROR_MESSAGE_FORMAT_SERVICE_DATA" value="Ha habido un problema formateando los datos del servicio {0}"/>
+  <locale name="ERROR_MESSAGE_FORMAT_TOTALIZED" value="Ha habido un problema formateando el campo totalizado con valor {0}"/>
+  <locale name="ERROR_MESSAGE_GENERATE_SESSION" value="Ha habido un problema generando la sesión. Por favor, inténtelo de nuevo"/>
+  <locale name="ERROR_MESSAGE_GENERATING_APPLICATION_HELP" value="Ha ocurrido un error generando la ayuda sobre la aplicación"/>
+  <locale name="ERROR_MESSAGE_GENERATING_DOCUMENT" value="Ha habido un problema tratando de generar el documento con los datos de la pantalla"/>
+  <locale name="ERROR_MESSAGE_GENERATING_DOCUMENT_DATA" value="Ha habido un error al generarando los datos del documento"/>
+  <locale name="ERROR_MESSAGE_GENERATING_FILTER" value="Ha habido un problema generando el filtro de SQL: {0}"/>
+  <locale name="ERROR_MESSAGE_GENERATING_HEADERS" value="Ha habido un problema generando las cabeceras"/>
+  <locale name="ERROR_MESSAGE_GENERATING_HELP_TEMPLATE" value="Ha ocurrido un error generando la plantilla de ayuda"/>
+  <locale name="ERROR_MESSAGE_GENERATING_RESPONSE" value="Ha habido un problema generando la respuesta del método"/>
+  <locale name="ERROR_MESSAGE_GENERATING_SCREEN_HELP" value="Ha ocurrido un error generando la ayuda sobre la pantalla"/>
+  <locale name="ERROR_MESSAGE_GENERATING_STATUS_MESSAGE" value="Ha habido un problema generando un mensaje de estado a partir de los datos recibidos"/>
+  <locale name="ERROR_MESSAGE_GENERATING_TOTALIZERS" value="Ha habido un problema generando los totales de la consulta en la línea {0}"/>
+  <locale name="ERROR_MESSAGE_GENERATING_USER_MANUAL_HELP" value="Ha ocurrido un error generando el manual de usuario"/>
+  <locale name="ERROR_MESSAGE_GENERATING_VARIABLE_VALUE" value="Ha habido un problema generando el valor de una variable: {0}"/>
+  <locale name="ERROR_MESSAGE_GENERATING_WRAPPER_FOR_REQUEST" value="Ha habido un problema generando el objeto wrapper -{0}- para el envío del mensaje"/>
+  <locale name="ERROR_MESSAGE_GENERATING_WRAPPER_FOR_RESPONSE" value="Ha habido un problema generando el objeto wrapper -{0}- para la recepción del mensaje"/>
+  <locale name="ERROR_MESSAGE_GET_DEFAULT_VALUES" value="Ha habido un problema tratando de recuperar los datos por defecto de la pantalla"/>
+  <locale name="ERROR_MESSAGE_GET_PRN" value="Ha ocurrido algún error al obtener la lista de impresoras"/>
+  <locale name="ERROR_MESSAGE_GET_SESSION_OBJECT" value="Ha habido un problema tratando de recuperar el objecto con clave {0} de la cache de sesión"/>
+  <locale name="ERROR_MESSAGE_GET_SESSION_VARIABLE" value="Ha habido un problema tratando de recuperar la variable de sesión: {0}"/>
+  <locale name="ERROR_MESSAGE_GETTING_FILENAME" value="Ha habido un error al intentar obtener el nombre del fichero"/>
+  <locale name="ERROR_MESSAGE_GETTING_SUBTITLE" value="Ha habido un problema obteniendo el subtitulo"/>
+  <locale name="ERROR_MESSAGE_GETTING_USER_STYLE" value="Ha habido un problema obtieniendo los estilos del usuarios"/>
+  <locale name="ERROR_MESSAGE_GETTING_VIEW" value="Ha habido un problema obteniendo la vista"/>
+  <locale name="ERROR_MESSAGE_GRID_MULTIPLE_CONF" value="No se ha encontrado el parámetro de envío de operaciones para el grid {0}. Compruebe la configuración"/>
+  <locale name="ERROR_MESSAGE_ILEGAL_TYPE_STATEMENT_VARIABLES" value="Tipo de variable no definida. Índice {0} - Tipo: {1} - Valor: {2}"/>
+  <locale name="ERROR_MESSAGE_INITIALIZING_JASPER" value="Ha habido un problema al lanzar la inicialización del motor de documentos"/>
+  <locale name="ERROR_MESSAGE_INVALID_ARGUMENTS" value="Los argumentos introducidos son inválidos"/>
+  <locale name="ERROR_MESSAGE_INVALID_CONNECTION" value="Ha habido un problema a la hora de realizar la conexión"/>
+  <locale name="ERROR_MESSAGE_INVALID_DATABASE_ARGUMENTS" value="Los siguientes argumentos de la conexión a base de datos no son correctos [Tipo:{0}, Alias:{1}, Url: {2}]"/>
+  <locale name="ERROR_MESSAGE_INVALID_DATASOURCE" value="No existe el datasource seleccionado: {0}"/>
+  <locale name="ERROR_MESSAGE_INVALID_PASSWORD" value="La clave introducida para el usuario {0} es incorrecta"/>
+  <locale name="ERROR_MESSAGE_INVALID_SESSION_TOKEN" value="No se ha podido generar una sesión para el usuario {0}"/>
+  <locale name="ERROR_MESSAGE_INVALID_USER" value="El usuario introducido -{0}- es incorrecto o está desactivado"/>
+  <locale name="ERROR_MESSAGE_IO_EXCEPTION" value="Se ha generado una excepción de tipo IO (Input/Output)"/>
+  <locale name="ERROR_MESSAGE_JMS_TIMEOUT" value="El tiempo de espera ({1} ms) para la recepción del mensaje en la cola {0} ha sido excedido"/>
+  <locale name="ERROR_MESSAGE_LAUNCHING_QUERY" value="Ha habido un problema al lanzar la consulta [{0}]"/>
+  <locale name="ERROR_MESSAGE_LAUNCHING_QUEUE_FROM_QUERY" value="Ha habido un problema enviando un mensaje a una cola desde la consulta {0}"/>
+  <locale name="ERROR_MESSAGE_LAUNCHING_SQL_QUERY" value="Ha habido un problema al lanzar la consulta SQL [{0}]. Más información en el log de la aplicación"/>
+  <locale name="ERROR_MESSAGE_LDAP_CONNECTION_PARAMETERS" value="Los parametros de conexión de LDAP son incorrectos"/>
+  <locale name="ERROR_MESSAGE_LDAP_INVALID_CREDENTIALS" value="Las credenciales de LDAP son incorrectas"/>
+  <locale name="ERROR_MESSAGE_LDAP_USER" value="El usuario {0} no existe o está desactivado en el LDAP"/>
+  <locale name="ERROR_MESSAGE_MAINTAIN_NOT_FOUND" value="La operación de mantenimiento -{0}- no ha sido definida"/>
+  <locale name="ERROR_MESSAGE_MALFORMED_QUERY_LIST_FIELD" value="Query mal formada, se está utilizando una variable de lista como campo: {0}"/>
+  <locale name="ERROR_MESSAGE_MENU_NOT_CLONEABLE" value="El menú actual no puede ser clonado"/>
+  <locale name="ERROR_MESSAGE_METHOD_NOT_DEFINED" value="El método que se quiere invocar no está definido"/>
+  <locale name="ERROR_MESSAGE_MULTIPLE_AUDIT_MAINTAIN" value="El mantenimiento de la sentencia individual con auditoría múltiple ha fallado. [{0}]"/>
+  <locale name="ERROR_MESSAGE_MULTIPLE_MAINTAIN" value="El mantenimiento de la sentencia múltiple ha fallado. [{0}]"/>
+  <locale name="ERROR_MESSAGE_NO_AUDIT_FIELDS" value="No se han definido campos de auditoría en el proceso lanzado [{0}]. Es necesario que estén definidos para lanzar el proceso de auditoría."/>
+  <locale name="ERROR_MESSAGE_NONEXISTENT_FILE" value="No se ha encontrado el fichero: {0}"/>
+  <locale name="ERROR_MESSAGE_NOT_DEFINED_IN" value="&apos;&apos;{0}&apos;&apos; no ha sido definido en &apos;&apos;{1}&apos;&apos;"/>
+  <locale name="ERROR_MESSAGE_OPTION_HAS_NOT_BEEN_DEFINED" value="La opción {0} no se ha definido. Por favor, compruebe el los ficheros de menú."/>
+  <locale name="ERROR_MESSAGE_OUT_OF_SESSION" value="La sesión ha caducado. Por favor, recargue la página."/>
+  <locale name="ERROR_MESSAGE_PARAMETER_NOT_FOUND" value="Parámetro no encontrado: {0}"/>
+  <locale name="ERROR_MESSAGE_PARSE_EXCEPTION" value="Se ha generado una excepción en el parseo"/>
+  <locale name="ERROR_MESSAGE_PARSING_COLUMN_TYPE" value="Ha habido un problema interpretando los datos de una matriz"/>
+  <locale name="ERROR_MESSAGE_PARSING_COMPLETE_LINE" value="Ha habido un problema analizando el listado de datos completo"/>
+  <locale name="ERROR_MESSAGE_PARSING_COMPLETE_RESULTSET" value="Ha habido un problema generando el resultado completo de la consulta"/>
+  <locale name="ERROR_MESSAGE_PARSING_COMPLETE_RESULTSET_EXC" value="Ha habido un problema generando el resultado completo de la consulta en la línea {0} -{1}-"/>
+  <locale name="ERROR_MESSAGE_PARSING_COMPLETE_RESULTSET_LINE" value="Ha habido un problema generando el resultado completo de la consulta en la línea {0}"/>
+  <locale name="ERROR_MESSAGE_PARSING_COMPOUND_FIELDS" value="Ha habido un problema generando los campos calculados compuestos de una consulta"/>
+  <locale name="ERROR_MESSAGE_PARSING_COMPUTED_FIELDS" value="Ha habido un problema generando los campos calculados de una consulta"/>
+  <locale name="ERROR_MESSAGE_PARSING_FIELD" value="Ha habido un problema tratando de interpretar el valor del campo: &apos;&apos;{0}&apos;&apos;"/>
+  <locale name="ERROR_MESSAGE_PARSING_MESSAGE_MAP_PARAMETERS" value="Ha habido un problema analizando los parámetros del mensaje de tipo mapa"/>
+  <locale name="ERROR_MESSAGE_PARSING_MESSAGE_TEXT_PARAMETERS" value="Ha habido un problema analizando los parámetros del mensaje de tipo texto"/>
+  <locale name="ERROR_MESSAGE_PARSING_PARTIAL_RESULTSET" value="Ha habido un problema generando el resultado parcial de la consulta"/>
+  <locale name="ERROR_MESSAGE_PARSING_REQUEST_MESSAGE" value="Ha habido un problema analizando los parámetros del mensaje de envío"/>
+  <locale name="ERROR_MESSAGE_PARSING_RESPONSE_MESSAGE" value="Ha habido un problema analizando los parámetros del mensaje de recepción"/>
+  <locale name="ERROR_MESSAGE_PARSING_RESULTSET" value="Ha habido un problema generando la lista de resultados de una consulta"/>
+  <locale name="ERROR_MESSAGE_PARSING_TEXT" value="Error convirtiendo el texto &apos;&apos;{0}&apos;&apos; a {1}"/>
+  <locale name="ERROR_MESSAGE_PRINTING_DISABLED" value="La impresión está deshabilitada"/>
+  <locale name="ERROR_MESSAGE_PRINTING_NOPRINTER" value="No hay impresoras definidas para este usuario. Por favor, defina una impresora"/>
+  <locale name="ERROR_MESSAGE_PRINTING_SCREEN" value="Verifique que la impresora -{0}- está correctamente configurada en el servidor"/>
+  <locale name="ERROR_MESSAGE_QUERY_JOIN" value="Ha habido un problema tratando de lanzar el join &apos;&apos;{0}&apos;&apos; en la consulta &apos;&apos;{1}&apos;&apos;"/>
+  <locale name="ERROR_MESSAGE_QUERY_NOT_FOUND" value="La consulta no ha sido definida"/>
+  <locale name="ERROR_MESSAGE_QUEUE_CONNECTION_FAILED" value="Ha habido un problema conectando con la cola {0}"/>
+  <locale name="ERROR_MESSAGE_QUEUE_CONNECTION_NOT_IMPLEMENTED" value="El tipo de conexión seleccionado no ha sido implementado {0}"/>
+  <locale name="ERROR_MESSAGE_QUEUE_DESTINATION_NOT_FOUND" value="Ha sido imposible encontrar la cola de destino {0}"/>
+  <locale name="ERROR_MESSAGE_QUEUE_NOT_DEFINED" value="La cola de destino no ha sido definida: {0}"/>
+  <locale name="ERROR_MESSAGE_QUEUE_NOT_FOUND" value="No se ha encontrado la cola {0}"/>
+  <locale name="ERROR_MESSAGE_READING_PARAMETER" value="Ha habido un problema leyendo el parámetro: {0}"/>
+  <locale name="ERROR_MESSAGE_READING_PARAMETERS" value="Ha habido un problema leyendo los parámetros del servicio"/>
+  <locale name="ERROR_MESSAGE_RECEIVING_QUEUE_MESSAGE" value="Ha habido un problema recibiendo un mensaje de la cola {0}"/>
+  <locale name="ERROR_MESSAGE_REPLACING_VALUES" value="Ha habido un problema tratanto de reemplazar el valor en una expresión: {0}"/>
+  <locale name="ERROR_MESSAGE_RESPONSE_PARAMETER_NOT_A_LIST" value="El parámetro {0} del mensaje recibido no es una lista válida"/>
+  <locale name="ERROR_MESSAGE_RETIREVING_ELEMENT_PARAMETERS" value="Ha ocurrido un problema obteniendo los parametros de uno de los elementos de la pantalla"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_DATA" value="Ha habido un problema en el proceso de recuperación de datos"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_ELEMENT" value="Ha habido un problema recuperando el elemento {0}"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_FIELD_VALUE" value="Ha habido un problema recuperando los valores del campo {0} de la consulta {1}"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_FIELD_VALUES" value="Ha habido un problema recuperando los valores de los campos de la consulta {1} en el campo {0}"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_INITIAL_DATA" value="Ha habido un problema tratando de recuperar los datos iniciales de la ventana en la consulta: {0}"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_INITIAL_DATA_COMPONENT" value="Ha habido un problema tratando de recuperar los datos iniciales del componente en la consulta: {0}"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_KEY" value="Ha habido un problema en el proceso de recuperación de la clave"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_PAGE" value="Ha habido un problema recuperando el conjunto de datos solicitado"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_SCREEN" value="No se han podido leer correctamente los datos de la pantalla {0}"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_SCRIPT" value="No se han podido leer correctamente los datos del script {0}"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_SERVER_AGENT" value="No se ha podido recuperar la dirección del siguiente agente de servicios web"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_SERVICE" value="No se ha podido recuperar el servicio {0}"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_TRANSLATION" value="Ha habido un error al intentar recuperar la traducción para el literal -{0}- con el texto -{1}-"/>
+  <locale name="ERROR_MESSAGE_RETRIEVING_VARIABLE" value="Se ha producido un error recuperando el valor de la variable {0}"/>
+  <locale name="ERROR_MESSAGE_SAVING_ITEM" value="Ha habido un problema guardando el archivo"/>
+  <locale name="ERROR_MESSAGE_SCHEDULER_PAUSE_TASK" value="Problema al pausar la tarea"/>
+  <locale name="ERROR_MESSAGE_SCHEDULER_RESUME_TASK" value="Problema al reanudar la tarea"/>
+  <locale name="ERROR_MESSAGE_SCREEN_COMPONENT_MAP" value="Error generando el mapa de componentes"/>
+  <locale name="ERROR_MESSAGE_SCREEN_CONFIGURATION_DATA" value="Error recuperando los datos de configuración de la pantalla: {0}"/>
+  <locale name="ERROR_MESSAGE_SCREEN_NOT_CLONEABLE" value="La pantalla seleccionada no puede ser clonada - {0}"/>
+  <locale name="ERROR_MESSAGE_SCREEN_NOT_DEFINED" value="La opción de pantalla que se quiere generar no está definida - {0}"/>
+  <locale name="ERROR_MESSAGE_SCREEN_RESTRICTIONS" value="Error recuperando las restricciones de pantalla: {0}"/>
+  <locale name="ERROR_MESSAGE_SENDING_QUEUE_MESSAGE" value="Ha habido un problema enviando el mensaje a la cola {0}"/>
+  <locale name="ERROR_MESSAGE_SEQUENCE_NOT_DEFINED" value="La secuencia {0} no ha sido definida"/>
+  <locale name="ERROR_MESSAGE_SEQUENCE_NOT_UPDATED" value="La secuencia {0} no ha podido ser actualizada"/>
+  <locale name="ERROR_MESSAGE_SERVER_NOT_SUPPORTED" value="El servidor no es compatible"/>
+  <locale name="ERROR_MESSAGE_SERVICE_NOT_FOUND" value="El servicio no ha sido definido"/>
+  <locale name="ERROR_MESSAGE_SET_SESSION_OBJECT" value="Ha habido un problema tratando de almacenar el objecto con clave -{0}- en la cache de sesión"/>
+  <locale name="ERROR_MESSAGE_SET_SESSION_VARIABLE" value="Ha habido un problema tratando de almacenar el valor -{0}- en la variable de sesión -{1}-"/>
+  <locale name="ERROR_MESSAGE_SINGLE_MAINTAIN" value="El mantenimiento de la sentencia individual ha fallado. [{0}]"/>
+  <locale name="ERROR_MESSAGE_SIZE_LIMIT" value="El fichero seleccionado tiene un tamaño de {{ elementSize }} superior al máximo permitido: {{ maxSize }}"/>
+  <locale name="ERROR_MESSAGE_SORTING" value="Ha habido un error ordenando la consulta {0}"/>
+  <locale name="ERROR_MESSAGE_SQL_EXCEPTION" value="Se ha generado una excepción de tipo SQL. "/>
+  <locale name="ERROR_MESSAGE_SQL_FUNCTION_NOT_DEFINED" value="No se encuentra la función SQL definida"/>
+  <locale name="ERROR_MESSAGE_STORE_CRITERIA" value="Ha habido un problema tratando de almacenar los criterios de la ventana anterior"/>
+  <locale name="ERROR_MESSAGE_STORE_FILE" value="Ha habido un problema tratando de almacenar el archivo {0}"/>
+  <locale name="ERROR_MESSAGE_STORING_TRANSLATION" value="Ha habido un error al intentar guardar la traducción del literal -{0} con el valor -{1}-"/>
+  <locale name="ERROR_MESSAGE_TOO_MANY_REQUESTS" value="Ha habido demasiadas peticiones concurrentes y no se ha podido resolver"/>
+  <locale name="ERROR_MESSAGE_UNDEFINED_CACHE" value="No se ha definido un tipo de cache -{0}-"/>
+  <locale name="ERROR_MESSAGE_UNDEFINED_SESSION" value="La sesión con el token &quot;{0}&quot; ya no existe o no ha sido definida"/>
+  <locale name="ERROR_MESSAGE_UNIQUE_CRITERIA" value="El valor seleccionado ya existe en la base de datos"/>
+  <locale name="ERROR_MESSAGE_UPDATE_WRK_DIR2" value="La ruta no es correcta"/>
+  <locale name="ERROR_MESSAGE_VARIABLE_DEFINITION" value="Ha habido un problema con la definición de la variable {0}."/>
+  <locale name="ERROR_MESSAGE_VARIABLE_FILLING" value="Ha habido un problema obteniendo el valor de la variable  [{0}]. Chequea la definición de la variable."/>
+  <locale name="ERROR_MESSAGE_WEB_SERVICE_CALL" value="Ha habido un problema tratando de realizar una llamada al Web Service (probablemente no se encuentra activado)"/>
+  <locale name="ERROR_MESSAGE_WEB_SERVICE_TIMEOUT" value="Se ha superado el tiempo de espera ({0} ms.) en la llamada al servicio web {1}"/>
+  <locale name="ERROR_MESSAGE_WRONG_BANK_ACCOUNT" value="El número de cuenta {0} no es un número de cuenta bancaria válido."/>
+  <locale name="ERROR_STARTING_APPLICATION" value="Error al iniciar la aplicación"/>
+  <locale name="ERROR_TITLE_ACCESS_DENIED" value="Acceso denegado"/>
+  <locale name="ERROR_TITLE_ACTION_NOT_DEFINED" value="Acción no definida"/>
+  <locale name="ERROR_TITLE_ADDING_COMPOUND_FIELDS" value="Error añadiendo los campos compuestos"/>
+  <locale name="ERROR_TITLE_ADDING_COMPUTED_FIELDS" value="Error añadiendo los campos calculados"/>
+  <locale name="ERROR_TITLE_ADDING_TOTALS" value="Error añadiendo totalizadores"/>
+  <locale name="ERROR_TITLE_AUTHENTICATE" value="Error en la autenticación"/>
+  <locale name="ERROR_TITLE_BAD_INCLUDE_DEFINITION" value="Definición de &apos;include&apos; incorrecta"/>
+  <locale name="ERROR_TITLE_BAD_QUEUE_DEFINITION_FORMAT" value="Error en el formato de la cola"/>
+  <locale name="ERROR_TITLE_BBDD_AUTHENTICATE" value="Error de autenticación de base de datos"/>
+  <locale name="ERROR_TITLE_BLOCKED_PASSWORD" value="Contraseña bloqueada"/>
+  <locale name="ERROR_TITLE_BROADCASTING_MESSAGE" value="Error enviando el mensaje"/>
+  <locale name="ERROR_TITLE_CHECK_RESTRICTIONS" value="Compruebe restricciones"/>
+  <locale name="ERROR_TITLE_CLASS_NOT_DEFINED" value="Clase no definida"/>
+  <locale name="ERROR_TITLE_CLOSE_SESSION" value="Error cerrando la sesión"/>
+  <locale name="ERROR_TITLE_CLOSING_CONNECTION" value="Error en el cierre de conexión"/>
+  <locale name="ERROR_TITLE_CONTENT_TYPE" value="Error generando el tipo de contenido"/>
+  <locale name="ERROR_TITLE_CRITERIA_VALIDATION" value="Error validando el criterio"/>
+  <locale name="ERROR_TITLE_DATABASE_DISABLED" value="Conector BBDD no activo"/>
+  <locale name="ERROR_TITLE_DEFAULT_SESSION_PARAMETERS" value="Error generando las variables por defecto de la sesión"/>
+  <locale name="ERROR_TITLE_DESTINATION_FAILED" value="Fallo en la conexión a la cola"/>
+  <locale name="ERROR_TITLE_DUPLICATED_IDENTIFIER" value="Identificador duplicado"/>
+  <locale name="ERROR_TITLE_DURING_EMAIL_SEND" value="Error en el envío de correo"/>
+  <locale name="ERROR_TITLE_DURING_MAINTAIN" value="Error durante el mantenimiento"/>
+  <locale name="ERROR_TITLE_DURING_ROLLBACK" value="Error en el rollback"/>
+  <locale name="ERROR_TITLE_ERROR_CALLING_METHOD" value="Error de llamada al método"/>
+  <locale name="ERROR_TITLE_ERROR_EXECUTING_SERVICE_QUERY" value="Error ejecutando servicio de consulta"/>
+  <locale name="ERROR_TITLE_ERROR_INITIALIZING_INSTANCE" value="Error generando instancia"/>
+  <locale name="ERROR_TITLE_EXPORTING_FILE" value="Error exportando archivo"/>
+  <locale name="ERROR_TITLE_EXPRESSION_EVALUATION" value="Error evaluando expresión"/>
+  <locale name="ERROR_TITLE_FILE_ACCESS" value="Error accediendo al fichero"/>
+  <locale name="ERROR_TITLE_FILE_DELETE" value="Error eliminando el fichero"/>
+  <locale name="ERROR_TITLE_FILE_INFO" value="Error recuperando la información del fichero"/>
+  <locale name="ERROR_TITLE_FILE_NOT_DEFINED" value="Fichero no definido"/>
+  <locale name="ERROR_TITLE_FILE_PARSING" value="Error interpretando un fichero"/>
+  <locale name="ERROR_TITLE_FILE_READING_ERROR" value="Error de lectura de fichero"/>
+  <locale name="ERROR_TITLE_FILE_UPLOAD" value="Error en la subida del fichero"/>
+  <locale name="ERROR_TITLE_FILE_UPLOAD_STATUS" value="Error comprobando la subida del fichero"/>
+  <locale name="ERROR_TITLE_FILENAME_SIZE_LIMIT" value="Se ha superado el tamaño de nombre de fichero"/>
+  <locale name="ERROR_TITLE_FILLING_VARIABLE_LIST" value="Error rellenando la lista de variables"/>
+  <locale name="ERROR_TITLE_FORMAT_DATA" value="Error formateando el dato"/>
+  <locale name="ERROR_TITLE_GENERATE_SESSION" value="Error generando la sesión"/>
+  <locale name="ERROR_TITLE_GENERATING_APPLICATION_HELP" value="Error generando la ayuda sobre la aplicación"/>
+  <locale name="ERROR_TITLE_GENERATING_DOCUMENT" value="Error generando el documento"/>
+  <locale name="ERROR_TITLE_GENERATING_DOCUMENT_DATA" value="Error generando los datos del documento"/>
+  <locale name="ERROR_TITLE_GENERATING_FILTER" value="Error generando un filtro de SQL"/>
+  <locale name="ERROR_TITLE_GENERATING_HEADERS" value="Error generando cabeceras"/>
+  <locale name="ERROR_TITLE_GENERATING_HELP_TEMPLATE" value="Error generando la plantilla de ayuda"/>
+  <locale name="ERROR_TITLE_GENERATING_RESPONSE" value="Error generando una respuesta"/>
+  <locale name="ERROR_TITLE_GENERATING_SCREEN_HELP" value="Error generando la ayuda sobre la pantalla"/>
+  <locale name="ERROR_TITLE_GENERATING_SCREEN_SCRIPTS" value="Error generando los scripts de la pantalla"/>
+  <locale name="ERROR_TITLE_GENERATING_STATUS_MESSAGE" value="Error generando mensaje de estado"/>
+  <locale name="ERROR_TITLE_GENERATING_TOTALIZERS" value="Error generando totales"/>
+  <locale name="ERROR_TITLE_GENERATING_USER_MANUAL_HELP" value="Error generando el manual de usuario"/>
+  <locale name="ERROR_TITLE_GENERATING_VARIABLE_VALUE" value="Error generando el valor de una variable"/>
+  <locale name="ERROR_TITLE_GENERATING_WRAPPER" value="Error generando wrapper"/>
+  <locale name="ERROR_TITLE_GET_PRN" value="Error obteniendo impresoras"/>
+  <locale name="ERROR_TITLE_GET_SESSION_OBJECT" value="Error recuperando un objeto de la cache de sesión"/>
+  <locale name="ERROR_TITLE_GET_SESSION_VARIABLE" value="Error recuperando una variable de sesión"/>
+  <locale name="ERROR_TITLE_GETTING_FILENAME" value="Error obteniendo el nombre del fichero"/>
+  <locale name="ERROR_TITLE_GETTING_LOG_LIST" value="Error recuperando la lista de log"/>
+  <locale name="ERROR_TITLE_GETTING_LOG_TEXT" value="Error recuperando el texto de log"/>
+  <locale name="ERROR_TITLE_GETTING_REPORT_LIST" value="Error recuperando la lista de informes"/>
+  <locale name="ERROR_TITLE_GETTING_SUBTITLE" value="Error obteniendo el subtitulo"/>
+  <locale name="ERROR_TITLE_GETTING_SYSTEM_DATE" value="Error recuperando la fecha del sistema"/>
+  <locale name="ERROR_TITLE_GETTING_SYSTEM_VERSION" value="Error recuperando la versión del sistema"/>
+  <locale name="ERROR_TITLE_GETTING_USER_STYLE" value="Error obteniendo los estilos del usuario"/>
+  <locale name="ERROR_TITLE_GETTING_VIEW" value="Error obteniendo la vista"/>
+  <locale name="ERROR_TITLE_INITIALIZING_JASPER" value="Error inicializando Jasper"/>
+  <locale name="ERROR_TITLE_INVALID_ARGUMENTS" value="Argumentos inválidos"/>
+  <locale name="ERROR_TITLE_INVALID_CONNECTION" value="Conexión inválida"/>
+  <locale name="ERROR_TITLE_INVALID_PASSWORD" value="Clave incorrecta"/>
+  <locale name="ERROR_TITLE_INVALID_SESSION_TOKEN" value="Sesión no válida"/>
+  <locale name="ERROR_TITLE_INVALID_USER" value="Usuario no válido"/>
+  <locale name="ERROR_TITLE_IO_EXCEPTION" value="Generada IOException"/>
+  <locale name="ERROR_TITLE_JMS_TIMEOUT" value="Se ha superado el tiempo de espera"/>
+  <locale name="ERROR_TITLE_LAUNCHING_ACTION" value="Error lanzando acción"/>
+  <locale name="ERROR_TITLE_LAUNCHING_BATCH" value="Error en el lanzamiento del Batch"/>
+  <locale name="ERROR_TITLE_LAUNCHING_EMAIL" value="Error en el lanzamiento de un email"/>
+  <locale name="ERROR_TITLE_LAUNCHING_MAINTAIN" value="Error en el mantenimiento"/>
+  <locale name="ERROR_TITLE_LAUNCHING_QUEUE" value="Error enviando mensaje a la cola"/>
+  <locale name="ERROR_TITLE_LAUNCHING_SERVICE" value="Error en el servicio"/>
+  <locale name="ERROR_TITLE_LAUNCHING_SQL_QUERY" value="Error en la consulta"/>
+  <locale name="ERROR_TITLE_LDAP_CONNECTION" value="Error de conexión de LDAP"/>
+  <locale name="ERROR_TITLE_MAINTAIN_MULTIPLE" value="Error ejecutando consulta multiple"/>
+  <locale name="ERROR_TITLE_MENU" value="Error en la generación del menú"/>
+  <locale name="ERROR_TITLE_METHOD_NOT_DEFINED" value="Método no definido"/>
+  <locale name="ERROR_TITLE_NO_AUDIT_FIELDS" value="No hay campos de auditoría definidos"/>
+  <locale name="ERROR_TITLE_NONEXISTENT_FILE" value="Fichero inexistente"/>
+  <locale name="ERROR_TITLE_NOT_DEFINED" value="Error: &apos;&apos;{0}&apos;&apos; no ha sido definido"/>
+  <locale name="ERROR_TITLE_OPTION_NOT_DEFINED" value="La opción no está definida"/>
+  <locale name="ERROR_TITLE_PARSE_EXCEPTION" value="Generada ParseException"/>
+  <locale name="ERROR_TITLE_PARSING_COLUMN_TYPE" value="Error interpretando los datos"/>
+  <locale name="ERROR_TITLE_PARSING_COMPOUND_FIELDS" value="Error generando los campos calculados compuestos"/>
+  <locale name="ERROR_TITLE_PARSING_COMPUTED_FIELDS" value="Error generando los campos calculados"/>
+  <locale name="ERROR_TITLE_PARSING_DATALIST" value="Error analizando la lista"/>
+  <locale name="ERROR_TITLE_PARSING_FIELD" value="Error analizando el campo"/>
+  <locale name="ERROR_TITLE_PARSING_MESSAGE_MAP_PARAMETERS" value="Error analizando los parámetros del mensaje de tipo mapa"/>
+  <locale name="ERROR_TITLE_PARSING_MESSAGE_TEXT_PARAMETERS" value="Error analizando los parámetros del mensaje de tipo texto"/>
+  <locale name="ERROR_TITLE_PARSING_REQUEST_MESSAGE" value="Error analizando el mensaje de envío"/>
+  <locale name="ERROR_TITLE_PARSING_RESPONSE_MESSAGE" value="Error analizando el mensaje de recepción"/>
+  <locale name="ERROR_TITLE_PARSING_RESULTSET" value="Error generando los resultados"/>
+  <locale name="ERROR_TITLE_PARSING_SERVICE_DATA" value="Error generando los resultados del servicio"/>
+  <locale name="ERROR_TITLE_PARSING_TEXT" value="Error traduciendo el texto"/>
+  <locale name="ERROR_TITLE_PATH_NOT_FOUND" value="El directorio {0} no existe o no tiene permisos de lectura"/>
+  <locale name="ERROR_TITLE_PRINTING_SCREEN" value="Error al tratar de imprimir el documento"/>
+  <locale name="ERROR_TITLE_QUEUE_CONNECTION_FAILED" value="Conexión fallida"/>
+  <locale name="ERROR_TITLE_QUEUE_CONNECTION_NOT_IMPLEMENTED" value="Tipo de conexión no implementado"/>
+  <locale name="ERROR_TITLE_QUEUE_DESTINATION_NOT_FOUND" value="Destino no encontrado"/>
+  <locale name="ERROR_TITLE_QUEUE_NOT_DEFINED" value="Cola no definida"/>
+  <locale name="ERROR_TITLE_READING_PARAMETERS" value="Error de lectura de parámetros"/>
+  <locale name="ERROR_TITLE_RECEIVING_QUEUE_MESSAGE" value="Error en la recepción de un mensaje"/>
+  <locale name="ERROR_TITLE_REPLACING_VALUES" value="Error reemplazando los valores"/>
+  <locale name="ERROR_TITLE_RETRIEVING_DATA" value="Error recuperando datos"/>
+  <locale name="ERROR_TITLE_RETRIEVING_DATA_LOGIN" value="Error recuperando datos en login"/>
+  <locale name="ERROR_TITLE_RETRIEVING_ELEMENT" value="Error recuperando el elemento"/>
+  <locale name="ERROR_TITLE_RETRIEVING_ELEMENT_PARAMETERS" value="Error obteniendo los parametros del elemento"/>
+  <locale name="ERROR_TITLE_RETRIEVING_KEY" value="Error recuperando clave"/>
+  <locale name="ERROR_TITLE_RETRIEVING_KEY_MAP" value="Error recuperando clave"/>
+  <locale name="ERROR_TITLE_RETRIEVING_SCREEN" value="Error recuperando los datos de la pantalla"/>
+  <locale name="ERROR_TITLE_RETRIEVING_SCRIPT" value="Error recuperando un script"/>
+  <locale name="ERROR_TITLE_RETRIEVING_SERVER_AGENT" value="Error recuperando el agente de servicios web"/>
+  <locale name="ERROR_TITLE_RETRIEVING_SERVICE" value="Error recuperando el servicio"/>
+  <locale name="ERROR_TITLE_SAVING_ITEM" value="Error guardando archivo"/>
+  <locale name="ERROR_TITLE_SCHEDULER_PAUSE_TASK" value="La tarea no ha podido ser pausada."/>
+  <locale name="ERROR_TITLE_SCHEDULER_RESUME_TASK" value="La tarea no ha podido ser reanudada."/>
+  <locale name="ERROR_TITLE_SCREEN_GENERATION_ERROR" value="Error al generar la pantalla"/>
+  <locale name="ERROR_TITLE_SCREEN_NOT_DEFINED" value="Pantalla no definida"/>
+  <locale name="ERROR_TITLE_SCREEN_OPTION_NOT_DEFINED" value="Opción de pantalla no definida"/>
+  <locale name="ERROR_TITLE_SENDING_QUEUE_MESSAGE" value="Error en el envío de un mensaje"/>
+  <locale name="ERROR_TITLE_SERVER_NOT_SUPPORTED" value="Error en el servidor"/>
+  <locale name="ERROR_TITLE_SET_SESSION_OBJECT" value="Error guardando un objecto de sesión"/>
+  <locale name="ERROR_TITLE_SET_SESSION_VARIABLE" value="Error guardando una variable de sesión"/>
+  <locale name="ERROR_TITLE_SIZE_LIMIT" value="Se ha superado el tamaño de fichero"/>
+  <locale name="ERROR_TITLE_SORTING" value="Error ordenando la consulta"/>
+  <locale name="ERROR_TITLE_SQL_EXCEPTION" value="Generada SQLException"/>
+  <locale name="ERROR_TITLE_SQL_FUNCTION_NOT_DEFINED" value="Función SQL no definida"/>
+  <locale name="ERROR_TITLE_STORE_CRITERIA" value="Error almacenando en cache los criterios"/>
+  <locale name="ERROR_TITLE_TOO_MANY_REQUESTS" value="Error: demasiadas peticiones"/>
+  <locale name="ERROR_TITLE_UNDEFINED_CACHE" value="Tipo de cache no definido"/>
+  <locale name="ERROR_TITLE_UNDEFINED_SESSION" value="Sesión no definida"/>
+  <locale name="ERROR_TITLE_VALIDATION" value="Error en la validación"/>
+  <locale name="ERROR_TITLE_VARIABLE_DEFINITION" value="Error en la definición de variable"/>
+  <locale name="ERROR_TITLE_WEB_SERVICE_CALL" value="Error llamando a un Web Service"/>
+  <locale name="ERROR_TITLE_WRONG_FILE_STRUCTURE" value="Fichero mal definido"/>
+  <locale name="EXECUTION_DATE" value="Fecha de ejecución"/>
+  <locale name="EXECUTION_TIME" value="Tiempo de ejecución"/>
+  <locale name="GRID_CHECK_ALL_SAVED_MESSAGE" value="Para realizar esta operación debe validar todos los registros introducidos"/>
+  <locale name="GRID_CHECK_ALL_SAVED_TITLE" value="Debe validar todos los registros"/>
+  <locale name="GRID_CHECK_ONE_SELECTED_MESSAGE" value="Para realizar esta operación debe seleccionar únicamente un elemento de la lista"/>
+  <locale name="GRID_CHECK_ONE_SELECTED_TITLE" value="Debe seleccionar un elemento"/>
+  <locale name="GRID_CHECK_RECORDS_GENERATED_MESSAGE" value="Para realizar esta operación debe generar al menos un elemento en la lista"/>
+  <locale name="GRID_CHECK_RECORDS_GENERATED_TITLE" value="Debe generar al menos un elemento"/>
+  <locale name="GRID_CHECK_SOME_SELECTED_MESSAGE" value="Para realizar esta operación debe seleccionar al menos un elemento de la lista"/>
+  <locale name="GRID_CHECK_SOME_SELECTED_TITLE" value="Debe seleccionar al menos un elemento"/>
+  <locale name="GRID_LOADING_DATA" value="Cargando datos"/>
+  <locale name="HELP_ACCEPT_PRINT_BUTTON" value="Aceptar las opciones de impresión, lanzar la generación de ficheros y cerrar el diálogo de impresión"/>
+  <locale name="HELP_ADD_BUTTON" value="Agregar nuevo elemento en la pantalla actual."/>
+  <locale name="HELP_BACK_BUTTON" value="Volver a la ventana anterior"/>
+  <locale name="HELP_BUTTON" value="Botón"/>
+  <locale name="HELP_BUTTON_IDENTIFIER" value="Id. botón"/>
+  <locale name="HELP_BUTTONS" value="Botones"/>
+  <locale name="HELP_CANCEL_PRINT_BUTTON" value="Cancelar las opciones de impresión modificadas y cerrar el diálogo de impresión"/>
+  <locale name="HELP_CHART" value="Gráfico"/>
+  <locale name="HELP_CHART_IDENTIFIER" value="Id. gráfico"/>
+  <locale name="HELP_CLOSE_HELP_BUTTON" value="Cerrar el diálogo con la ayuda de la ventana"/>
+  <locale name="HELP_COLUMNS" value="Columnas"/>
+  <locale name="HELP_COMPONENT" value="Componente"/>
+  <locale name="HELP_CONFIRM_BUTTON" value="Almacenar los datos de la pantalla"/>
+  <locale name="HELP_CREATE_NEW_LOCAL_BUTTON" value="Crear un nuevo literal almacenarlo en el los ficheros xml de literales"/>
+  <locale name="HELP_CRITERION" value="Criterio"/>
+  <locale name="HELP_CRITERION_IDENTIFIER" value="Id. criterio"/>
+  <locale name="HELP_DELETE_BUTTON" value="Eliminar las líneas seleccionadas en la matriz"/>
+  <locale name="HELP_DESCRIPTION" value="Descripción"/>
+  <locale name="HELP_EDIT_BUTTON" value="Editar elemento seleccionado"/>
+  <locale name="HELP_EDITABLE" value="Editable"/>
+  <locale name="HELP_GRID" value="Matriz"/>
+  <locale name="HELP_GRID_IDENTIFIER" value="Id. matriz"/>
+  <locale name="HELP_HELP_BUTTON" value="Abre un diálogo con la ayuda de la ventana"/>
+  <locale name="HELP_IDENTIFIER" value="Identificador"/>
+  <locale name="HELP_LOADALL" value="Carga total"/>
+  <locale name="HELP_MULTIOPERATION" value="Multi-operación"/>
+  <locale name="HELP_MULTISELECT" value="Multiselección"/>
+  <locale name="HELP_NAME" value="Nombre"/>
+  <locale name="HELP_NEW_BUTTON" value="Ir a una nueva ventana para añadir un nuevo elemento"/>
+  <locale name="HELP_PRINT_ACTION_CRITERION" value="Seleccione una acción para hacer: Generar ficheros, enviarlos por correo electrónico o imprimirlos"/>
+  <locale name="HELP_PRINT_BUTTON" value="Abre un diálogo con las opciones de impresión de la ventana"/>
+  <locale name="HELP_PRINT_DESTINATION_USERS_CRITERION" value="Seleccione los usuarios a los que desea enviar los datos"/>
+  <locale name="HELP_PRINT_FORMAT_CRITERION" value="Seleccione los formatos de archivo en los que desea recuperar los datos"/>
+  <locale name="HELP_PRINT_NUMERIC_FORMAT_CRITERION" value="Seleccione el formato que desea aplicar a los datos numéricos"/>
+  <locale name="HELP_PRINT_ORIENTATION_CRITERION" value="Forzar la orientación del informe"/>
+  <locale name="HELP_PRINT_SELECTION_CRITERION" value="Seleccione lo que desea imprimir: Todas las pestañas en la pantalla o sólo la seleccionada"/>
+  <locale name="HELP_RESET_BUTTON" value="Borrar los datos de los criterios"/>
+  <locale name="HELP_ROWS_PER_PAGE" value="Filas/página"/>
+  <locale name="HELP_SCREEN_HELP" value="Diálogo con la definición de los componentes de la ventana y su ayuda"/>
+  <locale name="HELP_SCREEN_NEW_SCHEDULER_SERVER" value="En esta pantalla, puede definir la configuración de un nuevo servidor"/>
+  <locale name="HELP_SCREEN_NEW_SCHEDULER_TASK" value="En esta pantalla, puede definir la configuración de una nueva tarea programada"/>
+  <locale name="HELP_SCREEN_SCHEDULER_CALENDAR" value="Pantalla de edición de un calendario"/>
+  <locale name="HELP_SCREEN_TEXT_PRINT_EMAIL" value="Diálogo que permite generar ficheros con la información de la ventana, imprimirlos y/o enviarlos por correo"/>
+  <locale name="HELP_SCREEN_TITLE" value="Pantalla de ayuda"/>
+  <locale name="HELP_SCREEN_TITLE_APP_INF" value="Información del aplicativo"/>
+  <locale name="HELP_SCREEN_TITLE_APP_PARAMETERS" value="Parámetros de la aplicación"/>
+  <locale name="HELP_SCREEN_TITLE_AWEKEY" value="Secuencias"/>
+  <locale name="HELP_SCREEN_TITLE_BROADCAST" value="Envío de eventos"/>
+  <locale name="HELP_SCREEN_TITLE_CAL" value="Gestión de calendarios"/>
+  <locale name="HELP_SCREEN_TITLE_CAL_VIW" value="Consulta de calendario"/>
+  <locale name="HELP_SCREEN_TITLE_CHD_PWD" value="Cambio de contraseña"/>
+  <locale name="HELP_SCREEN_TITLE_COM" value="Gestión de comandos"/>
+  <locale name="HELP_SCREEN_TITLE_COM_UPD" value="Modificación de comando"/>
+  <locale name="HELP_SCREEN_TITLE_COM_VIW" value="Consulta de comando"/>
+  <locale name="HELP_SCREEN_TITLE_DBS" value="Bases de datos del sistema"/>
+  <locale name="HELP_SCREEN_TITLE_DBS_NEW" value="Alta de conexión a base de datos"/>
+  <locale name="HELP_SCREEN_TITLE_DBS_UPD" value="Modificación de conexión a base de datos"/>
+  <locale name="HELP_SCREEN_TITLE_DBS_VIW" value="Consulta de conexión a base de datos"/>
+  <locale name="HELP_SCREEN_TITLE_EML_SRV" value="Servidores de correo"/>
+  <locale name="HELP_SCREEN_TITLE_EML_SRV_NEW" value="Nuevo servidor de correo"/>
+  <locale name="HELP_SCREEN_TITLE_EML_SRV_UPD" value="Modificar servidor de correo"/>
+  <locale name="HELP_SCREEN_TITLE_EML_USR" value="Notificar usuarios activos"/>
+  <locale name="HELP_SCREEN_TITLE_ENC" value="Manager de encriptación"/>
+  <locale name="HELP_SCREEN_TITLE_ERROR" value="Error"/>
+  <locale name="HELP_SCREEN_TITLE_GRP_EML" value="Grupos de correo"/>
+  <locale name="HELP_SCREEN_TITLE_GRP_EML_NEW" value="Alta de grupo de correo"/>
+  <locale name="HELP_SCREEN_TITLE_GRP_EML_UPD" value="Modificación de grupo de correo"/>
+  <locale name="HELP_SCREEN_TITLE_HOME" value="Página principal"/>
+  <locale name="HELP_SCREEN_TITLE_INFO" value="Información"/>
+  <locale name="HELP_SCREEN_TITLE_LOG" value="Mensajes de log"/>
+  <locale name="HELP_SCREEN_TITLE_LOG_VIW" value="Consulta de mensaje de log"/>
+  <locale name="HELP_SCREEN_TITLE_LOGIN" value="Acceso a la aplicación"/>
+  <locale name="HELP_SCREEN_TITLE_MDL" value="Gestión de módulos"/>
+  <locale name="HELP_SCREEN_TITLE_MDL_NEW" value="Nuevo módulo"/>
+  <locale name="HELP_SCREEN_TITLE_MDL_UPD" value="Modificación de módulo"/>
+  <locale name="HELP_SCREEN_TITLE_MDL_VIW" value="Consulta de módulo"/>
+  <locale name="HELP_SCREEN_TITLE_OPT" value="Gestión de opciones del sistema"/>
+  <locale name="HELP_SCREEN_TITLE_OPT_UPD" value="Modificación de opción del sistema"/>
+  <locale name="HELP_SCREEN_TITLE_OPT_VIW" value="Consulta de opción del sistema"/>
+  <locale name="HELP_SCREEN_TITLE_PRF" value="Gestión de perfiles"/>
+  <locale name="HELP_SCREEN_TITLE_PRF_NEW" value="Alta de perfil"/>
+  <locale name="HELP_SCREEN_TITLE_PRF_UPD" value="Modificación de perfil"/>
+  <locale name="HELP_SCREEN_TITLE_PRF_VIW" value="Consulta de perfil"/>
+  <locale name="HELP_SCREEN_TITLE_QUE" value="Colas de mensajes"/>
+  <locale name="HELP_SCREEN_TITLE_QUE_NEW" value="Nueva cola de mensajes"/>
+  <locale name="HELP_SCREEN_TITLE_QUE_UPD" value="Modificar cola de mensajes"/>
+  <locale name="HELP_SCREEN_TITLE_REP" value="Asignación de informes"/>
+  <locale name="HELP_SCREEN_TITLE_REP_GEN" value="Listado de informes generados"/>
+  <locale name="HELP_SCREEN_TITLE_REP_GEN_VIW" value="Consulta de un informe generado"/>
+  <locale name="HELP_SCREEN_TITLE_REP_UPD" value="Modificación de informe asignado"/>
+  <locale name="HELP_SCREEN_TITLE_SCR_CNF" value="Configuración de pantallas"/>
+  <locale name="HELP_SCREEN_TITLE_SECURITY_SCREEN" value="Acceso a pantallas"/>
+  <locale name="HELP_SCREEN_TITLE_SEL_PRN" value="Seleccionar impresora web"/>
+  <locale name="HELP_SCREEN_TITLE_SIT"><![CDATA[Administrar los sitios de aplicación. Aquí se puede ver, agregar, modificar y eliminar todos los sitios de aplicación.
+
+Un sitio se define como un *nodo de aplicación separado*, con sus propias [bases de datos](#databases) y [módulos](#modules).]]></locale>
+  <locale name="HELP_SCREEN_TITLE_SIT_NEW" value="Nuevo site"/>
+  <locale name="HELP_SCREEN_TITLE_SIT_UPD" value="Actualizar site"/>
+  <locale name="HELP_SCREEN_TITLE_SIT_VIW" value="Ver site"/>
+  <locale name="HELP_SCREEN_TITLE_STL_CNF" value="Configuración de estilos de listados"/>
+  <locale name="HELP_SCREEN_TITLE_THM" value="Gestión de temas"/>
+  <locale name="HELP_SCREEN_TITLE_THM_NEW" value="Alta de tema"/>
+  <locale name="HELP_SCREEN_TITLE_THM_UPD" value="Modificación de tema"/>
+  <locale name="HELP_SCREEN_TITLE_THM_VIW" value="Consulta de tema"/>
+  <locale name="HELP_SCREEN_TITLE_UNIKEY" value="Códigos del sistema"/>
+  <locale name="HELP_SCREEN_TITLE_USR" value="Gestión de usuarios"/>
+  <locale name="HELP_SCREEN_TITLE_USR_NEW" value="Alta de usuario"/>
+  <locale name="HELP_SCREEN_TITLE_USR_UPD" value="Modificación de usuario"/>
+  <locale name="HELP_SCREEN_TITLE_USR_VIW" value="Consulta de usuario"/>
+  <locale name="HELP_SCREEN_UPDATE_SCHEDULER_TASK" value="En esta pantalla usted puede actualizar la configuración de una tarea programada"/>
+  <locale name="HELP_SEARCH_BUTTON" value="Realizar una búsqueda con los criterios seleccionados"/>
+  <locale name="HELP_TOTALIZE" value="Totalizador"/>
+  <locale name="HELP_TREEGRID" value="Árbol"/>
+  <locale name="HELP_TYPE" value="Tipo"/>
+  <locale name="HELP_UPDATE_BUTTON" value="Ir a una nueva ventana con los datos del elemento seleccionado donde pueden ser modificados"/>
+  <locale name="HELP_VIEW_BUTTON" value="Ir a una nueva ventana con los datos del elemento seleccionado en modo consulta"/>
+  <locale name="INFO_MESSAGE_PARSING_NUMBER_NULL" value="El parámetro {0} no puede ser analizado como número: &apos;&apos;{1}&apos;&apos; - Establecido como null"/>
+  <locale name="INFO_TITLE_WEB_SERVICE_CALL" value="Información"/>
+  <locale name="MENU_ACT_USR" value="Notificar usuarios activos"/>
+  <locale name="MENU_APP_INF" value="Acerca de"/>
+  <locale name="MENU_AUDITS" value="Auditorías"/>
+  <locale name="MENU_BATCH" value="Definición del batch"/>
+  <locale name="MENU_BATCH_AUDIT" value="Auditoría del batch"/>
+  <locale name="MENU_BATCH_DEF" value="Batch"/>
+  <locale name="MENU_BROADCAST" value="Envío de eventos"/>
+  <locale name="MENU_CONFIG" value="Configuración"/>
+  <locale name="MENU_DEVELOPER" value="Desarrollador"/>
+  <locale name="MENU_HELP" value="Ayuda"/>
+  <locale name="MENU_HELP_APPLICATION" value="Ayuda aplicación"/>
+  <locale name="MENU_LANGUAGES" value="Traducciones"/>
+  <locale name="MENU_LOG" value="Log"/>
+  <locale name="MENU_NEW_SCHEDULER_SERVER" value="Nuevo servidor añadido"/>
+  <locale name="MENU_NEW_SCHEDULER_TASK" value="Nueva tarea planificada"/>
+  <locale name="MENU_PATH" value="Camino"/>
+  <locale name="MENU_PROCESS_AUDIT_BO" value="Auditoría de procesos BO"/>
+  <locale name="MENU_PROCESS_AUDIT_FO" value="Auditoría de procesos FO"/>
+  <locale name="MENU_REPORT_ASSIGN" value="Generación de informes"/>
+  <locale name="MENU_REPORT_LIST" value="Visualización de informes"/>
+  <locale name="MENU_REPORTS" value="Informes"/>
+  <locale name="MENU_SCHEDULER_CALENDARS" value="Calendarios"/>
+  <locale name="MENU_SCHEDULER_EDIT_CALENDAR" value="Editar calendario"/>
+  <locale name="MENU_SCHEDULER_TASKS" value="Gestor de tareas"/>
+  <locale name="MENU_SEL_PRN" value="Seleccionar impresora"/>
+  <locale name="MENU_SETTINGS" value="Configuración"/>
+  <locale name="MENU_SQL_EXTRACTOR" value="SQL Extractor"/>
+  <locale name="MENU_STATIC_AUDIT" value="Auditoría de estáticos"/>
+  <locale name="MENU_TASKS_BATCH" value="Definición de tareas batch"/>
+  <locale name="MENU_TASKS_BATCH_AUDIT" value="Auditoría de tareas batch"/>
+  <locale name="MENU_TASKS_PROCESS_AUDIT" value="Auditoría de procesos"/>
+  <locale name="MENU_TOOLS" value="Herramientas"/>
+  <locale name="MENU_TOOLS_AWE_APPPAR" value="Parámetros de la aplicación"/>
+  <locale name="MENU_TOOLS_AWE_EML_SRV" value="Servidores de correo"/>
+  <locale name="MENU_TOOLS_AWE_QUE" value="Colas de mensajes"/>
+  <locale name="MENU_TOOLS_AWEKEY" value="Secuencias"/>
+  <locale name="MENU_TOOLS_CALENDARS" value="Calendarios"/>
+  <locale name="MENU_TOOLS_CHD_PWD" value="Cambio de contraseña"/>
+  <locale name="MENU_TOOLS_COMMANDS" value="Comandos"/>
+  <locale name="MENU_TOOLS_DATABASE" value="Bases de datos"/>
+  <locale name="MENU_TOOLS_GROUPS" value="Grupos de correo"/>
+  <locale name="MENU_TOOLS_MODULES" value="Módulos"/>
+  <locale name="MENU_TOOLS_OPTIONS" value="Opciones del sistema"/>
+  <locale name="MENU_TOOLS_PROFILES" value="Perfiles"/>
+  <locale name="MENU_TOOLS_PROFILES_MULTIPLE" value="Perfiles (multiple)"/>
+  <locale name="MENU_TOOLS_PURGUES" value="Purgas del sistema"/>
+  <locale name="MENU_TOOLS_SCR_CNF" value="Configuración de pantallas"/>
+  <locale name="MENU_TOOLS_SCREEN_ENCRYPT" value="Encriptación"/>
+  <locale name="MENU_TOOLS_SCREENS_ACCESS" value="Acceso a pantallas"/>
+  <locale name="MENU_TOOLS_SECURITY" value="Seguridad"/>
+  <locale name="MENU_TOOLS_SITES" value="Sites"/>
+  <locale name="MENU_TOOLS_STL_CNF" value="Configuración de estilos de listados"/>
+  <locale name="MENU_TOOLS_THEMES" value="Temas"/>
+  <locale name="MENU_TOOLS_UNIKEY" value="Códigos del sistema"/>
+  <locale name="MENU_TOOLS_USERS" value="Usuarios"/>
+  <locale name="MENU_UPDATE_SCHEDULER_TASK" value="Actualizar tarea programada"/>
+  <locale name="MENU_USER_HELP" value="Manual de usuario"/>
+  <locale name="MESSAGE_SCHEDULER_DELETE_CALENDAR" value="Está seguro de que quiere eliminar este calendario?"/>
+  <locale name="MESSAGE_SCHEDULER_DELETE_CALENDAR_WITH_ASSOCIATED_TASKS" value="Hay tareas asociadas a este calendario\nEstá seguro de que desea eliminar el calendario?\nSi elimina el calendario, también se eliminará de las tareas asociadas."/>
+  <locale name="MESSAGE_SCHEDULER_NEW_TASK" value="La tarea ha sido añadida correctamente"/>
+  <locale name="MSG_PASSWD_NEW" value="Despues de introducir la password pulsar boton confirmar"/>
+  <locale name="OK_MESSAGE_CLEARING_ALL_CACHE" value="Se han borrado todas las caches correctamente"/>
+  <locale name="OK_MESSAGE_CLEARING_CACHE" value="Se ha borrado la cache -{0}- correctamente"/>
+  <locale name="OK_MESSAGE_EMAIL_OPERATION" value="Se ha enviado un correo electrónico"/>
+  <locale name="OK_MESSAGE_GENERATING_DOCUMENT" value="Se ha generado el documento solicitado correctamente"/>
+  <locale name="OK_MESSAGE_LAUNCHING_BATCH" value="El batch ha sido lanzado correctamente. Se redireccionará a la pantalla de procesos para ver el estado del proceso."/>
+  <locale name="OK_MESSAGE_LOCAL_UPDATED" value="El literal -{0}- se ha actualizado correctamente"/>
+  <locale name="OK_MESSAGE_MAINTAIN_OPERATION" value="La operación de mantenimiento ha sido realizada correctamente"/>
+  <locale name="OK_MESSAGE_MESSAGE_SENT" value="El mensaje ha sido enviado a los usuarios correctamente"/>
+  <locale name="OK_MESSAGE_NEW_LOCAL" value="El literal -{0}- se ha generado correctamente"/>
+  <locale name="OK_MESSAGE_REMOVED_LOCAL" value="El literal -{0}- se ha eliminado correctamente"/>
+  <locale name="OK_TITLE_CLEARING_CACHE" value="Borrado de cache"/>
+  <locale name="OK_TITLE_EMAIL_OPERATION" value="Correo enviado correctamente"/>
+  <locale name="OK_TITLE_GENERATING_DOCUMENT" value="Documento generado correctamente"/>
+  <locale name="OK_TITLE_LAUNCHING_BATCH" value="Batch lanzado correctamente"/>
+  <locale name="OK_TITLE_MAINTAIN_OPERATION" value="Operación realizada correctamente"/>
+  <locale name="OK_TITLE_MESSAGE_SENT" value="Mensaje enviado correctamente"/>
+  <locale name="PARAMETER_ACC_ID" value="Id cuenta"/>
+  <locale name="PARAMETER_ACC_NAM" value="Nombre cuenta"/>
+  <locale name="PARAMETER_ACC_NUM" value="Numero cuenta"/>
+  <locale name="PARAMETER_ACCESS_MODE" value="Modo de acceso"/>
+  <locale name="PARAMETER_ACRONYM" value="Acrónimo"/>
+  <locale name="PARAMETER_ACTIVE" value="Activo"/>
+  <locale name="PARAMETER_ALIAS" value="Alias"/>
+  <locale name="PARAMETER_APPLICATION" value="Proyecto"/>
+  <locale name="PARAMETER_APPLICATION_ACRONIME" value="Acrónimo"/>
+  <locale name="PARAMETER_ATTRIBUTE" value="Atributo"/>
+  <locale name="PARAMETER_AUD_TYPE" value="T. auditoría"/>
+  <locale name="PARAMETER_AUTH" value="Autenticación"/>
+  <locale name="PARAMETER_AVERAGE_TIME" value="Tiempo promedio"/>
+  <locale name="PARAMETER_BALANCE" value="Balance"/>
+  <locale name="PARAMETER_BATCH" value="Batch"/>
+  <locale name="PARAMETER_BATDES" value="Fuente"/>
+  <locale name="PARAMETER_BATNAM" value="Batch"/>
+  <locale name="PARAMETER_BLOCKED" value="Bloqueado"/>
+  <locale name="PARAMETER_BLOCKING" value="Bloqueante"/>
+  <locale name="PARAMETER_BROKER" value="Servidor de colas"/>
+  <locale name="PARAMETER_CALENDAR" value="Calendario"/>
+  <locale name="PARAMETER_CAPTURE_DATE_END" value="F. captura final"/>
+  <locale name="PARAMETER_CAPTURE_DATE_INI" value="F. captura inicial"/>
+  <locale name="PARAMETER_CATEGORY" value="Categoría"/>
+  <locale name="PARAMETER_CHECK_EACH" value="Comprobar cada"/>
+  <locale name="PARAMETER_COMMAND" value="Comando"/>
+  <locale name="PARAMETER_CONN_TYPE" value="Tipo de conexión"/>
+  <locale name="PARAMETER_CONNECTION" value="Conexión"/>
+  <locale name="PARAMETER_COUNTERPARTY" value="Contratante"/>
+  <locale name="PARAMETER_COUNTRY" value="Pais"/>
+  <locale name="PARAMETER_CREDIT" value="Credito"/>
+  <locale name="PARAMETER_CURRENCY" value="Divisa"/>
+  <locale name="PARAMETER_DATE" value="Fecha"/>
+  <locale name="PARAMETER_DATE_INF" value="Fecha &lt;="/>
+  <locale name="PARAMETER_DATE_SUP" value="Fecha &gt;="/>
+  <locale name="PARAMETER_DAYS" value="Días"/>
+  <locale name="PARAMETER_DAYS_OF_WEEK" value="Días de la semana"/>
+  <locale name="PARAMETER_DB_ALS" value="Alias de BD"/>
+  <locale name="PARAMETER_DB_TYPE" value="Tipo SGB"/>
+  <locale name="PARAMETER_DBL_FORMAT" value="Formato numérico"/>
+  <locale name="PARAMETER_DEBIT" value="Debito"/>
+  <locale name="PARAMETER_DESCRIPTION" value="Descripción"/>
+  <locale name="PARAMETER_DESTINATION" value="Cola destino"/>
+  <locale name="PARAMETER_DIALECT" value="Dialecto"/>
+  <locale name="PARAMETER_DIS" value="Distribucion auto."/>
+  <locale name="PARAMETER_DOUBLE" value="Double"/>
+  <locale name="PARAMETER_DRIVER" value="Driver"/>
+  <locale name="PARAMETER_DST" value="Destino"/>
+  <locale name="PARAMETER_ELEMENT" value="Elemento"/>
+  <locale name="PARAMETER_EMAIL" value="E-mail"/>
+  <locale name="PARAMETER_EMAIL_DEST" value="Email destino"/>
+  <locale name="PARAMETER_EMAIL_DESTINATION" value="Destinatario e-mail"/>
+  <locale name="PARAMETER_EMAIL_SERVER" value="Servidor correo"/>
+  <locale name="PARAMETER_EML_SUBJECT" value="Asunto"/>
+  <locale name="PARAMETER_EML_TEXT" value="Contenido"/>
+  <locale name="PARAMETER_ENCRYPT" value="Encriptado"/>
+  <locale name="PARAMETER_ENVIRONMENT" value="Entorno"/>
+  <locale name="PARAMETER_ERROR_FILE" value="Fichero error"/>
+  <locale name="PARAMETER_EXECUTE" value="Ejecutar"/>
+  <locale name="PARAMETER_EXECUTE_AT" value="Ejecutar en"/>
+  <locale name="PARAMETER_EXECUTE_PATH" value="Path de ejecución"/>
+  <locale name="PARAMETER_EXECUTED_COMMAND" value="Comando ejecutado"/>
+  <locale name="PARAMETER_FILE_NAME" value="Fichero"/>
+  <locale name="PARAMETER_FILE_PATH" value="Ruta del archivo"/>
+  <locale name="PARAMETER_FILE_PATTERN" value="Patrón del fichero"/>
+  <locale name="PARAMETER_FILE_RESTRICTION" value="Restricción de fichero"/>
+  <locale name="PARAMETER_FLOAT" value="Float"/>
+  <locale name="PARAMETER_FREQUENCY" value="Frecuencia"/>
+  <locale name="PARAMETER_FROM" value="De"/>
+  <locale name="PARAMETER_HOUR_FIN" value="Hora fin"/>
+  <locale name="PARAMETER_HOUR_INI" value="Hora inicial"/>
+  <locale name="PARAMETER_HOURS" value="Horas"/>
+  <locale name="PARAMETER_IDE" value="Identificador"/>
+  <locale name="PARAMETER_INT_PATH" value="Ruta en int."/>
+  <locale name="PARAMETER_INTEGER" value="Entero"/>
+  <locale name="PARAMETER_LABEL" value="Etiqueta"/>
+  <locale name="PARAMETER_LANGUAGE" value="Idioma"/>
+  <locale name="PARAMETER_LAST_EXECUTION" value="Última ejecución"/>
+  <locale name="PARAMETER_LAUNCH" value="Lanzamiento"/>
+  <locale name="PARAMETER_LAUNCH_DEPENDENCIES_ERROR" value="Lanzar dependencias en caso de error"/>
+  <locale name="PARAMETER_LAUNCH_DEPENDENCIES_WARN" value="Lanzar las dependencias en caso de warning"/>
+  <locale name="PARAMETER_LAUNCH_TYPE" value="Tipo de lanzamiento"/>
+  <locale name="PARAMETER_LOG" value="Log"/>
+  <locale name="PARAMETER_LONG" value="Long"/>
+  <locale name="PARAMETER_MAIN" value="Principal"/>
+  <locale name="PARAMETER_MAINTAIN" value="Mantenimiento"/>
+  <locale name="PARAMETER_MESSAGE" value="Mensaje"/>
+  <locale name="PARAMETER_MINUTES" value="Minutos"/>
+  <locale name="PARAMETER_MODULE" value="Módulo"/>
+  <locale name="PARAMETER_MONTH_APRIL" value="Abril"/>
+  <locale name="PARAMETER_MONTH_AUGUST" value="Agosto"/>
+  <locale name="PARAMETER_MONTH_DECEMBER" value="Diciembre"/>
+  <locale name="PARAMETER_MONTH_FEBRUARY" value="Febrero"/>
+  <locale name="PARAMETER_MONTH_JANUARY" value="Enero"/>
+  <locale name="PARAMETER_MONTH_JULY" value="Julio"/>
+  <locale name="PARAMETER_MONTH_JUNE" value="Junio"/>
+  <locale name="PARAMETER_MONTH_MARCH" value="Marzo"/>
+  <locale name="PARAMETER_MONTH_MAY" value="Mayo"/>
+  <locale name="PARAMETER_MONTH_NOVEMBER" value="Noviembre"/>
+  <locale name="PARAMETER_MONTH_OCTOBER" value="Octubre"/>
+  <locale name="PARAMETER_MONTH_SEPTEMBER" value="Septiembre"/>
+  <locale name="PARAMETER_MONTHS" value="Meses"/>
+  <locale name="PARAMETER_NAME" value="Nombre"/>
+  <locale name="PARAMETER_NEXT_EXECUTION" value="Siguiente ejecución"/>
+  <locale name="PARAMETER_NOTIFY_TYPE" value="Tipo de notificación"/>
+  <locale name="PARAMETER_NUM_LOG" value="Intentos de conexión"/>
+  <locale name="PARAMETER_OBJECT" value="Objeto"/>
+  <locale name="PARAMETER_OLD_PASSWD" value="Contraseña antigua"/>
+  <locale name="PARAMETER_OPERATOR" value="Operador"/>
+  <locale name="PARAMETER_OPTION" value="Opción"/>
+  <locale name="PARAMETER_ORDER" value="Orden"/>
+  <locale name="PARAMETER_PARAMETERS" value="Parámetros"/>
+  <locale name="PARAMETER_PASSWD" value="Contraseña"/>
+  <locale name="PARAMETER_PASSWD_COMPLEX" value="Patrón complejidad de contraseña"/>
+  <locale name="PARAMETER_PASSWD_EXPIRE" value="Caducidad de la contraseña en días"/>
+  <locale name="PARAMETER_PASSWD_MIN" value="Longitud de contraseña"/>
+  <locale name="PARAMETER_PASSWD_NEW" value="Nueva contraseña"/>
+  <locale name="PARAMETER_PHRASEKEY" value="Clave de encriptación"/>
+  <locale name="PARAMETER_PRINT" value="Imprimir"/>
+  <locale name="PARAMETER_PRINTER" value="Impresora"/>
+  <locale name="PARAMETER_PRN_ACTION" value="Acción"/>
+  <locale name="PARAMETER_PRN_FORMAT" value="Formato ficheros"/>
+  <locale name="PARAMETER_PRN_TYPE" value="Seleccionar"/>
+  <locale name="PARAMETER_PRO_PATH" value="Ruta en prod."/>
+  <locale name="PARAMETER_PROFILE" value="Perfil"/>
+  <locale name="PARAMETER_PROGRESS" value="Progreso"/>
+  <locale name="PARAMETER_PROPERTY" value="Propiedad"/>
+  <locale name="PARAMETER_PROPERTY_ENCRYPT" value="Propiedad cifrada"/>
+  <locale name="PARAMETER_PRVCMD" value="Comando previo"/>
+  <locale name="PARAMETER_PURGUE" value="Purga"/>
+  <locale name="PARAMETER_QUEUE_TYPE" value="Tipo de cola"/>
+  <locale name="PARAMETER_RELEASE" value="Versión"/>
+  <locale name="PARAMETER_REPEAT_EACH" value="Repetir cada"/>
+  <locale name="PARAMETER_REPORT" value="Informe"/>
+  <locale name="PARAMETER_REPORT_ORIENTATION" value="Orientación"/>
+  <locale name="PARAMETER_RETYPE_PASSWD" value="Repita contraseña"/>
+  <locale name="PARAMETER_SCREEN" value="Pantalla"/>
+  <locale name="PARAMETER_SCRIPT" value="Script"/>
+  <locale name="PARAMETER_SEARCH_AT" value="Buscar en"/>
+  <locale name="PARAMETER_SECONDS" value="Segundos"/>
+  <locale name="PARAMETER_SELECT_ALL" value="Todos"/>
+  <locale name="PARAMETER_SEND_STATUS" value="Enviar en caso de"/>
+  <locale name="PARAMETER_SERVER" value="Servidor"/>
+  <locale name="PARAMETER_SERVER_PORT" value="Puerto"/>
+  <locale name="PARAMETER_SESSION" value="Sesión"/>
+  <locale name="PARAMETER_SET_WARNING_ERROR" value="Marcar la ejecución como inestable (warning) en caso de error de una dependencia"/>
+  <locale name="PARAMETER_SITE" value="Site"/>
+  <locale name="PARAMETER_SOURCE" value="Fuente"/>
+  <locale name="PARAMETER_SQLFIL" value="Fichero sql"/>
+  <locale name="PARAMETER_SRC" value="Origen"/>
+  <locale name="PARAMETER_STAIMP" value="Est. importación"/>
+  <locale name="PARAMETER_STAOPE" value="Ope. enviables"/>
+  <locale name="PARAMETER_STATUS" value="Estado"/>
+  <locale name="PARAMETER_STORE_EXECUTION" value="Número de ejecuciones almacenadas"/>
+  <locale name="PARAMETER_STRING" value="Cadena"/>
+  <locale name="PARAMETER_STYLE" value="Estilo"/>
+  <locale name="PARAMETER_TASK" value="Tarea"/>
+  <locale name="PARAMETER_TASK_DEPENDENCIES" value="Dependencias de la tarea"/>
+  <locale name="PARAMETER_TASK_DETAILS" value="Detalles de la tarea"/>
+  <locale name="PARAMETER_TASKS_BATCH" value="Tarea batch"/>
+  <locale name="PARAMETER_TEXT" value="Texto"/>
+  <locale name="PARAMETER_THEME" value="Tema"/>
+  <locale name="PARAMETER_TIME" value="Hora"/>
+  <locale name="PARAMETER_TIMEOUT" value="Tiempo de espera"/>
+  <locale name="PARAMETER_TITLE" value="Título"/>
+  <locale name="PARAMETER_TO" value="A"/>
+  <locale name="PARAMETER_TYPE" value="Tipo"/>
+  <locale name="PARAMETER_USER" value="Usuario"/>
+  <locale name="PARAMETER_VALUE" value="Valor"/>
+  <locale name="PARAMETER_VARIABLE" value="Variable"/>
+  <locale name="PARAMETER_WEB_PRINTER" value="Impresora web"/>
+  <locale name="PARAMETER_WEEKDAY_FRIDAY" value="Viernes"/>
+  <locale name="PARAMETER_WEEKDAY_MONDAY" value="Lunes"/>
+  <locale name="PARAMETER_WEEKDAY_SATURDAY" value="Sábado"/>
+  <locale name="PARAMETER_WEEKDAY_SUNDAY" value="Domingo"/>
+  <locale name="PARAMETER_WEEKDAY_THURSDAY" value="Jueves"/>
+  <locale name="PARAMETER_WEEKDAY_TUESDAY" value="Martes"/>
+  <locale name="PARAMETER_WEEKDAY_WEDNESDAY" value="Miércoles"/>
+  <locale name="PARAMETER_YEARS" value="Años"/>
+  <locale name="PRINT_TAB_ADVANCE" value="Configuración avanzada"/>
+  <locale name="PRINT_TAB_GENERAL" value="Configuración General"/>
+  <locale name="SCHEDULER_BATCH_LAUNCH_ERROR_MESSAGE" value="Ha habido un error al ejecutar el batch."/>
+  <locale name="SCHEDULER_BATCH_LAUNCH_ERROR_TITLE" value="Error ejecutando batch batch"/>
+  <locale name="SCHEDULER_BATCH_LAUNCH_MESSAGE" value="El batch se ha ejecutado correctamente"/>
+  <locale name="SCHEDULER_BATCH_LAUNCH_TITLE" value="Batch ejecutado"/>
+  <locale name="SCHEDULER_NEXT_EXECUTIONS" value="Next executions"/>
+  <locale name="SCREEN_APPLICATION_HELP" value="Ayuda sobre la aplicación"/>
+  <locale name="SCREEN_HELP" value="Pantalla de ayuda"/>
+  <locale name="SCREEN_TEXT_ADD_LOCAL" value="Agregar el texto del literal"/>
+  <locale name="SCREEN_TEXT_ADD_LOCAL_IDENTIFIER" value="Añadir un identificador de literal"/>
+  <locale name="SCREEN_TEXT_CALENDAR" value="Calendario"/>
+  <locale name="SCREEN_TEXT_CALENDAR_DATES" value="Fechas añadidas"/>
+  <locale name="SCREEN_TEXT_CHANGE_PWD" value="Cambio de contraseña"/>
+  <locale name="SCREEN_TEXT_CONFIGURATION" value="Configuración"/>
+  <locale name="SCREEN_TEXT_CRITERIA" value="Criterios"/>
+  <locale name="SCREEN_TEXT_CURRENCY" value="Divisa de referencia"/>
+  <locale name="SCREEN_TEXT_DATA" value="Datos"/>
+  <locale name="SCREEN_TEXT_DATE" value="Fecha del sistema"/>
+  <locale name="SCREEN_TEXT_DBS" value="Data base"/>
+  <locale name="SCREEN_TEXT_FILTERS" value="Filtros"/>
+  <locale name="SCREEN_TEXT_GRID_FIRST" value="Primero"/>
+  <locale name="SCREEN_TEXT_GRID_LAST" value="Último"/>
+  <locale name="SCREEN_TEXT_GRID_NEXT" value="Siguiente"/>
+  <locale name="SCREEN_TEXT_GRID_OF" value="de"/>
+  <locale name="SCREEN_TEXT_GRID_PREVIOUS" value="Anterior"/>
+  <locale name="SCREEN_TEXT_GRID_VIEW" value="Filas"/>
+  <locale name="SCREEN_TEXT_IDENTIFIER_OR_TEXT" value="Identificador o el texto de búsqueda"/>
+  <locale name="SCREEN_TEXT_INFO_CURRENCY" value="Divisa de referencia: {0}"/>
+  <locale name="SCREEN_TEXT_INFO_DATE" value="Fecha del sistema: {0}"/>
+  <locale name="SCREEN_TEXT_INFO_ENVIRONMENT" value="Entorno: {0}"/>
+  <locale name="SCREEN_TEXT_INFO_USER" value="Usuario: {0}"/>
+  <locale name="SCREEN_TEXT_INFO_VERSION" value="Versión: {0}"/>
+  <locale name="SCREEN_TEXT_INFORMATION_MESSAGE_1" value="Seleccione la opción que necesite en el menú superior."/>
+  <locale name="SCREEN_TEXT_INFORMATION_MESSAGE_2" value="Si desea salir de la aplicación, pulse el botón de salir en el extremo superior derecho de la pantalla."/>
+  <locale name="SCREEN_TEXT_INFORMATION_TITLE" value="awe - Almis Web Engine"/>
+  <locale name="SCREEN_TEXT_LOADING" value="Cargando"/>
+  <locale name="SCREEN_TEXT_MAXIMIZE" value="Maximizar"/>
+  <locale name="SCREEN_TEXT_MESSAGE_FROM" value="Mensaje de {0}"/>
+  <locale name="SCREEN_TEXT_MODULE" value="Modulo"/>
+  <locale name="SCREEN_TEXT_NAVIGATION" value="Navegación"/>
+  <locale name="SCREEN_TEXT_NEW_DATE" value="Nueva fecha"/>
+  <locale name="SCREEN_TEXT_PARAM_LIST" value="Listado de parámetros"/>
+  <locale name="SCREEN_TEXT_PASS" value="Clave"/>
+  <locale name="SCREEN_TEXT_PRINT_EMAIL" value="Propiedades de impresión / Envío de correo"/>
+  <locale name="SCREEN_TEXT_PROFILES" value="Profiles"/>
+  <locale name="SCREEN_TEXT_RESTRICTIONS" value="Restricciones"/>
+  <locale name="SCREEN_TEXT_SECUENCE" value="Secuences"/>
+  <locale name="SCREEN_TEXT_SEL_DAT" value="Seleccione una fecha"/>
+  <locale name="SCREEN_TEXT_SEL_PRN" value="Selección de impresora"/>
+  <locale name="SCREEN_TEXT_SELECT_FILE" value="Poner nombre de archivo sin la extensión"/>
+  <locale name="SCREEN_TEXT_SERVERS" value="Servidores"/>
+  <locale name="SCREEN_TEXT_SETTINGS" value="Opciones"/>
+  <locale name="SCREEN_TEXT_SITE" value="Site"/>
+  <locale name="SCREEN_TEXT_STEP" value="Paso"/>
+  <locale name="SCREEN_TEXT_TASK_DETAIL" value="Detalle de tareas"/>
+  <locale name="SCREEN_TEXT_TASKS" value="Tareas"/>
+  <locale name="SCREEN_TEXT_USER" value="Usuario"/>
+  <locale name="SCREEN_TEXT_USERS" value="Usuarios"/>
+  <locale name="SCREEN_TEXT_VERSION" value="Entorno"/>
+  <locale name="SCREEN_TITLE_APP_INF" value="Información del aplicativo"/>
+  <locale name="SCREEN_TITLE_APP_PARAMETERS" value="Parámetros de la aplicación"/>
+  <locale name="SCREEN_TITLE_AWEKEY" value="Secuencias"/>
+  <locale name="SCREEN_TITLE_BATCH" value="Definición del batch"/>
+  <locale name="SCREEN_TITLE_BATCH_AUDIT" value="Gestión de auditoría del batch"/>
+  <locale name="SCREEN_TITLE_BROADCAST" value="Envío de eventos"/>
+  <locale name="SCREEN_TITLE_CAL" value="Gestión de calendarios"/>
+  <locale name="SCREEN_TITLE_CAL_VIW" value="Consulta de calendario"/>
+  <locale name="SCREEN_TITLE_CHD_PWD" value="Cambio de contraseña"/>
+  <locale name="SCREEN_TITLE_COM" value="Gestión de comandos"/>
+  <locale name="SCREEN_TITLE_COM_UPD" value="Modificación de comando"/>
+  <locale name="SCREEN_TITLE_COM_VIW" value="Consulta de comando"/>
+  <locale name="SCREEN_TITLE_DBS" value="Bases de datos del sistema"/>
+  <locale name="SCREEN_TITLE_DBS_NEW" value="Alta de conexión a base de datos"/>
+  <locale name="SCREEN_TITLE_DBS_UPD" value="Modificación de conexión a base de datos"/>
+  <locale name="SCREEN_TITLE_DBS_VIW" value="Consulta de conexión a base de datos"/>
+  <locale name="SCREEN_TITLE_EML_SRV" value="Servidores de correo"/>
+  <locale name="SCREEN_TITLE_EML_SRV_NEW" value="Nuevo servidor de correo"/>
+  <locale name="SCREEN_TITLE_EML_SRV_UPD" value="Modificar servidor de correo"/>
+  <locale name="SCREEN_TITLE_EML_USR" value="Notificar usuarios activos"/>
+  <locale name="SCREEN_TITLE_ENC" value="Manager de encriptación"/>
+  <locale name="SCREEN_TITLE_ERROR" value="Error"/>
+  <locale name="SCREEN_TITLE_GRP_EML" value="Grupos de correo"/>
+  <locale name="SCREEN_TITLE_GRP_EML_NEW" value="Alta de grupo de correo"/>
+  <locale name="SCREEN_TITLE_GRP_EML_UPD" value="Modificación de grupo de correo"/>
+  <locale name="SCREEN_TITLE_HOME" value="Página principal"/>
+  <locale name="SCREEN_TITLE_INFO" value="Información"/>
+  <locale name="SCREEN_TITLE_LOG" value="Mensajes de log"/>
+  <locale name="SCREEN_TITLE_LOG_VIW" value="Consulta de mensaje de log"/>
+  <locale name="SCREEN_TITLE_LOGIN" value="Acceso a la aplicación"/>
+  <locale name="SCREEN_TITLE_MDL" value="Gestión de módulos"/>
+  <locale name="SCREEN_TITLE_MDL_NEW" value="Nuevo módulo"/>
+  <locale name="SCREEN_TITLE_MDL_UPD" value="Modificación de módulo"/>
+  <locale name="SCREEN_TITLE_MDL_VIW" value="Consulta de módulo"/>
+  <locale name="SCREEN_TITLE_OPT" value="Gestión de opciones del sistema"/>
+  <locale name="SCREEN_TITLE_OPT_UPD" value="Modificación de opción del sistema"/>
+  <locale name="SCREEN_TITLE_OPT_VIW" value="Consulta de opción del sistema"/>
+  <locale name="SCREEN_TITLE_PRF" value="Gestión de perfiles"/>
+  <locale name="SCREEN_TITLE_PRF_NEW" value="Alta de perfil"/>
+  <locale name="SCREEN_TITLE_PRF_UPD" value="Modificación de perfil"/>
+  <locale name="SCREEN_TITLE_PRF_VIW" value="Consulta de perfil"/>
+  <locale name="SCREEN_TITLE_PROCESS_DETAIL_AUDIT" value="Auditoría de procesos - Detalles"/>
+  <locale name="SCREEN_TITLE_PUR" value="Gestión de purgas"/>
+  <locale name="SCREEN_TITLE_PUR_NEW" value="Alta de purga"/>
+  <locale name="SCREEN_TITLE_PUR_UPD" value="Modificación de purga"/>
+  <locale name="SCREEN_TITLE_PUR_VIW" value="Consulta de purga"/>
+  <locale name="SCREEN_TITLE_QUE" value="Colas de mensajes"/>
+  <locale name="SCREEN_TITLE_QUE_NEW" value="Nueva cola de mensajes"/>
+  <locale name="SCREEN_TITLE_QUE_UPD" value="Modificar cola de mensajes"/>
+  <locale name="SCREEN_TITLE_REP" value="Asignación de informes"/>
+  <locale name="SCREEN_TITLE_REP_GEN" value="Listado de informes generados"/>
+  <locale name="SCREEN_TITLE_REP_GEN_VIW" value="Consulta de un informe generado"/>
+  <locale name="SCREEN_TITLE_REP_UPD" value="Modificación de informe asignado"/>
+  <locale name="SCREEN_TITLE_SCR_CNF" value="Configuración de pantallas"/>
+  <locale name="SCREEN_TITLE_SECURITY_SCREEN" value="Acceso a pantallas"/>
+  <locale name="SCREEN_TITLE_SEL_PRN" value="Seleccionar impresora web"/>
+  <locale name="SCREEN_TITLE_SIT" value="Gestión de sites"/>
+  <locale name="SCREEN_TITLE_SIT_NEW" value="Nuevo site"/>
+  <locale name="SCREEN_TITLE_SIT_UPD" value="Actualizar site"/>
+  <locale name="SCREEN_TITLE_SIT_VIW" value="Ver site"/>
+  <locale name="SCREEN_TITLE_STL_CNF" value="Configuración de estilos de listados"/>
+  <locale name="SCREEN_TITLE_TASKS_BATCH" value="Definición de las tareas del batch"/>
+  <locale name="SCREEN_TITLE_TASKS_BATCH_AUDIT" value="Gestión de auditoría de tareas del batch"/>
+  <locale name="SCREEN_TITLE_TASKS_BATCH_UPD" value="Modificación de la definición de la tarea del batch"/>
+  <locale name="SCREEN_TITLE_THM" value="Gestión de temas"/>
+  <locale name="SCREEN_TITLE_THM_NEW" value="Alta de tema"/>
+  <locale name="SCREEN_TITLE_THM_UPD" value="Modificación de tema"/>
+  <locale name="SCREEN_TITLE_THM_VIW" value="Consulta de tema"/>
+  <locale name="SCREEN_TITLE_UNIKEY" value="Códigos del sistema"/>
+  <locale name="SCREEN_TITLE_USR" value="Gestión de usuarios"/>
+  <locale name="SCREEN_TITLE_USR_NEW" value="Alta de usuario"/>
+  <locale name="SCREEN_TITLE_USR_UPD" value="Modificación de usuario"/>
+  <locale name="SCREEN_TITLE_USR_VIW" value="Consulta de usuario"/>
+  <locale name="SELECT2_SEARCH_VALUE" value="Buscar un valor"/>
+  <locale name="SELECT2_SELECT_VALUE" value="Seleccione un valor"/>
+  <locale name="TITLE_SCHEDULER_DELETE_CALENDAR" value="Eliminar calendario"/>
+  <locale name="TITLE_SCHEDULER_DELETE_CALENDAR_WITH_ASSOCIATED_TASKS" value="Este calendario está asociado a una o varias tareas"/>
+  <locale name="TITLE_SCHEDULER_NEW_TASK" value="Nueva tarea añadida correctamente"/>
+  <locale name="VALIDATOR_MESSAGE_CHECK_AT_LEAST" value="Por favor, marque al menos {value2} respuestas"/>
+  <locale name="VALIDATOR_MESSAGE_DATE" value="Por favor, introduzca una fecha válida"/>
+  <locale name="VALIDATOR_MESSAGE_DIGITS" value="Por favor, introduzca sólo dígitos"/>
+  <locale name="VALIDATOR_MESSAGE_DIVISIBLE_BY" value="Por favor, introduzca un número divisible por {value2}"/>
+  <locale name="VALIDATOR_MESSAGE_EMAIL" value="Por favor, introduzca una dirección válida de correo electrónico"/>
+  <locale name="VALIDATOR_MESSAGE_EQUAL" value="Por favor, introduzca el mismo valor de nuevo"/>
+  <locale name="VALIDATOR_MESSAGE_EQUAL_LENGTH" value="Por favor, introduzca un valor de tamaño igual a {value2} caracteres"/>
+  <locale name="VALIDATOR_MESSAGE_GREATER_OR_EQUAL" value="Por favor, escriba un valor mayor o igual a {value2}"/>
+  <locale name="VALIDATOR_MESSAGE_GREATER_THAN" value="Por favor, escriba un valor mayor que {value2}"/>
+  <locale name="VALIDATOR_MESSAGE_INTEGER" value="Por favor, introduzca un número entero válido"/>
+  <locale name="VALIDATOR_MESSAGE_LESS_OR_EQUAL" value="Por favor, escriba un valor inferior o igual a {value2}"/>
+  <locale name="VALIDATOR_MESSAGE_LESS_THAN" value="Por favor, introduzca un valor inferior a {valor2}"/>
+  <locale name="VALIDATOR_MESSAGE_MAXLENGTH" value="Por favor, introduzca un valor de tamaño inferior a {value2} caracteres"/>
+  <locale name="VALIDATOR_MESSAGE_MINLENGTH" value="Por favor, introduzca un valor de tamaño superior a {value2} caracteres"/>
+  <locale name="VALIDATOR_MESSAGE_NOT_EQUAL" value="Por favor, escriba un valor diferente"/>
+  <locale name="VALIDATOR_MESSAGE_NUMBER" value="Por favor, introduzca un número válido"/>
+  <locale name="VALIDATOR_MESSAGE_PATTERN" value="El valor introducido no se ajusta a los requisitos de validación"/>
+  <locale name="VALIDATOR_MESSAGE_RANGE" value="Por favor, introduzca un valor entre {from} y {to}"/>
+  <locale name="VALIDATOR_MESSAGE_REQUIRED" value="Este campo es obligatorio"/>
+  <locale name="VALIDATOR_MESSAGE_TEXT" value="Por favor, introduzca un texto válido. Los valores numéricos y espacios en blanco no estan permitidos"/>
+  <locale name="VALIDATOR_MESSAGE_TEXT_WHITESPACES" value="Por favor, introduzca un texto válido. Los valores numéricos no estan permitidos"/>
+  <locale name="VALIDATOR_MESSAGE_TIME" value="Por favor, introduzca una hora válida, entre las 00:00:00 y las 23:59:59"/>
+  <locale name="WARNING_MESSAGE_DUPLICATED_QUEUE" value="La cola ya existe"/>
+  <locale name="WARNING_MESSAGE_DUPLICATED_SERVER" value="El nombre del servidor de correo ya existe"/>
+  <locale name="WARNING_MESSAGE_DUPLICATED_USER" value="El nombre de usuario que está intentando introducir ya existe"/>
+  <locale name="WARNING_MESSAGE_LOCAL_ALREADY_EXISTS" value="¡Atención! El literal -{0} ya existe y NO se sobrescribirá"/>
+  <locale name="WARNING_TITLE_DUPLICATED_QUEUE" value="Cola duplicada"/>
+  <locale name="WARNING_TITLE_DUPLICATED_SERVER" value="Servidor duplicado"/>
+  <locale name="WARNING_TITLE_DUPLICATED_USER" value="Usuario duplicado"/>
+  <locale name="WARNING_TITLE_WEB_SERVICE_CALL" value="Atención"/>
+</locales>

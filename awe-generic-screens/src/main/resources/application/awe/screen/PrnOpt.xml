@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : PrnOpt.xml
+    Created on : 30 de noviembre de 2011, 9:12
+    Author     : augarte
+    Description:
+        This is an intermediate screen to select options when printing a document.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window">
+  <tag source="center">
+    <dialog id="PrnOpt" modal="true" label="SCREEN_TEXT_PRINT_EMAIL" icon="print" help="HELP_SCREEN_TEXT_PRINT_EMAIL">
+      <tag type="div" style="modal-body">
+        <tab id="FormatSelector" initial-load="enum" target-action="printTabs" style="col-xs-12">
+          <tabcontainer id="GENERAL">
+            <tag type="div" style="panel-body no-padding-hr no-padding-b row">
+              <criteria component="hidden" id="PrnScr" variable="screen" style="nolabel" printable="false"/>
+              <criteria label="PARAMETER_PRN_ACTION" help="HELP_PRINT_ACTION_CRITERION" component="select" id="ActPrn" variable="ActPrn" initial-load="query" target-action="PrnAct" value="2" style="col-xs-12 col-sm-6" printable="false"/>
+              <criteria label="PARAMETER_PRN_TYPE" help="HELP_PRINT_SELECTION_CRITERION" component="select" id="TypPrn" variable="TypPrn" initial-load="enum" target-action="PrnTyp" value="1" style="col-xs-12 col-sm-6" printable="false"/>
+              <criteria label="PARAMETER_DBL_FORMAT" help="HELP_PRINT_NUMERIC_FORMAT_CRITERION" component="select" id="DblFmtPrn" variable="DblFmtPrn" initial-load="enum" target-action="DblPrnFmt" value="0" style="col-xs-12 col-sm-6" printable="false"/>
+              <criteria label="PARAMETER_PRN_FORMAT" help="HELP_PRINT_FORMAT_CRITERION" component="select-multiple" id="FmtPrn" variable="FmtPrn" initial-load="enum" target-action="PrnFmt" value="PDF" style="col-xs-12 col-sm-6"
+                        validation="required" printable="false"/>
+              <criteria label="ENUM_EML_DST_USR" help="HELP_PRINT_DESTINATION_USERS_CRITERION" id="UsrPrn" variable="UsrPrn" component="suggest-multiple" server-action="data" style="col-xs-12" target-action="ActUsrEmlSug" printable="false">
+                <dependency target-type="set-required" initial="true">
+                  <dependency-element id="ActPrn" condition="eq" value="0" />
+                </dependency>
+              </criteria>
+            </tag>
+          </tabcontainer>
+          <tabcontainer id="ADVANCE">
+            <tag type="div" style="panel-body no-padding-hr no-padding-b row">
+              <criteria label="PARAMETER_REPORT_ORIENTATION" help="HELP_PRINT_ORIENTATION_CRITERION" component="select" id="reportOrientation" optional="true" initial-load="enum" target-action="report-orientation" style="col-xs-12 col-sm-6" printable="false" />
+            </tag>
+          </tabcontainer>
+        </tab>
+      </tag>
+      <tag type="div" style="modal-footer">
+        <tag type="div" style="pull-right">
+          <button label="BUTTON_CANCEL" icon="close" id="ButDiaCan" help="HELP_CANCEL_PRINT_BUTTON">
+            <button-action type="restore" target="PrnOpt" />
+            <button-action type="close" target="PrnOpt" />
+          </button>
+          <button label="BUTTON_ACCEPT" icon="check" id="ButDiaVal" button-type="submit" help="HELP_ACCEPT_PRINT_BUTTON">
+            <button-action type="validate" target="PrnOpt"/>
+            <button-action type="server-print" server-action="maintain" target-action="ExpFil" />
+            <button-action type="close" target="PrnOpt" />
+          </button>
+        </tag>
+      </tag>
+
+    </dialog>
+  </tag>
+</screen>

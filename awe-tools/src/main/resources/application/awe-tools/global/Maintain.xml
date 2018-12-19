@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Document : Maintain.xml Created on : 11 de marzo de 2010, 11:03 Author : Ismael SERRANO Description: AWE Maintain File -->
+
+<maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/maintain.xsd">
+
+  <target name="selectExtract" public="true">
+    <serve service="selectExtract">
+      <variable id="select" type="STRING" name="selectCriteria" />
+    </serve>
+  </target>
+
+  <!-- Generate, Print from (SQL Extractor Engine)dinamic columns -->
+  <target name="ExpFilSql">
+    <serve service="ExpFilSql">
+      <variable id="select" type="STRING" name="selectCriteria" />
+      <variable id="formats" type="STRING" name="FmtPrn" />
+    </serve>
+  </target>
+
+  <!-- Save Select Files -->
+  <target name="SaveSelectFile" public="true">
+    <serve service="SaveSelectFile">
+      <variable id="saveFileName" type="STRING" name="CrtSavFil" />
+      <variable id="selectsText" type="STRING" name="selectCriteria" />
+    </serve>
+  </target>
+
+  <!-- Delete column -->
+  <target name="DelSqlCol" public="true">
+    <serve service="DelSqlCol" />
+  </target>
+
+</maintain>

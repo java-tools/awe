@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : EmlSrvUpd.xml
+    Created on : 25 de October de 2013
+    Author     : Pablo VIDAL
+    Description: Tools window - Update Email server
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_EML_SRV_UPD" help="HELP_SCREEN_TITLE_EML_SRV_UPD">
+  <tag source="hidden">
+    <message id="UpdMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE" />
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button button-type="button" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" />
+      <button-action type="confirm" target="UpdMsg" />
+      <button-action type="server" server-action="maintain" target-action="EmlSrvUpd" />
+      <button-action type="back" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand" label="SCREEN_TEXT_DATA" icon="edit">
+      <tag type="div" style="panel-body static">
+        <criteria id="IdeAweEmlSrv" variable="IdeAweEmlSrv" component="hidden" />
+        <criteria label="PARAMETER_ALIAS" id="SrvNam" variable="SrvNam" component="text" validation="required" style="col-xs-12 col-sm-4 col-lg-3" />
+        <criteria label="PARAMETER_SERVER" id="Hst" variable="Hst" component="text" validation="required" style="col-xs-12 col-sm-4 col-lg-3" />
+        <criteria label="PARAMETER_ACTIVE" id="Act" variable="Act" component="checkbox" style="no-label-xs col-xs-12 col-sm-4 col-lg-6" />
+        <criteria label="PARAMETER_USER" id="EmlUsr" variable="EmlUsr" component="text" readonly="true" style="col-xs-12 col-sm-4 col-lg-3">
+          <dependency target-type="set-editable" initial="true">
+            <dependency-element id="Ath" condition="eq" value="1" />
+          </dependency>
+          <dependency target-type="set-required" initial="true">
+            <dependency-element id="Ath" condition="eq" value="1" />
+          </dependency>
+          <dependency source-type="reset" target-type="input" initial="true">
+            <dependency-element id="Ath" condition="ne" value="1" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_PASSWD" id="EmlPwd" component="password" variable="EmlPwd" readonly="true" style="col-xs-12 col-sm-4 col-lg-3">
+          <dependency target-type="set-editable" initial="true">
+            <dependency-element id="Ath" condition="eq" value="1" />
+          </dependency>
+          <dependency target-type="set-required" initial="true">
+            <dependency-element id="Ath" condition="eq" value="1" />
+          </dependency>
+          <dependency source-type="reset" target-type="input" initial="true">
+            <dependency-element id="Ath" condition="ne" value="1" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_AUTH" id="Ath" variable="Ath" component="checkbox" style="no-label-xs col-xs-12 col-sm-4 col-lg-6" />
+        <criteria id="FlgPwdUpd" component="hidden" value="0">
+          <dependency source-type="formule" target-type="input" initial="true" formule="'[EmlPwd]' != '' ? '1' : '0'" type="or">
+            <dependency-element id="EmlPwd" condition="ne" value="" />
+            <dependency-element id="EmlPwd" condition="eq" value="" />
+          </dependency>
+        </criteria>
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

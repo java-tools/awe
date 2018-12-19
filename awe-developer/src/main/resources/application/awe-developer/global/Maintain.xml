@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../../schemas/awe/maintain.xsd">
+
+  <!--
+  DEVELOPER
+  -->
+
+  <!-- Transalate literal -->
+  <target name="LitTra" public="true">
+    <serve service="LitTra">
+    </serve>
+  </target>
+
+  <!-- Save literal modification -->
+  <target name="LitSav" public="true">
+    <serve service="LitSavSer">
+      <variable id="formatSelector" type="STRING" name="FormatSelector"/>
+      <variable id="language" type="STRING" name="idio.selected"/>
+      <variable id="text" type="STRING" name="litTxt"/>
+      <variable id="markdown" type="STRING" name="litMrk"/>
+      <variable id="code" type="STRING" name="code.selected"/>
+      <variable id="searchLanguage" type="STRING" name="CrtSchLan"/>
+    </serve>
+  </target>
+
+  <!-- Save new literal -->
+  <target name="LitNew" public="true">
+    <serve service="LitNewSer">
+      <variable id="language" type="STRING" name="CrtSchLan"/>
+      <variable id="code" type="STRING" name="CrtLitIde"/>
+      <variable id="literal" type="STRING" name="CrtLitTxt"/>
+    </serve>
+  </target>
+
+  <!-- Delete literal -->
+  <target name="LitDel" public="true">
+    <serve service="LitDelSer">
+      <variable id="code" type="STRING" name="cod.selected"/>
+    </serve>
+  </target>
+
+  <!-- Set Paths -->
+  <target name="SetPath" public="true">
+    <serve service="SetPath">
+      <variable id="pathval" type="STRING" name="CrtPthVal" />
+    </serve>
+  </target>
+</maintain>

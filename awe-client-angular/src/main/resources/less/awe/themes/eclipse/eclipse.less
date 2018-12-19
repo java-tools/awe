@@ -1,0 +1,38 @@
+//
+// Themes / Eclipse
+// --------------------------------------------------
+
+.theme-eclipse {
+  // Theme color
+  @theme-color: lighten(#23272d, 38%);
+  // Main menu background color
+  @menu-color: #666;
+  // Primary color
+  @primary-color: #1d89cf;
+
+  @awe-color: lighten(@menu-color, 20%);
+  @awe-text-color: #fff;
+  @awe-border-color: darken(@awe-color, 10%);
+  @button-color: #ddd;
+
+  // Copy fresh theme
+  .theme-default;
+
+  // Define panel and button default
+  .panel-awe {
+    .pixel-panel(@awe-color, @awe-text-color, @awe-border-color);
+  }
+  .btn-default {
+    .pixel-button(@color: @button-color, @font-color: @btn-default-color);
+  }
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(@primary-color);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

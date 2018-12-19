@@ -1,0 +1,11 @@
+<label ng-show="controller.visible" class="criterion btn btn-awe validator input {{criterionClass}} focus-target" ng-class="{'active btn-primary': component.model.selected === component.value, 'disabled': controller.readonly}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <input type="radio" class="form-control px {{classes}}" ng-attr-id="{{::controller.id}}" ng-attr-name="{{::controller.id}}" ng-focus="focus()" ng-blur="blur()"
+         ng-model="component.model.selected" ng-value="component.value" ng-change="component.modelChange()" ng-disabled="controller.readonly"/>
+  <i ng-if="::controller.icon !== ''" class="fa fa-{{::controller.icon}}"></i>
+  <span class="lbl label-{{::size}}">
+    <i ng-if="::controller.help" class="help-target fa fa-fw fa-question-circle"></i>
+    {{controller.label| translateMultiple}}
+  </span>
+  <awe-loader class="loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</label>

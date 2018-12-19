@@ -1,0 +1,44 @@
+//
+// Menu commons
+// --------------------------------------------------
+
+.menu-shadow {
+  box-shadow: 0 2px 2px rgba(0,0,0,.05),0 1px 0 rgba(0,0,0,.05);
+}
+
+#main-menu {
+  ul.navigation a{
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  &,
+  #main-menu-bg {
+    overflow: visible !important;
+    .no-transition;
+  }
+}
+
+.size-sm {
+  #main-menu {
+    ul.navigation a {
+      font-size: @font-size-small;
+    }
+  }
+}
+
+.size-lg {
+  #main-menu {
+    ul.navigation a {
+      font-size: @font-size-large;
+    }
+  }
+}
+
+
+//
+// Import specific menu settings
+// --------------------------------------------------
+
+@import "./menu-vertical.less";
+@import "./menu-horizontal.less";

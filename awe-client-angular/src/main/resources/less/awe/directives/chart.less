@@ -1,0 +1,28 @@
+.chart {
+  position: relative;
+  .flex-direction(column);
+  .display-flex;
+  .chart-container {
+    .flex(1);
+    overflow: hidden;
+    // WORKAROUND FOR BUG IN FLEXBOX
+    position:absolute;left:0;top:0;right:0;bottom:0;
+  }
+
+  .chart-loader {
+    &.ng-hide-add,
+    &.ng-hide-remove {
+      .transition(opacity, ease-in-out, 200ms);
+    }
+
+    &.ng-hide-add.ng-hide-add-active,
+    &.ng-hide-remove {
+      .opacity(0);
+    }
+
+    &.ng-hide-add,
+    &.ng-hide-remove.ng-hide-remove-active {
+      .opacity(1);
+    }
+  }
+}

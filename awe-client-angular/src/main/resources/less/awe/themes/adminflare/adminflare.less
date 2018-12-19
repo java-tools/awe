@@ -1,0 +1,23 @@
+//
+// Themes / Adminflare
+// --------------------------------------------------
+
+.theme-adminflare {
+  @theme-color: #418ce4;
+  @menu-color: #2b2b2b;
+  // Primary color
+  @primary-color: #3690e6;
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(#fff);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+
+  // Imports
+  @import "./main-menu-horizontal.less";
+}

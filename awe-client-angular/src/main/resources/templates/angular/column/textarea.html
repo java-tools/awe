@@ -1,0 +1,12 @@
+<div ng-show="component.controller.visible" class="validator column-input criterion text-{{::component.controller.align}} no-animate" ui-dependency="dependencies" ng-cloak>
+  <span class="visible-value" ng-cloak>{{component.visibleValue}}</span>
+  <span class="edition">
+    <div class="input focus-target">
+      <textarea class="form-control col-xs-12 {{classes}} {{component.model.values[0].style}}" ng-model="component.model.selected" ng-disabled="component.controller.readonly" autocomplete="off"
+                placeholder="{{::component.controller.placeholder| translateMultiple}}" ng-model-options="{updateOn: 'change'}"
+                ng-focus="focus()" ng-blur="blur()" ng-click="click($event)" ng-change="component.columnModelChange()"></textarea>
+    </div>
+    <span ng-if="::component.controller.icon" ng-class="::iconClass" ng-cloak></span>
+  </span>
+  <awe-loader class="loader no-animate" ng-if="component.controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</div>

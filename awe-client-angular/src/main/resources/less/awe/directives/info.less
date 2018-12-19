@@ -1,0 +1,50 @@
+/*******************************************************************************
+ INFO DIRECTIVE
+*******************************************************************************/
+
+.info {
+  > a {
+    cursor: pointer;
+  }
+  .navbar-form {
+    .info-button-sm {
+      line-height: 26px !important;
+    }
+    .info-button-md {
+      line-height: 32px !important;
+    }
+    .info-button-lg {
+      line-height: 36px !important;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar a .small-screen-text {
+    display: none;
+  }
+
+  .nav .dropdown>.dropdown-toggle .nav-icon {
+    margin-right: 0;
+  }
+
+  .nav .dropdown>.dropdown-toggle .nav-icon.w-text {
+    margin-right: 8px;
+  }
+
+  .navbar .nav-icon-btn>a {
+    text-align: center;
+    width: auto;
+  }
+
+  .navbar .nav-icon-btn>a .label {
+    left: 24px;
+    right: auto;
+  }
+
+  .dropdown-xs { min-width: 120px; }
+  .dropdown-sm { min-width: 160px; }
+  .dropdown-md { min-width: 200px; }
+  .dropdown-lg { min-width: 240px; }
+  .dropdown-xl { min-width: 280px; }
+}

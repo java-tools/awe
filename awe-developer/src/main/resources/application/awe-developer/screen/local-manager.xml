@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Document : literal_manager.xml Created on : 12 de Mayo de 2015, 15:30
+Author : Andoni GOMEZ Description: Manage literals screen -->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../schemas/awe/screen.xsd" template="window"
+        label="SCREEN_TITLE_MNG_LIT" help="HELP_SCREEN_TITLE_MNG_LIT">
+  <tag source="hidden">
+    <criteria id="CrtLitLanFro" component="hidden">
+      <dependency source-type="launcher" target-type="input" target-action="fromLanguage">
+        <dependency-element id="CrtLitLanFroTxt" alias="fromLanguage"/>
+        <dependency-element id="ButTraTxt" event="click"/>
+      </dependency>
+      <dependency source-type="launcher" target-type="input" target-action="fromLanguage">
+        <dependency-element id="CrtLitLanFroMrk" alias="fromLanguage"/>
+        <dependency-element id="ButTraMrk" event="click"/>
+      </dependency>
+    </criteria>
+    <criteria id="CrtLitLanTo" component="hidden">
+      <dependency source-type="launcher" target-type="input" target-action="toLanguage">
+        <dependency-element id="CrtLitLanToTxt" alias="toLanguage"/>
+        <dependency-element id="ButTraTxt" event="click"/>
+      </dependency>
+      <dependency source-type="launcher" target-type="input" target-action="toLanguage">
+        <dependency-element id="CrtLitLanToMrk" alias="toLanguage"/>
+        <dependency-element id="ButTraMrk" event="click"/>
+      </dependency>
+    </criteria>
+    <criteria id="CrtLitTrn" component="hidden">
+      <dependency source-type="launcher" target-type="input" target-action="textToTranslate">
+        <dependency-element id="litTxt" alias="textToTranslate"/>
+        <dependency-element id="ButTraTxt" event="click"/>
+      </dependency>
+      <dependency source-type="launcher" target-type="input" target-action="textToTranslate">
+        <dependency-element id="litMrk" alias="textToTranslate"/>
+        <dependency-element id="ButTraMrk" event="click"/>
+      </dependency>
+    </criteria>
+    <criteria id="FlgStoLit" component="hidden" value="0">
+      <dependency >
+        <dependency-element id="GrdTraLit" attribute="selectedRows" condition="eq" value="0" />
+        <dependency-action type="disable-dependencies"/>
+        <dependency-action type="reset" target="litTxt"/>
+        <dependency-action type="reset" target="litMrk"/>
+        <dependency-action type="enable-dependencies"/>
+      </dependency>
+      <dependency source-type="value" target-type="input" value="0" initial="true">
+        <dependency-element id="GrdTraLit" attribute="selectedRows" condition="ne" value="1" />
+      </dependency>
+      <dependency source-type="launcher" target-type="input" target-action="FormatSelector" initial="true">
+        <dependency-element id="GrdTraLit" attribute="selectedRows" condition="eq" value="1" />
+        <dependency-element id="FormatSelector"/>
+      </dependency>
+      <dependency >
+        <dependency-element id="GrdStrLit" attribute="selectedRows" condition="eq" value="0" />
+        <dependency-action type="reset" target="GrdTraLit"/>
+      </dependency>
+      <dependency >
+        <dependency-element id="GrdTraLit" attribute="selectedRows" condition="eq" value="1" />
+        <dependency-element id="GrdTraLit" event="select-row" />
+        <dependency-action type="disable-dependencies"/>
+        <dependency-action type="server" server-action="data-silent" target-action="GetSelectedLocale" silent="true"/>
+        <dependency-action type="enable-dependencies"/>
+      </dependency>
+    </criteria>
+  </tag>
+  <!-- Buttons Zone: Show buttons -->
+  <tag source="buttons">
+    <tag id="buttons" type="div">
+      <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+        <button-action type="dialog" target="HlpOpt" />
+      </button>
+    </tag>
+  </tag>
+  <!-- Center Zone: Show menu and reports -->
+  <tag source="center">
+    <window label="TITLE_SEARCH" icon="search">
+      <tag type="div" style="panel-body">
+        <criteria id="CrtSchIde" label="PARAMETER_SEARCH" placeholder="SCREEN_TEXT_IDENTIFIER_OR_TEXT" style="col-xs-12 col-sm-6 col-lg-6 padding-sm" component="text">
+          <dependency source-type="launcher" target-type="input" target-action="NewLocale">
+            <dependency-element id="CrtLitIde" alias="NewLocale"/>
+          </dependency>
+        </criteria>
+        <criteria id="CrtSchLan" label="PARAMETER_LANGUAGE" placeholder="PARAMETER_SELECT_LANGUAGE" style="col-xs-12 col-sm-2 col-lg-2 padding-sm" component="select" initial-load="enum" target-action="Lan" property="language.default"/>
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="reset" label="BUTTON_RESET" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
+          <button button-type="submit" label="BUTTON_SEARCH" icon="search" id="ButSch" help="HELP_SEARCH_BUTTON">
+            <button-action type="validate" />
+            <button-action type="filter" target="GrdStrLit" />
+            <button-action type="select-first-row" target="GrdStrLit" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <tag type="div" expandible="horizontal" style="expand">
+      <window label="TITLE_LOCALS" style="expand" icon="list-ul">
+        <grid id="GrdStrLit" server-action="data" style="expand" target-action="LitLst">
+          <column label="COLUMN_CODE" name="cod" sort-field="cod" align="left" charlength="25"/>
+          <column label="COLUMN_LOCAL" name="lit" sort-field="lit" align="left" charlength="40"/>
+          <button id="ButNew" icon="plus-circle" label="BUTTON_NEW" help="HELP_NEW_BUTTON">
+            <button-action type="dialog" target="new-local" />
+          </button>
+          <button label="BUTTON_DELETE" icon="trash" id="ButGrdEdiDel">
+            <button-action type="server" server-action="maintain" target-action="LitDel" />
+            <button-action type="filter" target="GrdStrLit" />
+            <button-action type="reset" target="GrdTraLit" />
+            <button-action type="reset" target="litTxt" />
+            <button-action type="reset" target="litMrk" />
+            <dependency target-type="enable" initial="true">
+              <dependency-element id="GrdStrLit" attribute="selectedRows" condition="eq" value="1" />
+            </dependency>
+          </button>
+        </grid>
+      </window>
+      <tag type="div" expandible="vertical" style="expand-2x">
+        <window label="TITLE_TRANSLATIONS" style="expand" icon="globe">
+          <grid id="GrdTraLit" style="expand">
+            <column name="idio" sort-field="idio" hidden="true"/>
+            <column component="image" name="LanImg" sort-field="idio" align="center" charlength="5" />
+            <column label="COLUMN_LANGUAGE" name="LanTxt" sort-field="idio" align="left" charlength="12"/>
+            <column label="COLUMN_LOCAL" name="lite" sort-field="lite" align="left" charlength="80"/>
+            <column label="COLUMN_CODE" name="code" sort-field="code" align="left" hidden="true" />
+            <dependency source-type="query" target-type="input" server-action="data" target-action="GetTraSer">
+              <dependency-element id="GrdStrLit" attribute="selectedRows" condition="eq" value="1" />
+              <dependency-element id="GrdStrLit" event="select-row" />
+            </dependency>
+          </grid>
+        </window>
+        <window label="TITLE_TRANSLATION" style="expand" icon="language" expandible="vertical">
+          <tag type="div" style="panel-body expand scrollable">
+            <tag type="div" style="col-xs-12">
+              <tab id="FormatSelector" initial-load="enum" target-action="format-selection" style="col-xs-12">
+                <tabcontainer id="TEXT">
+                  <tag type="div" style="panel-body">
+                    <tag type="div" style="col-xs-12 col-sm-4 col-lg-3 no-padding">
+                      <criteria id="CrtLitLanFroTxt" label="PARAMETER_FROM" style="col-xs-12" component="select" initial-load="enum" target-action="Lan" property="language.default"/>
+                      <criteria id="CrtLitLanToTxt" label="PARAMETER_TO" style="col-xs-12" component="select" initial-load="enum" target-action="Lan" property="language.default">
+                        <dependency source-type="launcher" target-type="input" target-action="selectedLanguage">
+                          <dependency-element id="GrdTraLit" column="idio" attribute="selectedRowValue" alias="selectedLanguage"/>
+                          <dependency-element id="GrdTraLit" attribute="selectedRows" condition="eq" value="1" />
+                          <dependency-element id="GrdTraLit" event="select-row" />
+                        </dependency>
+                      </criteria>
+                      <tag type="div" style="col-xs-12">
+                        <tag type="div" style="pull-right">
+                          <button id="ButSwtLngTxt" icon="retweet" help="HELP_SWITCH_LANGUAGES_BUTTON">
+                            <button-action type="server" server-action="data-silent" target-action="SwitchLanguagesTxt"/>
+                          </button>
+                          <button id="ButTraTxt" label="BUTTON_TRANSLATE" icon="globe" help="HELP_TRANSLATE_BUTTON">
+                            <button-action type="server" server-action="value" target-action="LitTra" target="litTxt"/>
+                          </button>
+                        </tag>
+                      </tag>
+                    </tag>
+                    <tag type="div" style="col-xs-12 col-sm-8 col-lg-9">
+                      <criteria label="PARAMETER_TEXT" id="litTxt" component="textarea" style="col-xs-12" area-rows="11"/>
+                    </tag>
+                  </tag>
+                </tabcontainer>
+                <tabcontainer id="MARKDOWN">
+                  <tag type="div" style="panel-body">
+                    <tag type="div" style="col-xs-12 col-sm-4 col-lg-3 no-padding">
+                      <criteria id="CrtLitLanFroMrk" label="PARAMETER_FROM" style="col-xs-12" component="select" initial-load="enum" target-action="Lan" property="language.default"/>
+                      <criteria id="CrtLitLanToMrk" label="PARAMETER_TO" style="col-xs-12" component="select" initial-load="enum" target-action="Lan" property="language.default">
+                        <dependency source-type="launcher" target-type="input" target-action="selectedLanguage">
+                          <dependency-element id="GrdTraLit" column="idio" attribute="selectedRowValue" alias="selectedLanguage"/>
+                          <dependency-element id="GrdTraLit" attribute="selectedRows" condition="eq" value="1" />
+                          <dependency-element id="GrdTraLit" event="select-row" />
+                        </dependency>
+                      </criteria>
+                      <tag type="div" style="col-xs-12">
+                        <tag type="div" style="pull-right">
+                          <button id="ButSwtLngMrk" icon="retweet" help="HELP_SWITCH_LANGUAGES_BUTTON">
+                            <button-action type="server" server-action="data-silent" target-action="SwitchLanguagesMrk"/>
+                          </button>
+                          <button id="ButTraMrk" label="BUTTON_TRANSLATE" icon="globe" help="HELP_TRANSLATE_BUTTON">
+                            <button-action type="server" server-action="value" target-action="LitTra" target="litMrk"/>
+                          </button>
+                        </tag>
+                      </tag>
+                    </tag>
+                    <tag type="div" style="col-xs-12 col-sm-8 col-lg-9">
+                      <criteria id="litMrk" component="markdown-editor" area-rows="9"/>
+                    </tag>
+                  </tag>
+                </tabcontainer>
+              </tab>
+            </tag>
+          </tag>
+          <tag type="div" style="panel-footer">
+            <tag type="div" style="pull-right">
+              <button label="BUTTON_UPDATE" icon="pencil" id="ButUpd" help="HELP_UPDATE_BUTTON">
+                <dependency target-type="enable">
+                  <dependency-element id="GrdTraLit" attribute="selectedRows" condition="eq" value="1" />
+                  <dependency-element id="GrdTraLit" event="select-row" />
+                </dependency>
+                <button-action type="server" server-action="maintain-silent" target-action="LitSav" silent="true"/>
+              </button>
+            </tag>
+          </tag>
+        </window>
+      </tag>
+    </tag>
+  </tag>
+  <tag source="modal">
+    <include target-screen="new-local" target-source="center" />
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

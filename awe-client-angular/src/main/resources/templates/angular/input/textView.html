@@ -1,0 +1,17 @@
+<div ng-show="controller.visible" class="criterion {{criterionClass}}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <div ng-class="::groupClass" ng-cloak>
+    <label ng-class="::labelClass" ng-style="::labelStyle" ng-cloak>
+      <i ng-if="::controller.help" class="help-target fa fa-fw fa-question-circle"></i>
+      {{controller.label| translateMultiple}}
+    </label>
+    <div class="input {{classes}} {{::validatorGroup}}">
+      <span ng-if="controller.unit" class="label label-warning pull-right" translate-multiple="{{controller.unit}}"></span>
+      <div ng-click="onClick()">
+        <span ng-if="controller.icon" class="text-icon fa fa-{{controller.icon}}" ng-cloak></span>
+        <span class="text-value" ng-cloak>{{component.visibleValue}}</span>
+      </div>
+      <awe-loader class="loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+    </div>
+  </div>
+</div>

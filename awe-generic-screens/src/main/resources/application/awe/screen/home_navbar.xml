@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : home_navbar.xml
+    Created on : 8 de febrero de 2010, 16:30
+    Author     : Pablo GARCIA
+    Description: Navigation bar
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="full">
+
+  <!--
+  SAMPLE DEFAULT PARAMETER LOADING
+  target="SesPrm" -->
+
+  <!-- Center Zone: Show menu and reports -->
+  <tag source="center">
+    <tag type="div" style="navbar-inner">
+      <tag type="div" style="navbar-header">
+        <tag type="h1">
+          <tag type="span" label="APP_CLIENT"></tag>
+        </tag>
+        <button button-type="button" style="no-class navbar-toggle collapsed" id="ButNavCol" icon="bars icon navbar-icon">
+          <button-action type="toggle-navbar" />
+        </button>
+      </tag>
+      <tag type="div" id="main-navbar-collapse" style="collapse navbar-collapse main-navbar-collapse">
+        <tag type="div" style="right clearfix">
+          <!-- Profile -->
+          <tag type="ul" style="nav navbar-nav pull-right right-navbar-nav">
+            <info id="ButSetTog" icon="cog" title="SCREEN_TEXT_SETTINGS">
+              <info-criteria icon="puzzle-piece" title="SCREEN_TEXT_MODULE" component="select" id="module" initial-load="query" target-action="ModNamByOpeSel" session="module"
+                             style="col-xs-12 no-label" info-style="form-group">
+                <dependency >
+                  <dependency-element id="module" />
+                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarMod" silent="true" />
+                </dependency>
+              </info-criteria>
+              <info-criteria icon="sitemap" title="SCREEN_TEXT_SITE" component="select" id="site" initial-load="query" target-action="SitNamByOpeSel" session="site" style="col-xs-12 no-label"
+                             info-style="form-group">
+                <dependency >
+                  <dependency-element id="site" />
+                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarSit" />
+                  <dependency-action type="server" server-action="data" target-action="DbsAlsBySitModSel" target="database" />
+                </dependency>
+              </info-criteria>
+              <info-criteria icon="database" title="SCREEN_TEXT_DBS" component="select" id="database" initial-load="query" target-action="DbsAlsBySitModSel" session="database" style="col-xs-12 no-label"
+                             info-style="form-group">
+                <dependency >
+                  <dependency-element id="database" />
+                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarDbs" silent="true" />
+                </dependency>
+              </info-criteria>
+            </info>
+            <info id="ButUsrAct" icon="user" initial-load="query" target-action="connectedUser">
+              <info-criteria icon="image" title="PARAMETER_THEME" component="select" id="theme" initial-load="query" target-action="ThmSelVal" session="theme" style="col-xs-12 no-label"
+                             info-style="form-group">
+                <dependency >
+                  <dependency-element id="theme" />
+                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarThm" silent="true" />
+                  <dependency-action type="change-theme" target="theme" />
+                </dependency>
+              </info-criteria>
+              <info-criteria icon="language" title="PARAMETER_LANGUAGE" component="select" id="language" initial-load="enum" target-action="Lan" session="language" style="col-xs-12 no-label"
+                             info-style="form-group">
+                <dependency >
+                  <dependency-element id="language" />
+                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarLan" silent="true" />
+                  <dependency-action type="change-language" target="language" />
+                </dependency>
+              </info-criteria>
+            </info>
+            <info-button id="ButLogOut" icon="sign-out" title="BUTTON_LOGOUT">
+              <button-action type="logout" />
+            </info-button>
+          </tag>
+        </tag>
+      </tag>
+    </tag>
+  </tag>
+</screen>

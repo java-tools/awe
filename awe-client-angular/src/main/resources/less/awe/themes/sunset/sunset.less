@@ -1,0 +1,47 @@
+//
+// Themes / Sunset
+// --------------------------------------------------
+
+.theme-sunset {
+  // Primary color
+  @primary-color: #7a6f6f;
+  @theme-color: lighten(@primary-color, 10%);
+  // Main menu background color
+  @menu-color: #9D4444; //#433d3c;
+  @awe-color: #C75858;
+  @awe-text-color: #fff;
+  @awe-border-color: darken(@awe-color, 10%);
+  @button-color: #ddd;
+
+  // Copy dust theme
+  .theme-dust;
+
+  // Define panel and button default
+  .panel-awe {
+    .pixel-panel(@awe-color, @awe-text-color, @awe-border-color);
+  }
+  .btn-default {
+    .pixel-button(@color: @button-color, @font-color: @btn-default-color);
+  }
+
+  // Define navbar specific backgrounds
+  #main-navbar,
+  &.mmc #main-navbar {
+    .navbar-header {
+      background: linear-gradient(to right, #823939 75%, white);
+    }
+    #main-menu-toggle {
+      background: #823939;
+    }
+  }
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(@primary-color);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

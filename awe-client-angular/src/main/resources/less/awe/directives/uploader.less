@@ -1,0 +1,83 @@
+/*******************************************************************************
+ UPLOADER DIRECTIVES
+*******************************************************************************/
+
+.criterion {
+  .uploaderForm {
+    visibility: hidden;
+    position: absolute;
+    display: block;
+    left: -10000px;
+  }
+
+  &.uploader {
+    .progress-bar {
+      .transition(width 100ms ease);
+    }
+  }
+
+  // VALIDATION
+  &.has-error {
+    .pixel-file-input {
+      border:1px solid #a94442 !important;
+    }
+  }
+
+  // READONLY
+  .pixel-file-input[disabled] {
+    cursor: @cursor-disabled;
+    background-color: @input-bg-disabled;
+    .opacity(1);
+    border-color: @input-border !important;
+  }
+
+  // Uploading bar
+  .uploading-sm {
+    height: @input-height-small;
+    padding: 7px 0px;
+  }
+  .uploading-md {
+    height: @input-height-base;
+    padding: 10px 0px;
+  }
+  .uploading-lg {
+    height: @input-height-large;
+    padding: 13px 0px;
+  }
+
+  .pixel-file-input {
+    .pfi-actions {
+      background: transparent;
+    }
+    .btn {
+      height: 22px;
+      padding: 3px 7px;
+      line-height: 14px;
+    }
+
+    &.pixel-file-input-sm {
+      height: @input-height-small;
+      padding: 3px 12px;
+      .pfi-actions {
+        top: 1px;
+        padding: 0 1px 0 10px;
+      }
+    }
+    &.pixel-file-input-md {
+      height: @input-height-base;
+      padding: 6px 12px;
+      .pfi-actions {
+        top: 4px;
+        padding: 0 4px 0 10px;
+      }
+    }
+    &.pixel-file-input-lg {
+      height: @input-height-large;
+      padding: 9px 12px;
+      .pfi-actions {
+        top: 7px;
+        padding: 0 7px 0 10px;
+      }
+    }
+  }
+}

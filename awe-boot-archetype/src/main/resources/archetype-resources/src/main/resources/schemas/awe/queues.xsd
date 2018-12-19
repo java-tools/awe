@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+  <!--
+  ==============================================================================
+  Definition
+  ==============================================================================
+  -->
+  
+  <xs:annotation>
+    <xs:appinfo>awe Queues Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">
+    This Schema defines the way an awe Queues file must be structured
+    </xs:documentation>
+  </xs:annotation>  
+
+  <!--
+  ==============================================================================
+  Includes
+  ==============================================================================
+  -->  
+  
+  <xs:include schemaLocation="general.xsd"/>  
+
+  <!--
+  ==============================================================================
+  Elements
+  ==============================================================================
+  -->  
+  
+  <!-- Queues Element -->
+  <xs:element name="queues" type="queuesType"/>
+  
+  <!-- Queue Element -->
+  <xs:element name="queue" type="queueType"/>
+  
+  <!-- Request Message Element -->
+  <xs:element name="request-message" type="requestMessageType"/>
+  
+  <!-- Response Message Element -->
+  <xs:element name="response-message" type="responseMessageType"/>
+  
+    <!-- Message Parameter Element -->
+  <xs:element name="message-parameter" type="messageParameterType"/>
+  
+  <!-- Message Wrapper Element -->
+  <xs:element name="message-wrapper" type="messageWrapperType"/>
+
+  <!-- Message Status Element -->
+  <xs:element name="message-status" type="messageStatusType"/>
+  
+  <!--
+  ==============================================================================
+  Attribute Groups 
+  ==============================================================================
+  -->  
+  
+  <!-- Table Attributes -->
+  <xs:attributeGroup name="messageAttr">
+    <xs:attribute name="destination" use="required" type="xs:string"/>
+    <xs:attribute name="type" use="required" type="messageFormatEnum"/>
+    <xs:attribute name="separator" use="optional" type="xs:string"/>
+    <xs:attribute name="timeout" use="optional" type="xs:long"/>
+    <xs:attribute name="selector" use="optional" type="xs:string"/>
+  </xs:attributeGroup>   
+  
+  <!--
+  ==============================================================================
+  Type definitions
+  ==============================================================================
+  -->   
+  
+  <!-- Services Type -->
+  <xs:complexType name="queuesType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="queue"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Service Type -->
+  <xs:complexType name="queueType">
+    <xs:sequence>
+      <xs:element ref="request-message" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="response-message" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="id" use="required" type="xs:string"/>
+  </xs:complexType>
+  
+  <!-- Request Message Type -->
+  <xs:complexType name="requestMessageType">
+    <xs:choice>
+      <xs:element ref="message-parameter" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="message-wrapper" minOccurs="0" maxOccurs="1"/>
+    </xs:choice>    
+    <xs:attributeGroup ref="messageAttr"/>
+  </xs:complexType>  
+
+  <!-- Response Message Type -->
+  <xs:complexType name="responseMessageType">
+    <xs:choice>
+      <xs:element ref="message-parameter" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="message-wrapper" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="message-status" minOccurs="0" maxOccurs="1"/>
+    </xs:choice>    
+    <xs:attributeGroup ref="messageAttr"/>
+  </xs:complexType>  
+
+  <!-- Message Parameter Type -->
+  <xs:complexType name="messageParameterType">
+    <xs:attribute name="id" use="required" type="xs:string"/>
+    <xs:attribute name="type" use="required" type="variableRestriction"/>
+    <xs:attribute name="value" use="optional" type="xs:string"/>
+    <xs:attribute name="name" use="optional" type="xs:string"/>
+    <xs:attribute name="list" use="optional" type="booleanEnum"/>
+  </xs:complexType>
+  
+  <!-- Message Wrapper Type -->
+  <xs:complexType name="messageWrapperType">
+    <xs:attribute name="type" use="required" type="wrapperFormatEnum"/>
+    <xs:attribute name="classname" use="required" type="xs:string"/>
+    <xs:attribute name="name" use="optional" type="xs:string"/>
+  </xs:complexType>
+
+  <!-- Service Parameter Type -->
+  <xs:complexType name="messageStatusType">
+    <xs:attribute name="type" use="required" type="xs:string"/>
+    <xs:attribute name="translate" use="optional" type="xs:string"/>    
+    <xs:attribute name="title" type="xs:string"/>
+    <xs:attribute name="description" type="xs:string"/>
+  </xs:complexType>
+  
+  <!--
+  ==============================================================================
+  Enumerated definitions
+  ==============================================================================
+  -->
+
+  <!-- Message Format Enumeration -->
+  <xs:simpleType name="messageFormatEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TEXT"/>
+      <xs:enumeration value="MAP"/>
+    </xs:restriction>    
+  </xs:simpleType>  
+  
+  <!-- Message Format Enumeration -->
+  <xs:simpleType name="wrapperFormatEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="XML"/>
+      <xs:enumeration value="OBJECT"/>
+    </xs:restriction>    
+  </xs:simpleType>                
+  
+</xs:schema>

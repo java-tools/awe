@@ -1,0 +1,1673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--
+  ==============================================================================
+  Definition
+  ==============================================================================
+  -->
+  <xs:annotation>
+    <xs:appinfo>awe Screen Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">This Schema defines the way an awe Screen must be structured</xs:documentation>
+  </xs:annotation>
+
+  <!--
+  ==============================================================================
+  Includes
+  ==============================================================================
+  -->
+  <xs:include schemaLocation="general.xsd" />
+
+  <!--
+  ==============================================================================
+  Elements
+  ==============================================================================
+  -->
+
+  <!-- Screen Element -->
+  <xs:element name="screen" type="screenType">
+    <xs:unique name="TagUnique">
+      <xs:selector xpath=".//tag" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="AccordionUnique">
+      <xs:selector xpath=".//accordion" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="AccordionItemUnique">
+      <xs:selector xpath=".//accordion-item" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="MessageUnique">
+      <xs:selector xpath=".//message" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="TagSourceUnique">
+      <xs:selector xpath=".//tag" />
+      <xs:field xpath="@source" />
+    </xs:unique>
+    <xs:unique name="VideoSourceUnique">
+      <xs:selector xpath=".//video" />
+      <xs:field xpath="@source" />
+    </xs:unique>
+    <xs:unique name="ColumnNameUnique">
+      <xs:selector xpath=".//column" />
+      <xs:field xpath="@name" />
+    </xs:unique>
+    <xs:unique name="CriteriaIdUnique">
+      <xs:selector xpath=".//criteria" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="ButtonIdUnique">
+      <xs:selector xpath=".//button" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="GridIdUnique">
+      <xs:selector xpath=".//grid" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="PivotTableIdUnique">
+      <xs:selector xpath=".//pivot-table" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="ContextButtonNameUnique">
+      <xs:selector xpath=".//context-button" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="TabIdUnique">
+      <xs:selector xpath=".//tab" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="WidgetIdUnique">
+      <xs:selector xpath=".//widget" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="ChartIdUnique">
+      <xs:selector xpath=".//chart" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="ContextSeparatorNameUnique">
+      <xs:selector xpath=".//context-separator" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+    <xs:unique name="DialogIdUnique">
+      <xs:selector xpath=".//dialog" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+  </xs:element>
+
+  <!-- Grid Element -->
+  <xs:element name="grid" type="gridType" />
+  
+  <!-- Accordion Element -->
+  <xs:element name="accordion" type="accordionType" />
+  
+  <!-- Accordion Item -->
+  <xs:element name="accordion-item" type="accordionItemType" />
+
+  <!-- PivotTable Element -->
+  <xs:element name="pivot-table" type="pivotTableType" />
+
+  <!-- Tag Element -->
+  <xs:element name="tag" type="elementType" />
+
+  <!-- Video Element -->
+  <xs:element name="video" type="videoType" />
+
+  <!-- Javascript Element -->
+  <xs:element name="javascript" type="javascriptType" />
+
+  <!-- Dialog Element -->
+  <xs:element name="dialog" type="dialogType" />
+
+  <!-- Include Element -->
+  <xs:element name="include" type="includeType" />
+
+  <!-- Tab Element -->
+  <xs:element name="tab" type="tabType" />
+
+  <!-- Tab Element -->
+  <xs:element name="tabcontainer" type="elementType" />
+
+  <!-- Wizard Element -->
+  <xs:element name="wizard" type="wizardType" />
+
+  <!-- Wizard Panel Element -->
+  <xs:element name="wizard-panel" type="elementType" />
+
+  <!-- Column Element -->
+  <xs:element name="column" type="columnType" />
+
+  <!-- Column Element -->
+  <xs:element name="group-header" type="groupHeaderType" />
+
+  <!-- Window Element -->
+  <xs:element name="window" type="windowType" />
+
+  <!-- Resizable Element -->
+  <xs:element name="resizable" type="resizableType" />
+
+  <!-- Criteria Element -->
+  <xs:element name="criteria" type="criteriaType" />
+
+  <!-- Button Element -->
+  <xs:element name="button" type="buttonType" />
+
+  <!-- ContextButton Element -->
+  <xs:element name="context-button" type="contextButtonType" />
+
+  <!-- ContextSeparator Element -->
+  <xs:element name="context-separator" type="contextSeparatorType" />
+
+  <!-- Button Action Element -->
+  <xs:element name="button-action" type="actionType" />
+
+  <!-- Message Element -->
+  <xs:element name="message" type="messageType" />
+
+  <!-- Text Element -->
+  <xs:element name="text" />
+
+  <!-- Info Element -->
+  <xs:element name="info" type="infoType" />
+
+  <!-- Info Button Element -->
+  <xs:element name="info-button" type="infoButtonType" />
+
+  <!-- Info Criteria Element -->
+  <xs:element name="info-criteria" type="infoCriteriaType" />
+
+  <!-- Info Element -->
+  <xs:element name="menu-container" type="menuContainerType" />
+
+  <!-- Frame Element -->
+  <xs:element name="frame" type="frameType" />
+
+  <!-- View Element -->
+  <xs:element name="view" type="viewType" />
+
+  <!-- Dependency Element -->
+  <xs:element name="dependency" type="dependencyType" />
+
+  <!-- Dependency Action Element -->
+  <xs:element name="dependency-action" type="actionType" />
+
+  <!-- Dependency Element -->
+  <xs:element name="dependency-element" type="dependencyElementType" />
+
+  <!-- Widget Element -->
+  <xs:element name="widget" type="widgetType" />
+
+  <!-- Widget Parameter Element -->
+  <xs:element name="widget-parameter" type="widgetParameterType" />
+
+  <!-- Chart Element -->
+  <xs:element name="chart" type="chartType" />
+
+  <!-- Chart legend Element -->
+  <xs:element name="chart-legend" type="chartLegendType" />
+
+  <!-- Chart tooltip Element -->
+  <xs:element name="chart-tooltip" type="chartTooltipType" />
+
+  <!-- Chart xAxis Element -->
+  <xs:element name="x-axis" type="chartAxisType" />
+
+  <!-- Chart yAxis Element -->
+  <xs:element name="y-axis" type="chartAxisType" />
+
+  <!-- Chart Series Element -->
+  <xs:element name="chart-serie" type="chartSerieType" />
+
+  <!-- Chart Parameter Element -->
+  <xs:element name="chart-parameter" type="chartParameterType" />
+
+  <!-- TagList Element -->
+  <xs:element name="tag-list" type="tagListType" />
+
+  <!--
+  ==============================================================================
+  Attribute Groups
+  ==============================================================================
+  -->
+
+  <!-- Server Call Attributes -->
+  <xs:attributeGroup name="serverCallAttr">
+    <xs:attribute name="initial-load" type="initialLoadEnum" />
+    <xs:attribute name="server-action" type="serverActionEnum" />
+    <xs:attribute name="target-action" type="nameEnum" />
+    <xs:attribute name="max" type="xs:integer" />
+    <xs:attribute name="autorefresh" type="xs:integer" />
+    <xs:attribute name="autoload" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Screen Attributes -->
+  <xs:attributeGroup name="screenAttr">
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="template" use="required" type="xs:string" />
+    <xs:attribute name="target" type="xs:string" />
+    <xs:attribute name="onload" type="xs:string" />
+    <xs:attribute name="onunload" type="xs:string" />
+    <xs:attribute name="keep-criteria" type="booleanEnum" />
+    <xs:attribute name="help" type="xs:string" />
+    <xs:attribute name="help-image" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Element Attributes -->
+  <xs:attributeGroup name="elementAttr">
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="source" type="xs:string" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="expandible" type="expandibleTypes" />
+  </xs:attributeGroup>
+  
+  <!-- Accordion Attributes -->
+  <xs:attributeGroup name="accordionAttr">
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="selected" type="xs:string" />
+    <xs:attribute name="autocollapse" type="booleanEnum" />
+  </xs:attributeGroup>  
+  
+  <!-- Accordion Item Attributes -->
+  <xs:attributeGroup name="accordionItemAttr">
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="label" type="xs:string" use="required" />
+    <xs:attribute name="style" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Video Attributes -->
+  <xs:attributeGroup name="videoAttr">
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="source" type="xs:string" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="expandible" type="expandibleTypes" />
+    <xs:attribute name="loop" type="booleanEnum" />
+    <xs:attribute name="preload" type="videoPreloadValues" />
+    <xs:attribute name="autoplay" type="booleanEnum" />
+    <xs:attribute name="poster" type="xs:string" />
+    <xs:attribute name="src" type="xs:string" />
+    <xs:attribute name="controls" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Widget Attributes -->
+  <xs:attributeGroup name="widgetAttr">
+    <xs:attributeGroup ref="serverCallAttr" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="component" type="widgetComponentType" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="help" type="xs:string" />
+    <xs:attribute name="help-image" type="xs:string" />
+    <xs:attribute name="visible" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Widget Parameter Attributes -->
+  <xs:attributeGroup name="widgetParameterAttr">
+    <xs:attribute name="type" use="required" type="widgetParameterTypeEnum" />
+    <xs:attribute name="value" use="required" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Chart Attributes -->
+  <xs:attributeGroup name="chartAttr">
+    <xs:attribute name="id" use="required" type="nameEnum" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="subtitle" type="xs:string" />
+    <xs:attribute name="type" use="required" type="chartTypesEnum" />
+    <xs:attribute name="stock-chart" type="booleanEnum" />
+    <xs:attribute name="theme" type="xs:string" />
+    <xs:attribute name="inverted" type="booleanEnum" />
+    <xs:attribute name="stacking" type="stackTypeEnum" />
+    <xs:attribute name="enable-data-labels" type="booleanEnum" />
+    <xs:attribute name="format-data-labels" type="xs:string" />
+    <xs:attribute name="zoom-type" type="axisEnum" />
+    <xs:attribute name="help" type="xs:string" />
+    <xs:attribute name="help-image" type="xs:string" />
+    <xs:attribute name="icon-loading" type="loadingIconEnum" default="spinner" />
+    <xs:attribute name="visible" type="booleanEnum" />
+    <xs:attributeGroup ref="serverCallAttr" />
+  </xs:attributeGroup>
+
+  <!-- Chart Legend Attributes -->
+  <xs:attributeGroup name="chartLegendAttr">
+    <xs:attribute name="enabled" type="booleanEnum" />
+    <xs:attribute name="layout" type="expandibleTypes" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="border-width" type="xs:string" />
+    <xs:attribute name="align" type="alignEnum" />
+    <xs:attribute name="verticalAlign" type="verticalAlignEnum" />
+    <xs:attribute name="floating" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Chart Tooltip Attributes -->
+  <xs:attributeGroup name="chartTooltipAttr">
+    <xs:attribute name="enabled" type="booleanEnum" />
+    <xs:attribute name="crosshairs" type="axisEnum" />
+    <xs:attribute name="number-decimals" type="xs:string" />
+    <xs:attribute name="suffix" type="xs:string" />
+    <xs:attribute name="prefix" type="xs:string" />
+    <xs:attribute name="point-format" type="xs:string" />
+    <xs:attribute name="date-format" type="xs:string" />
+    <xs:attribute name="shared" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Chart Axis Attributes -->
+  <xs:attributeGroup name="chartAxisAttr">
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="label-format" type="xs:string" />
+    <xs:attribute name="formatter-function" type="formatterFunctionEnum" />
+    <xs:attribute name="label-rotation" type="xs:string" />
+    <xs:attribute name="type" type="axisTypeEnum" />
+    <xs:attribute name="tick-interval" type="xs:string" />
+    <xs:attribute name="allow-decimal" type="booleanEnum" />
+    <xs:attribute name="opposite" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Chart Series Attributes -->
+  <xs:attributeGroup name="chartSeriesAttr">
+    <xs:attribute name="id" type="xs:string" use="required" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="type" type="serieTypesEnum" />
+    <xs:attribute name="color" type="xs:string" />
+    <xs:attribute name="x-axis" type="xs:string" />
+    <xs:attribute name="y-axis" type="xs:string" />
+    <xs:attribute name="x-value" type="xs:string" use="required" />
+    <xs:attribute name="y-value" type="xs:string" use="required" />
+    <xs:attribute name="z-value" type="xs:string" />
+    <xs:attribute name="drilldown-serie" type="xs:string" />
+    <xs:attribute name="drilldown" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Chart Parameter Attributes -->
+  <xs:attributeGroup name="chartParameterAttr">
+    <xs:attribute name="type" use="required" type="chartParameterTypeEnum" />
+    <xs:attribute name="name" use="required" type="nameEnum" />
+    <xs:attribute name="value" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Tag Attributes -->
+  <xs:attributeGroup name="tagAttr">
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="source" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="template" type="xs:string" />
+    <xs:attribute name="expandible" type="expandibleTypes" />
+  </xs:attributeGroup>
+
+  <!-- TagList Attributes -->
+  <xs:attributeGroup name="tagListAttr">
+    <xs:attributeGroup ref="serverCallAttr" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="id" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Criteria Attributes -->
+  <xs:attributeGroup name="criteriaAttr">
+    <xs:attribute name="component" type="criteriaComponentType" use="required" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="icon" type="xs:string" />
+    <xs:attribute name="unit" type="xs:string" />
+    <xs:attribute name="size" type="xs:string" />
+    <xs:attribute name="area-rows" type="xs:string" />
+    <xs:attribute name="placeholder" type="xs:string" />
+    <xs:attribute name="optional" type="booleanEnum" />
+    <xs:attribute name="value" type="xs:string" use="optional" default="" />
+    <xs:attribute name="readonly" type="booleanEnum" />
+    <xs:attribute name="variable" type="xs:string" />
+    <xs:attribute name="property" type="xs:string" />
+    <xs:attribute name="session" type="xs:string" />
+    <xs:attribute name="validation" type="xs:string" />
+    <xs:attribute name="number-format" type="xs:string" />
+    <xs:attribute name="show-slider" type="booleanEnum" />
+    <xs:attribute name="capitalize" type="booleanEnum" />
+    <xs:attribute name="strict" type="booleanEnum" />
+    <xs:attribute name="message" type="xs:string" />
+    <xs:attribute name="printable" type="printableEnum" />
+    <xs:attribute name="check-empty" type="booleanEnum" />
+    <xs:attribute name="check-initial" type="booleanEnum" />
+    <xs:attribute name="check-target" type="xs:string" />
+    <xs:attribute name="specific" type="xs:string" />
+    <xs:attribute name="checked" type="booleanEnum" />
+    <xs:attribute name="timeout" type="xs:integer" />
+    <xs:attribute name="group" type="xs:string" />
+    <xs:attribute name="destination" type="xs:string" />
+    <xs:attribute name="help" type="xs:string" />
+    <xs:attribute name="help-image" type="xs:string" />
+    <xs:attribute name="show-weekends" type="xs:boolean" />
+    <xs:attribute name="show-future-dates" type="xs:boolean" />
+    <xs:attribute name="date-format" type="xs:string" />
+    <xs:attribute name="date-show-today-button" type="booleanEnum" />
+    <xs:attribute name="date-view-mode" type="viewModeEnum" />
+    <xs:attribute name="left-label" type="xs:integer" />
+    <xs:attribute name="visible" type="booleanEnum" />
+    <xs:attributeGroup ref="serverCallAttr" />
+  </xs:attributeGroup>
+
+  <!-- Button Attributes -->
+  <xs:attributeGroup name="buttonAttr">
+    <xs:attribute name="id" type="nameEnum" use="required" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+    <xs:attribute name="size" type="xs:string" />
+    <xs:attribute name="button-type" type="buttonTypes" />
+    <xs:attribute name="icon" type="xs:string" />
+    <xs:attribute name="help" type="xs:string" />
+    <xs:attribute name="help-image" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Window Attributes -->
+  <xs:attributeGroup name="windowAttr">
+    <xs:attribute name="id" type="nameEnum" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="icon" type="xs:string" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="expandible" type="expandibleTypes" />
+    <xs:attribute name="maximize" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Resizable Attributes -->
+  <xs:attributeGroup name="resizableAttr">
+    <xs:attribute name="id" type="nameEnum" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="icon" type="xs:string" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="expandible" type="expandibleTypes" />
+    <xs:attribute name="directions" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Tab Attributes -->
+  <xs:attributeGroup name="tabAttr">
+    <xs:attribute name="id" use="required" type="nameEnum" />
+    <xs:attribute name="initial-load" use="required" type="initialLoadEnum" />
+    <xs:attribute name="target-action" use="required" type="nameEnum" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="maximize" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Wizard Attributes -->
+  <xs:attributeGroup name="wizardAttr">
+    <xs:attribute name="id" use="required" type="nameEnum" />
+    <xs:attribute name="initial-load" use="required" type="initialLoadEnum" />
+    <xs:attribute name="target-action" use="required" type="nameEnum" />
+    <xs:attribute name="label" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Grid Attributes -->
+  <xs:attributeGroup name="gridAttr">
+    <xs:attribute name="id" use="required" type="nameEnum" />
+    <xs:attribute name="name" type="nameEnum" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="multiselect" type="booleanEnum" />
+    <xs:attribute name="checkbox-multiselect" type="booleanEnum" />
+    <xs:attribute name="send-operations" type="booleanEnum" />
+    <xs:attribute name="editable" type="booleanEnum" />
+    <xs:attribute name="show-totals" type="booleanEnum" />
+    <xs:attribute name="enable-filters" type="booleanEnum" />
+    <xs:attribute name="row-numbers" type="booleanEnum" />
+    <xs:attribute name="treegrid" type="booleanEnum" />
+    <xs:attribute name="tree-id" type="xs:string" />
+    <xs:attribute name="tree-parent" type="xs:string" />
+    <xs:attribute name="tree-leaf" type="xs:string" />
+    <xs:attribute name="expand-column" type="xs:string" />
+    <xs:attribute name="icon-expand" type="xs:string" />
+    <xs:attribute name="icon-collapse" type="xs:string" />
+    <xs:attribute name="icon-loading" type="loadingIconEnum" default="spinner" />
+    <xs:attribute name="initial-level" type="xs:integer" />
+    <xs:attribute name="icon-leaf" type="xs:string" />
+    <xs:attribute name="load-all" type="booleanEnum" />
+    <xs:attribute name="send-all" type="booleanEnum" />
+    <xs:attribute name="help" type="xs:string" />
+    <xs:attribute name="help-image" type="xs:string" />
+    <xs:attribute name="validate-on-save" type="booleanEnum" />
+    <xs:attribute name="pagination-disabled" type="booleanEnum" />
+    <xs:attribute name="pager-values" type="xs:string" />
+    <xs:attribute name="visible" type="booleanEnum" />
+    <xs:attribute name="row-height" type="xs:integer" />
+    <xs:attributeGroup ref="serverCallAttr" />
+  </xs:attributeGroup>
+
+  <!-- PivotTable Attributes -->
+  <xs:attributeGroup name="pivotTableAttr">
+    <xs:attribute name="id" use="required" type="nameEnum" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="total-column-placement" type="PivotColumnPlacementEnum" />
+    <xs:attribute name="total-row-placement" type="PivotRowPlacementEnum" />
+    <xs:attribute name="cols" type="xs:string" />
+    <xs:attribute name="rows" type="xs:string" />
+    <xs:attribute name="renderer" type="PivotRendererEnum" />
+    <xs:attribute name="aggregator" type="PivotAggregatorEnum" />
+    <xs:attribute name="aggregation-field" type="xs:string" />
+    <xs:attribute name="sort-method" type="PivotSortMethodEnum" />
+    <xs:attribute name="decimal-numbers" type="xs:integer"/>
+    <xs:attribute name="thousand-separator" type="xs:string"/>
+    <xs:attribute name="decimal-separator" type="xs:string"/>    
+    <xs:attributeGroup ref="serverCallAttr" />
+  </xs:attributeGroup>
+
+  <!-- Group Header Column Attributes -->
+  <xs:attributeGroup name="columnGroupHeaderAttr">
+    <xs:attribute use="required" name="name" type="nameEnum" />
+    <xs:attribute name="label" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Column Attributes -->
+  <xs:attributeGroup name="columnAttr">
+    <xs:attribute name="name" use="required" type="nameEnum" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+    <xs:attribute name="component" type="columnComponentType" />
+    <xs:attribute name="icon" type="xs:string" />
+    <xs:attribute name="unit" type="xs:string" />
+    <xs:attribute name="type" type="cellDataTypes" />
+    <xs:attribute name="server-action" type="serverActionEnum" />
+    <xs:attribute name="target-action" type="nameEnum" />
+    <xs:attribute name="initial-load" type="initialLoadEnum" />
+    <xs:attribute name="autorefresh" type="xs:integer" />
+    <xs:attribute name="align" type="alignEnum" />
+    <xs:attribute name="charlength" type="xs:integer" />
+    <xs:attribute name="width" type="xs:integer" />
+    <xs:attribute name="sort-field" type="xs:string" />
+    <xs:attribute name="hidden" type="booleanEnum" />
+    <xs:attribute name="visible" type="booleanEnum" />
+    <xs:attribute name="sortable" type="booleanEnum" />
+    <xs:attribute name="movable" type="booleanEnum" />    
+    <xs:attribute name="sendable" type="booleanEnum" />
+    <xs:attribute name="optional" type="booleanEnum" />
+    <xs:attribute name="summary-type" type="xs:string" />
+    <xs:attribute name="number-format" type="xs:string" />
+    <xs:attribute name="validation" type="xs:string" />
+    <xs:attribute name="formatter" type="xs:string" />
+    <xs:attribute name="format-options" type="xs:string" />
+    <xs:attribute name="frozen" type="booleanEnum" />
+    <xs:attribute name="pagebreak" type="booleanEnum" />
+    <xs:attribute name="printable" type="printableEnum" />
+    <xs:attribute name="help" type="xs:string" />
+    <xs:attribute name="help-image" type="xs:string" />
+    <xs:attribute name="check-initial" type="booleanEnum" />
+    <xs:attribute name="checked" type="booleanEnum" />
+    <xs:attribute name="readonly" type="booleanEnum" />
+    <xs:attribute name="max" type="xs:string" />
+    <xs:attribute name="dialog" type="xs:string" />
+    <xs:attribute name="show-weekends" type="booleanEnum"/>
+    <xs:attribute name="strict" type="xs:boolean"/>
+  </xs:attributeGroup>
+
+  <!-- Action Attributes -->
+  <xs:attributeGroup name="actionAttr">
+    <xs:attribute name="server-action" type="serverActionEnum" />
+    <xs:attribute name="target-action" type="xs:string" />
+    <xs:attribute name="target" type="xs:string" />
+    <xs:attribute name="type" use="required" type="buttonActionEnum" />
+    <xs:attribute name="context" type="xs:string" />
+    <xs:attribute name="silent" type="booleanEnum" />
+    <xs:attribute name="async" type="booleanEnum" />
+    <xs:attribute name="value" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Dependency Attributes -->
+  <xs:attributeGroup name="dependencyAttr">
+    <xs:attributeGroup ref="serverCallAttr" />
+    <xs:attribute name="initial" type="booleanEnum" />
+    <xs:attribute name="invert" type="booleanEnum" />
+    <xs:attribute name="type" type="dependencyJoinEnum" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+    <xs:attribute name="formule" type="xs:string" />
+    <xs:attribute name="source-type" type="dependencySourceEnum" />
+    <xs:attribute name="target-type" type="dependencyTargetEnum" />
+    <xs:attribute name="silent" type="booleanEnum" />
+    <xs:attribute name="async" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Dependency Element Attributes -->
+  <xs:attributeGroup name="dependencyElementAttr">
+    <xs:attribute name="id" use="required" type="nameEnum" />
+    <xs:attribute name="condition" type="dependencyConditionEnum" />
+    <xs:attribute name="value" type="xs:string" />
+    <xs:attribute name="name" type="nameEnum" />
+    <xs:attribute name="event" type="eventEnum" />
+    <xs:attribute name="optional" type="booleanEnum" />
+    <xs:attribute name="cancel" type="booleanEnum" />
+    <xs:attribute name="row" type="xs:string" />
+    <xs:attribute name="id2" type="xs:string" />
+    <xs:attribute name="attribute" type="criteriaAttributeEnum" />
+    <xs:attribute name="attribute2" type="criteriaAttributeEnum" />
+    <xs:attribute name="alias" type="xs:string" />
+    <xs:attribute name="column" type="nameEnum" />
+    <xs:attribute name="column2" type="nameEnum" />
+    <xs:attribute name="view" type="viewEnum" />
+    <xs:attribute name="view2" type="viewEnum" />
+    <xs:attribute name="check-changes" type="booleanEnum" />
+  </xs:attributeGroup>
+
+  <!-- Info Attributes -->
+  <xs:attributeGroup name="infoAttr">
+    <xs:attributeGroup ref="serverCallAttr" />
+    <xs:attribute name="id" use="required" type="nameEnum" />
+    <xs:attribute name="field" type="xs:string" />
+    <xs:attribute name="title" type="xs:string" />
+    <xs:attribute name="label" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="style" type="xs:string" />
+    <xs:attribute name="dropdown-style" type="xs:string" />
+    <xs:attribute name="icon" type="xs:string" />
+    <xs:attribute name="session" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+    <xs:attribute name="property" type="xs:string" />
+    <xs:attribute name="unit" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Menu Container Attributes -->
+  <xs:attributeGroup name="menuContainerAttr">
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="type" type="menuContainerEnum" />
+    <xs:attribute name="style" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Frame Attributes -->
+  <xs:attributeGroup name="frameAttr">
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="screen" type="xs:string" />
+    <xs:attribute name="screen-variable" type="xs:string" />
+    <xs:attribute name="scroll" type="yesNoEnum" />
+    <xs:attribute name="server-action" type="serverActionEnum" />
+  </xs:attributeGroup>
+
+  <!-- View Attributes -->
+  <xs:attributeGroup name="viewAttr">
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="style" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Message Attributes -->
+  <xs:attributeGroup name="messageAttr">
+    <xs:attribute name="id" use="required" type="xs:string" />
+    <xs:attribute name="message" use="required" type="xs:string" />
+    <xs:attribute name="title" use="required" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Javascript Attributes -->
+  <xs:attributeGroup name="javascriptAttr">
+    <xs:attribute name="id" use="required" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!-- Dialog Attributes -->
+  <xs:attributeGroup name="dialogAttr">
+    <xs:attribute name="modal" type="booleanEnum" />
+    <xs:attribute name="icon" type="xs:string" />
+    <xs:attribute name="help" type="xs:string" />
+    <xs:attribute name="help-image" type="xs:string" />
+    <xs:attribute name="on-close" type="onCloseEnum" />
+  </xs:attributeGroup>
+
+  <!-- Javascript Attributes -->
+  <xs:attributeGroup name="includeAttr">
+    <xs:attribute name="target-screen" type="xs:string" use="required" />
+    <xs:attribute name="target-source" type="xs:string" />
+  </xs:attributeGroup>
+
+  <!--
+  ==============================================================================
+  Group definitions
+  ==============================================================================
+  -->
+  <xs:group name="elementGroup">
+    <xs:choice>
+      <xs:element ref="grid" />
+      <xs:element ref="accordion" />
+      <xs:element ref="pivot-table" />
+      <xs:element ref="window" />
+      <xs:element ref="resizable" />
+      <xs:element ref="tag" />
+      <xs:element ref="tab" />
+      <xs:element ref="video" />
+      <xs:element ref="wizard" />
+      <xs:element ref="criteria" />
+      <xs:element ref="button" />
+      <xs:element ref="message" />
+      <xs:element ref="text" />
+      <xs:element ref="widget" />
+      <xs:element ref="chart" />
+      <xs:element ref="javascript" />
+      <xs:element ref="include" />
+      <xs:element ref="dialog" />
+      <xs:element ref="info" />
+      <xs:element ref="info-button" />
+      <xs:element ref="info-criteria" />
+      <xs:element ref="menu-container" />
+      <xs:element ref="frame" />
+      <xs:element ref="view" />
+      <xs:element ref="tag-list" />
+    </xs:choice>
+  </xs:group>
+
+  <!--
+  ==============================================================================
+  Type definitions
+  ==============================================================================
+  -->
+
+  <!-- Screen Type -->
+  <xs:complexType name="screenType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="tag" />
+      <xs:element ref="video" />
+      <xs:element ref="javascript" />
+      <xs:element ref="message" />
+    </xs:choice>
+    <xs:attributeGroup ref="screenAttr" />
+  </xs:complexType>
+  
+  <!-- Accordion Type -->
+  <xs:complexType name="accordionType">
+    <xs:choice minOccurs="1" maxOccurs="unbounded">
+      <xs:sequence minOccurs="1" maxOccurs="unbounded">
+        <xs:element ref="accordion-item" />
+      </xs:sequence>
+      <xs:element ref="dependency" />
+    </xs:choice>
+    <xs:attributeGroup ref="accordionAttr" />
+  </xs:complexType>
+  
+  <!-- Accordion Item Type -->
+  <xs:complexType name="accordionItemType">
+    <xs:group ref="elementGroup" minOccurs="0" maxOccurs="unbounded" />
+    <xs:attributeGroup ref="accordionItemAttr" />
+  </xs:complexType>
+
+  <!-- Element Type -->
+  <xs:complexType name="elementType">
+    <xs:group ref="elementGroup" minOccurs="0" maxOccurs="unbounded" />
+    <xs:attributeGroup ref="elementAttr" />
+  </xs:complexType>
+
+  <!-- Element Type -->
+  <xs:complexType name="videoType">
+    <xs:group ref="elementGroup" minOccurs="0" maxOccurs="unbounded" />
+    <xs:attributeGroup ref="videoAttr" />
+  </xs:complexType>
+
+  <!-- Criteria Base Type -->
+  <xs:complexType name="criteriaBaseType">
+    <xs:attributeGroup ref="criteriaAttr" />
+  </xs:complexType>
+
+  <!-- Criteria Type -->
+  <xs:complexType name="criteriaType">
+    <xs:complexContent>
+      <xs:extension base="criteriaBaseType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="dependency" />
+          <xs:element ref="context-button" />
+          <xs:element ref="context-separator" />
+        </xs:choice>
+        <xs:attribute use="required" name="id" type="nameEnum" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Info Type -->
+  <xs:complexType name="infoType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="dependency" />
+      <xs:element ref="info-button" />
+      <xs:element ref="info-criteria" />
+      <xs:element ref="tag" />
+      <xs:element ref="info" />
+    </xs:choice>
+    <xs:attributeGroup ref="infoAttr" />
+  </xs:complexType>
+
+  <!-- Info Button Type -->
+  <xs:complexType name="infoButtonType">
+    <xs:complexContent>
+      <xs:extension base="buttonType">
+        <xs:attribute name="title" type="xs:string" />
+        <xs:attribute name="info-style" type="xs:string" />
+        <xs:attribute name="unit" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Info Criteria Type -->
+  <xs:complexType name="infoCriteriaType">
+    <xs:complexContent>
+      <xs:extension base="criteriaType">
+        <xs:attribute name="title" type="xs:string" />
+        <xs:attribute name="info-style" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Menu Container Type -->
+  <xs:complexType name="menuContainerType">
+    <xs:attributeGroup ref="menuContainerAttr" />
+  </xs:complexType>
+
+  <!-- Frame Type -->
+  <xs:complexType name="frameType">
+    <xs:attributeGroup ref="frameAttr" />
+  </xs:complexType>
+
+  <!-- View Type -->
+  <xs:complexType name="viewType">
+    <xs:attributeGroup ref="viewAttr" />
+  </xs:complexType>
+
+  <!-- Button Type -->
+  <xs:complexType name="buttonType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="button-action" />
+      <xs:element ref="dependency" />
+    </xs:choice>
+    <xs:attributeGroup ref="buttonAttr" />
+  </xs:complexType>
+
+  <!-- Context Button Type -->
+  <xs:complexType name="contextButtonType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="context-button" />
+      <xs:element ref="context-separator" />
+      <xs:element ref="button-action" />
+      <xs:element ref="dependency" />
+    </xs:choice>
+    <xs:attributeGroup ref="buttonAttr" />
+  </xs:complexType>
+
+  <!-- Context Separator Type -->
+  <xs:complexType name="contextSeparatorType">
+    <xs:attribute name="name" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Window Type -->
+  <xs:complexType name="windowType">
+    <xs:group ref="elementGroup" minOccurs="0" maxOccurs="unbounded" />
+    <xs:attributeGroup ref="windowAttr" />
+  </xs:complexType>
+
+  <!-- Resizable Type -->
+  <xs:complexType name="resizableType">
+    <xs:group ref="elementGroup" minOccurs="0" maxOccurs="unbounded" />
+    <xs:attributeGroup ref="resizableAttr" />
+  </xs:complexType>
+
+  <!-- Grid Type -->
+  <xs:complexType name="gridType">
+    <xs:choice maxOccurs="unbounded">
+      <xs:element minOccurs="0" ref="group-header" />
+      <xs:element minOccurs="0" ref="column" />
+      <xs:element minOccurs="0" ref="button" />
+      <xs:element minOccurs="0" ref="context-button" />
+      <xs:element minOccurs="0" ref="context-separator" />
+      <xs:element minOccurs="0" ref="dependency" />
+    </xs:choice>
+    <xs:attributeGroup ref="gridAttr" />
+  </xs:complexType>
+
+  <!-- PivotTable Type -->
+  <xs:complexType name="pivotTableType">
+    <xs:choice maxOccurs="unbounded">
+      <xs:element minOccurs="0" ref="context-button" />
+      <xs:element minOccurs="0" ref="context-separator" />
+      <xs:element minOccurs="0" ref="dependency" />
+    </xs:choice>
+    <xs:attributeGroup ref="pivotTableAttr" />
+  </xs:complexType>
+
+  <!-- GroupHeader columns Type -->
+  <xs:complexType name="groupHeaderType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="column" />
+    </xs:choice>
+    <xs:attributeGroup ref="columnGroupHeaderAttr" />
+  </xs:complexType>
+
+  <!-- Column Type -->
+  <xs:complexType name="columnType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="dependency" />
+    </xs:choice>
+    <xs:attributeGroup ref="columnAttr" />
+  </xs:complexType>
+
+  <!-- Tab Type -->
+  <xs:complexType name="tabType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="tabcontainer" />
+      <xs:element ref="dependency" />
+    </xs:choice>
+    <xs:attributeGroup ref="tabAttr" />
+  </xs:complexType>
+
+  <!-- Wizard Type -->
+  <xs:complexType name="wizardType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="wizard-panel" />
+      <xs:element ref="dependency" />
+    </xs:choice>
+    <xs:attributeGroup ref="wizardAttr" />
+  </xs:complexType>
+
+  <!-- Action Type -->
+  <xs:complexType name="actionType">
+    <xs:attributeGroup ref="actionAttr" />
+  </xs:complexType>
+
+  <!-- Dependency Type -->
+  <xs:complexType name="dependencyType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="dependency-action" />
+      <xs:element ref="dependency-element" />
+    </xs:choice>
+    <xs:attributeGroup ref="dependencyAttr" />
+  </xs:complexType>
+
+  <!-- Dependency Element Type -->
+  <xs:complexType name="dependencyElementType">
+    <xs:attributeGroup ref="dependencyElementAttr" />
+  </xs:complexType>
+
+  <!-- Chart Type -->
+  <xs:complexType name="chartType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="chart-legend" maxOccurs="1" />
+      <xs:element ref="chart-tooltip" maxOccurs="1" />
+      <xs:element ref="x-axis" />
+      <xs:element ref="y-axis" />
+      <xs:element ref="chart-serie" />
+      <xs:element ref="chart-parameter" />
+      <xs:element ref="dependency" />
+      <xs:element ref="context-button" />
+      <xs:element ref="context-separator" />
+    </xs:choice>
+    <xs:attributeGroup ref="chartAttr" />
+  </xs:complexType>
+
+  <!-- Chart legend Type -->
+  <xs:complexType name="chartLegendType">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="chart-parameter" />
+    </xs:sequence>
+    <xs:attributeGroup ref="chartLegendAttr" />
+  </xs:complexType>
+
+  <!-- Chart tooltip Type -->
+  <xs:complexType name="chartTooltipType">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="chart-parameter" />
+    </xs:sequence>
+    <xs:attributeGroup ref="chartTooltipAttr" />
+  </xs:complexType>
+
+  <!-- Chart axis Type -->
+  <xs:complexType name="chartAxisType">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="chart-parameter" />
+    </xs:sequence>
+    <xs:attributeGroup ref="chartAxisAttr" />
+  </xs:complexType>
+
+  <!-- Chart series Type -->
+  <xs:complexType name="chartSerieType">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="chart-parameter" />
+    </xs:sequence>
+    <xs:attributeGroup ref="chartSeriesAttr" />
+  </xs:complexType>
+
+  <!-- Chart Parameter Type -->
+  <xs:complexType name="chartParameterType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="chart-parameter" />
+    </xs:choice>
+    <xs:attributeGroup ref="chartParameterAttr" />
+  </xs:complexType>
+
+  <!-- Widget Type -->
+  <xs:complexType name="widgetType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="widget-parameter" />
+      <xs:element ref="dependency" />
+      <xs:element ref="context-button" />
+      <xs:element ref="context-separator" />
+    </xs:choice>
+    <xs:attributeGroup ref="widgetAttr" />
+    <xs:attribute name="id" use="required" type="nameEnum" />
+  </xs:complexType>
+
+  <!-- Widget Parameter Type -->
+  <xs:complexType name="widgetParameterType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="widget-parameter" />
+    </xs:choice>
+    <xs:attributeGroup ref="widgetParameterAttr" />
+    <xs:attribute name="name" type="nameEnum" />
+  </xs:complexType>
+
+  <!-- Tag Type -->
+  <xs:complexType name="tagType">
+    <xs:attributeGroup ref="tagAttr" />
+  </xs:complexType>
+
+
+  <!-- TagList Type -->
+  <xs:complexType name="tagListType">
+    <xs:group ref="elementGroup" minOccurs="0" maxOccurs="unbounded" />
+    <xs:attributeGroup ref="tagListAttr" />
+  </xs:complexType>
+
+  <!-- Message Type -->
+  <xs:complexType name="messageType">
+    <xs:attributeGroup ref="messageAttr" />
+  </xs:complexType>
+
+  <!-- Javascript Element -->
+  <xs:complexType name="javascriptType">
+    <xs:attributeGroup ref="javascriptAttr" />
+  </xs:complexType>
+
+  <!-- Dialog Element -->
+  <xs:complexType name="dialogType">
+    <xs:complexContent>
+      <xs:extension base="elementType">
+        <xs:attributeGroup ref="dialogAttr" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <!-- Include Element -->
+  <xs:complexType name="includeType">
+    <xs:attributeGroup ref="includeAttr" />
+  </xs:complexType>
+
+  <!--
+  ==============================================================================
+  Restriction definitions
+  ==============================================================================
+  -->
+
+  <!-- Printable Enumeration -->
+  <xs:simpleType name="printableEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="all" />
+      <xs:enumeration value="tab" />
+      <xs:enumeration value="true" />
+      <xs:enumeration value="false" />
+      <xs:enumeration value="excel" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- View Mode Enumeration  -->
+  <xs:simpleType name="viewModeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="days" />
+      <xs:enumeration value="months" />
+      <xs:enumeration value="years" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Initial load Enumeration -->
+  <xs:simpleType name="initialLoadEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="enum" />
+      <xs:enumeration value="query" />
+      <xs:enumeration value="value" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Button Action Enumeration -->
+  <xs:simpleType name="buttonActionEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="confirm" />
+      <xs:enumeration value="back" />
+      <xs:enumeration value="forward" />
+      <xs:enumeration value="dialog" />
+      <xs:enumeration value="reset" />
+      <xs:enumeration value="restore" />
+      <xs:enumeration value="restore-target" />
+      <xs:enumeration value="validate" />
+      <xs:enumeration value="server" />
+      <xs:enumeration value="server-print" />
+      <xs:enumeration value="server-download" />
+      <xs:enumeration value="screen" />
+      <xs:enumeration value="reload" />
+      <xs:enumeration value="wait" />
+      <xs:enumeration value="filter" />
+      <xs:enumeration value="print" />
+      <xs:enumeration value="close" />
+      <xs:enumeration value="resize" />
+      <xs:enumeration value="add-class" />
+      <xs:enumeration value="remove-class" />
+      <xs:enumeration value="confirm-updated-data" />
+      <xs:enumeration value="confirm-not-updated-data" />
+      <xs:enumeration value="confirm-empty-data" />
+      <xs:enumeration value="add-row" />
+      <xs:enumeration value="add-row-top" />
+      <xs:enumeration value="add-row-up" />
+      <xs:enumeration value="add-row-down" />
+      <xs:enumeration value="copy-row" />
+      <xs:enumeration value="copy-row-top" />
+      <xs:enumeration value="copy-row-up" />
+      <xs:enumeration value="copy-row-down" />
+      <xs:enumeration value="copy-selected-rows-clipboard" />
+      <xs:enumeration value="delete-row" />
+      <xs:enumeration value="save-row" />
+      <xs:enumeration value="check-leaf-selected" />
+      <xs:enumeration value="check-one-selected" />
+      <xs:enumeration value="check-some-selected" />
+      <xs:enumeration value="check-records-saved" />
+      <xs:enumeration value="check-records-generated" />
+      <xs:enumeration value="check-parent-expanded" />
+      <xs:enumeration value="select-first-row" />
+      <xs:enumeration value="select-last-row" />
+      <xs:enumeration value="select-all-rows" />
+      <xs:enumeration value="unselect-all-rows" />
+      <xs:enumeration value="toggle-menu" />
+      <xs:enumeration value="toggle-navbar" />
+      <xs:enumeration value="logout" />
+      <xs:enumeration value="change-theme" />
+      <xs:enumeration value="change-language" />
+      <xs:enumeration value="next-step" />
+      <xs:enumeration value="prev-step" />
+      <xs:enumeration value="disable-dependencies" />
+      <xs:enumeration value="enable-dependencies" />
+      <xs:enumeration value="start-load" />
+      <xs:enumeration value="value" />
+      <xs:enumeration value="close-cancel" />
+      <xs:enumeration value="reload-language" />
+      <xs:enumeration value="get-locals" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Button Action Enumeration -->
+  <xs:simpleType name="criteriaAttributeEnum">
+    <xs:restriction base="xs:string">
+      <!-- Widget -->
+      <xs:enumeration value="visible" />
+      <!-- Input -->
+      <xs:enumeration value="value" />
+      <xs:enumeration value="text" />
+      <xs:enumeration value="label" />
+      <xs:enumeration value="unit" />
+      <xs:enumeration value="editable" />
+      <xs:enumeration value="required" />
+      <!-- Input select -->
+      <xs:enumeration value="totalValues" />
+      <xs:enumeration value="selectedValues" />
+      <!-- Table -->
+      <xs:enumeration value="currentRow" />
+      <xs:enumeration value="prevCurrentRow" />
+      <xs:enumeration value="nextCurrentRow" />
+      <xs:enumeration value="prevRowValue" />
+      <xs:enumeration value="nextRowValue" />
+      <xs:enumeration value="selectedRowValue" />
+      <xs:enumeration value="footerValue" />
+      <xs:enumeration value="selectedRow" />
+      <xs:enumeration value="prevRow" />
+      <xs:enumeration value="nextRow" />
+      <xs:enumeration value="totalRows" />
+      <xs:enumeration value="selectedRows" />
+      <xs:enumeration value="hasDataColumn" />
+      <xs:enumeration value="emptyDataColumn" />
+      <xs:enumeration value="fullDataColumn" />
+      <xs:enumeration value="currentRowValue" />
+      <xs:enumeration value="prevCurrentRowValue" />
+      <xs:enumeration value="nextCurrentRowValue" />
+      <xs:enumeration value="modifiedRows" />
+      <!-- Chart -->
+      <xs:enumeration value="xMin" />
+      <xs:enumeration value="xMax" />
+      <xs:enumeration value="yMin" />
+      <xs:enumeration value="yMax" />
+      <xs:enumeration value="x" />
+      <xs:enumeration value="y" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Event call enumeration -->
+  <xs:simpleType name="eventEnum">
+    <xs:restriction base="xs:string">
+      <!-- Button, ContextOption, Chart -->
+      <xs:enumeration value="click" />
+      <!-- Grid -->
+      <xs:enumeration value="change" />
+      <xs:enumeration value="select-row" />
+      <xs:enumeration value="before-save-row" />
+      <xs:enumeration value="save-row" />
+      <xs:enumeration value="after-save-row" />
+      <xs:enumeration value="before-cancel-row" />
+      <xs:enumeration value="cancel-row" />
+      <xs:enumeration value="after-cancel-row" />
+      <xs:enumeration value="delete-row" />
+      <xs:enumeration value="after-delete-row" />
+      <xs:enumeration value="add-row" />
+      <xs:enumeration value="after-add-row" />
+      <xs:enumeration value="check-records-saved" />
+      <xs:enumeration value="check-records-generated" />
+      <xs:enumeration value="check-one-selected" />
+      <xs:enumeration value="check-some-selected" />
+      <!-- Chart -->
+      <xs:enumeration value="zoom" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Dependency Join Enumeration -->
+  <xs:simpleType name="dependencyJoinEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="and" />
+      <xs:enumeration value="or" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Dependency Source Type Enumeration -->
+  <xs:simpleType name="dependencySourceEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none" />
+      <xs:enumeration value="query" />
+      <xs:enumeration value="criteria-value" />
+      <xs:enumeration value="criteria-text" />
+      <xs:enumeration value="launcher" />
+      <xs:enumeration value="value" />
+      <xs:enumeration value="label" />
+      <xs:enumeration value="formule" />
+      <xs:enumeration value="reset" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Dependency Target Type Enumeration -->
+  <xs:simpleType name="dependencyTargetEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="none" />
+      <xs:enumeration value="label" />
+      <xs:enumeration value="unit" />
+      <xs:enumeration value="icon" />
+      <xs:enumeration value="input" />
+      <xs:enumeration value="specific" />
+      <xs:enumeration value="show" />
+      <xs:enumeration value="hide" />
+      <xs:enumeration value="show-column" />
+      <xs:enumeration value="hide-column" />
+      <xs:enumeration value="format-number" />
+      <xs:enumeration value="chart-options" />
+      <xs:enumeration value="validate" />
+      <xs:enumeration value="enable" />
+      <xs:enumeration value="disable" />
+      <xs:enumeration value="set-required" />
+      <xs:enumeration value="set-optional" />
+      <xs:enumeration value="set-readonly" />
+      <xs:enumeration value="set-editable" />
+      <xs:enumeration value="set-visible" />
+      <xs:enumeration value="set-invisible" />
+      <xs:enumeration value="enable-autorefresh" />
+      <xs:enumeration value="disable-autorefresh" />
+      <xs:enumeration value="attribute" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Criteria component attribute values -->
+  <xs:simpleType name="criteriaComponentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="hidden" />
+      <xs:enumeration value="text" />
+      <xs:enumeration value="numeric" />
+      <xs:enumeration value="select" />
+      <xs:enumeration value="suggest" />
+      <xs:enumeration value="suggest-multiple" />
+      <xs:enumeration value="select-multiple" />
+      <xs:enumeration value="date" />
+      <xs:enumeration value="time" />
+      <xs:enumeration value="filtered-calendar" />
+      <xs:enumeration value="color" />
+      <xs:enumeration value="progress" />
+      <xs:enumeration value="textarea" />
+      <xs:enumeration value="uploader" />
+      <xs:enumeration value="checkbox" />
+      <xs:enumeration value="radio" />
+      <xs:enumeration value="button-checkbox" />
+      <xs:enumeration value="button-radio" />
+      <xs:enumeration value="password" />
+      <xs:enumeration value="text-view" />
+      <xs:enumeration value="markdown-editor" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Column component attribute values -->
+  <xs:simpleType name="columnComponentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="text" />
+      <xs:enumeration value="numeric" />
+      <xs:enumeration value="select" />
+      <xs:enumeration value="suggest" />
+      <xs:enumeration value="suggest-multiple" />
+      <xs:enumeration value="select-multiple" />
+      <xs:enumeration value="date" />
+      <xs:enumeration value="time" />
+      <xs:enumeration value="filtered-calendar" />
+      <xs:enumeration value="color" />
+      <xs:enumeration value="progress" />
+      <xs:enumeration value="textarea" />
+      <xs:enumeration value="uploader" />
+      <xs:enumeration value="checkbox" />
+      <xs:enumeration value="image" />
+      <xs:enumeration value="icon" />
+      <xs:enumeration value="sparkline" />
+      <xs:enumeration value="password" />
+      <xs:enumeration value="text-view" />
+      <xs:enumeration value="dialog" />
+      <xs:enumeration value="button" />
+      <xs:enumeration value="formatted-text" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Widget component attribute values -->
+  <xs:simpleType name="widgetComponentType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="file-viewer" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Video preload attribute values -->
+  <xs:simpleType name="videoPreloadValues">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="full-video"/>
+      <xs:enumeration value="metadata"/>
+      <xs:enumeration value="none"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Menu Container Enumeration -->
+  <xs:simpleType name="menuContainerEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="horizontal" />
+      <xs:enumeration value="vertical" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Yes / No Enumeration -->
+  <xs:simpleType name="yesNoEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="yes" />
+      <xs:enumeration value="no" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Button type Enumeration -->
+  <xs:simpleType name="buttonTypes">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="submit" />
+      <xs:enumeration value="button" />
+      <xs:enumeration value="reset" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Column cellData type Enumeration -->
+  <xs:simpleType name="cellDataTypes">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="string" />
+      <xs:enumeration value="integer" />
+      <xs:enumeration value="float" />
+      <xs:enumeration value="date" />
+      <xs:enumeration value="boolean" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Expandible type Enumeration -->
+  <xs:simpleType name="expandibleTypes">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="vertical" />
+      <xs:enumeration value="horizontal" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Chart type Enumeration -->
+  <xs:simpleType name="chartTypesEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="line" />
+      <xs:enumeration value="spline" />
+      <xs:enumeration value="column" />
+      <xs:enumeration value="column_3d" />
+      <xs:enumeration value="area" />
+      <xs:enumeration value="areaspline" />
+      <xs:enumeration value="arearange" />
+      <xs:enumeration value="areasplinerange" />
+      <xs:enumeration value="pie" />
+      <xs:enumeration value="pie_3d" />
+      <xs:enumeration value="donut" />
+      <xs:enumeration value="donut_3d" />
+      <xs:enumeration value="semicircle" />
+      <xs:enumeration value="mixed" />
+      <xs:enumeration value="bubble" />
+      <xs:enumeration value="scatter" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Chart series type -->
+  <xs:simpleType name="serieTypesEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="line" />
+      <xs:enumeration value="column" />
+      <xs:enumeration value="pie" />
+      <xs:enumeration value="area" />
+      <xs:enumeration value="areaspline" />
+      <xs:enumeration value="arearange" />
+      <xs:enumeration value="areasplinerange" />
+      <xs:enumeration value="bar" />
+      <xs:enumeration value="spline" />
+      <xs:enumeration value="scatter" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Chart Parameter Type Enumeration -->
+  <xs:simpleType name="chartParameterTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="string" />
+      <xs:enumeration value="integer" />
+      <xs:enumeration value="long" />
+      <xs:enumeration value="float" />
+      <xs:enumeration value="double" />
+      <xs:enumeration value="boolean" />
+      <xs:enumeration value="array" />
+      <xs:enumeration value="object" />
+      <xs:enumeration value="null" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Widget Parameter Type Enumeration -->
+  <xs:simpleType name="widgetParameterTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="label" />
+      <xs:enumeration value="string" />
+      <xs:enumeration value="integer" />
+      <xs:enumeration value="long" />
+      <xs:enumeration value="double" />
+      <xs:enumeration value="float" />
+      <xs:enumeration value="boolean" />
+      <xs:enumeration value="array" />
+      <xs:enumeration value="object" />
+      <xs:enumeration value="null" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Chart legend align -->
+  <xs:simpleType name="alignEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="left" />
+      <xs:enumeration value="center" />
+      <xs:enumeration value="right" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Chart legend vertical align -->
+  <xs:simpleType name="verticalAlignEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="top" />
+      <xs:enumeration value="middle" />
+      <xs:enumeration value="bottom" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Chart axis enum -->
+  <xs:simpleType name="axisEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="xAxis" />
+      <xs:enumeration value="yAxis" />
+      <xs:enumeration value="all" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Chart axis type enum -->
+  <xs:simpleType name="axisTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="linear" />
+      <xs:enumeration value="datetime" />
+      <xs:enumeration value="logarithmic" />
+      <xs:enumeration value="category" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Chart stack type enum -->
+  <xs:simpleType name="stackTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="normal" />
+      <xs:enumeration value="percent" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Formatter function enum -->
+  <xs:simpleType name="formatterFunctionEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="formatCurrencyMagnitude" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Name and Id Restriction -->
+  <xs:simpleType name="nameEnum">
+    <xs:restriction base="xs:token">
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Formatter function enum -->
+  <xs:simpleType name="viewEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="base" />
+      <xs:enumeration value="report" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Pivot total column placement enum -->
+  <xs:simpleType name="PivotColumnPlacementEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="left" />
+      <xs:enumeration value="right" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Pivot total row placement enum -->
+  <xs:simpleType name="PivotRowPlacementEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="top" />
+      <xs:enumeration value="bottom" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Pivot renderer enum -->
+  <xs:simpleType name="PivotRendererEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Table" />
+      <xs:enumeration value="Table Barchart" />
+      <xs:enumeration value="Heatmap" />
+      <xs:enumeration value="Row Heatmap" />
+      <xs:enumeration value="Col Heatmap" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Pivot aggregator enum -->
+  <xs:simpleType name="PivotAggregatorEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Count" />
+      <xs:enumeration value="Count Unique Values" />
+      <xs:enumeration value="List Unique Values" />
+      <xs:enumeration value="Sum" />
+      <xs:enumeration value="Custom Sum" />
+      <xs:enumeration value="Integer Sum" />
+      <xs:enumeration value="Average" />
+      <xs:enumeration value="Minimum" />
+      <xs:enumeration value="Maximum" />
+      <xs:enumeration value="Sum over Sum" />
+      <xs:enumeration value="80% Upper Bound" />
+      <xs:enumeration value="80% Lower Bound" />
+      <xs:enumeration value="Sum as Fraction of Total" />
+      <xs:enumeration value="Sum as Fraction of Rows" />
+      <xs:enumeration value="Sum as Fraction of Columns" />
+      <xs:enumeration value="Count as Fraction of Total" />
+      <xs:enumeration value="Count as Fraction of Rows" />
+      <xs:enumeration value="Count as Fraction of Columns" />
+      <xs:enumeration value="Custom Sum" />
+      <xs:enumeration value="Custom Average" />
+      <xs:enumeration value="Custom Minimum" />
+      <xs:enumeration value="Custom Maximum" />
+      <xs:enumeration value="Custom Sum over Sum" />
+      <xs:enumeration value="Custom 80% Upper Bound" />
+      <xs:enumeration value="Custom 80% Lower Bound" />                             
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Pivot sort method enum -->
+  <xs:simpleType name="PivotSortMethodEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="absolute" />
+      <xs:enumeration value="natural" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Loading icon enum -->
+  <xs:simpleType name="loadingIconEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="spinner" />
+      <xs:enumeration value="square" />
+      <xs:enumeration value="circles" />
+      <xs:enumeration value="carpet" />
+      <xs:enumeration value="cubes" />
+      <xs:enumeration value="dots" />
+      <xs:enumeration value="folding" />
+      <xs:enumeration value="squarebar" />
+      <xs:enumeration value="circlebar" />
+      <xs:enumeration value="icon" />
+      <xs:enumeration value="custom" />
+      <xs:enumeration value="none" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Dependency condition enum -->
+  <xs:simpleType name="dependencyConditionEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="eq" />
+      <xs:enumeration value="ne" />
+      <xs:enumeration value="ge" />
+      <xs:enumeration value="le" />
+      <xs:enumeration value="gt" />
+      <xs:enumeration value="lt" />
+      <xs:enumeration value="in" />
+      <xs:enumeration value="is empty" />
+      <xs:enumeration value="is not empty" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Modal on close enum -->
+  <xs:simpleType name="onCloseEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="accept" />
+      <xs:enumeration value="reject" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

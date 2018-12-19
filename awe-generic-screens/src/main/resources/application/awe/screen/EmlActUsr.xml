@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : EmlActUsr.xml
+    Created on : 11 de Enero de 2012
+    Author     : Aitor UGARTE
+    Description: Envio de mails a usuarios conectados
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_EML_USR" help="HELP_SCREEN_TITLE_EML_USR">
+  <tag source="hidden">
+    <message id="NewMsg" title="CONFIRM_TITLE_SND_EML" message="CONFIRM_MESSAGE_SND_EML" />
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_SEND" icon="mail-closed" id="ButSnd">
+      <button-action type="validate" />
+      <button-action type="confirm" target="NewMsg" />
+      <button-action type="server" server-action="maintain" target-action="EmlActUsr" />
+      <button-action type="reset" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand expandable-vertical" label="SCREEN_TEXT_CRITERIA">
+      <tag type="div" style="panel-body expand">
+        <criteria label="PARAMETER_EML_SUBJECT" id="EmlSub" variable="EmlSub" component="text" style="col14" validation="{required: true, maxlength: 128}" />
+        <criteria label="PARAMETER_EML_TEXT" id="EmlTxt" variable="EmlTxt" component="textarea" style="col14 height_very_long" />
+      </tag>
+    </window>
+  </tag>
+</screen>

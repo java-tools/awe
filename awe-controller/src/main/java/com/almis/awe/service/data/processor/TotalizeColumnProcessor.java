@@ -1,0 +1,248 @@
+/*
+ * Package definition
+ */
+package com.almis.awe.service.data.processor;
+
+import com.almis.awe.exception.AWException;
+import com.almis.awe.model.component.AweContextAware;
+import com.almis.awe.model.component.AweElements;
+import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.dto.CellData;
+import com.almis.awe.model.entities.queries.Field;
+import com.almis.awe.model.entities.queries.Totalize;
+import com.almis.awe.model.entities.queries.TotalizeBy;
+import com.almis.awe.model.entities.queries.TotalizeField;
+import com.almis.awe.model.util.data.NumericUtil;
+
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * TransformCellProcessor class
+ */
+public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware {
+  private Totalize totalize;
+  Map<String, CellData> totalizeValues = null;
+  Map<String, String> totalizeKeys = null;
+  List<Field> fieldList = null;
+  private AweElements elements;
+
+  /**
+   * Set Awe Elements
+   * @return Totalize Column Processor
+   */
+  public TotalizeColumnProcessor setElements(AweElements elements) {
+    this.elements = elements;
+    return this;
+  }
+
+  /**
+   * Retrieve Awe Elements
+   * @return Awe Elements
+   */
+  private AweElements getElements() throws AWException {
+    if (elements == null) {
+      throw new AWException("No elements defined", "Define elements before building the totalize processor");
+    }
+    return elements;
+  }
+
+  /**
+   * Set transform field
+   * @param totalize Totalize field
+   * @return TotalizeColumnProcessor
+   */
+  public TotalizeColumnProcessor setTotalize(Totalize totalize) {
+    this.totalize = totalize;
+    return this;
+  }
+
+  /**
+   * Set field list
+   * @param fieldList Field list
+   * @return TotalizeColumnProcessor
+   */
+  public TotalizeColumnProcessor setFieldList(List<Field> fieldList) {
+    this.fieldList = fieldList;
+    return this;
+  }
+
+  /**
+   * Check if add a new line
+   * @param row Row to check
+   * @return Add a new line
+   */
+  public boolean checkNewLine(Map<String, CellData> row) {
+    boolean addLine = row == null;
+    // If totalizeKeys is null, generate it
+    if (totalizeKeys == null) {
+      totalizeKeys = new HashMap<String, String>();
+    }
+
+    // Check totalizeBy fields
+    List<TotalizeBy> totalizeByList = totalize.getTotalizeByList();
+    List<TotalizeField> totalizeFieldList = totalize.getTotalizeFieldList();
+
+    // Check if one of totalize by fields is different
+    if (totalizeByList != null && row != null) {
+      // Check totalize by
+      for (TotalizeBy totalizeBy : totalizeByList) {
+        String lastValue = row.get(totalizeBy.getField()) != null ? row.get(totalizeBy.getField()).getStringValue() : null;
+        if (totalizeKeys.containsKey(totalizeBy.getField())) {
+          String nextValue = totalizeKeys.get(totalizeBy.getField());
+          if (nextValue != null && !nextValue.equals(lastValue)) {
+            addLine = true;
+            totalizeKeys.put(totalizeBy.getField(), lastValue);
+          }
+        } else if (lastValue != null) {
+          totalizeKeys.put(totalizeBy.getField(), lastValue);
+        }
+      }
+    }
+    return addLine;
+  }
+
+  /**
+   * Retrieve a new totalize line
+   * @return New totalize line
+   */
+  private Map<String, CellData> getNewLine() throws AWException {
+    // Create new row
+    Map<String, CellData> totalizeRow = new HashMap<String, CellData>();
+
+    for (Field field : fieldList) {
+      String columnIdentifier = "";
+      String totalizeIdentifier = "-" + totalize.getFunction();
+      CellData cell = null;
+
+      TransformCellProcessor transformProcessor = new TransformCellProcessor()
+              .setElements(getElements())
+              .setField(field);
+
+      columnIdentifier = transformProcessor.getColumnIdentifier();
+      totalizeIdentifier = columnIdentifier + totalizeIdentifier;
+
+      // Get totalize values
+      if (totalizeValues.containsKey(totalizeIdentifier)) {
+        // Format output data
+        cell = totalizeValues.get(totalizeIdentifier);
+
+      } else {
+        cell = new CellData();
+      }
+
+      totalizeRow.put(columnIdentifier, cell);
+    }
+    totalizeValues.clear();
+    return totalizeRow;
+  }
+
+  /**
+   * Add a new line with values
+   * @param row Row data
+   * @param list Row list
+   * @throws AWException Error adding a new line
+   */
+  public void addNewLine(Map<String, CellData> row, List<Map<String, CellData>> list) throws AWException {
+    // Create new row
+    Map<String, CellData> newRow = getNewLine();
+
+    // Add label
+    newRow.put(totalize.getField(), new CellData(getElements().getLocale(totalize.getLabel())));
+
+    // Add style value
+    if (totalize.getStyle() != null) {
+      newRow.put(AweConstants.DATALIST_STYLE_FIELD, new CellData(totalize.getStyle()));
+    }
+
+    // Add row ID
+    newRow.put("id", new CellData(String.valueOf("TOT-" + list.size())));
+
+    // Add row list
+    list.add(newRow);
+  }
+
+  /**
+   * Retrieve column identifier
+   * @return Column identifier
+   */
+  public String getColumnIdentifier() {
+    return totalize.getField();
+  }
+
+  /**
+   * Process row
+   * @param row Row to process
+   * @return Null (Interface requirements)
+   * @throws AWException Error processing row
+   */
+  public CellData process(Map<String, CellData> row) throws AWException {
+
+    if (totalize == null) {
+      throw new NullPointerException("No totalize defined");
+    }
+
+    if (fieldList == null) {
+      throw new NullPointerException("No field list defined");
+    }
+
+    // Calculate values
+    if (totalize.getTotalizeFieldList() != null && row != null) {
+      if (totalizeValues == null) {
+        totalizeValues = new HashMap<String, CellData>();
+      }
+
+      // For each field to totalize, calculate values
+      for (TotalizeField totalizeField : totalize.getTotalizeFieldList()) {
+        // Big decimal treatment. Choose number type and cast to BigDecimal
+        Double doubleValue = row.get(totalizeField.getField()).getDoubleValue();
+        String stringValue = row.get(totalizeField.getField()).getStringValue();
+        Object value = row.get(totalizeField.getField()).getObjectValue();
+        if (doubleValue == null) {
+          if (stringValue.isEmpty()) {
+            doubleValue = 0.0;
+          } else {
+            try {
+              doubleValue = NumericUtil.parseNumericString(stringValue).doubleValue();
+            } catch (ParseException exc) {
+              throw new AWException(getElements().getLocale("ERROR_TITLE_PARSING_TEXT"),
+                      getElements().getLocale("ERROR_MESSAGE_PARSING_TEXT", stringValue, "double"), exc);
+            }
+          }
+        }
+
+        if (totalizeValues.containsKey(totalizeField.getField() + "-CNT")) {
+          Double totVal = totalizeValues.get(totalizeField.getField() + "-SUM").getDoubleValue();
+          Double maxVal = totalizeValues.get(totalizeField.getField() + "-MAX").getDoubleValue();
+          Double minVal = totalizeValues.get(totalizeField.getField() + "-MIN").getDoubleValue();
+          Integer cntVal = totalizeValues.get(totalizeField.getField() + "-CNT").getIntegerValue();
+
+          totVal = totVal == null ? doubleValue : totVal + doubleValue;
+          cntVal++;
+          maxVal = maxVal == null ? doubleValue : Math.max(maxVal, doubleValue);
+          minVal = minVal == null ? doubleValue : Math.min(minVal, doubleValue);
+          Double avgVal = Math.ceil(totVal / cntVal.longValue());
+
+          // Put value on list
+          totalizeValues.put(totalizeField.getField() + "-SUM", new CellData(totVal));
+          totalizeValues.put(totalizeField.getField() + "-AVG", new CellData(avgVal));
+          totalizeValues.put(totalizeField.getField() + "-MAX", new CellData(maxVal));
+          totalizeValues.put(totalizeField.getField() + "-MIN", new CellData(minVal));
+          totalizeValues.put(totalizeField.getField() + "-CNT", new CellData(cntVal));
+        } else if (!totalizeValues.containsKey(totalizeField.getField() + "-CNT")) {
+          // Put value on list
+          totalizeValues.put(totalizeField.getField() + "-SUM", new CellData(doubleValue));
+          totalizeValues.put(totalizeField.getField() + "-AVG", new CellData(doubleValue));
+          totalizeValues.put(totalizeField.getField() + "-MAX", new CellData(doubleValue));
+          totalizeValues.put(totalizeField.getField() + "-MIN", new CellData(doubleValue));
+          totalizeValues.put(totalizeField.getField() + "-CNT", new CellData(value == null ? 0 : 1));
+        }
+      }
+    }
+
+    // Return null
+    return null;
+  }
+}

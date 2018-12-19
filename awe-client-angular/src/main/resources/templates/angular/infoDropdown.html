@@ -1,0 +1,11 @@
+<li ng-show="controller.visible" ng-attr-id="{{::controller.id}}" title="{{controller.title| translateMultiple}}" class="info nav-icon-btn {{::controller.style}}" ng-class="::{'dropdown': controller.hasChildren}" ui-dependency="dependencies" ng-cloak>
+  <a ng-click="infoClick()" ng-class="::{'dropdown-toggle': controller.hasChildren}" ng-attr-data-toggle="{{controller.hasChildren ? 'dropdown' : ''}}">
+    <i ng-if="::controller.icon" class="nav-icon fa fa-{{::controller.icon}} fa-fw" ng-class="::{'w-text': controller.text}"></i>
+    <span ng-if="controller.unit" class="label" translate-multiple="{{controller.unit}}"></span>
+    <span ng-if="model.values[0].label" class="info-text" translate-multiple="{{model.values[0].label}}"></span>
+    <span ng-if="controller.text" class="info-text" translate-multiple="{{controller.text}}"></span>
+    <span ng-if="controller.label" class="info-text" translate-multiple="{{controller.label}}"></span>
+    <span ng-if="controller.title" class="small-screen-text" translate-multiple="{{controller.title}}"></span>
+  </a>
+  <ul ng-if="::controller.hasChildren" class="dropdown-menu {{::controller.dropdownStyle}}" ng-transclude></ul>
+</li>

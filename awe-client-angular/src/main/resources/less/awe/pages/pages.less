@@ -1,0 +1,25 @@
+//
+// awe special pages
+// --------------------------------------------------
+@import "./home.less";
+@import "./signin.less";
+@import "./change_password.less";
+@import "./document.less";
+@import "./error-pages.less";
+
+.ui-view-container {
+  position: relative;
+}
+
+.not-ie [ui-view] {
+  .opacity(0);
+  &.visible.visible-add {
+    .transition(all, ease-in-out, 300ms);
+    .opacity(0);
+  }
+
+  &.visible,
+  &.visible.visible-add.visible-add-active {
+    .opacity(1);
+  }
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+	  <groupId>com.almis.awe</groupId>
+	  <artifactId>awe-framework</artifactId>
+      <version>4.0.3-SNAPSHOT</version>
+	  <relativePath>../awe-framework/pom.xml</relativePath>
+	</parent>
+
+	<artifactId>awe-rest</artifactId>
+	<packaging>jar</packaging>
+	<name>AWE Modules - Rest (V${project.version})</name>
+	<description>Awe Spring Rest Module</description>
+
+	<properties>
+		<querydsl.version>4.1.4</querydsl.version>
+		<swagger.version>2.7.0</swagger.version>
+		<!-- Sonar properties -->
+		<application.folder>.</application.folder>
+		<sonar.sources>src</sonar.sources>
+		<sonar.inclusions>src/main/java/**</sonar.inclusions>
+		<sonar.language>java</sonar.language>
+		<sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
+		<performancetest.host>localhost</performancetest.host>
+		<performancetest.port>18080</performancetest.port>
+		<performancetest.path />
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.almis.awe</groupId>
+			<artifactId>awe-controller</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

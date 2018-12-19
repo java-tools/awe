@@ -1,0 +1,6 @@
+<div ng-show="component.controller.visible" class="column-input text-{{::component.controller.align}} no-animate" ui-dependency="dependencies" ng-mouseup="onClick()" ng-cloak>
+  <span class="{{classes}} {{component.model.values[0].style}} col-xs-{{(component.controller.unit || component.model.values[0].unit) ? '10' : '12'}}" ng-cloak>
+    <span class="text-value" ng-cloak ng-bind-html="component.visibleValue"></span>
+  </span>
+  <awe-loader class="loader no-animate" ng-if="component.controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</div>

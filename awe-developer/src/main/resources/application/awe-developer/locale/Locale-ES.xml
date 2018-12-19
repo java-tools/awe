@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Document   : Locale-ES
+  Description: Application Locales
+-->
+
+<!--$Id$-->
+
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../schemas/awe/locale.xsd">
+  <locale name="BUTTON_TRANSLATE" value="Traducir"/>
+  <locale name="COLUMN_CODE" value="Código"/>
+  <locale name="COLUMN_LANGUAGE" value="Idioma"/>
+  <locale name="COLUMN_LOCAL" value="Literal"/>
+  <locale name="CONFIRM_MESSAGE_UPDATE_WRK_DIR" value="La ruta se ha almacenado correctamente"/>
+  <locale name="CONFIRM_TITLE_UPDATE_WRK_DIR" value="Ruta actualizada correctamente"/>
+  <locale name="ENUM_FORMAT_MARKDOWN" value="Markdown"/>
+  <locale name="ENUM_FORMAT_TEXT" value="Texto"/>
+  <locale name="ERROR_MESSAGE_UPDATE_WRK_DIR" value="La ruta no existe"/>
+  <locale name="ERROR_TITLE_CLOSE_STREAM" value="Error de cierre del fichero"/>
+  <locale name="ERROR_TITLE_RETRIEVING_TRANSLATION" value="Error al recuperar la traducción"/>
+  <locale name="ERROR_TITLE_STORE_FILE" value="Error almacenando el archivo"/>
+  <locale name="ERROR_TITLE_STORING_TRANSLATION" value="Error de almacenamiento de traducción"/>
+  <locale name="ERROR_TITLE_UPDATE_WRK_DIR" value="Error al actualizar la ruta"/>
+  <locale name="HELP_CLOSE_DIALOG_BUTTON" value="Cerrar el diálogo actual sin hacer nada"/>
+  <locale name="HELP_SCREEN_MNG_PTH"><![CDATA[Esta pantalla permite al desarrollador para establecer la ruta de acceso de los ficheros XML de su proyecto, para trabajar con las herramientas de desarrollo.]]></locale>
+  <locale name="HELP_SCREEN_TITLE_MNG_LIT"><![CDATA[En esta pantalla puede crear, eliminar o actualizar los textos de los idiomas de la aplicación]]></locale>
+  <locale name="HELP_SWITCH_LANGUAGES_BUTTON"><![CDATA[Intercambia los valores de los selectores de idioma]]></locale>
+  <locale name="HELP_TRANSLATE_BUTTON"><![CDATA[Traducir el valor del idioma de origen seleccionado al idioma de destino]]></locale>
+  <locale name="OK_TITLE_LOCAL_UPDATED" value="Literal actualizado correctamente"/>
+  <locale name="OK_TITLE_NEW_LOCAL" value="Nuevo literal generado"/>
+  <locale name="OK_TITLE_REMOVED_LOCAL" value="Literal eliminado con éxito"/>
+  <locale name="PARAMETER_IDENTIFIER" value="Identificador"/>
+  <locale name="PARAMETER_LOCAL_VALUE" value="Valor"/>
+  <locale name="PARAMETER_NEW_PATH" value="Nueva ruta de acceso"/>
+  <locale name="PARAMETER_PATH" value="Ruta de acceso actual"/>
+  <locale name="PARAMETER_SEARCH" value="Buscar"/>
+  <locale name="SCREEN_TITLE_MNG_LIT" value="Gestor de literales"/>
+  <locale name="SCREEN_TITLE_MNG_PTH" value="Gestor de ruta de desarrollo"/>
+  <locale name="SCREEN_TITLE_NEW_LOCAL" value="Nuevo literal"/>
+  <locale name="TITLE_LOCALS" value="Literales"/>
+  <locale name="TITLE_PATH" value="Camino"/>
+  <locale name="TITLE_SEARCH" value="Búsqueda"/>
+  <locale name="TITLE_TRANSLATION" value="Traducción"/>
+  <locale name="TITLE_TRANSLATIONS" value="Traducciones"/>
+  <locale name="WARNING_MESSAGE_TRANSLATION_FAILED" value="No se pude conectar con la API de traducción"/>
+  <locale name="WARNING_TITLE_NEW_LOCAL" value="Literal ya existente"/>
+</locales>

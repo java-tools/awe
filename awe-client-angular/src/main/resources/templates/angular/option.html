@@ -1,0 +1,11 @@
+<li class="{{::getStaticOptionClasses()}}" ng-class="getOptionClasses()" ng-cloak>
+  <a ng-if="::!controller.separator" title="{{::optionTitle| translateMultiple}}" name="{{::optionName}}" class="{{::optionStyle}}"
+     ng-click="optionClick()">
+    <i ng-if="::optionIcon" class="menu-icon fa fa-{{::optionIcon}}"></i>
+    <span ng-if="::optionText" class="mm-text" translate-multiple="{{::optionText}}"></span>
+  </a>
+  <ul ng-if="::hasVisibleChildren()" class="{{::getStaticSubmenuClasses()}}" ng-class="getSubmenuClasses()">
+    <div ng-if="::optionText" class="mmc-title" translate-multiple="{{::optionText}}"></div>
+    <awe-option ng-repeat="option in controller.options| allowedOption track by option.name" controller="option" status="status" on-option-click="onOptionClick()" menu-type="{{::menuType}}" close-first-level="closeFirstLevel()" first-level="false" selected-option="selectedOption" option-title="{{::option.title}}" option-name="{{::option.name}}" option-style="{{::option.style}}" option-icon="{{::option.icon}}" option-text="{{::option.label}}"></awe-option>
+  </ul>
+</li>

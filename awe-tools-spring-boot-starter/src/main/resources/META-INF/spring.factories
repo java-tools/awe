@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.almis.awe.tools.autoconfigure.ToolsConfig,\
+com.almis.awe.tools.controller.FileManagerController

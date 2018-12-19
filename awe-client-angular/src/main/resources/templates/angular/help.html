@@ -1,0 +1,8 @@
+<div class="help popover" ng-class="direction" ng-show="isShowing">
+  <div class="arrow"></div>
+  <div class="popover-content">
+    <i class="fa fa-info-circle bg-icon"></i>
+    <span class="popover-text" translate-multiple="{{text}}"></span>
+    <img ng-if="image" ng-src="{{image| translateMultiple}}" style="width: 100%;"/>
+  </div>
+</div>

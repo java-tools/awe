@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--
+  ==============================================================================
+  Definition
+  ==============================================================================
+  -->
+
+  <xs:annotation>
+    <xs:appinfo>awe Access Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">
+      This Schema defines the way an awe Access file must be structured
+    </xs:documentation>
+  </xs:annotation>
+
+  <!--
+  ==============================================================================
+  Includes
+  ==============================================================================
+  -->
+
+  <xs:include schemaLocation="general.xsd"/>
+
+  <!--
+  ==============================================================================
+  Elements
+  ==============================================================================
+  -->
+
+  <!-- Access Element -->
+  <xs:element name="access" type="accessType"/>
+
+  <!-- User Element -->
+  <xs:element name="user" type="userType"/>
+
+  <!-- Group Element -->
+  <xs:element name="group" type="groupType"/>
+
+  <!--
+  ==============================================================================
+  Attribute Groups
+  ==============================================================================
+  -->
+
+  <!-- Access Attributes -->
+  <xs:attributeGroup name="accessAttr">
+    <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="profile" use="required" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <!--
+  ==============================================================================
+  Group definitions
+  ==============================================================================
+  -->
+
+  <!-- Access Group -->
+  <xs:group name="accessGroup">
+    <xs:choice>
+      <xs:element ref="user"/>
+      <xs:element ref="group"/>
+    </xs:choice>
+  </xs:group>
+
+  <!--
+  ==============================================================================
+  Type definitions
+  ==============================================================================
+  -->
+
+  <!-- Access Type -->
+  <xs:complexType name="accessType">
+    <xs:group ref="accessGroup" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:attribute name="profile" use="required" type="xs:string"/>
+  </xs:complexType>
+
+  <!-- User Type -->
+  <xs:complexType name="userType">
+    <xs:attributeGroup ref="accessAttr"/>
+  </xs:complexType>
+
+  <!-- Group Type -->
+  <xs:complexType name="groupType">
+    <xs:attributeGroup ref="accessAttr"/>
+  </xs:complexType>
+
+</xs:schema>

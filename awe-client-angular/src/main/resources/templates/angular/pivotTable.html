@@ -1,0 +1,5 @@
+<div ng-attr-id="{{::controller.id}}" ng-show="controller.visible" class="pivotTable criterion expandible-vertical table-light {{::controller.style}}" ui-dependency="dependencies" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <div class="pivot-table-plugin input input-group-{{::size}}" ui-pivot-table="datasource"></div>
+  <awe-loader class="grid-loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+</div>

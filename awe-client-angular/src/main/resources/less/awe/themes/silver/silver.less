@@ -1,0 +1,21 @@
+//
+// Themes / Silver
+// --------------------------------------------------
+
+.theme-silver {
+  @theme-color: darken(#64bed8, 5%);
+  // Main menu background color
+  @menu-color: #333;
+  // Primary color
+  @primary-color: #64bed8;
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(@primary-color);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}

@@ -1,0 +1,94 @@
+/*******************************************************************************
+ HOME SCREEN
+*******************************************************************************/
+
+#content-wrapper {
+  padding: 0px;
+  padding-top: 46px;
+}
+
+.horizontal-header {
+  height: @main-navbar-height;
+}
+
+#horizontal-content-wrapper {
+  padding: 0px;
+}
+
+/*******************************************************************************
+ NAVIGATION BAR
+*******************************************************************************/
+.navbar-header h1 {
+  background: url('@{application-images-path}/logo/@{application-logo}') no-repeat left center;
+  margin:0px;
+  padding:0px;
+  margin-left:10px;
+  height:@main-navbar-height;
+  width: 190px;
+  filter: drop-shadow( 2px 1px 2px #444 );
+}
+
+.navbar-header h1 span {
+  display:none;
+}
+
+.navbar-header h1 span {
+  display:none;
+}
+
+#main-navbar .navbar-header {
+  min-width: 250px;
+}
+
+.mme #main-navbar #main-menu-toggle .button-text {
+  .opacity(1);
+  .transition(opacity, ease, 1s);
+}
+
+#main-navbar {
+  position: absolute !important;
+}
+
+#main-navbar #main-menu-toggle .button-text {
+  left: 51px;
+  line-height: @main-navbar-height;
+  margin-top: -23px;
+  .opacity(0);
+  position: absolute;
+  z-index: 1035;
+}
+
+.navbar-form {
+  margin: 0px;
+  border-top: 0px;
+  border-bottom: 0px;
+}
+
+@media (max-width: 768px) {
+  #content-wrapper {
+    overflow-y: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  #main-navbar #main-menu-toggle .button-text {
+    .opacity(0);
+    .no-transition;
+  }
+
+  #main-navbar .right {
+    padding-right: 16px;
+  }
+
+  .navbar-form {
+    padding: 7px 0px;
+    .form-control {
+      min-width: 100%;
+    }
+
+    .form-group {
+      display: block;
+      margin-bottom: 0px !important;
+    }
+  }
+}

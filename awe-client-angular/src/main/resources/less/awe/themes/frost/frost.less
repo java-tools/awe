@@ -1,0 +1,21 @@
+//
+// Themes / Frost
+// --------------------------------------------------
+
+.theme-frost {
+  @theme-color: #28b6e5;
+  // Main menu background color
+  @menu-color: #2a2d33;
+  // Primary color
+  @primary-color: #3daacf;
+
+  // Mixins
+  .awe-main-menu(@menu-color);
+  .awe-grid(@theme-color, @primary-color);
+  .awe-change-password-page(@primary-color);
+  .awe-breadcrumbs(light);
+  .awe-buttons(@theme-color, @primary-color);
+  .awe-loading-bar(@primary-color);
+  .awe-theme-color(@theme-color);
+  .awe-menu-color(@menu-color);
+}
