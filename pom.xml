@@ -232,7 +232,7 @@
       <url>https://mvn.almis.com/content/repositories/releases/</url>
     </repository>
     <snapshotRepository>
-      <id>central</id></id>
+      <id>central</id>
       <name>Snapshots</name>
       <url>https://mvn.almis.com/content/repositories/snapshots</url>
     </snapshotRepository>
