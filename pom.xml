@@ -227,12 +227,12 @@
 
   <distributionManagement>
     <repository>
-      <id>releases</id>
+      <id>central</id>
       <name>Releases</name>
       <url>https://mvn.almis.com/content/repositories/releases/</url>
     </repository>
     <snapshotRepository>
-      <id>snapshots</id>
+      <id>central</id></id>
       <name>Snapshots</name>
       <url>https://mvn.almis.com/content/repositories/snapshots</url>
     </snapshotRepository>
