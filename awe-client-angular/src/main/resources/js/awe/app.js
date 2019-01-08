@@ -232,7 +232,6 @@ require("HighchartsLocale");
 require("./directives/plugins/uiChart");
 require("./services/chart/chart");
 require("./services/chart/events");
-require("./services/chart/sparkline");
 require("./directives/chart");
 
 require("../lib/highcharts/themes/themes");
