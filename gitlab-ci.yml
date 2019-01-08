@@ -1,0 +1,53 @@
+image: maven:latest
+
+variables:
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+build:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS compile
+
+test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS test
+
+deploy:
+  stage: deploy
+  script:
+    - mvn $MAVEN_CLI_OPTS -X deploy
+  only:
+    - develop
+
+release:
+  stage: deploy
+  before_script:
+    ## Install ssh-agent if not already installed, it is required by Docker.
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    # Use ssh-keyscan to scan the keys of your private server.
+    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    ## Config git
+    - git config --global user.email no-reply@almis.com
+    - git config --global user.name "Gitlab CI"
+    - git remote set-url $CI_PROJECT_URL_SSH
+    ## Add gpg key to sign
+    - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
+  script:
+    - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTests=true
+    - git checkout master
+    - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
+  when: manual
