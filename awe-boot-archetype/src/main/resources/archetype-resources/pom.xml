@@ -268,13 +268,4 @@
     </plugins>
   </reporting>
 
-  <!-- Almis Nexus repository -->
-  <repositories>
-    <repository>
-      <id>almis-awe</id>
-      <name>Almis awe repository</name>
-      <url>https://mvn.almis.com/content/repositories/public</url>
-    </repository>
-  </repositories>
-
 </project>
