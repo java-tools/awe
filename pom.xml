@@ -225,17 +225,4 @@
     </developer>
   </developers>
 
-  <distributionManagement>
-    <repository>
-      <id>central</id>
-      <name>Releases</name>
-      <url>https://mvn.almis.com/content/repositories/releases/</url>
-    </repository>
-    <snapshotRepository>
-      <id>central</id>
-      <name>Snapshots</name>
-      <url>https://mvn.almis.com/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
-
 </project>
