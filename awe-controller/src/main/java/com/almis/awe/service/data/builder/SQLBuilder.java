@@ -98,7 +98,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       fieldExpression = getStringExpression(field.getValue());
       // Field from function (numeric)
     } else if (field.getFunction() != null) {
-      fieldExpression = Expressions.numberPath(Long.class, field.getId());
+      fieldExpression = convertFieldToExpression(field.getTable(), field.getId(), FilterValueType.NUMBER);
       // Field from specifying its table
     } else {
       fieldExpression = buildPath(field.getTable(), field.getId());

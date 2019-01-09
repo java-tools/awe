@@ -11,19 +11,197 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
-  <version>4.0.3-SNAPSHOT</version>
+  <version>4.0.3</version>
   <packaging>pom</packaging>
 
   <name>AWE (V${project.version})</name>
   <description>Almis Web Engine: Web application development platform based on XML descriptors</description>
-  <url>http://www.awe-framework.com</url>
+  <url>http://www.awe-framework.com</url>    
 
+  <properties>
+    <!-- Project versions -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+
+    <!-- Application properties -->
+    <application.version>V4.0</application.version>
+    <application.acronym>awe</application.acronym>
+    <application.acronym.min>awe</application.acronym.min>
+    <application.name>${application.acronym}_${application.version}</application.name>
+
+    <!-- Build properties -->
+    <project.build.frontend>${project.build.directory}/classes/static/</project.build.frontend>
+    <check.xml.directory>${project.build.directory}/classes/application/</check.xml.directory>
+
+    <!-- Sonar configuration -->
+    <sonar.junit.reportPath>target/surefire-reports</sonar.junit.reportPath>
+    <sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <jacoco.version>0.8.1</jacoco.version>
+    
+    <!-- plugin versions -->
+    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>    
+    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+  </properties>
+
+  <modules>	
+    <module>awe-dependencies</module>
+	  <module>awe-framework</module>
+  </modules>
+
+  <build>
+    <plugins>
+      <!-- Maven source plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+	  
+	  <!-- Maven javadoc plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+	  
+	  <!-- Deploy nexus -->
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>${nexus-staging-maven-plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>central</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+      <!-- Jacoco coverage -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <append>true</append>
+              <destFile>${sonar.jacoco.reportPaths}</destFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Git flow -->
+      <plugin>
+        <groupId>com.amashchenko.maven.plugin</groupId>
+        <artifactId>gitflow-maven-plugin</artifactId>
+        <version>1.11.0</version>
+        <configuration>
+          <gitFlowConfig>
+            <productionBranch>master</productionBranch>
+            <developmentBranch>develop</developmentBranch>
+            <featureBranchPrefix>feature/</featureBranchPrefix>
+            <releaseBranchPrefix>release/</releaseBranchPrefix>
+            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+            <supportBranchPrefix>support/</supportBranchPrefix>
+            <versionTagPrefix>v</versionTagPrefix>
+            <origin>origin</origin>
+          </gitFlowConfig>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
+  <profiles>
+    <!-- GPG Signature on release -->
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${maven-gpg-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+                <configuration>
+                  <gpgArguments>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <show>public</show>
+          <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.5.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
+      </plugin>
+    </plugins>
+  </reporting>
+  
   <licenses>
     <license>
       <name>The Apache License, Version 2.0</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
+
+  <scm>
+    <connection>scm:git:https://gitlab.com/awe-team/awe.git</connection>
+    <developerConnection>scm:git:https://gitlab.com/awe-team/awe.git</developerConnection>
+    <url>https://gitlab.com/awe-team/awe</url>
+  </scm>
 
   <developers>
     <developer>
@@ -52,111 +230,16 @@
     </developer>
   </developers>
 
-  <properties>
-    <!-- Project versions -->
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.8</java.version>
-
-    <!-- Application properties -->
-    <application.version>V4.0</application.version>
-    <application.acronym>awe</application.acronym>
-    <application.acronym.min>awe</application.acronym.min>
-    <application.name>${application.acronym}_${application.version}</application.name>
-
-    <!-- Build properties -->
-    <project.build.frontend>${project.build.directory}/classes/static/</project.build.frontend>
-    <check.xml.directory>${project.build.directory}/classes/application/</check.xml.directory>
-
-    <!-- Sonar configuration -->
-    <sonar.junit.reportPath>target/surefire-reports</sonar.junit.reportPath>
-    <sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
-    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-    <jacoco.version>0.8.1</jacoco.version>
-  </properties>
-
-  <modules>	
-    <module>awe-dependencies</module>
-	<module>awe-framework</module>
-  </modules>
-
-  <build>
-    <plugins>
-      <!-- Jacoco coverage -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-            <configuration>
-              <append>true</append>
-              <destFile>${sonar.jacoco.reportPaths}</destFile>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Gitflow -->
-      <plugin>
-        <groupId>external.atlassian.jgitflow</groupId>
-        <artifactId>jgitflow-maven-plugin</artifactId>
-        <version>1.0.0</version>
-        <configuration>
-          <pushFeatures>true</pushFeatures>
-          <pushHotfixes>true</pushHotfixes>
-          <pushReleases>true</pushReleases>
-          <enableSshAgent>false</enableSshAgent>
-          <flowInitContext>
-            <masterBranchName>master</masterBranchName>
-            <developBranchName>develop</developBranchName>
-            <featureBranchPrefix>feature/</featureBranchPrefix>
-            <releaseBranchPrefix>release/</releaseBranchPrefix>
-            <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
-            <versionTagPrefix>awe-</versionTagPrefix>
-          </flowInitContext>
-        </configuration>
-      </plugin>
-
-    </plugins>
-  </build>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <show>public</show>
-          <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.5.1</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.9</version>
-      </plugin>
-    </plugins>
-  </reporting>
-
   <distributionManagement>
     <repository>
-      <id>releases</id>
+      <id>central</id>
       <name>Releases</name>
-      <url>https://mvn.almis.com/content/repositories/releases/</url>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
     <snapshotRepository>
-      <id>snapshots</id>
+      <id>central</id>
       <name>Snapshots</name>
-      <url>https://mvn.almis.com/content/repositories/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 

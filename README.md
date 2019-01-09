@@ -1,6 +1,8 @@
 ![logo_almis](wiki/images/logo_almis.png)
 # **Almis Web Engine**
 
+[![pipeline status](https://gitlab.com/awe-team/awe/badges/master/pipeline.svg)](https://gitlab.com/awe-team/awe/commits/master)
+
 ## Table of Contents
 
 * **[Introduction](wiki/introduction.md)**

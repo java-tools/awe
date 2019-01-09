@@ -26,7 +26,7 @@ module.exports = {
     // Hack to load angular synchronously
     {
       test : /[\/]angular\.js$/,
-      loader : "exports?angular"
+      loader : "exports-loader?angular"
     },
     {
        test: /\.jsx?$/,

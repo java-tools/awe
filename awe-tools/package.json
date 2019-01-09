@@ -13,6 +13,7 @@
     "bootstrap": "^3.3.7",
     "create-npmrc": "^2.0.2",
     "css-loader": "^0.28.4",
+    "exports-loader": "^0.6.4",
     "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "^0.11.2",
     "jquery": "^2.2.4",
