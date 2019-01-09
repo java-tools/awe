@@ -47,7 +47,7 @@
 
   <modules>	
     <module>awe-dependencies</module>
-	<module>awe-framework</module>
+	  <module>awe-framework</module>
   </modules>
 
   <build>
@@ -127,7 +127,6 @@
           </gitFlowConfig>
         </configuration>
       </plugin>
-
     </plugins>
   </build>
   
@@ -197,6 +196,12 @@
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
+
+  <scm>
+    <connection>scm:git:https://gitlab.com/awe-team/awe.git</connection>
+    <developerConnection>scm:git:https://gitlab.com/awe-team/awe.git</developerConnection>
+    <url>https://gitlab.com/awe-team/awe</url>
+  </scm>
 
   <developers>
     <developer>
