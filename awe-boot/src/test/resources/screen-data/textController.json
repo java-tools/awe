@@ -1,0 +1,17 @@
+{
+  "checkInitial": true,
+  "checkTarget": false,
+  "checked": false,
+  "contextMenu": [],
+  "dependencies": [],
+    "id": "Txt",
+  "label": "PARAMETER_TEXT",
+  "leftLabel": "18",
+  "optional": false,
+  "printable": true,
+  "readonly": false,
+  "strict": true,
+  "style": "col-xs-6 col-sm-3 col-lg-2",
+  "value": "mgr",
+  "visible": true
+}

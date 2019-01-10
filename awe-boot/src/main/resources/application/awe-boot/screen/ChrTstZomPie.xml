@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : ChrTst.xml
+    Created on : 12 de Julio de 2013
+    Author     : Pablo GARCIA
+    Description: Chart Test Screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_CHART_TEST" help="HELP_SCREEN_TITLE_CHART_TEST">
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back" />
+    </button>
+  </tag>
+  <tag source="center">
+    <tag type="div" style="expand expandable_vertical">
+      <window style="expand" label="SCREEN_TEXT_PIE_CHART">
+        <!--
+                <widget type="div" style="expand" name="ChrPieTst" component="piechart" server-action="data" target-action="TstChrOneDatSrc" max="20" autoload="true">
+                  <widget_parameter name="sliceMarginSeriesRenderer" align="center" value="5"/>
+                </widget>
+        -->
+      </window>
+    </tag>
+  </tag>
+</screen>

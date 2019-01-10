@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Sit.xml
+    Created on : 08 de Marzo de 2013
+    Author     : Pablo Vidal
+    Description: Gestion de Sites - Lista de Sites
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="MENU_TEST_MATRIX_SUGGEST" help="HELP_SCREEN_TITLE_MATRIX_TEST">
+  <tag source="center">
+    <window style="expand" maximize="true" label="SCREEN_TEXT_DATA" icon="list">
+      <grid id="GrdSugLst" style="expand" server-action="data" target-action="SugTstLst" editable="true" initial-load="query" max="100" load-all="false">
+        <column label="PARAMETER_VALUE" name="Sug1" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug2" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug3" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug4" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug5" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug6" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug7" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug8" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug9" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug10" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug11" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug12" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug13" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug14" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug15" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug16" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug17" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug18" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug19" sort-field="Sug" align="left" charlength="10" component="suggest" />
+        <column label="PARAMETER_VALUE" name="Sug20" sort-field="Sug" align="left" charlength="10" component="suggest" />
+      </grid>
+    </window>
+  </tag>
+</screen>

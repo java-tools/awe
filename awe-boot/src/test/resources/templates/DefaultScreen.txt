@@ -1,0 +1,3 @@
+<div class="fullScreen"><div id="page-signin-bg" class="fullScreen"><div class="overlay-image fullScreen"></div><div class="overlay fullScreen"></div></div><div class="awe-signin signin-container"><div class="signin-info"><h1><span><span translate>APP_CLIENT</span></span></h1><div class="slogan"><span translate>APP_NAME</span></div></div><div class="signin-form"><div class="signin-text"><span><span translate>SCREEN_TITLE_LOGIN</span></span></div><awe-input-text input-text-id="cod_usr"></awe-input-text><awe-input-password input-password-id="pwd_usr"></awe-input-password><div class="signin-with"><div class="form-actions"><awe-button button-id="ButLogIn"></awe-button></div></div></div></div></div>
+<div></div>
+<div class="hidden"></div>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--
+  ==============================================================================
+  Definition
+  ==============================================================================
+  -->
+
+  <xs:annotation>
+    <xs:appinfo>awe Email Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">
+      This Schema defines the way an awe Email file must be structured
+    </xs:documentation>
+  </xs:annotation>
+
+  <!--
+  ==============================================================================
+  Includes
+  ==============================================================================
+  -->
+
+  <xs:include schemaLocation="variable.xsd"/>
+
+  <!--
+  ==============================================================================
+  Elements
+  ==============================================================================
+  -->
+
+  <!-- Emails Element -->
+  <xs:element name="emails" type="emailsType"/>
+
+  <!-- Email Element -->
+  <xs:element name="email" type="emailType"/>
+
+  <!-- From Element -->
+  <xs:element name="from" type="emailItemType"/>
+
+  <!-- To Element -->
+  <xs:element name="to" type="emailItemType"/>
+
+  <!-- Cc Element -->
+  <xs:element name="cc" type="emailItemType"/>
+
+  <!-- Cco Element -->
+  <xs:element name="cco" type="emailItemType"/>
+
+  <!-- Subject Element -->
+  <xs:element name="subject" type="emailMessageType"/>
+
+  <!-- Body Element -->
+  <xs:element name="body" type="emailMessageType"/>
+
+  <!-- Attachment Element -->
+  <xs:element name="attachment" type="emailItemType"/>
+
+  <!-- Variable Element -->
+  <xs:element name="variable" type="variableEmailType"/>
+
+  <!--
+  ==============================================================================
+  Attribute Groups
+  ==============================================================================
+  -->
+
+  <!-- Email Default Attributes -->
+  <xs:attributeGroup name="emailDefaultAttr">
+    <xs:attribute name="query" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <!-- Email Attributes -->
+  <xs:attributeGroup name="emailAttr">
+    <xs:attribute name="id" use="required" type="xs:string"/>
+    <xs:attribute name="async" use="optional" type="booleanEnum"/>
+    <xs:attributeGroup ref="emailDefaultAttr"/>
+  </xs:attributeGroup>
+
+  <!-- Email Item Default Attributes -->
+  <xs:attributeGroup name="emailMessageDefaultAttr">
+    <xs:attribute name="type" type="emailTypeRestriction"/>
+    <xs:attributeGroup ref="emailDefaultAttr"/>
+  </xs:attributeGroup>
+
+  <!-- Email Item Attributes -->
+  <xs:attributeGroup name="emailMessageAttr">
+    <xs:attribute name="label" use="required" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attributeGroup ref="emailMessageDefaultAttr"/>
+  </xs:attributeGroup>
+
+  <!-- Email Message Attributes -->
+  <xs:attributeGroup name="emailItemAttr">
+    <xs:attribute name="label" type="xs:string"/>
+    <xs:attribute name="value" use="required" type="xs:string"/>
+    <xs:attributeGroup ref="emailMessageDefaultAttr"/>
+  </xs:attributeGroup>
+
+  <!--
+  ==============================================================================
+  Group definitions
+  ==============================================================================
+  -->
+
+  <!-- Emails Group -->
+  <xs:group name="emailsGroup">
+    <xs:sequence>
+      <xs:element ref="email"/>
+    </xs:sequence>
+  </xs:group>
+
+  <!-- Email Group -->
+  <xs:group name="emailGroup">
+    <xs:choice>
+      <xs:element ref="from"/>
+      <xs:element ref="to"/>
+      <xs:element ref="cc"/>
+      <xs:element ref="cco"/>
+      <xs:element ref="subject"/>
+      <xs:element ref="body"/>
+      <xs:element ref="attachment"/>
+      <xs:element ref="variable"/>
+    </xs:choice>
+  </xs:group>
+
+  <!--
+  ==============================================================================
+  Type definitions
+  ==============================================================================
+  -->
+
+  <!-- Emails Type -->
+  <xs:complexType name="emailsType">
+    <xs:group ref="emailsGroup" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:complexType>
+
+  <!-- Email Type -->
+  <xs:complexType name="emailType">
+    <xs:group ref="emailGroup" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:attributeGroup ref="emailAttr"/>
+  </xs:complexType>
+
+  <!-- Email Item Type -->
+  <xs:complexType name="emailItemType">
+    <xs:attributeGroup ref="emailItemAttr"/>
+  </xs:complexType>
+
+  <!-- Email Message Type -->
+  <xs:complexType name="emailMessageType">
+    <xs:attributeGroup ref="emailMessageAttr"/>
+  </xs:complexType>
+
+  <!--
+  ==============================================================================
+  Restriction definitions
+  ==============================================================================
+  -->
+
+  <!-- Email Type Restriction -->
+  <xs:simpleType name="emailTypeRestriction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="html"/>
+      <xs:enumeration value="text"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

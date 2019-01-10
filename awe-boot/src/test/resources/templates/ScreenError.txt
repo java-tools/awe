@@ -1,0 +1,11 @@
+<div class="page-500 fullScreen">
+  <div class="header">
+    <a href="/" class="logo"></a>
+  </div>
+  <div class="error-code"><i class="fa fa-exclamation-triangle"></i></div>
+  <div class="error-text">
+    <span class="oops">Option not defined</span><br>
+    <span class="hr"></span><br/>
+    <span class="solve">Option pantalla-inexistente has not been defined. Please check menu files.</span>
+  </div>
+</div>

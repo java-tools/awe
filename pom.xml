@@ -45,9 +45,10 @@
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
   </properties>
 
-  <modules>	
+  <modules>
     <module>awe-dependencies</module>
-	  <module>awe-framework</module>
+    <module>awe-framework</module>
+    <module>awe-boot</module>
   </modules>
 
   <build>

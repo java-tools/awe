@@ -87,9 +87,11 @@ Desktop.ini
 ######################
 # Directories
 ######################
-/build/
-/bin/
-/deploy/
+build/
+bin/
+deploy/
+node/
+node_modules/
 
 ######################
 # Logs
@@ -118,8 +120,4 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
-awe-client-vue/node/
-awe-client-vue/node_modules/
-awe-dependencies/node/
-awe-dependencies/node_modules/
 *.lock

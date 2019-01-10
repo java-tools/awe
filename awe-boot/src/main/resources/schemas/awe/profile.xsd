@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--
+  ==============================================================================
+  Definition
+  ==============================================================================
+  -->
+
+  <xs:annotation>
+    <xs:appinfo>awe Profile Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">
+      This Schema defines the way an awe profile file must be structured
+    </xs:documentation>
+  </xs:annotation>
+
+  <!--
+  ==============================================================================
+  Includes
+  ==============================================================================
+  -->
+
+  <xs:include schemaLocation="general.xsd"/>
+
+  <!--
+  ==============================================================================
+  Elements
+  ==============================================================================
+  -->
+
+  <!-- Profile Element -->
+  <xs:element name="profile" type="profileType"/>
+
+  <!-- Restriction Element -->
+  <xs:element name="restriction" type="restrictionType"/>
+
+  <!-- Criterion Element -->
+  <xs:element name="criterion" type="criterionType"/>
+
+  <!-- Attributemap Element -->
+  <xs:element name="attributeMap" type="attributeMapType"/>
+
+  <!-- Attributemap Element -->
+  <xs:element name="entry" type="entryMapType"/>
+
+
+  <!--
+  ==============================================================================
+  Type definitions
+  ==============================================================================
+  -->
+
+  <!-- Profile Type -->
+  <xs:complexType name="profileType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="restriction"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Restriction Type -->
+  <xs:complexType name="restrictionType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="criterion"/>
+    </xs:sequence>
+    <xs:attribute name="option" type="xs:string"/>
+    <xs:attribute name="screen" type="xs:string"/>
+  </xs:complexType>
+
+  <!-- Criterion Type -->
+  <xs:complexType name="criterionType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" ref="attributeMap"/>
+    </xs:sequence>
+    <xs:attribute name="id" use="required" type="xs:string"/>
+
+  </xs:complexType>
+
+  <!-- Attributemap Type -->
+  <xs:complexType name="attributeMapType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" ref="entry"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- EntryMap Type -->
+  <xs:complexType name="entryMapType">
+    <xs:sequence>
+      <xs:element name="string" minOccurs="2" maxOccurs="2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

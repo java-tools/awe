@@ -1,0 +1,3977 @@
+[
+  {
+    "type": "screen-data",
+    "parameters": {
+      "view": "report",
+      "screenData": {
+        "components": [
+          {
+            "id": "NumHid",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "NumHid",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "value": "4",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "4"
+              ],
+              "defaultValues": [
+                "4"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "RadBox23",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "RadBoxGrp2",
+                            "id": "RadBox23",
+              "label": "PARAMETER_RADIO_3",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-2",
+              "value": "Radio3",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [
+                "Radio3"
+              ],
+              "values": [
+                {
+                  "label": "RadBox23",
+                  "value": "Radio3"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "RadBox22",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "RadBoxGrp2",
+                            "id": "RadBox22",
+              "label": "PARAMETER_RADIO_2",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-2",
+              "value": "Radio2",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [
+                "Radio2"
+              ],
+              "values": [
+                {
+                  "label": "RadBox22",
+                  "value": "Radio2"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "RadBox21",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "RadBoxGrp2",
+                            "id": "RadBox21",
+              "label": "PARAMETER_RADIO_1",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-2",
+              "validation": "required",
+              "value": "Radio1",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [
+                "Radio1"
+              ],
+              "values": [
+                {
+                  "label": "RadBox21",
+                  "value": "Radio1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ChkBoxVa21",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "ChkBoxVa2",
+                            "id": "ChkBoxVa21",
+              "label": "PARAMETER_CHECKBOX_1",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-2",
+              "validation": "{checkAtLeast:2}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": "1",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "Tar",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "Tar",
+              "label": "PARAMETER_TEXTAREA",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-6",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "TxtReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "TxtReq",
+              "label": "PARAMETER_TEXT",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "validation": "required {maxlength:4}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "PrnScr",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "PrnScr",
+              "loadAll": false,
+              "optional": false,
+              "printable": false,
+              "readonly": false,
+              "strict": true,
+              "style": "nolabel",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "CrtTstLeft"
+              ],
+              "defaultValues": [
+                "CrtTstLeft"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ButHlp",
+            "controller": {
+              "actions": [
+                {
+                  "type": "dialog",
+                  "target": "HlpOpt",
+                  "parameters": {
+                    "target": "HlpOpt"
+                  }
+                }
+              ],
+              "buttonType": "button",
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_HELP_BUTTON",
+              "icon": "question-circle",
+                            "id": "ButHlp",
+              "label": "BUTTON_SCREEN_HELP",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "UsrPrn",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-required",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "ActPrn",
+                      "condition": "eq",
+                      "value": "0",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+              "help": "HELP_PRINT_DESTINATION_USERS_CRITERION",
+                            "id": "UsrPrn",
+              "label": "ENUM_EML_DST_USR",
+              "loadAll": false,
+              "optional": false,
+              "printable": false,
+              "readonly": false,
+              "serverAction": "data",
+              "strict": true,
+              "style": "col-xs-12",
+              "targetAction": "ActUsrEmlSug",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "RadBox25",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": true,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "RadBoxGrp2",
+                            "id": "RadBox25",
+              "label": "PARAMETER_RADIO_1",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-2",
+              "value": "Radio5",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "Radio5"
+              ],
+              "defaultValues": [
+                "Radio5"
+              ],
+              "values": [
+                {
+                  "label": "RadBox25",
+                  "value": "Radio5"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "RadBox24",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "RadBoxGrp2",
+                            "id": "RadBox24",
+              "label": "PARAMETER_RADIO_1",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-2",
+              "value": "Radio4",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [
+                "Radio4"
+              ],
+              "values": [
+                {
+                  "label": "RadBox24",
+                  "value": "Radio4"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "Upl",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "Upl",
+              "label": "PARAMETER_UPLOADER",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "SelDep",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-editable",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Sug",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-required",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Sug",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "source": "query",
+                  "serverAction": "data",
+                  "targetAction": "Es1Es0",
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "input",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Sug",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "Es1Es0",
+                  "actions": []
+                }
+              ],
+                            "id": "SelDep",
+              "label": "PARAMETER_SELECT",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": true,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "SelRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "SelRea",
+              "label": "PARAMETER_SELECT_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "targetAction": "Es1Es0",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "id": 1,
+                  "label": "ENUM_NO",
+                  "value": "0"
+                },
+                {
+                  "id": 2,
+                  "label": "ENUM_YES",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 2
+            }
+          },
+          {
+            "id": "TxtVal",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "source": "query",
+                  "serverAction": "validate",
+                  "targetAction": "ValidateBankAccount",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "TxtVal",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "ValidateBankAccount",
+                  "actions": []
+                }
+              ],
+                            "id": "TxtVal",
+              "label": "PARAMETER_TEXT",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ButDiaVal",
+            "controller": {
+              "actions": [
+                {
+                  "type": "validate",
+                  "target": "PrnOpt",
+                  "parameters": {
+                    "target": "PrnOpt"
+                  }
+                },
+                {
+                  "type": "server-print",
+                  "parameters": {
+                    "serverAction": "maintain",
+                    "targetAction": "ExpFil"
+                  }
+                },
+                {
+                  "type": "close",
+                  "target": "PrnOpt",
+                  "parameters": {
+                    "target": "PrnOpt"
+                  }
+                }
+              ],
+              "buttonType": "submit",
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_ACCEPT_PRINT_BUTTON",
+              "icon": "check",
+                            "id": "ButDiaVal",
+              "label": "BUTTON_ACCEPT",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ChkBoxVa22",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "ChkBoxVa2",
+                            "id": "ChkBoxVa22",
+              "label": "PARAMETER_CHECKBOX_2",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-2",
+              "validation": "{checkAtLeast:2}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": "1",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "TxtViw",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "source": "value",
+                  "value": "EUR",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "unit",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "RadBoxGrp1",
+                      "condition": "eq",
+                      "value": "Radio1",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "source": "value",
+                  "value": "Changed",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "input",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "RadBoxGrp1",
+                      "condition": "eq",
+                      "value": "Radio4",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "TxtViw",
+                      "checkChanges": true
+                    },
+                    {
+                      "id": "TxtViw",
+                      "event": "click",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "server-download",
+                      "parameters": {
+                        "serverAction": "get-file-maintain",
+                        "targetAction": "downloadFile"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Upl",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "server",
+                      "target": "TxtViw",
+                      "parameters": {
+                        "target": "TxtViw",
+                        "serverAction": "value",
+                        "targetAction": "getFileInfo"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "icon": "download",
+                            "id": "TxtViw",
+              "label": "PARAMETER_TEXT",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "unit": "4",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "SugMul",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "SugMul",
+              "label": "PARAMETER_SUGGEST_MULTIPLE",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "serverAction": "data",
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "targetAction": "UsrEmlLstTstSug",
+              "timeout": "1000",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ChkBoxVa23",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "ChkBoxVa2",
+                            "id": "ChkBoxVa23",
+              "label": "PARAMETER_CHECKBOX_3",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-2",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": "1",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ChkBoxVa24",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "ChkBoxVa2",
+                            "id": "ChkBoxVa24",
+              "label": "PARAMETER_CHECKBOX",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-2",
+              "validation": "{checkAtLeast:2}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": "1",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ChkBoxVa25",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": true,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "ChkBoxVa2",
+                            "id": "ChkBoxVa25",
+              "label": "PARAMETER_CHECKBOX",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-2",
+              "validation": "{checkAtLeast:2}",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "1"
+              ],
+              "defaultValues": [
+                "1"
+              ],
+              "values": [
+                {
+                  "label": "1",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "Sug",
+            "controller": {
+              "checkInitial": false,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "source": "launcher",
+                  "targetAction": "TxtMgr",
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "input",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "condition": "eq",
+                      "value": "mgr",
+                      "alias": "TxtMgr",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "TxtMgr",
+                  "actions": []
+                }
+              ],
+                            "id": "Sug",
+              "label": "PARAMETER_SUGGEST",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "serverAction": "data",
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "targetAction": "TstUsrSug",
+              "timeout": "500",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "UplReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-optional",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "condition": "gt",
+                      "value": "1",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+              "destination": "testModule",
+                            "id": "UplReq",
+              "label": "PARAMETER_UPLOADER",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "validation": "required",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "TimRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "TimRea",
+              "label": "PARAMETER_TIME_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "DblFmtPrn",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_PRINT_NUMERIC_FORMAT_CRITERION",
+                            "id": "DblFmtPrn",
+              "label": "PARAMETER_DBL_FORMAT",
+              "loadAll": false,
+              "optional": false,
+              "printable": false,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6",
+              "targetAction": "DblPrnFmt",
+              "value": "0",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "0"
+              ],
+              "defaultValues": [
+                "0"
+              ],
+              "values": [
+                {
+                  "id": 1,
+                  "label": "ENUM_PRN_FMT_EUR",
+                  "value": "0"
+                },
+                {
+                  "id": 2,
+                  "label": "ENUM_PRN_FMT_AME",
+                  "value": "1"
+                },
+                {
+                  "id": 3,
+                  "label": "ENUM_PRN_FMT_EUR_NO_THOU",
+                  "value": "2"
+                },
+                {
+                  "id": 4,
+                  "label": "ENUM_PRN_FMT_AME_NO_THOU",
+                  "value": "3"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 4
+            }
+          },
+          {
+            "id": "FilCalReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "FilCalReq",
+              "label": "PARAMETER_FILTERED_DATE",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": false,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "targetAction": "FilCalDat",
+              "validation": "{required:true,ge:{criterion:'FilCal',type:'date'}}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": null,
+                  "id": 1,
+                  "value": null
+                },
+                {
+                  "label": "{{currentDate}}",
+                  "id": 2,
+                  "value": "{{currentDate}}"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 2
+            }
+          },
+          {
+            "id": "TarRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "TarRea",
+              "label": "PARAMETER_TEXTAREA_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-12 col-sm-12 col-lg-12",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ButDiaCan",
+            "controller": {
+              "actions": [
+                {
+                  "type": "restore",
+                  "target": "PrnOpt",
+                  "parameters": {
+                    "target": "PrnOpt"
+                  }
+                },
+                {
+                  "type": "close",
+                  "target": "PrnOpt",
+                  "parameters": {
+                    "target": "PrnOpt"
+                  }
+                }
+              ],
+              "buttonType": "button",
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_CANCEL_PRINT_BUTTON",
+              "icon": "close",
+                            "id": "ButDiaCan",
+              "label": "BUTTON_CANCEL",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "SelMulRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "SelMulRea",
+              "label": "PARAMETER_SELECT_MULTIPLE_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "targetAction": "UsrEmlLst",
+              "value": "mgr",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "mgr"
+              ],
+              "defaultValues": [
+                "mgr"
+              ],
+              "values":[
+                {
+                  "label":"donald (donald@test.com)",
+                  "id":1,
+                  "value":"donald"
+                },
+                {
+                  "label":"jaimito (jaimito@test.com)",
+                  "id":2,
+                  "value":"jaimito"
+                },
+                {
+                  "label":"jorgito (jorgito@test.com)",
+                  "id":3,
+                  "value":"jorgito"
+                },
+                {
+                  "label":"juanito (juanito@test.com)",
+                  "id":4,
+                  "value":"juanito"
+                },
+                {
+                  "label":"mgr (test@test.com)",
+                  "id":5,
+                  "value":"mgr"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 5
+            }
+          },
+          {
+            "id": "ColRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "ColRea",
+              "label": "PARAMETER_COLOR_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "SelDepDep",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-editable",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Sug",
+                      "checkChanges": true
+                    },
+                    {
+                      "id": "SelDep",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-required",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Sug",
+                      "checkChanges": true
+                    },
+                    {
+                      "id": "SelDep",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "source": "query",
+                  "serverAction": "data",
+                  "targetAction": "Es1Es0",
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "input",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Sug",
+                      "checkChanges": true
+                    },
+                    {
+                      "id": "SelDep",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "Es1Es0",
+                  "actions": []
+                }
+              ],
+                            "id": "SelDepDep",
+              "label": "PARAMETER_SELECT",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": true,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "NumSlidReadOnly",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "set-editable",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "NumSlid",
+                      "condition": "eq",
+                      "value": "2",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "NumSlidReadOnly",
+              "label": "PARAMETER_NUMERIC",
+              "leftLabel": "18",
+              "loadAll": false,
+              "numberFormat": "{min: 0, max: 100, step: 0.01, precision: 2, aSign:' £', pSign:'s', aPad:true}",
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "showSlider": true,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "value": "55.22",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "55.22"
+              ],
+              "defaultValues": [
+                "55.22"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "Cal",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "Cal",
+              "label": "PARAMETER_DATE",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "showFutureDates": false,
+              "showWeekends": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "validation": "{le:{criterion:'CalReq',type:'date'}}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "FormatSelector",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "FormatSelector",
+              "loadAll": false,
+              "maximize": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12",
+              "targetAction": "printTabs",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "id": 1,
+                  "label": "PRINT_TAB_GENERAL",
+                  "value": "GENERAL"
+                },
+                {
+                  "id": 2,
+                  "label": "PRINT_TAB_ADVANCE",
+                  "value": "ADVANCE"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 2
+            }
+          },
+          {
+            "id": "reportOrientation",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_PRINT_ORIENTATION_CRITERION",
+                            "id": "reportOrientation",
+              "label": "PARAMETER_REPORT_ORIENTATION",
+              "loadAll": false,
+              "optional": true,
+              "printable": false,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6",
+              "targetAction": "report-orientation",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "id": 1,
+                  "label": "ENUM_REPORT_ORIENTATION_PORTRAIT",
+                  "value": "PORTRAIT"
+                },
+                {
+                  "id": 2,
+                  "label": "ENUM_REPORT_ORIENTATION_LANDSCAPE",
+                  "value": "LANDSCAPE"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 2
+            }
+          },
+          {
+            "id": "TxtRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "source": "launcher",
+                  "targetAction": "language",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "input",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "language",
+                      "alias": "language",
+                      "attribute1": "text",
+                      "view1": "base",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "language",
+                  "actions": []
+                }
+              ],
+                            "id": "TxtRea",
+              "label": "PARAMETER_TEXT_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "targetAction": "SysTim",
+              "unit": "PARAMETER_TEXT",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "{{currentTime}}"
+              ],
+              "defaultValues": [
+                "{{currentTime}}"
+              ],
+              "values": [
+                {
+                  "id": 1,
+                  "value": "{{currentTime}}"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 1
+            }
+          },
+          {
+            "id": "RadBox3",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "RadBoxGrp1",
+                            "id": "RadBox3",
+              "label": "PARAMETER_RADIO_3",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-4 col-lg-2 no-label",
+              "value": "Radio3",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [
+                "Radio3"
+              ],
+              "values": [
+                {
+                  "label": "RadBox3",
+                  "value": "Radio3"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ButHlpClo",
+            "controller": {
+              "actions": [
+                {
+                  "type": "close",
+                  "target": "HlpOpt",
+                  "parameters": {
+                    "target": "HlpOpt"
+                  }
+                }
+              ],
+              "buttonType": "submit",
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_CLOSE_HELP_BUTTON",
+              "icon": "close",
+                            "id": "ButHlpClo",
+              "label": "BUTTON_CLOSE",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "FilCalRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-editable",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "condition": "eq",
+                      "value": "edita",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "FilCalRea",
+              "label": "PARAMETER_FILTERED_DATE_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "targetAction": "FilCalDat",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": null,
+                  "id": 1,
+                  "value": null
+                },
+                {
+                  "label": "{{currentDate}}",
+                  "id": 2,
+                  "value": "{{currentDate}}"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 2
+            }
+          },
+          {
+            "id": "RadBox2",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "RadBoxGrp1",
+                            "id": "RadBox2",
+              "label": "PARAMETER_RADIO_2",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-4 col-lg-2 no-label",
+              "value": "Radio2",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [
+                "Radio2"
+              ],
+              "values": [
+                {
+                  "label": "RadBox2",
+                  "value": "Radio2"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "TarReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "TarReq",
+              "label": "PARAMETER_TEXTAREA",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-6",
+              "validation": "required",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "RadBox5",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": true,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "RadBoxGrp1",
+                            "id": "RadBox5",
+              "label": "PARAMETER_RADIO_1",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-4 col-lg-2 no-label",
+              "value": "Radio5",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "Radio5"
+              ],
+              "defaultValues": [
+                "Radio5"
+              ],
+              "values": [
+                {
+                  "label": "RadBox5",
+                  "value": "Radio5"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "Sel",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Sel",
+                      "condition": "eq",
+                      "value": "0",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "add-class",
+                      "target": ".window-buttons",
+                      "parameters": {
+                        "target": ".window-buttons",
+                        "targetAction": "hidden"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "condition": "eq",
+                      "value": "rellenaSelector",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "server",
+                      "target": "Sel",
+                      "parameters": {
+                        "target": "Sel",
+                        "serverAction": "value",
+                        "targetAction": "PrnAct"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Sel",
+                      "condition": "eq",
+                      "value": "1",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "remove-class",
+                      "target": ".window-buttons",
+                      "parameters": {
+                        "target": ".window-buttons",
+                        "targetAction": "hidden"
+                      }
+                    }
+                  ]
+                }
+              ],
+                            "id": "Sel",
+              "label": "PARAMETER_SELECT",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": true,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "targetAction": "Es1Es0",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "id": 1,
+                  "label": "ENUM_NO",
+                  "value": "0"
+                },
+                {
+                  "id": 2,
+                  "label": "ENUM_YES",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 2
+            }
+          },
+          {
+            "id": "SelMulReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-optional",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "condition": "gt",
+                      "value": "1",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "SelMulReq",
+              "label": "PARAMETER_SELECT_MULTIPLE",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": false,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "targetAction": "UsrEmlLst",
+              "validation": "required",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values":[
+                {
+                  "label":"donald (donald@test.com)",
+                  "id":1,
+                  "value":"donald"
+                },
+                {
+                  "label":"jaimito (jaimito@test.com)",
+                  "id":2,
+                  "value":"jaimito"
+                },
+                {
+                  "label":"jorgito (jorgito@test.com)",
+                  "id":3,
+                  "value":"jorgito"
+                },
+                {
+                  "label":"juanito (juanito@test.com)",
+                  "id":4,
+                  "value":"juanito"
+                },
+                {
+                  "label":"mgr (test@test.com)",
+                  "id":5,
+                  "value":"mgr"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 5
+            }
+          },
+          {
+            "id": "RadBox4",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "RadBoxGrp1",
+                            "id": "RadBox4",
+              "label": "PARAMETER_RADIO_1",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-4 col-lg-2 no-label",
+              "value": "Radio4",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [
+                "Radio4"
+              ],
+              "values": [
+                {
+                  "label": "RadBox4",
+                  "value": "Radio4"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ADVANCE",
+            "controller": {
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "ADVANCE",
+              "loadAll": false,
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ColReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "source": "criteria-value",
+                  "targetAction": "Col",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "input",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Col",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "Col",
+                  "actions": []
+                },
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-optional",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Col",
+                      "condition": "eq",
+                      "value": "#d5db89",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "ColReq",
+              "label": "PARAMETER_COLOR",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "validation": "required",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "RadBox1",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "RadBoxGrp1",
+                            "id": "RadBox1",
+              "label": "PARAMETER_RADIO_1",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-4 col-lg-2 no-label",
+              "validation": "required",
+              "value": "Radio1",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [
+                "Radio1"
+              ],
+              "values": [
+                {
+                  "label": "RadBox1",
+                  "value": "Radio1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "HlpOpt",
+            "controller": {
+              "accept": true,
+              "acceptOnClose": true,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_SCREEN_HELP",
+              "icon": "question-circle",
+                            "id": "HlpOpt",
+              "label": "SCREEN_HELP",
+              "loadAll": false,
+              "style": "modal-lg expand",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "FilCal",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "FilCal",
+              "label": "PARAMETER_FILTERED_DATE",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "targetAction": "FilCalDat",
+              "validation": "{le:{criterion:'FilCalReq',type:'date'}}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": null,
+                  "id": 1,
+                  "value": null
+                },
+                {
+                  "label": "{{currentDate}}",
+                  "id": 2,
+                  "value": "{{currentDate}}"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 2
+            }
+          },
+          {
+            "id": "SelMul",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "SelMul",
+              "label": "PARAMETER_SELECT_MULTIPLE",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "targetAction": "UsrEmlLst",
+              "timeout": "1000",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values":[
+                {
+                  "label":"donald (donald@test.com)",
+                  "id":1,
+                  "value":"donald"
+                },
+                {
+                  "label":"jaimito (jaimito@test.com)",
+                  "id":2,
+                  "value":"jaimito"
+                },
+                {
+                  "label":"jorgito (jorgito@test.com)",
+                  "id":3,
+                  "value":"jorgito"
+                },
+                {
+                  "label":"juanito (juanito@test.com)",
+                  "id":4,
+                  "value":"juanito"
+                },
+                {
+                  "label":"mgr (test@test.com)",
+                  "id":5,
+                  "value":"mgr"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 5
+            }
+          },
+          {
+            "id": "Criteria",
+            "controller": {
+              "contextMenu": [],
+              "dependencies": [],
+              "expand": "vertical",
+                            "label": "SCREEN_TEXT_DATA",
+              "loadAll": false,
+              "maximize": false,
+              "style": "expand",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "GENERAL",
+            "controller": {
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "GENERAL",
+              "loadAll": false,
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ButPrn",
+            "controller": {
+              "actions": [
+                {
+                  "type": "validate",
+                  "parameters": {}
+                },
+                {
+                  "type": "dialog",
+                  "target": "PrnOpt",
+                  "parameters": {
+                    "target": "PrnOpt"
+                  }
+                }
+              ],
+              "buttonType": "button",
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_PRINT_BUTTON",
+              "icon": "print",
+                            "id": "ButPrn",
+              "label": "BUTTON_PRINT",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "CalReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "CalReq",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "server",
+                      "target": "SelReq",
+                      "parameters": {
+                        "target": "SelReq",
+                        "serverAction": "data",
+                        "targetAction": "ProAllLst"
+                      }
+                    },
+                    {
+                      "type": "server",
+                      "target": "SelMulReq",
+                      "parameters": {
+                        "target": "SelMulReq",
+                        "serverAction": "data",
+                        "targetAction": "ProAllLst"
+                      }
+                    }
+                  ]
+                }
+              ],
+                            "id": "CalReq",
+              "label": "PARAMETER_DATE",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "validation": "{required:true,ge:{criterion:'Cal',type:'date'}}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "NumSlid",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "NumSlid",
+              "label": "PARAMETER_NUMERIC",
+              "leftLabel": "18",
+              "loadAll": false,
+              "numberFormat": "{min: 0, max: 100, step: 1, precision: 2, pSign:'s', aPad:true}",
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "showSlider": true,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ActPrn",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_PRINT_ACTION_CRITERION",
+                            "id": "ActPrn",
+              "label": "PARAMETER_PRN_ACTION",
+              "loadAll": false,
+              "optional": false,
+              "printable": false,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6",
+              "targetAction": "PrnAct",
+              "value": "2",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "2"
+              ],
+              "defaultValues": [
+                "2"
+              ],
+              "values": [
+                {
+                  "id": 1,
+                  "label": "ENUM_PRN_ACT_MAIL",
+                  "value": "0"
+                },
+                {
+                  "id": 2,
+                  "label": "ENUM_PRN_ACT_PRINT",
+                  "value": "1"
+                },
+                {
+                  "id": 3,
+                  "label": "ENUM_PRN_ACT_CREATE",
+                  "value": "2"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 3
+            }
+          },
+          {
+            "id": "ChkBoxVa1",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "ChkBoxVa",
+                            "id": "ChkBoxVa1",
+              "label": "PARAMETER_CHECKBOX_1",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-4 col-lg-2 no-label",
+              "validation": "{checkAtLeast:2}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": "1",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "Txt",
+            "controller": {{textController}},
+            "model": {{textModel}}
+          },
+          {
+            "id": "ChkBoxVa3",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "ChkBoxVa",
+                            "id": "ChkBoxVa3",
+              "label": "PARAMETER_CHECKBOX_3",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-4 col-lg-2 no-label",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": "1",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ChkBoxVa2",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "ChkBoxVa",
+                            "id": "ChkBoxVa2",
+              "label": "PARAMETER_CHECKBOX_2",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-4 col-lg-2 no-label",
+              "validation": "{checkAtLeast:2}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": "1",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ChkBoxVa5",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": true,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "ChkBoxVa",
+                            "id": "ChkBoxVa5",
+              "label": "PARAMETER_CHECKBOX",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-4 col-lg-2 no-label",
+              "validation": "{checkAtLeast:2}",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "1"
+              ],
+              "defaultValues": [
+                "1"
+              ],
+              "values": [
+                {
+                  "label": "1",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "UplRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "UplRea",
+              "label": "PARAMETER_UPLOADER_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ChkBoxVa4",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "group": "ChkBoxVa",
+                            "id": "ChkBoxVa4",
+              "label": "PARAMETER_CHECKBOX",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-4 col-lg-2 no-label",
+              "validation": "{checkAtLeast:2}",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "label": "1",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "FmtPrn",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_PRINT_FORMAT_CRITERION",
+                            "id": "FmtPrn",
+              "label": "PARAMETER_PRN_FORMAT",
+              "loadAll": false,
+              "optional": false,
+              "printable": false,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6",
+              "targetAction": "PrnFmt",
+              "validation": "required",
+              "value": "PDF",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "PDF"
+              ],
+              "defaultValues": [
+                "PDF"
+              ],
+              "values": [
+                {
+                  "id": 1,
+                  "label": "ENUM_PRN_FMT_PDF",
+                  "value": "PDF"
+                },
+                {
+                  "id": 2,
+                  "label": "ENUM_PRN_FMT_XLS",
+                  "value": "XLS"
+                },
+                {
+                  "id": 3,
+                  "label": "ENUM_PRN_FMT_XLSX",
+                  "value": "XLSX"
+                },
+                {
+                  "id": 4,
+                  "label": "ENUM_PRN_FMT_CSV",
+                  "value": "CSV"
+                },
+                {
+                  "id": 5,
+                  "label": "ENUM_PRN_FMT_RTF",
+                  "value": "RTF"
+                },
+                {
+                  "id": 6,
+                  "label": "ENUM_PRN_FMT_DOCX",
+                  "value": "DOCX"
+                },
+                {
+                  "id": 7,
+                  "label": "ENUM_PRN_FMT_TEXT",
+                  "value": "TEXT"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 7
+            }
+          },
+          {
+            "id": "TimReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "source": "value",
+                  "value": "{ge:{criterion:'Tim'}}",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "validate",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id2": "CalReq",
+                      "name": "CalReq",
+                      "id": "Cal",
+                      "condition": "eq",
+                      "checkChanges": true
+                    },
+                    {
+                      "id2": "Cal",
+                      "name": "Cal",
+                      "id": "CalReq",
+                      "condition": "eq",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "TimReq",
+              "label": "PARAMETER_TIME",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "validation": "required",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "Unt",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "source": "launcher",
+                  "targetAction": "Sel",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "unit",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Sel",
+                      "condition": "ne",
+                      "value": "-1",
+                      "checkChanges": true
+                    },
+                    {
+                      "id": "Sel",
+                      "alias": "Sel",
+                      "attribute1": "text",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "Sel",
+                  "actions": []
+                },
+                {
+                  "source": "criteria-value",
+                  "targetAction": "Txt",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "label",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "Txt",
+                  "actions": []
+                },
+                {
+                  "source": "criteria-value",
+                  "targetAction": "Num",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "input",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Num",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "Num",
+                  "actions": []
+                },
+                {
+                  "source": "label",
+                  "type": "and",
+                  "label": "PARAMETER_NUMERIC",
+                  "initial": false,
+                  "invert": false,
+                  "target": "label",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Num",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "source": "query",
+                  "serverAction": "data",
+                  "targetAction": "ModSel",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "label",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "ChkBoxVa1",
+                      "condition": "eq",
+                      "value": "1",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "ModSel",
+                  "actions": []
+                },
+                {
+                  "source": "query",
+                  "serverAction": "data",
+                  "targetAction": "ModSel",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "unit",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "ChkBoxVa2",
+                      "condition": "eq",
+                      "value": "1",
+                      "checkChanges": true
+                    }
+                  ],
+                  "query": "ModSel",
+                  "actions": []
+                },
+                {
+                  "source": "value",
+                  "value": "EUR",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "unit",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "RadBoxGrp1",
+                      "condition": "eq",
+                      "value": "Radio1",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "source": "formule",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "formule": "#USD#",
+                  "target": "unit",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "RadBoxGrp1",
+                      "condition": "eq",
+                      "value": "Radio3",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "hide",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Upl",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "hide",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "condition": "eq",
+                      "value": "hide",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "source": "reset",
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "input",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Sug",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "source": "reset",
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "label",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Tar",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                },
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-editable",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "TxtReq",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+              "icon": "dollar",
+                            "id": "Unt",
+              "label": "PARAMETER_NUMERIC",
+              "leftLabel": "18",
+              "loadAll": false,
+              "numberFormat": "{vMin: '-999999', mDec: 2, aPad:true}",
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "value": "-123456.1",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "-123456.1"
+              ],
+              "defaultValues": [
+                "-123456.1"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "CalRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "CalRea",
+              "label": "PARAMETER_DATE_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "Col",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "Col",
+              "label": "PARAMETER_COLOR",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "value": "#d5db89",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "#d5db89"
+              ],
+              "defaultValues": [
+                "#d5db89"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "NumReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-invisible",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "condition": "eq",
+                      "value": "oculta",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "NumReq",
+              "label": "PARAMETER_NUMERIC",
+              "leftLabel": "18",
+              "loadAll": false,
+              "numberFormat": "{vMin: '-999999', mDec: 2, aSign:' EUR', pSign:'s', aPad:true}",
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "validation": "required",
+              "value": "-123456.1",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "-123456.1"
+              ],
+              "defaultValues": [
+                "-123456.1"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "Num",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "source": "formule",
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "formule": "{vMin: '-999999', mDec: [NumHid], aSign:' JPY', pSign:'s', aPad:true}",
+                  "target": "format-number",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "NumHid",
+                      "checkChanges": true
+                    },
+                    {
+                      "id": "Txt",
+                      "condition": "eq",
+                      "value": "4decimales",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "Num",
+              "label": "PARAMETER_NUMERIC",
+              "leftLabel": "18",
+              "loadAll": false,
+              "numberFormat": "{vMin: '-999999', mDec: 2, aSign:' EUR', pSign:'s', aPad:true}",
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "value": "-123456.1",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "-123456.1"
+              ],
+              "defaultValues": [
+                "-123456.1"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "SelReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-optional",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "condition": "gt",
+                      "value": "1",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "SelReq",
+              "label": "PARAMETER_SELECT",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": true,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "targetAction": "Es1Es0",
+              "unit": "PARAMETER_TEXT",
+              "validation": "required",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [
+                {
+                  "id": 1,
+                  "label": "ENUM_NO",
+                  "value": "0"
+                },
+                {
+                  "id": 2,
+                  "label": "ENUM_YES",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 2
+            }
+          },
+          {
+            "id": "SugRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "SugRea",
+              "label": "PARAMETER_SUGGEST_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "serverAction": "data",
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "targetAction": "TstUsrSug",
+              "value": "mgr",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "mgr"
+              ],
+              "defaultValues": [
+                "mgr"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "NumSlidReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "NumSlidReq",
+              "label": "PARAMETER_NUMERIC",
+              "leftLabel": "18",
+              "loadAll": false,
+              "numberFormat": "{min: -1000, max: 1000, step: 10, precision: 2, aSign:' $', pSign:'s', aPad:true,  ticks: [-1000, -500, 0, 500, 1000], ticks_labels: ['-$1000', '-$500', '$0', '$500', '$1000']}",
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "showSlider": true,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "validation": "required",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "SugMulRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "SugMulRea",
+              "label": "PARAMETER_SUGGEST_MULTIPLE_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "serverAction": "data",
+              "strict": true,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "targetAction": "UsrEmlLstTstSug",
+              "value": "mgr",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "mgr"
+              ],
+              "defaultValues": [
+                "mgr"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ButBck",
+            "controller": {{buttonController}},
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ButRst",
+            "controller": {
+              "actions": [
+                {
+                  "type": "restore",
+                  "parameters": {}
+                }
+              ],
+              "buttonType": "button",
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_RESET_BUTTON",
+              "icon": "eraser",
+                            "id": "ButRst",
+              "label": "BUTTON_RESET",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "NumRea",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "NumRea",
+              "label": "PARAMETER_NUMERIC_READONLY",
+              "leftLabel": "18",
+              "loadAll": false,
+              "numberFormat": "{vMin: '-999999999999.99999', vMax: '999999999999999.99999'}",
+              "optional": false,
+              "printable": true,
+              "readonly": true,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "value": "123456789123456.78945",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "123456789123456.78945"
+              ],
+              "defaultValues": [
+                "123456789123456.78945"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "TypPrn",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_PRINT_SELECTION_CRITERION",
+                            "id": "TypPrn",
+              "label": "PARAMETER_PRN_TYPE",
+              "loadAll": false,
+              "optional": false,
+              "printable": false,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-12 col-sm-6",
+              "targetAction": "PrnTyp",
+              "value": "1",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "1"
+              ],
+              "defaultValues": [
+                "1"
+              ],
+              "values": [
+                {
+                  "id": 1,
+                  "label": "ENUM_PRN_TYP_ALL",
+                  "value": "0"
+                },
+                {
+                  "id": 2,
+                  "label": "ENUM_PRN_TYP_TAB",
+                  "value": "1"
+                }
+              ],
+              "page": 1,
+              "total": 1,
+              "records": 2
+            }
+          },
+          {
+            "id": "helpViewer",
+            "controller": {
+              "contextMenu": [],
+              "dependencies": [],
+                            "id": "helpViewer",
+              "loadAll": false,
+              "parameters": {},
+              "type": "help-viewer",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "Tim",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "source": "value",
+                  "value": "{le:{criterion:'TimReq'}}",
+                  "type": "and",
+                  "initial": false,
+                  "invert": false,
+                  "target": "validate",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id2": "Cal",
+                      "name": "Cal",
+                      "id": "CalReq",
+                      "condition": "eq",
+                      "checkChanges": true
+                    },
+                    {
+                      "id2": "CalReq",
+                      "name": "CalReq",
+                      "id": "Cal",
+                      "condition": "eq",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "Tim",
+              "label": "PARAMETER_TIME",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "SugReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-optional",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "condition": "gt",
+                      "value": "1",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "SugReq",
+              "label": "PARAMETER_SUGGEST",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "serverAction": "data",
+              "strict": true,
+              "style": "col-xs-6 col-sm-3 col-lg-2",
+              "targetAction": "TstUsrSug",
+              "validation": "required",
+              "value": "mgr",
+              "visible": true
+            },
+            "model": {
+              "selected": [
+                "mgr"
+              ],
+              "defaultValues": [
+                "mgr"
+              ],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "PrnOpt",
+            "controller": {
+              "accept": true,
+              "acceptOnClose": true,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_SCREEN_TEXT_PRINT_EMAIL",
+              "icon": "print",
+                            "id": "PrnOpt",
+              "label": "SCREEN_TEXT_PRINT_EMAIL",
+              "loadAll": false,
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "ButCnf",
+            "controller": {
+              "actions": [
+                {
+                  "type": "confirm-not-updated-data",
+                  "parameters": {}
+                },
+                {
+                  "type": "validate",
+                  "parameters": {}
+                },
+                {
+                  "type": "confirm",
+                  "target": "UniMsg",
+                  "parameters": {
+                    "target": "UniMsg"
+                  }
+                },
+                {
+                  "type": "server",
+                  "target": "UniMsg",
+                  "parameters": {
+                    "target": "UniMsg",
+                    "serverAction": "control-confirm",
+                    "targetAction": "UsrLst"
+                  }
+                }
+              ],
+              "buttonType": "button",
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [],
+              "help": "HELP_CONFIRM_BUTTON",
+              "icon": "save",
+                            "id": "ButCnf",
+              "label": "BUTTON_CONFIRM",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "strict": true,
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          },
+          {
+            "id": "SugMulReq",
+            "controller": {
+              "checkInitial": true,
+              "checkTarget": false,
+              "checked": false,
+              "contextMenu": [],
+              "dependencies": [
+                {
+                  "type": "and",
+                  "initial": true,
+                  "invert": false,
+                  "target": "set-optional",
+                  "silent": false,
+                  "async": false,
+                  "elements": [
+                    {
+                      "id": "Txt",
+                      "condition": "gt",
+                      "value": "1",
+                      "checkChanges": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+                            "id": "SugMulReq",
+              "label": "PARAMETER_SUGGEST_MULTIPLE",
+              "leftLabel": "18",
+              "loadAll": false,
+              "optional": false,
+              "printable": true,
+              "readonly": false,
+              "required": true,
+              "serverAction": "data",
+              "strict": false,
+              "style": "col-xs-12 col-sm-6 col-lg-4",
+              "targetAction": "UsrEmlLstTstSug",
+              "validation": "required",
+              "visible": true
+            },
+            "model": {
+              "selected": [],
+              "defaultValues": [],
+              "values": [],
+              "page": 1,
+              "total": 0,
+              "records": 0
+            }
+          }
+        ],
+        "messages": {
+          "NewMsg": {
+            "id": "NewMsg",
+            "message": "CONFIRM_MESSAGE_NEW",
+            "title": "CONFIRM_TITLE_NEW"
+          },
+          "UniMsg": {
+            "id": "UniMsg",
+            "message": "WARNING_MESSAGE_DUPLICATED_USER",
+            "title": "WARNING_TITLE_DUPLICATED_USER"
+          }
+        },
+        "actions": [],
+        "screen": {
+          "name": "CrtTstLeft",
+          "title": "SCREEN_TITLE_CRITERIA_TEST",
+          "option": "criteria-test-left"
+        }
+      }
+    }
+  },
+  {
+    "type": "end-load",
+    "parameters": {}
+  }
+]

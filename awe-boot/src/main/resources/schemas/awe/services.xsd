@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!--
+  ==============================================================================
+  Definition
+  ==============================================================================
+  -->
+
+  <xs:annotation>
+    <xs:appinfo>awe Services Schema</xs:appinfo>
+    <xs:documentation xml:lang="en">
+      This Schema defines the way an awe Services file must be structured
+    </xs:documentation>
+  </xs:annotation>
+
+  <!--
+  ==============================================================================
+  Includes
+  ==============================================================================
+  -->
+
+  <xs:include schemaLocation="general.xsd"/>
+
+  <!--
+  ==============================================================================
+  Elements
+  ==============================================================================
+  -->
+
+  <!-- Services Element -->
+  <xs:element name="services" type="servicesType">
+    <xs:unique name="ServiceKey">
+      <xs:selector xpath=".//service" />
+      <xs:field xpath="@id" />
+    </xs:unique>
+  </xs:element>
+
+  <!-- Service Element -->
+  <xs:element name="service" type="serviceType"/>
+
+  <!-- Java Element -->
+  <xs:element name="java" type="javaType"/>
+
+  <!-- Microservice Element -->
+  <xs:element name="microservice" type="microserviceType"/>
+
+  <!-- Rest Element -->
+  <xs:element name="rest" type="restType"/>
+
+  <!-- Service Parameter Element -->
+  <xs:element name="service-parameter" type="serviceParameterType"/>
+
+  <!--
+  ==============================================================================
+  Type definitions
+  ==============================================================================
+  -->
+
+  <!-- Services Type -->
+  <xs:complexType name="servicesType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="service"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Service Type -->
+  <xs:complexType name="serviceType">
+    <xs:choice>
+      <xs:element ref="java"/>
+      <xs:element ref="microservice"/>
+      <xs:element ref="rest"/>
+    </xs:choice>
+    <xs:attribute name="id" use="required" type="xs:string"/>
+    <xs:attribute name="launch-phase" type="launchPhaseEnum"/>
+  </xs:complexType>
+
+  <!-- Java Type -->
+  <xs:complexType name="javaType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="service-parameter"/>
+    </xs:sequence>
+    <xs:attribute name="classname" use="required"/>
+    <xs:attribute name="method" use="required" type="xs:string"/>
+  </xs:complexType>
+
+  <!-- Microservice Type -->
+  <xs:complexType name="microserviceType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="service-parameter"/>
+    </xs:sequence>
+    <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="endpoint" use="required" type="xs:string"/>
+    <xs:attribute name="method" use="required" type="methodEnum"/>
+    <xs:attribute name="wrapper" use="optional" type="xs:string"/>
+    <xs:attribute name="content-type" use="optional" type="contentTypeEnum"/>
+  </xs:complexType>
+
+  <!-- Rest Type -->
+  <xs:complexType name="restType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="service-parameter"/>
+    </xs:sequence>
+    <xs:attribute name="server" use="optional" type="xs:string"/>
+    <xs:attribute name="endpoint" use="required" type="xs:string"/>
+    <xs:attribute name="method" use="required" type="methodEnum"/>
+    <xs:attribute name="wrapper" use="optional" type="xs:string"/>
+    <xs:attribute name="content-type" use="optional" type="contentTypeEnum"/>
+  </xs:complexType>
+
+  <!-- Jms Type -->
+  <xs:complexType name="jmsType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="service-parameter"/>
+    </xs:sequence>
+    <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="type" use="required" type="serviceTypeRestriction"/>
+    <xs:attribute name="timeout" use="optional" type="xs:string"/>
+    <xs:attribute name="cacheable" type="booleanEnum"/>
+  </xs:complexType>
+
+  <!-- Service Parameter Type -->
+  <xs:complexType name="serviceParameterType">
+    <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="type" use="required" type="serviceVariableRestriction"/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="list" type="booleanEnum"/>
+  </xs:complexType>
+
+  <!-- Service Variable Restriction -->
+  <xs:simpleType name="launchPhaseEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="APPLICATION_START"/>
+      <xs:enumeration value="APPLICATION_END"/>
+      <xs:enumeration value="CLIENT_START"/>
+      <xs:enumeration value="CLIENT_END"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Service Method Restriction -->
+  <xs:simpleType name="methodEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GET"/>
+      <xs:enumeration value="POST"/>
+      <xs:enumeration value="PUT"/>
+      <xs:enumeration value="DELETE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Content type Restriction -->
+  <xs:simpleType name="contentTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="JSON"/>
+      <xs:enumeration value="URLENCODED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>

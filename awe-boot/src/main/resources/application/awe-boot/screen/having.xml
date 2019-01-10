@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Sit.xml
+    Created on : 10 de Agost de 2015
+    Author     : Andoni Gomez
+    Description: Test reset target
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_SIT" help="HELP_SCREEN_TITLE_SIT" keep-criteria="true" target="HavTst">
+  <tag source="hidden">
+    <message id="DelMsg" title="CONFIRM_TITLE_DELETE" message="CONFIRM_MESSAGE_DELETE" />
+  </tag>
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_PRINT" icon="print" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="validate" />
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window label="ELEMENT_TYPE_GRID" icon="filter">
+      <tag type="div" style="panel-body">
+        <grid id="GrdStrLit" server-action="data" style="expand"
+          target-action="HavTst">
+          <column label="COLUMN_TYPE" name="typ" align="left"
+            charlength="25" validation="" />
+          <column label="COLUMN_VALUE" name="act" align="left"
+            charlength="25" validation="" />
+          <button label="BUTTON_ACCEPT" id="ButGrdEdiDel">
+            <button-action type="filter" target="GrdStrLit" />
+          </button>
+        </grid>
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+    <include target-screen="PrnOpt" target-source="center" />
+  </tag>
+</screen>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Sit.xml
+    Created on : 10 de Agost de 2015
+    Author     : Andoni Gomez
+    Description: Test reset target
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_SIT" help="HELP_SCREEN_TITLE_SIT" keep-criteria="true" target="QtyTst">
+  <tag source="hidden">
+    <message id="DelMsg" title="CONFIRM_TITLE_DELETE" message="CONFIRM_MESSAGE_DELETE" />
+    <criteria id="CrtTstHid" component="hidden" variable="screen"/>
+  </tag>
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_PRINT" icon="print" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="validate" />
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window label="SCREEN_TEXT_CRITERIA" icon="filter">
+      <tag type="div" style="panel-body">
+        <criteria id="CrtTst" label="PARAMETER_TEXT" component="text" style="col-xs-5 col-sm-3 col-lg-2" value="xml"/>
+        <criteria id="CrtTstTxtHid" label="PARAMETER_TEXT" component="text" style="col-xs-5 col-sm-3 col-lg-2">
+          <dependency source-type="launcher" target-type="input" target-action="CrtTstHid" initial="true">
+            <dependency-element id="CrtTstHid" alias="CrtTstHid"/>
+          </dependency>
+        </criteria>
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="button" label="PARAMETER_TEXT" icon="text-width" id="ButTxt">
+            <button-action type="value" target="CrtTstHid" value="otra cosa"/>
+          </button>
+          <button button-type="button" label="BUTTON_RESET" icon="eraser" id="ButRstSpe" help="HELP_RESET_BUTTON" >
+            <button-action type="restore" target="CrtTstHid"/>
+          </button>
+          <button button-type="button" label="BUTTON_RESET_TARGET" icon="eraser" id="ButRstTarSpe" help="HELP_RESET_BUTTON" >
+            <button-action type="restore-target" target="CrtTstHid"/>
+          </button>
+          <button button-type="reset" label="BUTTON_RESET" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
+          <button  label="BUTTON_RESET_TARGET" icon="eraser" id="ButRstTar" help="HELP_RESET_BUTTON" >
+            <button-action type="restore-target"/>
+          </button>
+        </tag>
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+    <include target-screen="PrnOpt" target-source="center" />
+  </tag>
+</screen>

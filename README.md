@@ -53,5 +53,5 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## License
 
-All parts of AWE, except the contents of the graphical charts library, are licensed
+All parts of AWE, **except the contents of the graphical charts library (HighCharts)**, are licensed
 under Apache License v2.0 see the [LICENSE.md](LICENSE.md) file for details.

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_CHART_DYNAMIC_SERIES" help="HELP_SCREEN_TITLE_CHART_DYNAMIC_SERIES">
+  <tag source="center">
+    <window label="SCREEN_TEXT_CRITERIA" icon="filter">
+      <tag type="div" style="panel-body">
+        <criteria id="CrtUsrLst" label="PARAMETER_USER" component="suggest-multiple" optional="true" initial-load="query" target-action="UsrNamSug" style="col-xs-5 col-sm-3 col-lg-2" />
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button id="ButRst" label="BUTTON_RESET" icon="eraser" help="HELP_RESET_BUTTON">
+           <button-action type="reset"/>
+          </button>
+          <button id="ButAddSer" label="BUTTON_ADD_SERIES" icon="plus-circle" help="HELP_SEARCH_ADD_SERIE_BUTTON">
+            <button-action type="server" server-action="data" target-action="TstAddSeriesToChart" target="ChrLinTst" />
+          </button>
+          <button id="ButDelSer" label="BUTTON_REMOVE_SERIES" icon="minus-circle" help="HELP_SEARCH_REMOVE_SERIE_BUTTON">
+            <button-action type="server" server-action="data" target-action="TstRemoveSeriesOfChart" target="ChrLinTst" />
+          </button>
+          <button id="ButReplaceSer" button-type="submit" label="BUTTON_REPLACE_SERIES" icon="repeat" help="HELP_SEARCH_REPLACE_SERIE_BUTTON">
+            <button-action type="server" server-action="data" target-action="TstReplaceSeriesChart" target="ChrLinTst" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <tag type="div" style="expand" expandible="vertical">
+      <window label="SCREEN_TEXT_LINE_CHART" maximize="true" icon="line-chart" style="expand">
+        <chart id="ChrLinTst" label="SCREEN_TEXT_DYNAMIC_SERIES_CHART" type="line" theme="dark-unica">
+          <chart-legend label="SCREEN_TEXT_LEGEND" verticalAlign="middle" align="right" layout="vertical" border-width="1"/>
+          <x-axis label="SCREEN_TEXT_MONTHS" type="category" />
+          <y-axis label="SCREEN_TEXT_NUM_ACCESS_WEB" />
+          <!-- Aeries are not defined. They are dynamic -->
+        </chart>
+      </window>
+    </tag>
+  </tag>
+</screen>
