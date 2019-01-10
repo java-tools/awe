@@ -115,29 +115,39 @@
         <version>${plugin-dependency.version}</version>
         <executions>
           <execution>
-            <phase>generate-resources</phase>
+            <phase>generate-sources</phase>
             <id>unpack awe-generic-screens</id>
             <goals>
-              <goal>unpack-dependencies</goal>
+              <goal>unpack</goal>
             </goals>
             <configuration>
-              <includeGroupIds>com.almis.awe</includeGroupIds>
-              <includeArtifactIds>awe-generic-screens</includeArtifactIds>
-              <includes>schemas/**,docs/**</includes>
-              <outputDirectory>\${project.build.frontend}</outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.almis.awe</groupId>
+                  <artifactId>awe-generic-screens</artifactId>
+                  <version>\${awe.version}</version>
+                  <outputDirectory>\${project.build.frontend}</outputDirectory>
+                  <includes>schemas/**,docs/**</includes>
+                </artifactItem>
+              </artifactItems>
             </configuration>
           </execution>
           <execution>
             <phase>generate-resources</phase>
             <id>unpack awe-client-angular</id>
             <goals>
-              <goal>unpack-dependencies</goal>
+              <goal>unpack</goal>
             </goals>
             <configuration>
-              <includeGroupIds>com.almis.awe</includeGroupIds>
-              <includeArtifactIds>awe-client-angular</includeArtifactIds>
-              <includes>images/**,fonts/**,js/**,css/**,less/**</includes>
-              <outputDirectory>\${project.build.frontend}</outputDirectory>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.almis.awe</groupId>
+                  <artifactId>awe-client-angular</artifactId>
+                  <version>\${awe.version}</version>
+                  <outputDirectory>\${project.build.frontend}</outputDirectory>
+                  <includes>images/**,fonts/**,js/**,css/**,less/**</includes>
+                </artifactItem>
+              </artifactItems>
             </configuration>
           </execution>
         </executions>
