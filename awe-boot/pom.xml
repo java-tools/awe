@@ -15,7 +15,8 @@
   <properties>
     <!-- Application maven properties -->
     <awe.version>${project.parent.version}</awe.version>
-    <ade.version>2.0.5</ade.version>
+    <ade.version>2.0.6</ade.version>
+    
     <java.version>1.8</java.version>
     <awe.schemas>../../../static/schemas/awe</awe.schemas>
     <application.name>awe-boot_V4.0.3</application.name>
@@ -141,7 +142,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.5.1</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
@@ -152,7 +152,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.0.2</version>
         <executions>
           <execution>
             <phase>generate-resources</phase>
@@ -184,7 +183,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.1.0</version>
         <executions>
           <execution>
             <id>copy-resources</id>
@@ -212,7 +210,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>2.1.0.RELEASE</version>
         <executions>
           <execution>
             <goals>
