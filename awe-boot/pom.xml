@@ -150,68 +150,66 @@
 
       <!-- AWE static resources -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <id>unpack awe-generic-screens</id>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>com.almis.awe</groupId>
-                  <artifactId>awe-generic-screens</artifactId>
-                  <version>${awe.version}</version>
-                  <outputDirectory>${project.build.frontend}</outputDirectory>
-                  <includes>schemas/**,docs/**</includes>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-          <execution>
-            <phase>generate-resources</phase>
-            <id>unpack awe-client-angular</id>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>com.almis.awe</groupId>
-                  <artifactId>awe-client-angular</artifactId>
-                  <version>${awe.version}</version>
-                  <outputDirectory>${project.build.frontend}</outputDirectory>
-                  <includes>images/**,fonts/**,js/**,css/**,less/**</includes>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-          <execution>
-            <phase>generate-resources</phase>
-            <id>unpack awe-tools</id>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>com.almis.awe</groupId>
-                  <artifactId>awe-tools</artifactId>
-                  <version>${awe.version}</version>
-                  <outputDirectory>${project.build.frontend}</outputDirectory>
-                  <includes>images/**,fonts/**,js/**,css/**,less/**</includes>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <executions>
+          <execution>
+            <id>Get web resources</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.frontend}</outputDirectory>
+              <resources>
+                <!-- Awe generic screens -->
+                <resource>
+                  <directory>../awe-generic-screens/src/main/resources</directory>
+                  <includes>
+                    <include>schemas/**</include>
+                    <include>docs/**</include>
+                  </includes>
+                </resource>
+                <!-- Awe client angular -->
+                <resource>
+                  <directory>../awe-client-angular/src/main/resources</directory>
+                  <includes>
+                    <include>images/**</include>
+                    <include>fonts/**</include>
+                    <include>js/**</include>
+                    <include>css/**</include>
+                    <include>less/**</include>
+                  </includes>
+                </resource>
+                <!-- Awe tools -->
+                <resource>
+                  <directory>../awe-tools/src/main/resources</directory>
+                  <includes>
+                    <include>images/**</include>
+                    <include>fonts/**</include>
+                    <include>js/**</include>
+                    <include>css/**</include>
+                    <include>less/**</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <!-- Copy images -->
+          <execution>
+            <id>copy-images</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/classes/static/images/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/main/resources/images/</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
           <execution>
             <id>copy-resources</id>
             <phase>prepare-package</phase>
