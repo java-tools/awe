@@ -38,7 +38,7 @@
     <sonar.junit.reportPath>target/surefire-reports</sonar.junit.reportPath>
     <sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-    <jacoco.version>0.8.1</jacoco.version>
+    <jacoco.version>0.8.2</jacoco.version>
     
     <!-- plugin versions -->
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>    
