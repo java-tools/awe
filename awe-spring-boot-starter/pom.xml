@@ -104,6 +104,13 @@
       <artifactId>awe-controller</artifactId>
     </dependency>
 
+    <!-- ADE Libraries -->
+
+    <dependency>
+      <groupId>com.almis.ade</groupId>
+      <artifactId>ade-spring-boot-starter</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>

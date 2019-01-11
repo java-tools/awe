@@ -16,7 +16,7 @@
 
   <properties>
     <!-- dependency versions -->
-    <ade.version>2.0.5</ade.version>
+    <ade.version>2.0.7</ade.version>
     <spring-cloud.version>Edgware.SR2</spring-cloud.version>
     <spring-boot-admin.version>1.5.7</spring-boot-admin.version>
     <ehcache.version>3.6.1</ehcache.version>
@@ -66,15 +66,6 @@
         <groupId>de.codecentric</groupId>
         <artifactId>spring-boot-admin-dependencies</artifactId>
         <version>${spring-boot-admin.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-
-      <!-- ADE -->
-      <dependency>
-        <groupId>com.almis.ade</groupId>
-        <artifactId>ade-dependencies</artifactId>
-        <version>${ade.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -154,6 +145,13 @@
         <groupId>com.almis.awe</groupId>
         <artifactId>awe-generic-screens</artifactId>
         <version>${project.version}</version>
+      </dependency>
+
+      <!-- ADE Modules -->
+      <dependency>
+        <groupId>com.almis.ade</groupId>
+        <artifactId>ade-spring-boot-starter</artifactId>
+        <version>${ade.version}</version>
       </dependency>
 
       <!-- Plugin versions -->
