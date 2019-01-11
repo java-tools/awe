@@ -19,10 +19,10 @@ import static org.junit.Assert.assertEquals;
  * @author pgarcia
  *
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@WithMockUser(username = "mgr", password = "rai")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+//@WithMockUser(username = "mgr", password = "rai")
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class EncryptTest extends TestUtil {
 
   // Logger
@@ -42,7 +42,7 @@ public class EncryptTest extends TestUtil {
   }
 
 
-  @Test
+  //@Test
   public void checkEncryptedProperty() {
     EncryptService service = applicationContext.getBean(EncryptService.class);
     logger.info("With @Value: " +service.getProperty());

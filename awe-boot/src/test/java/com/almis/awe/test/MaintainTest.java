@@ -35,11 +35,11 @@ import com.google.common.base.Joiner;
  * @author jbellon
  *
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@WithMockUser(username = "mgr", password = "rai")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@Ignore("Generic class for database testing")
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@WithMockUser(username = "mgr", password = "rai")
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+//@Ignore("Generic class for database testing")
 public class MaintainTest extends TestUtil {
 
   // Logger
@@ -62,7 +62,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testSimpleSingleInsert() throws Exception {
     String maintainName = "SimpleSingleInsert";
     String variables = "";
@@ -88,7 +88,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testSimpleSingleInsertFromVariableValue() throws Exception {
     for (int i = 0; i < 5; i++) {
       String maintainName = "SimpleSingleInsertFromVariableValue";
@@ -116,7 +116,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testSingleInsertWithSequence() throws Exception {
     String maintainName = "SingleInsertWithSequence";
     String variables = "";
@@ -142,7 +142,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testMultipleInsertWithSequence() throws Exception {
     String maintainName = "MultipleInsertWithSequence";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"],";
@@ -169,7 +169,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testSimpleSingleUpdate() throws Exception {
     String maintainName = "SimpleSingleInsert";
     String variables = "";
@@ -210,7 +210,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testSimpleSingleDelete() throws Exception {
     String maintainName = "CleanUp";
     String variables = "";
@@ -233,7 +233,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testSimpleSingleInsertAudit() throws Exception {
     String maintainName = "SimpleSingleInsertAudit";
@@ -263,7 +263,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testSingleUpdateWithVariableListAudit() throws Exception {
     for (int i = 0; i < 5; i++) {
@@ -312,7 +312,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testSingleUpdateWithVariableListAuditBatched() throws Exception {
     for (int i = 0; i < 5; i++) {
@@ -357,7 +357,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testMultipleUpdate() throws Exception {
     for (int i = 0; i < 5; i++) {
       String maintainName = "SimpleSingleInsertFromVariable";
@@ -404,7 +404,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testMultipleUpdateAudit() throws Exception {
     for (int i = 0; i < 5; i++) {
@@ -457,7 +457,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testMultipleUpdateAuditBatched() throws Exception {
     for (int i = 0; i < 5; i++) {
@@ -502,7 +502,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testInsertUpdateDelete() throws Exception {
     String maintainName = "InsertUpdateDelete";
     String variables = "";
@@ -530,7 +530,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testInsertUpdateDeleteWithVariables() throws Exception {
     String maintainName = "InsertUpdateDeleteWithVariables";
     String variables = "\"var1\": \"AWEBOOT-TEST-0\", \"var2\": \"AWEBOOT-TEST-1\",";
@@ -560,7 +560,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testRollback() throws Exception {
     String maintainName = "TestRollback";
     String variables = "";
@@ -594,7 +594,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testCommit() throws Exception {
     String maintainName = "TestCommit";
     String variables = "";
@@ -628,7 +628,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testGridMultiple() throws Exception {
     String maintainName = "GridMultiple";
     String variables = "\"grid-RowTyp\": [\"INSERT\", \"INSERT\"], \"nam\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"], \"act\":[0, 0],";
@@ -655,7 +655,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testGridMultipleInsertSingle() throws Exception {
     String maintainName = "GridMultiple";
     String variables = "\"grid-RowTyp\": [\"INSERT\"], \"nam\": [\"AWEBOOT-TEST-0\"], \"act\":[0],";
@@ -681,7 +681,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testIncludeTarget() throws Exception {
     String maintainName = "testInclude";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
@@ -708,7 +708,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testGridMultipleDeleteMultiple() throws Exception {
     // Clean the mess
     cleanUp("CleanUpSequence");
@@ -763,7 +763,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testServiceNoParams() throws Exception {
     String maintainName = "ServeNoParams";
     String variables = "";
@@ -783,7 +783,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testServiceMessageParams() throws Exception {
     String maintainName = "ServeMessageParams";
     String variables = "";
@@ -803,7 +803,7 @@ public class MaintainTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testServiceTitleMessageParams() throws Exception {
     String maintainName = "ServeTitleMessageParams";
     String variables = "";
@@ -826,7 +826,7 @@ public class MaintainTest extends TestUtil {
    * Sends an email created with the AWE XML format
    *
    */
-  @Test
+  //@Test
   public void testXMLEmail() {
     String maintainName = "SchTskEmaRep";
     String variables = "";

@@ -29,11 +29,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author pgarcia
  *
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@WithMockUser(username = "mgr", password = "rai")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@Ignore("Needs infrastructure")
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+//@WithMockUser(username = "mgr", password = "rai")
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+//@Ignore("Needs infrastructure")
 public class MicroserviceTest extends TestUtil {
 
   // Logger
@@ -99,7 +99,7 @@ public class MicroserviceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testSimpleMicroservice() throws Exception {
     doRestTest("CallAluMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }
@@ -109,7 +109,7 @@ public class MicroserviceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  @Test
+  //@Test
   public void testSimpleRestService() throws Exception {
     doRestTest("CallAluAsRest", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }

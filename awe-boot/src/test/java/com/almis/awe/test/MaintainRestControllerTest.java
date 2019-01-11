@@ -26,10 +26,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@FixMethodOrder (MethodSorters.NAME_ASCENDING)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+//@FixMethodOrder (MethodSorters.NAME_ASCENDING)
 public class MaintainRestControllerTest {
   @LocalServerPort
   private int port;
@@ -77,7 +77,7 @@ public class MaintainRestControllerTest {
    *
    * */
 
-  @Test
+  //@Test
   public void maintainAInsert() throws Exception {
     ServiceData expected = new ObjectMapper().readValue("{\"valid\":true,\"type\":\"OK\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"clientActionList\":[],\"variableMap\":{\"MESSAGE_TITLE\":\"Operation successful\",\"MESSAGE_TYPE\":\"ok\",\"MESSAGE_DESCRIPTION\":\"The selected maintain operation has been succesfully performed\",\"MESSAGE_RESULT_DETAILS\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTarget\",\"Act\":1,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":1,\"Nam\":\"testIncludeTarget\",\"Date\":null}}]},\"resultDetails\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTarget\",\"Act\":1,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":1,\"Nam\":\"testIncludeTarget\",\"Date\":null}}]}", ServiceData.class);
 
@@ -92,7 +92,7 @@ public class MaintainRestControllerTest {
 
   }
 
-  @Test
+  //@Test
   public void maintainBUpdate() throws Exception {
     ServiceData expected = new ObjectMapper().readValue("{\"valid\":true,\"type\":\"OK\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"clientActionList\":[],\"variableMap\":{\"MESSAGE_TITLE\":\"Operation successful\",\"MESSAGE_TYPE\":\"ok\",\"MESSAGE_DESCRIPTION\":\"The selected maintain operation has been succesfully performed\",\"MESSAGE_RESULT_DETAILS\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTargetUpd\",\"Act\":2,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":2,\"Nam\":\"testIncludeTargetUpd\"}}]},\"resultDetails\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTargetUpd\",\"Act\":2,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":2,\"Nam\":\"testIncludeTargetUpd\"}}]}>", ServiceData.class);
 
@@ -106,7 +106,7 @@ public class MaintainRestControllerTest {
     Assert.assertEquals(new ObjectMapper().writeValueAsString(expected), new ObjectMapper().writeValueAsString(response.getBody()));
   }
 
-  @Test
+  //@Test
   public void maintainCUpdateWithParameters() throws Exception {
     ServiceData expected = new ObjectMapper().readValue("{\"valid\":true,\"type\":\"OK\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"clientActionList\":[],\"variableMap\":{\"MESSAGE_TITLE\":\"Operation successful\",\"MESSAGE_TYPE\":\"ok\",\"MESSAGE_DESCRIPTION\":\"The selected maintain operation has been succesfully performed\",\"MESSAGE_RESULT_DETAILS\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTargetUpd\",\"Act\":2,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":2,\"Nam\":\"testIncludeTargetUpd\"}}]},\"resultDetails\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTargetUpd\",\"Act\":2,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":2,\"Nam\":\"testIncludeTargetUpd\"}}]}>", ServiceData.class);
 
@@ -122,7 +122,7 @@ public class MaintainRestControllerTest {
     Assert.assertEquals(new ObjectMapper().writeValueAsString(expected), new ObjectMapper().writeValueAsString(response.getBody()));
   }
 
-  @Test
+  //@Test
   public void maintainDelete() throws Exception {
     ServiceData expected = new ObjectMapper().readValue("{\"valid\":true,\"type\":\"OK\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"clientActionList\":[],\"variableMap\":{\"MESSAGE_TITLE\":\"Operation successful\",\"MESSAGE_TYPE\":\"ok\",\"MESSAGE_DESCRIPTION\":\"The selected maintain operation has been succesfully performed\",\"MESSAGE_RESULT_DETAILS\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30}}]},\"resultDetails\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30}}]}", ServiceData.class);
 
