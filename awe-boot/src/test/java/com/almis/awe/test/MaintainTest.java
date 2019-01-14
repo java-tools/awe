@@ -259,6 +259,29 @@ public class MaintainTest extends TestUtil {
   }
 
   /**
+   * Launch a simple single insert from variable
+   * @throws Exception
+   */
+  private void launchSimpleSingleInsertFromVariable() throws Exception {
+    for (int i = 0; i < 5; i++) {
+      String maintainName = "SimpleSingleInsertFromVariable";
+      String variables = "\"variable\":\"AWEBOOT-TEST-" + i + "\",";
+      String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+      MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
+        .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
+        .accept("application/json"))
+        .andExpect(status().isOk())
+        .andExpect(content().json(expected))
+        .andReturn();
+      String result = mvcResult.getResponse().getContentAsString();
+      logger.info(result);
+      assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
+        new MaintainResultDetails(MaintainType.INSERT, 1l)
+      });
+    }
+  }
+
+  /**
    * Test of launchAction method, of class ActionController.
    *
    * @throws Exception Test error
@@ -266,22 +289,7 @@ public class MaintainTest extends TestUtil {
   @Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testSingleUpdateWithVariableListAudit() throws Exception {
-    for (int i = 0; i < 5; i++) {
-      String maintainName = "SimpleSingleInsertFromVariable";
-      String variables = "\"variable\":\"AWEBOOT-TEST-" + i + "\",";
-      String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-      MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-              .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-              .accept("application/json"))
-              .andExpect(status().isOk())
-              .andExpect(content().json(expected))
-              .andReturn();
-      String result = mvcResult.getResponse().getContentAsString();
-      logger.info(result);
-      assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-              new MaintainResultDetails(MaintainType.INSERT, 1l)
-      });
-    }
+    launchSimpleSingleInsertFromVariable();
 
     String maintainName = "SingleUpdateWithVariableListAudit";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
@@ -315,22 +323,7 @@ public class MaintainTest extends TestUtil {
   @Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testSingleUpdateWithVariableListAuditBatched() throws Exception {
-    for (int i = 0; i < 5; i++) {
-      String maintainName = "SimpleSingleInsertFromVariable";
-      String variables = "\"variable\":\"AWEBOOT-TEST-" + i + "\",";
-      String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-      MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-              .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-              .accept("application/json"))
-              .andExpect(status().isOk())
-              .andExpect(content().json(expected))
-              .andReturn();
-      String result = mvcResult.getResponse().getContentAsString();
-      logger.info(result);
-      assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-              new MaintainResultDetails(MaintainType.INSERT, 1l)
-      });
-    }
+    launchSimpleSingleInsertFromVariable();
 
     String maintainName = "SingleUpdateWithVariableListAuditBatched";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
@@ -359,22 +352,7 @@ public class MaintainTest extends TestUtil {
    */
   @Test
   public void testMultipleUpdate() throws Exception {
-    for (int i = 0; i < 5; i++) {
-      String maintainName = "SimpleSingleInsertFromVariable";
-      String variables = "\"variable\":\"AWEBOOT-TEST-" + i + "\",";
-      String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-      MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-              .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-              .accept("application/json"))
-              .andExpect(status().isOk())
-              .andExpect(content().json(expected))
-              .andReturn();
-      String result = mvcResult.getResponse().getContentAsString();
-      logger.info(result);
-      assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-              new MaintainResultDetails(MaintainType.INSERT, 1l)
-      });
-    }
+    launchSimpleSingleInsertFromVariable();
 
     String maintainName = "MultipleUpdate";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
@@ -407,22 +385,7 @@ public class MaintainTest extends TestUtil {
   @Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testMultipleUpdateAudit() throws Exception {
-    for (int i = 0; i < 5; i++) {
-      String maintainName = "SimpleSingleInsertFromVariable";
-      String variables = "\"variable\":\"AWEBOOT-TEST-" + i + "\",";
-      String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-      MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-              .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-              .accept("application/json"))
-              .andExpect(status().isOk())
-              .andExpect(content().json(expected))
-              .andReturn();
-      String result = mvcResult.getResponse().getContentAsString();
-      logger.info(result);
-      assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-              new MaintainResultDetails(MaintainType.INSERT, 1l)
-      });
-    }
+    launchSimpleSingleInsertFromVariable();
 
     String maintainName = "MultipleUpdateAudit";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
@@ -460,22 +423,7 @@ public class MaintainTest extends TestUtil {
   @Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testMultipleUpdateAuditBatched() throws Exception {
-    for (int i = 0; i < 5; i++) {
-      String maintainName = "SimpleSingleInsertFromVariable";
-      String variables = "\"variable\":\"AWEBOOT-TEST-" + i + "\",";
-      String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-      MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-              .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-              .accept("application/json"))
-              .andExpect(status().isOk())
-              .andExpect(content().json(expected))
-              .andReturn();
-      String result = mvcResult.getResponse().getContentAsString();
-      logger.info(result);
-      assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-              new MaintainResultDetails(MaintainType.INSERT, 1l)
-      });
-    }
+    launchSimpleSingleInsertFromVariable();
 
     String maintainName = "MultipleUpdateAuditBatched";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";

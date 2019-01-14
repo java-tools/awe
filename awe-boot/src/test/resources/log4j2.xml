@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="info">
+<Configuration status="warn">
   <Appenders>
     <!-- Console appender -->
     <Console name="CONSOLE" target="SYSTEM_OUT">
@@ -111,22 +111,22 @@
 
   <Loggers>    
     <!-- Ade logger -->
-    <Logger name="com.almis.ade" includeLocation="true" level="info">
+    <Logger name="com.almis.ade" includeLocation="true" level="warn">
       <AppenderRef ref="${bundle:log4j2-app:log.ade}" />
     </Logger>
 
     <!-- Model logger -->
-    <Logger name="com.almis.awe.model" includeLocation="true" level="info">
+    <Logger name="com.almis.awe.model" includeLocation="true" level="warn">
       <AppenderRef ref="${bundle:log4j2-app:log.model}" />
     </Logger>
 
     <!-- Scheduler logger -->
-    <Logger name="com.almis.awe.scheduler" includeLocation="true" level="info">
+    <Logger name="com.almis.awe.scheduler" includeLocation="true" level="warn">
       <AppenderRef ref="${bundle:log4j2-app:log.scheduler}" />
     </Logger>
 
     <!-- ROOT logger -->
-    <Root level="info">
+    <Root level="warn">
       <AppenderRef ref="CONSOLE" />
       <AppenderRef ref="APP" />
     </Root>
