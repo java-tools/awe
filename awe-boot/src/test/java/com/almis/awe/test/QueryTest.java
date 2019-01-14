@@ -2025,7 +2025,7 @@ public class QueryTest extends TestUtil {
   private void testTransformDateMilliseconds(String database) throws Exception {
     String queryName = "TransformDateMilliseconds";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"fecha\":null,\"id\":3},{\"fecha\":null,\"id\":2},{\"fecha\":1383551822000,\"id\":5},{\"fecha\":null,\"id\":4},{\"fecha\":1382536922000,\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"fecha\":null,\"id\":3},{\"fecha\":null,\"id\":2},{\"fecha\":1383555422000,\"id\":5},{\"fecha\":null,\"id\":4},{\"fecha\":1382544122000,\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
     assertQueryResultJson(queryName, result, 5);
@@ -2049,7 +2049,7 @@ public class QueryTest extends TestUtil {
   private void testTransformDateRDB(String database) throws Exception {
     String queryName = "TransformDateRDB";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"RDB\":null,\"fecha\":\"\",\"id\":3},{\"RDB\":null,\"fecha\":\"\",\"id\":2},{\"RDB\":\"04-nov-2013\",\"fecha\":\"04/11/2013\",\"id\":5},{\"RDB\":null,\"fecha\":\"\",\"id\":4},{\"RDB\":\"23-oct-2013\",\"fecha\":\"23/10/2013\",\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"RDB\":null,\"fecha\":\"\",\"id\":3},{\"RDB\":null,\"fecha\":\"\",\"id\":2},{\"RDB\":\"04-Nov-2013\",\"fecha\":\"04/11/2013\",\"id\":5},{\"RDB\":null,\"fecha\":\"\",\"id\":4},{\"RDB\":\"23-Oct-2013\",\"fecha\":\"23/10/2013\",\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
     assertQueryResultJson(queryName, result, 5);
