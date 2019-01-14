@@ -18,13 +18,8 @@ build:
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS test
-
-java:
-  stage: test
-  script:
-  - mvn $MAVEN_CLI_OPTS verify
-  - cat target/site/jacoco/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
+    - mvn $MAVEN_CLI_OPTS verify
+    - cat target/site/jacoco/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
   artifacts:
     reports:
       junit:
