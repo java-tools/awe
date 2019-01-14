@@ -108,6 +108,13 @@
               <destFile>${sonar.jacoco.reportPaths}</destFile>
             </configuration>
           </execution>
+          <execution>
+            <id>jacoco-site</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
       <!-- Git flow -->

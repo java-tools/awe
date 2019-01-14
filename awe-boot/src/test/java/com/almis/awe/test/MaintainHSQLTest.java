@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author jbellon
  *
  */
-//@TestPropertySource("classpath:hsql.properties")
+@TestPropertySource("classpath:hsql.properties")
 public class MaintainHSQLTest extends MaintainTest {
 
   // Logger
@@ -31,7 +31,7 @@ public class MaintainHSQLTest extends MaintainTest {
    * Launch to update hsql database
    * @throws Exception Error in initialization
    */
-  //@Test
+  @Test
   public void initializeDatabase() throws Exception {
     String maintainName = "testDatabaseInitialization";
 

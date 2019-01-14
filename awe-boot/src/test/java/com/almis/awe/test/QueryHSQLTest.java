@@ -9,6 +9,6 @@ import org.springframework.test.context.TestPropertySource;
  * @author jbellon
  *
  */
-//@TestPropertySource("classpath:hsql.properties")
+@TestPropertySource("classpath:hsql.properties")
 public class QueryHSQLTest extends QueryTest {
 }

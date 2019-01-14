@@ -33,12 +33,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author jbellon
  *
  */
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@WithMockUser(username = "mgr", password = "rai")
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@Ignore("Generic class for database testing")
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WithMockUser(username = "mgr", password = "rai")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Ignore("Generic class for database testing")
 public class QueryTest extends TestUtil {
 
   // Logger
@@ -153,7 +153,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQuerySimpleGetAll() throws Exception {
     testQuerySimpleGetAll("aweora2");
   }
@@ -177,7 +177,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQuerySimpleGetValue() throws Exception {
     testQuerySimpleGetValue("aweora2");
   }
@@ -201,7 +201,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQuerySubqueryInTable() throws Exception {
     testQuerySubqueryInTable("aweora2");
   }
@@ -225,7 +225,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryTwoTables() throws Exception {
     testQueryTwoTables("aweora2");
   }
@@ -249,7 +249,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFieldFunctions() throws Exception {
     testQueryFieldFunctions("aweora2");
   }
@@ -290,7 +290,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQuerySubqueryInField() throws Exception {
     testQuerySubqueryInField("aweora2");
   }
@@ -314,7 +314,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQuerySubqueryInFieldDistinct() throws Exception {
     testQuerySubqueryInFieldDistinct("aweora2");
   }
@@ -338,7 +338,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryValueInField() throws Exception {
     testQueryValueInField("aweora2");
   }
@@ -362,7 +362,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryVariableInField() throws Exception {
     testQueryVariableInField("aweora2");
   }
@@ -387,7 +387,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryStaticVariableInField() throws Exception {
     testQueryStaticVariableInField("aweora2");
   }
@@ -411,7 +411,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQuerySimpleUnion() throws Exception {
     testQuerySimpleUnion("aweora2");
   }
@@ -435,7 +435,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQuerySimpleUnionAll() throws Exception {
     testQuerySimpleUnionAll("aweora2");
   }
@@ -459,7 +459,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQuerySimpleLeftJoin() throws Exception {
     testQuerySimpleLeftJoin("aweora2");
   }
@@ -483,7 +483,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQuerySimpleRightJoinWithAlias() throws Exception {
     testQuerySimpleRightJoinWithAlias("aweora2");
   }
@@ -507,7 +507,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarEq() throws Exception {
     testQueryFilterFieldVarEq("aweora2");
   }
@@ -531,7 +531,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldNoTableVarEq() throws Exception {
     testQueryFilterFieldNoTableVarEq("aweora2");
   }
@@ -555,7 +555,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarNe() throws Exception {
     testQueryFilterFieldVarNe("aweora2");
   }
@@ -579,7 +579,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarGe() throws Exception {
     testQueryFilterFieldVarGe("aweora2");
   }
@@ -603,7 +603,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarGeDouble() throws Exception {
     testQueryFilterFieldVarGeDouble("aweora2");
   }
@@ -627,7 +627,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarGeFloat() throws Exception {
     testQueryFilterFieldVarGeFloat("aweora2");
   }
@@ -651,7 +651,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarLe() throws Exception {
     testQueryFilterFieldVarLe("aweora2");
   }
@@ -675,7 +675,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarGt() throws Exception {
     testQueryFilterFieldVarGt("aweora2");
   }
@@ -699,7 +699,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarLt() throws Exception {
     testQueryFilterFieldVarLt("aweora2");
   }
@@ -723,7 +723,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarIn() throws Exception {
     testQueryFilterFieldVarIn("aweora2");
   }
@@ -747,7 +747,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarNotIn() throws Exception {
     testQueryFilterFieldVarNotIn("aweora2");
   }
@@ -771,7 +771,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldIsNull() throws Exception {
     testQueryFilterFieldIsNull("aweora2");
   }
@@ -795,7 +795,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldIsNotNull() throws Exception {
     testQueryFilterFieldIsNotNull("aweora2");
   }
@@ -819,7 +819,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarLikeStringL() throws Exception {
     testQueryFilterFieldVarLikeStringL("aweora2");
   }
@@ -843,7 +843,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarLikeStringR() throws Exception {
     testQueryFilterFieldVarLikeStringR("aweora2");
   }
@@ -867,7 +867,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarLikeStringB() throws Exception {
     testQueryFilterFieldVarLikeStringB("aweora2");
   }
@@ -891,7 +891,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarLikeStringLIgnoreCase() throws Exception {
     testQueryFilterFieldVarLikeStringLIgnoreCase("aweora2");
   }
@@ -915,7 +915,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarLikeStringRIgnoreCase() throws Exception {
     testQueryFilterFieldVarLikeStringRIgnoreCase("aweora2");
   }
@@ -939,7 +939,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldVarLikeStringBIgnoreCase() throws Exception {
     testQueryFilterFieldVarLikeStringBIgnoreCase("aweora2");
   }
@@ -963,7 +963,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldFieldEq() throws Exception {
     testQueryFilterFieldFieldEq("aweora2");
   }
@@ -987,7 +987,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldFieldEqCntTable() throws Exception {
     testQueryFilterFieldFieldEqCntTable("aweora2");
   }
@@ -1011,7 +1011,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryFilterFieldSubquery() throws Exception {
     testQueryFilterFieldSubquery("aweora2");
   }
@@ -1035,7 +1035,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryOrderBy() throws Exception {
     testQueryOrderBy("aweora2");
   }
@@ -1061,7 +1061,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSimplePagination() throws Exception {
     testSimplePagination("aweora2");
   }
@@ -1109,7 +1109,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSimplePaginationPage1Max30() throws Exception {
     testSimplePaginationPage1Max30("aweora2");
   }
@@ -1157,7 +1157,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSimplePaginationPage1Max10() throws Exception {
     testSimplePaginationPage1Max10("aweora2");
   }
@@ -1205,7 +1205,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSimplePaginationPage2Max10() throws Exception {
     testSimplePaginationPage2Max10("aweora2");
   }
@@ -1259,7 +1259,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryHaving() throws Exception {
     testQueryHaving("aweora2");
   }
@@ -1287,7 +1287,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryQrySitModDbsOrd() throws Exception {
     testQueryQrySitModDbsOrd("aweora2");
   }
@@ -1311,7 +1311,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryQrySitModDbsOrdTot() throws Exception {
     testQueryQrySitModDbsOrdTot("aweora2");
   }
@@ -1337,7 +1337,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryQryUniTst() throws Exception {
     testQueryQryUniTst("aweora2");
   }
@@ -1360,7 +1360,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryQryUniTstId() throws Exception {
     testQueryQryUniTstId("aweora2");
   }
@@ -1383,7 +1383,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryQryChkPrg() throws Exception {
     testQueryQryChkPrg("aweora2");
   }
@@ -1406,7 +1406,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryQryEdiTst() throws Exception {
     testQueryQryEdiTst("aweora2");
   }
@@ -1429,7 +1429,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryQryEdiTstChk() throws Exception {
     testQueryQryEdiTstChk("aweora2");
   }
@@ -1452,7 +1452,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryQryEdiSug() throws Exception {
     testQueryQryEdiSug("aweora2");
   }
@@ -1476,7 +1476,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseCriteriaDate() throws Exception {
     testCriteriaDate("aweora2");
   }
@@ -1500,7 +1500,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTstUsrSug() throws Exception {
     testTstUsrSug("aweora2");
   }
@@ -1524,7 +1524,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseUserSuggest() throws Exception {
     testUserSuggest("aweora2");
   }
@@ -1550,7 +1550,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTstUsrSel() throws Exception {
     testTstUsrSel("aweora2");
   }
@@ -1574,7 +1574,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTstChrOneDatSrc() throws Exception {
     testTstChrOneDatSrc("aweora2");
   }
@@ -1597,7 +1597,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTstChrOneDatSrcPagination() throws Exception {
     testTstChrOneDatSrcPagination("aweora2");
   }
@@ -1620,7 +1620,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTstChrOTwoDatSrc() throws Exception {
     testTstChrOTwoDatSrc("aweora2");
   }
@@ -1643,7 +1643,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTstChrOTwoDatSrcPagination() throws Exception {
     testTstChrOTwoDatSrcPagination("aweora2");
   }
@@ -1666,7 +1666,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTstChrTwoSrcLab() throws Exception {
     testTstChrTwoSrcLab("aweora2");
   }
@@ -1689,7 +1689,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSugTstLst() throws Exception {
     testSugTstLst("aweora2");
   }
@@ -1712,7 +1712,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSugTstLstPagination() throws Exception {
     testSugTstLstPagination("aweora2");
   }
@@ -1735,7 +1735,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseProModTrePro() throws Exception {
     testProModTrePro("aweora2");
   }
@@ -1759,7 +1759,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseProModTreProLoa() throws Exception {
     testProModTreProLoa("aweora2");
   }
@@ -1783,7 +1783,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseProModTreProBas() throws Exception {
     testProModTreProBas("aweora2");
   }
@@ -1807,7 +1807,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseProModTreMod() throws Exception {
     testProModTreMod("aweora2");
   }
@@ -1833,7 +1833,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseProSitTreMod() throws Exception {
     testProSitTreMod("aweora2");
   }
@@ -1892,7 +1892,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformNumber() throws Exception {
     testTransformNumber("aweora2");
   }
@@ -1916,7 +1916,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformNumberPlain() throws Exception {
     testTransformNumberPlain("aweora2");
   }
@@ -1940,7 +1940,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformDate() throws Exception {
     testTransformDate("aweora2");
   }
@@ -1964,7 +1964,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformDateJavascript() throws Exception {
     testTransformDateJavascript("aweora2");
   }
@@ -1988,7 +1988,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformDateGeneric() throws Exception {
     testTransformDateGeneric("aweora2");
   }
@@ -2012,7 +2012,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformDateMilliseconds() throws Exception {
     testTransformDateMilliseconds("aweora2");
   }
@@ -2036,7 +2036,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformDateRDB() throws Exception {
     testTransformDateRDB("aweora2");
   }
@@ -2060,7 +2060,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformTime() throws Exception {
     testTransformTime("aweora2");
   }
@@ -2084,7 +2084,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformTimestamp() throws Exception {
     testTransformTimestamp("aweora2");
   }
@@ -2108,7 +2108,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformTimestampJavascript() throws Exception {
     testTransformTimestampJavascript("aweora2");
   }
@@ -2132,7 +2132,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformEncryptDecrypt() throws Exception {
     testTransformEncryptDecrypt("aweora2");
   }
@@ -2156,7 +2156,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformArray() throws Exception {
     testTransformArray("aweora2");
   }
@@ -2180,7 +2180,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformTextHTML() throws Exception {
     testTransformTextHTML("aweora2");
   }
@@ -2204,7 +2204,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformTextPlain() throws Exception {
     testTransformTextPlain("aweora2");
   }
@@ -2228,7 +2228,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTransformTextUniline() throws Exception {
     testTransformTextUniline("aweora2");
   }
@@ -2252,7 +2252,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTranslateBasic() throws Exception {
     testTranslateBasic("aweora2");
   }
@@ -2276,7 +2276,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseComputedBasic() throws Exception {
     testComputedBasic("aweora2");
   }
@@ -2300,7 +2300,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseComputedEvalString() throws Exception {
     testComputedEvalString("aweora2");
   }
@@ -2324,7 +2324,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseComputedEvalNumber() throws Exception {
     testComputedEvalNumber("aweora2");
   }
@@ -2348,7 +2348,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseComputedEvalVariable() throws Exception {
     testComputedEvalVariable("aweora2");
   }
@@ -2372,7 +2372,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseComputedEvalVariableValue() throws Exception {
     testComputedEvalVariableValue("aweora2");
   }
@@ -2396,7 +2396,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseComputedEvalVariableProperty() throws Exception {
     testComputedEvalVariableProperty("aweora2");
   }
@@ -2420,7 +2420,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseComputedEvalTransform() throws Exception {
     testComputedEvalTransform("aweora2");
   }
@@ -2444,7 +2444,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseComputedEvalTranslate() throws Exception {
     testComputedEvalTranslate("aweora2");
   }
@@ -2468,7 +2468,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseComputedEvalTransformTranslate() throws Exception {
     testComputedEvalTransformTranslate("aweora2");
   }
@@ -2492,7 +2492,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseCompoundBasic() throws Exception {
     testCompoundBasic("aweora2");
   }
@@ -2516,7 +2516,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTotalizeTotal() throws Exception {
     testTotalizeTotal("aweora2");
   }
@@ -2540,7 +2540,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTotalizeSubtotal() throws Exception {
     testTotalizeSubtotal("aweora2");
   }
@@ -2564,7 +2564,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseTotalizeTotalSubtotal() throws Exception {
     testTotalizeTotalSubtotal("aweora2");
   }
@@ -2621,7 +2621,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseNoSort() throws Exception {
     testNoSort("aweora2");
   }
@@ -2645,7 +2645,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSortOneFieldAsc() throws Exception {
     testSortOneFieldAsc("aweora2");
   }
@@ -2669,7 +2669,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSortOneFieldDesc() throws Exception {
     testSortOneFieldDesc("aweora2");
   }
@@ -2693,7 +2693,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSortTwoFieldsAscDesc() throws Exception {
     testSortTwoFieldsAscDesc("aweora2");
   }
@@ -2717,7 +2717,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSortTwoFieldsDescDesc() throws Exception {
     testSortTwoFieldsDescDesc("aweora2");
   }
@@ -2741,7 +2741,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSortThreeFieldsAscDescDesc() throws Exception {
     testSortThreeFieldsAscDescDesc("aweora2");
   }
@@ -2809,7 +2809,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseQueryVariableStringNull() throws Exception {
     testQueryVariableStringNull("aweora2");
   }
@@ -2833,7 +2833,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseStringHash() throws Exception {
     testStringHash("aweora2");
   }
@@ -2857,7 +2857,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseVariableDate() throws Exception {
     testVariableDate("aweora2");
   }
@@ -2881,7 +2881,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseVariableSystemDate() throws Exception {
     testVariableSystemDate("aweora2");
   }
@@ -2920,7 +2920,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseVariableNull() throws Exception {
     testVariableNull("aweora2");
   }
@@ -2944,7 +2944,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseVariableObject() throws Exception {
     testVariableObject("aweora2");
   }
@@ -2968,7 +2968,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseVariableProperty() throws Exception {
     testVariableProperty("awe-boot");
   }
@@ -2992,7 +2992,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseVariableOptional() throws Exception {
     testVariableOptional("aweora2");
   }
@@ -3016,7 +3016,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseVariableList() throws Exception {
     testVariableList("aweora2");
   }
@@ -3094,7 +3094,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseDatalistNoParams() throws Exception {
     testDatalistNoParams("aweora2");
   }
@@ -3118,7 +3118,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseStringArrayNoParams() throws Exception {
     testStringArrayNoParams("aweora2");
   }
@@ -3142,7 +3142,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseStringArrayTwoStringsParams() throws Exception {
     testStringArrayTwoStringsParams("aweora2");
   }
@@ -3166,7 +3166,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseStringArrayNumberParam() throws Exception {
     testStringArrayNumberParam("aweora2");
   }
@@ -3190,7 +3190,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseStringArrayLongParam() throws Exception {
     testStringArrayLongParam("aweora2");
   }
@@ -3214,7 +3214,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseStringArrayDoubleParam() throws Exception {
     testStringArrayDoubleParam("aweora2");
   }
@@ -3238,7 +3238,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseStringArrayFloatParam() throws Exception {
     testStringArrayFloatParam("aweora2");
   }
@@ -3262,7 +3262,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseStringArrayBooleanParam() throws Exception {
     testStringArrayBooleanParam("aweora2");
   }
@@ -3286,7 +3286,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabasePagination() throws Exception {
     testPagination("aweora2");
   }
@@ -3310,7 +3310,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabasePaginationMax10() throws Exception {
     testPaginationMax10("aweora2");
   }
@@ -3334,7 +3334,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseManagedPagination() throws Exception {
     testManagedPagination("aweora2");
   }
@@ -3362,7 +3362,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   @WithAnonymousUser
   public void testCheckInitialQueryTarget() throws Exception {
     String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ComponentSelectEnum\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectEnum\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"Es1Es0\",\"visible\":true},\"model\":{\"selected\":[1],\"defaultValues\":[],\"values\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]}},{\"id\":\"ComponentSelectQuery\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectQuery\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadQuery\",\"visible\":true},\"model\":{\"selected\":[1],\"defaultValues\":[],\"values\":[{\"label\":\"mgr\",\"id\":1,\"value\":1},{\"label\":\"donald\",\"id\":2,\"value\":2},{\"label\":\"jorgito\",\"id\":3,\"value\":3},{\"label\":\"juanito\",\"id\":4,\"value\":811},{\"label\":\"jaimito\",\"id\":5,\"value\":1702}]}},{\"id\":\"WinDat\",\"controller\":{\"contextMenu\":[],\"dependencies\":[],\"label\":\"SCREEN_TEXT_DATA\",\"maximize\":true,\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"ComponentSuggestValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestValue\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"mgr\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"mgr\",\"id\":1,\"value\":1.0}]}}],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"TestInitialLoad\",\"title\":\"SCREEN_TITLE_BUTTON_TEST\",\"option\":\"test-initial-load\"}}}},{\"type\":\"end-load\",\"parameters\":{}}]";
@@ -3411,7 +3411,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   @WithMockUser(username = "LaloElMalo", roles = { "ADMIN", "USER" })
   public void testCheckInitialQuerySelectedValues() throws Exception {
     setParameter("user", "LaloElMalo");
@@ -3462,7 +3462,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   @WithAnonymousUser
   public void testCheckInitialVariables() throws Exception {
     String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ComponentSelectEnum\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectEnum\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"Es1Es0\",\"value\":\"0\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]}},{\"id\":\"ComponentSuggestCheckInitial\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":\"TestComponentInitialSuggestValue\",\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestCheckInitial\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[]}},{\"id\":\"ComponentSelectQuery\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectQuery\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadQuery\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"2\"],\"defaultValues\":[\"2\"],\"values\":[{\"label\":\"mgr\",\"id\":1,\"value\":1},{\"label\":\"donald\",\"id\":2,\"value\":2},{\"label\":\"jorgito\",\"id\":3,\"value\":3},{\"label\":\"juanito\",\"id\":4,\"value\":811},{\"label\":\"jaimito\",\"id\":5,\"value\":1702}]}},{\"id\":\"ComponentTextStaticValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"prueba\",\"visible\":true},\"model\":{\"selected\":[\"variableStatic\"],\"defaultValues\":[\"variableStatic\"],\"values\":[]}},{\"id\":\"WinDat\",\"controller\":{\"contextMenu\":[],\"dependencies\":[],\"label\":\"SCREEN_TEXT_DATA\",\"maximize\":true,\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"ComponentSuggestValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestValue\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"mgr\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"mgr\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextStaticSessionValue\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticSessionValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"variableSession\"],\"defaultValues\":[\"variableSession\"],\"values\":[]}},{\"id\":\"ComponentTextStaticPropertyValue\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticPropertyValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"variableProperty\"],\"defaultValues\":[\"variableProperty\"],\"values\":[]}}],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"TestInitialValues\",\"title\":\"SCREEN_TITLE_BUTTON_TEST\",\"option\":\"test-initial-values\"}}}},{\"type\":\"end-load\",\"parameters\":{}}]";
@@ -3512,7 +3512,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   @WithAnonymousUser
   public void testCheckInitialQueryTargetVariables() throws Exception {
     String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ComponentTextStaticPropertyVal\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticPropertyVal\",\"label\":\"PARAMETER_TEXT\",\"max\":30,\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[3],\"defaultValues\":[\"variableProperty\"],\"values\":[]}},{\"id\":\"ComponentSelectEnum\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectEnum\",\"label\":\"PARAMETER_SELECT\",\"max\":30,\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"Es1Es0\",\"value\":\"0\",\"visible\":true},\"model\":{\"selected\":[3],\"defaultValues\":[\"1\"],\"values\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]}},{\"id\":\"ComponentTextStaticSessionVal\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticSessionVal\",\"label\":\"PARAMETER_TEXT\",\"max\":30,\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[3],\"defaultValues\":[\"variableSession\"],\"values\":[]}},{\"id\":\"ComponentSuggestVal\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestVal\",\"label\":\"PARAMETER_SUGGEST\",\"max\":30,\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[1],\"defaultValues\":[1],\"values\":[{\"label\":\"mgr\",\"value\":1}]}},{\"id\":\"ComponentSuggestCheckInitial\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":\"TestComponentInitialSuggestValue\",\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestCheckInitial\",\"label\":\"PARAMETER_SUGGEST\",\"max\":30,\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[3],\"defaultValues\":[\"1\"],\"values\":[]}},{\"id\":\"ComponentSelectQuery\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectQuery\",\"label\":\"PARAMETER_SELECT\",\"max\":30,\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadQuery\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[3],\"defaultValues\":[\"2\"],\"values\":[{\"label\":\"mgr\",\"value\":1},{\"label\":\"donald\",\"value\":2},{\"label\":\"jorgito\",\"value\":3},{\"label\":\"juanito\",\"value\":811},{\"label\":\"jaimito\",\"value\":1702}]}},{\"id\":\"ComponentTextStaticVal\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticVal\",\"label\":\"PARAMETER_TEXT\",\"max\":30,\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"prueba\",\"visible\":true},\"model\":{\"selected\":[3],\"defaultValues\":[\"variableStatic\"],\"values\":[]}},{\"id\":\"WinDat\",\"controller\":{\"contextMenu\":[],\"dependencies\":[],\"label\":\"SCREEN_TEXT_DATA\",\"max\":30,\"maximize\":true,\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"ComponentTextVal\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextVal\",\"label\":\"PARAMETER_TEXT\",\"max\":30,\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[1],\"defaultValues\":[1],\"values\":[{\"label\":\"mgr\",\"value\":1}]}}],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"TestInitialValuesLoad\",\"title\":\"SCREEN_TITLE_BUTTON_TEST\",\"option\":\"test-initial-values-load\"}}}},{\"type\":\"end-load\",\"parameters\":{}}]";
@@ -3562,7 +3562,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseGridsAndChartScreen() throws Exception {
     testGridsAndChartScreen("aweora2");
   }
@@ -3669,7 +3669,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseSimpleEnum() throws Exception {
     testSimpleEnum("aweora2");
   }
@@ -3693,7 +3693,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseLongerEnum() throws Exception {
     testLongerEnum("aweora2");
   }
@@ -3717,7 +3717,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testDatabaseLongerPaginatedEnum() throws Exception {
     testLongerPaginatedEnum("aweora2");
   }
@@ -3745,7 +3745,7 @@ public class QueryTest extends TestUtil {
    *
    * @throws Exception Error in test
    */
-  //@Test
+  @Test
   @WithAnonymousUser
   public void testCheckAnonymousUserQuery() throws Exception {
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"Session has expired. Please reload\",\"title\":\"Error in maintain operation\",\"type\":\"error\"}},{\"type\":\"cancel\",\"parameters\":{}}]";
@@ -3764,7 +3764,7 @@ public class QueryTest extends TestUtil {
    * @throws Exception Error in test
    */
 
-  //@Test
+  @Test
   @WithMockUser(username = "mgr", password = "rai", roles = { "ADMIN", "USER" })
   public void testCheckAuthenticatedUserQuery() throws Exception {
     String queryName = "SimpleGetAll";

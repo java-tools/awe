@@ -28,10 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author pgarcia
  *
  */
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-//@WithMockUser(username = "mgr", password = "rai")
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@WithMockUser(username = "mgr", password = "rai")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class RestServiceTest extends TestUtil {
 
   // Logger
@@ -97,7 +97,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testSimpleGetData() throws Exception {
     doRestTest("TestSimpleRestGet", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }
@@ -107,7 +107,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testSimplePostData() throws Exception {
     doRestTest("TestSimpleRestPost", "data","", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }
@@ -117,7 +117,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testSimpleGetMaintain() throws Exception {
     doRestTest("TestSimpleRestGet", "maintain","", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[]}}]");
   }
@@ -127,7 +127,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testSimplePostMaintain() throws Exception {
     doRestTest("TestSimpleRestPost", "maintain","", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[]}}]");
   }
@@ -137,7 +137,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testComplexGet() throws Exception {
     doRestTest("TestComplexRestGet", "data","", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"CrtTst\":1,\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }
@@ -147,7 +147,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testComplexPost() throws Exception {
     doRestTest("TestComplexRestPost", "maintain","", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTargetUpd\",\"Act\":2,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":2,\"Nam\":\"testIncludeTargetUpd\",\"Date\":null}}]}}]");
   }
@@ -157,7 +157,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testComplexGetParameters() throws Exception {
     doRestTest("TestComplexRestGetParameters", "data","\"value\":\"1\",", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"CrtTst\":1,\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }
@@ -167,7 +167,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testComplexPostParameters() throws Exception {
     doRestTest("TestComplexRestPostParameters", "maintain","\"value\":1,", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTarget\",\"Act\":1,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":1,\"Nam\":\"testIncludeTarget\",\"Date\":null}}]}}]");
   }
@@ -177,7 +177,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testComplexPostParametersJson() throws Exception {
     doRestTest("TestComplexRestPostParametersJson", "maintain","\"value\":1,", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTarget\",\"Act\":1,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":1,\"Nam\":\"testIncludeTarget\",\"Date\":null}}]}}]");
   }
@@ -187,7 +187,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testExternalRestApi() throws Exception {
     doRestTest("TestExternalRestApi", "data","\"value\":3,",  null);
   }
@@ -197,7 +197,7 @@ public class RestServiceTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testPostmanRestApi() throws Exception {
     doRestTest("TestPostmanRestApi", "data","", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"acceptLanguage\":\"\",\"acceptEncoding\":\"gzip,deflate\",\"cookie\":\"\",\"method\":\"GET\",\"gzipped\":\"true\",\"postmanToken\":\"\",\"id\":1,\"cacheControl\":\"\",\"accept\":\"application/json, application/*+json\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }
