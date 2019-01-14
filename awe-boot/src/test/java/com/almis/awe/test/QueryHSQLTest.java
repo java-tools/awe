@@ -1,6 +1,5 @@
 package com.almis.awe.test;
 
-import org.junit.Ignore;
 import org.springframework.test.context.TestPropertySource;
 
 /**
