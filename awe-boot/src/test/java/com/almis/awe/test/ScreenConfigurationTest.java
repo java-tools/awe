@@ -36,10 +36,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author jbellon
  *
  */
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@WithMockUser(username = "mgr", password = "rai")
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WithMockUser(username = "mgr", password = "rai")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ScreenConfigurationTest extends TestUtil {
 
   // Logger
@@ -177,7 +177,7 @@ public class ScreenConfigurationTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testRestrictVisibility() throws Exception {
     testButtonRestriction("visible", JsonNodeFactory.instance.booleanNode(false));
   }
@@ -187,7 +187,7 @@ public class ScreenConfigurationTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testChangeLabel() throws Exception {
     testButtonRestriction("label", JsonNodeFactory.instance.textNode("Tira patraaaaas"));
   }
@@ -197,7 +197,7 @@ public class ScreenConfigurationTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testSetReadonly() throws Exception {
     testButtonRestriction("readonly", JsonNodeFactory.instance.booleanNode(true));
   }
@@ -207,7 +207,7 @@ public class ScreenConfigurationTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testOptional() throws Exception {
     testButtonRestriction("optional", JsonNodeFactory.instance.booleanNode(true));
   }
@@ -217,7 +217,7 @@ public class ScreenConfigurationTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testPrintable() throws Exception {
     testButtonRestriction("printable", JsonNodeFactory.instance.booleanNode(false));
   }
@@ -227,7 +227,7 @@ public class ScreenConfigurationTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testChecked() throws Exception {
     testButtonRestriction("checked", JsonNodeFactory.instance.booleanNode(true));
   }
@@ -237,7 +237,7 @@ public class ScreenConfigurationTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testHelpLabel() throws Exception {
     testButtonRestriction("help", JsonNodeFactory.instance.textNode("Ayudaaaaaaaaaaaaaaaa!"));
   }
@@ -247,7 +247,7 @@ public class ScreenConfigurationTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testStyle() throws Exception {
     testButtonRestriction("style", JsonNodeFactory.instance.textNode("claseDeLaMuerte otraClaseChula"));
   }
@@ -257,7 +257,7 @@ public class ScreenConfigurationTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testInitialLoad() throws Exception {
     // Add restrictions
     addRestriction("INSERT","CrtTstLeft", "Txt", "initialLoad", "value");
@@ -299,7 +299,7 @@ public class ScreenConfigurationTest extends TestUtil {
   /**
    * Test that the setters to the session storage are working correctly.
    */
-  //@Test
+  @Test
   public void testSetSessionValues() throws Exception {
     setParameter("parameter1", "value1");
     setParameter("parameter2", "value2");
@@ -315,7 +315,7 @@ public class ScreenConfigurationTest extends TestUtil {
   /**
    * Test that the parameters from session are correctly modified
    */
-  //@Test
+  @Test
   public void testModifySessionValues() throws Exception {
     setParameter("parameter1", "value4");
     setParameter("parameter2", "value3");
@@ -332,7 +332,7 @@ public class ScreenConfigurationTest extends TestUtil {
    * Test that the parameters from session are correctly removed
    *
    */
-  //@Test
+  @Test
   public void testRemoveSessionValues() throws Exception {
     //Add values first
     testSetSessionValues();
@@ -351,7 +351,7 @@ public class ScreenConfigurationTest extends TestUtil {
   /**
    * Test the setter and getter annotations for session parameters
    */
-  ////@Test
+  //@Test
   public void testSessionAnnotations() throws Exception {
     toSessionMethodAnnotation();
     Assert.assertEquals(getParameter("param"), "toSessionMethod");

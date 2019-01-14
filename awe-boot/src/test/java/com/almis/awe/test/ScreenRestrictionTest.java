@@ -29,10 +29,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author jbellon
  *
  */
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@WithMockUser(username = "mgr", password = "rai")
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WithMockUser(username = "mgr", password = "rai")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ScreenRestrictionTest extends TestUtil {
 
   // Logger
@@ -167,7 +167,7 @@ public class ScreenRestrictionTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testRestrictHelpAll() throws Exception {
     String parameters = prepareOptions("images/flags/help", "R", null);
     testOptionRestriction(null, null, "images/flags/help", "R", parameters);
@@ -178,7 +178,7 @@ public class ScreenRestrictionTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testRestrictToolsAll() throws Exception {
     String parameters = prepareOptions("tools", "R", null);
     testOptionRestriction(null, null, "tools", "R", parameters);
@@ -189,7 +189,7 @@ public class ScreenRestrictionTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testSomeRestrictions() throws Exception {
     // Add restriction to settings
     String parameters = prepareOptions("settings", "R", null);
@@ -205,7 +205,7 @@ public class ScreenRestrictionTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testEncryptToolUser() throws Exception {
     // Add restriction to user 'pgarcia' and check with 'mgr'
     String parameters = prepareOptions(null, null, null);
@@ -221,7 +221,7 @@ public class ScreenRestrictionTest extends TestUtil {
    *
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testEncryptToolProfile() throws Exception {
     // Add restriction to profile 'administrator' and check with 'mgr'
     String parameters = prepareOptions("sites", "R", null);
