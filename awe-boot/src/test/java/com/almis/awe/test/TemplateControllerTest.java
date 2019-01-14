@@ -44,10 +44,10 @@ import org.springframework.web.context.WebApplicationContext;
  *
  * @author pgarcia
  */
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@WithAnonymousUser
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WithAnonymousUser
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class TemplateControllerTest extends TestUtil {
 
   @Autowired
@@ -87,7 +87,7 @@ public class TemplateControllerTest extends TestUtil {
    * Test context loaded
    * @throws NamingException Test error
    */
-  //@Test
+  @Test
   public void contextLoads() throws NamingException {
 
     // Check that controller are active
@@ -101,7 +101,7 @@ public class TemplateControllerTest extends TestUtil {
    * Test of getAngularTemplate method, of class TemplateController.
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testGetAngularTemplate() throws Exception {
     String expected = readFileAsText("templates/Modal.txt");
     mockMvc.perform(get("/template/angular/confirm")
@@ -115,7 +115,7 @@ public class TemplateControllerTest extends TestUtil {
    * Test of getAngularSubTemplate method, of class TemplateController.
    * @throws Exception test error
    */
-  //@Test
+  @Test
   public void testGetAngularSubTemplate() throws Exception {
     String expected = readFileAsText("templates/Criterion.txt");
     mockMvc.perform(get("/template/angular/input/text")
@@ -129,7 +129,7 @@ public class TemplateControllerTest extends TestUtil {
    * Test of getScreenTemplate method, of class TemplateController.
    * @throws Exception test error
    */
-  //@Test
+  @Test
   public void testGetScreenTemplate() throws Exception {
     String expected = readFileAsText("templates/Screen.txt").replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
     MvcResult result = mockMvc.perform(get("/template/screen/base/information")
@@ -146,7 +146,7 @@ public class TemplateControllerTest extends TestUtil {
    * Test of launchAction method, of class ActionController.
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testGetErrorScreenTemplate() throws Exception {
     String expected = readFileAsText("templates/ScreenError.txt").replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
     MvcResult result = mockMvc.perform(get("/template/screen/base/pantalla-inexistente")
@@ -163,7 +163,7 @@ public class TemplateControllerTest extends TestUtil {
    * Test of getDefaultScreenTemplate method, of class TemplateController.
    * @throws Exception test error
    */
-  //@Test
+  @Test
   public void testGetDefaultScreenTemplate() throws Exception {
     String expected = readFileAsText("templates/DefaultScreen.txt").replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
     MvcResult result = mockMvc.perform(get("/template/screen/")
@@ -180,7 +180,7 @@ public class TemplateControllerTest extends TestUtil {
    * Test of getAngularTemplate method, of class TemplateController.
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testGetSitesHelpTemplate() throws Exception {
     String expected = readFileAsText("context-help/ScreenHelp.txt").replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
@@ -198,7 +198,7 @@ public class TemplateControllerTest extends TestUtil {
    * Test of getAngularSubTemplate method, of class TemplateController.
    * @throws Exception test error
    */
-  //@Test
+  @Test
   @WithMockUser(username = "mgr", password = "rai")
   public void testGetApplicationHelpTemplate() throws Exception {
     String expected = readFileAsText("context-help/ApplicationHelp.txt").replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
@@ -216,7 +216,7 @@ public class TemplateControllerTest extends TestUtil {
    * Test of getSettings method, of class SettingsController.
    * @throws Exception Test error
    */
-  //@Test
+  @Test
   public void testGetSettings() throws Exception {
     String expected = "{\"pathServer\":\"\",\"initialURL\":\"\",\"language\":\"en\",\"theme\":\"sky\",\"charset\":\"UTF-8\",\"applicationName\":\"AWE (Almis Web Engine)\",\"dataSuffix\":\".data\",\"homeScreen\":\"screen/home\",\"recordsPerPage\":30,\"pixelsPerCharacter\":8,\"defaultComponentSize\":\"sm\",\"shareSessionInTabs\":false,\"reloadCurrentScreen\":false,\"suggestTimeout\":300,\"connectionProtocol\":\"COMET\",\"connectionTransport\":\"websocket\",\"connectionBackup\":\"streaming\",\"connectionTimeout\":60000000,\"connectionId\":\"s\",\"uploadIdentifier\":\"u\",\"downloadIdentifier\":\"d\",\"uploadMaxSize\":524288000,\"addressIdentifier\":\"address\",\"passwordPattern\":\".*\",\"minlengthPassword\":4,\"encodeTransmission\":false,\"encodeKey\":\"p\",\"tokenKey\":\"t\",\"actionsStack\":0,\"debug\":\"INFO\",\"loadingTimeout\":10000,\"helpTimeout\":1000,\"messageTimeout\":{\"info\":0,\"error\":0,\"validate\":2000,\"help\":5000,\"warning\":4000,\"ok\":2000,\"wrong\":0,\"chat\":0},\"numericOptions\":{\"aSep\":\".\",\"dGroup\":3,\"aDec\":\",\",\"aSign\":\"\",\"pSign\":\"s\",\"vMin\":-1.0E10,\"vMax\":1.0E10,\"mDec\":5,\"mRound\":\"S\",\"aPad\":false,\"wEmpty\":\"empty\"},\"pivotOptions\":{\"numGroup\":5000},\"chartOptions\":{\"limitPointsSerie\":1000000}}";
     ObjectNode expectedJson = (ObjectNode) objectMapper.readTree(expected);
