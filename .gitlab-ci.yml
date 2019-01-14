@@ -20,7 +20,7 @@ test:
   script:
     - mvn $MAVEN_CLI_OPTS verify
     - mvn $MAVEN_CLI_OPTS verify -DgenerateAggregationReport=true -DskipTests
-    - cat target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
+    - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
 
   artifacts:
     reports:
