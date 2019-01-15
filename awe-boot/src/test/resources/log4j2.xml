@@ -111,22 +111,22 @@
 
   <Loggers>    
     <!-- Ade logger -->
-    <Logger name="com.almis.ade" includeLocation="true" level="warn">
+    <Logger name="com.almis.ade" includeLocation="true" level="info">
       <AppenderRef ref="${bundle:log4j2-app:log.ade}" />
     </Logger>
 
     <!-- Model logger -->
-    <Logger name="com.almis.awe.model" includeLocation="true" level="warn">
+    <Logger name="com.almis.awe.model" includeLocation="true" level="info">
       <AppenderRef ref="${bundle:log4j2-app:log.model}" />
     </Logger>
 
     <!-- Scheduler logger -->
-    <Logger name="com.almis.awe.scheduler" includeLocation="true" level="warn">
+    <Logger name="com.almis.awe.scheduler" includeLocation="true" level="info">
       <AppenderRef ref="${bundle:log4j2-app:log.scheduler}" />
     </Logger>
 
     <!-- ROOT logger -->
-    <Root level="warn">
+    <Root level="info">
       <AppenderRef ref="CONSOLE" />
       <AppenderRef ref="APP" />
     </Root>

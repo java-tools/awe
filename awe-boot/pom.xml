@@ -14,9 +14,7 @@
 
   <properties>
     <!-- Application maven properties -->
-    <awe.version>${project.parent.version}</awe.version>
-    <ade.version>2.0.7</ade.version>
-    
+    <awe.version>${project.parent.version}</awe.version>    
     <java.version>1.8</java.version>
     <awe.schemas>../../../static/schemas/awe</awe.schemas>
     <application.name>awe-boot_V4.0.3</application.name>
@@ -132,7 +130,6 @@
     <dependency>
       <groupId>com.almis.ade</groupId>
       <artifactId>ade-spring-boot-starter</artifactId>
-      <version>${ade.version}</version>
     </dependency>
 
     <!-- JDBC Drivers -->
