@@ -62,11 +62,11 @@
     <field variable="one" alias="ComponentTextValue" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="mgr" />
+        <filter left-field="l1_nom" condition="eq" right-variable="test" />
       </and>
     </where>
     <variable id="one" type="INTEGER" value="1" />
-    <variable id="mgr" type="STRING" value="mgr" />
+    <variable id="test" type="STRING" value="test" />
   </query>
 
   <query id="TestScreenTargetVariable" public="true">
@@ -81,11 +81,11 @@
     <field variable="three" alias="ComponentTextStaticPropertyVal" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="mgr" />
+        <filter left-field="l1_nom" condition="eq" right-variable="test" />
       </and>
     </where>
     <variable id="three" type="INTEGER" value="3" />
-    <variable id="mgr" type="STRING" value="mgr" />
+    <variable id="test" type="STRING" value="test" />
   </query>
 
   <query id="TestComponentInitialLoadQuery" public="true">
@@ -99,15 +99,15 @@
     <table id="ope" alias="awe" />
     <field variable="one" alias="kk" transform="NUMBER" />
     <field variable="one" alias="value2" />
-    <field variable="mgr" alias="label" />
+    <field variable="test" alias="label" />
     <computed alias="value" format="[value2]" transform="NUMBER_PLAIN" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="mgr" />
+        <filter left-field="l1_nom" condition="eq" right-variable="test" />
       </and>
     </where>
     <variable id="one" type="INTEGER" value="1" />
-    <variable id="mgr" type="STRING" value="mgr" />
+    <variable id="test" type="STRING" value="test" />
   </query>
 
   <query id="TestComponentInitialSuggestValue" public="true">
@@ -116,11 +116,11 @@
     <field id="l1_nom" alias="label" />
     <where>
       <and>
-        <filter left-field="IdeOpe" condition="eq" right-variable="mgr" trim="true" />
+        <filter left-field="IdeOpe" condition="eq" right-variable="test" trim="true" />
       </and>
     </where>
     <variable id="one" type="INTEGER" value="1" />
-    <variable id="mgr" type="STRING" name="suggest" />
+    <variable id="test" type="STRING" name="suggest" />
   </query>
 
   <query id="QueryValueInField">
@@ -741,10 +741,10 @@
     <field variable="hashEncrypt" alias="hashEncrypt" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="mgr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="test" trim="true" />
       </and>
     </where>
-    <variable id="mgr" type="STRING" value="mgr" />
+    <variable id="test" type="STRING" value="test" />
     <variable id="hashPbk" type="STRING_HASH_PBKDF_2_W_HMAC_SHA_1" value="prueba" />
     <variable id="hashRipemd" type="STRING_HASH_RIPEMD160" value="prueba" />
     <variable id="hashSha" type="STRING_HASH_SHA" value="prueba" />
@@ -758,10 +758,10 @@
     <field variable="timestamp" alias="timestamp" transform="TIMESTAMP" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="mgr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="test" trim="true" />
       </and>
     </where>
-    <variable id="mgr" type="STRING" value="mgr" />
+    <variable id="test" type="STRING" value="test" />
     <variable id="date" type="DATE" value="23/10/1978" />
     <variable id="timestamp" type="TIMESTAMP" value="23/10/1978 15:03:01.000" />
   </query>
@@ -773,10 +773,10 @@
     <field variable="time" alias="time" transform="TIME"/>
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="mgr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="test" trim="true" />
       </and>
     </where>
-    <variable id="mgr" type="STRING" value="mgr" />
+    <variable id="test" type="STRING" value="test" />
     <variable id="date" type="SYSTEM_DATE" />
     <variable id="time" type="SYSTEM_TIME" />
   </query>
@@ -787,10 +787,10 @@
     <field variable="null" alias="null" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="mgr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="test" trim="true" />
       </and>
     </where>
-    <variable id="mgr" type="STRING" value="mgr" />
+    <variable id="test" type="STRING" value="test" />
     <variable id="null" type="NULL" />
   </query>
 
@@ -800,10 +800,10 @@
     <field variable="object" alias="object" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="mgr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="test" trim="true" />
       </and>
     </where>
-    <variable id="mgr" type="STRING" value="mgr" />
+    <variable id="test" type="STRING" value="test" />
     <variable id="object" type="OBJECT" name="object" />
   </query>
 
@@ -813,10 +813,10 @@
     <field variable="property" alias="property" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="mgr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="test" trim="true" />
       </and>
     </where>
-    <variable id="mgr" type="STRING" value="mgr" />
+    <variable id="test" type="STRING" value="test" />
     <variable id="property" type="STRING" property="module.app" />
   </query>
 
@@ -1922,7 +1922,7 @@
         <filter left-field="l1_nom" condition="like" right-variable="val" />
       </and>
     </where>
-    <variable id="val" type="STRINGB" value="mgr" />
+    <variable id="val" type="STRINGB" value="test" />
   </query>
 
   <query id="QtyTst1">
