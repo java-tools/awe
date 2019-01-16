@@ -287,7 +287,7 @@ public class MaintainTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
-  @WithMockUser(username = "test", password = "rai")
+  @WithMockUser(username = "test", password = "test")
   public void testSingleUpdateWithVariableListAudit() throws Exception {
     launchSimpleSingleInsertFromVariable();
 
@@ -321,7 +321,7 @@ public class MaintainTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
-  @WithMockUser(username = "test", password = "rai")
+  @WithMockUser(username = "test", password = "test")
   public void testSingleUpdateWithVariableListAuditBatched() throws Exception {
     launchSimpleSingleInsertFromVariable();
 
@@ -383,7 +383,7 @@ public class MaintainTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
-  @WithMockUser(username = "test", password = "rai")
+  @WithMockUser(username = "test", password = "test")
   public void testMultipleUpdateAudit() throws Exception {
     launchSimpleSingleInsertFromVariable();
 
@@ -421,7 +421,7 @@ public class MaintainTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
-  @WithMockUser(username = "test", password = "rai")
+  @WithMockUser(username = "test", password = "test")
   public void testMultipleUpdateAuditBatched() throws Exception {
     launchSimpleSingleInsertFromVariable();
 

@@ -58,7 +58,7 @@ public class MaintainRestControllerTest {
   @Before
   public void setup() throws Exception {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    this.headers.put("Authorization", Arrays.asList("Basic bWdyOnJhaQ=="));
+    this.headers.put("Authorization", Arrays.asList("Basic dGVzdDp0ZXN0"));
   }
 
   /**
@@ -89,7 +89,6 @@ public class MaintainRestControllerTest {
 
 
     Assert.assertEquals(new ObjectMapper().writeValueAsString(expected), new ObjectMapper().writeValueAsString(response.getBody()));
-
   }
 
   @Test

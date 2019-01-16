@@ -994,7 +994,7 @@
                     {
                       "id": "Txt",
                       "condition": "eq",
-                      "value": "mgr",
+                      "value": "test",
                       "alias": "TxtMgr",
                       "checkChanges": true
                     }
@@ -1291,15 +1291,15 @@
               "strict": true,
               "style": "col-xs-12 col-sm-6 col-lg-4",
               "targetAction": "UsrEmlLst",
-              "value": "mgr",
+              "value": "test",
               "visible": true
             },
             "model": {
               "selected": [
-                "mgr"
+                "test"
               ],
               "defaultValues": [
-                "mgr"
+                "test"
               ],
               "values":[
                 {
@@ -1323,9 +1323,9 @@
                   "value":"juanito"
                 },
                 {
-                  "label":"mgr (test@test.com)",
+                  "label":"test (test@test.com)",
                   "id":5,
-                  "value":"mgr"
+                  "value":"test"
                 }
               ],
               "page": 1,
@@ -2096,9 +2096,9 @@
                   "value":"juanito"
                 },
                 {
-                  "label":"mgr (test@test.com)",
+                  "label":"test (test@test.com)",
                   "id":5,
-                  "value":"mgr"
+                  "value":"test"
                 }
               ],
               "page": 1,
@@ -2377,9 +2377,9 @@
                   "value":"juanito"
                 },
                 {
-                  "label":"mgr (test@test.com)",
+                  "label":"test (test@test.com)",
                   "id":5,
-                  "value":"mgr"
+                  "value":"test"
                 }
               ],
               "page": 1,
@@ -3480,15 +3480,15 @@
               "strict": true,
               "style": "col-xs-6 col-sm-3 col-lg-2",
               "targetAction": "TstUsrSug",
-              "value": "mgr",
+              "value": "test",
               "visible": true
             },
             "model": {
               "selected": [
-                "mgr"
+                "test"
               ],
               "defaultValues": [
-                "mgr"
+                "test"
               ],
               "values": [],
               "page": 1,
@@ -3547,15 +3547,15 @@
               "strict": true,
               "style": "col-xs-12 col-sm-6 col-lg-4",
               "targetAction": "UsrEmlLstTstSug",
-              "value": "mgr",
+              "value": "test",
               "visible": true
             },
             "model": {
               "selected": [
-                "mgr"
+                "test"
               ],
               "defaultValues": [
-                "mgr"
+                "test"
               ],
               "values": [],
               "page": 1,
@@ -3804,15 +3804,15 @@
               "style": "col-xs-6 col-sm-3 col-lg-2",
               "targetAction": "TstUsrSug",
               "validation": "required",
-              "value": "mgr",
+              "value": "test",
               "visible": true
             },
             "model": {
               "selected": [
-                "mgr"
+                "test"
               ],
               "defaultValues": [
-                "mgr"
+                "test"
               ],
               "values": [],
               "page": 1,

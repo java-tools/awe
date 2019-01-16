@@ -36,7 +36,7 @@
   <tag source="center" expandible="vertical">
     <window style="expand" label="SCREEN_TEXT_DATA" id="Criteria" expandible="vertical">
       <tag type="div" style="panel-body expand scrollable">
-        <criteria left-label="18" label="PARAMETER_TEXT" id="Txt" variable="Txt" component="text" style="col-xs-6 col-sm-3 col-lg-2" value="mgr"/>
+        <criteria left-label="18" label="PARAMETER_TEXT" id="Txt" variable="Txt" component="text" style="col-xs-6 col-sm-3 col-lg-2" value="test"/>
         <criteria left-label="18" label="PARAMETER_TEXT" id="TxtReq" variable="TxtReq" component="text" style="col-xs-6 col-sm-3 col-lg-2" validation="required {maxlength:4}"/>
         <criteria left-label="18" label="PARAMETER_TEXT_READONLY" id="TxtRea" variable="TxtRea" component="text" readonly="true" style="col-xs-6 col-sm-3 col-lg-2" initial-load="value" target-action="SysTim" unit="PARAMETER_TEXT">
           <dependency source-type="launcher" target-type="input" target-action="language">
@@ -87,15 +87,15 @@
         </criteria>
         <criteria left-label="18" label="PARAMETER_SUGGEST" id="Sug" variable="Sug" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSug" timeout="500" check-initial="false">
           <dependency source-type="launcher" target-type="input" target-action="TxtMgr" initial="true">
-            <dependency-element id="Txt" condition="eq" value="mgr" alias="TxtMgr"/>
+            <dependency-element id="Txt" condition="eq" value="test" alias="TxtMgr"/>
           </dependency>
         </criteria>
-        <criteria left-label="18" label="PARAMETER_SUGGEST" id="SugReq" variable="SugReq" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSug" validation="required" check-initial="true" value="mgr">
+        <criteria left-label="18" label="PARAMETER_SUGGEST" id="SugReq" variable="SugReq" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSug" validation="required" check-initial="true" value="test">
           <dependency target-type="set-optional" initial="true">
             <dependency-element id="Txt" condition="gt" value="1"/>
           </dependency>
         </criteria>
-        <criteria left-label="18" label="PARAMETER_SUGGEST_READONLY" id="SugRea" variable="SugRea" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSug" readonly="true" value="mgr" check-initial="true" />
+        <criteria left-label="18" label="PARAMETER_SUGGEST_READONLY" id="SugRea" variable="SugRea" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSug" readonly="true" value="test" check-initial="true" />
         <criteria left-label="18" label="PARAMETER_SELECT" id="Sel" variable="Sel" component="select" style="col-xs-6 col-sm-3 col-lg-2" initial-load="enum" target-action="Es1Es0" optional="true">
           <dependency initial="true">
             <dependency-element id="Sel" condition="eq" value="0"/>
@@ -142,14 +142,14 @@
             <dependency-element id="Txt" condition="gt" value="1"/>
           </dependency>
         </criteria>
-        <criteria left-label="18" label="PARAMETER_SELECT_MULTIPLE_READONLY" id="SelMulRea" variable="SelMul" component="select-multiple" style="col-xs-12 col-sm-6 col-lg-4" initial-load="query" target-action="UsrEmlLst" readonly="true" value="mgr" />
+        <criteria left-label="18" label="PARAMETER_SELECT_MULTIPLE_READONLY" id="SelMulRea" variable="SelMul" component="select-multiple" style="col-xs-12 col-sm-6 col-lg-4" initial-load="query" target-action="UsrEmlLst" readonly="true" value="test" />
         <criteria left-label="18" label="PARAMETER_SUGGEST_MULTIPLE" id="SugMul" variable="SugMul" component="suggest-multiple" style="col-xs-12 col-sm-6 col-lg-4" server-action="data" target-action="UsrEmlLstTstSug" timeout="1000" />
         <criteria left-label="18" label="PARAMETER_SUGGEST_MULTIPLE" id="SugMulReq" variable="SugMulReq" component="suggest-multiple" style="col-xs-12 col-sm-6 col-lg-4" server-action="data" target-action="UsrEmlLstTstSug" validation="required" strict="false">
           <dependency target-type="set-optional" initial="true">
             <dependency-element id="Txt" condition="gt" value="1"/>
           </dependency>
         </criteria>
-        <criteria left-label="18" label="PARAMETER_SUGGEST_MULTIPLE_READONLY" id="SugMulRea" variable="SugMul" component="suggest-multiple" style="col-xs-12 col-sm-6 col-lg-4" server-action="data" target-action="UsrEmlLstTstSug" readonly="true" value="mgr" />
+        <criteria left-label="18" label="PARAMETER_SUGGEST_MULTIPLE_READONLY" id="SugMulRea" variable="SugMul" component="suggest-multiple" style="col-xs-12 col-sm-6 col-lg-4" server-action="data" target-action="UsrEmlLstTstSug" readonly="true" value="test" />
         <tag type="div" style="btn-group col-xs-12 col-sm-6">
           <criteria left-label="18" label="PARAMETER_CHECKBOX_1" id="ChkBoxVa1" group="ChkBoxVa" variable="ChkBoxVa1" component="checkbox" style="col-xs-6 col-sm-4 col-lg-2 no-label" validation="{checkAtLeast:2}" />
           <criteria left-label="18" label="PARAMETER_CHECKBOX_2" id="ChkBoxVa2" group="ChkBoxVa" variable="ChkBoxVa2" component="checkbox" style="col-xs-6 col-sm-4 col-lg-2 no-label" validation="{checkAtLeast:2}"/>

@@ -54,7 +54,7 @@ public class DataRestControllerTest {
   @Before
   public void setup() throws Exception {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-    this.headers.put("Authorization", Arrays.asList("Basic bWdyOnJhaQ=="));
+    this.headers.put("Authorization", Arrays.asList("Basic dGVzdDp0ZXN0"));
   }
 
   /**
