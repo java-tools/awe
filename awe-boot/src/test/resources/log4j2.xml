@@ -126,7 +126,7 @@
     </Logger>
 
     <!-- ROOT logger -->
-    <Root level="info">
+    <Root level="warn">
       <AppenderRef ref="CONSOLE" />
       <AppenderRef ref="APP" />
     </Root>
