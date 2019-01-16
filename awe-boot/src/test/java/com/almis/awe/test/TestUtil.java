@@ -176,7 +176,7 @@ public class TestUtil {
       .accept("application/json"))
       .andExpect(status().isOk())
       .andReturn();
-    setParameter("user", "mgr");
+    setParameter("user", "test");
     String result = mvcResult.getResponse().getContentAsString();
     logger.info(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{

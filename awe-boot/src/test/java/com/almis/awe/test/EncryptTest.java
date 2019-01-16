@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
  */
 //@RunWith(SpringRunner.class)
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-//@WithMockUser(username = "mgr", password = "rai")
+//@WithMockUser(username = "test", password = "test")
 //@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class EncryptTest extends TestUtil {
 

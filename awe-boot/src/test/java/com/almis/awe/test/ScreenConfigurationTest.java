@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@WithMockUser(username = "mgr", password = "rai")
+@WithMockUser(username = "test", password = "test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ScreenConfigurationTest extends TestUtil {
 
@@ -263,7 +263,7 @@ public class ScreenConfigurationTest extends TestUtil {
     addRestriction("INSERT","CrtTstLeft", "Txt", "targetAction", "TestComponentInitialLoadValue");
 
     // Text model
-    String textModelUpdated = "{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"mgr\",\"id\":1,\"value\":1.0}],\"page\":1,\"total\":1,\"records\":1}";
+    String textModelUpdated = "{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}],\"page\":1,\"total\":1,\"records\":1}";
 
     // Check screen
     Date date = new Date();

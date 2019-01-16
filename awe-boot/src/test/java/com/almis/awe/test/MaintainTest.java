@@ -37,7 +37,7 @@ import com.google.common.base.Joiner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@WithMockUser(username = "mgr", password = "rai")
+@WithMockUser(username = "test", password = "test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @Ignore("Generic class for database testing")
 public class MaintainTest extends TestUtil {
@@ -234,11 +234,11 @@ public class MaintainTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
-  @WithMockUser(username = "mgr", password = "rai")
+  @WithMockUser(username = "test", password = "test")
   public void testSimpleSingleInsertAudit() throws Exception {
     String maintainName = "SimpleSingleInsertAudit";
     String variables = "";
-    setParameter("user", "mgr");
+    setParameter("user", "test");
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
             .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
@@ -287,7 +287,7 @@ public class MaintainTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
-  @WithMockUser(username = "mgr", password = "rai")
+  @WithMockUser(username = "test", password = "rai")
   public void testSingleUpdateWithVariableListAudit() throws Exception {
     launchSimpleSingleInsertFromVariable();
 
@@ -321,7 +321,7 @@ public class MaintainTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
-  @WithMockUser(username = "mgr", password = "rai")
+  @WithMockUser(username = "test", password = "rai")
   public void testSingleUpdateWithVariableListAuditBatched() throws Exception {
     launchSimpleSingleInsertFromVariable();
 
@@ -383,7 +383,7 @@ public class MaintainTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
-  @WithMockUser(username = "mgr", password = "rai")
+  @WithMockUser(username = "test", password = "rai")
   public void testMultipleUpdateAudit() throws Exception {
     launchSimpleSingleInsertFromVariable();
 
@@ -421,7 +421,7 @@ public class MaintainTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
-  @WithMockUser(username = "mgr", password = "rai")
+  @WithMockUser(username = "test", password = "rai")
   public void testMultipleUpdateAuditBatched() throws Exception {
     launchSimpleSingleInsertFromVariable();
 
@@ -557,7 +557,7 @@ public class MaintainTest extends TestUtil {
     logger.info(result);
 
     String queryName = "CheckRollback";
-    expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"HISope\":\"mgr\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"HISope\":\"test\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
     mvcResult = mockMvc.perform(post("/action/data/" + queryName)
             .param("p", "{\"serverAction\":\"data\",\"targetAction\":\"" + queryName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
             .accept("application/json"))

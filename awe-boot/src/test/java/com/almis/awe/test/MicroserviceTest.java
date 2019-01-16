@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 //@RunWith(SpringRunner.class)
 //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-//@WithMockUser(username = "mgr", password = "rai")
+//@WithMockUser(username = "test", password = "test")
 //@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 //@Ignore("Needs infrastructure")
 public class MicroserviceTest extends TestUtil {

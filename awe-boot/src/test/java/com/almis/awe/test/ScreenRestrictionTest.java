@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@WithMockUser(username = "mgr", password = "rai")
+@WithMockUser(username = "test", password = "test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ScreenRestrictionTest extends TestUtil {
 
@@ -159,7 +159,7 @@ public class ScreenRestrictionTest extends TestUtil {
    * @throws Exception Test error
    */
   private void testOptionRestriction(String user, String profile, String optionName, String value, String parameters) throws Exception {
-    testOptionRestriction(user, profile, optionName, value, parameters,"mgr","administrator", "ADM");
+    testOptionRestriction(user, profile, optionName, value, parameters,"test","administrator", "ADM");
   }
 
   /**
@@ -207,7 +207,7 @@ public class ScreenRestrictionTest extends TestUtil {
    */
   @Test
   public void testEncryptToolUser() throws Exception {
-    // Add restriction to user 'pgarcia' and check with 'mgr'
+    // Add restriction to user 'pgarcia' and check with 'test'
     String parameters = prepareOptions(null, null, null);
     testOptionRestriction("3", null, "encrypt-tools", "R", parameters);
 
@@ -223,7 +223,7 @@ public class ScreenRestrictionTest extends TestUtil {
    */
   @Test
   public void testEncryptToolProfile() throws Exception {
-    // Add restriction to profile 'administrator' and check with 'mgr'
+    // Add restriction to profile 'administrator' and check with 'test'
     String parameters = prepareOptions("sites", "R", null);
     testOptionRestriction(null, "1", "sites", "R", parameters);
 

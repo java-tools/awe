@@ -568,10 +568,10 @@ public class QueryTest extends TestUtil {
   private void testQueryFilterFieldVarNe(String database) throws Exception {
     String queryName = "FilterField-Var-Ne";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":16,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":26,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultJson(queryName, result, 16);
+    assertResultJson(queryName, result, 26);
   }
 
   /**
@@ -592,10 +592,10 @@ public class QueryTest extends TestUtil {
   private void testQueryFilterFieldVarGe(String database) throws Exception {
     String queryName = "FilterField-Var-Ge";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":20,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":10},{\"IdeAweAppPar\":11},{\"IdeAweAppPar\":12},{\"IdeAweAppPar\":5},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":30,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":10},{\"IdeAweAppPar\":11},{\"IdeAweAppPar\":12},{\"IdeAweAppPar\":5},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultJson(queryName, result, 20);
+    assertResultJson(queryName, result, 30);
   }
 
   /**
@@ -616,10 +616,10 @@ public class QueryTest extends TestUtil {
   private void testQueryFilterFieldVarGeDouble(String database) throws Exception {
     String queryName = "FilterField-Var-GeDouble";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":16,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":26,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultJson(queryName, result, 16);
+    assertResultJson(queryName, result, 26);
   }
 
   /**
@@ -640,10 +640,10 @@ public class QueryTest extends TestUtil {
   private void testQueryFilterFieldVarGeFloat(String database) throws Exception {
     String queryName = "FilterField-Var-GeFloat";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":16,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":26,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultJson(queryName, result, 16);
+    assertResultJson(queryName, result, 26);
   }
 
   /**
@@ -688,10 +688,10 @@ public class QueryTest extends TestUtil {
   private void testQueryFilterFieldVarGt(String database) throws Exception {
     String queryName = "FilterField-Var-Gt";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":16,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":26,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultJson(queryName, result, 16);
+    assertResultJson(queryName, result, 26);
   }
 
   /**
@@ -760,10 +760,10 @@ public class QueryTest extends TestUtil {
   private void testQueryFilterFieldVarNotIn(String database) throws Exception {
     String queryName = "FilterField-Var-NotIn";
     String variables = "\"list\":[0, 1],";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":16,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":26,\"rows\":[{\"IdeAweAppPar\":21},{\"IdeAweAppPar\":28},{\"IdeAweAppPar\":29},{\"IdeAweAppPar\":31},{\"IdeAweAppPar\":20},{\"IdeAweAppPar\":18},{\"IdeAweAppPar\":13},{\"IdeAweAppPar\":14},{\"IdeAweAppPar\":15},{\"IdeAweAppPar\":16},{\"IdeAweAppPar\":17},{\"IdeAweAppPar\":23},{\"IdeAweAppPar\":24},{\"IdeAweAppPar\":25},{\"IdeAweAppPar\":26},{\"IdeAweAppPar\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultJson(queryName, result, 16);
+    assertResultJson(queryName, result, 26);
   }
 
   /**
@@ -784,10 +784,10 @@ public class QueryTest extends TestUtil {
   private void testQueryFilterFieldIsNull(String database) throws Exception {
     String queryName = "FilterField-IsNull";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"IdeAweAppPar\":11},{\"IdeAweAppPar\":23}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":12,\"rows\":[{\"IdeAweAppPar\":11,\"id\":1},{\"IdeAweAppPar\":22,\"id\":2},{\"IdeAweAppPar\":23,\"id\":3},{\"IdeAweAppPar\":27,\"id\":4},{\"IdeAweAppPar\":32,\"id\":5},{\"IdeAweAppPar\":33,\"id\":6},{\"IdeAweAppPar\":34,\"id\":7},{\"IdeAweAppPar\":35,\"id\":8},{\"IdeAweAppPar\":36,\"id\":9},{\"IdeAweAppPar\":37,\"id\":10},{\"IdeAweAppPar\":38,\"id\":11},{\"IdeAweAppPar\":39,\"id\":12}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultJson(queryName, result, 2);
+    assertResultJson(queryName, result, 12);
   }
 
   /**
@@ -1048,10 +1048,10 @@ public class QueryTest extends TestUtil {
   private void testQueryOrderBy(String database) throws Exception {
     String queryName = "SimpleOrderBy";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":20,\"rows\":[{\"ParNam\":\"PwdPat\",\"Cat\":1,\"id\":1},{\"ParNam\":\"PwdMaxNumLog\",\"Cat\":1,\"id\":2},{\"ParNam\":\"PwdExp\",\"Cat\":1,\"id\":3},{\"ParNam\":\"MinPwd\",\"Cat\":1,\"id\":4},{\"ParNam\":\"MaxFntVer\",\"Cat\":2,\"id\":5},{\"ParNam\":\"MaxFntHor\",\"Cat\":2,\"id\":6},{\"ParNam\":\"DjrVerMar\",\"Cat\":2,\"id\":7},{\"ParNam\":\"DjrSubTitStl\",\"Cat\":2,\"id\":8},{\"ParNam\":\"DjrSepTck\",\"Cat\":2,\"id\":9},{\"ParNam\":\"DjrRmvLin\",\"Cat\":2,\"id\":10},{\"ParNam\":\"DjrRepPth\",\"Cat\":2,\"id\":11},{\"ParNam\":\"DjrRepHisPth\",\"Cat\":2,\"id\":12},{\"ParNam\":\"DjrMinMar\",\"Cat\":2,\"id\":13},{\"ParNam\":\"DjrMgeOpt\",\"Cat\":2,\"id\":14},{\"ParNam\":\"DjrHdgPag\",\"Cat\":2,\"id\":15},{\"ParNam\":\"DjrFntVer\",\"Cat\":2,\"id\":16},{\"ParNam\":\"DjrFntHor\",\"Cat\":2,\"id\":17},{\"ParNam\":\"DjrDefFnt\",\"Cat\":2,\"id\":18},{\"ParNam\":\"DjrCrtNum\",\"Cat\":2,\"id\":19},{\"ParNam\":\"DjrBokTit\",\"Cat\":2,\"id\":20}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":30,\"rows\":[{\"ParNam\":\"PwdPat\",\"Cat\":1,\"id\":1},{\"ParNam\":\"PwdMaxNumLog\",\"Cat\":1,\"id\":2},{\"ParNam\":\"PwdExp\",\"Cat\":1,\"id\":3},{\"ParNam\":\"MinPwd\",\"Cat\":1,\"id\":4},{\"ParNam\":\"MaxFntVer\",\"Cat\":2,\"id\":5},{\"ParNam\":\"MaxFntHor\",\"Cat\":2,\"id\":6},{\"ParNam\":\"DjrVerMar\",\"Cat\":2,\"id\":7},{\"ParNam\":\"DjrSubTitStl\",\"Cat\":2,\"id\":8},{\"ParNam\":\"DjrSepTck\",\"Cat\":2,\"id\":9},{\"ParNam\":\"DjrRmvLin\",\"Cat\":2,\"id\":10},{\"ParNam\":\"DjrRepPth\",\"Cat\":2,\"id\":11},{\"ParNam\":\"DjrRepHisPth\",\"Cat\":2,\"id\":12},{\"ParNam\":\"DjrMinMar\",\"Cat\":2,\"id\":13},{\"ParNam\":\"DjrMgeOpt\",\"Cat\":2,\"id\":14},{\"ParNam\":\"DjrHdgPag\",\"Cat\":2,\"id\":15},{\"ParNam\":\"DjrFntVer\",\"Cat\":2,\"id\":16},{\"ParNam\":\"DjrFntHor\",\"Cat\":2,\"id\":17},{\"ParNam\":\"DjrDefFnt\",\"Cat\":2,\"id\":18},{\"ParNam\":\"DjrCrtNum\",\"Cat\":2,\"id\":19},{\"ParNam\":\"DjrBokTit\",\"Cat\":2,\"id\":20}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultJson(queryName, result, 20);
+    assertResultJson(queryName, result, 30);
     //logger.info(expected);
     //logger.info(result);
   }
@@ -1073,7 +1073,7 @@ public class QueryTest extends TestUtil {
    */
   private void testSimplePagination(String database) throws Exception {
     String queryName = "SimplePagination";
-    String variables = "";
+    String variables = "\"max\": 5,";
     String result = performRequest(queryName, variables, database);
 
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -1082,11 +1082,11 @@ public class QueryTest extends TestUtil {
     ObjectNode fillParameters = (ObjectNode) fillAction.get("parameters");
     assertEquals(1, fillParameters.size());
     ObjectNode dataList = (ObjectNode) fillParameters.get("datalist");
-    assertEquals(3, dataList.get("total").asInt());
+    assertEquals(6, dataList.get("total").asInt());
     assertEquals(1, dataList.get("page").asInt());
-    assertEquals(89, dataList.get("records").asInt());
+    assertEquals(39, dataList.get("records").asInt());
     ArrayNode dataListRows = (ArrayNode) dataList.get("rows");
-    assertEquals(30, dataListRows.size());
+    assertEquals(5, dataListRows.size());
 
     ObjectNode endLoad = (ObjectNode) resultList.get(1);
     assertEquals("end-load", endLoad.get("type").textValue());
@@ -1130,9 +1130,9 @@ public class QueryTest extends TestUtil {
     ObjectNode fillParameters = (ObjectNode) fillAction.get("parameters");
     assertEquals(1, fillParameters.size());
     ObjectNode dataList = (ObjectNode) fillParameters.get("datalist");
-    assertEquals(3, dataList.get("total").asInt());
+    assertEquals(1, dataList.get("total").asInt());
     assertEquals(1, dataList.get("page").asInt());
-    assertEquals(89, dataList.get("records").asInt());
+    assertEquals(30, dataList.get("records").asInt());
     ArrayNode dataListRows = (ArrayNode) dataList.get("rows");
     assertEquals(30, dataListRows.size());
 
@@ -1178,9 +1178,9 @@ public class QueryTest extends TestUtil {
     ObjectNode fillParameters = (ObjectNode) fillAction.get("parameters");
     assertEquals(1, fillParameters.size());
     ObjectNode dataList = (ObjectNode) fillParameters.get("datalist");
-    assertEquals(9, dataList.get("total").asInt());
+    assertEquals(3, dataList.get("total").asInt());
     assertEquals(1, dataList.get("page").asInt());
-    assertEquals(89, dataList.get("records").asInt());
+    assertEquals(39, dataList.get("records").asInt());
     ArrayNode dataListRows = (ArrayNode) dataList.get("rows");
     assertEquals(10, dataListRows.size());
 
@@ -1226,9 +1226,9 @@ public class QueryTest extends TestUtil {
     ObjectNode fillParameters = (ObjectNode) fillAction.get("parameters");
     assertEquals(1, fillParameters.size());
     ObjectNode dataList = (ObjectNode) fillParameters.get("datalist");
-    assertEquals(9, dataList.get("total").asInt());
+    assertEquals(3, dataList.get("total").asInt());
     assertEquals(2, dataList.get("page").asInt());
-    assertEquals(89, dataList.get("records").asInt());
+    assertEquals(39, dataList.get("records").asInt());
     ArrayNode dataListRows = (ArrayNode) dataList.get("rows");
     assertEquals(10, dataListRows.size());
 
@@ -1275,11 +1275,9 @@ public class QueryTest extends TestUtil {
 
     String result = performRequest(queryName, variables, database);
 
-    ArrayNode resultList = assertResultJson(queryName, result, 3);
-    assertEquals(3, resultList.size());
-    assertEquals("D", resultList.get(0).get("typ").asText());
-    assertEquals("I", resultList.get(1).get("typ").asText());
-    assertEquals("U", resultList.get(2).get("typ").asText());
+    ArrayNode resultList = assertResultJson(queryName, result, 1);
+    assertEquals(1, resultList.size());
+    assertEquals(16, resultList.get(0).get("act").asInt());
   }
 
   /**

@@ -414,6 +414,7 @@
         <filter left-field="ParVal" left-table="AweAppPar" condition="is null" />
       </and>
     </where>
+    <order-by field="IdeAweAppPar" type="ASC"/>
   </query>
 
   <query id="FilterField-IsNotNull">
@@ -643,7 +644,7 @@
   </query>
 
   <query id="SimplePagination">
-    <table id="HISAweAppPar" />
+    <table id="AweAppPar" />
     <field id="IdeAweAppPar" />
     <order-by field="IdeAweAppPar" type="ASC"/>
   </query>
@@ -917,17 +918,17 @@
 
   <!-- TEST HAVING -->
   <query id="HavTst" public="true">
-    <table id="HISAweThm" />
-    <field id="HISact" alias="typ" />
+    <table id="AweThm" />
+    <field id="act" alias="act" />
     <field variable="one" function="SUM" alias="act" />
-    <group-by field="HISact" />
+    <group-by field="act" />
     <having>
       <and>
         <filter left-variable="one" left-function="SUM" condition="gt" right-variable="top" />
       </and>
     </having>
-    <order-by field="typ"/>
-    <variable id="top" type="INTEGER" value="500" />
+    <order-by field="act"/>
+    <variable id="top" type="INTEGER" value="1" />
     <variable id="one" type="INTEGER" value="1" />
   </query>
 

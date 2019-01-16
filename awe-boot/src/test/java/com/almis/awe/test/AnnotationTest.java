@@ -25,7 +25,7 @@ import java.io.File;
 //@RunWith (SpringRunner.class)
 //@SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 //@DirtiesContext (classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-//@WithMockUser (username = "mgr", password = "rai")
+//@WithMockUser (username = "test", password = "test")
 public class AnnotationTest extends TestUtil {
   @Autowired
   private AnnotationTestService annotationTestService;
