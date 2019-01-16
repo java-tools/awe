@@ -3,8 +3,8 @@
 # **Almis Web Engine**
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.almis.awe/awe-parent.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.almis.awe%22%20AND%20a:%22awe-parent%22)
-[![Pipeline status](https://gitlab.com/awe-team/awe/badges/develop/pipeline.svg)](https://gitlab.com/awe-team/awe/commits/develop)
-[![Coverage report](https://gitlab.com/awe-team/awe/badges/develop/coverage.svg)](https://gitlab.com/awe-team/awe/commits/develop)
+[![Pipeline status](https://gitlab.com/awe-team/awe/badges/%{default_branch}/pipeline.svg)](https://gitlab.com/awe-team/awe/commits/%{default_branch})
+[![Coverage report](https://gitlab.com/awe-team/awe/badges/%{default_branch}/coverage.svg)](https://gitlab.com/awe-team/awe/commits/%{default_branch})
 
 AWE is a light-weight Java web framework. Allows you build web applications in the fastest way.
 
