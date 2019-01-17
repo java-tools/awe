@@ -137,6 +137,26 @@ public class QueryTest extends TestUtil {
    * @return Output
    * @throws Exception Error performing request
    */
+  private String performRequestWithoutCheckExpected(String queryName, String variables, String database) throws Exception {
+    setParameter("database", database);
+    MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
+      .param("p", "{\"serverAction\":\"data\",\"targetAction\":\"" + queryName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\"}")
+      .session(session)
+      .accept("application/json"))
+      .andExpect(status().isOk())
+      .andReturn();
+    return mvcResult.getResponse().getContentAsString();
+  }
+
+  /**
+   * Performs the mock request and returns the response as a string
+   *
+   * @param queryName Query ID
+   * @param variables Variables
+   * @param database Database
+   * @return Output
+   * @throws Exception Error performing request
+   */
   private String performRequest(String queryName, String variables, String database) throws Exception {
     setParameter("database", database);
     MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
@@ -2015,8 +2035,27 @@ public class QueryTest extends TestUtil {
     String variables = "";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"fecha\":null,\"id\":3},{\"fecha\":null,\"id\":2},{\"fecha\":1383555422000,\"id\":5},{\"fecha\":null,\"id\":4},{\"fecha\":1382544122000,\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
-    String result = performRequest(queryName, variables, database, expected);
+    String result = performRequestWithoutCheckExpected(queryName, variables, database);
     assertQueryResultJson(queryName, result, 5);
+
+    ArrayNode expectedList = (ArrayNode) objectMapper.readTree(expected);
+    ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
+
+    ObjectNode fillExpectedAction = (ObjectNode) expectedList.get(0);
+    ObjectNode fillResultAction = (ObjectNode) resultList.get(0);
+    ObjectNode expectedParameters = (ObjectNode) fillExpectedAction.get("parameters");
+    ObjectNode resultParameters = (ObjectNode) fillResultAction.get("parameters");
+    ObjectNode expectedDatalist = (ObjectNode) expectedParameters.get("datalist");
+    ObjectNode resultDatalist = (ObjectNode) resultParameters.get("datalist");
+    ArrayNode expectedRows = (ArrayNode) expectedDatalist.get("rows");
+    ArrayNode resultRows = (ArrayNode) resultDatalist.get("rows");
+    ObjectNode expectedRow1= (ObjectNode) expectedRows.get(2);
+    ObjectNode resultRow1 = (ObjectNode) resultRows.get(4);
+    ObjectNode expectedRow2= (ObjectNode) expectedRows.get(4);
+    ObjectNode resultRow2 = (ObjectNode) resultRows.get(0);
+
+    assert(Math.abs(expectedRow1.get("fecha").asLong() - resultRow1.get("fecha").asLong()) < 7200001);
+    assert(Math.abs(expectedRow2.get("fecha").asLong() - resultRow2.get("fecha").asLong()) < 7200001);
   }
 
   /**
@@ -2039,8 +2078,27 @@ public class QueryTest extends TestUtil {
     String variables = "";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"RDB\":null,\"fecha\":\"\",\"id\":3},{\"RDB\":null,\"fecha\":\"\",\"id\":2},{\"RDB\":\"04-Nov-2013\",\"fecha\":\"04/11/2013\",\"id\":5},{\"RDB\":null,\"fecha\":\"\",\"id\":4},{\"RDB\":\"23-Oct-2013\",\"fecha\":\"23/10/2013\",\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
-    String result = performRequest(queryName, variables, database, expected);
+    String result = performRequestWithoutCheckExpected(queryName, variables, database);
     assertQueryResultJson(queryName, result, 5);
+
+    ArrayNode expectedList = (ArrayNode) objectMapper.readTree(expected);
+    ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
+
+    ObjectNode fillExpectedAction = (ObjectNode) expectedList.get(0);
+    ObjectNode fillResultAction = (ObjectNode) resultList.get(0);
+    ObjectNode expectedParameters = (ObjectNode) fillExpectedAction.get("parameters");
+    ObjectNode resultParameters = (ObjectNode) fillResultAction.get("parameters");
+    ObjectNode expectedDatalist = (ObjectNode) expectedParameters.get("datalist");
+    ObjectNode resultDatalist = (ObjectNode) resultParameters.get("datalist");
+    ArrayNode expectedRows = (ArrayNode) expectedDatalist.get("rows");
+    ArrayNode resultRows = (ArrayNode) resultDatalist.get("rows");
+    ObjectNode expectedRow1= (ObjectNode) expectedRows.get(2);
+    ObjectNode resultRow1 = (ObjectNode) resultRows.get(4);
+    ObjectNode expectedRow2= (ObjectNode) expectedRows.get(4);
+    ObjectNode resultRow2 = (ObjectNode) resultRows.get(0);
+
+    assertEquals(expectedRow1.get("RDB").textValue().toUpperCase(), resultRow1.get("RDB").textValue().toUpperCase());
+    assertEquals(expectedRow2.get("RDB").textValue().toUpperCase(), resultRow2.get("RDB").textValue().toUpperCase());
   }
 
   /**
@@ -2575,35 +2633,6 @@ public class QueryTest extends TestUtil {
   // SORT TESTS
   // **************************************************************************************************************** //
 
-  private void assertResultSortJson(String queryName, String result, int expectedRows) throws Exception {
-    ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
-    ObjectNode fillAction = (ObjectNode) resultList.get(0);
-    assertEquals("fill", fillAction.get("type").textValue());
-    ObjectNode fillParameters = (ObjectNode) fillAction.get("parameters");
-    assertEquals(1, fillParameters.size());
-    ObjectNode dataList = (ObjectNode) fillParameters.get("datalist");
-    assertEquals(1, dataList.get("total").asInt());
-    assertEquals(1, dataList.get("page").asInt());
-    assertEquals(expectedRows, dataList.get("records").asInt());
-    ArrayNode dataListRows = (ArrayNode) dataList.get("rows");
-    assertEquals(expectedRows, dataListRows.size());
-
-    ObjectNode endLoad = (ObjectNode) resultList.get(1);
-    assertEquals("end-load", endLoad.get("type").textValue());
-    ObjectNode endLoadParameters = (ObjectNode) endLoad.get("parameters");
-    assertEquals(0, endLoadParameters.size());
-
-    // Test all keys
-    for (JsonNode element : dataListRows) {
-      ObjectNode component = (ObjectNode) element;
-      logger.info(component.toString());
-    }
-
-    logger.info("--------------------------------------------------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("--------------------------------------------------------------------------------------");
-  }
-
   /**
    * Test of launchAction method, of class ActionController.
    *
@@ -2625,7 +2654,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":12,\"rows\":[{\"site\":10,\"database\":6,\"module\":916,\"id\":2580,\"order\":1},{\"site\":10,\"database\":6,\"module\":28,\"id\":75,\"order\":1},{\"site\":17,\"database\":7,\"module\":916,\"id\":2579,\"order\":1},{\"site\":17,\"database\":7,\"module\":28,\"id\":60,\"order\":1},{\"site\":10,\"database\":8,\"module\":28,\"id\":76,\"order\":2},{\"site\":10,\"database\":8,\"module\":916,\"id\":2582,\"order\":2},{\"site\":10,\"database\":9,\"module\":916,\"id\":2584,\"order\":3},{\"site\":10,\"database\":9,\"module\":28,\"id\":77,\"order\":3},{\"site\":17,\"database\":15,\"module\":916,\"id\":2581,\"order\":2},{\"site\":17,\"database\":15,\"module\":28,\"id\":78,\"order\":2},{\"site\":17,\"database\":16,\"module\":916,\"id\":2583,\"order\":3},{\"site\":17,\"database\":16,\"module\":28,\"id\":79,\"order\":3}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultSortJson(queryName, result, 12);
+    assertQueryResultJson(queryName, result, 12);
   }
 
   /**
@@ -2649,7 +2678,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":12,\"rows\":[{\"site\":10,\"database\":6,\"module\":916,\"id\":2580,\"order\":1},{\"site\":10,\"database\":6,\"module\":28,\"id\":75,\"order\":1},{\"site\":17,\"database\":7,\"module\":916,\"id\":2579,\"order\":1},{\"site\":17,\"database\":7,\"module\":28,\"id\":60,\"order\":1},{\"site\":10,\"database\":8,\"module\":916,\"id\":2582,\"order\":2},{\"site\":10,\"database\":8,\"module\":28,\"id\":76,\"order\":2},{\"site\":17,\"database\":15,\"module\":916,\"id\":2581,\"order\":2},{\"site\":17,\"database\":15,\"module\":28,\"id\":78,\"order\":2},{\"site\":10,\"database\":9,\"module\":916,\"id\":2584,\"order\":3},{\"site\":10,\"database\":9,\"module\":28,\"id\":77,\"order\":3},{\"site\":17,\"database\":16,\"module\":916,\"id\":2583,\"order\":3},{\"site\":17,\"database\":16,\"module\":28,\"id\":79,\"order\":3}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultSortJson(queryName, result, 12);
+    assertQueryResultJson(queryName, result, 12);
   }
 
   /**
@@ -2673,7 +2702,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":12,\"rows\":[{\"site\":10,\"database\":9,\"module\":916,\"id\":2584,\"order\":3},{\"site\":10,\"database\":9,\"module\":28,\"id\":77,\"order\":3},{\"site\":17,\"database\":16,\"module\":916,\"id\":2583,\"order\":3},{\"site\":17,\"database\":16,\"module\":28,\"id\":79,\"order\":3},{\"site\":10,\"database\":8,\"module\":916,\"id\":2582,\"order\":2},{\"site\":10,\"database\":8,\"module\":28,\"id\":76,\"order\":2},{\"site\":17,\"database\":15,\"module\":916,\"id\":2581,\"order\":2},{\"site\":17,\"database\":15,\"module\":28,\"id\":78,\"order\":2},{\"site\":10,\"database\":6,\"module\":28,\"id\":75,\"order\":1},{\"site\":10,\"database\":6,\"module\":916,\"id\":2580,\"order\":1},{\"site\":17,\"database\":7,\"module\":916,\"id\":2579,\"order\":1},{\"site\":17,\"database\":7,\"module\":28,\"id\":60,\"order\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultSortJson(queryName, result, 12);
+    assertQueryResultJson(queryName, result, 12);
   }
 
   /**
@@ -2697,7 +2726,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":12,\"rows\":[{\"site\":10,\"database\":6,\"module\":916,\"id\":2580,\"order\":1},{\"site\":17,\"database\":7,\"module\":916,\"id\":2579,\"order\":1},{\"site\":10,\"database\":6,\"module\":28,\"id\":75,\"order\":1},{\"site\":17,\"database\":7,\"module\":28,\"id\":60,\"order\":1},{\"site\":10,\"database\":8,\"module\":916,\"id\":2582,\"order\":2},{\"site\":17,\"database\":15,\"module\":916,\"id\":2581,\"order\":2},{\"site\":10,\"database\":8,\"module\":28,\"id\":76,\"order\":2},{\"site\":17,\"database\":15,\"module\":28,\"id\":78,\"order\":2},{\"site\":10,\"database\":9,\"module\":916,\"id\":2584,\"order\":3},{\"site\":17,\"database\":16,\"module\":916,\"id\":2583,\"order\":3},{\"site\":10,\"database\":9,\"module\":28,\"id\":77,\"order\":3},{\"site\":17,\"database\":16,\"module\":28,\"id\":79,\"order\":3}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultSortJson(queryName, result, 12);
+    assertQueryResultJson(queryName, result, 12);
   }
 
   /**
@@ -2721,7 +2750,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":12,\"rows\":[{\"site\":10,\"database\":9,\"module\":916,\"id\":2584,\"order\":3},{\"site\":17,\"database\":16,\"module\":916,\"id\":2583,\"order\":3},{\"site\":10,\"database\":9,\"module\":28,\"id\":77,\"order\":3},{\"site\":17,\"database\":16,\"module\":28,\"id\":79,\"order\":3},{\"site\":10,\"database\":8,\"module\":916,\"id\":2582,\"order\":2},{\"site\":17,\"database\":15,\"module\":916,\"id\":2581,\"order\":2},{\"site\":10,\"database\":8,\"module\":28,\"id\":76,\"order\":2},{\"site\":17,\"database\":15,\"module\":28,\"id\":78,\"order\":2},{\"site\":10,\"database\":6,\"module\":916,\"id\":2580,\"order\":1},{\"site\":17,\"database\":7,\"module\":916,\"id\":2579,\"order\":1},{\"site\":10,\"database\":6,\"module\":28,\"id\":75,\"order\":1},{\"site\":17,\"database\":7,\"module\":28,\"id\":60,\"order\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultSortJson(queryName, result, 12);
+    assertQueryResultJson(queryName, result, 12);
   }
 
   /**
@@ -2745,7 +2774,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":12,\"rows\":[{\"site\":17,\"database\":7,\"module\":916,\"id\":2579,\"order\":1},{\"site\":17,\"database\":7,\"module\":28,\"id\":60,\"order\":1},{\"site\":10,\"database\":6,\"module\":916,\"id\":2580,\"order\":1},{\"site\":10,\"database\":6,\"module\":28,\"id\":75,\"order\":1},{\"site\":17,\"database\":15,\"module\":916,\"id\":2581,\"order\":2},{\"site\":17,\"database\":15,\"module\":28,\"id\":78,\"order\":2},{\"site\":10,\"database\":8,\"module\":916,\"id\":2582,\"order\":2},{\"site\":10,\"database\":8,\"module\":28,\"id\":76,\"order\":2},{\"site\":17,\"database\":16,\"module\":916,\"id\":2583,\"order\":3},{\"site\":17,\"database\":16,\"module\":28,\"id\":79,\"order\":3},{\"site\":10,\"database\":9,\"module\":916,\"id\":2584,\"order\":3},{\"site\":10,\"database\":9,\"module\":28,\"id\":77,\"order\":3}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultSortJson(queryName, result, 12);
+    assertQueryResultJson(queryName, result, 12);
   }
 
   // *****************************************************************************************************************//
@@ -3610,44 +3639,7 @@ public class QueryTest extends TestUtil {
    * @throws Exception Test error
    */
   private ArrayNode assertResultEnumJson(String queryName, String result, int expectedRows) throws Exception {
-    return assertResultEnumJson(queryName, result, expectedRows, 1, 1, expectedRows);
-  }
-
-  /**
-   * Asserts the JSON in the response
-   *
-   * @param queryName Query name
-   * @param result Query result
-   * @param expectedRows Expected rows
-   * @param page Expected page
-   * @param totalPages Expected total pages
-   * @param records Expected records
-   * @return Result data lines
-   * @throws Exception Test error
-   */
-  private ArrayNode assertResultEnumJson(String queryName, String result, int expectedRows, int page, int totalPages, int records) throws Exception {
-    ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
-    ObjectNode fillAction = (ObjectNode) resultList.get(0);
-    assertEquals("fill", fillAction.get("type").textValue());
-    ObjectNode fillParameters = (ObjectNode) fillAction.get("parameters");
-    assertEquals(1, fillParameters.size());
-    ObjectNode dataList = (ObjectNode) fillParameters.get("datalist");
-    assertEquals(totalPages, dataList.get("total").asInt());
-    assertEquals(page, dataList.get("page").asInt());
-    assertEquals(records, dataList.get("records").asInt());
-    ArrayNode dataListRows = (ArrayNode) dataList.get("rows");
-    assertEquals(expectedRows, dataListRows.size());
-
-    ObjectNode endLoad = (ObjectNode) resultList.get(1);
-    assertEquals("end-load", endLoad.get("type").textValue());
-    ObjectNode endLoadParameters = (ObjectNode) endLoad.get("parameters");
-    assertEquals(0, endLoadParameters.size());
-
-    logger.info("--------------------------------------------------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("--------------------------------------------------------------------------------------");
-
-    return dataListRows;
+    return assertResultServiceJson(queryName, result, expectedRows, 1, 1, expectedRows);
   }
 
   /**
@@ -3671,7 +3663,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"id\":1,\"value\":\"0\",\"label\":\"ENUM_NO\"},{\"id\":2,\"value\":\"1\",\"label\":\"ENUM_YES\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultEnumJson(queryName, result, 2);
+    assertResultServiceJson(queryName, result, 2);
   }
 
   /**
@@ -3695,7 +3687,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":2,\"page\":1,\"records\":58,\"rows\":[{\"id\":1,\"value\":\"required\",\"label\":\"ENUM_SCR_ATR_REQUIRED\"},{\"id\":2,\"value\":\"validation\",\"label\":\"ENUM_SCR_ATR_VALIDATION\"},{\"id\":3,\"value\":\"style\",\"label\":\"ENUM_SCR_ATR_STYLE\"},{\"id\":4,\"value\":\"label\",\"label\":\"ENUM_SCR_ATR_LABEL\"},{\"id\":5,\"value\":\"value\",\"label\":\"ENUM_SCR_ATR_VALUE\"},{\"id\":6,\"value\":\"session\",\"label\":\"ENUM_SCR_ATR_SESSION\"},{\"id\":7,\"value\":\"variable\",\"label\":\"ENUM_SCR_ATR_VARIABLE\"},{\"id\":8,\"value\":\"component\",\"label\":\"ENUM_SCR_ATR_COMPONENT\"},{\"id\":9,\"value\":\"initialLoad\",\"label\":\"ENUM_SCR_ATR_INITLOAD\"},{\"id\":10,\"value\":\"format\",\"label\":\"ENUM_SCR_ATR_FORMAT\"},{\"id\":11,\"value\":\"numberFormat\",\"label\":\"ENUM_SCR_ATR_NUMFORMAT\"},{\"id\":12,\"value\":\"capitalize\",\"label\":\"ENUM_SCR_ATR_CAPITALIZE\"},{\"id\":13,\"value\":\"visible\",\"label\":\"ENUM_SCR_ATR_VISIBLE\"},{\"id\":14,\"value\":\"readonly\",\"label\":\"ENUM_SCR_ATR_READONLY\"},{\"id\":15,\"value\":\"checked\",\"label\":\"ENUM_SCR_ATR_CHECKED\"},{\"id\":16,\"value\":\"strict\",\"label\":\"ENUM_SCR_ATR_STRICT\"},{\"id\":17,\"value\":\"serverAction\",\"label\":\"ENUM_SCR_ATR_SERVERACTION\"},{\"id\":18,\"value\":\"targetAction\",\"label\":\"ENUM_SCR_ATR_TARGETACTION\"},{\"id\":19,\"value\":\"message\",\"label\":\"ENUM_SCR_ATR_MESSAGE\"},{\"id\":20,\"value\":\"formule\",\"label\":\"ENUM_SCR_ATR_FORMULE\"},{\"id\":21,\"value\":\"optional\",\"label\":\"ENUM_SCR_ATR_OPTIONAL\"},{\"id\":22,\"value\":\"max\",\"label\":\"ENUM_SCR_ATR_MAX\"},{\"id\":23,\"value\":\"movable\",\"label\":\"ENUM_SCR_ATR_MOVABLE\"},{\"id\":24,\"value\":\"printable\",\"label\":\"ENUM_SCR_ATR_PRINTABLE\"},{\"id\":25,\"value\":\"unit\",\"label\":\"ENUM_SCR_ATR_UNIT\"},{\"id\":26,\"value\":\"checkEmpty\",\"label\":\"ENUM_SCR_ATR_CHECKEMPTY\"},{\"id\":27,\"value\":\"checkInitial\",\"label\":\"ENUM_SCR_ATR_CHECKINITIAL\"},{\"id\":28,\"value\":\"checkTarget\",\"label\":\"ENUM_SCR_ATR_CHECKTARGET\"},{\"id\":29,\"value\":\"specific\",\"label\":\"ENUM_SCR_ATR_SPECIFIC\"},{\"id\":30,\"value\":\"timeout\",\"label\":\"ENUM_SCR_ATR_TIMEOUT\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultEnumJson(queryName, result, 30, 1, 2, 58);
+    assertResultServiceJson(queryName, result, 30, 1, 2, 58);
   }
 
   /**
@@ -3719,7 +3711,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":2,\"page\":1,\"records\":58,\"rows\":[{\"id\":1,\"value\":\"required\",\"label\":\"ENUM_SCR_ATR_REQUIRED\"},{\"id\":2,\"value\":\"validation\",\"label\":\"ENUM_SCR_ATR_VALIDATION\"},{\"id\":3,\"value\":\"style\",\"label\":\"ENUM_SCR_ATR_STYLE\"},{\"id\":4,\"value\":\"label\",\"label\":\"ENUM_SCR_ATR_LABEL\"},{\"id\":5,\"value\":\"value\",\"label\":\"ENUM_SCR_ATR_VALUE\"},{\"id\":6,\"value\":\"session\",\"label\":\"ENUM_SCR_ATR_SESSION\"},{\"id\":7,\"value\":\"variable\",\"label\":\"ENUM_SCR_ATR_VARIABLE\"},{\"id\":8,\"value\":\"component\",\"label\":\"ENUM_SCR_ATR_COMPONENT\"},{\"id\":9,\"value\":\"initialLoad\",\"label\":\"ENUM_SCR_ATR_INITLOAD\"},{\"id\":10,\"value\":\"format\",\"label\":\"ENUM_SCR_ATR_FORMAT\"},{\"id\":11,\"value\":\"numberFormat\",\"label\":\"ENUM_SCR_ATR_NUMFORMAT\"},{\"id\":12,\"value\":\"capitalize\",\"label\":\"ENUM_SCR_ATR_CAPITALIZE\"},{\"id\":13,\"value\":\"visible\",\"label\":\"ENUM_SCR_ATR_VISIBLE\"},{\"id\":14,\"value\":\"readonly\",\"label\":\"ENUM_SCR_ATR_READONLY\"},{\"id\":15,\"value\":\"checked\",\"label\":\"ENUM_SCR_ATR_CHECKED\"},{\"id\":16,\"value\":\"strict\",\"label\":\"ENUM_SCR_ATR_STRICT\"},{\"id\":17,\"value\":\"serverAction\",\"label\":\"ENUM_SCR_ATR_SERVERACTION\"},{\"id\":18,\"value\":\"targetAction\",\"label\":\"ENUM_SCR_ATR_TARGETACTION\"},{\"id\":19,\"value\":\"message\",\"label\":\"ENUM_SCR_ATR_MESSAGE\"},{\"id\":20,\"value\":\"formule\",\"label\":\"ENUM_SCR_ATR_FORMULE\"},{\"id\":21,\"value\":\"optional\",\"label\":\"ENUM_SCR_ATR_OPTIONAL\"},{\"id\":22,\"value\":\"max\",\"label\":\"ENUM_SCR_ATR_MAX\"},{\"id\":23,\"value\":\"movable\",\"label\":\"ENUM_SCR_ATR_MOVABLE\"},{\"id\":24,\"value\":\"printable\",\"label\":\"ENUM_SCR_ATR_PRINTABLE\"},{\"id\":25,\"value\":\"unit\",\"label\":\"ENUM_SCR_ATR_UNIT\"},{\"id\":26,\"value\":\"checkEmpty\",\"label\":\"ENUM_SCR_ATR_CHECKEMPTY\"},{\"id\":27,\"value\":\"checkInitial\",\"label\":\"ENUM_SCR_ATR_CHECKINITIAL\"},{\"id\":28,\"value\":\"checkTarget\",\"label\":\"ENUM_SCR_ATR_CHECKTARGET\"},{\"id\":29,\"value\":\"specific\",\"label\":\"ENUM_SCR_ATR_SPECIFIC\"},{\"id\":30,\"value\":\"timeout\",\"label\":\"ENUM_SCR_ATR_TIMEOUT\"},{\"id\":31,\"value\":\"field\",\"label\":\"ENUM_SCR_ATR_FIELD\"},{\"id\":32,\"value\":\"width\",\"label\":\"ENUM_SCR_ATR_WIDTH\"},{\"id\":33,\"value\":\"charLength\",\"label\":\"ENUM_SCR_ATR_CHARLENGTH\"},{\"id\":34,\"value\":\"align\",\"label\":\"ENUM_SCR_ATR_ALIGN\"},{\"id\":35,\"value\":\"inputType\",\"label\":\"ENUM_SCR_ATR_INPUTTYPE\"},{\"id\":36,\"value\":\"sortable\",\"label\":\"ENUM_SCR_ATR_SORTABLE\"},{\"id\":37,\"value\":\"hidden\",\"label\":\"ENUM_SCR_ATR_HIDDEN\"},{\"id\":38,\"value\":\"sendable\",\"label\":\"ENUM_SCR_ATR_SENDABLE\"},{\"id\":39,\"value\":\"summaryType\",\"label\":\"ENUM_SCR_ATR_SUMMARYTYPE\"},{\"id\":40,\"value\":\"formatter\",\"label\":\"ENUM_SCR_ATR_FORMATTER\"},{\"id\":41,\"value\":\"formatOptions\",\"label\":\"ENUM_SCR_ATR_FORMATOPTIONS\"},{\"id\":42,\"value\":\"frozen\",\"label\":\"ENUM_SCR_ATR_FROZEN\"},{\"id\":43,\"value\":\"position\",\"label\":\"ENUM_SCR_ATR_POSITION\"},{\"id\":44,\"value\":\"autoload\",\"label\":\"ENUM_SCR_ATR_AUTOLOAD\"},{\"id\":45,\"value\":\"totalize\",\"label\":\"ENUM_SCR_ATR_TOTALIZE\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    assertResultEnumJson(queryName, result, 45, 1, 2, 58);
+    assertResultServiceJson(queryName, result, 45, 1, 2, 58);
   }
 
   // *****************************************************************************************************************//
