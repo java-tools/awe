@@ -19,7 +19,7 @@ test:
   stage: test
   script:
     - mvn $MAVEN_CLI_OPTS verify
-    - mvn $MAVEN_CLI_OPTS verify -DgenerateAggregationReport=true -DskipTests
+    - mvn $MAVEN_CLI_OPTS verify -DgenerateAggregationReport=true -DskipTestProject=true
     - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
 
   artifacts:
@@ -54,7 +54,7 @@ release:
     ## Add gpg key to sign
     - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
   script:
-    - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTests
+    - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTestProject=true
     - git checkout master
     - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
   when: manual
