@@ -27,7 +27,8 @@ build:
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS test -DgenerateAggregationReport=true
+    - mvn $MAVEN_CLI_OPTS verify
+    - mvn $MAVEN_CLI_OPTS verify -DgenerateAggregationReport=true -DskipTestProject=true
     - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
 
   artifacts:
