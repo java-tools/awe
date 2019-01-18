@@ -13,17 +13,20 @@ cache:
 stages:
     - build
     - test
+    - analize
     - deploy
     
 build:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS compile
+  artifacts:
+    paths:
+      - target/
 
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS verify
     - mvn $MAVEN_CLI_OPTS verify -DgenerateAggregationReport=true -DskipTestProject=true
     - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
 
@@ -33,9 +36,11 @@ test:
       - awe-boot/target/surefire-reports/TEST-*.xml
 
 sonar-check:
-    stage: test
+    stage: analize
     script:
-    - mvn sonar:sonar -Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+    - mvn $MAVEN_CLI_OPTS sonar:sonar -Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKE
+    dependencies:
+    - test
     
 deploy:
   stage: deploy
