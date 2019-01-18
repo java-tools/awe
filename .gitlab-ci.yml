@@ -10,6 +10,12 @@ cache:
     - .m2/repository/
     - target/
 
+stages:
+    - build
+    - test
+    - analyze
+    - deploy
+    
 build:
   stage: build
   script:
@@ -27,6 +33,11 @@ test:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
 
+sonar-check:
+    stage: analyze
+    script:
+    - mvn sonar:sonar -Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+    
 deploy:
   stage: deploy
   script:
@@ -59,7 +70,7 @@ release:
     - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
   when: manual
   
-sast:
+analize:
   image: docker:stable
   variables:
     DOCKER_DRIVER: overlay2
