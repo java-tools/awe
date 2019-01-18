@@ -17,7 +17,13 @@ AWE is a light-weight Java web framework. Allows you build web applications in t
 This is a multi module maven project. Import as maven project with your favorite IDE to contribute. If you want create your first AWE project, use maven archetype `awe-boot-archetype`.
 
 ```
-mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=awe-boot-archetype -DarchetypeVersion=[Version]
+mvn -B archetype:generate \
+ -DarchetypeGroupId=com.almis.awe \
+ -DarchetypeArtifactId=awe-boot-archetype \
+ -DarchetypeVersion=[Archetype version]
+ -DgroupId=com.mycompany.app \
+ -DartifactId=my-app \
+ -Dversion=1.0-SNAPSHOT 
 ```
 
 ### Prerequisites
