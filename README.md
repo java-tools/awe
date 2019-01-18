@@ -2,10 +2,6 @@
 
 # **Almis Web Engine**
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.almis.awe/awe-parent.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.almis.awe%22%20AND%20a:%22awe-parent%22)
-[![Pipeline status](https://gitlab.com/awe-team/awe/badges/develop/pipeline.svg)](https://gitlab.com/awe-team/awe/commits/develop)
-[![Coverage report](https://gitlab.com/awe-team/awe/badges/develop/coverage.svg)](https://gitlab.com/awe-team/awe/commits/develop)
-
 AWE is a light-weight Java web framework. Allows you build web applications in the fastest way.
 
 - ✅  Automatic server-client communication with WebSocket support
@@ -19,6 +15,10 @@ AWE is a light-weight Java web framework. Allows you build web applications in t
 ## Getting Started
 
 This is a multi module maven project. Import as maven project with your favorite IDE to contribute. If you want create your first AWE project, use maven archetype `awe-boot-archetype`.
+
+```
+mvn archetype:generate -DgroupId=com.mycompany.app -DartifactId=my-app -DarchetypeArtifactId=awe-boot-archetype -DarchetypeVersion=[Version]
+```
 
 ### Prerequisites
 You must have Maven 3.x installed on your computer as well as a JDK 8 or higher

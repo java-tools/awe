@@ -54,9 +54,7 @@ release:
     ## Add gpg key to sign
     - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
   script:
-    - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTests=true
+    - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTests
     - git checkout master
-    - sed 's/\/develop\([\/\)]\)/\/master\1/g' ./README.md
-    - git commit -m "Updated badges from develop to master"
     - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
   when: manual
