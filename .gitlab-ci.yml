@@ -13,7 +13,6 @@ cache:
 stages:
     - build
     - test
-    - analyze
     - deploy
     
 build:
@@ -34,7 +33,7 @@ test:
       - awe-boot/target/surefire-reports/TEST-*.xml
 
 sonar-check:
-    stage: analyze
+    stage: test
     script:
     - mvn sonar:sonar -Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
     
@@ -70,25 +69,6 @@ release:
     - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
   when: manual
   
-analize:
-  image: docker:stable
-  variables:
-    DOCKER_DRIVER: overlay2
-  allow_failure: true
-  services:
-    - docker:stable-dind
-  script:
-    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
-    - docker run
-        --env SAST_CONFIDENCE_LEVEL="${SAST_CONFIDENCE_LEVEL:-3}"
-        --volume "$PWD:/code"
-        --volume /var/run/docker.sock:/var/run/docker.sock
-        "registry.gitlab.com/gitlab-org/security-products/sast:$SP_VERSION" /app/bin/run /code
-  artifacts:
-    reports:
-      sast: gl-sast-report.json
-  
-
 dependency_scanning:
   image: docker:stable
   variables:
