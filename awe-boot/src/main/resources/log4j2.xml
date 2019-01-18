@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+  <Appenders>
+    <!-- Console appender -->
+    <Console name="CONSOLE" target="SYSTEM_OUT">
+      <PatternLayout charset="${bundle:log4j2-app:log.charset}" pattern="${bundle:log4j2-app:log.pattern.layout}" />
+    </Console>
+    <!-- Routing appender -->
+    <Routing name="APP">
+      <Routes pattern="$${ctx:user}">
+        <Route key="$${ctx:user}">
+          <!-- Application file log -->
+          <RollingFile name="${bundle:log4j2-app:log.app}" fileName="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.app}${bundle:log4j2-app:log.ext}" filePattern="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.app}${bundle:log4j2-app:log.pattern.file}${bundle:log4j2-app:log.ext}">
+            <PatternLayout charset="${bundle:log4j2-app:log.charset}" pattern="${bundle:log4j2-app:log.pattern.layout}" />
+            <Policies>
+              <TimeBasedTriggeringPolicy interval="${bundle:log4j2-app:log.date.rolling}" modulate="true" />
+              <SizeBasedTriggeringPolicy size="${bundle:log4j2-app:log.size.rolling}" />
+            </Policies>
+            <DefaultRolloverStrategy max="${bundle:log4j2-app:log.num.file.rolling}">
+              <Delete basePath="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}">
+                <IfFileName glob="${bundle:log4j2-app:log.app}_*.log">
+                  <IfAny>
+                    <IfLastModified age="${bundle:log4j2-app:log.delete.if.days.exceeds}" />
+                    <IfAccumulatedFileSize exceeds="${bundle:log4j2-app:log.delete.if.size.exceeds}" />
+                  </IfAny>
+                </IfFileName>
+              </Delete>
+            </DefaultRolloverStrategy>
+          </RollingFile>
+        </Route>
+        <!-- User file appenders. Check variable user in ThreadContext -->
+        <Route>
+          <RollingFile name="${bundle:log4j2-app:log.app}_${ctx:user}" fileName="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.app}_${ctx:user}${bundle:log4j2-app:log.ext}" filePattern="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.app}_${ctx:user}${bundle:log4j2-app:log.pattern.file}${bundle:log4j2-app:log.ext}">
+            <PatternLayout charset="${bundle:log4j2-app:log.charset}" pattern="${bundle:log4j2-app:log.pattern.layout}" />
+            <Policies>
+              <TimeBasedTriggeringPolicy interval="${bundle:log4j2-app:log.date.rolling}" modulate="true" />
+              <SizeBasedTriggeringPolicy size="${bundle:log4j2-app:log.size.rolling}" />
+            </Policies>
+            <DefaultRolloverStrategy max="${bundle:log4j2-app:log.num.file.rolling}">
+              <Delete basePath="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}">
+                <IfFileName glob="${bundle:log4j2-app:log.app}_${ctx:user}_*.log">
+                  <IfAny>
+                    <IfLastModified age="${bundle:log4j2-app:log.delete.if.days.exceeds}" />
+                    <IfAccumulatedFileSize exceeds="${bundle:log4j2-app:log.delete.if.size.exceeds}" />
+                  </IfAny>
+                </IfFileName>
+              </Delete>
+            </DefaultRolloverStrategy>
+          </RollingFile>
+        </Route>
+      </Routes>
+    </Routing>
+
+    <!-- Ade Reports file log  -->
+    <RollingFile name="${bundle:log4j2-app:log.ade}" fileName="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.ade}${bundle:log4j2-app:log.ext}" filePattern="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.ade}${bundle:log4j2-app:log.pattern.file}${bundle:log4j2-app:log.ext}">
+      <PatternLayout charset="${bundle:log4j2-app:log.charset}" pattern="${bundle:log4j2-app:log.pattern.layout}" />
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="${bundle:log4j2-app:log.date.rolling}" modulate="true" />
+        <SizeBasedTriggeringPolicy size="${bundle:log4j2-app:log.size.rolling}" />
+      </Policies>
+      <DefaultRolloverStrategy max="${bundle:log4j2-app:log.num.file.rolling}">
+        <Delete basePath="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}">
+          <IfFileName glob="${bundle:log4j2-app:log.ade}_*.log">
+            <IfAny>
+              <IfLastModified age="${bundle:log4j2-app:log.delete.if.days.exceeds}" />
+              <IfAccumulatedFileSize exceeds="${bundle:log4j2-app:log.delete.if.size.exceeds}" />
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+    <!-- Scheduler file log -->
+    <RollingFile name="${bundle:log4j2-app:log.scheduler}" fileName="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.scheduler}${bundle:log4j2-app:log.ext}" filePattern="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.scheduler}${bundle:log4j2-app:log.pattern.file}${bundle:log4j2-app:log.ext}">
+      <PatternLayout charset="${bundle:log4j2-app:log.charset}" pattern="${bundle:log4j2-app:log.pattern.layout}" />
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="${bundle:log4j2-app:log.date.rolling}" modulate="true" />
+        <SizeBasedTriggeringPolicy size="${bundle:log4j2-app:log.size.rolling}" />
+      </Policies>
+      <DefaultRolloverStrategy max="${bundle:log4j2-app:log.num.file.rolling}">
+        <Delete basePath="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}">
+          <IfFileName glob="${bundle:log4j2-app:log.scheduler}_*.log">
+            <IfAny>
+              <IfLastModified age="${bundle:log4j2-app:log.delete.if.days.exceeds}" />
+              <IfAccumulatedFileSize exceeds="${bundle:log4j2-app:log.delete.if.size.exceeds}" />
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+
+    <!-- Model file log -->
+    <RollingFile name="${bundle:log4j2-app:log.model}" fileName="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.model}${bundle:log4j2-app:log.ext}" filePattern="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.model}${bundle:log4j2-app:log.pattern.file}${bundle:log4j2-app:log.ext}">
+      <PatternLayout charset="${bundle:log4j2-app:log.charset}" pattern="${bundle:log4j2-app:log.pattern.layout}" />
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="${bundle:log4j2-app:log.date.rolling}" modulate="true" />
+        <SizeBasedTriggeringPolicy size="${bundle:log4j2-app:log.size.rolling}" />
+      </Policies>
+      <DefaultRolloverStrategy max="${bundle:log4j2-app:log.num.file.rolling}">
+        <Delete basePath="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}">
+          <IfFileName glob="${bundle:log4j2-app:log.model}_*.log">
+            <IfAny>
+              <IfLastModified age="${bundle:log4j2-app:log.delete.if.days.exceeds}" />
+              <IfAccumulatedFileSize exceeds="${bundle:log4j2-app:log.delete.if.size.exceeds}" />
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+  </Appenders>
+
+  <Loggers>    
+    <!-- Ade logger -->
+    <Logger name="com.almis.ade" includeLocation="true" level="info">
+      <AppenderRef ref="${bundle:log4j2-app:log.ade}" />
+    </Logger>
+
+    <!-- Model logger -->
+    <Logger name="com.almis.awe.model" includeLocation="true" level="info">
+      <AppenderRef ref="${bundle:log4j2-app:log.model}" />
+    </Logger>
+
+    <!-- Scheduler logger -->
+    <Logger name="com.almis.awe.scheduler" includeLocation="true" level="info">
+      <AppenderRef ref="${bundle:log4j2-app:log.scheduler}" />
+    </Logger>
+
+    <!-- ROOT logger -->
+    <Root level="info">
+      <AppenderRef ref="CONSOLE" />
+      <AppenderRef ref="APP" />
+    </Root>
+  </Loggers>
+</Configuration>

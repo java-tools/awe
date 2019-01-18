@@ -11,7 +11,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
-  <version>4.0.3</version>
+  <version>4.0.4</version>
   <packaging>pom</packaging>
 
   <name>AWE (V${project.version})</name>
@@ -36,18 +36,20 @@
 
     <!-- Sonar configuration -->
     <sonar.junit.reportPath>target/surefire-reports</sonar.junit.reportPath>
-    <sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
+    <sonar.jacoco.reportPaths>${project.basedir}/../awe-framework/target/jacoco.exec</sonar.jacoco.reportPaths>
+    <jacoco.reportPaths>${project.basedir}/../awe-framework/target/coverage-reports</jacoco.reportPaths>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-    <jacoco.version>0.8.1</jacoco.version>
+    <jacoco.version>0.8.2</jacoco.version>
     
     <!-- plugin versions -->
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>    
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
   </properties>
 
-  <modules>	
+  <modules>
     <module>awe-dependencies</module>
-	  <module>awe-framework</module>
+    <module>awe-framework</module>
+    <module>awe-boot</module>
   </modules>
 
   <build>
@@ -90,6 +92,15 @@
           <serverId>central</serverId>
           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <jacoco-agent.destfile>${sonar.jacoco.reportPaths}</jacoco-agent.destfile>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
       <!-- Jacoco coverage -->

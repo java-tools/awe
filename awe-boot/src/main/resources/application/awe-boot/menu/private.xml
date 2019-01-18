@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : private.xml
+    Created on : 10 de febrero de 2010, 13:08
+    Author     : Pablo GARCIA
+    Description: Private profile options
+-->
+<menu screen="home_horizontal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="@awe.schemas@/menu.xsd" context="screen/private/home" default-action="screen">
+  <option name="information" screen="info" invisible="true"/>
+  <option module="Inf" name="information-restricted" screen="info" invisible="true"/>
+  <option module="Inf Changed" name="information-restricted-changed" screen="info" invisible="true"/>
+  <option name="tools" label="MENU_TOOLS" icon="wrench">
+    <option name="sites" label="MENU_TOOLS_SITES" screen="Sit" icon="sitemap">
+      <option name="new-site" screen="SitNew" invisible="true"/>
+      <option name="update-site" screen="SitUpd" invisible="true"/>
+      <option name="view-site" screen="SitViw" invisible="true"/>
+    </option>
+    <option name="modules" label="MENU_TOOLS_MODULES" screen="Mod" icon="puzzle-piece">
+      <option name="new-module" screen="ModNew" invisible="true"/>
+      <option name="update-module" screen="ModUpd" invisible="true"/>
+      <option name="view-module" screen="ModViw" invisible="true"/>
+    </option>
+    <option name="users" label="MENU_TOOLS_USERS" screen="Usr" icon="user">
+      <option name="new-user" screen="UsrNew" invisible="true"/>
+      <option name="update-user" screen="UsrUpd" invisible="true"/>
+      <option name="view-user" screen="UsrViw" invisible="true"/>
+    </option>
+    <option name="profiles" label="MENU_TOOLS_PROFILES" screen="Prf" icon="group">
+      <option name="new-profile" screen="PrfNew" invisible="true"/>
+      <option name="update-profile" screen="PrfUpd" invisible="true"/>
+      <option name="view-profile" screen="PrfViw" invisible="true"/>
+    </option>
+    <option name="databases" label="MENU_TOOLS_DATABASE" screen="Dbs" icon="database">
+      <option name="new-database" screen="DbsNew" invisible="true"/>
+      <option name="update-database" screen="DbsUpd" invisible="true"/>
+      <option name="view-database" screen="DbsViw" invisible="true"/>
+    </option>
+    <option name="themes" label="MENU_TOOLS_THEMES" screen="Thm" icon="picture-o">
+      <option name="new-theme" screen="ThmNew" invisible="true"/>
+      <option name="update-theme" screen="ThmUpd" invisible="true"/>
+      <option name="view-theme" screen="ThmViw" invisible="true"/>
+    </option>
+    <option name="email-servers" label="MENU_TOOLS_AWE_EML_SRV" screen="EmlSrv" icon="envelope">
+      <option name="new-email-server" screen="EmlSrvNew" invisible="true"/>
+      <option name="update-email-server" screen="EmlSrvUpd" invisible="true"/>
+    </option>
+    <option name="queues" label="MENU_TOOLS_AWE_QUE" screen="Que" icon="exchange">
+      <option name="new-queue" screen="QueNew" invisible="true"/>
+      <option name="update-queue" screen="QueUpd" invisible="true"/>
+    </option>
+    <option name="sequences" label="MENU_TOOLS_AWEKEY" screen="AweKey" icon="key"/>
+    <option name="application-parameters" label="MENU_TOOLS_AWE_APPPAR" screen="AweAppPar" icon="cogs"/>
+    <option name="broadcast-messages" label="MENU_BROADCAST" screen="MsgUsr" icon="rss"/>
+    <option name="log" label="MENU_LOG" screen="Log" icon="file-text">
+      <option name="view-log" screen="LogViw" invisible="true"/>
+    </option>
+    <option name="reports" label="MENU_REPORT_LIST" screen="RepGenPdf" icon="file">
+      <option name="view-report" screen="RepGenPdfViw" invisible="true"/>
+    </option>
+    <option name="sqlExtractor" label="MENU_SQL_EXTRACTOR" screen="sqlExtractor" icon="database"/>
+  </option>
+  <option name="settings" label="MENU_SETTINGS" icon="cog">
+    <option name="security" label="MENU_TOOLS_SECURITY" icon="unlock-alt">
+      <option name="screen-access" label="MENU_TOOLS_SCREENS_ACCESS" screen="ScrAccRes" icon="eye-slash"/>
+      <option name="encrypt-tools" label="MENU_TOOLS_SCREEN_ENCRYPT" screen="ScrEncTxt" icon="lock"/>
+    </option>
+    <option name="screen-configuration" label="MENU_TOOLS_SCR_CNF" screen="ScrCnf" icon="laptop"/>
+    <option name="report-configuration" label="MENU_TOOLS_STL_CNF" screen="StlCnf" icon="tint"/>
+  </option>
+  <option module="Test" name="test" label="MENU_TEST" icon="flask">
+    <option name="criteria" label="MENU_TEST_CRITERIA" icon="object-group">
+      <option name="criteria-test" label="MENU_TEST_CRITERIA" screen="CrtTst" icon="keyboard-o"/>
+      <option name="criteria-test-left" label="MENU_TEST_CRITERIA" screen="CrtTstLeft" icon="align-right"/>
+      <option name="criteria-reset" label="MENU_TEST_CRITERIA_RESET" screen="RstTst" icon="refresh"/>
+    </option>
+    <option name="button-test" label="MENU_TEST_BUTTONS" screen="ButTst" icon="check"/>
+    <option name="matrix" label="MENU_TEST_MATRIX" icon="table">
+      <option name="matrix-test" label="MENU_TEST_MATRIX_ALL" screen="MatTst" icon="list-alt"/>
+      <option name="matrix-test-numbers" label="MENU_TEST_MATRIX_NUMBERS" screen="MatEdiNumTst" icon="list-ol"/>
+      <option name="matrix-test-suggest" label="MENU_TEST_MATRIX_SUGGEST" screen="MatEdiSelTst" icon="list-ul"/>
+      <option name="matrix-test-having" label="MENU_TEST_MATRIX_HAVING" screen="having" icon="list-alt"/>
+      <option name="matrix-test-load-all" label="MENU_TEST_MATRIX_LOAD_ALL" screen="MatLoadAll" icon="table"/>
+    </option>
+    <option name="chart" label="MENU_TEST_CHARTS" icon="area-chart">
+      <option name="chart-test" label="MENU_TEST_CHARTS" screen="ChrTst" icon="bar-chart-o"/>
+      <option name="chart-series-test" label="MENU_TEST_CHART_DYNAMIC_SERIES" screen="ChrTstDynamicSeries"
+              icon="line-chart"/>
+      <option name="grid-and-chart" label="MENU_GRID_CHART" screen="GrdChrPrn" icon="file-text-o"/>
+      <option name="queue-test" label="MENU_TEST_QUEUES" screen="QueTst" icon="exchange"/>
+    </option>
+    <option name="layout" label="MENU_TEST_LAYOUT" icon="list-alt">
+      <option name="layout-test" label="MENU_TEST_LAYOUT 1" screen="layout" icon="th-large"/>
+      <option name="layout2-test" label="MENU_TEST_LAYOUT 2" screen="layout2" icon="th-large"/>
+    </option>
+    <option name="wizard-test" label="MENU_TEST_WIZARD" screen="wizard" icon="magic"/>
+    <option name="accordion-test" label="MENU_TEST_ACCORDIONS" screen="accordion" icon="bars" />
+    <option name="screen-test" label="MENU_TOOLS_SCREENS_ACCESS" screen="ScrAccResTst" icon="eye-slash"/>
+    <option name="pivot-test" label="MENU_TEST_PIVOT" screen="pivot-test" icon="table"/>
+    <option name="filemanager-test" label="MENU_TEST_FILEMANAGER" screen="filemanager-test" icon="folder"/>
+    <option name="file-manager" screen="file-manager" invisible="true"/>
+    <!--<option name="no-screen" label="MENU_TEST_NO_SCREEN" screen="no-screen" icon="meh-o" />-->
+  </option>
+  <!--<option name="scheduler-separator" separator="true"/>
+  <option name="scheduler" label="MENU_SCHEDULER" icon="clock-o">
+    <option name="scheduler-tasks" label="MENU_SCHEDULER_TASKS" screen="scheduler-tasks" icon="tasks">
+      <option name="new-scheduler-task" screen="new-scheduler-task" invisible="true" />
+      <option name="update-scheduler-task" screen="update-scheduler-task" invisible="true" />
+    </option>
+    <option name="scheduler_servers" label="MENU_SCHEDULER_SERVERS" screen="scheduler-server" icon="server">
+      <option name="update-scheduler-server" screen="update-scheduler-server" invisible="true" />
+      <option name="new-scheduler-server" screen="new-scheduler-server" invisible="true" />
+      <option name="scheduler-server-configuration" screen="scheduler-server-configuration" invisible="true" />
+    </option>
+    <option name="scheduler_calendars" label="MENU_SCHEDULER_CALENDARS" screen="scheduler-calendars" icon="list">
+      <option name="new-scheduler-calendar" screen="new-scheduler-calendar" invisible="true" />
+      <option name="update-scheduler-calendar" screen="update-scheduler-calendar" invisible="true" />
+    </option>
+  </option>-->
+  <option name="developer-separator" separator="true"/>
+  <option name="developer" label="MENU_DEVELOPER" icon="paint-brush">
+    <option name="path-manager" label="MENU_PATH" screen="path-manager" icon="italic"/>
+    <option name="local-manager" label="MENU_LANGUAGES" screen="local-manager" icon="language"/>
+  </option>
+  <option name="help-separator" separator="true"/>
+  <option name="help" label="MENU_HELP" icon="question-circle">
+    <option name="user-help" label="MENU_USER_HELP" screen="application-manual" icon="book"/>
+    <option name="application-help" label="MENU_HELP_APPLICATION" screen="application-help" icon="question"/>
+    <option name="application-info" label="MENU_APP_INF" screen="ViwAppInf" icon="info"/>
+  </option>
+</menu>

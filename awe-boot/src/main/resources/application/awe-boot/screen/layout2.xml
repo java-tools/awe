@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Lgn.xml
+    Created on : 8 de febrero de 2010, 16:30
+    Author     : Pablo GARCIA
+    Description: Login screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="layout" help="HELP_layout">
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_PRINT" icon="print" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="validate" />
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+    <button label="BUTTON_VIEW" icon="eye" id="ButViw" help="HELP_VIEW_BUTTON">
+      <button-action type="check-one-selected" target="GrdEdi" />
+      <button-action type="screen" target="view_user" />
+      <dependency target-type="disable" initial="true">
+        <dependency-element id="GrdEdi" condition="ne" value="1" />
+      </dependency>
+    </button>
+    <button label="BUTTON_UPDATE" icon="edit" id="ButUpd" help="HELP_UPDATE_BUTTON">
+      <!--<button-action type="check-one-selected" target="GrdEdi"/>-->
+      <button-action type="screen" target="update_user" />
+      <dependency target-type="disable" initial="true">
+        <dependency-element id="GrdEdi" condition="ne" value="1" />
+      </dependency>
+    </button>
+    <button label="BUTTON_DELETE" icon="trash" id="ButDel" help="HELP_DELETE_BUTTON">
+      <button-action type="check-some-selected" target="GrdEdi" />
+      <button-action type="confirm" target="DelMsg" />
+      <button-action type="server" server-action="maintain" target-action="UsrDel" />
+      <button-action type="filter" target="GrdEdi" />
+      <dependency target-type="disable" initial="true">
+        <dependency-element id="GrdEdi" condition="lt" value="1" />
+      </dependency>
+    </button>
+    <button label="BUTTON_NEW" icon="plus-circle" id="ButNew" help="HELP_NEW_BUTTON">
+      <button-action type="screen" target="new_user" />
+      <dependency source-type="label" target-type="label" label="BUTTON_COPY" initial="true">
+        <dependency-element id="GrdEdi" condition="eq" value="1" />
+      </dependency>
+      <dependency source-type="label" target-type="label" label="BUTTON_NEW" initial="true">
+        <dependency-element id="GrdEdi" condition="eq" value="0" />
+      </dependency>
+      <dependency target-type="disable" initial="true">
+        <dependency-element id="GrdEdi" condition="gt" value="1" />
+      </dependency>
+    </button>
+  </tag>
+  <tag source="center">
+    <window label="SCREEN_TEXT_USER" maximize="true" icon="camera-retro">
+      <tag type="div" style="panel-body expand-maximize">
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="cod_usr" validation="required" readonly="true" style="col-xs-6 col-sm-4 col-md-2" value="Hola, Adios" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="epa" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="tutu" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="lala" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="prueba" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_PASS" component="password" icon="key" id="pwd_usr" validation="required" style="col-xs-6 col-sm-4 col-md-2">
+          <dependency initial="true">
+            <dependency-element id="pwd_usr" />
+            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="cod_usr" />
+            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="epa" />
+            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="tutu" />
+            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="lala" />
+            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="prueba" />
+          </dependency>
+        </criteria>
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="submit" label="BUTTON_LOGIN" icon="sign-in" id="ButLogIn">
+            <button-action type="validate" />
+            <button-action type="server" server-action="login" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <window label="SCREEN_TEXT_USER" style="expand" maximize="true" expandible="vertical">
+      <grid id="GrdEdi" style="expand grid-bordered" editable="true" initial-load="query" server-action="data" target-action="QryEdiTstChk" max="10" show-totals="true">
+        <column label="PARAMETER_TEXT" name="Txt" sort-field="Txt" align="left" component="text" charlength="14" />
+        <column label="COLUMN_NUMERIC" name="Num" sort-field="Num" align="right" component="numeric" number-format="{vMin: '0.01', mDec: 2, aSign:' EUR', pSign:'s', aPad:true}"
+                value="-123456.1" validation="number" charlength="30" formatter="number" summary-type="sum" />
+        <column label="PARAMETER_DATE" name="Dat" sort-field="Dat" align="center" component="date" charlength="16" printable="false">
+          <dependency source-type="criteria-value" target-type="input" target-action="Date" initial="true">
+            <dependency-element id="GrdEdi" attribute="selectedRowValue" column="FilDat" alias="Date" />
+            <dependency-element id="GrdEdi" column="Dat" attribute="currentRow" condition="eq" id2="GrdEdi" column2="Dat" attribute2="nextRow" />
+            <dependency-element id="GrdEdi" event="save-row" />
+          </dependency>
+          <dependency target-type="show-column" initial="true">
+            <dependency-element id="GrdEdi" column="FilDat" attribute="hasDataColumn" />
+          </dependency>
+        </column>
+        <column label="PARAMETER_FILTERED_DATE" name="FilDat" sort-field="FilDat" align="center" component="filtered-calendar" initial-load="query" target-action="FilCalDat" charlength="16">
+          <dependency source-type="criteria-value" target-type="input" target-action="Date" initial="true">
+            <dependency-element id="GrdEdi" attribute="selectedRowValue" column="Dat" alias="Date" />
+            <dependency-element id="GrdEdi" column="FilDat" attribute="currentRow" condition="eq" id2="GrdEdi" column2="FilDat" attribute2="prevRow" />
+            <dependency-element id="GrdEdi" event="save-row" />
+          </dependency>
+        </column>
+        <column label="PARAMETER_TIME" name="Tim" sort-field="Tim" align="center" component="time" charlength="14" />
+        <group-header name="GrpHea1" label="PARAMETER_TEXT">
+          <column label="PARAMETER_SUGGEST" name="Sug" sort-field="Sug" align="left" component="suggest" server-action="data" target-action="QryEdiSug" charlength="20" />
+          <column label="PARAMETER_SELECT" name="Sel" sort-field="Sel" align="left" component="select" initial-load="enum" target-action="Es1Es0" optional="true" charlength="20">
+            <dependency source-type="criteria-value" target-type="label" target-action="Date">
+              <dependency-element id="GrdEdi" column="Dat" attribute="selectedRowValue" alias="Date" />
+            </dependency>
+          </column>
+          <column label="PARAMETER_TEXTAREA" name="Tar" sort-field="Tar" align="left" component="textarea" charlength="40" />
+          <column label="PARAMETER_UPLOADER" name="Upl" sort-field="Upl" align="left" component="uploader" charlength="30" />
+          <column label="" name="Ico" sort-field="Ico" align="center" component="icon" charlength="6" />
+        </group-header>
+        <column label="PARAMETER_CHECKBOX" name="ChkBox" sort-field="ChkBox" align="center" component="checkbox" charlength="12" />
+        <button label="BUTTON_NEW" icon="plus-circle" id="ButGrdEdiAdd">
+          <button-action type="add-row" target="GrdEdi" silent="true" />
+        </button>
+        <button label="BUTTON_DELETE" icon="trash" id="ButGrdEdiDel">
+          <button-action type="delete-row" target="GrdEdi" silent="true" />
+          <dependency target-type="enable" initial="true">
+            <dependency-element id="GrdEdi" attribute="selectedRows" condition="eq" value="1" />
+          </dependency>
+        </button>
+        <context-button id="CtxGrdEdiAdd" label="BUTTON_NEW" icon="plus-circle">
+          <button-action type="add-row" target="GrdEdi" silent="true" />
+          <dependency target-type="show" initial="true">
+            <dependency-element id="GrdEdi" attribute="selectedRows" condition="eq" value="0" />
+          </dependency>
+        </context-button>
+        <context-button id="CtxGrdEdiAddSel" label="BUTTON_NEW" icon="plus-circle">
+          <context-button label="BUTTON_NEW_ROW_UP" id="CtxGrdEdiAddUpp" icon="level-up">
+            <button-action type="add-row-up" target="GrdEdi" silent="true" />
+          </context-button>
+          <context-button label="BUTTON_NEW_ROW_DOWN" id="CtxGrdEdiAddDow" icon="level-down">
+            <button-action type="add-row-down" target="GrdEdi" silent="true" />
+          </context-button>
+          <dependency target-type="show" initial="true">
+            <dependency-element id="GrdEdi" attribute="selectedRows" condition="eq" value="1" />
+          </dependency>
+        </context-button>
+        <context-button id="CtxGrdEdiDel" label="BUTTON_DELETE" icon="trash">
+          <button-action type="delete-row" target="GrdEdi" silent="true" />
+          <dependency target-type="enable" initial="true">
+            <dependency-element id="GrdEdi" attribute="selectedRows" condition="eq" value="1" />
+          </dependency>
+        </context-button>
+        <context-button id="CtxGrdEdiCnv" label="Convert" icon="recycle">
+          <button-action type="server" server-action="maintain-silent" target-action="ConvertIcon" silent="true" async="true" />
+          <dependency target-type="enable" initial="true">
+            <dependency-element id="GrdEdi" attribute="selectedRows" condition="eq" value="1" />
+          </dependency>
+        </context-button>
+      </grid>
+      <tag type="div" style="panel-body">
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="cod_usr2" validation="required" readonly="true" style="col-xs-6 col-sm-4 col-md-2" value="Hola, Adios" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="epa2" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="tutu2" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="lala2" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="prueba2" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_PASS" component="password" icon="key" id="pwd_usr2" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="submit" label="BUTTON_LOGIN" icon="sign-in" id="ButLogIn2">
+            <button-action type="validate" />
+            <button-action type="server" server-action="login" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

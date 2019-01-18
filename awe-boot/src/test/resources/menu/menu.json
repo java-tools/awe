@@ -1,0 +1,1681 @@
+{
+  "options": [
+    {
+      "separator": false,
+      "restricted": false,
+      "name": "information",
+      "actions": [
+        {
+          "type": "screen",
+          "context": "screen/private/home",
+          "target": "information",
+          "parameters": {
+            "target": "information",
+            "serverAction": "screen"
+          }
+        }
+      ],
+      "options": [],
+      "visible": false
+    },
+    {
+      "separator": false,
+      "restricted": false,
+      "name": "information-restricted",
+      "module": "Inf",
+      "actions": [
+        {
+          "type": "screen",
+          "context": "screen/private/home",
+          "target": "information-restricted",
+          "parameters": {
+            "target": "information-restricted",
+            "serverAction": "screen"
+          }
+        }
+      ],
+      "options": [],
+      "visible": false
+    },
+    {
+      "separator": false,
+      "restricted": false,
+      "name": "information-restricted-changed",
+      "module": "Inf Changed",
+      "actions": [
+        {
+          "type": "screen",
+          "context": "screen/private/home",
+          "target": "information-restricted-changed",
+          "parameters": {
+            "target": "information-restricted-changed",
+            "serverAction": "screen"
+          }
+        }
+      ],
+      "options": [],
+      "visible": false
+    },
+    {
+      "separator": false,
+      "text": "MENU_TOOLS",
+      "restricted": false,
+      "label": "MENU_TOOLS",
+      "name": "tools",
+      "icon": "wrench",
+      "actions": [
+        {
+          "type": "screen",
+          "context": "screen/private/home",
+          "target": "tools",
+          "parameters": {
+            "target": "tools",
+            "serverAction": "screen"
+          }
+        }
+      ],
+      "options": [
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_SITES",
+          "restricted": false,
+          "label": "MENU_TOOLS_SITES",
+          "name": "sites",
+          "icon": "sitemap",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "sites",
+              "parameters": {
+                "target": "sites",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "new-site",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "new-site",
+                  "parameters": {
+                    "target": "new-site",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "update-site",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "update-site",
+                  "parameters": {
+                    "target": "update-site",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "view-site",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "view-site",
+                  "parameters": {
+                    "target": "view-site",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_MODULES",
+          "restricted": false,
+          "label": "MENU_TOOLS_MODULES",
+          "name": "modules",
+          "icon": "puzzle-piece",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "modules",
+              "parameters": {
+                "target": "modules",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "new-module",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "new-module",
+                  "parameters": {
+                    "target": "new-module",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "update-module",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "update-module",
+                  "parameters": {
+                    "target": "update-module",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "view-module",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "view-module",
+                  "parameters": {
+                    "target": "view-module",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_USERS",
+          "restricted": false,
+          "label": "MENU_TOOLS_USERS",
+          "name": "users",
+          "icon": "user",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "users",
+              "parameters": {
+                "target": "users",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "new-user",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "new-user",
+                  "parameters": {
+                    "target": "new-user",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "update-user",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "update-user",
+                  "parameters": {
+                    "target": "update-user",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "view-user",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "view-user",
+                  "parameters": {
+                    "target": "view-user",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_PROFILES",
+          "restricted": false,
+          "label": "MENU_TOOLS_PROFILES",
+          "name": "profiles",
+          "icon": "group",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "profiles",
+              "parameters": {
+                "target": "profiles",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "new-profile",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "new-profile",
+                  "parameters": {
+                    "target": "new-profile",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "update-profile",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "update-profile",
+                  "parameters": {
+                    "target": "update-profile",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "view-profile",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "view-profile",
+                  "parameters": {
+                    "target": "view-profile",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_DATABASE",
+          "restricted": false,
+          "label": "MENU_TOOLS_DATABASE",
+          "name": "databases",
+          "icon": "database",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "databases",
+              "parameters": {
+                "target": "databases",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "new-database",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "new-database",
+                  "parameters": {
+                    "target": "new-database",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "update-database",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "update-database",
+                  "parameters": {
+                    "target": "update-database",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "view-database",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "view-database",
+                  "parameters": {
+                    "target": "view-database",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_THEMES",
+          "restricted": false,
+          "label": "MENU_TOOLS_THEMES",
+          "name": "themes",
+          "icon": "picture-o",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "themes",
+              "parameters": {
+                "target": "themes",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "new-theme",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "new-theme",
+                  "parameters": {
+                    "target": "new-theme",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "update-theme",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "update-theme",
+                  "parameters": {
+                    "target": "update-theme",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "view-theme",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "view-theme",
+                  "parameters": {
+                    "target": "view-theme",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_AWE_EML_SRV",
+          "restricted": false,
+          "label": "MENU_TOOLS_AWE_EML_SRV",
+          "name": "email-servers",
+          "icon": "envelope",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "email-servers",
+              "parameters": {
+                "target": "email-servers",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "new-email-server",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "new-email-server",
+                  "parameters": {
+                    "target": "new-email-server",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "update-email-server",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "update-email-server",
+                  "parameters": {
+                    "target": "update-email-server",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_AWE_QUE",
+          "restricted": false,
+          "label": "MENU_TOOLS_AWE_QUE",
+          "name": "queues",
+          "icon": "exchange",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "queues",
+              "parameters": {
+                "target": "queues",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "new-queue",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "new-queue",
+                  "parameters": {
+                    "target": "new-queue",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            },
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "update-queue",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "update-queue",
+                  "parameters": {
+                    "target": "update-queue",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_AWEKEY",
+          "restricted": false,
+          "label": "MENU_TOOLS_AWEKEY",
+          "name": "sequences",
+          "icon": "key",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "sequences",
+              "parameters": {
+                "target": "sequences",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_AWE_APPPAR",
+          "restricted": false,
+          "label": "MENU_TOOLS_AWE_APPPAR",
+          "name": "application-parameters",
+          "icon": "cogs",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "application-parameters",
+              "parameters": {
+                "target": "application-parameters",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_BROADCAST",
+          "restricted": false,
+          "label": "MENU_BROADCAST",
+          "name": "broadcast-messages",
+          "icon": "rss",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "broadcast-messages",
+              "parameters": {
+                "target": "broadcast-messages",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_LOG",
+          "restricted": false,
+          "label": "MENU_LOG",
+          "name": "log",
+          "icon": "file-text",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "log",
+              "parameters": {
+                "target": "log",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "view-log",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "view-log",
+                  "parameters": {
+                    "target": "view-log",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_REPORT_LIST",
+          "restricted": false,
+          "label": "MENU_REPORT_LIST",
+          "name": "reports",
+          "icon": "file",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "reports",
+              "parameters": {
+                "target": "reports",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "restricted": false,
+              "name": "view-report",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "view-report",
+                  "parameters": {
+                    "target": "view-report",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": false
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_SQL_EXTRACTOR",
+          "restricted": false,
+          "label": "MENU_SQL_EXTRACTOR",
+          "name": "sqlExtractor",
+          "icon": "database",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "sqlExtractor",
+              "parameters": {
+                "target": "sqlExtractor",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        }
+      ],
+      "visible": true
+    },
+    {
+      "separator": false,
+      "text": "MENU_SETTINGS",
+      "restricted": false,
+      "label": "MENU_SETTINGS",
+      "name": "settings",
+      "icon": "cog",
+      "actions": [
+        {
+          "type": "screen",
+          "context": "screen/private/home",
+          "target": "settings",
+          "parameters": {
+            "target": "settings",
+            "serverAction": "screen"
+          }
+        }
+      ],
+      "options": [
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_SECURITY",
+          "restricted": false,
+          "label": "MENU_TOOLS_SECURITY",
+          "name": "security",
+          "icon": "unlock-alt",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "security",
+              "parameters": {
+                "target": "security",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "text": "MENU_TOOLS_SCREENS_ACCESS",
+              "restricted": false,
+              "label": "MENU_TOOLS_SCREENS_ACCESS",
+              "name": "screen-access",
+              "icon": "eye-slash",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "screen-access",
+                  "parameters": {
+                    "target": "screen-access",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_TOOLS_SCREEN_ENCRYPT",
+              "restricted": false,
+              "label": "MENU_TOOLS_SCREEN_ENCRYPT",
+              "name": "encrypt-tools",
+              "icon": "lock",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "encrypt-tools",
+                  "parameters": {
+                    "target": "encrypt-tools",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_SCR_CNF",
+          "restricted": false,
+          "label": "MENU_TOOLS_SCR_CNF",
+          "name": "screen-configuration",
+          "icon": "laptop",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "screen-configuration",
+              "parameters": {
+                "target": "screen-configuration",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_STL_CNF",
+          "restricted": false,
+          "label": "MENU_TOOLS_STL_CNF",
+          "name": "report-configuration",
+          "icon": "tint",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "report-configuration",
+              "parameters": {
+                "target": "report-configuration",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        }
+      ],
+      "visible": true
+    },
+    {
+      "separator": false,
+      "text": "MENU_TEST",
+      "restricted": false,
+      "label": "MENU_TEST",
+      "name": "test",
+      "module": "Test",
+      "icon": "flask",
+      "actions": [
+        {
+          "type": "screen",
+          "context": "screen/private/home",
+          "target": "test",
+          "parameters": {
+            "target": "test",
+            "serverAction": "screen"
+          }
+        }
+      ],
+      "options": [
+        {
+          "separator": false,
+          "text": "MENU_TEST_CRITERIA",
+          "restricted": false,
+          "label": "MENU_TEST_CRITERIA",
+          "name": "criteria",
+          "icon": "object-group",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "criteria",
+              "parameters": {
+                "target": "criteria",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "text": "MENU_TEST_CRITERIA",
+              "restricted": false,
+              "label": "MENU_TEST_CRITERIA",
+              "name": "criteria-test",
+              "icon": "keyboard-o",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "criteria-test",
+                  "parameters": {
+                    "target": "criteria-test",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_TEST_CRITERIA",
+              "restricted": false,
+              "label": "MENU_TEST_CRITERIA",
+              "name": "criteria-test-left",
+              "icon": "align-right",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "criteria-test-left",
+                  "parameters": {
+                    "target": "criteria-test-left",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_TEST_CRITERIA_RESET",
+              "restricted": false,
+              "label": "MENU_TEST_CRITERIA_RESET",
+              "name": "criteria-reset",
+              "icon": "refresh",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "criteria-reset",
+                  "parameters": {
+                    "target": "criteria-reset",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TEST_BUTTONS",
+          "restricted": false,
+          "label": "MENU_TEST_BUTTONS",
+          "name": "button-test",
+          "icon": "check",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "button-test",
+              "parameters": {
+                "target": "button-test",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TEST_MATRIX",
+          "restricted": false,
+          "label": "MENU_TEST_MATRIX",
+          "name": "matrix",
+          "icon": "table",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "matrix",
+              "parameters": {
+                "target": "matrix",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "text": "MENU_TEST_MATRIX_ALL",
+              "restricted": false,
+              "label": "MENU_TEST_MATRIX_ALL",
+              "name": "matrix-test",
+              "icon": "list-alt",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "matrix-test",
+                  "parameters": {
+                    "target": "matrix-test",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_TEST_MATRIX_NUMBERS",
+              "restricted": false,
+              "label": "MENU_TEST_MATRIX_NUMBERS",
+              "name": "matrix-test-numbers",
+              "icon": "list-ol",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "matrix-test-numbers",
+                  "parameters": {
+                    "target": "matrix-test-numbers",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_TEST_MATRIX_SUGGEST",
+              "restricted": false,
+              "label": "MENU_TEST_MATRIX_SUGGEST",
+              "name": "matrix-test-suggest",
+              "icon": "list-ul",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "matrix-test-suggest",
+                  "parameters": {
+                    "target": "matrix-test-suggest",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_TEST_MATRIX_HAVING",
+              "restricted": false,
+              "label": "MENU_TEST_MATRIX_HAVING",
+              "name": "matrix-test-having",
+              "icon": "list-alt",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "matrix-test-having",
+                  "parameters": {
+                    "target": "matrix-test-having",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_TEST_MATRIX_LOAD_ALL",
+              "restricted": false,
+              "label": "MENU_TEST_MATRIX_LOAD_ALL",
+              "name": "matrix-test-load-all",
+              "icon": "table",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "matrix-test-load-all",
+                  "parameters": {
+                    "target": "matrix-test-load-all",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TEST_CHARTS",
+          "restricted": false,
+          "label": "MENU_TEST_CHARTS",
+          "name": "chart",
+          "icon": "area-chart",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "chart",
+              "parameters": {
+                "target": "chart",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "text": "MENU_TEST_CHARTS",
+              "restricted": false,
+              "label": "MENU_TEST_CHARTS",
+              "name": "chart-test",
+              "icon": "bar-chart-o",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "chart-test",
+                  "parameters": {
+                    "target": "chart-test",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_TEST_CHART_DYNAMIC_SERIES",
+              "restricted": false,
+              "label": "MENU_TEST_CHART_DYNAMIC_SERIES",
+              "name": "chart-series-test",
+              "icon": "line-chart",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "chart-series-test",
+                  "parameters": {
+                    "target": "chart-series-test",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_GRID_CHART",
+              "restricted": false,
+              "label": "MENU_GRID_CHART",
+              "name": "grid-and-chart",
+              "icon": "file-text-o",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "grid-and-chart",
+                  "parameters": {
+                    "target": "grid-and-chart",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_TEST_QUEUES",
+              "restricted": false,
+              "label": "MENU_TEST_QUEUES",
+              "name": "queue-test",
+              "icon": "exchange",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "queue-test",
+                  "parameters": {
+                    "target": "queue-test",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TEST_LAYOUT",
+          "restricted": false,
+          "label": "MENU_TEST_LAYOUT",
+          "name": "layout",
+          "icon": "list-alt",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "layout",
+              "parameters": {
+                "target": "layout",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [
+            {
+              "separator": false,
+              "text": "MENU_TEST_LAYOUT 1",
+              "restricted": false,
+              "label": "MENU_TEST_LAYOUT 1",
+              "name": "layout-test",
+              "icon": "th-large",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "layout-test",
+                  "parameters": {
+                    "target": "layout-test",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            },
+            {
+              "separator": false,
+              "text": "MENU_TEST_LAYOUT 2",
+              "restricted": false,
+              "label": "MENU_TEST_LAYOUT 2",
+              "name": "layout2-test",
+              "icon": "th-large",
+              "actions": [
+                {
+                  "type": "screen",
+                  "context": "screen/private/home",
+                  "target": "layout2-test",
+                  "parameters": {
+                    "target": "layout2-test",
+                    "serverAction": "screen"
+                  }
+                }
+              ],
+              "options": [],
+              "visible": true
+            }
+          ],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TEST_WIZARD",
+          "restricted": false,
+          "label": "MENU_TEST_WIZARD",
+          "name": "wizard-test",
+          "icon": "magic",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "wizard-test",
+              "parameters": {
+                "target": "wizard-test",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TEST_ACCORDIONS",
+          "restricted": false,
+          "label": "MENU_TEST_ACCORDIONS",
+          "name": "accordion-test",
+          "icon": "bars",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "accordion-test",
+              "parameters": {
+                "target": "accordion-test",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TOOLS_SCREENS_ACCESS",
+          "restricted": false,
+          "label": "MENU_TOOLS_SCREENS_ACCESS",
+          "name": "screen-test",
+          "icon": "eye-slash",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "screen-test",
+              "parameters": {
+                "target": "screen-test",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TEST_PIVOT",
+          "restricted": false,
+          "label": "MENU_TEST_PIVOT",
+          "name": "pivot-test",
+          "icon": "table",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "pivot-test",
+              "parameters": {
+                "target": "pivot-test",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_TEST_FILEMANAGER",
+          "restricted": false,
+          "label": "MENU_TEST_FILEMANAGER",
+          "name": "filemanager-test",
+          "icon": "folder",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "filemanager-test",
+              "parameters": {
+                "target": "filemanager-test",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "restricted": false,
+          "name": "file-manager",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "file-manager",
+              "parameters": {
+                "target": "file-manager",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": false
+        }
+      ],
+      "visible": true
+    },
+    {
+      "separator": true,
+      "restricted": false,
+      "name": "developer-separator",
+      "actions": [
+        {
+          "type": "screen",
+          "context": "screen/private/home",
+          "target": "developer-separator",
+          "parameters": {
+            "target": "developer-separator",
+            "serverAction": "screen"
+          }
+        }
+      ],
+      "options": [],
+      "visible": true
+    },
+    {
+      "separator": false,
+      "text": "MENU_DEVELOPER",
+      "restricted": false,
+      "label": "MENU_DEVELOPER",
+      "name": "developer",
+      "icon": "paint-brush",
+      "actions": [
+        {
+          "type": "screen",
+          "context": "screen/private/home",
+          "target": "developer",
+          "parameters": {
+            "target": "developer",
+            "serverAction": "screen"
+          }
+        }
+      ],
+      "options": [
+        {
+          "separator": false,
+          "text": "MENU_PATH",
+          "restricted": false,
+          "label": "MENU_PATH",
+          "name": "path-manager",
+          "icon": "italic",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "path-manager",
+              "parameters": {
+                "target": "path-manager",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_LANGUAGES",
+          "restricted": false,
+          "label": "MENU_LANGUAGES",
+          "name": "local-manager",
+          "icon": "language",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "local-manager",
+              "parameters": {
+                "target": "local-manager",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        }
+      ],
+      "visible": true
+    },
+    {
+      "separator": true,
+      "restricted": false,
+      "name": "help-separator",
+      "actions": [
+        {
+          "type": "screen",
+          "context": "screen/private/home",
+          "target": "help-separator",
+          "parameters": {
+            "target": "help-separator",
+            "serverAction": "screen"
+          }
+        }
+      ],
+      "options": [],
+      "visible": true
+    },
+    {
+      "separator": false,
+      "text": "MENU_HELP",
+      "restricted": false,
+      "label": "MENU_HELP",
+      "name": "help",
+      "icon": "question-circle",
+      "actions": [
+        {
+          "type": "screen",
+          "context": "screen/private/home",
+          "target": "help",
+          "parameters": {
+            "target": "help",
+            "serverAction": "screen"
+          }
+        }
+      ],
+      "options": [
+        {
+          "separator": false,
+          "text": "MENU_USER_HELP",
+          "restricted": false,
+          "label": "MENU_USER_HELP",
+          "name": "user-help",
+          "icon": "book",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "user-help",
+              "parameters": {
+                "target": "user-help",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_HELP_APPLICATION",
+          "restricted": false,
+          "label": "MENU_HELP_APPLICATION",
+          "name": "application-help",
+          "icon": "question",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "application-help",
+              "parameters": {
+                "target": "application-help",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        },
+        {
+          "separator": false,
+          "text": "MENU_APP_INF",
+          "restricted": false,
+          "label": "MENU_APP_INF",
+          "name": "application-info",
+          "icon": "info",
+          "actions": [
+            {
+              "type": "screen",
+              "context": "screen/private/home",
+              "target": "application-info",
+              "parameters": {
+                "target": "application-info",
+                "serverAction": "screen"
+              }
+            }
+          ],
+          "options": [],
+          "visible": true
+        }
+      ],
+      "visible": true
+    }
+  ],
+  "visible": true
+}

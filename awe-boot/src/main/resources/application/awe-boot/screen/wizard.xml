@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : wizard.xml
+    Created on : 8 de febrero de 2010, 16:30
+    Author     : Pablo GARCIA
+    Description: Wizard test screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd"
+        template="window" label="SCREEN_TITLE_WIZARD" help="HELP_SCREEN_TITLE_WIZARD">
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt"/>
+    </button>
+  </tag>
+  <tag source="center">
+    <wizard id="wizardTest" initial-load="enum" target-action="WizTst" label="SCREEN_TEXT_STEP">
+      <wizard-panel id="WizardStep1">
+        <tag type="div" style="expand" expandible="vertical">
+          <tag type="div" style="panel-body expand">
+            <tag type="div" style="row">
+              <tag-list type="div" style="text-lg" initial-load="query" target-action="ConUsr">
+                <tag>
+                  <text>[Val]</text>
+                </tag>
+              </tag-list>
+            </tag>
+            <tag type="div" style="row">
+              <tag-list initial-load="query" target-action="ConUsr">
+                <tag type="div" style="text-light-gray text-semibold text-xs text-uppercase" label="[Val]"/>
+              </tag-list>
+            </tag>
+            <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="cod_usr" validation="required"
+                      readonly="true" style="col-xs-6 col-sm-4 col-md-2" value="Hola, Adios"/>
+            <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="epa" validation="required"
+                      style="col-xs-6 col-sm-4 col-md-2"/>
+            <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="tutu" validation="required"
+                      style="col-xs-6 col-sm-4 col-md-2"/>
+          </tag>
+          <tag type="div" style="panel-footer">
+            <tag type="div" style="pull-right">
+              <button label="BUTTON_NEXT" icon="chevron-circle-right" id="FwStep2" style="btn-primary">
+                <button-action type="validate" target="WizardStep1"/>
+                <button-action type="next-step" target="wizardTest"/>
+              </button>
+            </tag>
+          </tag>
+        </tag>
+      </wizard-panel>
+      <wizard-panel id="WizardStep2">
+        <tag type="div" style="expand" expandible="vertical">
+          <tag type="div" style="panel-body expand" expandible="vertical">
+            <tag type="div">
+              <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="lala" validation="required"
+                        style="col-xs-6 col-sm-4 col-md-2"/>
+              <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="prueba" validation="required"
+                        style="col-xs-6 col-sm-4 col-md-2"/>
+              <criteria placeholder="SCREEN_TEXT_PASS" component="password" icon="key" id="pwd_usr"
+                        validation="required" style="col-xs-6 col-sm-4 col-md-2"/>
+            </tag>
+            <tag type="div" style="expand">
+              <accordion id="accordion">
+                <accordion-item id="accordionItem1" label="Item 1"></accordion-item>
+                <accordion-item id="accordionItem2" label="Item 2"></accordion-item>
+              </accordion>
+            </tag>
+          </tag>
+          <tag type="div" style="panel-footer">
+            <tag type="div" style="pull-right">
+              <button label="BUTTON_PREVIOUS" icon="chevron-circle-left" id="BkStep1">
+                <button-action type="prev-step" target="wizardTest"/>
+              </button>
+              <button label="BUTTON_NEXT" icon="chevron-circle-right" id="FwStep3" style="btn-primary">
+                <button-action type="validate" target="WizardStep2"/>
+                <button-action type="next-step" target="wizardTest"/>
+              </button>
+            </tag>
+          </tag>
+        </tag>
+      </wizard-panel>
+      <wizard-panel id="WizardStep3">
+        <tag type="div" style="expand" expandible="vertical">
+          <tag type="div" style="panel-body expand">
+            <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="cod_usr12" validation="required"
+                      readonly="true" style="col-xs-6 col-sm-4 col-md-2" value="Hola, Adios"/>
+            <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="epa12" validation="required"
+                      style="col-xs-6 col-sm-4 col-md-2"/>
+            <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="tutu12" validation="required"
+                      style="col-xs-6 col-sm-4 col-md-2"/>
+          </tag>
+          <tag type="div" style="panel-footer">
+            <tag type="div" style="pull-right">
+              <button label="BUTTON_PREVIOUS" icon="chevron-circle-left" id="BkStep2">
+                <button-action type="prev-step" target="wizardTest"/>
+              </button>
+              <button label="BUTTON_NEXT" icon="chevron-circle-right" id="FwStep4" style="btn-primary">
+                <button-action type="validate" target="WizardStep3"/>
+                <button-action type="next-step" target="wizardTest"/>
+              </button>
+            </tag>
+          </tag>
+        </tag>
+      </wizard-panel>
+      <wizard-panel id="WizardStep4">
+        <tag type="div" style="expand" expandible="vertical">
+          <tag type="div" style="panel-body expand">
+            <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="cod_usr121" validation="required"
+                      readonly="true" style="col-xs-6 col-sm-4 col-md-2" value="Hola, Adios"/>
+            <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="epa121" validation="required"
+                      style="col-xs-6 col-sm-4 col-md-2"/>
+            <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="tutu121" validation="required"
+                      style="col-xs-6 col-sm-4 col-md-2"/>
+          </tag>
+          <tag type="div" style="panel-footer">
+            <tag type="div" style="pull-right">
+              <button label="BUTTON_PREVIOUS" icon="chevron-circle-left" id="BkStep3">
+                <button-action type="prev-step" target="wizardTest"/>
+              </button>
+              <button label="BUTTON_FINISH" icon="check" id="Finish" style="btn-primary">
+                <button-action type="validate" target="WizardStep4"/>
+                <button-action type="server" server-action="refresh-menu"/>
+              </button>
+            </tag>
+          </tag>
+        </tag>
+      </wizard-panel>
+    </wizard>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

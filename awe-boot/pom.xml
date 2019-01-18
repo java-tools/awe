@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>awe-parent</artifactId>
+    <groupId>com.almis.awe</groupId>
+    <version>4.0.4</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>awe-boot</artifactId>
+  <packaging>jar</packaging>
+  <name>AWE Testing Application (V${project.version})</name>
+
+  <properties>
+    <!-- Application maven properties -->
+    <awe.version>${project.parent.version}</awe.version>    
+    <java.version>1.8</java.version>
+    <awe.schemas>../../../static/schemas/awe</awe.schemas>
+    <application.name>awe-boot_V4.0.3</application.name>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.build.frontend>${project.build.directory}/classes/static</project.build.frontend>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <node.version>v8.12.0</node.version>
+    <yarn.version>v1.10.1</yarn.version>
+    <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
+    <plugin-frontend.version>1.6</plugin-frontend.version>
+    <plugin-dependency.version>3.0.2</plugin-dependency.version>
+    <plugin-compiler.version>3.5.1</plugin-compiler.version>
+    <plugin-surefire.version>2.20</plugin-surefire.version>
+    <plugin-archetype.version>3.0.1</plugin-archetype.version>
+    <plugin-xml.maven.version>1.0</plugin-xml.maven.version>
+    <plugin-jar.version>3.1.0</plugin-jar.version>
+    <plugin-resources.version>3.1.0</plugin-resources.version>
+    <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
+    <plugin-site.version>3.5.1</plugin-site.version>
+    <plugin-info-reports.version>2.9</plugin-info-reports.version>
+
+    <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/jacoco.exec</sonar.jacoco.reportPaths>
+    <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.almis.awe</groupId>
+        <artifactId>awe-dependencies</artifactId>
+        <version>${awe.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <!-- AWE -->
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-spring-boot-starter</artifactId>
+      <exclusions>
+        <!-- Use log4j2 lib -->
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-client-angular</artifactId>
+    </dependency>
+
+    <!-- Dependencies for jacoco coverage tests -->
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-controller</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-model</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-tools</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-annotation</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-builder</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-rest</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-developer</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-builder-spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-rest-spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-annotations-spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-tools-spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-developer-spring-boot-starter</artifactId>
+    </dependency>
+
+    <!-- ADE -->
+    <dependency>
+      <groupId>com.almis.ade</groupId>
+      <artifactId>ade-spring-boot-starter</artifactId>
+    </dependency>
+
+    <!-- JDBC Drivers -->
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>xmlunit</groupId>
+      <artifactId>xmlunit</artifactId>
+      <version>1.5</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>awe-boot</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <!-- AWE static resources -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>Get web resources</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.frontend}</outputDirectory>
+              <resources>
+                <!-- Awe generic screens -->
+                <resource>
+                  <directory>../awe-generic-screens/src/main/resources</directory>
+                  <includes>
+                    <include>schemas/**</include>
+                    <include>docs/**</include>
+                  </includes>
+                </resource>
+                <!-- Awe client angular -->
+                <resource>
+                  <directory>../awe-client-angular/src/main/resources</directory>
+                  <includes>
+                    <include>images/**</include>
+                    <include>fonts/**</include>
+                    <include>js/**</include>
+                    <include>css/**</include>
+                    <include>less/**</include>
+                  </includes>
+                </resource>
+                <!-- Awe tools -->
+                <resource>
+                  <directory>../awe-tools/src/main/resources</directory>
+                  <includes>
+                    <include>images/**</include>
+                    <include>fonts/**</include>
+                    <include>js/**</include>
+                    <include>css/**</include>
+                    <include>less/**</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <!-- Copy images -->
+          <execution>
+            <id>copy-images</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/classes/static/images/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/main/resources/images/</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-resources</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>src/main/resources/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.build.frontend}</directory>
+                  <includes>
+                    <include>less/awe/variables.less</include>
+                    <include>less/awe/mixins.less</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Spring boot -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Application Javascript and CSS management -->
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>install node and yarn</id>
+            <goals>
+              <goal>install-node-and-yarn</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>v8.12.0</nodeVersion>
+              <yarnVersion>v1.10.1</yarnVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>yarn install</id>
+            <goals>
+              <goal>yarn</goal>
+            </goals>
+            <configuration>
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>webpack</id>
+            <goals>
+              <goal>webpack</goal>
+            </goals>
+            <configuration>
+              <arguments>--output-path "${project.build.frontend}"</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- XML files validation -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <version>${plugin-xml.maven.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <validationSets>
+            <validationSet>
+              <dir>${project.build.directory}/classes/application/awe-boot/</dir>
+              <validating>true</validating>
+            </validationSet>
+          </validationSets>
+        </configuration>
+      </plugin>
+      <!-- Jacoco coverage -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <append>true</append>
+              <destFile>${sonar.jacoco.reportPaths}</destFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>generate-aggregation-report</id>
+      <activation>
+        <property>
+          <name>generateAggregationReport</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-compile</id>
+                <phase>compile</phase>
+                <goals>
+                  <goal>compile</goal>
+                </goals>
+                <configuration>
+                  <skipMain>true</skipMain>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco.version}</version>
+            <executions>
+              <execution>
+                <id>post-merge-report</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>report-aggregate</goal>
+                </goals>
+                <configuration>
+                  <dataFileIncludes>
+                    <dataFileInclude>target/jacoco.exec</dataFileInclude>
+                  </dataFileIncludes>
+                  <outputDirectory>${jacoco.reportPaths}</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <!-- Reporting javadoc -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.1</version>
+        <configuration>
+          <show>public</show>
+          <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.5.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.9</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Document   : Locale-EN
+  Description: Application Locales
+-->
+
+<!--$Id$-->
+
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/locale.xsd">
+  <locale name="ENUM_LAN_MO" value="Moderdonio"/>
+  <locale name="BUTTON_ADD_COLUMNS" value="Add columns"/>
+  <locale name="BUTTON_ADD_SERIES" value="Add serie"/>
+  <locale name="BUTTON_CONFIRM_EMPTY" value="Confirm (check empty)"/>
+  <locale name="BUTTON_NEW_CHILD" value="Child row"/>
+  <locale name="BUTTON_PAUSE" value="Pause"/>
+  <locale name="BUTTON_PLAY" value="Play"/>
+  <locale name="BUTTON_RELOAD" value="Reload"/>
+  <locale name="BUTTON_REMOVE_SERIES" value="Remove serie"/>
+  <locale name="BUTTON_REPLACE_COLUMNS" value="Replace columns"/>
+  <locale name="BUTTON_REPLACE_SERIES" value="Replace series"/>
+  <locale name="BUTTON_RESET_TARGET" value="Reset Target"/>
+  <locale name="BUTTON_RESTORE" value="Restore"/>
+  <locale name="BUTTON_SET_VALUE1" value="Set &apos;Valor1&apos;"/>
+  <locale name="BUTTON_SET_VALUE2" value="Set &apos;Valor2&apos;"/>
+  <locale name="BUTTON_SET_VALUE3" value="Set &apos;Valor3&apos;"/>
+  <locale name="COLUMN_NUMERIC" value="Numeric (test)"/>
+  <locale name="ELEMENT_TYPE_GRID" value="Grid"/>
+  <locale name="ENUM_MATRIX_EDITABLE" value="Editable"/>
+  <locale name="ENUM_MATRIX_EDITABLE_MULTISELECT" value="Editable multiselect"/>
+  <locale name="ENUM_MATRIX_GRID_DEPENDENCIES" value="Grid dependencies"/>
+  <locale name="ENUM_MATRIX_LOAD_ALL" value="Load all"/>
+  <locale name="ENUM_MATRIX_MULTIOPTION" value="Multioption"/>
+  <locale name="ENUM_MATRIX_MULTISELECT" value="Multiselect"/>
+  <locale name="ENUM_MATRIX_STATIC" value="Static"/>
+  <locale name="ENUM_MATRIX_TOTALIZE" value="SQL totalization"/>
+  <locale name="ENUM_MATRIX_TOTALIZE_SERVICE" value="Service totalization"/>
+  <locale name="ENUM_MATRIX_TREEGRID" value="Tree"/>
+  <locale name="ENUM_MATRIX_TREEGRID_EDITABLE" value="Editable tree"/>
+  <locale name="ENUM_MATRIX_TREEGRID_EDITABLE_LOADNODE" value="Editable multioperation tree"/>
+  <locale name="ENUM_MATRIX_TREEGRID_LOADNODE" value="Loading tree"/>
+  <locale name="ENUM_STEP_1" value="Message for step 1"/>
+  <locale name="ENUM_STEP_2" value="Message for step 2"/>
+  <locale name="ENUM_STEP_3" value="Message for step 3"/>
+  <locale name="ENUM_STEP_4" value="Message for step 4"/>
+  <locale name="ERROR_MESSAGE_BAD_INCLUDE_DEFINITION" value="The &apos;include&apos; tag on the -{0}- screen with target-screen {1} and target-source {2} is not well-formed"/>
+  <locale name="ERROR_MESSAGE_NESTED_INCLUDE" value="The &apos;include&apos; tag on the screen -{0}- with target-screen {1} and target-source {2} is loop nested"/>
+  <locale name="ERROR_TITLE_BAD_INCLUDE_DEFINITION" value="Bad &apos;include&apos; tag definition"/>
+  <locale name="ERROR_TITLE_NESTED_INCLUDE" value="Nested loop &apos;include&apos; tag definition"/>
+  <locale name="HELP_CHART_IMAGE_1" value="images/help/chart1.png"/>
+  <locale name="HELP_CHART_IMAGE_10" value="images/help/chart10.png"/>
+  <locale name="HELP_CHART_IMAGE_2" value="images/help/chart2.png"/>
+  <locale name="HELP_CHART_IMAGE_3" value="images/help/chart3.png"/>
+  <locale name="HELP_CHART_IMAGE_4" value="images/help/chart4.png"/>
+  <locale name="HELP_CHART_IMAGE_5" value="images/help/chart5.png"/>
+  <locale name="HELP_CHART_IMAGE_6" value="images/help/chart6.png"/>
+  <locale name="HELP_CHART_IMAGE_7" value="images/help/chart7.png"/>
+  <locale name="HELP_CHART_IMAGE_8" value="images/help/chart8.png"/>
+  <locale name="HELP_CHART_IMAGE_9" value="images/help/chart9.png"/>
+  <locale name="HELP_SCREEN_TITLE_BUTTON_TEST" value="Buttons test screen"/>
+  <locale name="HELP_SCREEN_TITLE_CHART_GRID_PRINT" value="Grids and Charts Printing Test Screen"/>
+  <locale name="HELP_SCREEN_TITLE_CHART_TEST" value="Chart tests"/>
+  <locale name="HELP_SCREEN_TITLE_CRITERIA_TEST" value="Criteria test"/>
+  <locale name="HELP_SCREEN_TITLE_MATRIX_TEST" value="Matrix test"/>
+  <locale name="HELP_SCREEN_TITLE_WIZARD" value="Wizard testing screen"/>
+  <locale name="HELP_SEARCH_ADD_SERIE_BUTTON" value="Add series to chart"/>
+  <locale name="HELP_SEARCH_REMOVE_SERIE_BUTTON" value="Remove serie of chart"/>
+  <locale name="HELP_SEARCH_REPLACE_SERIE_BUTTON" value="Replace all series in a chart"/>
+  <locale name="MENU_GRID_CHART" value="Grids and Charts"/>
+  <locale name="MENU_SCHEDULER" value="Scheduler"/>
+  <locale name="MENU_SCHEDULER_SERVERS" value="External servers"/>
+  <locale name="MENU_TEST" value="Tests"/>
+  <locale name="MENU_TEST_ACCORDIONS" value="Accordions"/>
+  <locale name="MENU_TEST_BUTTONS" value="Buttons"/>
+  <locale name="MENU_TEST_CHART_DYNAMIC_SERIES" value="Dynamic series"/>
+  <locale name="MENU_TEST_CHARTS" value="Charts"/>
+  <locale name="MENU_TEST_CRITERIA" value="Criteria"/>
+  <locale name="MENU_TEST_CRITERIA_RESET" value="Criteria Reset"/>
+  <locale name="MENU_TEST_FILEMANAGER" value="File Manager"/>
+  <locale name="MENU_TEST_GRIDS" value="Grids"/>
+  <locale name="MENU_TEST_LAYOUT" value="Layout"/>
+  <locale name="MENU_TEST_MATRIX" value="Matrix"/>
+  <locale name="MENU_TEST_MATRIX_ALL" value="All matrix"/>
+  <locale name="MENU_TEST_MATRIX_HAVING" value="Test having"/>
+  <locale name="MENU_TEST_MATRIX_LOAD_ALL" value="Load all matrix"/>
+  <locale name="MENU_TEST_MATRIX_NUMBERS" value="Number matrix"/>
+  <locale name="MENU_TEST_MATRIX_SUGGEST" value="Suggest matrix"/>
+  <locale name="MENU_TEST_NO_SCREEN" value="No screen"/>
+  <locale name="MENU_TEST_PIVOT" value="Pivot table"/>
+  <locale name="MENU_TEST_QUEUES" value="Message queues"/>
+  <locale name="MENU_TEST_WIZARD" value="Wizard"/>
+  <locale name="PARAMETER_AGE" value="Age"/>
+  <locale name="PARAMETER_CHECKBOX" value="Checkbox"/>
+  <locale name="PARAMETER_CHECKBOX_1" value="Checkbox 1"/>
+  <locale name="PARAMETER_CHECKBOX_2" value="Checkbox 2"/>
+  <locale name="PARAMETER_CHECKBOX_3" value="Checkbox 3"/>
+  <locale name="PARAMETER_CITY" value="City"/>
+  <locale name="PARAMETER_COLOR" value="Color"/>
+  <locale name="PARAMETER_COLOR_READONLY" value="Color (read)"/>
+  <locale name="PARAMETER_DATE_INF" value="Date &lt;="/>
+  <locale name="PARAMETER_DATE_READONLY" value="Date (read)"/>
+  <locale name="PARAMETER_DATE_SUP" value="Date &gt;="/>
+  <locale name="PARAMETER_DIALOG" value="Dialog"/>
+  <locale name="PARAMETER_FILTERED_DATE" value="Filtered date"/>
+  <locale name="PARAMETER_FILTERED_DATE_READONLY" value="Filtered date (read)"/>
+  <locale name="PARAMETER_GENDER" value="Gender"/>
+  <locale name="PARAMETER_GROUP" value="Group"/>
+  <locale name="PARAMETER_ID" value="Id"/>
+  <locale name="PARAMETER_KEY" value="Key"/>
+  <locale name="PARAMETER_KEY_VALUE" value="Key Value"/>
+  <locale name="PARAMETER_LEVEL" value="Level"/>
+  <locale name="PARAMETER_NUMERIC" value="Numeric"/>
+  <locale name="PARAMETER_NUMERIC_READONLY" value="Numeric (read)"/>
+  <locale name="PARAMETER_OTHER" value="Other"/>
+  <locale name="PARAMETER_PRESSED_BUTTON" value="Pressed button"/>
+  <locale name="PARAMETER_RADIO_1" value="Radio 1"/>
+  <locale name="PARAMETER_RADIO_2" value="Radio 2"/>
+  <locale name="PARAMETER_RADIO_3" value="Radio 3"/>
+  <locale name="PARAMETER_SELECT" value="Select"/>
+  <locale name="PARAMETER_SELECT_MULTIPLE" value="MultiSelect"/>
+  <locale name="PARAMETER_SELECT_MULTIPLE_READONLY" value="MultiSelect (read)"/>
+  <locale name="PARAMETER_SELECT_READONLY" value="Select (read)"/>
+  <locale name="PARAMETER_STATE" value="State"/>
+  <locale name="PARAMETER_SUGGEST" value="Suggest"/>
+  <locale name="PARAMETER_SUGGEST_MULTIPLE" value="MultiSuggest"/>
+  <locale name="PARAMETER_SUGGEST_MULTIPLE_READONLY" value="MultiSuggest (read)"/>
+  <locale name="PARAMETER_SUGGEST_NUMBER" value="Suggest Number"/>
+  <locale name="PARAMETER_SUGGEST_READONLY" value="Suggest (read)"/>
+  <locale name="PARAMETER_TEXT_READONLY" value="Text (read)"/>
+  <locale name="PARAMETER_TEXTAREA" value="Textarea"/>
+  <locale name="PARAMETER_TEXTAREA_READONLY" value="Textarea (read)"/>
+  <locale name="PARAMETER_TIME_READONLY" value="Time (read)"/>
+  <locale name="PARAMETER_UPLOADER" value="File"/>
+  <locale name="PARAMETER_UPLOADER_READONLY" value="File (read)"/>
+  <locale name="SCREEN_TEXT_AREA_CHART" value="Area chart"/>
+  <locale name="SCREEN_TEXT_BAR_CHART" value="Bar chart"/>
+  <locale name="SCREEN_TEXT_BAR_CHART_HORIZONTAL" value="Horizontal bar chart"/>
+  <locale name="SCREEN_TEXT_BUBBLE_CHART" value="Bubble chart"/>
+  <locale name="SCREEN_TEXT_CHART_AXIS_DATES" value="Dates"/>
+  <locale name="SCREEN_TEXT_CHART_SERIE_1" value="Series 1"/>
+  <locale name="SCREEN_TEXT_CHART_SERIE_2" value="Series 2"/>
+  <locale name="SCREEN_TEXT_CHART_SERIE_3" value="Series 3"/>
+  <locale name="SCREEN_TEXT_CHART_TITLE_1" value="Chart 1"/>
+  <locale name="SCREEN_TEXT_DONUT_CHART" value="Donut chart"/>
+  <locale name="SCREEN_TEXT_DYNAMIC_SERIES_CHART" value="Dynamic graph series"/>
+  <locale name="SCREEN_TEXT_LEGEND" value="Legend"/>
+  <locale name="SCREEN_TEXT_LINE_CHART" value="Line chart"/>
+  <locale name="SCREEN_TEXT_MONTHS" value="Months"/>
+  <locale name="SCREEN_TEXT_NUM_ACCESS_WEB" value="Nº website hits"/>
+  <locale name="SCREEN_TEXT_PIE_CHART" value="Pie chart"/>
+  <locale name="SCREEN_TEXT_REFRESH_SETTINGS" value="Refresh settings"/>
+  <locale name="SCREEN_TEXT_REFRESH_TIME" value="Refresh time"/>
+  <locale name="SCREEN_TEXT_RESTORE" value="Restore"/>
+  <locale name="SCREEN_TEXT_SCATTER_PLOT" value="Scatter plot"/>
+  <locale name="SCREEN_TEXT_SEMICIRCLE_CHART" value="Semicircle chart"/>
+  <locale name="SCREEN_TEXT_STOCK_CHART" value="Stock chart"/>
+  <locale name="SCREEN_TEXT_TIME_SECONDS" value="Time in seconds"/>
+  <locale name="SCREEN_TITLE_ACCORDION_TEST" value="Accordion test"/>
+  <locale name="SCREEN_TITLE_BUTTON_TEST" value="Buttons test"/>
+  <locale name="SCREEN_TITLE_CHART_DYNAMIC_SERIES" value="Dynamic series chart"/>
+  <locale name="SCREEN_TITLE_CHART_GRID_PRINT" value="Grids and Charts Printing Test Screen"/>
+  <locale name="SCREEN_TITLE_CHART_TEST" value="Chart tests"/>
+  <locale name="SCREEN_TITLE_CRITERIA_TEST" value="Criteria test"/>
+  <locale name="SCREEN_TITLE_MATRIX_TEST" value="Matrix test"/>
+  <locale name="SCREEN_TITLE_WIZARD" value="Wizard"/>
+</locales>

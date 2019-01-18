@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : TestInitialValues.xml
+    Created on : 20 de Marzo de 2012
+    Author     : Pablo GARCIA
+    Description: Button Test Screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" target="TestScreenTargetVariable" label="SCREEN_TITLE_BUTTON_TEST" help="HELP_SCREEN_TITLE_BUTTON_TEST">
+  <tag source="buttons">
+  </tag>
+  <tag source="center" expandible="vertical">
+    <window id="WinDat" label="SCREEN_TEXT_DATA" maximize="true">
+      <tag type="div" style="panel-body">
+        <criteria label="PARAMETER_SELECT" id="ComponentSelectEnum" variable="SelectEnum" component="select" value="0" initial-load="enum" target-action="Es1Es0" optional="true" check-empty="true" style="col-xs-6 col-sm-3 col-lg-2" />
+        <criteria label="PARAMETER_SELECT" id="ComponentSelectQuery" variable="SelectQuery" component="select" value="1" initial-load="query" target-action="TestComponentInitialLoadQuery" optional="true" check-empty="true" style="col-xs-6 col-sm-3 col-lg-2" />
+        <criteria label="PARAMETER_SUGGEST" id="ComponentSuggestVal" variable="SuggestValue" component="suggest" value="1" initial-load="value" server-action="data" target-action="TestComponentInitialLoadValue" check-empty="true" style="col-xs-6 col-sm-3 col-lg-2"/>
+        <criteria label="PARAMETER_SUGGEST" id="ComponentSuggestCheckInitial" variable="SuggestCheckInitial" value="1" component="suggest" server-action="data" check-target="TestComponentInitialSuggestValue" check-empty="true" style="col-xs-6 col-sm-3 col-lg-2"/>
+        <criteria label="PARAMETER_TEXT" id="ComponentTextVal" variable="InitialLoadValue" component="text" initial-load="value" target-action="TestComponentInitialLoadValue" check-empty="true" style="col-xs-6 col-sm-3 col-lg-2"/>
+        <criteria label="PARAMETER_TEXT" id="ComponentTextStaticVal" variable="StaticValue" component="text" value="prueba" check-empty="true" style="col-xs-6 col-sm-3 col-lg-2"/>
+        <criteria label="PARAMETER_TEXT" id="ComponentTextStaticSessionVal" variable="SessionValue" component="text" session="user" style="col-xs-6 col-sm-3 col-lg-2"/>
+        <criteria label="PARAMETER_TEXT" id="ComponentTextStaticPropertyVal" variable="PropertyValue" component="text" property="module.awe-test" style="col-xs-6 col-sm-3 col-lg-2"/>
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal"></tag>
+</screen>

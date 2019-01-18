@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<screen template="window" label="MENU_TEST_PIVOT"
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xsi:noNamespaceSchemaLocation='@awe.schemas@/screen.xsd'>
+  <tag source="center">
+    <window label="SCREEN_TEXT_CRITERIA">
+      <tag type="div" style="panel-body">
+        <criteria component="date" id="fecha" label="PARAMETER_DATE" style="col-xs-6 col-sm-3 col-md-2"/>
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="reset" label="BUTTON_RESET" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
+          <button button-type="submit" label="BUTTON_SEARCH" icon="search" id="ButSch" help="HELP_SEARCH_BUTTON">
+            <button-action type="filter" target="listaDatos" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <window label="SCREEN_TEXT_DATA" style="expand" expandible="vertical">
+      <tag type="div" style="panel-body expand scrollable-both" expandible="vertical">
+        <pivot-table id="listaDatos" decimal-numbers="3" thousand-separator="." decimal-separator="," initial-load="query" target-action="QryUniTstId" cols="Als" renderer="Table" aggregator="Custom Sum" aggregation-field="Prg1" total-column-placement="left" total-row-placement="top" sort-method="absolute" style="expand"></pivot-table>
+      </tag>
+    </window>
+  </tag>
+</screen>

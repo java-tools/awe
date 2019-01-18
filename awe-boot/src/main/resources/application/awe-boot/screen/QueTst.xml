@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   :QueTst.xml
+    Created on : 21 de Noviembre de 2013
+    Author     : Pablo GARCIA & Pablo VIDAL
+    Description: Tests de colas
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_QUE" help="HELP_SCREEN_TITLE_QUE">
+  <tag source="hidden"></tag>
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_SEND" icon="exchange" id="ButSndSyn">
+      <button-action type="server" server-action="maintain" target-action="TstQueSndSyn" />
+    </button>
+    <button label="BUTTON_SEND" icon="long-arrow-right" id="ButSndAsy">
+      <button-action type="server" server-action="maintain" target-action="TstQueSndAsy" />
+    </button>
+  </tag>
+  <tag source="center">
+    <window label="SCREEN_TEXT_CRITERIA">
+      <tag type="div" style="panel-body">
+        <criteria label="PARAMETER_USER" component="text" id="CrtNam" style="col-xs-6 col-sm-4 col-lg-4">
+          <dependency initial="true" source-type="query" target-type="input" server-action="value" target-action="TstSynQueWrpTxt">
+            <dependency-element id="CrtNam" condition="eq" value="" />
+          </dependency>
+        </criteria>
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="reset" label="BUTTON_RESET" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
+          <button button-type="submit" label="BUTTON_SEARCH" icon="search" id="ButSch" help="HELP_SEARCH_BUTTON">
+            <button-action type="filter" target="GrdQueLst" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <tab id="QueTabSel" initial-load="enum" target-action="EnuQueTabSel" maximize="true">
+      <tabcontainer id="QueGrd">
+        <window style="expand" expandible="vertical">
+          <grid id="GrdQueLst" style="expand" server-action="data" target-action="TstGrdQue" multiselect="true" max="30">
+            <column label="PARAMETER_GROUP" name="ColGrp" sort-field="ColGrp" align="left" charlength="20" />
+            <column label="PARAMETER_EMAIL" name="ColEml" sort-field="ColEml" align="left" charlength="40" />
+            <column label="PARAMETER_USER" name="ColNam" sort-field="ColNam" align="left" charlength="40" />
+            <column label="PARAMETER_OTHER" name="ColTut" sort-field="ColTut" align="left" charlength="40" />
+          </grid>
+        </window>
+      </tabcontainer>
+      <tabcontainer id="QueChr">
+        <window style="expand" expandible="vertical" maximize="true">
+          <chart id="ChrLinTst" type="spline" zoom-type="xAxis" server-action="subscribe" target-action="TstChrTwoSrcQue" max="30" autoload="true">
+            <x-axis label="Dates" type="datetime" />
+            <y-axis label="Prices" />
+            <chart-legend enabled="true" />
+            <chart-serie id="serie-1" x-value="date" y-value="serie1" />
+            <chart-serie id="serie-2" x-value="date" y-value="serie2" />
+            <context-button id="CtxLinTstRef" label="BUTTON_RELOAD" icon="refresh">
+              <button-action type="filter" target="ChrLinTst" />
+            </context-button>
+          </chart>
+        </window>
+      </tabcontainer>
+    </tab>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Mod.xml
+    Created on : 21 de Junio de 2013
+    Author     : Pablo Vidal
+    Description: Prueba modal
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window">
+  <tag source="center">
+    <dialog label="SCREEN_TEXT_CRITERIA" icon="pencil-square-o" id="ModalTst" modal="true" style="normal">
+      <tag type="div" style="modal-body scrollable">
+        <criteria label="PARAMETER_TEXT" component="text" id="ModTxt1" icon="check" placeholder="PARAMETER_ACCESS_MODE" style="col-xs-12 col-sm-12 col-lg-12" />
+        <criteria label="PARAMETER_TEXT" component="text" id="ModTxt2" icon="check" placeholder="PARAMETER_ACCESS_MODE" style="col-xs-12 col-sm-12 col-lg-12" />
+        <criteria label="PARAMETER_TEXT" component="text" id="ModTxt3" icon="check" placeholder="PARAMETER_ACCESS_MODE" style="col-xs-12 col-sm-12 col-lg-12" validation="required" />
+      </tag>
+      <tag type="div" style="modal-footer">
+        <tag type="div" style="pull-right">
+          <button id="ButDiaCan" label="BUTTON_CANCEL" icon="remove-sign">
+            <button-action type="close" target="ModalTst" />
+          </button>
+          <button id="ButDiaVal" label="BUTTON_ACCEPT" icon="ok-sign">
+            <button-action type="validate" target="ModalTst" />
+            <button-action type="close" target="ModalTst" />
+          </button>
+        </tag>
+      </tag>
+    </dialog>
+  </tag>
+  <tag source="dialogo-modal">
+    <dialog label="SCREEN_TEXT_CRITERIA" icon="pencil-square-o" id="dialogo-modal" modal="true" style="normal">
+      <tag type="div" style="modal-body scrollable">
+        <window label="SCREEN_TEXT_CRITERIA" style="height-md expand" expandible="vertical">
+          <grid id="denominations" editable="true" show-totals="true" style="expand" validate-on-save="false">
+            <column name="valor" align="right" sortable="false" charlength="21" label="PARAMETER_TEXT"/>
+            <column name="numero" align="right" component="numeric" sortable="false" charlength="21" label="PARAMETER_TEXT" number-format="{vMin: '-999999', mDec: 0, pSign:'s', aPad:true}" value="0" formatter="number" summary-type="sum"/>
+            <column name="cantidad" align="right" component="numeric" sortable="false" charlength="21" label="PARAMETER_TEXT" number-format="{vMin: '-999999', mDec: 2, aSign:' EUR', pSign:'s', aPad:true}" value="0" formatter="number" summary-type="sum"/>
+            <button icon="plus-circle" id="ButGrdEdiAddDen">
+              <button-action type="add-row" target="denominations" silent="true" />
+            </button>
+            <button icon="trash" id="ButGrdEdiDelDen">
+              <button-action type="delete-row" target="denominations" silent="true" />
+              <dependency target-type="enable" initial="true">
+                <dependency-element id="denominations" attribute="selectedRows" condition="eq" value="1" />
+              </dependency>
+            </button>
+          </grid>
+        </window>
+        <criteria label="PARAMETER_TEXT" readonly="true" component="numeric" id="pendingAmount" style="col-xs-12 col-sm-12 col-lg-12" validation="{eq:0}">
+          <dependency source-type="formule" target-type="input" formule="Math.abs(parseInt([pending])) - [distributed]">
+            <dependency-element id="GrdEdi" column="Num" attribute="selectedRowValue" alias="pending"/>
+            <dependency-element id="denominations" column="cantidad" attribute="footerValue" alias="distributed"/>
+            <dependency-element id="GrdEdi" event="select-row" optional="true"/>
+            <dependency-element id="denominations"/>
+          </dependency>
+        </criteria>
+      </tag>
+      <tag type="div" style="modal-footer">
+        <tag type="div" style="pull-right">
+          <button id="ButModDiaCan" label="BUTTON_CANCEL" icon="remove-sign">
+            <button-action type="close-cancel" target="dialogo-modal" />
+          </button>
+          <button button-type="submit" id="ButModDiaVal" label="BUTTON_ACCEPT" icon="ok-sign">
+            <button-action type="validate" target="dialogo-modal" />
+            <button-action type="close" target="dialogo-modal" />
+          </button>
+        </tag>
+      </tag>
+    </dialog>
+  </tag>
+</screen>

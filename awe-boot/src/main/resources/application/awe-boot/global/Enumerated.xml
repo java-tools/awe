@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Enumerated.xml
+    Created on : 11 de marzo de 2010, 11:03
+    Author     : Pablo GARCIA
+    Description:
+        Purpose of the document follows.
+-->
+
+<enumerated xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/enumerated.xsd">
+
+  <!-- LANGUAGES -->
+  <group id="Lan">
+    <option label="ENUM_LAN_ES" value="es" />
+    <option label="ENUM_LAN_EN" value="en" />
+    <option label="ENUM_LAN_FR" value="fr" />
+    <option label="ENUM_LAN_MO" value="mo" />
+  </group>
+
+  <!-- LANGUAGES -->
+  <group id="LanUsr">
+    <option label="ENUM_LAN_ES" value="ESP" />
+    <option label="ENUM_LAN_EN" value="ENG" />
+    <option label="ENUM_LAN_FR" value="FRA" />
+    <option label="ENUM_LAN_MO" value="MOD" />
+  </group>
+
+  <!-- MATRIX TEST TYPE -->
+  <group id="EnuAweSelMat">
+    <option label="ENUM_MATRIX_STATIC" value="StaMat" />
+    <option label="ENUM_MATRIX_MULTISELECT" value="MusMat" />
+    <option label="ENUM_MATRIX_EDITABLE" value="EdiMat" />
+    <option label="ENUM_MATRIX_EDITABLE_MULTISELECT" value="EdiMusMat" />
+    <option label="ENUM_MATRIX_MULTIOPTION" value="MuoMat" />
+    <option label="ENUM_MATRIX_TREEGRID" value="TreMat" />
+    <option label="ENUM_MATRIX_TREEGRID_LOADNODE" value="TreLoaMat" />
+    <option label="ENUM_MATRIX_TREEGRID_EDITABLE" value="TreEdiMat" />
+    <option label="ENUM_MATRIX_TREEGRID_EDITABLE_LOADNODE" value="TreLoaEdiMat" />
+    <option label="ENUM_MATRIX_TOTALIZE" value="TotMat" />
+    <option label="ENUM_MATRIX_TOTALIZE_SERVICE" value="TotSrvMat" />
+    <option label="ENUM_MATRIX_GRID_DEPENDENCIES" value="DepMat" />
+  </group>
+
+  <!-- WIZARD TEST STEPS -->
+  <group id="WizTst">
+    <option label="ENUM_STEP_1" value="WizardStep1" />
+    <option label="ENUM_STEP_2" value="WizardStep2" />
+    <option label="ENUM_STEP_3" value="WizardStep3" />
+    <option label="ENUM_STEP_4" value="WizardStep4" />
+  </group>
+</enumerated>

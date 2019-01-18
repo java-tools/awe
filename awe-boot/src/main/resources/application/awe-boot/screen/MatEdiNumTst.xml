@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Sit.xml
+    Created on : 08 de Marzo de 2013
+    Author     : Pablo Vidal
+    Description: Gestion de Sites - Lista de Sites
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="MENU_TEST_MATRIX_NUMBERS" help="HELP_SCREEN_TITLE_MATRIX_TEST">
+  <tag source="center">
+    <window style="expand" maximize="true" label="SCREEN_TEXT_DATA" icon="list">
+      <grid id="GrdNumLst" style="expand" server-action="data" target-action="NumTstLst" editable="true" initial-load="query" max="100" load-all="true">
+        <column label="PARAMETER_VALUE" name="Num1" sort-field="Num1" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num2" sort-field="Num2" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num3" sort-field="Num3" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num4" sort-field="Num4" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num5" sort-field="Num5" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num6" sort-field="Num6" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num7" sort-field="Num7" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num8" sort-field="Num8" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num9" sort-field="Num9" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num10" sort-field="Num10" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num11" sort-field="Num11" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num12" sort-field="Num12" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num13" sort-field="Num13" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num14" sort-field="Num14" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num15" sort-field="Num15" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num16" sort-field="Num16" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num17" sort-field="Num17" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num18" sort-field="Num18" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num19" sort-field="Num19" align="right" charlength="10" component="numeric" />
+        <column label="PARAMETER_VALUE" name="Num20" sort-field="Num20" align="right" charlength="10" component="numeric" />
+      </grid>
+    </window>
+  </tag>
+</screen>

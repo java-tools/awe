@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : MatLoadAll.xml
+    Created on : 21 de Sept de 2016
+    Author     : Pablo VISAL
+    Description: Matrix Load All Test Screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_MATRIX_TEST" help="HELP_SCREEN_TITLE_MATRIX_TEST">
+  <tag source="buttons">
+    <button label="BUTTON_RESET" button-type="reset" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_PRINT" icon="print" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="validate" />
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+    <button button-type="submit" label="BUTTON_SEARCH" icon="search" id="ButSch" help="HELP_SEARCH_BUTTON">
+      <button-action type="filter" target="GrdLoadAll"/>
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand" label="ENUM_MATRIX_LOAD_ALL" expandible="vertical">
+      <grid id="GrdLoadAll" style="expand" initial-load="query" server-action="data" target-action="QrySrvLoadJsonFile" max="1000" load-all="true" enable-filters="true" icon-loading="squarebar">
+        <column label="PARAMETER_ID" name="id" sort-field="id" align="center" charlength="20"/>
+        <column label="PARAMETER_NAME" name="name" sort-field="name" align="left" charlength="20"/>
+        <column label="PARAMETER_GENDER" name="gender" sort-field="gender" align="left" charlength="20"/>
+        <column label="PARAMETER_AGE" name="age" sort-field="age" align="center" charlength="20"/>
+        <column label="PARAMETER_STATE" name="state" sort-field="state" align="left" charlength="20"/>
+        <column label="PARAMETER_CITY" name="city" sort-field="city" align="left" charlength="20"/>
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center" />
+  </tag>
+</screen>

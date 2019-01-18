@@ -1,0 +1,27 @@
+{
+  "actions": [
+    {
+      "type": "confirm-updated-data",
+      "parameters": {}
+    },
+    {
+      "type": "back",
+      "parameters": {}
+    }
+  ],
+  "buttonType": "button",
+  "checkInitial": true,
+  "checkTarget": false,
+  "checked": false,
+  "contextMenu": [],
+  "dependencies": [],
+  "help": "HELP_BACK_BUTTON",
+  "icon": "arrow-circle-left",
+    "id": "ButBck",
+  "label": "BUTTON_BACK",
+  "optional": false,
+  "printable": true,
+  "readonly": false,
+  "strict": true,
+  "visible": true
+}

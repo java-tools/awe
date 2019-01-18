@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : CrtTst.xml
+    Created on : 20 de Marzo de 2012
+    Author     : Pablo GARCIA
+    Description: Criteria Test Screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_CRITERIA_TEST" help="HELP_SCREEN_TITLE_CRITERIA_TEST">
+  <tag source="hidden">
+    <message id="NewMsg" title="CONFIRM_TITLE_NEW" message="CONFIRM_MESSAGE_NEW" />
+    <message id="UniMsg" title="WARNING_TITLE_DUPLICATED_USER" message="WARNING_MESSAGE_DUPLICATED_USER" />
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="confirm-updated-data" />
+      <button-action type="back" />
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_PRINT" icon="print" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="validate" />
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+    <button button-type="button" label="BUTTON_RESET" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON">
+      <button-action type="restore" />
+    </button>
+    <button button-type="button" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="confirm-not-updated-data" />
+      <button-action type="validate" />
+      <button-action type="confirm" target="UniMsg"/>
+      <button-action type="server" server-action="control-confirm" target-action="UsrLst" target="UniMsg"/>
+    </button>
+  </tag>
+  <tag source="center" expandible="vertical">
+    <window style="expand" label="SCREEN_TEXT_DATA" id="Criteria" expandible="vertical">
+      <tag type="div" style="panel-body expand scrollable">
+        <criteria label="PARAMETER_TEXT" id="Txt" variable="Txt" component="text" style="col-xs-6 col-sm-3 col-lg-2" value="test">
+          <dependency >
+            <dependency-element id="Txt" condition="eq" value="radios"/>
+            <dependency-action type="value" target="RadBoxGrp2" value="Radio1"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_TEXT" id="TxtReq" variable="TxtReq" component="text" style="col-xs-6 col-sm-3 col-lg-2" validation="{required:true,maxlength:4}"/>
+        <criteria label="PARAMETER_TEXT_READONLY" id="TxtRea" variable="TxtRea" component="text" readonly="true" style="col-xs-6 col-sm-3 col-lg-2" initial-load="value" target-action="FilCalDat" unit="PARAMETER_TEXT">
+          <dependency source-type="launcher" target-type="input" target-action="language">
+            <dependency-element id="language" view="base" attribute="text" alias="language"/>
+          </dependency>
+        </criteria>
+        <criteria id="NumHid" variable="NumHid" component="hidden" value="4" />
+        <criteria label="PARAMETER_NUMERIC" id="Num" variable="Num" component="numeric" style="col-xs-6 col-sm-3 col-lg-2" number-format="{vMin: '-999999', mDec: 2, aSign:' EUR', pSign:'s', aPad:true}" value="-123456.1">
+          <dependency source-type="formule" target-type="format-number" initial="true" formule="{vMin: '-999999', mDec: [NumHid], aSign:' JPY', pSign:'s', aPad:true}">
+            <dependency-element id="NumHid" />
+            <dependency-element id="Txt" condition="eq" value="4decimales" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_NUMERIC" id="NumReq" variable="NumReq" component="numeric" style="col-xs-6 col-sm-3 col-lg-2" validation="required" value="-123456.1" number-format="{vMin: '-999999', mDec: 2, aSign:' EUR', pSign:'s', aPad:true}">
+          <dependency target-type="set-invisible" initial="true">
+            <dependency-element id="Txt" condition="eq" value="oculta" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_NUMERIC_READONLY" id="NumRea" variable="NumRea" component="numeric" style="col-xs-6 col-sm-3 col-lg-2" value="123456789123456.78945" readonly="true" number-format="{vMin: '-999999999999.99999', vMax: '999999999999999.99999'}" />
+        <criteria label="PARAMETER_DATE" id="Cal" variable="Cal" component="date" style="col-xs-6 col-sm-3 col-lg-2" validation="{le:{criterion:'CalReq',type:'date'}}" show-weekends="false" show-future-dates="false" />
+        <criteria label="PARAMETER_DATE" id="CalReq" variable="CalReq" component="date" style="col-xs-6 col-sm-3 col-lg-2" validation="{required:true,ge:{criterion:'Cal',type:'date'}}">
+          <dependency initial="true">
+            <dependency-element id="CalReq" />
+            <dependency-action type="server" server-action="data" target-action="ProAllLst" target="SelReq" />
+            <dependency-action type="server" server-action="data" target-action="ProAllLst" target="SelMulReq" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_DATE_READONLY" id="CalRea" variable="CalRea" component="date" style="col-xs-6 col-sm-3 col-lg-2" readonly="true"/>
+        <criteria label="PARAMETER_TIME" id="Tim" variable="Tim" component="time" style="col-xs-6 col-sm-3 col-lg-2">
+          <dependency source-type="value" target-type="validate" value="{'le':{'criterion':'TimReq'}}">
+            <dependency-element id="CalReq" condition="eq" name="Cal" />
+            <dependency-element id="Cal" condition="eq" name="CalReq" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_TIME" id="TimReq" variable="TimReq" component="time" style="col-xs-6 col-sm-3 col-lg-2" validation="required">
+          <dependency source-type="value" target-type="validate" value="{'ge':{'criterion':'Tim'}}">
+            <dependency-element id="Cal" condition="eq" name="CalReq" />
+            <dependency-element id="CalReq" condition="eq" name="Cal" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_TIME_READONLY" id="TimRea" variable="TimRea" component="time" style="col-xs-6 col-sm-3 col-lg-2" readonly="true"/>
+        <criteria label="PARAMETER_FILTERED_DATE" id="FilCal" variable="FilCal" component="filtered-calendar" initial-load="query" target-action="FilCalDat" style="col-xs-6 col-sm-3 col-lg-2" validation="{le:{criterion:'FilCalReq',type:'date'}}" />
+        <criteria label="PARAMETER_FILTERED_DATE" id="FilCalReq" variable="FilCalReq" component="filtered-calendar" initial-load="query" target-action="FilCalDat" style="col-xs-6 col-sm-3 col-lg-2" validation="{required:true,ge:{criterion:'FilCal',type:'date'}}" strict="false" />
+        <criteria label="PARAMETER_FILTERED_DATE_READONLY" id="FilCalRea" variable="FilCalRea" component="filtered-calendar" initial-load="query" target-action="FilCalDat" style="col-xs-6 col-sm-3 col-lg-2" readonly="true">
+          <dependency target-type="set-editable" initial="true">
+            <dependency-element id="Txt" condition="eq" value="edita" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SUGGEST" id="Sug" variable="Sug" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSugDelay" timeout="500" check-initial="false">
+          <dependency source-type="launcher" target-type="input" target-action="TxtMgr" initial="true">
+            <dependency-element id="Txt" condition="eq" value="test" alias="TxtMgr"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SUGGEST" id="SugReq" variable="SugReq" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSugDelay" validation="required" check-initial="true" value="test">
+          <dependency target-type="set-optional" initial="true">
+            <dependency-element id="Txt" condition="gt" value="1"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SUGGEST_READONLY" id="SugRea" variable="SugRea" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSugDelay" readonly="true" value="test" check-initial="true" />
+        <criteria label="PARAMETER_SELECT" id="Sel" variable="Sel" component="select" style="col-xs-6 col-sm-3 col-lg-2" initial-load="enum" target-action="Es1Es0" optional="true">
+          <dependency initial="true">
+            <dependency-element id="Sel" condition="eq" value="0"/>
+            <dependency-action type="add-class" target=".window-buttons" target-action="hidden"/>
+          </dependency>
+          <dependency initial="true">
+            <dependency-element id="Txt" condition="eq" value="rellenaSelector"/>
+            <dependency-action type="server" server-action="value" target-action="PrnAct" target="Sel"/>
+          </dependency>
+          <dependency initial="true">
+            <dependency-element id="Sel" condition="eq" value="1"/>
+            <dependency-action type="remove-class" target=".window-buttons" target-action="hidden"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SELECT" id="SelReq" variable="SelReq" component="select" style="col-xs-6 col-sm-3 col-lg-2" initial-load="enum" target-action="Es1Es0" optional="true" validation="required" unit="PARAMETER_TEXT">
+          <dependency target-type="set-optional" initial="true">
+            <dependency-element id="Txt" condition="gt" value="1"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SELECT_READONLY" id="SelRea" variable="SelRea" component="select" style="col-xs-6 col-sm-3 col-lg-2" initial-load="enum" target-action="Es1Es0" readonly="true" />
+        <criteria label="PARAMETER_COLOR" id="Col" variable="Col" component="color" style="col-xs-6 col-sm-3 col-lg-2" value="#d5db89" />
+        <criteria label="PARAMETER_COLOR" id="ColReq" variable="ColReq" component="color" style="col-xs-6 col-sm-3 col-lg-2" validation="required">
+          <dependency source-type="criteria-value" target-type="input" target-action="Col">
+            <dependency-element id="Col" />
+          </dependency>
+          <dependency target-type="set-optional" initial="true">
+            <dependency-element id="Col" condition="eq" value="#d5db89"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_COLOR_READONLY" id="ColRea" variable="ColRea" component="color" style="col-xs-6 col-sm-3 col-lg-2" readonly="true" />
+        <criteria label="PARAMETER_SUGGEST_NUMBER" id="SugNum" variable="SugNum" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSugIde" timeout="500" check-initial="false" />
+        <criteria label="PARAMETER_SUGGEST_NUMBER" id="SugNumReq" variable="SugNum" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSugIde" timeout="500" validation="required" value="1"/>
+        <criteria label="PARAMETER_SUGGEST_NUMBER" id="SugNumRea" variable="SugNum" component="suggest" style="col-xs-6 col-sm-3 col-lg-2" server-action="data" target-action="TstUsrSugIde" timeout="500" check-initial="false" readonly="true"/>
+        <criteria label="PARAMETER_TEXTAREA" id="Tar" variable="Tar" component="textarea" style="col-xs-12 col-sm-6 col-lg-6">
+          <dependency source-type="value" target-type="input" value="checkbox off" initial="true">
+            <dependency-element id="ChkBoxVa21" condition="eq" value="0"/>
+          </dependency>
+          <dependency source-type="value" target-type="input" value="checkbox on">
+            <dependency-element id="ChkBoxVa21" condition="eq" value="1"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_TEXTAREA" id="TarReq" variable="TarReq" component="textarea" style="col-xs-12 col-sm-6 col-lg-6" validation="required" />
+        <criteria label="PARAMETER_TEXTAREA_READONLY" id="TarRea" variable="TarRea" component="textarea" style="col-xs-6 col-sm-6 col-lg-6" readonly="true" />
+        <criteria label="PARAMETER_UPLOADER"          id="Upl"    variable="Upl" component="uploader" style="col-xs-12 col-sm-6 col-lg-4"/>
+        <criteria label="PARAMETER_UPLOADER"          id="UplReq" variable="UplReq" component="uploader" style="col-xs-12 col-sm-6 col-lg-4" validation="required" destination="testModule">
+          <dependency target-type="set-optional" initial="true">
+            <dependency-element id="Txt" condition="gt" value="1"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_UPLOADER_READONLY" id="UplRea" variable="UplReq" component="uploader" style="col-xs-12 col-sm-6 col-lg-4" readonly="true">
+          <dependency source-type="launcher" target-type="input" target-action="Upl" type="or">
+            <dependency-element id="Upl" alias="Upl"/>
+            <dependency-element id="Upl" condition="is empty"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SELECT_MULTIPLE" id="SelMul" variable="SelMul" component="select-multiple" style="col-xs-12 col-sm-6 col-lg-4" initial-load="query" target-action="UsrEmlLst" timeout="1000" />
+        <criteria label="PARAMETER_SELECT_MULTIPLE" id="SelMulReq" variable="SelMulReq" component="select-multiple" style="col-xs-12 col-sm-6 col-lg-4" initial-load="query" target-action="UsrEmlLst" validation="required" strict="false">
+          <dependency target-type="set-optional" initial="true">
+            <dependency-element id="Txt" condition="gt" value="1"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SELECT_MULTIPLE_READONLY" id="SelMulRea" variable="SelMul" component="select-multiple" style="col-xs-12 col-sm-6 col-lg-4" initial-load="query" target-action="UsrEmlLst" readonly="true" value="test" />
+        <criteria label="PARAMETER_SUGGEST_MULTIPLE" id="SugMul" variable="SugMul" component="suggest-multiple" style="col-xs-12 col-sm-6 col-lg-4" server-action="data" target-action="UsrEmlLstTstSugDelay" timeout="1000" />
+        <criteria label="PARAMETER_SUGGEST_MULTIPLE" id="SugMulReq" variable="SugMulReq" component="suggest-multiple" style="col-xs-12 col-sm-6 col-lg-4" server-action="data" target-action="UsrEmlLstTstSugDelay" validation="required" strict="false">
+          <dependency target-type="set-optional" initial="true">
+            <dependency-element id="Txt" condition="gt" value="1"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SUGGEST_MULTIPLE_READONLY" id="SugMulRea" variable="SugMul" component="suggest-multiple" style="col-xs-12 col-sm-6 col-lg-4" server-action="data" target-action="UsrEmlLstTstSugDelay" readonly="true" value="test" />
+        <tag type="div" style="btn-group col-xs-12 col-sm-6">
+          <criteria label="PARAMETER_CHECKBOX_1" id="ChkBoxVa1" group="ChkBoxVa" variable="ChkBoxVa1" component="checkbox" style="col-xs-6 col-sm-4 col-lg-2 no-label" validation="{checkAtLeast:2}" />
+          <criteria label="PARAMETER_CHECKBOX_2" id="ChkBoxVa2" group="ChkBoxVa" variable="ChkBoxVa2" component="checkbox" style="col-xs-6 col-sm-4 col-lg-2 no-label" validation="{checkAtLeast:2}"/>
+          <criteria label="PARAMETER_CHECKBOX_3" id="ChkBoxVa3" group="ChkBoxVa" variable="ChkBoxVa3" component="checkbox" style="col-xs-6 col-sm-4 col-lg-2 no-label" readonly="true" />
+          <criteria label="PARAMETER_CHECKBOX" id="ChkBoxVa4" group="ChkBoxVa" variable="ChkBoxVa4" component="checkbox" style="col-xs-6 col-sm-4 col-lg-2 no-label" validation="{checkAtLeast:2}" />
+          <criteria label="PARAMETER_CHECKBOX" id="ChkBoxVa5" group="ChkBoxVa" variable="ChkBoxVa5" component="checkbox" style="col-xs-6 col-sm-4 col-lg-2 no-label" validation="{checkAtLeast:2}" checked="true" />
+        </tag>
+        <tag type="div" style="btn-group col-xs-12 col-sm-6">
+          <criteria label="PARAMETER_RADIO_1" id="RadBox1" group="RadBoxGrp1" variable="RadBoxGrp1" component="radio" value="Radio1" style="col-xs-6 col-sm-4 col-lg-2 no-label" validation="required" />
+          <criteria label="PARAMETER_RADIO_2" id="RadBox2" group="RadBoxGrp1" variable="RadBoxGrp1" component="radio" value="Radio2" style="col-xs-6 col-sm-4 col-lg-2 no-label" readonly="true" />
+          <criteria label="PARAMETER_RADIO_3" id="RadBox3" group="RadBoxGrp1" variable="RadBoxGrp1" component="radio" value="Radio3" style="col-xs-6 col-sm-4 col-lg-2 no-label">
+            <dependency target-type="set-invisible" initial="true">
+              <dependency-element id="Txt" condition="eq" value="radioinvisible"/>
+            </dependency>
+          </criteria>
+          <criteria label="PARAMETER_RADIO_1" id="RadBox4" group="RadBoxGrp1" variable="RadBoxGrp1" component="radio" value="Radio4" style="col-xs-6 col-sm-4 col-lg-2 no-label"/>
+          <criteria label="PARAMETER_RADIO_1" id="RadBox5" group="RadBoxGrp1" variable="RadBoxGrp1" component="radio" value="Radio5" style="col-xs-6 col-sm-4 col-lg-2 no-label" checked="true"/>
+        </tag>
+        <tag type="div" style="btn-group col-xs-12 col-sm-6 form-group">
+          <criteria label="PARAMETER_CHECKBOX_1" id="ChkBoxVa21" group="ChkBoxVa2" variable="ChkBoxVa21" component="button-checkbox" style="col-xs-2" validation="{checkAtLeast:2}"/>
+          <criteria label="PARAMETER_CHECKBOX_2" id="ChkBoxVa22" group="ChkBoxVa2" variable="ChkBoxVa22" component="button-checkbox" style="col-xs-2" validation="{checkAtLeast:2}" checked="true"/>
+          <criteria label="PARAMETER_CHECKBOX_3" id="ChkBoxVa23" group="ChkBoxVa2" variable="ChkBoxVa23" component="button-checkbox" style="col-xs-2" readonly="true" />
+          <criteria label="PARAMETER_CHECKBOX" id="ChkBoxVa24" group="ChkBoxVa2" variable="ChkBoxVa24" component="button-checkbox" style="col-xs-2" validation="{checkAtLeast:2}" checked="true"/>
+          <criteria label="PARAMETER_CHECKBOX" id="ChkBoxVa25" group="ChkBoxVa2" variable="ChkBoxVa25" component="button-checkbox" style="col-xs-2" validation="{checkAtLeast:2}"/>
+        </tag>
+        <tag type="div" style="btn-group col-xs-12 col-sm-6 form-group">
+          <criteria label="PARAMETER_RADIO_1" id="RadBox21" group="RadBoxGrp2" variable="RadBoxGrp2" component="button-radio" value="Radio1" style="col-xs-2" validation="required" />
+          <criteria label="PARAMETER_RADIO_2" id="RadBox22" group="RadBoxGrp2" variable="RadBoxGrp2" component="button-radio" value="Radio2" style="col-xs-2" readonly="true"/>
+          <criteria label="PARAMETER_RADIO_3" id="RadBox23" group="RadBoxGrp2" variable="RadBoxGrp2" component="button-radio" value="Radio3" style="col-xs-2"/>
+          <criteria label="PARAMETER_RADIO_1" id="RadBox24" group="RadBoxGrp2" variable="RadBoxGrp2" component="button-radio" value="Radio4" style="col-xs-2" checked="true"/>
+          <criteria label="PARAMETER_RADIO_1" id="RadBox25" group="RadBoxGrp2" variable="RadBoxGrp2" component="button-radio" value="Radio5" style="col-xs-2">
+            <dependency target-type="hide" initial="true">
+              <dependency-element id="Txt" condition="eq" value="radiohidden"/>
+            </dependency>
+          </criteria>
+        </tag>
+        <criteria label="PARAMETER_NUMERIC" icon="dollar" id="Unt" variable="Unt" component="numeric" value="-123456.1" style="col-xs-12 col-sm-6 col-lg-4" number-format="{vMin: '-999999', mDec: 2, aPad:true}">
+          <dependency source-type="launcher" target-type="unit" target-action="Sel">
+            <dependency-element id="Sel" condition="ne" value="-1" />
+            <dependency-element id="Sel" attribute="text" alias="Sel"/>
+          </dependency>
+          <dependency source-type="criteria-value" target-type="label" target-action="Txt">
+            <dependency-element id="Txt" />
+          </dependency>
+          <dependency source-type="criteria-value" target-type="input" target-action="Num">
+            <dependency-element id="Num" />
+          </dependency>
+          <dependency source-type="label" target-type="label" label="PARAMETER_NUMERIC">
+            <dependency-element id="Num" />
+          </dependency>
+          <dependency source-type="query" target-type="label" server-action="data" target-action="ModSel">
+            <dependency-element id="ChkBoxVa1" condition="eq" value="1" />
+          </dependency>
+          <dependency source-type="query" target-type="unit" server-action="data" target-action="ModSel">
+            <dependency-element id="ChkBoxVa2" condition="eq" value="1" />
+          </dependency>
+          <dependency source-type="value" target-type="unit" value="EUR">
+            <dependency-element id="RadBoxGrp1" condition="eq" value="Radio1" />
+          </dependency>
+          <dependency source-type="formule" target-type="unit" formule="#USD#">
+            <dependency-element id="RadBoxGrp1" condition="eq" value="Radio3" />
+          </dependency>
+          <dependency target-type="hide" initial="true">
+            <dependency-element id="Upl"/>
+          </dependency>
+          <dependency target-type="hide" initial="true">
+            <dependency-element id="Txt" condition="eq" value="hide" />
+          </dependency>
+          <dependency source-type="reset" target-type="input" initial="true">
+            <dependency-element id="Sug" />
+          </dependency>
+          <dependency source-type="reset" target-type="label" initial="true">
+            <dependency-element id="Tar" />
+          </dependency>
+          <dependency target-type="set-editable" initial="true">
+            <dependency-element id="TxtReq" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SELECT" id="SelDep" variable="SelDep" component="select" style="col-xs-12 col-sm-6 col-lg-4" optional="true">
+          <dependency target-type="set-editable" initial="true">
+            <dependency-element id="Sug" />
+          </dependency>
+          <dependency target-type="set-required" initial="true">
+            <dependency-element id="Sug" />
+          </dependency>
+          <dependency source-type="query" target-type="input" initial="true" server-action="data" target-action="Es1Es0">
+            <dependency-element id="Sug" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_SELECT" id="SelDepDep" variable="SelDepDep" component="select" style="col-xs-12 col-sm-6 col-lg-4" optional="true">
+          <dependency target-type="set-editable" initial="true">
+            <dependency-element id="Sug" />
+            <dependency-element id="SelDep" />
+          </dependency>
+          <dependency target-type="set-required" initial="true">
+            <dependency-element id="Sug" />
+            <dependency-element id="SelDep" />
+          </dependency>
+          <dependency source-type="query" target-type="input" initial="true" server-action="data" target-action="Es1Es0">
+            <dependency-element id="Sug" />
+            <dependency-element id="SelDep" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_NUMERIC" id="NumSlid" component="numeric" show-slider="true" style="col-xs-12 col-sm-6 col-lg-4" number-format="{min: 0, max: 100, step: 1, precision: 2, pSign:'s', aPad:true}" />
+        <criteria label="PARAMETER_NUMERIC" id="NumSlidReadOnly" component="numeric" show-slider="true" style="col-xs-12 col-sm-6 col-lg-4" number-format="{min: 0, max: 100, step: 0.01, precision: 2, aSign:' £', pSign:'s', aPad:true}" value="55.22" readonly="true">
+          <dependency target-type="set-editable">
+            <dependency-element id="NumSlid" condition="eq" value="2" />
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_NUMERIC" id="NumSlidReq" component="numeric" show-slider="true" style="col-xs-12 col-sm-6 col-lg-4" number-format="{min: -1000, max: 1000, step: 10, precision: 2, aSign:' $', pSign:'s', aPad:true,  ticks: [-1000, -500, 0, 500, 1000], ticks_labels: ['-$1000', '-$500', '$0', '$500', '$1000']}"
+                  validation="required" />
+        <criteria label="PARAMETER_TEXT" id="TxtViw" variable="ButVal" component="text-view" style="col-xs-6 col-sm-3 col-lg-2" icon="download" unit="4">
+          <dependency source-type="value" target-type="unit" value="EUR">
+            <dependency-element id="RadBoxGrp1" condition="eq" value="Radio1" />
+          </dependency>
+          <dependency source-type="value" target-type="input" value="Changed">
+            <dependency-element id="RadBoxGrp1" condition="eq" value="Radio4" />
+          </dependency>
+          <dependency >
+            <dependency-element id="TxtViw"/>
+            <dependency-element id="TxtViw" event="click"/>
+            <dependency-action type="server-download" server-action="get-file-maintain" target-action="downloadFile"/>
+          </dependency>
+          <dependency >
+            <dependency-element id="Upl"/>
+            <dependency-action type="server" server-action="data" target-action="getFileInfo" target="TxtViw"/>
+          </dependency>
+          <dependency source-type="launcher" target-type="input" initial="true" target-action="suggestMultiple">
+            <dependency-element id="SugMul" attribute="text" alias="suggestMultiple"/>
+          </dependency>
+          <dependency source-type="value" target-type="input" initial="true" value="vacio">
+            <dependency-element id="SugMul" condition="is empty"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_TEXT" id="TxtVal" variable="TxtVal" component="text" style="col-xs-6 col-sm-3 col-lg-2">
+          <dependency source-type="query" server-action="validate" target-action="ValidateBankAccount">
+            <dependency-element id="TxtVal"/>
+          </dependency>
+        </criteria>
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

@@ -1,0 +1,3 @@
+<div class="fullHeight panel-transparent"><div class="panel-body"><div class="note note-info"><h4 class="note-title"><span translate>SCREEN_TEXT_INFORMATION_TITLE</span></h4><p><span translate>SCREEN_TEXT_INFORMATION_MESSAGE_1</span></p><p><span translate>SCREEN_TEXT_INFORMATION_MESSAGE_2</span></p></div></div></div>
+<div></div>
+<div class="hidden"></div>

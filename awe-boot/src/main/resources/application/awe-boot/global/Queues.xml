@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Queues.xml
+    Created on : 31 de octubre de 2013
+    Author     : Pablo GARCIA
+    Description: JMS queue connection definition
+-->
+
+<queues xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/queues.xsd">
+
+  <!-- Queue retreive sync test with wrappers -->
+  <queue id="SynQueWrpTxt">
+    <request-message destination="AweReq" type="TEXT" selector="wrapper">
+      <message-wrapper type="XML" classname="com.almis.awe.test.wrappers.Casa" />
+    </request-message>
+    <response-message destination="AweRes" type="TEXT">
+      <message-wrapper type="XML" classname="com.almis.awe.test.wrappers.Casa" />
+    </response-message>
+  </queue>
+
+  <!-- Queue retreive sync test (parameter list) -->
+  <queue id="TstGrdQue">
+    <request-message destination="AweReq" type="MAP" selector="grid">
+    </request-message>
+    <response-message destination="AweRes" type="MAP">
+      <message-parameter id="OutFld1" type="STRING" name="MapKey1" list="true" />
+      <message-parameter id="OutFld2" type="STRING" name="MapKey2" list="true" />
+      <message-parameter id="OutFld3" type="STRING" name="MapKey3" list="true" />
+      <message-parameter id="OutFld4" type="STRING" name="MapKey4" list="true" />
+    </response-message>
+  </queue>
+
+  <!-- Maintain sync test -->
+  <queue id="TstQueSndSyn">
+    <request-message destination="AweReq" type="TEXT" selector="maintain">
+      <message-parameter id="Usr" type="STRING" name="Usr" />
+    </request-message>
+    <response-message destination="AweRes" type="MAP">
+      <message-status type="Type" translate="EnuTrnJmsMsg" title="Title" description="Description" />
+    </response-message>
+  </queue>
+
+  <!-- Maintain async test -->
+  <queue id="TstQueSndAsy">
+    <request-message destination="AweTopic" type="MAP">
+      <message-parameter id="Usr" type="STRING" name="Usr" />
+    </request-message>
+  </queue>
+
+  <!-- Subscribe test -->
+  <queue id="TstSubChr">
+    <response-message destination="AweTopic" type="MAP" selector="type = 'angular'">
+      <message-wrapper type="OBJECT" classname="com.almis.awe.test.wrappers.Topic"/>
+    </response-message>
+  </queue>
+
+</queues>
+

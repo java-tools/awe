@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Email.xml
+    Created on : 28 de Noviembre de 2011
+    Author     : Aitor UGARTE
+    Description: Email define file
+-->
+
+<emails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/email.xsd">
+  <email id="SndRep">
+    <from query="SesUsr" label="SesNam" value="SesEma" />
+    <to query="GetEmaLst" label="UsrNam" value="UsrEml" />
+    <subject label="EMAIL_SUBJECT_REPORT" value="asd"/>
+    <body label="EMAIL_MESSAGE_HTML_HEADER" type="html" value=""/>
+    <body label="EMAIL_MESSAGE_HTML_REPORT" type="html" value=""/>
+    <body label="EMAIL_MESSAGE_HTML_BOTTOM" type="html" value=""/>
+    <body label="EMAIL_MESSAGE_TEXT_REPORT" type="text" value=""/>
+    <attachment value="PdfNam" label="EMAIL_FILE_PDF" />
+    <attachment value="DocNam" label="EMAIL_FILE_DOC" />
+    <attachment value="XlsNam" label="EMAIL_FILE_XLS" />
+  </email>
+
+  <email id="EmlActUsr">
+    <from query="SesUsr" label="SesNam" value="SesEma" />
+    <to query="GetActUsrEmaLst" label="UsrNam" value="UsrEml" />
+    <subject label="EMAIL_SUBJECT_GENERAL" />
+    <body label="EMAIL_MESSAGE_HTML_HEADER" type="html" />
+    <body label="EMAIL_MESSAGE_HTML_GENERAL" type="html" />
+    <body label="EMAIL_MESSAGE_HTML_BOTTOM" type="html" />
+    <body label="EMAIL_MESSAGE_TEXT_GENERAL" type="text" />
+  </email>
+
+  <email id="SchTskEmaRep">
+    <from value="FromValue" label="FromValue" />
+    <to label="ToValue" value="ToValue" />
+    <subject label="RepTit" value="RepTit" />
+    <body label="RepMsg" type="html" value="RepMsg"/>
+    <body label="RepMsg" type="text" value="RepMsg"/>
+    <variable type="STRING" id="FromValue" value="wtm.manager@almis.com" /> <!--property="sch.report.email"/>-->
+    <variable type="STRING" id="ToValue" value="wtm.manager@almis.com" />
+    <variable type="STRING" id="RepMsg" value="Hello world msg" /><!--name="RepMsg"/>-->
+    <variable type="STRING" id="RepTit" value="Hello world sbj" /> <!--name="RepTit"/>-->
+  </email>
+</emails>

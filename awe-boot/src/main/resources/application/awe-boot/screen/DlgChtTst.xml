@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="Test dialog">
+  <tag source="center">
+    <dialog id="DlgChtTst" modal="true" style="biggest">
+      <window style="expand expandable_vertical" label="SCREEN_TEXT_LINE_CHART">
+        <tag type="div" style="expand panel-body expandable_vertical">
+          <tag type="div" style="expand expandable_vertical">
+            <!--        <widget type="div" style="expand" name="ChrLinTstDlg" component="linechart" initial-load="query" target-action="TstChrTwoSrc" max="21">
+                       <widget_parameter name="theme" align="left" value="Day"/>
+                       <widget_parameter name="smoothSeriesRenderer" type="boolean" value="true"/>
+                       <widget_parameter name="showLegend" type="boolean" value="true"/>
+                       <widget_parameter name="labelsLegend" type="array">
+                         <widget_parameter type="label" value="SCREEN_TEXT_CHART_SERIE_1"/>
+                         <widget_parameter type="label" value="SCREEN_TEXT_CHART_SERIE_2"/>
+                       </widget_parameter>
+                       <context_button name="CtxLinTstRef" label="BUTTON_RELOAD" style="refresh">
+                         <button_action type="filter" destination="target" specific-target="ChrLinTst"/>
+                       </context_button>
+                     </widget>
+            -->
+          </tag>
+        </tag>
+      </window>
+    </dialog>
+  </tag>
+</screen>
