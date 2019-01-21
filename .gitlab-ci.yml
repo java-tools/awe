@@ -3,6 +3,7 @@ image: maven:3.5-jdk-8
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN"  
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
 
 cache:
@@ -27,21 +28,14 @@ build:
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS verify
-    - mvn $MAVEN_CLI_OPTS verify -DgenerateAggregationReport=true -DskipTestProject=true
+    - mvn $MAVEN_CLI_OPTS verify  -DgenerateAggregationReport=true
     - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
+    - mvn $MAVEN_CLI_OPTS sonar:sonar $SONAR_OPTS
 
   artifacts:
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
-
-sonar-check:
-    stage: analize
-    script:
-    - mvn $MAVEN_CLI_OPTS verify sonar:sonar -Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
-    dependencies:
-    - test
     
 deploy:
   stage: deploy
@@ -75,8 +69,9 @@ release:
     - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
   when: manual
   
-dependency_scanning:
+dependency_scanning:  
   image: docker:stable
+  stage: analize
   variables:
     DOCKER_DRIVER: overlay2
   allow_failure: true

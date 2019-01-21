@@ -35,9 +35,13 @@
     <check.xml.directory>${project.build.directory}/classes/application/</check.xml.directory>
 
     <!-- Sonar configuration -->
+    <sonar.links.homepage>https://git.almis.com/isban-market-risk/fx-blotter</sonar.links.homepage>
+    <sonar.links.ci>https://gitlab.com/awe-team/awe/pipelines</sonar.links.ci>
+    <sonar.links.issue>https://gitlab.com/awe-team/awe/issues</sonar.links.issue>
+    <sonar.links.scm>https://gitlab.com/awe-team/awe.git</sonar.links.scm>
     <sonar.junit.reportPath>target/surefire-reports</sonar.junit.reportPath>
-    <sonar.jacoco.reportPaths>${project.basedir}/../awe-framework/target/jacoco.exec</sonar.jacoco.reportPaths>
-    <jacoco.reportPaths>${project.basedir}/../awe-framework/target/coverage-reports</jacoco.reportPaths>
+    <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/jacoco.exec</sonar.jacoco.reportPaths>
+    <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <jacoco.version>0.8.2</jacoco.version>
     
