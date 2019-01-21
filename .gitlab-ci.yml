@@ -52,9 +52,9 @@ deploy:
     - develop    
     
 pages:
-  stage: site
+  stage: deploy
   dependencies:
-    - deploy
+    - site
   script:
     - mkdir .public
     - cp target/apidocs .public/apidocs
