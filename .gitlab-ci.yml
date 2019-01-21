@@ -15,6 +15,7 @@ stages:
     - build
     - test
     - analize
+    - site
     - deploy
     
 build:
@@ -36,7 +37,7 @@ test:
       - awe-boot/target/surefire-reports/TEST-*.xml
 
 site:
-  stage: deploy
+  stage: site
   script:
     - mvn $MAVEN_CLI_OPTS site
   artifacts:
