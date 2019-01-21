@@ -1,7 +1,9 @@
 package com.almis.awe.test.builder;
 
+import com.almis.awe.builder.enumerates.Expandible;
 import com.almis.awe.builder.enumerates.OnClose;
 import com.almis.awe.builder.screen.*;
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.screen.Include;
 import com.almis.awe.model.entities.screen.Message;
 import com.almis.awe.model.entities.screen.Screen;
@@ -45,9 +47,14 @@ public class ScreenBuilderTest {
    */
   @Test
   public void buildScreenInvalidId() throws Exception {
-    ScreenBuilder builder = new ScreenBuilder()
-      .setId("aR!$fg");
-    Screen screen = builder.build();
+    try {
+      ScreenBuilder builder = new ScreenBuilder()
+        .setId("aR!$fg");
+    } catch (AWException exc) {
+      assertTrue(true);
+      return;
+    }
+    assertTrue(false);
   }
 
   /**
@@ -62,11 +69,13 @@ public class ScreenBuilderTest {
         .setLabel("LABEL")
         .setSource("center")
         .setStyle("expand")
+        .setExpandible(Expandible.VERTICAL)
         .setType("div"));
     Screen screen = builder.build();
     assertEquals(screen.getElementList().get(0).getLabel(), "LABEL");
     assertEquals(screen.getElementList().get(0).getSource(), "center");
     assertEquals(screen.getElementList().get(0).getStyle(), "expand");
+    assertTrue(Expandible.VERTICAL.equalsStr(screen.getElementList().get(0).getExpand()));
     assertEquals(screen.getElementList().get(0).getType(), "div");
   }
 
