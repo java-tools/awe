@@ -28,9 +28,8 @@ build:
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS verify  -DgenerateAggregationReport=true
+    - mvn $MAVEN_CLI_OPTS test sonar:sonar -DgenerateAggregationReport=true $SONAR_OPTS
     - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
-    - mvn $MAVEN_CLI_OPTS sonar:sonar $SONAR_OPTS
 
   artifacts:
     reports:
