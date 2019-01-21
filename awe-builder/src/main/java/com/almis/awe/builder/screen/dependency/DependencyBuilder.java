@@ -357,9 +357,6 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
    */
   public DependencyBuilder addDependencyAction(DependencyActionBuilder... dependencyAction) {
     if (dependencyAction != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyAction));
     }
     return this;
@@ -373,9 +370,6 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
    */
   public DependencyBuilder addDependencyElement(DependencyElementBuilder... dependencyElement) {
     if (dependencyElement != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyElement));
     }
     return this;

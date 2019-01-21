@@ -51,24 +51,24 @@ public enum ServerAction {
   VALUE_TARGET_MESSAGE("value-target-message"),
   VIEW_PDF_FILE("view-pdf-report");
 
-  private final String serverAction;
+  private final String value;
 
-  private ServerAction(String serverAction) {
-    this.serverAction = serverAction;
+  ServerAction(String value) {
+    this.value = value;
   }
 
   /**
    * Compares current value with the given string
    *
-   * @param serverAction
+   * @param value
    * @return
    */
-  public boolean equalsStr(String serverAction) {
-    return this.serverAction.equals(serverAction);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.serverAction;
+    return this.value;
   }
 }

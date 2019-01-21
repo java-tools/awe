@@ -340,9 +340,6 @@ public class WidgetBuilder extends AweBuilder<WidgetBuilder> {
    */
   public WidgetBuilder addContextButton(ContextButtonBuilder... contextButtonBuilder) {
     if (contextButtonBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextButtonBuilder));
     }
     return this;
@@ -356,9 +353,6 @@ public class WidgetBuilder extends AweBuilder<WidgetBuilder> {
    */
   public WidgetBuilder addContextSeparator(ContextSeparatorBuilder... contextSeparatorBuilder) {
     if (contextSeparatorBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextSeparatorBuilder));
     }
     return this;
@@ -388,9 +382,6 @@ public class WidgetBuilder extends AweBuilder<WidgetBuilder> {
    */
   public WidgetBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;

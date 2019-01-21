@@ -30,25 +30,25 @@ public enum Event {
   SELECT_ROW("select-row"),
   ZOOM("zoom");
   
-  private final String event;
+  private final String value;
 
-  private Event(String event) {
-    this.event = event;
+  private Event(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param event
+   * @param value
    * @return
    */
-  public boolean equalsStr(String event) {
-    return this.event.equals(event);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.event;
+    return this.value;
   }
   
 }

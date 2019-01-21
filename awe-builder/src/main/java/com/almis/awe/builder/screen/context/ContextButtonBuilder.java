@@ -62,9 +62,6 @@ public class ContextButtonBuilder extends ButtonBuilder {
    */
   public ContextButtonBuilder addContextButton(ContextButtonBuilder... contextButton) {
     if (contextButton != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextButton));
     }
     return this;
@@ -79,9 +76,6 @@ public class ContextButtonBuilder extends ButtonBuilder {
    */
   public ContextButtonBuilder addContextSeparator(ContextSeparatorBuilder... contextSeparator) {
     if (contextSeparator != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextSeparator));
     }
     return this;

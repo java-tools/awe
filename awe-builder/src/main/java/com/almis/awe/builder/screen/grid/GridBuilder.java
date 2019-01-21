@@ -761,9 +761,6 @@ public class GridBuilder extends AweBuilder<GridBuilder> {
    */
   public GridBuilder addColumn(ColumnBuilder... column) {
     if(column != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(column));
     }
     return this;
@@ -777,9 +774,6 @@ public class GridBuilder extends AweBuilder<GridBuilder> {
    */
   public GridBuilder addButton(ButtonBuilder... button) {
     if(button != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(button));
     }
     return this;
@@ -792,9 +786,6 @@ public class GridBuilder extends AweBuilder<GridBuilder> {
    */
   public GridBuilder addContextButton(ContextButtonBuilder... contextButton) {
     if(contextButton != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList();
-      }
       this.elements.addAll(Arrays.asList(contextButton));
     }
     return this;
@@ -808,9 +799,6 @@ public class GridBuilder extends AweBuilder<GridBuilder> {
    */
   public GridBuilder addContextSeparator(ContextSeparatorBuilder... contextSeparator) {
     if( contextSeparator != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextSeparator));
     }
     return this;
@@ -824,9 +812,6 @@ public class GridBuilder extends AweBuilder<GridBuilder> {
    */
   public GridBuilder addGroupHeader(GroupHeaderBuilder... groupHeader) {
     if(groupHeader!= null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(groupHeader));
     }
     return this;
@@ -840,9 +825,6 @@ public class GridBuilder extends AweBuilder<GridBuilder> {
    */
   public GridBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;

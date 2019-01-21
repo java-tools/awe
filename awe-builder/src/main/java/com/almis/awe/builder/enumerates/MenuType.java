@@ -14,24 +14,24 @@ public enum MenuType {
   VERTICAL("vertical"),
   HORIZONTAL("horizontal");
 
-  private final String menuType;
+  private final String value;
 
-  private MenuType(String menuType) {
-    this.menuType = menuType;
+  MenuType(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param menuType
+   * @param value
    * @return
    */
-  public boolean equalsStr(String menuType) {
-    return this.menuType.equals(menuType);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.menuType;
+    return this.value;
   }
 }

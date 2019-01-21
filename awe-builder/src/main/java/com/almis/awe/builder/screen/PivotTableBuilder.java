@@ -496,9 +496,6 @@ public class PivotTableBuilder extends AweBuilder<PivotTableBuilder> {
    */
   public PivotTableBuilder addContextButton(ContextButtonBuilder... contextButtonBuilders) {
     if (contextButtonBuilders != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextButtonBuilders));
     }
     return this;
@@ -512,9 +509,6 @@ public class PivotTableBuilder extends AweBuilder<PivotTableBuilder> {
    */
   public PivotTableBuilder addContextSeparator(ContextSeparatorBuilder... contextSeparatorBuilders) {
     if (contextSeparatorBuilders != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextSeparatorBuilders));
     }
     return this;
@@ -528,9 +522,6 @@ public class PivotTableBuilder extends AweBuilder<PivotTableBuilder> {
    */
   public PivotTableBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;

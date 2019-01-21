@@ -23,24 +23,24 @@ public enum IconLoading {
   SQUARE("square"),
   SQUAREBAR("squarebar");
   
-  private final String iconLoading;
+  private final String value;
 
-  private IconLoading(String iconLoading) {
-    this.iconLoading = iconLoading;
+  IconLoading(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param iconLoading
+   * @param value
    * @return
    */
-  public boolean equalsStr(String iconLoading) {
-    return this.iconLoading.equals(iconLoading);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.iconLoading;
+    return this.value;
   }
 }

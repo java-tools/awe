@@ -27,25 +27,25 @@ public enum ChartType {
   SEMICIRCLE("semicircle"),
   SPLINE("spline");
   
-  private final String chartType;
+  private final String value;
 
-  private ChartType(String chartType) {
-    this.chartType = chartType;
+  private ChartType(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param chartType
+   * @param value
    * @return
    */
-  public boolean equalsStr(String chartType) {
-    return this.chartType.equals(chartType);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.chartType;
+    return this.value;
   }
   
 }

@@ -17,24 +17,24 @@ public enum Renderer {
   TABLE("Table"),
   TABLE_BARCHART("Table Barchart");
   
-  private final String renderer;
+  private final String value;
 
-  private Renderer(String renderer) {
-    this.renderer = renderer;
+  Renderer(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param iconrendererLoading
+   * @param value
    * @return
    */
-  public boolean equalsStr(String iconrendererLoading) {
-    return this.renderer.equals(renderer);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.renderer;
+    return this.value;
   }
 }

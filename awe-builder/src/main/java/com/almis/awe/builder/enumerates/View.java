@@ -14,25 +14,25 @@ public enum View {
   BASE("base"),
   REPORT("report");
   
-  private final String view;
+  private final String value;
 
-  private View(String view) {
-    this.view = view;
+  private View(String value) {
+    this.value = value;
   }
 
   /**
    * Compares current value with the given string
    *
-   * @param view
+   * @param value
    * @return
    */
-  public boolean equalsStr(String view) {
-    return this.view.equals(view);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.view;
+    return this.value;
   }
   
 }

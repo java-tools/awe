@@ -13,24 +13,24 @@ public enum Stacking {
   NORMAL("normal"),
   PERCENT("percent");
   
-  private final String stacking;
+  private final String value;
   
-  private Stacking(String stacking) {
-    this.stacking = stacking;
+  Stacking(String value) {
+    this.value = value;
   }
 
   /**
    * Compares current value with the given string
    *
-   * @param stacking
+   * @param value
    * @return
    */
-  public boolean equalsStr(String stacking) {
-    return this.stacking.equals(stacking);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.stacking;
+    return this.value;
   }
 }

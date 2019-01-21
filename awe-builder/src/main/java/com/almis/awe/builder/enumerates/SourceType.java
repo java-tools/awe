@@ -22,25 +22,25 @@ public enum SourceType {
   RESET("reset"),
   VALUE("value");
   
-  private final String sourceType;
+  private final String value;
 
-  private SourceType(String sourceType) {
-    this.sourceType = sourceType;
+  SourceType(String value) {
+    this.value = value;
   }
 
   /**
    * Compares current value with the given string
    *
-   * @param sourceType
+   * @param value
    * @return
    */
-  public boolean equalsStr(String sourceType) {
-    return this.sourceType.equals(sourceType);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.sourceType;
+    return this.value;
   }
 
 }

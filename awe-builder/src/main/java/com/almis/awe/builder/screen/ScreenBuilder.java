@@ -37,9 +37,8 @@ public class ScreenBuilder extends AweBuilder<ScreenBuilder> {
    *
    * @throws AWException
    */
-  public ScreenBuilder(AweElements aweElements) throws AWException {
+  public ScreenBuilder() throws AWException {
     super();
-    this.aweElements = aweElements;
   }
 
   @Override
@@ -55,43 +54,49 @@ public class ScreenBuilder extends AweBuilder<ScreenBuilder> {
   /**
    * Specific build that returns a service data with a screen client action.
    *
-   * @return
+   * @return Client action with new screen generated
    *
    * @throws AWException
    */
-  public ServiceData build() throws AWException {
-    ServiceData serviceData = new ServiceData();
+  public ServiceData buildClientAction(AweElements aweElements) throws AWException {
+    // Generate screen
+    Screen screen = build();
 
-    //Generate screen
-    Screen screen = (Screen) build(new Screen());
-
-    //Override screen in cache
+    // Override screen in cache
     aweElements.setScreen(screen);
 
-    //Modify menu options with the new screen
-    Menu menu = generateOptionMenu(screen);
+    // Modify menu options with the new screen
+    Menu menu = generateOptionMenu(screen, aweElements);
 
-    //Override menu in cache
+    // Add screen to menu
     aweElements.setMenu(getMenuType(), menu);
 
-    // Override menu in cache
-    ClientAction clientAction = new ClientAction("screen");
+    // Generate client action to retrieve screen
+    ClientAction clientAction = new ClientAction("screen")
+      .setTarget(screen.getId());
 
-    clientAction.setTarget(screen.getId());
+    return new ServiceData()
+      .addClientAction(clientAction);
+  }
 
-    serviceData.addClientAction(clientAction);
-
-    return serviceData;
+  /**
+   * Specific build that returns a service data with a screen client action.
+   *
+   * @return Generated screen
+   */
+  public Screen build() {
+    return (Screen) build(new Screen());
   }
 
   /**
    * Generate option menu
    *
-   * @param screen
+   * @param screen Screen
+   * @param aweElements Awe Elements
    *
    * @return
    */
-  private Menu generateOptionMenu(Screen screen) throws AWException {
+  private Menu generateOptionMenu(Screen screen, AweElements aweElements) throws AWException {
     // Generate option
     Option option = new Option()
       .setScreen(screen.getId())
@@ -317,9 +322,6 @@ public class ScreenBuilder extends AweBuilder<ScreenBuilder> {
    */
   public ScreenBuilder addTag(TagBuilder... tag) {
     if (tag != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(tag));
     }
     return this;
@@ -334,9 +336,6 @@ public class ScreenBuilder extends AweBuilder<ScreenBuilder> {
    */
   public ScreenBuilder addMessage(MessageBuilder... message) {
     if (message != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(message));
     }
     return this;

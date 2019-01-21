@@ -77,16 +77,6 @@ public abstract class AweBuilder<T> implements IBuilderInitializer<T> {
   public abstract Element build(Element element);
 
   /**
-   * Get element list from the given element
-   *
-   * @param element Element
-   * @return Element list
-   */
-  protected List<Element> getElementList(Element element) {
-    return element.getElementList();
-  }
-
-  /**
    * Add an element to the list
    *
    * @param parent Parent element

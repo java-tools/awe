@@ -560,9 +560,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    * @return
    */
   public ChartBuilder addChartLegend(ChartLegendBuilder chartLegend) {
-    if (this.elements == null) {
-      this.elements = new ArrayList<>();
-    }
     this.elements.add(chartLegend);
     return this;
   }
@@ -575,9 +572,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addChartParameter(ChartParameterBuilder... chartParameter) {
     if (chartParameter != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(chartParameter));
     }
     return this;
@@ -591,9 +585,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addChartSerieList(ChartSerieBuilder... chartSerie) {
     if (chartSerie != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(chartSerie));
     }
     return this;
@@ -607,9 +598,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addChartTooltip(ChartTooltipBuilder... chartTooltip) {
     if (chartTooltip != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(chartTooltip));
     }
     return this;
@@ -623,9 +611,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addContextButton(ContextButtonBuilder... contextButton) {
     if (contextButton != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextButton));
     }
     return this;
@@ -639,9 +624,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addContextButton(ContextSeparatorBuilder... contextSeparator) {
     if (contextSeparator != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextSeparator));
     }
     return this;
@@ -705,9 +687,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;

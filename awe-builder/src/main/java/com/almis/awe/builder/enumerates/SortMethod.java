@@ -13,24 +13,24 @@ public enum SortMethod {
   ABSOLUTE("absolute"),
   NATURAL("natural");
   
-  private final String sortMethod;
+  private final String value;
 
-  private SortMethod(String sortMethod) {
-    this.sortMethod = sortMethod;
+  SortMethod(String value) {
+    this.value = value;
   }
 
   /**
    * Compares current value with the given string
    *
-   * @param sortMethod
+   * @param value
    * @return
    */
-  public boolean equalsStr(String sortMethod) {
-    return this.sortMethod.equals(sortMethod);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.sortMethod;
+    return this.value;
   }
 }

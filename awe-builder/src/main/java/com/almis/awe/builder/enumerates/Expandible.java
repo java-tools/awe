@@ -14,24 +14,24 @@ public enum Expandible {
   VERTICAL("vertical"),
   HORIZONTAL("horizontal");
 
-  private final String expandible;
+  private final String value;
 
-  private Expandible(String expandible) {
-    this.expandible = expandible;
+  private Expandible(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param expandible
+   * @param value
    * @return
    */
-  public boolean equalsStr(String expandible) {
-    return this.expandible.equals(expandible);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.expandible;
+    return this.value;
   }
 }

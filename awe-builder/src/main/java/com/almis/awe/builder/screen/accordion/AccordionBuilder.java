@@ -137,9 +137,6 @@ public class AccordionBuilder extends AweBuilder<AccordionBuilder> {
    */
   public AccordionBuilder addAccordionItem(AccordionItemBuilder... accordionItem) {
     if (accordionItem != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(accordionItem));
     }
     return this;
@@ -153,9 +150,6 @@ public class AccordionBuilder extends AweBuilder<AccordionBuilder> {
    */
   public AccordionBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;
