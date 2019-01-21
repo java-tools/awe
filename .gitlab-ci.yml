@@ -15,6 +15,7 @@ stages:
     - build
     - test
     - analize
+    - site
     - deploy
     
 build:
@@ -27,7 +28,6 @@ test:
   script:
     - mvn $MAVEN_CLI_OPTS test sonar:sonar -DgenerateAggregationReport=true $SONAR_OPTS
     - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
-
   artifacts:
     paths:
       - awe-boot/target/surefire-reports/
@@ -35,30 +35,37 @@ test:
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
+
+site:
+  stage: site
+  script:
+    - mvn $MAVEN_CLI_OPTS site
+  artifacts:
+    paths:
+      - target/apidocs
+      - awe-generic-screens/src/main/resources/schemas/        
     
 deploy:
   stage: deploy
   script:
-    - mvn $MAVEN_CLI_OPTS deploy -DskipTests
-  artifacts:
-    paths:
-       - awe-generic-screens/src/main/resources/schemas/
-       - target/apidocs
+    - mvn $MAVEN_CLI_OPTS deploy -DskipTests      
   only:
     - develop    
     
 pages:
   stage: deploy
+  dependencies:
+    - site
   script:
     - mkdir .public
-    - cp -r * .public
+    - cp target/apidocs .public/apidocs
+    - cp awe-generic-screens/src/main/resources/schemas/awe ./public/schemas/awe
     - mv .public public
   artifacts:
     paths:
       - public
   only:
     - develop
-  when: always
 
 release:
   stage: deploy
