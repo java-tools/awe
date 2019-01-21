@@ -41,7 +41,7 @@ site:
     - mvn $MAVEN_CLI_OPTS site
   artifacts:
     paths:
-      - target/site/apidocs
+      - target/site/
       - awe-generic-screens/src/main/resources/schemas/        
     
 deploy:
