@@ -1,5 +1,5 @@
 
-package com.almis.awe.test;
+package com.almis.awe.test.rest;
 
 
 import com.almis.awe.model.dto.ServiceData;
@@ -42,7 +42,6 @@ public class DataRestControllerTest {
 
   @Autowired
   private WebApplicationContext wac;
-  private MockMvc mockMvc;
   private String queryIdNoAuth = "SimpleEnumPub";
   private String queryIdAuth = "SimpleEnum";
   private String queryWithVariable = "QueryVariableInField";
@@ -53,7 +52,7 @@ public class DataRestControllerTest {
    */
   @Before
   public void setup() throws Exception {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    MockMvcBuilders.webAppContextSetup(this.wac).build();
     this.headers.put("Authorization", Arrays.asList("Basic dGVzdDp0ZXN0"));
   }
 

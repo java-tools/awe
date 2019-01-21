@@ -133,9 +133,6 @@
         list="true" />
     </java>
   </service>
-  <service id="checkCurrentSession" launch-phase="CLIENT_START">
-    <java classname="com.almis.awe.test.Session" method="checkCurrentSession" />
-  </service>
   <!-- <service id="startScheduler" launch-phase="APPLICATION_START"> <java
     classname="com.almis.awe.scheduler.controller.SchedulerController" method="startNoQuartz"
     /> </service> <se<servicervice id="startScheduler" launch-phase="APPLICATION_START">
