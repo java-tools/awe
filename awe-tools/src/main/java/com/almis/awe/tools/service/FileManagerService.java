@@ -35,6 +35,7 @@ public class FileManagerService implements InitializingBean {
   private static final String RESULT = "result";
   private static final String ITEMS = "items";
   private static final String NEW_PATH = "newPath";
+  private static final String ERROR_PATH = "Error getting fileManager path";
 
   // Logger
   private Logger logger = LogManager.getLogger(FileManagerService.class);
@@ -134,9 +135,7 @@ public class FileManagerService implements InitializingBean {
     List<String> fileList = new ArrayList<>();
     for (String file : Arrays.asList(items)) {
       // Check path
-      if (resolvePath(basePath, file) != null) {
-        fileList.add(Paths.get(repositoryBasePath, file).toString());
-      }
+      fileList.add(resolvePath(basePath, file).toString());
     }
 
     // Build zip
@@ -765,21 +764,16 @@ public class FileManagerService implements InitializingBean {
    */
   private Path resolvePath(final Path baseDirPath, final String strFileManagerPath) {
 
+    // Check basedir
     if (!baseDirPath.isAbsolute()) {
-      logger.error("Error getting fileManager path" + baseDirPath);
+      logger.error(ERROR_PATH + baseDirPath);
       throw new IllegalArgumentException("FileManager: base path must be absolute");
     }
 
-    // Restrict the username to letters and digits only
-    if (!strFileManagerPath.matches("[a-zA-Z0-9]++")) {
-      logger.error("Error getting fileManager path" + strFileManagerPath);
-      throw new IllegalArgumentException("FileManager: path must be relative without .. elements");
-    }
-
-    Path fileManagerPath = Paths.get(".", strFileManagerPath);
-
+    // Check file manager path
+    Path fileManagerPath = Paths.get(strFileManagerPath);
     if (fileManagerPath.isAbsolute()) {
-      logger.error("Error getting fileManager path" + fileManagerPath);
+      logger.error(ERROR_PATH + fileManagerPath);
       throw new IllegalArgumentException("FileManager: path must be relative");
     }
 

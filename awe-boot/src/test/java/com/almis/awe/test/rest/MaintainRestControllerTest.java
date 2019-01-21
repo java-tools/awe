@@ -1,4 +1,4 @@
-package com.almis.awe.test;
+package com.almis.awe.test.rest;
 
 import com.almis.awe.model.dto.ServiceData;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +40,6 @@ public class MaintainRestControllerTest {
 
   @Autowired
   private WebApplicationContext wac;
-  private MockMvc mockMvc;
 
   //inserts
   private String insert = "testInsert";
@@ -57,7 +56,7 @@ public class MaintainRestControllerTest {
    */
   @Before
   public void setup() throws Exception {
-    this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    MockMvcBuilders.webAppContextSetup(this.wac).build();
     this.headers.put("Authorization", Arrays.asList("Basic dGVzdDp0ZXN0"));
   }
 
