@@ -14,24 +14,24 @@ public enum DateViewMode {
   MONTHS("months"),
   YEARS("years");
   
-  private final String viewMode;
+  private final String value;
   
-  private DateViewMode(String viewMode) {
-    this.viewMode = viewMode;
+  private DateViewMode(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param viewMode
+   * @param value
    * @return
    */
-  public boolean equalsStr(String viewMode) {
-    return this.viewMode.equals(viewMode);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.viewMode;
+    return this.value;
   }
 }

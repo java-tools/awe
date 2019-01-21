@@ -16,24 +16,24 @@ public enum Source {
   MODAL("modal"),
   HIDDEN("hidden");
 
-  private final String source;
+  private final String value;
 
-  private Source(String source) {
-    this.source = source;
+  Source(String value) {
+    this.value = value;
   }
 
   /**
    * Compares current value with the given string
    *
-   * @param source
+   * @param value
    * @return
    */
-  public boolean equalsStr(String source) {
-    return this.source.equals(source);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.source;
+    return this.value;
   }
 }

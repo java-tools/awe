@@ -396,9 +396,6 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    */
   public InfoBuilder addInfo(InfoBuilder... info) {
     if (info != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(info));
     }
     return this;
@@ -412,9 +409,6 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    */
   public InfoBuilder addInfoButton(InfoButtonBuilder... infoButton) {
     if (infoButton != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(infoButton));
     }
     return this;
@@ -428,9 +422,6 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    */
   public InfoBuilder addInfoCriteria(InfoCriteriaBuilder... infoCriteria) {
     if (infoCriteria != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(infoCriteria));
     }
     return this;
@@ -444,9 +435,6 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    */
   public InfoBuilder addTag(TagBuilder... tag) {
     if (tag != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(tag));
     }
     return this;
@@ -460,9 +448,6 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    */
   public InfoBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;

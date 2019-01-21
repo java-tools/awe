@@ -35,25 +35,25 @@ public enum Aggregator {
   SUM_AS_FRACTION_OF_TOTAL("Sum as Fraction of Total"),
   SUM_OVER_SUM("Sum Over Sum");
 
-  private final String aggregator;
+  private final String value;
 
-  private Aggregator(String aggregator) {
-    this.aggregator = aggregator;
+  private Aggregator(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param aggregator
+   * @param value
    * @return
    */
-  public boolean equalsStr(String aggregator) {
-    return this.aggregator.equals(aggregator);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.aggregator;
+    return this.value;
   }
 
 }

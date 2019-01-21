@@ -259,9 +259,6 @@ public class ButtonBuilder extends AweBuilder<ButtonBuilder> {
    */
   public ButtonBuilder addButtonAction(ButtonActionBuilder... buttonActionBuilder) {
     if (buttonActionBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(buttonActionBuilder));
     }
     return this;
@@ -275,9 +272,6 @@ public class ButtonBuilder extends AweBuilder<ButtonBuilder> {
    */
   public ButtonBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;

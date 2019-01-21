@@ -16,25 +16,25 @@ public enum Printable {
   TAB("tab"),
   TRUE("true");
   
-  private final String printable;
+  private final String value;
 
-  private Printable(String printable) {
-    this.printable = printable;
+  Printable(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param printable
+   * @param value
    * @return
    */
-  public boolean equalsStr(String printable) {
-    return this.printable.equals(printable);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.printable;
+    return this.value;
   }
   
 }

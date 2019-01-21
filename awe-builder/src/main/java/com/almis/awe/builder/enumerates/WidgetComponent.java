@@ -12,24 +12,24 @@ package com.almis.awe.builder.enumerates;
 public enum WidgetComponent {
   FILE_VIEWER("file_viewer");
           
-  private final String component;
+  private final String value;
 
-  private WidgetComponent(String component) {
-    this.component = component;
+  private WidgetComponent(String value) {
+    this.value = value;
   }
 
   /**
    * Compares current value with the given string
    *
-   * @param component
+   * @param value
    * @return
    */
-  public boolean equalsStr(String component) {
-    return this.component.equals(component);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.component;
+    return this.value;
   }
 }

@@ -36,24 +36,24 @@ public enum TargetType {
   UNIT("unit"),
   VALIDATE("validate");
   
-  private final String targetType;
+  private final String value;
 
-  private TargetType(String targetType) {
-    this.targetType = targetType;
+  TargetType(String value) {
+    this.value = value;
   }
 
   /**
    * Compares current value with the given string
    *
-   * @param sourceType
+   * @param value
    * @return
    */
-  public boolean equalsStr(String sourceType) {
-    return this.targetType.equals(sourceType);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.targetType;
+    return this.value;
   }
 }

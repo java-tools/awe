@@ -15,24 +15,24 @@ public enum ButtonType {
   RESET("reset"),
   SUBMIT("submit");
 
-  private final String buttonType;
+  private final String value;
 
-  private ButtonType(String buttonType) {
-    this.buttonType = buttonType;
+  private ButtonType(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param buttonType
+   * @param value
    * @return
    */
-  public boolean equalsStr(String buttonType) {
-    return this.buttonType.equals(buttonType);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.buttonType;
+    return this.value;
   }
 }

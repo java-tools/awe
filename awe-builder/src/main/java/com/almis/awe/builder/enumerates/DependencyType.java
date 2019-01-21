@@ -14,24 +14,24 @@ public enum DependencyType {
   AND("and"),
   OR("or");
 
-  private final String dependencyType;
+  private final String value;
 
-  private DependencyType(String dependencyType) {
-    this.dependencyType = dependencyType;
+  private DependencyType(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param dependencyType
+   * @param value
    * @return
    */
-  public boolean equalsStr(String dependencyType) {
-    return this.dependencyType.equals(dependencyType);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.dependencyType;
+    return this.value;
   }
 }

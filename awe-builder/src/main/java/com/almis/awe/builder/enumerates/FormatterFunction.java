@@ -12,24 +12,24 @@ package com.almis.awe.builder.enumerates;
 public enum FormatterFunction {
   FORMAT_CURRENCY_MAGNITUDE("formatCurrencyMagnitude");
   
-  private final String formatterFunction;
+  private final String value;
 
-  private FormatterFunction(String formatterFunction) {
-    this.formatterFunction = formatterFunction;
+  private FormatterFunction(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param formatterFunction
+   * @param value
    * @return
    */
-  public boolean equalsStr(String formatterFunction) {
-    return this.formatterFunction.equals(formatterFunction);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.formatterFunction;
+    return this.value;
   }
 }

@@ -67,24 +67,24 @@ public enum DependencyActionType {
   VALIDATE("validate"),
   VALUE("value");
   
-  private final String dependencyAction;
+  private final String value;
 
-  private DependencyActionType(String dependencyAction) {
-    this.dependencyAction = dependencyAction;
+  private DependencyActionType(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param dependencyAction
+   * @param value
    * @return
    */
-  public boolean equalsStr(String dependencyAction) {
-    return this.dependencyAction.equals(dependencyAction);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.dependencyAction;
+    return this.value;
   }
 }

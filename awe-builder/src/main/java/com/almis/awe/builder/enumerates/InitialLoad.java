@@ -14,24 +14,24 @@ public enum InitialLoad {
   QUERY("query"),
   VALUE("value");
   
-  private final String initialLoad;
+  private final String value;
   
-  private InitialLoad(String initialLoad){
-    this.initialLoad = initialLoad;
+  InitialLoad(String value){
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param initialLoad
+   * @param value
    * @return
    */
-  public boolean equalsStr(String initialLoad) {
-    return this.initialLoad.equals(initialLoad);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.initialLoad;
+    return this.value;
   }
 }

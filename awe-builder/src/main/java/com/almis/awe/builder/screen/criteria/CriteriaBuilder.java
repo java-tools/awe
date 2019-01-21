@@ -1048,9 +1048,6 @@ public class CriteriaBuilder extends AweBuilder<CriteriaBuilder> {
    */
   public CriteriaBuilder addContextButton(ContextButtonBuilder... contextButton) {
     if (contextButton != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextButton));
     }
     return this;
@@ -1064,9 +1061,6 @@ public class CriteriaBuilder extends AweBuilder<CriteriaBuilder> {
    */
   public CriteriaBuilder addContextSeparator(ContextSeparatorBuilder... contextSeparator) {
     if (contextSeparator != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextSeparator));
     }
     return this;
@@ -1080,9 +1074,6 @@ public class CriteriaBuilder extends AweBuilder<CriteriaBuilder> {
    */
   public CriteriaBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;

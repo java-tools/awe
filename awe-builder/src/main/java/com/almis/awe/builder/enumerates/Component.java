@@ -32,25 +32,25 @@ public enum Component {
   TIME("time"),
   UPLOADER("uploader");
   
-  private final String component;
+  private final String value;
 
-  private Component(String component) {
-    this.component = component;
+  private Component(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param component
+   * @param value
    * @return
    */
-  public boolean equalsStr(String component) {
-    return this.component.equals(component);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.component;
+    return this.value;
   }
   
 }

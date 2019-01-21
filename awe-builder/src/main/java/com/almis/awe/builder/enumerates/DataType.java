@@ -20,25 +20,25 @@ public enum DataType {
   OBJECT("object"),
   STRING("string");
           
-  private final String dataType;
+  private final String value;
 
-  private DataType(String dataType) {
-    this.dataType = dataType;
+  private DataType(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param dataType
+   * @param value
    * @return
    */
-  public boolean equalsStr(String dataType) {
-    return this.dataType.equals(dataType);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.dataType;
+    return this.value;
   }
   
 }

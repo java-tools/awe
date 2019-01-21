@@ -176,9 +176,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addTag(TagBuilder... tag) {
     if (tag != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(tag));
     }
     return this;
@@ -192,9 +189,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addAccordion(AccordionBuilder... accordion) {
     if (accordion != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(accordion));
     }
     return this;
@@ -208,9 +202,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addButton(ButtonBuilder... button) {
     if (button != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(button));
     }
     return this;
@@ -224,9 +215,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addChart(ChartBuilder... chart) {
     if (chart != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(chart));
     }
     return this;
@@ -240,9 +228,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addCriteria(CriteriaBuilder... criteria) {
     if (criteria != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(criteria));
     }
     return this;
@@ -256,9 +241,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addDialog(DialogBuilder... dialog) {
     if (dialog != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dialog));
     }
     return this;
@@ -272,9 +254,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addFrame(FrameBuilder... frame) {
     if (frame != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(frame));
     }
     return this;
@@ -288,9 +267,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addGrid(GridBuilder... grid) {
     if (grid != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(grid));
     }
     return this;
@@ -304,9 +280,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addInclude(IncludeBuilder... include) {
     if (include != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(include));
     }
     return this;
@@ -320,9 +293,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addInfo(InfoBuilder... info) {
     if (info != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(info));
     }
     return this;
@@ -336,9 +306,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addInfoButton(InfoButtonBuilder... infoButton) {
     if (infoButton != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(infoButton));
     }
     return this;
@@ -352,9 +319,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addInfoCriteria(InfoCriteriaBuilder... infoCriteria) {
     if (infoCriteria != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(infoCriteria));
     }
     return this;
@@ -368,9 +332,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addWindow(WindowBuilder... windowBuilder) {
     if (windowBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(windowBuilder));
     }
     return this;
@@ -384,9 +345,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addTagList(TagListBuilder... tagListBuilder) {
     if (tagListBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(tagListBuilder));
     }
     return this;
@@ -400,9 +358,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addMenuContainer(MenuContainerBuilder... menuContainerBuilder) {
     if (menuContainerBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(menuContainerBuilder));
     }
     return this;
@@ -416,9 +371,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addMessage(MessageBuilder... messageBuilder) {
     if (messageBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(messageBuilder));
     }
     return this;
@@ -432,9 +384,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addPivotTable(PivotTableBuilder... pivotTableBuilder) {
     if (pivotTableBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(pivotTableBuilder));
     }
     return this;
@@ -448,9 +397,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addResizable(ResizableBuilder... resizableBuilder) {
     if (resizableBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(resizableBuilder));
     }
     return this;
@@ -464,9 +410,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addTab(TabBuilder... tabBuilder) {
     if (tabBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(tabBuilder));
     }
     return this;
@@ -480,9 +423,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addView(ViewBuilder... viewBuilder) {
     if (viewBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(viewBuilder));
     }
     return this;
@@ -496,9 +436,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addWidget(WidgetBuilder... widgetBuilder) {
     if (widgetBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(widgetBuilder));
     }
     return this;
@@ -512,9 +449,6 @@ public class WizardPanelBuilder extends AweBuilder<WizardPanelBuilder> {
    */
   public WizardPanelBuilder addWizard(WizardBuilder... wizardBuilder) {
     if (wizardBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(wizardBuilder));
     }
     return this;
