@@ -21,9 +21,6 @@ build:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS compile
-  artifacts:
-    paths:
-      - target/
 
 test:
   stage: test
@@ -43,8 +40,25 @@ deploy:
   stage: deploy
   script:
     - mvn $MAVEN_CLI_OPTS deploy -DskipTests
+  artifacts:
+    paths:
+       - awe-generic-screens/src/main/resources/schemas/
+       - target/apidocs
   only:
-    - develop   
+    - develop    
+    
+pages:
+  stage: deploy
+  script:
+    - mkdir .public
+    - cp -r * .public
+    - mv .public public
+  artifacts:
+    paths:
+      - public
+  only:
+    - develop
+  when: always
 
 release:
   stage: deploy
