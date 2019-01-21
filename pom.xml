@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -7,7 +9,7 @@
     <version>1.5.10.RELEASE</version>
     <relativePath />
   </parent>
-  
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
@@ -16,7 +18,7 @@
 
   <name>AWE (V${project.version})</name>
   <description>Almis Web Engine: Web application development platform based on XML descriptors</description>
-  <url>http://www.awe-framework.com</url>    
+  <url>http://www.awe-framework.com</url>
 
   <properties>
     <!-- Project versions -->
@@ -44,9 +46,9 @@
     <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <jacoco.version>0.8.2</jacoco.version>
-    
+
     <!-- plugin versions -->
-    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>    
+    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
   </properties>
 
@@ -71,8 +73,8 @@
           </execution>
         </executions>
       </plugin>
-	  
-	  <!-- Maven javadoc plugin -->
+
+      <!-- Maven javadoc plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -85,8 +87,8 @@
           </execution>
         </executions>
       </plugin>
-	  
-	  <!-- Deploy nexus -->
+
+      <!-- Deploy nexus -->
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -144,7 +146,7 @@
       </plugin>
     </plugins>
   </build>
-  
+
   <profiles>
     <!-- GPG Signature on release -->
     <profile>
@@ -195,16 +197,23 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.5.1</version>
+        <version>3.7.1</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.9</version>
+        <version>2.7</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>index</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
     </plugins>
   </reporting>
-  
+
   <licenses>
     <license>
       <name>The Apache License, Version 2.0</name>

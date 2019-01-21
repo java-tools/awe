@@ -9,7 +9,6 @@ variables:
 cache:
   paths:
     - .m2/repository/
-    - target/
 
 stages:
     - build
@@ -21,7 +20,7 @@ stages:
 build:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS compile
+    - mvn $MAVEN_CLI_OPTS clean compile
 
 test:
   stage: test
@@ -42,7 +41,7 @@ site:
     - mvn $MAVEN_CLI_OPTS site
   artifacts:
     paths:
-      - target/apidocs
+      - target/site/apidocs
       - awe-generic-screens/src/main/resources/schemas/        
     
 deploy:
@@ -58,7 +57,7 @@ pages:
     - site
   script:
     - mkdir .public
-    - cp target/apidocs .public/apidocs
+    - cp target/site/apidocs .public/apidocs
     - cp awe-generic-screens/src/main/resources/schemas/awe ./public/schemas/awe
     - mv .public public
   artifacts:
