@@ -32,6 +32,9 @@ test:
     - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
 
   artifacts:
+    paths:
+      - awe-boot/target/surefire-reports/
+      - awe-boot/target/coverage-reports/
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
@@ -39,7 +42,7 @@ test:
 deploy:
   stage: deploy
   script:
-    - mvn $MAVEN_CLI_OPTS deploy
+    - mvn $MAVEN_CLI_OPTS deploy -DskipTests
   only:
     - develop   
 
