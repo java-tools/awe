@@ -765,12 +765,18 @@ public class FileManagerService implements InitializingBean {
    */
   private Path resolvePath(final Path baseDirPath, final String strFileManagerPath) {
 
-    Path fileManagerPath = Paths.get(".", strFileManagerPath);
-
     if (!baseDirPath.isAbsolute()) {
-      logger.error("Error getting fileManager path" + fileManagerPath);
+      logger.error("Error getting fileManager path" + baseDirPath);
       throw new IllegalArgumentException("FileManager: base path must be absolute");
     }
+
+    // Restrict the username to letters and digits only
+    if (!strFileManagerPath.matches("[a-zA-Z0-9]++")) {
+      logger.error("Error getting fileManager path" + strFileManagerPath);
+      throw new IllegalArgumentException("FileManager: path must be relative without .. elements");
+    }
+
+    Path fileManagerPath = Paths.get(".", strFileManagerPath);
 
     if (fileManagerPath.isAbsolute()) {
       logger.error("Error getting fileManager path" + fileManagerPath);

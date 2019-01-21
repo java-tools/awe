@@ -4,6 +4,12 @@ import com.almis.awe.test.service.EncryptService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,10 +19,10 @@ import static org.junit.Assert.assertEquals;
  * @author pgarcia
  *
  */
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-//@WithMockUser(username = "test", password = "test")
-//@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@WithMockUser(username = "test", password = "test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class EncryptTest extends TestUtil {
 
   // Logger
@@ -36,7 +42,7 @@ public class EncryptTest extends TestUtil {
   }
 
 
-  //@Test
+  @Test
   public void checkEncryptedProperty() {
     EncryptService service = applicationContext.getBean(EncryptService.class);
     logger.info("With @Value: " +service.getProperty());
