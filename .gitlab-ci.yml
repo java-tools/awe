@@ -23,7 +23,7 @@ build:
     - mvn $MAVEN_CLI_OPTS clean compile
   artifacts:
     paths:
-      - /target
+      - target/
 
 test:
   stage: test
