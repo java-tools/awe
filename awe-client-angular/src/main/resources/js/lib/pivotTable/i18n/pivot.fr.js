@@ -1,16 +1,8 @@
-(function () {
+(function ($) {
   var callWithJQuery;
-
   callWithJQuery = function (pivotModule) {
-    if (typeof exports === "object" && typeof module === "object") {
-      return pivotModule(require("jquery"));
-    } else if (typeof define === "function" && define.amd) {
-      return define(["jquery"], pivotModule);
-    } else {
-      return pivotModule(jQuery);
-    }
+    return pivotModule($);
   };
-
   callWithJQuery(function ($) {
     var frFmt, frFmtInt, frFmtPct, nf, tpl;
     nf = $.pivotUtilities.numberFormat;
@@ -73,4 +65,4 @@
     };
   });
 
-}).call(this);
+})(jQuery);

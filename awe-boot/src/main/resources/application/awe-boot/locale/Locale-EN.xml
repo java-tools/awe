@@ -7,7 +7,6 @@
 <!--$Id$-->
 
 <locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/locale.xsd">
-  <locale name="ENUM_LAN_MO" value="Moderdonio"/>
   <locale name="BUTTON_ADD_COLUMNS" value="Add columns"/>
   <locale name="BUTTON_ADD_SERIES" value="Add serie"/>
   <locale name="BUTTON_CONFIRM_EMPTY" value="Confirm (check empty)"/>

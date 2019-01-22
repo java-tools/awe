@@ -1,13 +1,9 @@
 {
   "name": "awe-boot",
-  "version": "4.0.4-SNAPSHOT",
-  "description": "Javascript webpack libraries",
+  "version": "4.0.5",
+  "description": "",
   "main": "./src/main/resources/webpack",
-  "scripts": {
-  	"global-install": "npm prune && npm install --no-optional -g webpack webpack-dev-server",
-    "build": "webpack"
-  },
-  "license": "ISC",
+  "license": "SEE LICENSE IN ./../LICENSE.md",
   "dependencies": {
     "css-loader": "^0.28.1",
     "exports-loader": "^0.6.4",

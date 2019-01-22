@@ -1,10 +1,10 @@
 {
   "name": "awe-tools",
-  "version": "0.0.1-SNAPSHOT",
+  "version": "4.0.5",
   "description": "",
   "main": "./src/main/resources/webpack",
   "author": "",
-  "license": "ISC",
+  "license": "SEE LICENSE IN ./../LICENSE.md",
   "private": true,
   "dependencies": {
     "angular": "1.5.8",

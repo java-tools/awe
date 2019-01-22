@@ -15,7 +15,6 @@
     <option label="ENUM_LAN_ES" value="es" />
     <option label="ENUM_LAN_EN" value="en" />
     <option label="ENUM_LAN_FR" value="fr" />
-    <option label="ENUM_LAN_MO" value="mo" />
   </group>
 
   <!-- LANGUAGES -->
@@ -23,7 +22,6 @@
     <option label="ENUM_LAN_ES" value="ESP" />
     <option label="ENUM_LAN_EN" value="ENG" />
     <option label="ENUM_LAN_FR" value="FRA" />
-    <option label="ENUM_LAN_MO" value="MOD" />
   </group>
 
   <!-- MATRIX TEST TYPE -->
