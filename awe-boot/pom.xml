@@ -314,7 +314,7 @@
               <goal>webpack</goal>
             </goals>
             <configuration>
-              <arguments>--output-path "${project.build.frontend}"</arguments>
+              <arguments>--output-path ${project.build.frontend}</arguments>
             </configuration>
           </execution>
         </executions>

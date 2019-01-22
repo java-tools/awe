@@ -23,7 +23,7 @@ build:
     - mvn $MAVEN_CLI_OPTS clean compile
   artifacts:
     paths:
-      - awe-client-angular/target/
+      - awe-client-angular/
 
 test:
   stage: test

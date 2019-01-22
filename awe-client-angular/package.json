@@ -4,6 +4,7 @@
   "description": "",
   "main": "./src/main/resources/webpack",
   "scripts": {
+    "global-install": "npm prune && npm install --no-optional -g webpack webpack-dev-server",
     "build": "webpack"
   },
   "author": "",
@@ -62,6 +63,7 @@
     "url-loader": "^0.5.8",
     "expose-loader": "^0.7.5",
     "webpack": "^2.5.0",
+    "webpack-dev-server": "^2.4.5",
     "webpack-bundle-analyzer": "^2.6.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
