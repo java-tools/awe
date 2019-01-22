@@ -21,6 +21,9 @@ build:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS clean compile
+  artifacts:
+    paths:
+      - /target
 
 test:
   stage: test
