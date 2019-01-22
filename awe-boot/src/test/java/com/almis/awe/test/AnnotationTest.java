@@ -56,12 +56,12 @@ public class AnnotationTest extends TestUtil {
   @Test
   public void checkLocaleAnnotations() {
 
-    String valueFromInput = annotationTestService.localeFromParameters("ENUM_LAN_MO");
+    String valueFromInput = annotationTestService.localeFromParameters("ENUM_LAN_ES");
     String valueFromReturn = annotationTestService.localeFromReturnedValue();
 
-    Assert.assertEquals("Moderdonio", valueFromInput);
-    Assert.assertEquals("Moderdonio", valueFromReturn);
-    Assert.assertEquals("Moderdonio", annotationTestService.localeFromAnnotationValue("This value should be overwritten"));
+    Assert.assertEquals("Spanish", valueFromInput);
+    Assert.assertEquals("Spanish", valueFromReturn);
+    Assert.assertEquals("Spanish", annotationTestService.localeFromAnnotationValue("This value should be overwritten"));
   }
 
   //@Test
