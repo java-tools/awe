@@ -1,10 +1,14 @@
-image: maven:3.5-jdk-8
-
+image: docker:latest
+services:
+  - docker:dind
+  
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN"  
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
+  DOCKER_DRIVER: overlay
+  SPRING_PROFILES_ACTIVE: gitlab-ci
 
 cache:
   paths:
@@ -15,14 +19,20 @@ stages:
     - test
     - analize
     - site
+    - package
     - deploy
     
-build:
+maven-build:
+  image: maven:3.5-jdk-8
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS clean compile
+    - mvn $MAVEN_CLI_OPTS clean package -DskipTests
+  artifacts:
+    paths:
+    - awe-boot/target/awe-boot.jar
 
 test:
+  image: maven:3.5-jdk-8
   stage: test
   script:
     - mvn $MAVEN_CLI_OPTS test sonar:sonar -DgenerateAggregationReport=true $SONAR_OPTS
@@ -36,20 +46,29 @@ test:
       - awe-boot/target/surefire-reports/TEST-*.xml
 
 site:
+  image: maven:3.5-jdk-8
   stage: site
   script:
     - mvn $MAVEN_CLI_OPTS site
   artifacts:
     paths:
       - target/site/apidocs
-      - awe-generic-screens/src/main/resources/schemas/        
+      - awe-generic-screens/src/main/resources/schemas/
+      
+docker-build:
+  stage: package
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com  
+    - docker build -t registry.gitlab.com/aweframework/awe ./awe-boot
+    - docker push registry.gitlab.com/aweframework/awe/awe-boot
     
 deploy:
+  image: maven:3.5-jdk-8
   stage: deploy
   script:
     - mvn $MAVEN_CLI_OPTS deploy -DskipTests      
   only:
-    - develop    
+    - master
     
 pages:
   stage: deploy
@@ -64,9 +83,10 @@ pages:
     paths:
       - public
   only:
-    - develop
+    - master
 
 release:
+  image: maven:3.5-jdk-8
   stage: deploy
   before_script:
     ## Install ssh-agent if not already installed, it is required by Docker.
