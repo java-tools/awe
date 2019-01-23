@@ -6,7 +6,7 @@
     Author     : Pablo GARCIA
     Description: Button Test Screen
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" target="TestScreenTarget" template="window" label="SCREEN_TITLE_BUTTON_TEST" help="HELP_SCREEN_TITLE_BUTTON_TEST">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" target="TestScreenTarget" template="window" label="SCREEN_TITLE_BUTTON_TEST" help="HELP_SCREEN_TITLE_BUTTON_TEST">
   <tag source="buttons">
   </tag>
   <tag source="center" expandible="vertical">

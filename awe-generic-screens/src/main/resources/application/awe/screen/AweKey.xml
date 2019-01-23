@@ -6,7 +6,7 @@
     Author     : Pablo Vidal
     Description: Gestion secuencias del sistema
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_AWEKEY" help="HELP_SCREEN_TITLE_AWEKEY" keep-criteria="true">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_AWEKEY" help="HELP_SCREEN_TITLE_AWEKEY" keep-criteria="true">
   <tag source="hidden">
     <message id="UpdMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE" />
   </tag>

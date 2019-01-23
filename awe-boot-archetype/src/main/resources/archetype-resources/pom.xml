@@ -99,8 +99,8 @@
       <artifactId>maven-compiler-plugin</artifactId>
       <version>${plugin-compiler.version}</version>
       <configuration>
-        <source>\${java.version}</source>
-        <target>\${java.version}</target>
+        <source>${java.version}</source>
+        <target>${java.version}</target>
       </configuration>
     </plugin>
 
@@ -112,7 +112,7 @@
         <executions>
           <execution>
             <phase>generate-sources</phase>
-            <id>unpack awe-generic-screens</id>
+            <id>unpack awe-generic-screens schemas</id>
             <goals>
               <goal>unpack</goal>
             </goals>
@@ -121,9 +121,27 @@
                 <artifactItem>
                   <groupId>com.almis.awe</groupId>
                   <artifactId>awe-generic-screens</artifactId>
-                  <version>\${awe.version}</version>
-                  <outputDirectory>\${project.build.frontend}</outputDirectory>
-                  <includes>schemas/**,docs/**</includes>
+                  <version>${awe.version}</version>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <includes>schemas/**,</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>generate-sources</phase>
+            <id>unpack awe-generic-screens docs</id>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.almis.awe</groupId>
+                  <artifactId>awe-generic-screens</artifactId>
+                  <version>${awe.version}</version>
+                  <outputDirectory>${project.build.frontend}</outputDirectory>
+                  <includes>docs/**</includes>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -139,8 +157,8 @@
                 <artifactItem>
                   <groupId>com.almis.awe</groupId>
                   <artifactId>awe-client-angular</artifactId>
-                  <version>\${awe.version}</version>
-                  <outputDirectory>\${project.build.frontend}</outputDirectory>
+                  <version>${awe.version}</version>
+                  <outputDirectory>${project.build.frontend}</outputDirectory>
                   <includes>images/**,fonts/**,js/**,css/**,less/**</includes>
                 </artifactItem>
               </artifactItems>
@@ -162,7 +180,7 @@
               <outputDirectory>src/main/resources/</outputDirectory>
               <resources>
                 <resource>
-                  <directory>\${project.build.frontend}</directory>
+                  <directory>${project.build.frontend}</directory>
                   <includes>
                     <include>less/awe/variables.less</include>
                     <include>less/awe/mixins.less</include>
@@ -227,17 +245,75 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
         <version>${plugin-xml.maven.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>validate</goal>
-            </goals>
-          </execution>
-        </executions>
         <configuration>
           <validationSets>
             <validationSet>
-              <dir>\${project.build.directory}/classes/application/\${artifactId}/</dir>
+              <dir>${check.xml.directory}/${application.acronym}/global</dir>
+              <includes>
+                <include>Actions.xml</include>
+              </includes>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/actions.xsd</systemId>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/global</dir>
+              <includes>
+                <include>Email.xml</include>
+              </includes>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/email.xsd</systemId>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/global</dir>
+              <includes>
+                <include>Enumerated.xml</include>
+              </includes>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/enumerated.xsd</systemId>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/global</dir>
+              <includes>
+                <include>Maintain.xml</include>
+              </includes>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/maintain.xsd</systemId>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/global</dir>
+              <includes>
+                <include>Queries.xml</include>
+              </includes>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/queries.xsd</systemId>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/global</dir>
+              <includes>
+                <include>Queues.xml</include>
+              </includes>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/queues.xsd</systemId>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/global</dir>
+              <includes>
+                <include>Services.xml</include>
+              </includes>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/services.xsd</systemId>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/locale</dir>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/locale.xsd</systemId>
+              <validating>true</validating>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/profile</dir>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/profile.xsd</systemId>
+              <validating>true</validating>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/menu</dir>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/menu.xsd</systemId>
+              <validating>true</validating>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/screen</dir>
+              <systemId>${project.build.directory}/schemas/\${artifactId}/screen.xsd</systemId>
               <validating>true</validating>
             </validationSet>
           </validationSets>

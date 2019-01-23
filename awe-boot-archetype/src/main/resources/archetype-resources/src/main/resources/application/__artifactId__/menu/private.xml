@@ -6,7 +6,7 @@
     Description: Private profile options
 -->
 <menu screen="home_horizontal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/menu.xsd"
+      xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/menu.xsd"
       context="screen/private/home" default-action="screen">
   <option name="information" screen="info" invisible="true" />
   <option name="tools" label="MENU_TOOLS" icon="wrench">

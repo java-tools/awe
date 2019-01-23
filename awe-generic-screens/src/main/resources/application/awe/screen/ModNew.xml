@@ -6,7 +6,7 @@
     Author     : Pablo Vidal
     Description: Ventana de modulos - Alta de M?dulo
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_MDL_NEW" help="HELP_SCREEN_TITLE_MDL_NEW">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_MDL_NEW" help="HELP_SCREEN_TITLE_MDL_NEW">
   <tag source="hidden">
     <message id="NewMsg" title="CONFIRM_TITLE_NEW" message="CONFIRM_MESSAGE_NEW" />
   </tag>

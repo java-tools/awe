@@ -6,7 +6,7 @@
     Author     : Aitor UGARTE
     Description: Envio de mails a usuarios conectados
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_EML_USR" help="HELP_SCREEN_TITLE_EML_USR">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_EML_USR" help="HELP_SCREEN_TITLE_EML_USR">
   <tag source="hidden">
     <message id="NewMsg" title="CONFIRM_TITLE_SND_EML" message="CONFIRM_MESSAGE_SND_EML" />
   </tag>

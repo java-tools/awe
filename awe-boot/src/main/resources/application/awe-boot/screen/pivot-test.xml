@@ -8,7 +8,7 @@ and open the template in the editor.
 
 <screen template="window" label="MENU_TEST_PIVOT"
         xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-        xsi:noNamespaceSchemaLocation='http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd'>
+        xsi:noNamespaceSchemaLocation='https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd'>
   <tag source="center">
     <window label="SCREEN_TEXT_CRITERIA">
       <tag type="div" style="panel-body">

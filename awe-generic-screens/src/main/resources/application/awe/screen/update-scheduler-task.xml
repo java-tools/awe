@@ -6,7 +6,7 @@
     Author     : David FUENTES
     Description: Actualizacion de una tarea del Scheduler
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" target="SchTsk" template="window" label="MENU_UPDATE_SCHEDULER_TASK" help="HELP_SCREEN_UPDATE_SCHEDULER_TASK">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" target="SchTsk" template="window" label="MENU_UPDATE_SCHEDULER_TASK" help="HELP_SCREEN_UPDATE_SCHEDULER_TASK">
   <tag source="hidden">
     <message id="NewMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE_TASK" />
   </tag>

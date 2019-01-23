@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-    Document   : general.xml
-    Created on : 10 de febrero de 2010, 13:30
-    Author     : pgarcia
-    Description:
-        Purpose of the document follows.
+    Document   : test.xml
+    Description: Test profile
 -->
 <profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/profile.xsd">
   <restriction option="tools" />
   <restriction option="settings" />
-  <restriction option="test" />
-  <restriction option="help-separator" />
 </profile>
