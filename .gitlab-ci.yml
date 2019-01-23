@@ -44,7 +44,7 @@ site:
     - mvn $MAVEN_CLI_OPTS site
   artifacts:
     paths:
-      - target/site/
+      - target/site/apidocs
       - awe-generic-screens/src/main/resources/schemas/        
     
 deploy:
@@ -60,7 +60,7 @@ pages:
     - site
   script:
     - mkdir .public
-    - cp -r target/site/ .public/javadoc-api/
+    - cp -r target/site/apidocs .public/javadoc-api/
     - cp -r awe-generic-screens/src/main/resources/schemas/ .public/
     - mv .public public
   artifacts:
