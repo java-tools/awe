@@ -58,7 +58,7 @@ pages:
   script:
     - mkdir -p .public/docs/schemas
     - cp -r target/site/apidocs .public/javadoc-api/
-    - cp -r awe-generic-screens/src/main/resources/schemas/ .public/docs/schemas/
+    - cp -r awe-generic-screens/src/main/resources/schemas/awe/*.xsd .public/docs/schemas/
     - mv .public public
   artifacts:
     paths:
