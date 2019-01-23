@@ -17,7 +17,7 @@
     <!-- Application maven properties -->
     <awe.version>${project.parent.version}</awe.version>
     <java.version>1.8</java.version>
-    <application.name>awe-boot_V4.0.3</application.name>
+    <application.name>awe-boot</application.name>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.frontend>${project.build.directory}/classes/static</project.build.frontend>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -339,6 +339,13 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
         <version>${plugin-xml.maven.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
           <validationSets>
             <validationSet>
