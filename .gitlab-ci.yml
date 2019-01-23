@@ -21,9 +21,6 @@ build:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS clean compile
-  artifacts:
-    paths:
-      - awe-client-angular/
 
 test:
   stage: test
@@ -59,9 +56,9 @@ pages:
   dependencies:
     - site
   script:
-    - mkdir .public
+    - mkdir .public/docs/schemas
     - cp -r target/site/apidocs .public/javadoc-api/
-    - cp -r awe-generic-screens/src/main/resources/schemas/ .public/
+    - cp -r awe-generic-screens/src/main/resources/schemas/ .public/docs/schemas/
     - mv .public public
   artifacts:
     paths:
