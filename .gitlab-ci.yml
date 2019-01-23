@@ -56,7 +56,7 @@ pages:
   dependencies:
     - site
   script:
-    - mkdir .public/docs/schemas
+    - mkdir -p .public/docs/schemas
     - cp -r target/site/apidocs .public/javadoc-api/
     - cp -r awe-generic-screens/src/main/resources/schemas/ .public/docs/schemas/
     - mv .public public
