@@ -289,9 +289,11 @@ public class ChartSerieBuilder extends AweBuilder<ChartSerieBuilder>{
    * Set drilldown serie
    *
    * @param drilldownSerie
+   * @return this
    */
-  public void setDrilldownSerie(String drilldownSerie) {
+  public ChartSerieBuilder setDrilldownSerie(String drilldownSerie) {
     this.drilldownSerie = drilldownSerie;
+    return this;
   }
 
   /**

@@ -40,7 +40,7 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
 
   @Override
   public void initializeElements() {
-    //
+    this.elements = new ArrayList<>();
   }
 
   @Override

@@ -9,7 +9,8 @@
     Description: Action list description.
 -->
 
-<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../schemas/awe/actions.xsd">
+<actions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/actions.xsd">
 
 </actions>
 

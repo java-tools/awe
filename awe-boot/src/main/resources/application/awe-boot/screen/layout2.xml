@@ -6,7 +6,7 @@
     Author     : Pablo GARCIA
     Description: Login screen
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="layout" help="HELP_layout">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="layout" help="HELP_layout">
   <tag source="buttons">
     <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
       <button-action type="dialog" target="HlpOpt" />

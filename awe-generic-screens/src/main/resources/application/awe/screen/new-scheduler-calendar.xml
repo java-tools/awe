@@ -7,7 +7,7 @@
     Description: Ventana de creacion de un nuevo calendario
 -->
 
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="MENU_SCHEDULER_CALENDARS" help="HELP_SCREEN_SCHEDULER_CALENDAR">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="MENU_SCHEDULER_CALENDARS" help="HELP_SCREEN_SCHEDULER_CALENDAR">
     <!--
       MESSAGES
     -->

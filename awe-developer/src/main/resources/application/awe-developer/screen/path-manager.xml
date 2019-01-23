@@ -3,7 +3,7 @@
 <!-- Document : literal_manager.xml Created on : 12 de Mayo de 2015, 15:30
 Author : Andoni GOMEZ Description: Manage literals screen -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../schemas/awe/screen.xsd" template="window"
+        xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window"
         label="SCREEN_TITLE_MNG_PTH" help="HELP_SCREEN_MNG_PTH" target="checkPath">
 
   <!-- Buttons Zone: Show buttons -->

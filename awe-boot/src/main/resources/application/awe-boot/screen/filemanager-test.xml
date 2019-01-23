@@ -8,7 +8,7 @@ and open the template in the editor.
 
 <screen template="full" label="MENU_TEST_FILEMANAGER"
         xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-        xsi:noNamespaceSchemaLocation='@awe.schemas@/screen.xsd'>
+        xsi:noNamespaceSchemaLocation='http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd'>
   <tag source="center">
     <widget type="file-manager" id="file-manager" style="expand"/>
   </tag>

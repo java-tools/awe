@@ -6,7 +6,7 @@
     Author     : David Gutierrez
     Description: Application help screen
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="document" label="MENU_HELP_APPLICATION" help="HELP_MENU_HELP_APPLICATION">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="document" label="MENU_HELP_APPLICATION" help="HELP_MENU_HELP_APPLICATION">
   <tag source="buttons">
     <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
       <button-action type="back" />

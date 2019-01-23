@@ -7,7 +7,7 @@
     Description: Email define file
 -->
 
-<emails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/email.xsd">
+<emails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/email.xsd">
   <email id="SndRep">
     <from query="SesUsr" label="SesNam" value="SesEma" />
     <to query="GetEmaLst" label="UsrNam" value="UsrEml" />

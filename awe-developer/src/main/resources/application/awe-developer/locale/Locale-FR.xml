@@ -6,7 +6,7 @@
 
 <!--$Id$-->
 
-<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../schemas/awe/locale.xsd">
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
   <locale name="BUTTON_TRANSLATE" value="Traduire"/>
   <locale name="COLUMN_CODE" value="Code"/>
   <locale name="COLUMN_LANGUAGE" value="Langue"/>

@@ -23,8 +23,13 @@ import java.util.List;
 public class ButtonBuilder extends AweBuilder<ButtonBuilder> {
 
   private ButtonType buttonType;
-  private String label, icon, size, style, value;
-  private String help, helpImage;
+  private String label;
+  private String icon;
+  private String size;
+  private String style;
+  private String value;
+  private String help;
+  private String helpImage;
   private List<AweBuilder> elements;
 
   /**

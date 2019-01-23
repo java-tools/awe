@@ -2,6 +2,16 @@ package com.almis.awe.test.builder;
 
 import com.almis.awe.builder.enumerates.*;
 import com.almis.awe.builder.screen.*;
+import com.almis.awe.builder.screen.accordion.AccordionBuilder;
+import com.almis.awe.builder.screen.accordion.AccordionItemBuilder;
+import com.almis.awe.builder.screen.button.ButtonActionBuilder;
+import com.almis.awe.builder.screen.button.ButtonBuilder;
+import com.almis.awe.builder.screen.chart.*;
+import com.almis.awe.builder.screen.context.ContextButtonBuilder;
+import com.almis.awe.builder.screen.context.ContextSeparatorBuilder;
+import com.almis.awe.builder.screen.dependency.DependencyActionBuilder;
+import com.almis.awe.builder.screen.dependency.DependencyBuilder;
+import com.almis.awe.builder.screen.dependency.DependencyElementBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.entities.menu.Menu;
@@ -9,11 +19,15 @@ import com.almis.awe.model.entities.screen.Include;
 import com.almis.awe.model.entities.screen.Message;
 import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.model.entities.screen.View;
-import com.almis.awe.model.entities.screen.component.Dialog;
-import com.almis.awe.model.entities.screen.component.Resizable;
-import com.almis.awe.model.entities.screen.component.TagList;
-import com.almis.awe.model.entities.screen.component.Window;
+import com.almis.awe.model.entities.screen.component.*;
+import com.almis.awe.model.entities.screen.component.action.ButtonAction;
+import com.almis.awe.model.entities.screen.component.button.Button;
+import com.almis.awe.model.entities.screen.component.chart.Chart;
+import com.almis.awe.model.entities.screen.component.chart.ChartLegend;
+import com.almis.awe.model.entities.screen.component.container.AccordionItem;
+import com.almis.awe.model.entities.screen.component.panelable.Accordion;
 import com.almis.awe.model.entities.screen.component.pivottable.PivotTable;
+import com.almis.awe.model.type.ChartType;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -38,6 +52,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen without elements
+   *
    * @throws Exception
    */
   @Test
@@ -49,6 +64,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen without elements
+   *
    * @throws Exception
    */
   @Test
@@ -77,6 +93,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with an invalid id
+   *
    * @throws Exception
    */
   @Test
@@ -93,6 +110,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with a tag
+   *
    * @throws Exception
    */
   @Test
@@ -115,6 +133,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with a tag
+   *
    * @throws Exception
    */
   @Test
@@ -131,6 +150,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with a dialog
+   *
    * @throws Exception
    */
   @Test
@@ -153,6 +173,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with an include
+   *
    * @throws Exception
    */
   @Test
@@ -175,6 +196,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with a view
+   *
    * @throws Exception
    */
   @Test
@@ -195,6 +217,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with a tag list
+   *
    * @throws Exception
    */
   @Test
@@ -227,6 +250,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with a resizable
+   *
    * @throws Exception
    */
   @Test
@@ -251,6 +275,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with a pivot table
+   *
    * @throws Exception
    */
   @Test
@@ -301,6 +326,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with a window
+   *
    * @throws Exception
    */
   @Test
@@ -323,5 +349,287 @@ public class ScreenBuilderTest {
     assertEquals(((Window) screen.getElementList().get(0).getElementList().get(0)).getLabel(), "LABEL");
     assertEquals(((Window) screen.getElementList().get(0).getElementList().get(0)).getStyle(), "style");
     assertEquals(((Window) screen.getElementList().get(0).getElementList().get(0)).getMaximize(), "true");
+  }
+
+  /**
+   * Build a single screen with a menu
+   *
+   * @throws Exception
+   */
+  @Test
+  public void addMenu() throws Exception {
+    ScreenBuilder builder = new ScreenBuilder()
+      .setId(UUID.randomUUID().toString())
+      .addTag(new TagBuilder()
+        .setLabel("LABEL")
+        .setSource("center")
+        .setStyle("expand")
+        .setType("div")
+        .addMenuContainer(new MenuContainerBuilder()
+          .setType(MenuType.HORIZONTAL)
+          .setStyle("style")));
+
+    Screen screen = builder.build();
+    assertTrue(MenuType.HORIZONTAL.equalsStr(screen.getElementList().get(0).getElementList().get(0).getType()));
+    assertEquals(screen.getElementList().get(0).getElementList().get(0).getStyle(), "style");
+  }
+
+  /**
+   * Build a single screen with a frame
+   *
+   * @throws Exception
+   */
+  @Test
+  public void addFrame() throws Exception {
+    ScreenBuilder builder = new ScreenBuilder()
+      .setId(UUID.randomUUID().toString())
+      .addTag(new TagBuilder()
+        .setLabel("LABEL")
+        .setSource("center")
+        .setStyle("expand")
+        .setType("div")
+        .addFrame(new FrameBuilder()
+          .setScreen("screen")
+          .setScreenVariable("var")
+          .setScroll(true)
+          .setServerAction(ServerAction.APPLICATION_HELP)));
+
+    Screen screen = builder.build();
+    assertEquals(((Frame) screen.getElementList().get(0).getElementList().get(0)).getScreen(), "screen");
+    assertEquals(((Frame) screen.getElementList().get(0).getElementList().get(0)).getScreenVariable(), "var");
+    assertEquals(((Frame) screen.getElementList().get(0).getElementList().get(0)).getScroll(), "true");
+    assertTrue(ServerAction.APPLICATION_HELP.equalsStr(((Frame) screen.getElementList().get(0).getElementList().get(0)).getServerAction()));
+  }
+
+  /**
+   * Build a single screen with an accordion
+   *
+   * @throws Exception
+   */
+  @Test
+  public void addAccordion() throws Exception {
+    ScreenBuilder builder = new ScreenBuilder()
+      .setId(UUID.randomUUID().toString())
+      .addTag(new TagBuilder()
+        .setLabel("LABEL")
+        .setSource("center")
+        .setStyle("expand")
+        .setType("div")
+        .addAccordion(new AccordionBuilder()
+          .setAutocollapse(true)
+          .setSelected("selected")
+          .addAccordionItem(new AccordionItemBuilder()
+            .setLabel("LABEL")
+            .setId("notSelected"))
+          .addAccordionItem(new AccordionItemBuilder()
+            .setId("selected")
+            .setLabel("OTHER_LABEL"))));
+
+    Screen screen = builder.build();
+    assertEquals(((Accordion) screen.getElementList().get(0).getElementList().get(0)).getAutocollapse(), "true");
+    assertEquals(((Accordion) screen.getElementList().get(0).getElementList().get(0)).getSelected(), "selected");
+    assertEquals(((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0)).getId(), "notSelected");
+    assertEquals(((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0)).getLabel(), "LABEL");
+    assertEquals(((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(1)).getId(), "selected");
+    assertEquals(((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(1)).getLabel(), "OTHER_LABEL");
+  }
+
+  /**
+   * Build a single screen with a button
+   *
+   * @throws Exception
+   */
+  @Test
+  public void addButton() throws Exception {
+    ScreenBuilder builder = new ScreenBuilder()
+      .setId(UUID.randomUUID().toString())
+      .addTag(new TagBuilder()
+        .setLabel("LABEL")
+        .setSource("buttons")
+        .setStyle("expand")
+        .setType("div")
+        .addButton(new ButtonBuilder()
+          .setIcon("button_icon")
+          .setSize("sm")
+          .setId("button1")
+          .addButtonAction(new ButtonActionBuilder()
+            .setServerAction(ServerAction.MAINTAIN)
+            .setTargetAction("targetAction1")
+            .setAsynchronous(true)
+            .setTarget("target1")
+            .setSilent(true)
+            .setValue("buttonValue1")
+            .setContext("home")
+            .setType(Action.ADD_CLASS))
+          .addButtonAction(new ButtonActionBuilder()
+            .setServerAction(ServerAction.MAINTAIN_ASYNC)
+            .setTargetAction("targetAction2")
+            .setAsynchronous(false)
+            .setSilent(false)
+            .setTarget("target2")
+            .setValue("buttonValue2")
+            .setContext("home")
+            .setType(Action.SERVER))));
+
+    Screen screen = builder.build();
+    Button button = (Button) screen.getElementList().get(0).getElementList().get(0);
+    assertEquals(button.getIcon(), "button_icon");
+    assertEquals(button.getSize(), "sm");
+    assertEquals(button.getId(), "button1");
+
+    ButtonAction buttonAction = (ButtonAction) button.getElementList().get(0);
+    assertTrue(ServerAction.MAINTAIN.equalsStr(buttonAction.getServerAction()));
+    assertTrue(Action.ADD_CLASS.equalsStr(buttonAction.getType()));
+    assertEquals(buttonAction.getTargetAction(), "targetAction1");
+    assertEquals(buttonAction.getTarget(), "target1");
+    assertEquals(buttonAction.getAsync(), "true");
+    assertEquals(buttonAction.getSilent(), "true");
+    assertEquals(buttonAction.getValue(), "buttonValue1");
+    assertEquals(buttonAction.getScreenContext(), "home");
+
+    buttonAction = (ButtonAction) button.getElementList().get(1);
+    assertTrue(ServerAction.MAINTAIN_ASYNC.equalsStr(buttonAction.getServerAction()));
+    assertTrue(Action.SERVER.equalsStr(buttonAction.getType()));
+    assertEquals(buttonAction.getTargetAction(), "targetAction2");
+    assertEquals(buttonAction.getTarget(), "target2");
+    assertEquals(buttonAction.getAsync(), "false");
+    assertEquals(buttonAction.getSilent(), "false");
+    assertEquals(buttonAction.getValue(), "buttonValue2");
+    assertEquals(buttonAction.getScreenContext(), "home");
+  }
+
+  /**
+   * Build a single screen with a chart
+   *
+   * @throws Exception
+   */
+  @Test
+  public void addChart() throws Exception {
+    ScreenBuilder builder = new ScreenBuilder()
+      .setId(UUID.randomUUID().toString())
+      .addTag(new TagBuilder()
+        .setLabel("LABEL")
+        .setSource("buttons")
+        .setStyle("expand")
+        .setType("div")
+        .addChart(new ChartBuilder()
+          .setStockChart(true)
+          .setAutoload(true)
+          .setId("chart1")
+          .setAutorefresh(true)
+          .setEnableDataLabels(true)
+          .setFormatDataLabels("formatDataLabels")
+          .setIconLoading(IconLoading.CIRCLEBAR)
+          .setStacking(Stacking.PERCENT)
+          .setInverted(true)
+          .setMax(45)
+          .setTheme("chartTheme")
+          .setVisible(false)
+          .setSubtitle("SUBTITLE")
+          .setType(ChartType.AREASPLINE)
+          .setZoomType(ChartAxis.Y_AXIS)
+          .addChartLegend(new ChartLegendBuilder()
+            .setChartLayout(ChartLayout.HORIZONTAL)
+            .setAlign(Align.CENTER)
+            .setEnabled(true)
+            .setFloating(true)
+            .setBorderWidth(2))
+          .addChartParameter(new ChartParameterBuilder()
+            .setDataType(DataType.DOUBLE)
+            .setName("parameterName")
+            .setValue("0.1213"))
+          .addChartSerieList(new ChartSerieBuilder()
+            .setColor("red")
+            .setDrilldown(true)
+            .setxAxis("xAxis")
+            .setyAxis("yAxis")
+            .setxValue("x")
+            .setyValue("y")
+            .setzValue("z")
+            .setDrilldownSerie("drilldownSerie"))
+          .addChartTooltip(new ChartTooltipBuilder()
+            .setCrosshairs(ChartAxis.ALL)
+            .setEnabled(true)
+            .setNumberDecimals(4)
+            .setPointFormat("pointFormat")
+            .setPrefix("pre")
+            .setSuffix("post")
+            .setDateFormat("yyyymmdd")
+            .setShared(true))
+          .addContextButton(new ContextButtonBuilder())
+          .addContextButton(new ContextSeparatorBuilder())
+          .addDependency(new DependencyBuilder()
+            .setAsync(true)
+            .setFormule("formule")
+            .setInitial(true)
+            .setInvert(true)
+            .setLabel("LABEL")
+            .setServerAction(ServerAction.CONTROL)
+            .setSourceType(SourceType.QUERY)
+            .setTargetType(TargetType.ATTRIBUTE)
+            .setType(DependencyType.AND)
+            .setValue("value")
+            .addDependencyAction(new DependencyActionBuilder()
+              .setServerAction(ServerAction.GET_SERVER_FILE)
+              .setTargetAction("TargetAction")
+              .setTarget("target")
+              .setAsynchronous(true)
+              .setContext("context")
+              .setType(DependencyActionType.ADD_ROW)
+              .setSilent(true)
+              .setValue("value"))
+            .addDependencyElement(new DependencyElementBuilder()
+              .setAlias("alias")
+              .setId("id")
+              .setCancel(false)
+              .setAttribute(Attribute.CURRENT_ROW_VALUE)
+              .setColumn("column")
+              .setCondition(Condition.EQUALS)
+              .setAttribute2(Attribute.EDITABLE)
+              .setColumn2("column2")
+              .setId2("id2")))
+          .addXAxis(new XAxisBuider())
+          .addYAxis(new YAxisBuider())));
+
+    Screen screen = builder.build();
+    Chart chart = (Chart) screen.getElementList().get(0).getElementList().get(0);
+
+    assertEquals(chart.getStockChart(), "true");
+    assertEquals(chart.getAutoload(), "true");
+    assertEquals(chart.getId(), "chart1");
+    assertEquals(chart.getAutorefresh(), "true");
+    assertEquals(chart.getEnableDataLabels(), "true");
+    assertEquals(chart.getFormatDataLabels(), "formatDataLabels");
+    assertTrue(IconLoading.CIRCLEBAR.equalsStr(chart.getIconLoading()));
+    assertTrue(Stacking.PERCENT.equalsStr(chart.getStacking()));
+    assertEquals(chart.getInverted(), "true");
+    assertEquals(chart.getMax(), "45");
+    assertEquals(chart.getTheme(), "chartTheme");
+    assertEquals(chart.getVisible(), "false");
+    assertEquals(chart.getSubTitle(), "SUBTITLE");
+    assertEquals(chart.getType(), ChartType.AREASPLINE.toString());
+    assertTrue(ChartAxis.Y_AXIS.equalsStr(chart.getZoomType()));
+
+    // TODO Fix chart legend && chart tooltip
+
+    /*ButtonAction buttonAction = (ButtonAction) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0);
+    assertTrue(ServerAction.MAINTAIN.equalsStr(buttonAction.getServerAction()));
+    assertTrue(Action.ADD_CLASS.equalsStr(buttonAction.getType()));
+    assertEquals(buttonAction.getTargetAction(), "targetAction1");
+    assertEquals(buttonAction.getTarget(), "target1");
+    assertEquals(buttonAction.getAsync(), "true");
+    assertEquals(buttonAction.getSilent(), "true");
+    assertEquals(buttonAction.getValue(), "buttonValue1");
+    assertEquals(buttonAction.getScreenContext(), "home");
+
+    buttonAction = (ButtonAction) screen.getElementList().get(0).getElementList().get(0).getElementList().get(1);
+    assertTrue(ServerAction.MAINTAIN_ASYNC.equalsStr(buttonAction.getServerAction()));
+    assertTrue(Action.SERVER.equalsStr(buttonAction.getType()));
+    assertEquals(buttonAction.getTargetAction(), "targetAction2");
+    assertEquals(buttonAction.getTarget(), "target2");
+    assertEquals(buttonAction.getAsync(), "false");
+    assertEquals(buttonAction.getSilent(), "false");
+    assertEquals(buttonAction.getValue(), "buttonValue2");
+    assertEquals(buttonAction.getScreenContext(), "home");*/
   }
 }

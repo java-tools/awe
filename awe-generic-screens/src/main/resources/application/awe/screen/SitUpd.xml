@@ -6,7 +6,7 @@
     Author     : Pablo Vidal
     Description: Module Tools - Update Module
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_SIT_UPD" help="HELP_SCREEN_TITLE_SIT_UPD">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_SIT_UPD" help="HELP_SCREEN_TITLE_SIT_UPD">
   <tag source="hidden">
     <criteria id="IdeSit" component="text" variable="IdeSit" />
     <message id="UpdMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE" />

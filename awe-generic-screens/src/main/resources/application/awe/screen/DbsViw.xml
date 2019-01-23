@@ -6,7 +6,7 @@
     Author     : Pablo VIDAL
     Description: Ventana de herramientas - Consulta de conexiones a bases de datos
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_DBS_VIW" help="HELP_SCREEN_TITLE_DBS_VIW">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_DBS_VIW" help="HELP_SCREEN_TITLE_DBS_VIW">
   <tag source="hidden">
     <criteria id="IdeDbs" component="text" variable="IdeDbs" />
   </tag>

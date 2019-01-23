@@ -6,7 +6,7 @@
     Author     : Pablo VIDAL
     Description: Tools window - Update Email server
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_EML_SRV_UPD" help="HELP_SCREEN_TITLE_EML_SRV_UPD">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_EML_SRV_UPD" help="HELP_SCREEN_TITLE_EML_SRV_UPD">
   <tag source="hidden">
     <message id="UpdMsg" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE" />
   </tag>

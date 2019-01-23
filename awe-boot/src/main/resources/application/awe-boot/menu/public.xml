@@ -6,7 +6,7 @@
     Author     : Pablo GARCIA
     Description: Public profile options
 -->
-<menu screen="signin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/menu.xsd" context="screen" default-action="screen">
+<menu screen="signin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/menu.xsd" context="screen" default-action="screen">
   <option name="signin" screen="signin" invisible="true" />
   <option name="change_password" screen="change_password" invisible="true" />
   <option name="information" screen="info" invisible="true" />

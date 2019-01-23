@@ -17,6 +17,7 @@ import com.almis.awe.builder.screen.dependency.DependencyBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.component.chart.Chart;
+import com.almis.awe.model.entities.screen.component.chart.ChartLegend;
 import com.almis.awe.model.type.ChartType;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,12 +123,12 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
       addElement(chart, aweBuilder.build(chart));
     }
 
-    for (XAxisBuider axisBuider : xAxisList) {
-      chart.getxAxisList().add((com.almis.awe.model.entities.screen.component.chart.ChartAxis) axisBuider.build(chart));
+    for (XAxisBuider axisBuilder : xAxisList) {
+      chart.getxAxisList().add((com.almis.awe.model.entities.screen.component.chart.ChartAxis) axisBuilder.build(chart));
     }
 
-    for (YAxisBuider axisBuider : yAxisList) {
-      chart.getyAxisList().add((com.almis.awe.model.entities.screen.component.chart.ChartAxis) axisBuider.build(chart));
+    for (YAxisBuider axisBuilder : yAxisList) {
+      chart.getyAxisList().add((com.almis.awe.model.entities.screen.component.chart.ChartAxis) axisBuilder.build(chart));
     }
 
     return chart;
@@ -637,9 +638,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addXAxis(XAxisBuider... xAxis) {
     if (xAxis != null) {
-      if (this.xAxisList == null) {
-        this.xAxisList = new ArrayList<>();
-      }
       this.xAxisList.addAll(Arrays.asList(xAxis));
     }
     return this;
@@ -662,9 +660,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addYAxis(YAxisBuider... yAxis) {
     if (yAxis != null) {
-      if (this.yAxisList == null) {
-        this.yAxisList = new ArrayList<>();
-      }
       this.yAxisList.addAll(Arrays.asList(yAxis));
     }
     return this;

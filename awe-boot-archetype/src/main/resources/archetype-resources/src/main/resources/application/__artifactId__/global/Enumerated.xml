@@ -10,6 +10,7 @@
         Purpose of the document follows.
 -->
 
-<enumerated xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../schemas/awe/enumerated.xsd">
+<enumerated xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/enumerated.xsd">
 
 </enumerated>

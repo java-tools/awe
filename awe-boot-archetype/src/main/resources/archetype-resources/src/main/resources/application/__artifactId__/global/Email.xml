@@ -9,6 +9,7 @@
     Description: Email define file
 -->
 
-<emails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../schemas/awe/email.xsd">
+<emails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/email.xsd">
 
 </emails>

@@ -6,7 +6,7 @@
     Author     : Pablo Vidal
     Description: Chart Test Screen
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_CHART_TEST" help="HELP_SCREEN_TITLE_CHART_TEST">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_CHART_TEST" help="HELP_SCREEN_TITLE_CHART_TEST">
   <tag source="buttons">
     <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
       <button-action type="dialog" target="HlpOpt" />

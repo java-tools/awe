@@ -3,7 +3,7 @@
 To change this template, choose Tools | Templates
 and open the template in the editor.
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_CHART_DYNAMIC_SERIES" help="HELP_SCREEN_TITLE_CHART_DYNAMIC_SERIES">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_CHART_DYNAMIC_SERIES" help="HELP_SCREEN_TITLE_CHART_DYNAMIC_SERIES">
   <tag source="center">
     <window label="SCREEN_TEXT_CRITERIA" icon="filter">
       <tag type="div" style="panel-body">

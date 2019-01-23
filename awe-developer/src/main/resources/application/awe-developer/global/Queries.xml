@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <queries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../../schemas/awe/queries.xsd">
+  xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/queries.xsd">
   <!-- Developer queries -->
 
   <!-- Service to show all alerts -->

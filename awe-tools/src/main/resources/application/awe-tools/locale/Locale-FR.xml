@@ -6,7 +6,7 @@
 
 <!--$Id$-->
 
-<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/locale.xsd">
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
   <locale name="BUTTON_LOAD" value="Charge"/>
   <locale name="BUTTON_SAVE" value="Enregistrer"/>
   <locale name="DATABASE_MESSAGE_RESPONSE_OK" value="L&apos;opération a été couronnée de succès"/>

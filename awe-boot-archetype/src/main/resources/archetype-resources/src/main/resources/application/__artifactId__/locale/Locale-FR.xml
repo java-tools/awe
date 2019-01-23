@@ -7,6 +7,7 @@
   Description: Application locales
 -->
 
-<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../schemas/awe/locale.xsd">
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
 
 </locales>

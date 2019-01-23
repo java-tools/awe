@@ -6,7 +6,7 @@
     Author     : Pablo VIDAL
     Description: Ventana de herramientas - Lista de Temas
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_THM" help="HELP_SCREEN_TITLE_THM" keep-criteria="true">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_THM" help="HELP_SCREEN_TITLE_THM" keep-criteria="true">
   <tag source="hidden">
     <message id="DelMsg" title="CONFIRM_TITLE_DELETE" message="CONFIRM_MESSAGE_DELETE" />
   </tag>

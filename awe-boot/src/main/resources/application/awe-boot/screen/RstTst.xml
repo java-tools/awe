@@ -6,7 +6,7 @@
     Author     : Andoni Gomez
     Description: Test reset target
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_SIT" help="HELP_SCREEN_TITLE_SIT" keep-criteria="true" target="QtyTst">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_SIT" help="HELP_SCREEN_TITLE_SIT" keep-criteria="true" target="QtyTst">
   <tag source="hidden">
     <message id="DelMsg" title="CONFIRM_TITLE_DELETE" message="CONFIRM_MESSAGE_DELETE" />
     <criteria id="CrtTstHid" component="hidden" variable="screen"/>

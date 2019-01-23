@@ -7,7 +7,7 @@
     Description: AWE Queries File
 -->
 
-<queries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/queries.xsd">
+<queries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/queries.xsd">
 
   <!--
   SESSION

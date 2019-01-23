@@ -6,7 +6,7 @@
 
 <!--$Id$-->
 
-<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/locale.xsd">
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
   <locale name="BUTTON_ADD_COLUMNS" value="Ajouter des colonnes"/>
   <locale name="BUTTON_ADD_SERIES" value="Ajouter serie"/>
   <locale name="BUTTON_CONFIRM_EMPTY" value="Confirmer (contrôle videes)"/>

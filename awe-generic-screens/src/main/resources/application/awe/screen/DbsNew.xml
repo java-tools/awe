@@ -6,7 +6,7 @@
     Author     : Pablo VIDAL
     Description: Ventana de herramientas - Alta de conexion a base de datos
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_DBS_NEW" help="HELP_SCREEN_TITLE_DBS_NEW">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_DBS_NEW" help="HELP_SCREEN_TITLE_DBS_NEW">
   <tag source="hidden">
     <message id="NewMsg" title="CONFIRM_TITLE_NEW" message="CONFIRM_MESSAGE_NEW" />
     <message id="DbsAlsUni" title="WARNING_TITLE_DUPLICATED_DATABASE" message="WARNING_MESSAGE_DUPLICATED_DATABASE" />
