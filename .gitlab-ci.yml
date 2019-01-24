@@ -54,12 +54,14 @@ site:
     paths:
       - target/site/apidocs
       - awe-generic-screens/src/main/resources/schemas/
+  only:
+    - master
       
 docker-build:
   stage: package
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com  
-    - docker build -t registry.gitlab.com/aweframework/awe ./awe-boot
+    - docker build -t registry.gitlab.com/aweframework/awe/awe-boot ./awe-boot
     - docker push registry.gitlab.com/aweframework/awe/awe-boot
     
 deploy:
@@ -68,7 +70,7 @@ deploy:
   script:
     - mvn $MAVEN_CLI_OPTS deploy -DskipTests      
   only:
-    - master
+    - develop
     
 pages:
   stage: deploy
