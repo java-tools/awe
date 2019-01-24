@@ -13,9 +13,6 @@ VOLUME /logs
 # Volume of app data
 VOLUME /tmp
 
-# Server port
-EXPOSE 80
-
 # Execute jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/awe-boot.jar"]
 

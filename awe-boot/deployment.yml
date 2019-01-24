@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: awe-boot
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: awe-boot
+    spec:
+      containers:
+      - name: awe-boot
+        image: registry.gitlab.com/aweframework/awe/awe-boot
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+        - name: registry.gitlab.com

@@ -72,6 +72,20 @@ deploy:
   only:
     - develop
     
+k8s-deploy:
+  image: google/cloud-sdk
+  stage: deploy
+  script:
+  - echo "$GOOGLE_KEY" > key.json
+  - gcloud auth activate-service-account --key-file key.json
+  - gcloud config set compute/zone europe-west1-c
+  - gcloud config set project awe-selenium-tests
+  - gcloud config set container/use_client_certificate True
+  - gcloud container clusters get-credentials awe-selenium-tests
+  - kubectl delete secret registry.gitlab.com
+  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=limkin --docker-password=$REGISTRY_PASS --docker-email=pablo.vidal@almis.com
+  - kubectl apply -f awe-boot/deployment.yml    
+    
 pages:
   stage: deploy
   dependencies:
