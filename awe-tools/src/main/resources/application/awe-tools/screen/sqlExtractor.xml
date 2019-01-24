@@ -4,7 +4,7 @@
 
 <!--$Id$ -->
 
-<screen label="SCREEN_TITLE_SQL_EXTRACTOR" template="window" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd">
+<screen label="SCREEN_TITLE_SQL_EXTRACTOR" template="window" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd">
   <tag source="hidden">
     <criteria id="sqlType" component="hidden" value="R" />
   </tag>

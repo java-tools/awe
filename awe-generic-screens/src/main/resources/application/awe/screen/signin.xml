@@ -6,7 +6,7 @@
     Author     : Pablo GARCIA
     Description: Login screen
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="full" label="SCREEN_TITLE_LOGIN" help="HELP_SCREEN_TITLE_LOGIN">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="full" label="SCREEN_TITLE_LOGIN" help="HELP_SCREEN_TITLE_LOGIN">
   <tag source="center" type="div" style="fullScreen">
     <tag type="div" id="page-signin-bg" style="fullScreen">
       <!-- Background overlay -->

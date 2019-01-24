@@ -6,7 +6,7 @@
     Author     : Pablo Vidal
     Description: Prueba modal
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window">
   <tag source="center">
     <dialog label="SCREEN_TEXT_CRITERIA" icon="pencil-square-o" id="ModalTst" modal="true" style="normal">
       <tag type="div" style="modal-body scrollable">

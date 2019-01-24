@@ -6,7 +6,7 @@
     Author     : Pablo GARCIA
     Description: Criteria Test Screen
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_CRITERIA_TEST" help="HELP_SCREEN_TITLE_CRITERIA_TEST">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_CRITERIA_TEST" help="HELP_SCREEN_TITLE_CRITERIA_TEST">
   <tag source="hidden">
     <message id="NewMsg" title="CONFIRM_TITLE_NEW" message="CONFIRM_MESSAGE_NEW" />
     <message id="UniMsg" title="WARNING_TITLE_DUPLICATED_USER" message="WARNING_MESSAGE_DUPLICATED_USER" />

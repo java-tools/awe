@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="help">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="help">
   <tag source="center">
     <dialog id="HlpOpt" modal="true" style="modal-lg expand" label="SCREEN_HELP" icon="question-circle" help="HELP_SCREEN_HELP">
       <tag type="div" style="modal-body scrollable expand">

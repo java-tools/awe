@@ -72,7 +72,7 @@
                   </includes>
                 </resource>
               </resources>
-              <outputDirectory>${project.build.directory}/classes/static/</outputDirectory>
+              <outputDirectory>${project.build.directory}/</outputDirectory>
             </configuration>
           </execution>
         </executions>
@@ -88,6 +88,52 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
+        <version>${plugin-xml-maven.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <validationSets>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/global</dir>
+              <includes>
+                <include>Maintain.xml</include>
+              </includes>
+              <systemId>${project.build.directory}/schemas/awe/maintain.xsd</systemId>
+              <validating>true</validating>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/global</dir>
+              <includes>
+                <include>Queries.xml</include>
+              </includes>
+              <systemId>${project.build.directory}/schemas/awe/queries.xsd</systemId>
+              <validating>true</validating>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/global</dir>
+              <includes>
+                <include>Services.xml</include>
+              </includes>
+              <systemId>${project.build.directory}/schemas/awe/services.xsd</systemId>
+              <validating>true</validating>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/locale</dir>
+              <systemId>${project.build.directory}/schemas/awe/locale.xsd</systemId>
+              <validating>true</validating>
+            </validationSet>
+            <validationSet>
+              <dir>${check.xml.directory}/${application.acronym}/screen</dir>
+              <systemId>${project.build.directory}/schemas/awe/screen.xsd</systemId>
+              <validating>true</validating>
+            </validationSet>
+          </validationSets>
+        </configuration>
       </plugin>
 
     </plugins>

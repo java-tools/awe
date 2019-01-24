@@ -6,7 +6,7 @@
     Author     : pgarcia
     Description: Information message screen
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="message" label="SCREEN_TITLE_INFO" help="HELP_SCREEN_TITLE_INFO">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="message" label="SCREEN_TITLE_INFO" help="HELP_SCREEN_TITLE_INFO">
   <javascript id="generate_message" />
   <tag source="type">
     <text><![CDATA[help]]></text>

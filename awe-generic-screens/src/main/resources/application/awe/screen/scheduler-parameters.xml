@@ -6,7 +6,7 @@
     Author     : David Fuentes
     Description: Ventana de parametros del planificador
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="MENU_NEW_SCHEDULER_TASK" help="HELP_SCREEN_NEW_SCHEDULER_TASK">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="MENU_NEW_SCHEDULER_TASK" help="HELP_SCREEN_NEW_SCHEDULER_TASK">
   <tag source="Configuration">
     <criteria component="hidden" id="Ide" variable="IdeTsk.selected"/>
     <criteria label="PARAMETER_NAME" component="text" id="Nam" style="col-xs-12 col-sm-3" validation="required"/>

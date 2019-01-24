@@ -1,6 +1,7 @@
 package com.almis.awe.test.builder;
 
 import com.almis.awe.builder.enumerates.*;
+import com.almis.awe.builder.enumerates.ChartAxis;
 import com.almis.awe.builder.screen.*;
 import com.almis.awe.builder.screen.accordion.AccordionBuilder;
 import com.almis.awe.builder.screen.accordion.AccordionItemBuilder;
@@ -21,13 +22,18 @@ import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.model.entities.screen.View;
 import com.almis.awe.model.entities.screen.component.*;
 import com.almis.awe.model.entities.screen.component.action.ButtonAction;
+import com.almis.awe.model.entities.screen.component.action.Dependency;
+import com.almis.awe.model.entities.screen.component.action.DependencyAction;
+import com.almis.awe.model.entities.screen.component.action.DependencyElement;
 import com.almis.awe.model.entities.screen.component.button.Button;
-import com.almis.awe.model.entities.screen.component.chart.Chart;
-import com.almis.awe.model.entities.screen.component.chart.ChartLegend;
+import com.almis.awe.model.entities.screen.component.button.ContextButton;
+import com.almis.awe.model.entities.screen.component.button.ContextSeparator;
+import com.almis.awe.model.entities.screen.component.chart.*;
 import com.almis.awe.model.entities.screen.component.container.AccordionItem;
 import com.almis.awe.model.entities.screen.component.panelable.Accordion;
 import com.almis.awe.model.entities.screen.component.pivottable.PivotTable;
 import com.almis.awe.model.type.ChartType;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -528,12 +534,21 @@ public class ScreenBuilderTest {
           .setSubtitle("SUBTITLE")
           .setType(ChartType.AREASPLINE)
           .setZoomType(ChartAxis.Y_AXIS)
-          .addChartLegend(new ChartLegendBuilder()
+          .setChartLegend(new ChartLegendBuilder()
             .setChartLayout(ChartLayout.HORIZONTAL)
             .setAlign(Align.CENTER)
             .setEnabled(true)
             .setFloating(true)
             .setBorderWidth(2))
+          .setChartTooltip(new ChartTooltipBuilder()
+            .setCrosshairs(ChartAxis.ALL)
+            .setEnabled(true)
+            .setNumberDecimals(4)
+            .setPointFormat("pointFormat")
+            .setPrefix("pre")
+            .setSuffix("post")
+            .setDateFormat("yyyymmdd")
+            .setShared(true))
           .addChartParameter(new ChartParameterBuilder()
             .setDataType(DataType.DOUBLE)
             .setName("parameterName")
@@ -547,19 +562,14 @@ public class ScreenBuilderTest {
             .setyValue("y")
             .setzValue("z")
             .setDrilldownSerie("drilldownSerie"))
-          .addChartTooltip(new ChartTooltipBuilder()
-            .setCrosshairs(ChartAxis.ALL)
-            .setEnabled(true)
-            .setNumberDecimals(4)
-            .setPointFormat("pointFormat")
-            .setPrefix("pre")
-            .setSuffix("post")
-            .setDateFormat("yyyymmdd")
-            .setShared(true))
-          .addContextButton(new ContextButtonBuilder())
+          .addContextButton(new ContextButtonBuilder()
+            .setLabel("LABEL")
+            .setButtonType(ButtonType.BUTTON)
+            .setIcon("icon")
+            .setSize("sm")
+            .setValue("value"))
           .addContextButton(new ContextSeparatorBuilder())
           .addDependency(new DependencyBuilder()
-            .setAsync(true)
             .setFormule("formule")
             .setInitial(true)
             .setInvert(true)
@@ -610,26 +620,78 @@ public class ScreenBuilderTest {
     assertEquals(chart.getType(), ChartType.AREASPLINE.toString());
     assertTrue(ChartAxis.Y_AXIS.equalsStr(chart.getZoomType()));
 
-    // TODO Fix chart legend && chart tooltip
+    ChartLegend chartLegend = chart.getChartLegend();
+    assertTrue(ChartLayout.HORIZONTAL.equalsStr(chartLegend.getLayout()));
+    assertTrue(Align.CENTER.equalsStr(chartLegend.getAlign()));
+    assertEquals(chartLegend.getEnabled(), "true");
+    assertEquals(chartLegend.getFloating(), "true");
+    assertEquals(chartLegend.getBorderWidth(), "2");
 
-    /*ButtonAction buttonAction = (ButtonAction) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0);
-    assertTrue(ServerAction.MAINTAIN.equalsStr(buttonAction.getServerAction()));
-    assertTrue(Action.ADD_CLASS.equalsStr(buttonAction.getType()));
-    assertEquals(buttonAction.getTargetAction(), "targetAction1");
-    assertEquals(buttonAction.getTarget(), "target1");
-    assertEquals(buttonAction.getAsync(), "true");
-    assertEquals(buttonAction.getSilent(), "true");
-    assertEquals(buttonAction.getValue(), "buttonValue1");
-    assertEquals(buttonAction.getScreenContext(), "home");
+    ChartTooltip chartTooltip = chart.getChartTooltip();
+    assertTrue(ChartAxis.ALL.equalsStr(chartTooltip.getCrosshairs()));
+    assertEquals(chartTooltip.getEnabled(), "true");
+    assertEquals(chartTooltip.getNumberDecimals(), "4");
+    assertEquals(chartTooltip.getPointFormat(), "pointFormat");
+    assertEquals(chartTooltip.getPreffix(), "pre");
+    assertEquals(chartTooltip.getSuffix(), "post");
+    assertEquals(chartTooltip.getDateFormat(), "yyyymmdd");
+    assertEquals(chartTooltip.getShared(), "true");
 
-    buttonAction = (ButtonAction) screen.getElementList().get(0).getElementList().get(0).getElementList().get(1);
-    assertTrue(ServerAction.MAINTAIN_ASYNC.equalsStr(buttonAction.getServerAction()));
-    assertTrue(Action.SERVER.equalsStr(buttonAction.getType()));
-    assertEquals(buttonAction.getTargetAction(), "targetAction2");
-    assertEquals(buttonAction.getTarget(), "target2");
-    assertEquals(buttonAction.getAsync(), "false");
-    assertEquals(buttonAction.getSilent(), "false");
-    assertEquals(buttonAction.getValue(), "buttonValue2");
-    assertEquals(buttonAction.getScreenContext(), "home");*/
+    ChartParameter chartParameter = (ChartParameter) chart.getElementList().get(0);
+    assertTrue(DataType.DOUBLE.equalsStr(chartParameter.getType()));
+    assertEquals(chartParameter.getName(), "parameterName");
+    assertEquals(chartParameter.getValue(), "0.1213");
+    assertEquals(0.1213, chartParameter.getParameterValue(JsonNodeFactory.instance.objectNode()).asDouble(), 0.01);
+
+    ChartSerie chartSerie = (ChartSerie) chart.getElementList().get(1);
+    assertEquals(chartSerie.getColor(), "red");
+    assertEquals(chartSerie.getDrillDown(), "true");
+    assertEquals(chartSerie.getxAxis(), "xAxis");
+    assertEquals(chartSerie.getyAxis(), "yAxis");
+    assertEquals(chartSerie.getxValue(), "x");
+    assertEquals(chartSerie.getyValue(), "y");
+    assertEquals(chartSerie.getzValue(), "z");
+    assertEquals(chartSerie.getDrillDownSerie(), "drilldownSerie");
+
+    ContextButton contextButton = (ContextButton) chart.getElementList().get(2);
+    assertEquals(contextButton.getLabel(), "LABEL");
+    assertTrue(ButtonType.BUTTON.equalsStr(contextButton.getType()));
+    assertEquals(contextButton.getIcon(), "icon");
+    assertEquals(contextButton.getSize(), "sm");
+    assertEquals(contextButton.getValue(), "value");
+
+    ContextSeparator contextSeparator = (ContextSeparator) chart.getElementList().get(3);
+    Dependency dependency = (Dependency) chart.getElementList().get(4);
+    assertEquals(dependency.getFormule(), "formule");
+    assertEquals(dependency.getInitial(), "true");
+    assertEquals(dependency.getInvert(), "true");
+    assertEquals(dependency.getLabel(), "LABEL");
+    assertTrue(ServerAction.CONTROL.equalsStr(dependency.getServerAction()));
+    assertTrue(SourceType.QUERY.equalsStr(dependency.getSourceType()));
+    assertTrue(TargetType.ATTRIBUTE.equalsStr(dependency.getTargetType()));
+    assertTrue(DependencyType.AND.equalsStr(dependency.getType()));
+    assertEquals(dependency.getValue(), "value");
+
+    DependencyAction dependencyAction = (DependencyAction) dependency.getElementList().get(0);
+    assertTrue(ServerAction.GET_SERVER_FILE.equalsStr(dependencyAction.getServerAction()));
+    assertEquals(dependencyAction.getTargetAction(), "TargetAction");
+    assertEquals(dependencyAction.getTarget(), "target");
+    assertEquals(dependencyAction.getAsync(), "true");
+    assertEquals(dependencyAction.getScreenContext(), "context");
+    assertTrue(DependencyActionType.ADD_ROW.equalsStr(dependencyAction.getType()));
+    assertEquals(dependencyAction.getSilent(), "true");
+    assertEquals(dependencyAction.getValue(), "value");
+
+    DependencyElement dependencyElement = (DependencyElement) dependency.getElementList().get(1);
+    assertEquals(dependencyElement.getAlias(), "alias");
+    assertEquals(dependencyElement.getId(), "id");
+    assertEquals(dependencyElement.getCancel(), "false");
+    assertTrue(Attribute.CURRENT_ROW_VALUE.equalsStr(dependencyElement.getAttribute()));
+    assertEquals(dependencyElement.getColumn(), "column");
+    assertTrue(Condition.EQUALS.equalsStr(dependencyElement.getCondition()));
+    assertTrue(Attribute.EDITABLE.equalsStr(dependencyElement.getAttribute2()));
+    assertEquals(dependencyElement.getColumn2(), "column2");
+    assertEquals(dependencyElement.getId2(), "id2");
+
   }
 }

@@ -10,6 +10,6 @@
 -->
 
 <emails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/email.xsd">
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/email.xsd">
 
 </emails>

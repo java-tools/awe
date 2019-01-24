@@ -6,7 +6,7 @@
     Author     : Pablo Vidal
     Description: Pdf viewer
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_REP_GEN_VIW" help="HELP_SCREEN_TITLE_REP_GEN_VIW">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_REP_GEN_VIW" help="HELP_SCREEN_TITLE_REP_GEN_VIW">
   <tag source="buttons">
     <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
       <button-action type="back" />

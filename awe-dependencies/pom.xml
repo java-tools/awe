@@ -31,7 +31,7 @@
     <plugin-sonar.version>3.5.0.1254</plugin-sonar.version>
     <plugin-surefire.version>2.20</plugin-surefire.version>
     <plugin-archetype.version>3.0.1</plugin-archetype.version>
-    <plugin-xml-maven.version>1.0</plugin-xml-maven.version>
+    <plugin-xml-maven.version>1.0.2</plugin-xml-maven.version>
     <plugin-jar.version>3.1.0</plugin-jar.version>
     <plugin-resources.version>3.1.0</plugin-resources.version>
     <plugin-ant.version>1.8</plugin-ant.version>
@@ -250,6 +250,7 @@
           </executions>
         </plugin>
         <!-- Xml validation -->
+        <!-- Validate XML files -->
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>xml-maven-plugin</artifactId>
@@ -306,69 +307,5 @@
       </plugins>
     </pluginManagement>
   </build>
-
-  <!-- Profiles -->
-  <profiles>
-    <!-- Profile for Sonar repository -->
-    <profile>
-      <id>sonar</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
-
-    <!-- Profile for frontend -->
-    <profile>
-      <id>frontend</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-          </plugins>
-        </pluginManagement>
-      </build>
-    </profile>
-
-    <!-- Profile for xml validation -->
-    <profile>
-      <id>xml-validation</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <!-- Validate XML files -->
-            <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>xml-maven-plugin</artifactId>
-              <executions>
-                <execution>
-                  <goals>
-                    <goal>validate</goal>
-                  </goals>
-                </execution>
-              </executions>
-              <configuration>
-                <validationSets>
-                  <validationSet>
-                    <dir>${check.xml.directory}/${application.acronym}/</dir>
-                    <excludes>
-                      <exclude>
-                        templates/**
-                      </exclude>
-                    </excludes>
-                    <validating>true</validating>
-                  </validationSet>
-                </validationSets>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-      </build>
-    </profile>
-  </profiles>
 
 </project>
