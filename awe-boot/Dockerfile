@@ -8,7 +8,7 @@ LABEL maintainer="pablo.vidal@almis.com"
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-ADD target/awe-boot.jar /app
+ADD target/awe-boot.jar awe-boot.jar
 
 # Volume of app logs
 VOLUME /logs
@@ -21,3 +21,5 @@ EXPOSE 80
 
 # Execute jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/awe-boot.jar"]
+
+
