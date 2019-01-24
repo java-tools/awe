@@ -34,7 +34,7 @@
 
     <!-- Build properties -->
     <project.build.frontend>${project.build.directory}/classes/static/</project.build.frontend>
-    <check.xml.directory>${project.build.directory}/classes/application/</check.xml.directory>
+    <check.xml.directory>${project.basedir}/src/main/resources/application/</check.xml.directory>
 
     <!-- Sonar configuration -->
     <sonar.links.homepage>https://git.almis.com/isban-market-risk/fx-blotter</sonar.links.homepage>

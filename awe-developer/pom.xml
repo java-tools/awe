@@ -56,7 +56,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
-        <version>1.0.2</version>
+        <version>${plugin-xml-maven.version}</version>
         <executions>
           <execution>
             <goals>
@@ -67,48 +67,16 @@
         <configuration>
           <validationSets>
             <validationSet>
-              <dir>${check.xml.directory}/${application.acronym}/global</dir>
-              <includes>
-                <include>Enumerated.xml</include>
-              </includes>
-              <systemId>${project.build.directory}/schemas/awe/enumerated.xsd</systemId>
-              <validating>true</validating>
-            </validationSet>
-            <validationSet>
-              <dir>${check.xml.directory}/${application.acronym}/global</dir>
-              <includes>
-                <include>Maintain.xml</include>
-              </includes>
-              <systemId>${project.build.directory}/schemas/awe/maintain.xsd</systemId>
-              <validating>true</validating>
-            </validationSet>
-            <validationSet>
-              <dir>${check.xml.directory}/${application.acronym}/global</dir>
-              <includes>
-                <include>Queries.xml</include>
-              </includes>
-              <systemId>${project.build.directory}/schemas/awe/queries.xsd</systemId>
-              <validating>true</validating>
-            </validationSet>
-            <validationSet>
-              <dir>${check.xml.directory}/${application.acronym}/global</dir>
-              <includes>
-                <include>Services.xml</include>
-              </includes>
-              <systemId>${project.build.directory}/schemas/awe/services.xsd</systemId>
-              <validating>true</validating>
-            </validationSet>
-            <validationSet>
-              <dir>${check.xml.directory}/${application.acronym}/locale</dir>
-              <systemId>${project.build.directory}/schemas/awe/locale.xsd</systemId>
-              <validating>true</validating>
-            </validationSet>
-            <validationSet>
-              <dir>${check.xml.directory}/${application.acronym}/screen</dir>
-              <systemId>${project.build.directory}/schemas/awe/screen.xsd</systemId>
+              <dir>${check.xml.directory}/${application.acronym}/</dir>
+              <excludes>
+                <exclude>templates/**</exclude>
+              </excludes>
               <validating>true</validating>
             </validationSet>
           </validationSets>
+          <catalogs>
+            <catalog>${project.build.directory}/schemas/awe/catalog.xml</catalog>
+          </catalogs>
         </configuration>
       </plugin>
     </plugins>
