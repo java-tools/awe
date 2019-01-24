@@ -13,14 +13,18 @@
     <!-- Application maven properties -->
     <awe.version>${project.version}</awe.version>
     <ade.version>2.0.7</ade.version>
-    
     <java.version>1.8</java.version>
     <application.name>\${artifactId}_V${version}</application.name>
+
+    <!-- Build properties -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.frontend>\${project.build.directory}/classes/static</project.build.frontend>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.build.frontend>\${project.build.directory}/classes/static/</project.build.frontend>
+    <check.xml.directory>\${project.basedir}/src/main/resources/application/</check.xml.directory>
     <node.version>v8.12.0</node.version>
     <yarn.version>v1.10.1</yarn.version>
+
+    <!-- Plugin versions -->
     <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
     <plugin-frontend.version>1.6</plugin-frontend.version>
     <plugin-dependency.version>3.0.2</plugin-dependency.version>
