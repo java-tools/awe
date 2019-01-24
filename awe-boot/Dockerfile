@@ -4,9 +4,6 @@ FROM openjdk:8-jdk-alpine
 # Image maintainer
 LABEL maintainer="pablo.vidal@almis.com"
 
-# Set the working directory to /app
-WORKDIR /app
-
 # Copy the current directory contents into the container at /app
 ADD target/awe-boot.jar awe-boot.jar
 
