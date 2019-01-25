@@ -84,10 +84,11 @@ k8s-deploy-staging:
   - gcloud container clusters get-credentials awe-selenium-testing
   - kubectl config set-cluster awe-selenium-testing --server="$KUBE_URL" --insecure-skip-tls-verify=true
   - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-#  - kubectl config set-context staging --cluster=awe-selenium-testing --user=admin
-#  - kubectl config use-context staging
+  - kubectl config set-context default-system --cluster=awe-selenium-testing --user=admin
+  - kubectl config use-context default-system  
   - kubectl delete secret registry.gitlab.com  
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
+  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yml  
   - kubectl apply -f awe-boot/deployment.yml --namespace=staging
   environment:
     name: staging

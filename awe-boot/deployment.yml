@@ -1,18 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: awe-boot-deployment
+  name: __CI_ENVIRONMENT_SLUG__
   labels:
-    app: awe-boot
+    app: __CI_ENVIRONMENT_SLUG__
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: awe-boot
+      app: __CI_ENVIRONMENT_SLUG__
   template:
     metadata:
       labels:
-        app: awe-boot
     spec:
       containers:
       - name: awe-boot
