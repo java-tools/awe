@@ -82,7 +82,7 @@ k8s-deploy:
   - gcloud config set project wired-armor-229610
   - gcloud config set container/use_client_certificate True
   - gcloud container clusters get-credentials awe-selenium-testing
-  - kubectl delete secret registry.gitlab.com
+  - kubectl delete secret registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=limkin --docker-password=$REGISTRY_PASS --docker-email=pablo.vidal@almis.com
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=limkin --docker-password=$REGISTRY_PASS --docker-email=pablo.vidal@almis.com
   - kubectl apply -f awe-boot/deployment.yml    
     
