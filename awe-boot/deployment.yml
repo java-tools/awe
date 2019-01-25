@@ -1,9 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: awe-boot
+  name: awe-boot-deployment
+  labels:
+    app: awe-boot
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: awe-boot
   template:
     metadata:
       labels:
