@@ -59,8 +59,8 @@ aweApplication.directive('downloader',
 
           // On file downloaded, abort the promise
           scope.$on("/action/file-downloaded/" + scope.file.index, function (event, action) {
-            deferred.abort();
             action.accept();
+            onSuccess();
           });
         }
       };
