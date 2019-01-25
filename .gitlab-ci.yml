@@ -88,7 +88,7 @@ k8s-deploy-staging:
   - kubectl config use-context default-system  
   - kubectl delete secret registry.gitlab.com  
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
-  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" deployment.yml  
+  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-boot/deployment.yml  
   - kubectl apply -f awe-boot/deployment.yml --namespace=staging
   environment:
     name: staging
