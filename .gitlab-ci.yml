@@ -82,8 +82,11 @@ k8s-deploy:
   - gcloud config set project wired-armor-229610
   - gcloud config set container/use_client_certificate True
   - gcloud container clusters get-credentials awe-selenium-testing
-  - kubectl delete secret registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=limkin --docker-password=$REGISTRY_PASS --docker-email=pablo.vidal@almis.com
-  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=limkin --docker-password=$REGISTRY_PASS --docker-email=pablo.vidal@almis.com
+  - kubectl config set-cluster nosebit --server="$KUBE_URL" --insecure-skip-tls-verify=true
+  - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
+  - kubectl config set-context default --cluster=nosebit --user=admin
+  - kubectl config use-context default
+  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
   - kubectl apply -f awe-boot/deployment.yml    
     
 pages:
