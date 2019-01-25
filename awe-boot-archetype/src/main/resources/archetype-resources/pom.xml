@@ -149,24 +149,6 @@
               </artifactItems>
             </configuration>
           </execution>
-          <execution>
-            <phase>generate-resources</phase>
-            <id>unpack awe-client-angular</id>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>com.almis.awe</groupId>
-                  <artifactId>awe-client-angular</artifactId>
-                  <version>${awe.version}</version>
-                  <outputDirectory>\${project.build.frontend}</outputDirectory>
-                  <includes>images/**,fonts/**,js/**,css/**,less/**</includes>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
       <plugin>

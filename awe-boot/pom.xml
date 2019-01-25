@@ -225,28 +225,6 @@
                     <include>docs/**</include>
                   </includes>
                 </resource>
-                <!-- Awe client angular -->
-                <resource>
-                  <directory>../awe-client-angular/src/main/resources</directory>
-                  <includes>
-                    <include>images/**</include>
-                    <include>fonts/**</include>
-                    <include>js/**</include>
-                    <include>css/**</include>
-                    <include>less/**</include>
-                  </includes>
-                </resource>
-                <!-- Awe tools -->
-                <resource>
-                  <directory>../awe-tools/src/main/resources</directory>
-                  <includes>
-                    <include>images/**</include>
-                    <include>fonts/**</include>
-                    <include>js/**</include>
-                    <include>css/**</include>
-                    <include>less/**</include>
-                  </includes>
-                </resource>
               </resources>
             </configuration>
           </execution>
