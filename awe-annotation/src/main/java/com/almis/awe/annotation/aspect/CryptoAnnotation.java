@@ -62,7 +62,7 @@ public class CryptoAnnotation {
   @Around ("com.almis.awe.annotation.aspect.CryptoAnnotation.cryptoMethodPointcut()")
   public String cryptoMethodProcessor(ProceedingJoinPoint proceedingJoinPoint) throws AWException {
     // Process join point
-    String result = (String) AnnotationUtils.processJoinPoint(proceedingJoinPoint);
+    String result = AnnotationUtils.processJoinPoint(proceedingJoinPoint);
     return cryptoProcessor.processCrypto(((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getAnnotation(Crypto.class), result);
   }
 

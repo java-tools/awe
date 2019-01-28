@@ -793,10 +793,14 @@ public class FileManagerService implements InitializingBean {
 
   /**
    * Fix an untrusted path
-   * @param path Untrusted path
+   * @param paths Untrusted paths
    * @return Normalized path
    */
-  private String fixUntrustedPath(String... path) {
-    return Paths.get(".", path).normalize().toString();
+  private String fixUntrustedPath(String... paths) {
+    List<String> fixedPaths = new ArrayList();
+    for (String path : paths) {
+      fixedPaths.add(path.replaceAll("\\.\\.(\\\\|\\/)", ""));
+    }
+    return Paths.get(".", fixedPaths.toArray(new String[0])).normalize().toString();
   }
 }
