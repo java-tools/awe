@@ -1,0 +1,51 @@
+/*!
+ * \page ModuleManagement Module management selenium tests
+ *
+ * \section SecNewMod New module
+ *  Test for adding a new module to the application.
+ *  It creates a new 'test' module. This are the parameters given to the new module:
+ *    - Module 	   		  : 'Inf'
+ *    - Initial Screen    : 'Sit'
+ *    - Active     		  : 'Yes' (1)
+ *	In this screen, also it configures an new user by module, profiles by module and new configuration with
+ *  Site and Database by module
+ *	User by module
+ *    - User 	   		  : 'test'
+ *    - Theme 	   		  : 'sky'
+ *	Profile by module
+ *    - Profile 	   	  : 'TS - test'
+ *    - Theme 	   		  : 'sky'
+ *	Configuration of module
+ *    - Site 	   	  	  : 'Sitio de prueba'
+ *    - DataBase   		  : 'AWEMADSQS01 (Production-Datasource)'
+ *
+ * \section SecModViw View module
+ *  Test for verifying that the added module is correct.
+ *  This process search the name of the new module in the correspondent criterion
+ *  of module management window, it selects it and goes to 'View' window to visualise it.
+ *
+ * \section SecChangeMod Update module
+ *  Test for modifying a defined module.
+ *  This process search the name of the new module in the correspondent criterion
+ *  of module management window, it selects it and goes to 'Update' window to modify it.
+ *  Afterwards, it changes the module to which it is assigned setting name to 'Inf changed' 
+ *  Afterwards, it changes the module to which it is assigned setting name to 'Inf changed' 
+ *  and initial screen to 'Usr'. Also it changes the module name to 'AweMod2', profile to 'ADM - administrator'
+ *  , database name to 'DBORAMiercoles (Preproduction-Datasource)' and confirmes the modifications.
+ *
+ * \section SecViwChangeMod View updated module
+ *  Test for verifying that the modifications made on the module are correct.
+ *  This process search the name of the updated module in the correspondent criterion
+ *  of module management window, it selects it and goes to 'View' window to to visualise it.
+ *
+ * \section SecModDel Delete module
+ *  Test for verifying the delete of one module.
+ *  This process search the name of the 'Inf changed' module in the correspondent criterion
+ *  of module management window, it selects it and pushes 'Delete' button to delete it.
+ *
+ * \section SecViwDelMod Verify Delete module
+ *  Test for verifying that the delete of module 'Inf changed' was correct.
+ *
+ * \section SecSelMod Select module
+ *  Test for verifying that the selection of module in select criteria was correct.
+ */

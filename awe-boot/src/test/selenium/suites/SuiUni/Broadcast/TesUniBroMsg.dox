@@ -1,0 +1,7 @@
+/*!
+ * \page BroadcastingMessageTest Broadcast message selenium tests
+ *
+ * \section SecUniBroMsg Test broadcast message in Awe
+ *  Test to send a broadcasting messaget in Awe application.
+ *
+ */

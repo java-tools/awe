@@ -1,0 +1,37 @@
+/*!
+ * \page EmlSrv Mail server selenium tests
+ *
+ * \section SecNewEmlSrv New mail server
+ *  Test for adding a new mail server
+ *  It creates a new 'test server' mail server. This are the parameters given to the mail server:
+ *    - Alias 	   		  : 'test server'
+ *    - Server	   		  : 'localhost'
+ *    - Authenticate	  : 'Yes' (1)
+ *    - User			  : 'test'
+ *    - Password   		  : 'test'
+ *
+ * \section SecNewEmlSrvViw Verify new mail server
+ *  Test for verifying that the added mail server is correct.
+ *  This process search the name of the new server in the correspondent criterion
+ *  of mail server management window, verify that it exist.
+ *
+ * \section SecChangeEmlSrv Update mail server
+ *  Test for modifying a defined mail server.
+ *  This process search the name of the new mail server in the correspondent criterion
+ *  of user management window, it selects it and goes to 'Update' window to modify it.
+ *  Afterwards, it changes the alias to which it is assigned setting 'test server update' and user parameter 
+ *  to test2 and confirmes the modifications.
+ *
+ * \section SecViwChangeEmlSrv View updated mail server
+ *  Test for verifying that the modifications made on the mail server are correct.
+ *  This process search the name of the updated mail server in the correspondent criterion
+ *  of mail server management window, it selects it and verify that it exist.
+ *
+ * \section SecEmlSrvDel Delete mail server
+ *  Test for verifying the delete of one mail server.
+ *  This process search the name of the 'server update' in the correspondent criterion
+ *  of mail server management window, it selects it and pushes 'Delete' button to delete it.
+ *
+ * \section SecViwEmlSrv Verify Delete mail server
+ *  Test for verifying that the delete of mail server 'server update' was correct.
+ */

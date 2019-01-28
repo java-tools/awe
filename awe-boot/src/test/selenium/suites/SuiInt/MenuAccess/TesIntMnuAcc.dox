@@ -1,0 +1,8 @@
+/*!
+ * \page MenuAccessTest Menu Access selenium tests
+ *
+ * \section SecIntMnuAcc Test menu access
+ *  Test restriction system of menu access in Awe applications. This test
+ *  checks module parameter to be displayed the screens that make up the menu
+ *
+ */

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Change Profile</title>
+  </head>
+  <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+      <thead>
+        <tr><td rowspan="1" colspan="3">Change Profile</td></tr>
+      </thead><tbody>
+        <tr>
+	<td>setTimeout</td>
+	<td>60000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=span[translate-multiple='ENUM_MATRIX_EDITABLE']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span[translate-multiple='ENUM_MATRIX_EDITABLE']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='1'] [column-id='FilDat']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='1'] [column-id='FilDat'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='1'] [column-id='FilDat'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.datepicker td.day:not(.disabled):first</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.datepicker td.day:not(.disabled):first</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=.datepicker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='1'] [column-id='FilDat'] input</td>
+	<td>FilDat</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='2'] [column-id='Dat']:contains('${FilDat}')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='2'] [column-id='Dat']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='2'] [column-id='Dat'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='3'] [column-id='Dat']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='3'] [column-id='Dat'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='3'] [column-id='Dat'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.datepicker td:contains('24')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.datepicker td:contains('24')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=.datepicker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeValue</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='3'] [column-id='Dat'] input</td>
+	<td>Dat</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.grid-row-save:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='2'] [column-id='FilDat']:contains('${Dat}')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>contextMenuAt</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='3'] [column-id='FilDat']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[name=CtxGrdEdiAddSel]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseOver</td>
+	<td>css=[name=CtxGrdEdiAddSel]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[name=CtxGrdEdiAddUpp]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>mouseOver</td>
+	<td>css=[name=CtxGrdEdiAddUpp]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[name=CtxGrdEdiAddUpp]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdEdi'] .ui-grid-cell-contents .visible-value:contains('-123.456,10 $')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='1'] [column-id='Txt']:contains('adminflare')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdEdi'] [row-id='2'] [column-id='Txt']:contains('amazonia')</td>
+	<td></td>
+</tr>
+</tbody></table>
+  </body>
+</html>

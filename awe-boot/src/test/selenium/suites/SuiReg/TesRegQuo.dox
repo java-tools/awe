@@ -1,0 +1,9 @@
+/*!
+ * \page QuoteTextTest Quote symbol selenium tests
+ *
+ * \section SecRegQuo Quote symbol test
+ *  Test to check criteria format is not numeric. 
+ *  Type quote symbol in text area criteria type.
+ *
+ */
+ 

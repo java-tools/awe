@@ -1,0 +1,36 @@
+/*!
+ * \page ScreenConfigurationManagement Screen configuration management selenium tests
+ *
+ * \section SecNewScrCnf New screen configuration
+ *  Test for adding a new config parameter to screen in the the application.
+ *  It creates a new 'attribute config' to screen. This are the parameters given to the new screen configuration:
+ *    - CrtScr 		: 'Dbs'
+ *    - CrtIdeOpe 	: 'test'
+ *    - CrtAct	    : 'Yes' (1)
+ *	  - Nam			: 'ButPrn'
+ *	  - Atr			: 'Visible'
+ *	  - Val			: 'true'
+ *
+ * \section SecScrCnfViw View screen configuration
+ *  Test for verifying that the added screen configuration is correct.
+ *  This process search the name of the screen and user in the correspondent criterion and search all attributes screen configuration 
+ *  and verify the new attribute name and value.
+ *
+ * \section SecChangeScrCnf Update screen configuration
+ *  Test for modifying a defined screen configuration.
+ *  This process search the name of the screen and user in the correspondent criterion and search all attributes screen configuration 
+ *  and update the element'ButPrn' and attribute 'Visible' with value 'false'.
+ *
+ * \section SecViwChangeScrCnf View updated screen configuration
+ *  Test for verifying that the modifications made on the screen configuration are correct.
+ *  This process search the name of the screen and user in the correspondent criterion and search all attributes screen configuration 
+ *  and verify the value 'false' in element 'ButPrn' and attribute 'Visible'.
+ *
+ * \section SecScrCnfDel Delete screen configuration
+ *  Test for verifying the delete of one screen configuration.
+ *  This process search the name of the screen and user in the correspondent criterion and search all attributes screen configuration 
+ *  , it selects it and pushes 'Delete' button to delete it.
+ *
+ * \section SecViwDelScrCnf Verify Delete screen configuration
+ *  Test for verifying that the delete of attribute visible in screen 'Dbs' and user 'test' was correct.
+ */

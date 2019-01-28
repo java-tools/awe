@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Update Scheduler Task</title>
+  </head>
+  <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+      <thead>
+        <tr><td rowspan="1" colspan="3">Update Scheduler Task</td></tr>
+      </thead><tbody>
+        <tr>
+	<td>setTimeout</td>
+	<td>60000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>name=scheduler-tasks</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=scheduler-tasks</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='CrtTsk'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[criterion-id='CrtTsk'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=#select2-drop .select2-input</td>
+	<td>Test scheduled task</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-match:contains('Test scheduled task')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-match:contains('Test scheduled task')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=#select2-drop</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButSch:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButSch:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=[grid-id='GrdTskLst'] .grid-loader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>css=[grid-id='GrdTskLst'] .grid-loader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdTskLst'] .ui-grid-rownumber:first</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[grid-id='GrdTskLst'] .ui-grid-rownumber:first</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButUpd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButUpd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='Des'] textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=[criterion-id='Des'] textarea</td>
+	<td>Test new scheduler task description</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=[criterion-id='Des'] textarea</td>
+	<td>${KEY_TAB}</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='NumStoExe'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=[criterion-id='NumStoExe'] input</td>
+	<td>61</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=[criterion-id='NumStoExe'] input</td>
+	<td>${KEY_TAB}</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='TimOutExe'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=[criterion-id='TimOutExe'] input</td>
+	<td>121</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=[criterion-id='TimOutExe'] input</td>
+	<td>${KEY_TAB}</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='TypExe'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[criterion-id='TypExe'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-result-label:contains('Maintain')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-result-label:contains('Maintain')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=#select2-drop</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='maintain'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[criterion-id='maintain'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=#select2-drop .select2-input</td>
+	<td>ActSchTsk</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-match:contains('ActSchTsk')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-match:contains('ActSchTsk')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=#select2-drop</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='LchDepWrn'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[criterion-id='LchDepWrn'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='LchDepErr'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[criterion-id='LchDepErr'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='LchSetWrn'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[criterion-id='LchSetWrn'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#tab-Parameters</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Parameters</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='ParameterList'] [column-id='ParVal'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[grid-id='ParameterList'] [column-id='ParVal']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=[grid-id='ParameterList'] [column-id='ParVal'] input</td>
+	<td>99</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#tab-Report</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Report</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='RepTyp'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[criterion-id='RepTyp'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-result-label:contains('Broadcast')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-result-label:contains('Broadcast')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=#select2-drop</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='RepSndSta'] .select2-input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=[criterion-id='RepSndSta'] .select2-input</td>
+	<td>Ok</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-match:contains('Ok')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-match:contains('Ok')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=#select2-drop</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='RepUsrDst'] .select2-input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=[criterion-id='RepUsrDst'] .select2-input</td>
+	<td>df</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-match:contains('df')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-match:contains('df')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=#select2-drop</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='RepMsg'] textarea</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=[criterion-id='RepMsg'] textarea</td>
+	<td>Test broadcast message</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=[criterion-id='RepMsg'] textarea</td>
+	<td>${KEY_TAB}</td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#update:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#update:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=.alert-zone .alert-success button.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.alert-zone .alert-success button.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=.alert-zone .alert-success</td>
+	<td></td>
+</tr>
+</tbody></table>
+  </body>
+</html>

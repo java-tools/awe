@@ -1,0 +1,7 @@
+/*!
+ * \page TstLogIn Application login test
+ *
+ * This test sets the login ("test") and its password to enter in the application. It executes
+ * the login and verifies that the login has been correctly executed
+ *
+ */

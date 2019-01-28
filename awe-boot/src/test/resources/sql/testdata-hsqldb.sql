@@ -107,14 +107,14 @@ delete AweMod;
 insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (916,	'Test',	'Dbs',	4,	1);
 insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (28,	'Base',	'Sit',	2,	1);
 
--- Insert AweMod
+-- Insert AweDbs
 delete AweDbs;
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (9	,'awesybase1','AWE SYBASE 1','J','syb','com.sybase.jdbc3.jdbc.SybDriver','awesybase1','xxx','Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase1',	1	);
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (8	,'awesqs1','AWE SQL SERVER 1','J','sqs','com.microsoft.sqlserver.jdbc.SQLServerDriver','awesqs1','xxx','Des','	jdbc:sqlserver://localhost;databaseName=awesqs1',	1	);
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (6	,'aweora1','AWE ORACLE 1','J','ora','oracle.jdbc.driver.OracleDriver','aweora1','xxx','Des','jdbc:oracle:thin:@localhost:1521:oracle1',	1	);
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (7	,'aweora2','AWE ORACLE 2','J','ora','oracle.jdbc.driver.OracleDriver','aweora2','xxx','Des','jdbc:oracle:thin:@localhost:1521:oracle2',	1	);
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (15  , 'awesqs2','AWE SQL SERVER 2','J','sqs','com.microsoft.sqlserver.jdbc.SQLServerDriver','awesqs2','xxx','Des','	jdbc:sqlserver://localhost;databaseName=awealmsqs05',	1	);
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (16  , 'awesybase2','AWE SYBASE 2','J','syb','com.sybase.jdbc3.jdbc.SybDriver','awesybase2','xxx','Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase2',	1	);
+insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (9	,'awesybase1','AWE SYBASE 1','J','syb','com.sybase.jdbc3.jdbc.SybDriver',null, null,'Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase1',	1	);
+insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (8	,'awesqs1','AWE SQL SERVER 1','J','sqs','com.microsoft.sqlserver.jdbc.SQLServerDriver',null, null,'Des','	jdbc:sqlserver://localhost;databaseName=awesqs1',	1	);
+insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (6	,'aweora1','AWE ORACLE 1','J','ora','oracle.jdbc.driver.OracleDriver',null, null,'Des','jdbc:oracle:thin:@localhost:1521:oracle1',	1	);
+insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (7	,'aweora2','AWE ORACLE 2','J','ora','oracle.jdbc.driver.OracleDriver',null, null,'Des','jdbc:oracle:thin:@localhost:1521:oracle2',	1	);
+insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (15  , 'awesqs2','AWE SQL SERVER 2','J','sqs','com.microsoft.sqlserver.jdbc.SQLServerDriver',null, null,'Des','	jdbc:sqlserver://localhost;databaseName=awealmsqs05',	1	);
+insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (16  , 'awesybase2','AWE SYBASE 2','J','syb','com.sybase.jdbc3.jdbc.SybDriver',null, null,'Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase2',	1	);
 
 -- Insert AweSitModDbs
 delete AweSitModDbs;

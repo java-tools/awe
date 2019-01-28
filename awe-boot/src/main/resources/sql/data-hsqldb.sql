@@ -2,12 +2,23 @@
 --------------------------------------------------------
 --  DDL for INSERT DATA
 --------------------------------------------------------
+
+Delete From AweSitModDbs;
+Delete From AweAppPar;
+Delete From AweModPro;
+Delete From Ope;
+Delete From AwePro;
+Delete From AweMod;
+Delete From AweDbs;
+Delete From AweThm;
+Delete From AweKey;
+
 -- Insert sequences
 Insert into AweKey (KeyNam, KeyVal) values ('OpeKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ThmKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ProKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ModKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('DbsKey', 0);
+Insert into AweKey (KeyNam, KeyVal) values ('DbsKey', 2);
 Insert into AweKey (KeyNam, KeyVal) values ('SitKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ModOpeKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ModProKey', 0);
@@ -70,6 +81,7 @@ Insert into AwePro (IdePro, Acr, Nam, IdeThm, ScrIni, Res, Act) values ('1','ADM
 Insert into AwePro (IdePro, Acr, Nam, IdeThm, ScrIni, Res, Act) values ('2','GNR','general','1',null,'general','1');
 Insert into AwePro (IdePro, Acr, Nam, IdeThm, ScrIni, Res, Act) values ('3','OPE','operator','1',null,'operator','1');
 Insert into AwePro (IdePro, Acr, Nam, IdeThm, ScrIni, Res, Act) values ('4','TST','test','1',null,'test','1');
+
 -- Update ProKey
 UPDATE AweKey SET KeyVal = '5' where KeyNam = 'ProKey';
 
@@ -79,18 +91,15 @@ Insert into OPE (IdeOpe, l1_nom, l1_pas, l1_con, l1_dev, l1_act, l1_trt, l1_uti,
 UPDATE AweKey SET KeyVal = '2' where KeyNam = 'OpeKey';
 
 -- Insert AweMod
-delete AweMod;
-insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (916,	'Test',	'Dbs',	4,	1);
-insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (28,	'Base',	'Sit',	2,	1);
+Insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (916,	'Test',	'Dbs',	4,	1);
+Insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (28,	'Base',	'Sit',	2,	1);
 
--- Insert AweMod
-delete AweDbs;
+-- Insert AweDbs
+Insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (1	,'awedb','AWE DB 1','J','hsql','org.hsqldb.jdbc.JDBCDriver',null,null,'Des','jdbc:hsqldb:file:${user.home}/db/awe-boot',1);
 
 -- Insert AweSitModDbs
-delete AweSitModDbs;
 
 -- Insert AweModPro
-delete AweModPro;
 insert into AweModPro (IdeModPro, IdeMod, IdePro, Ord) values (937,	916,	1,	null);
 insert into AweModPro (IdeModPro, IdeMod, IdePro, Ord) values (62,	28,	1,	null);
 insert into AweModPro (IdeModPro, IdeMod, IdePro, Ord) values (65,	28,	2,	null);

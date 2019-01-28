@@ -1,0 +1,7 @@
+/*!
+ * \page TstLogOut Application logout test
+ *
+ * This test clicks on the Logout button and it verifies that the login has been correctly
+ * executed
+ *
+ */

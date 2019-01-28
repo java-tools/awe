@@ -1,0 +1,35 @@
+/*!
+ * \page SequenceManagement Sequence management selenium tests
+ *
+ * \section SecNewSeq New sequence
+ *  Test for adding a new sequence to the application.
+ *  It creates a new 'sequence test' sequence. This are the parameters given to the new sequence:
+ *    - CrtKeyNam : 'testKey'
+ *    - CrtKeyVal : '0'
+ *    - Active    : 'Yes' (1)
+ *
+ * \section SecSeqViw View sequence
+ *  Test for verifying that the added sequence is correct.
+ *  This process search the name of the new sequence in the correspondent criterion
+ *  of sequence management window, it selects it and goes to 'View' window to visualise it.
+ *
+ * \section SecChangeSeq Update sequence
+ *  Test for modifying a defined sequence.
+ *  This process search the name of the new sequence in the correspondent criterion
+ *  of sequence management window, it selects it and goes to 'Update' window to modify it.
+ *  Afterwards, it changes the sequence 'testKey' to which it is assigned setting value to '1' 
+ *  and active parameter to 'No' and confirmes the modifications.
+ *
+ * \section SecViwChangeSeq View updated sequence
+ *  Test for verifying that the modifications made on the sequence are correct.
+ *  This process search the name of the updated sequence in the correspondent criterion
+ *  of sequence management window, it selects it and goes to 'View' window to to visualise it.
+ *
+ * \section SecSeqDel Delete sequence
+ *  Test for verifying the delete of one sequence.
+ *  This process search the name of the 'testKey' sequence in the correspondent criterion
+ *  of sequence management window, it selects it and pushes 'Delete' button to delete it.
+ *
+ * \section SecViwDelSeq Verify Delete sequence
+ *  Test for verifying that the delete of sequence 'testKey' was correct.
+ */

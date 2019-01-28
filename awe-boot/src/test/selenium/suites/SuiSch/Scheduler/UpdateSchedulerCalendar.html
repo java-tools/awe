@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Update Scheduler Calendar</title>
+  </head>
+  <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+      <thead>
+        <tr><td rowspan="1" colspan="3">Update Scheduler Calendar</td></tr>
+      </thead><tbody>
+        <tr>
+	<td>setTimeout</td>
+	<td>60000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>name=scheduler_calendars</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=scheduler_calendars</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='CrtCalNme'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=[criterion-id='CrtCalNme'] input</td>
+	<td>Test Calendar</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=[criterion-id='CrtCalNme'] input</td>
+	<td>${KEY_TAB}</td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButSch:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButSch:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=[grid-id='GrdCalLst'] .grid-loader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>css=[grid-id='GrdCalLst'] .grid-loader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdCalLst'] .ui-grid-rownumber:first</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[grid-id='GrdCalLst'] .ui-grid-rownumber:first</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButUpd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButUpd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButDatAdd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButDatAdd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdDatLst'] [column-id='Dat'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[grid-id='GrdDatLst'] [column-id='Dat'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.datepicker td.today</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.datepicker td.today</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=.datepicker</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdDatLst'] [column-id='Nom'] input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=[grid-id='GrdDatLst'] [column-id='Nom'] input</td>
+	<td>Test date 2</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=[grid-id='GrdDatLst'] [column-id='Nom'] input</td>
+	<td>${KEY_TAB}</td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButCnf:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButCnf:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.alert-zone .alert-success button.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.alert-zone .alert-success button.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=.alert-zone .alert-success</td>
+	<td></td>
+</tr>
+</tbody></table>
+  </body>
+</html>

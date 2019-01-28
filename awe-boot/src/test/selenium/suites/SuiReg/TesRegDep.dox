@@ -1,0 +1,8 @@
+/*!
+ * \page FormatNumberTest Format number selenium tests
+ *
+ * \section SecRegDep Format number test
+ *  Test to check if format of input number is correct.
+ *
+ */
+ 

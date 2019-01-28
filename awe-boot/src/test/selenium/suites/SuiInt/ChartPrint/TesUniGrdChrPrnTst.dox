@@ -1,0 +1,7 @@
+/*!
+ * \page TstUniGrdChrPrn  Grid and Chart printing selenium tests
+ *
+ * \section SecUniGrdChrPrnTst Test Grid and Chart combination printing
+ *  Test printing a combination of grid and chart into one document
+ *
+ */

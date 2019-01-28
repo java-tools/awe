@@ -1,0 +1,42 @@
+/*!
+ * \page DataBaseManagement Data Base management selenium tests
+ *
+ * \section SecNewDbs New data base
+ *  Test for adding a new data base to the application.
+ *  It creates a new 'DBSTest' data base. This are the parameters given to the new data base:
+ *    - Alias        	  : 'DBSTest'
+ *    - Connection type	  : 'Datasource'
+ *    - Url Connection    : 'jdbc/Test'
+ *    - Database type     : 'Developement'
+ *    - Description		  : 'This is a test case of new DataBase'
+ *    - Active     		  : 'Yes' (1)
+ *  Alse, it configure what sites and modules use this database
+ *    - Site name		  :	'Sitio de prueba'
+ *    - Module name		  :	'AweMod2'
+ *
+ * \section SecDbsViw View data base
+ *  Test for verifying that the added data base is correct.
+ *  This process search the name of the new data base in the correspondent criterion
+ *  of data base management window, it selects it and goes to 'View' window to visualise it.
+ *
+ * \section SecChangeDbs Update data base
+ *  Test for modifying a defined data base.
+ *  This process search the name of the new data base in the correspondent criterion
+ *  of data base management window, it selects it and goes to 'Update' window to modify it.
+ *  Afterwards, it changes the profile to which it is assigned setting name to 'data base changed' 
+ *  and database name to 'DBSTest Changed', connection type to 'Jdbc', description to 'This is a tes case of modify DB'
+ *  and confirmes the modifications.
+ *
+ * \section SecViwChangeDbs View updated data base
+ *  Test for verifying that the modifications made on the data base are correct.
+ *  This process search the name of the updated data base in the correspondent criterion
+ *  of data base management window, it selects it and goes to 'View' window to to visualise it.
+ *
+ * \section SecDbsDel Delete data base
+ *  Test for verifying the delete of one data base.
+ *  This process search the name of the 'DBSTest Changed' data base in the correspondent criterion
+ *  of data base management window, it selects it and pushes 'Delete' button to delete it.
+ *
+ * \section SecViwDelDbs Verify Delete data base
+ *  Test for verifying that the delete of data base 'DBSTest Changed' was correct.
+ */
