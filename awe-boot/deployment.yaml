@@ -8,7 +8,7 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: awe-boot-__CI_ENVIRONMENT_SLUG__
+      app: __CI_ENVIRONMENT_SLUG__
   template:
     metadata:
       labels:
