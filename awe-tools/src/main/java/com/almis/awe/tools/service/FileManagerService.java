@@ -129,7 +129,7 @@ public class FileManagerService implements InitializingBean {
   public File downloadAsZipFile(String[] toFilename, String[] items) throws IOException {
 
     // Build empty zip file in tmp path
-    Path zipFileName = Paths.get(tempPath, toFilename);
+    Path zipFileName = Paths.get(tempPath, toFilename).normalize();
 
     // Add repository path to files
     List<String> fileList = new ArrayList<>();
