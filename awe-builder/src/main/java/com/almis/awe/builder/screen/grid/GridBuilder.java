@@ -42,7 +42,7 @@ public class GridBuilder extends AweBuilder<GridBuilder> {
   private Boolean sendOperations;
   private Boolean showTotals;
   private Boolean treeGrid;
-  private Boolean validateOnSafe;
+  private Boolean validateOnSave;
   private Boolean visible;
   private Integer initialLevel;
   private Integer max;
@@ -96,7 +96,7 @@ public class GridBuilder extends AweBuilder<GridBuilder> {
     grid.setSendOperations(getValueAsString(isSendOperations()));
     grid.setShowTotals(getValueAsString(isShowTotals()));
     grid.setTreegrid(getValueAsString(isTreeGrid()));
-    grid.setValidateOnSave(getValueAsString(isValidateOnSafe()));
+    grid.setValidateOnSave(getValueAsString(isValidateOnSave()));
     grid.setVisible(getValueAsString(isVisible()));
 
     grid.setInitialLevel(getValueAsString(getInitialLevel()));
@@ -435,22 +435,22 @@ public class GridBuilder extends AweBuilder<GridBuilder> {
   }
 
   /**
-   * Is validate on safe
+   * Is validate on save
    *
    * @return
    */
-  public Boolean isValidateOnSafe() {
-    return validateOnSafe;
+  public Boolean isValidateOnSave() {
+    return validateOnSave;
   }
 
   /**
-   * Set validate on safe
+   * Set validate on save
    *
-   * @param validateOnSafe
+   * @param validateOnSave
    * @return
    */
-  public GridBuilder setValidateOnSafe(Boolean validateOnSafe) {
-    this.validateOnSafe = validateOnSafe;
+  public GridBuilder setValidateOnSave(Boolean validateOnSave) {
+    this.validateOnSave = validateOnSave;
     return this;
   }
 

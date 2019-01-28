@@ -21,6 +21,7 @@ public class ZipFileUtil {
 
   // Logger
   private static final Logger LOGGER = LogManager.getLogger(ZipFileUtil.class);
+  private static final String CREATING_DIRECTORY = "Creating directory %s\n";
 
   /**
    * Returns a zip file system
@@ -64,7 +65,7 @@ public class ZipFileUtil {
           final Path dest = zipFileSystem.getPath(root.toString(), src.toString());
           final Path parent = dest.getParent();
           if (Files.notExists(parent)) {
-            LOGGER.debug("Creating directory %s\n", parent);
+            LOGGER.debug(CREATING_DIRECTORY, parent);
             Files.createDirectories(parent);
           }
           Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
@@ -82,7 +83,7 @@ public class ZipFileUtil {
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
               final Path dirToCreate = zipFileSystem.getPath(root.toString(), dir.toString());
               if (Files.notExists(dirToCreate)) {
-                LOGGER.debug("Creating directory %s\n", dirToCreate);
+                LOGGER.debug(CREATING_DIRECTORY, dirToCreate);
                 Files.createDirectories(dirToCreate);
               }
               return FileVisitResult.CONTINUE;
@@ -127,7 +128,7 @@ public class ZipFileUtil {
         public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
           final Path dirToCreate = Paths.get(destDir.toString(), dir.toString());
           if (Files.notExists(dirToCreate)) {
-            LOGGER.debug("Creating directory %s\n", dirToCreate);
+            LOGGER.debug(CREATING_DIRECTORY, dirToCreate);
             Files.createDirectory(dirToCreate);
           }
           return FileVisitResult.CONTINUE;

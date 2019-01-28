@@ -37,6 +37,7 @@
     <plugin-site.version>3.5.1</plugin-site.version>
     <plugin-info-reports.version>2.9</plugin-info-reports.version>
 
+    <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
     <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/jacoco.exec</sonar.jacoco.reportPaths>
     <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
     <!-- Skip deply to Nexus -->

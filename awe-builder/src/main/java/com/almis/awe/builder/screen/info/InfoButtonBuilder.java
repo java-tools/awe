@@ -5,6 +5,7 @@
  */
 package com.almis.awe.builder.screen.info;
 
+import com.almis.awe.builder.screen.AweBuilder;
 import com.almis.awe.builder.screen.button.ButtonBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
@@ -37,27 +38,66 @@ public class InfoButtonBuilder extends ButtonBuilder {
     super.initializeElements();
   }
 
+
   @Override
   public Element build(Element element) {
-    InfoButton infoButton = (InfoButton) super.build(element);
+    InfoButton button = new InfoButton();
+
+    button.setId(getId());
+
+    if (getButtonType() != null) {
+      button.setType(getButtonType().toString());
+    }
+
+    if (getLabel() != null) {
+      button.setLabel(getLabel());
+    }
+
+    if (getIcon() != null) {
+      button.setIcon(getIcon());
+    }
+
+    if (getSize() != null) {
+      button.setSize(getSize());
+    }
+
+    if (getStyle() != null) {
+      button.setStyle(getStyle());
+    }
+
+    if (getValue() != null) {
+      button.setValue(getValue());
+    }
+
+    if (getHelp() != null) {
+      button.setHelp(getHelp());
+    }
+
+    if (getHelpImage() != null) {
+      button.setHelpImage(getHelpImage());
+    }
 
     if(getInfoStyle() != null){
-      infoButton.setInfoStyle(getInfoStyle());
+      button.setInfoStyle(getInfoStyle());
     }
 
     if(getTitle() != null){
-      infoButton.setTitle(getTitle());
+      button.setTitle(getTitle());
     }
 
     if(getType() != null){
-      infoButton.setType(getType());
+      button.setType(getType());
     }
 
     if(getUnit() != null){
-      infoButton.setUnit(getUnit());
+      button.setUnit(getUnit());
     }
 
-    return infoButton;
+    for (AweBuilder aweBuilder : getElementList()) {
+      addElement(button, aweBuilder.build(button));
+    }
+
+    return button;
   }
 
   /**

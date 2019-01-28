@@ -56,31 +56,31 @@ public class AxisBuilder extends AweBuilder<AxisBuilder>{
       axis.setAllowDecimal(String.valueOf(isAllowDecimal()));
     }
     
-    if(isOpposite()!= null){
+    if (isOpposite()!= null){
       axis.setOpposite(String.valueOf(isOpposite()));
     }
     
-    if(getLabel() != null){
+    if (getLabel() != null){
       axis.setLabel(getLabel());
     }
     
-    if(getLabelFormat() != null){
+    if (getLabelFormat() != null){
       axis.setLabelFormat(getLabelFormat());
     }
     
-    if( getTickInterval() != null){
+    if (getTickInterval() != null){
       axis.setTickInterval(getTickInterval());
     } 
     
-    if( getLabelRotation() != null){
+    if (getLabelRotation() != null){
       axis.setLabelRotation(String.valueOf(getLabelRotation()));
     }
     
-    if(getFormatterFunction() != null){
+    if (getFormatterFunction() != null){
       axis.setFormatterFunction(getFormatterFunction().toString());
     }
     
-    if(getType() != null){
+    if (getType() != null){
       axis.setType(getType().toString());
     }
     
