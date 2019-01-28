@@ -129,7 +129,7 @@ public class FileManagerService implements InitializingBean {
   public File downloadAsZipFile(String[] toFilename, String[] items) throws IOException {
 
     // Build empty zip file in tmp path
-    Path zipFileName = Paths.get(tempPath, toFilename).normalize();
+    Path zipFileName = Paths.get(tempPath, fixUntrustedPath(toFilename));
 
     // Add repository path to files
     List<String> fileList = new ArrayList<>();
@@ -164,7 +164,7 @@ public class FileManagerService implements InitializingBean {
         throw new IOException("file size = 0");
       } else {
         for (MultipartFile file : files) {
-          File f = new File(repositoryBasePath + destination, file.getOriginalFilename());
+          File f = Paths.get(repositoryBasePath, fixUntrustedPath(destination),file.getOriginalFilename()).toFile();
           if (!write(file, f)) {
             logger.error("Error uploading file");
             throw new IOException("write error");
@@ -771,7 +771,7 @@ public class FileManagerService implements InitializingBean {
     }
 
     // Check file manager path
-    Path fileManagerPath = Paths.get(strFileManagerPath);
+    Path fileManagerPath = Paths.get(fixUntrustedPath(strFileManagerPath));
     if (fileManagerPath.isAbsolute()) {
       logger.error(ERROR_PATH + fileManagerPath);
       throw new IllegalArgumentException("FileManager: path must be relative");
@@ -789,5 +789,14 @@ public class FileManagerService implements InitializingBean {
     }
 
     return resolvedPath;
+  }
+
+  /**
+   * Fix an untrusted path
+   * @param path Untrusted path
+   * @return Normalized path
+   */
+  private String fixUntrustedPath(String... path) {
+    return Paths.get(".", path).normalize().toString();
   }
 }
