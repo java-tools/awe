@@ -44,7 +44,7 @@ site:
   image: maven:3.5-jdk-8
   stage: site
   script:
-    - mvn $MAVEN_CLI_OPTS site
+    - mvn $MAVEN_CLI_OPTS install site -DskipTests
   artifacts:
     paths:
       - target/site/apidocs
