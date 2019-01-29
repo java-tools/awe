@@ -41,6 +41,7 @@
     <sonar.skip>true</sonar.skip>
     <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/</sonar.jacoco.reportPaths>
     <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
+    <surefire.suite>**/AllTestsSuite.class</surefire.suite>
   </properties>
 
   <dependencyManagement>
@@ -298,6 +299,10 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <wait>1000</wait>
+          <maxAttempts>180</maxAttempts>
+        </configuration>
         <executions>
           <execution>
             <id>repackage</id>
@@ -382,6 +387,17 @@
         </configuration>
       </plugin>
 
+      <!-- JUnit -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>${surefire.suite}</include>
+          </includes>
+        </configuration>
+      </plugin>
+
       <!-- Ant Plugin for launch selenium test -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -410,6 +426,7 @@
         <version>${jacoco.version}</version>
         <executions>
           <execution>
+            <id>prepare-agent</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
@@ -419,13 +436,13 @@
             </configuration>
           </execution>
           <execution>
-            <id>pre-integration-test</id>
+            <id>prepare-integration-agent</id>
             <phase>pre-integration-test</phase>
             <goals>
-              <goal>prepare-agent</goal>
+              <goal>prepare-agent-integration</goal>
             </goals>
             <configuration>
-              <!-- Sets the path to the file which contains the execution data. -->
+              <append>true</append>
               <destFile>${sonar.jacoco.reportPaths}/jacoco-it.exec</destFile>
             </configuration>
           </execution>
@@ -452,7 +469,7 @@
             <executions>
               <execution>
                 <id>post-merge-report</id>
-                <phase>test</phase>
+                <phase>verify</phase>
                 <goals>
                   <goal>report-aggregate</goal>
                 </goals>
