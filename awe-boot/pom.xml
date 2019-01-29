@@ -40,10 +40,7 @@
     <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
     <sonar.skip>true</sonar.skip>
     <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/jacoco.exec</sonar.jacoco.reportPaths>
-    <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
-    <!-- Skip deply to Nexus -->
-    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-    <skipStaging>true</skipStaging>       
+    <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>     
   </properties>
 
   <dependencyManagement>

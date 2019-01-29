@@ -182,6 +182,18 @@
         </plugins>
       </build>
     </profile>
+    <!-- No deploy awe-boot -->
+    <profile>
+      <id>no-deploy</id>
+      <activation>
+        <property>
+          <name>!deploy</name>
+        </property>
+      </activation>
+      <modules>
+        <module>awe-boot</module>        
+      </modules>
+    </profile>
   </profiles>
 
   <reporting>
