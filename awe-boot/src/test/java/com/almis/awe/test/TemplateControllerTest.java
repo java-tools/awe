@@ -136,7 +136,7 @@ public class TemplateControllerTest extends TestUtil {
             .accept("text/html;charset=UTF-8"))
             .andExpect(status().isOk())
             .andExpect(content().encoding("UTF-8"))
-            .andDo(print())
+            //.andDo(print())
             .andReturn();
 
     assertEquals(result.getResponse().getContentAsString().replaceAll("\\n|\\r\\n", System.getProperty("line.separator")), expected);
@@ -153,7 +153,7 @@ public class TemplateControllerTest extends TestUtil {
             .accept("text/html;charset=UTF-8"))
             .andExpect(status().isUnauthorized())
             .andExpect(content().encoding("UTF-8"))
-            .andDo(print())
+            //.andDo(print())
             .andReturn();
 
     assertEquals(result.getResponse().getContentAsString().replaceAll("\\n|\\r\\n", System.getProperty("line.separator")), expected);
@@ -170,7 +170,7 @@ public class TemplateControllerTest extends TestUtil {
             .accept("text/html;charset=UTF-8"))
             .andExpect(status().isOk())
             .andExpect(content().encoding("UTF-8"))
-            .andDo(print())
+            //.andDo(print())
             .andReturn();
 
     assertEquals(result.getResponse().getContentAsString().replaceAll("\\n|\\r\\n", System.getProperty("line.separator")), expected);
@@ -188,7 +188,7 @@ public class TemplateControllerTest extends TestUtil {
             .accept("text/html;charset=UTF-8"))
             .andExpect(status().isOk())
             .andExpect(content().encoding("UTF-8"))
-            .andDo(print())
+            //.andDo(print())
             .andReturn();
 
     assertEquals(result.getResponse().getContentAsString().replaceAll("\\n|\\r\\n", System.getProperty("line.separator")), expected);
@@ -206,7 +206,7 @@ public class TemplateControllerTest extends TestUtil {
             .accept("text/html;charset=UTF-8"))
             .andExpect(status().isOk())
             .andExpect(content().encoding("UTF-8"))
-            .andDo(print())
+            //.andDo(print())
             .andReturn();
 
     assertEquals(result.getResponse().getContentAsString().replaceAll("\\n|\\r\\n", System.getProperty("line.separator")), expected);
@@ -225,7 +225,7 @@ public class TemplateControllerTest extends TestUtil {
             .accept("application/json"))
             .andExpect(status().isOk())
             .andExpect(content().json(expected))
-            .andDo(print())
+            //.andDo(print())
             .andReturn();
 
     String result = mvcResult.getResponse().getContentAsString();
