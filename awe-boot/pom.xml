@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>awe-parent</artifactId>
     <groupId>com.almis.awe</groupId>
-    <version>4.0.4</version>
+    <version>4.0.5</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -14,10 +15,10 @@
 
   <properties>
     <!-- Application maven properties -->
-    <awe.version>${project.parent.version}</awe.version>    
+    <awe.version>${project.parent.version}</awe.version>
     <java.version>1.8</java.version>
-    <awe.schemas>../../../static/schemas/awe</awe.schemas>
-    <application.name>awe-boot_V4.0.3</application.name>
+    <application.name>awe-boot</application.name>
+    <application.acronym>awe-boot</application.acronym>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.frontend>${project.build.directory}/classes/static</project.build.frontend>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -36,8 +37,13 @@
     <plugin-site.version>3.5.1</plugin-site.version>
     <plugin-info-reports.version>2.9</plugin-info-reports.version>
 
+    <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
+    <sonar.skip>true</sonar.skip>
     <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/jacoco.exec</sonar.jacoco.reportPaths>
     <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
+    <!-- Skip deply to Nexus -->
+    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    <skipStaging>true</skipStaging>       
   </properties>
 
   <dependencyManagement>
@@ -161,6 +167,18 @@
       <version>1.5</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-server</artifactId>
+      <version>2.53.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ant-contrib</groupId>
+      <artifactId>ant-contrib</artifactId>
+      <version>1.0b3</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -187,6 +205,25 @@
         <artifactId>maven-resources-plugin</artifactId>
         <executions>
           <execution>
+            <id>Copy schemas</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <resources>
+                <!-- Awe generic screens -->
+                <resource>
+                  <directory>../awe-generic-screens/src/main/resources</directory>
+                  <includes>
+                    <include>schemas/**</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
             <id>Get web resources</id>
             <phase>generate-resources</phase>
             <goals>
@@ -199,7 +236,6 @@
                 <resource>
                   <directory>../awe-generic-screens/src/main/resources</directory>
                   <includes>
-                    <include>schemas/**</include>
                     <include>docs/**</include>
                   </includes>
                 </resource>
@@ -208,10 +244,7 @@
                   <directory>../awe-client-angular/src/main/resources</directory>
                   <includes>
                     <include>images/**</include>
-                    <include>fonts/**</include>
-                    <include>js/**</include>
                     <include>css/**</include>
-                    <include>less/**</include>
                   </includes>
                 </resource>
                 <!-- Awe tools -->
@@ -219,10 +252,8 @@
                   <directory>../awe-tools/src/main/resources</directory>
                   <includes>
                     <include>images/**</include>
-                    <include>fonts/**</include>
-                    <include>js/**</include>
                     <include>css/**</include>
-                    <include>less/**</include>
+                    <include>js/**</include>
                   </includes>
                 </resource>
               </resources>
@@ -309,14 +340,11 @@
             <goals>
               <goal>webpack</goal>
             </goals>
-            <configuration>
-              <arguments>--output-path "${project.build.frontend}"</arguments>
-            </configuration>
           </execution>
         </executions>
       </plugin>
 
-      <!-- XML files validation -->
+      <!-- Validate XML files -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
@@ -331,12 +359,39 @@
         <configuration>
           <validationSets>
             <validationSet>
-              <dir>${project.build.directory}/classes/application/awe-boot/</dir>
+              <dir>${check.xml.directory}/${application.acronym}/</dir>
+              <excludes>
+                <exclude>templates/**</exclude>
+              </excludes>
               <validating>true</validating>
             </validationSet>
           </validationSets>
+          <catalogs>
+            <catalog>${project.build.directory}/schemas/awe/catalog.xml</catalog>
+          </catalogs>
         </configuration>
       </plugin>
+
+      <!-- Ant Plugin for launch selenium test -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <!-- your Selenium tests should run in integration phase -->
+            <phase>integration-test</phase>
+            <configuration>
+              <target if="launchSelenium">
+                <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true" />
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- Jacoco coverage -->
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -353,7 +408,7 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
+      </plugin>      
     </plugins>
   </build>
 
@@ -369,43 +424,13 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>default-compile</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>compile</goal>
-                </goals>
-                <configuration>
-                  <skipMain>true</skipMain>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>com.github.eirslett</groupId>
-            <artifactId>frontend-maven-plugin</artifactId>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
-          </plugin>
-          <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>${jacoco.version}</version>
             <executions>
               <execution>
                 <id>post-merge-report</id>
-                <phase>verify</phase>
+                <phase>test</phase>
                 <goals>
                   <goal>report-aggregate</goal>
                 </goals>
@@ -422,30 +447,4 @@
       </build>
     </profile>
   </profiles>
-
-  <!-- Reporting javadoc -->
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.1</version>
-        <configuration>
-          <show>public</show>
-          <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.5.1</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.9</version>
-      </plugin>
-    </plugins>
-  </reporting>
-
 </project>

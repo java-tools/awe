@@ -6,4 +6,4 @@
     Author     : Pablo GARCIA
     Description: File manager screen
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="filemanager" label="MENU_FILE_MANAGER"/>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="filemanager" label="MENU_FILE_MANAGER"/>

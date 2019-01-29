@@ -1,0 +1,37 @@
+/*!
+ * \page SiteManagement Site management selenium tests
+ *
+ * \section SecNewSit New site
+ *  Test for adding a new site to the application.
+ *  It creates a new 'test' site. This are the parameters given to the new site:
+ *    - Site 	   		  : 'Site test'
+ *    - Order			  : '1'
+ *    - Module			  : 'AweMod2'
+ *    - DataBase		  : 'AWEMADSQS01 (Production-Datasource)'
+ *    - Active     		  : 'Yes' (1)
+ *
+ * \section SecSitViw View site
+ *  Test for verifying that the added site is correct.
+ *  This process search the name of the new site in the correspondent criterion
+ *  of site management window, it selects it and goes to 'View' window to visualise it.
+ *
+ * \section SecChangeSit Update site
+ *  Test for modifying a defined site.
+ *  This process search the name of the new site in the correspondent criterion
+ *  of site management window, it selects it and goes to 'Update' window to modify it.
+ *  Afterwards, it changes the profile to which it is assigned setting name to 'Site changed' 
+ *  and database name to 'DBORAMiercoles (Preproduction-Datasource)' and confirmes the modifications.
+ *
+ * \section SecViwChangeSit View updated site
+ *  Test for verifying that the modifications made on the site are correct.
+ *  This process search the name of the updated site in the correspondent criterion
+ *  of site management window, it selects it and goes to 'View' window to to visualise it.
+ *
+ * \section SecSitDel Delete site
+ *  Test for verifying the delete of one site.
+ *  This process search the name of the 'Site changed' site in the correspondent criterion
+ *  of site management window, it selects it and pushes 'Delete' button to delete it.
+ *
+ * \section SecViwDelSit Verify Delete site
+ *  Test for verifying that the delete of site 'Site changed' was correct.
+ */

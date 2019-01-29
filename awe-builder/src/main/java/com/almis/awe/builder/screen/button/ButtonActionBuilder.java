@@ -217,9 +217,11 @@ public class ButtonActionBuilder extends AweBuilder<ButtonActionBuilder>{
    * Set context
    *
    * @param context
+   * @return this
    */
-  public void setContext(String context) {
+  public ButtonActionBuilder setContext(String context) {
     this.context = context;
+    return this;
   }
 
   /**

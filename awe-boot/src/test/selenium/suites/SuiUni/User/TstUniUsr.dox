@@ -1,0 +1,42 @@
+/*!
+ * \page UserManagement User management selenium tests
+ *
+ * \section SecNewUsr New user
+ *  Test for adding a new user to the application.
+ *  It creates a new 'test' user. This are the parameters given to the new user:
+ *    - User 	   		  : 'test'
+ *    - Password   		  : '1234'
+ *    - Repeat Password   : '1234'
+ *    - Name			  : 'test'
+ *    - Active     		  : 'Yes' (1)
+ *
+ * \section SecUsrViw View user
+ *  Test for verifying that the added user is correct.
+ *  This process search the name of the new user in the correspondent criterion
+ *  of user management window, it selects it and goes to 'View' window to visualise it.
+ *
+ * \section SecChangeUsr Update user
+ *  Test for modifying a defined user.
+ *  This process search the name of the new user in the correspondent criterion
+ *  of user management window, it selects it and goes to 'Update' window to modify it.
+ *  Afterwards, it changes the profile to which it is assigned setting 'TS1 - Profile changed' and email parameter 
+ *  to testUpd@almis.com and confirmes the modifications.
+ *
+ * \section SecViwChangeUsr View updated user
+ *  Test for verifying that the modifications made on the user are correct.
+ *  This process search the name of the updated user in the correspondent criterion
+ *  of user management window, it selects it and goes to 'View' window to to visualise it.
+ 
+ * \section SecVerDupUsr Verify duplicate user
+ *  Test for verifying that the added user is already in data base.
+ *  This process creates a new 'test' user with other parameters and goes to 'Save'.
+ *  of user management window, it check if an error message appears.
+ *
+ * \section SecUsrDel Delete user
+ *  Test for verifying the delete of one user.
+ *  This process search the name of the 'test' user in the correspondent criterion
+ *  of user management window, it selects it and pushes 'Delete' button to delete it.
+ *
+ * \section SecViwDelUsr Verify Delete user
+ *  Test for verifying that the delete of user 'test' was correct.
+ */

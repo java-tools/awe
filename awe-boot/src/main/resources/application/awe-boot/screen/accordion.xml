@@ -6,7 +6,7 @@
     Author     : Jorge BELLON
     Description: Accordion Test Screen
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd"
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd"
         template="window" label="SCREEN_TITLE_ACCORDION_TEST">
   <tag source="center" type="div" expandible="horizontal" style="expand">
     <tag type="div" style="expand"/>

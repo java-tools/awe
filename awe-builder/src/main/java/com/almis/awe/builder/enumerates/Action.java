@@ -67,25 +67,25 @@ public enum Action {
   VALIDATE("validate"),
   VALUE("value");
   
-  private final String action;
+  private final String value;
 
-  private Action(String action) {
-    this.action = action;
+  private Action(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param action
+   * @param value
    * @return
    */
-  public boolean equalsStr(String action) {
-    return this.action.equals(action);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.action;
+    return this.value;
   }
   
 }

@@ -97,6 +97,8 @@ public class Chart extends ChartModel {
    * Default constructor
    */
   public Chart() {
+    xAxisList = new ArrayList<>();
+    yAxisList = new ArrayList<>();
   }
 
   /**

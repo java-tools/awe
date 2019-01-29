@@ -6,7 +6,7 @@
     Author     : Pablo VISAL
     Description: Matrix Load All Test Screen
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_MATRIX_TEST" help="HELP_SCREEN_TITLE_MATRIX_TEST">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_MATRIX_TEST" help="HELP_SCREEN_TITLE_MATRIX_TEST">
   <tag source="buttons">
     <button label="BUTTON_RESET" button-type="reset" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
     <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">

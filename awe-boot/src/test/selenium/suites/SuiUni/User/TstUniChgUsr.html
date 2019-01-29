@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Change User</title>
+  </head>
+  <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+      <thead>
+        <tr><td rowspan="1" colspan="3">Change User</td></tr>
+      </thead><tbody>
+        <tr>
+	<td>setTimeout</td>
+	<td>60000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>name=users</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=users</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButRst:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButRst:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButRst:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[criterion-id='CrtUsr'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=#select2-drop input.select2-input</td>
+	<td>test sele</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-result-label:contains('test sele')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-result-label:contains('test sele')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[criterion-id='CrtPro'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=#select2-drop input.select2-input</td>
+	<td>TS1</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-result-label:contains('TS1')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-result-label:contains('TS1')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButSch:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButSch:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButSch:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=.grid-loader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>css=.grid-loader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.ui-grid-cell-contents:contains('test')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=.ui-grid-cell-contents:contains('test')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButUpd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButUpd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButUpd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButCnf:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Eml</td>
+	<td>testUpd@almis.com</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButCnf:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButCnf:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButCnf:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.alert-zone .alert-success button.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.alert-zone .alert-success button.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=.alert-zone .alert-success</td>
+	<td></td>
+</tr>
+</tbody></table>
+  </body>
+</html>

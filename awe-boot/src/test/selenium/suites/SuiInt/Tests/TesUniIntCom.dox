@@ -1,0 +1,39 @@
+/*!
+ * \page InternalComponentTest Awe internal components selenium tests
+ *
+ * \section SecTesBut Test Awe buttons
+ *  Test to check the operation and performace of the awe engine buttons
+ *
+ * \section SecTesCrt Criteria test Awe criteria
+ *  Test to check the operation and performace of the awe engine criteria
+ *
+ * \section SecTesCrtRst Criteria test reset Awe criteria
+ *  Test to check the operation and performace of the awe engine criteria reset.
+ *
+ * \section SecTesMatNor Normal grid test
+ *  Test to check the operation and performace of the awe engine normal grid.
+ *
+ * \section SecTesMatNorHav Having test
+ *  Test to check the operation and performace of the awe having query.
+ *
+ * \section SecTesMatMul Multiselect grid test
+ *  Test to check the operation and performace of the awe engine multiselect grid.
+ *
+ * \section SecTesMatEdi Editable grid test
+ *  Test to check the operation and performace of the awe engine editable grid.
+ *
+ * \section SecTesMatMulOpt Multioption matrix test
+ *  Test to check the operation and performace of the awe engine multioption grid.
+ *
+ * \section SecTesMatTre Treegrid test
+ *  Test to check the operation and performace of the awe engine treegrid.
+ *
+ * \section SecTesMatTreEdi Editable treegrid test
+ *  Test to check the operation and performace of the awe engine editable treegrid.
+ *
+ * \section SecTesChr Chart test Awe criteria
+ *  Test to check the operation and performace of the awe engine web charts
+ *
+ * \section SecQue Queue test Awe
+ *  Test to check the operation and performace of the awe message queues
+ */

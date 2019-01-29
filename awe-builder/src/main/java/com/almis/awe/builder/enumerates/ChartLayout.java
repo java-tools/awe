@@ -13,25 +13,25 @@ public enum ChartLayout {
   HORIZONTAL("horizontal"),
   VERTICAL("verical");
   
-  private final String layout;
+  private final String value;
 
-  private ChartLayout(String layout) {
-    this.layout = layout;
+  private ChartLayout(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param layout
+   * @param value
    * @return
    */
-  public boolean equalsStr(String layout) {
-    return this.layout.equals(layout);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.layout;
+    return this.value;
   }
   
 }

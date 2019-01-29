@@ -1,0 +1,7 @@
+/*!
+ * \page CreateDocumentationUserTest Generate documentation user  selenium tests
+ *
+ * \section SecCreDocUsr Test creation documentation of user in Awe applications
+ *  Test to generate the documentation of user of Awe application.
+ *
+ */

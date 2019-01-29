@@ -21,24 +21,24 @@ public enum Condition {
   LESS_THAN_EQUALS("lte"),
   NOT_EQUALS("ne");
   
-  private final String condition;
+  private final String value;
 
-  private Condition(String condition) {
-    this.condition = condition;
+  private Condition(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param condition
+   * @param value
    * @return
    */
-  public boolean equalsStr(String condition) {
-    return this.condition.equals(condition);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.condition;
+    return this.value;
   }
 }

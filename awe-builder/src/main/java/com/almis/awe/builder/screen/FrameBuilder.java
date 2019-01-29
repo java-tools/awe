@@ -59,7 +59,7 @@ public class FrameBuilder extends AweBuilder<FrameBuilder> {
     }
 
     if (getScreen() != null) {
-      frame.setName(getScreen());
+      frame.setScreen(getScreen());
     }
 
     if (getScreenVariable() != null) {

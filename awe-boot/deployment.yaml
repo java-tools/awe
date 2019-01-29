@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: awe-boot-__CI_ENVIRONMENT_SLUG__
+  labels:
+    app: __CI_ENVIRONMENT_SLUG__
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: __CI_ENVIRONMENT_SLUG__
+  template:
+    metadata:
+      labels:
+        app: __CI_ENVIRONMENT_SLUG__
+    spec:
+      containers:
+      - name: awe-boot
+        image: registry.gitlab.com/aweframework/awe/awe-boot
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+        - name: registry.gitlab.com

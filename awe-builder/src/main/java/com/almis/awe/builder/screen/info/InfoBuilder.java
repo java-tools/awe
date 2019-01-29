@@ -113,9 +113,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set initial load
    *
    * @param initialLoad
+   * @return this
    */
-  public void setInitialLoad(InitialLoad initialLoad) {
+  public InfoBuilder setInitialLoad(InitialLoad initialLoad) {
     this.initialLoad = initialLoad;
+    return this;
   }
 
   /**
@@ -131,9 +133,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set server action
    *
    * @param serverAction
+   * @return this
    */
-  public void setServerAction(ServerAction serverAction) {
+  public InfoBuilder setServerAction(ServerAction serverAction) {
     this.serverAction = serverAction;
+    return this;
   }
 
   /**
@@ -149,9 +153,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set autoload
    *
    * @param autoload
+   * @return this
    */
-  public void setAutoload(Boolean autoload) {
+  public InfoBuilder setAutoload(Boolean autoload) {
     this.autoload = autoload;
+    return this;
   }
 
   /**
@@ -167,9 +173,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set autorefreshs
    *
    * @param autorefresh
+   * @return this
    */
-  public void setAutorefresh(Boolean autorefresh) {
+  public InfoBuilder setAutorefresh(Boolean autorefresh) {
     this.autorefresh = autorefresh;
+    return this;
   }
 
   /**
@@ -185,9 +193,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set dropdown style
    *
    * @param dropdownStyle
+   * @return this
    */
-  public void setDropdownStyle(String dropdownStyle) {
+  public InfoBuilder setDropdownStyle(String dropdownStyle) {
     this.dropdownStyle = dropdownStyle;
+    return this;
   }
 
   /**
@@ -203,9 +213,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set icon
    *
    * @param icon
+   * @return this
    */
-  public void setIcon(String icon) {
+  public InfoBuilder setIcon(String icon) {
     this.icon = icon;
+    return this;
   }
 
   /**
@@ -221,9 +233,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set label
    *
    * @param label
+   * @return this
    */
-  public void setLabel(String label) {
+  public InfoBuilder setLabel(String label) {
     this.label = label;
+    return this;
   }
 
   /**
@@ -239,9 +253,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set name
    *
    * @param name
+   * @return this
    */
-  public void setName(String name) {
+  public InfoBuilder setName(String name) {
     this.name = name;
+    return this;
   }
 
   /**
@@ -257,9 +273,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set property
    *
    * @param property
+   * @return this
    */
-  public void setProperty(String property) {
+  public InfoBuilder setProperty(String property) {
     this.property = property;
+    return this;
   }
 
   /**
@@ -275,9 +293,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set session
    *
    * @param session
+   * @return this
    */
-  public void setSession(String session) {
+  public InfoBuilder setSession(String session) {
     this.session = session;
+    return this;
   }
 
   /**
@@ -293,9 +313,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set style
    *
    * @param style
+   * @return this
    */
-  public void setStyle(String style) {
+  public InfoBuilder setStyle(String style) {
     this.style = style;
+    return this;
   }
 
   /**
@@ -311,9 +333,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set target action
    *
    * @param targetAction
+   * @return this
    */
-  public void setTargetAction(String targetAction) {
+  public InfoBuilder setTargetAction(String targetAction) {
     this.targetAction = targetAction;
+    return this;
   }
 
   /**
@@ -329,9 +353,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set title
    *
    * @param title
+   * @return this
    */
-  public void setTitle(String title) {
+  public InfoBuilder setTitle(String title) {
     this.title = title;
+    return this;
   }
 
   /**
@@ -347,9 +373,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set unit
    *
    * @param unit
+   * @return this
    */
-  public void setUnit(String unit) {
+  public InfoBuilder setUnit(String unit) {
     this.unit = unit;
+    return this;
   }
 
   /**
@@ -365,9 +393,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set value
    *
    * @param value
+   * @return this
    */
-  public void setValue(String value) {
+  public InfoBuilder setValue(String value) {
     this.value = value;
+    return this;
   }
 
   /**
@@ -383,9 +413,11 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    * Set max
    *
    * @param max
+   * @return this
    */
-  public void setMax(Integer max) {
+  public InfoBuilder setMax(Integer max) {
     this.max = max;
+    return this;
   }
 
   /**
@@ -396,9 +428,6 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    */
   public InfoBuilder addInfo(InfoBuilder... info) {
     if (info != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(info));
     }
     return this;
@@ -412,9 +441,6 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    */
   public InfoBuilder addInfoButton(InfoButtonBuilder... infoButton) {
     if (infoButton != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(infoButton));
     }
     return this;
@@ -428,9 +454,6 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    */
   public InfoBuilder addInfoCriteria(InfoCriteriaBuilder... infoCriteria) {
     if (infoCriteria != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(infoCriteria));
     }
     return this;
@@ -444,9 +467,6 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    */
   public InfoBuilder addTag(TagBuilder... tag) {
     if (tag != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(tag));
     }
     return this;
@@ -460,9 +480,6 @@ public class InfoBuilder extends AweBuilder<InfoBuilder> {
    */
   public InfoBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;

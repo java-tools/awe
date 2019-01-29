@@ -7,7 +7,7 @@
     Description:
         Purpose of the document follows.
 -->
-<profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/profile.xsd">
+<profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/profile.xsd">
   <restriction option="tools" />
   <restriction option="settings" />
 </profile>

@@ -209,9 +209,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addTag(TagBuilder... tag) {
     if (tag != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(tag));
     }
     return this;
@@ -225,9 +222,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addAccordion(AccordionBuilder... accordion) {
     if (accordion != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(accordion));
     }
     return this;
@@ -241,9 +235,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addButton(ButtonBuilder... button) {
     if (button != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(button));
     }
     return this;
@@ -257,9 +248,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addChart(ChartBuilder... chart) {
     if (chart != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(chart));
     }
     return this;
@@ -273,9 +261,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addCriteria(CriteriaBuilder... criteria) {
     if (criteria != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(criteria));
     }
     return this;
@@ -289,9 +274,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addDialog(DialogBuilder... dialog) {
     if (dialog != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dialog));
     }
     return this;
@@ -305,9 +287,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addFrame(FrameBuilder... frame) {
     if (frame != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(frame));
     }
     return this;
@@ -321,9 +300,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addGrid(GridBuilder... grid) {
     if (grid != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(grid));
     }
     return this;
@@ -337,9 +313,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addInclude(IncludeBuilder... include) {
     if (include != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(include));
     }
     return this;
@@ -353,9 +326,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addInfo(InfoBuilder... info) {
     if (info != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(info));
     }
     return this;
@@ -369,9 +339,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addInfoButton(InfoButtonBuilder... infoButton) {
     if (infoButton != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(infoButton));
     }
     return this;
@@ -385,9 +352,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addInfoCriteria(InfoCriteriaBuilder... infoCriteria) {
     if (infoCriteria != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(infoCriteria));
     }
     return this;
@@ -401,9 +365,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addWindow(WindowBuilder... windowBuilder) {
     if (windowBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(windowBuilder));
     }
     return this;
@@ -417,9 +378,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addTagList(TagListBuilder... tagListBuilder) {
     if (tagListBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(tagListBuilder));
     }
     return this;
@@ -433,9 +391,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addMenuContainer(MenuContainerBuilder... menuContainerBuilder) {
     if (menuContainerBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(menuContainerBuilder));
     }
     return this;
@@ -449,9 +404,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addMessage(MessageBuilder... messageBuilder) {
     if (messageBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(messageBuilder));
     }
     return this;
@@ -465,9 +417,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addPivotTable(PivotTableBuilder... pivotTableBuilder) {
     if (pivotTableBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(pivotTableBuilder));
     }
     return this;
@@ -481,9 +430,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addResizable(ResizableBuilder... resizableBuilder) {
     if (resizableBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(resizableBuilder));
     }
     return this;
@@ -497,9 +443,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addTab(TabBuilder... tabBuilder) {
     if (tabBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(tabBuilder));
     }
     return this;
@@ -513,9 +456,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addView(ViewBuilder... viewBuilder) {
     if (viewBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(viewBuilder));
     }
     return this;
@@ -529,9 +469,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addWidget(WidgetBuilder... widgetBuilder) {
     if (widgetBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(widgetBuilder));
     }
     return this;
@@ -545,9 +482,6 @@ public class TagBuilder extends AweBuilder<TagBuilder> {
    */
   public TagBuilder addWizard(WizardBuilder... wizardBuilder) {
     if (wizardBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(wizardBuilder));
     }
     return this;

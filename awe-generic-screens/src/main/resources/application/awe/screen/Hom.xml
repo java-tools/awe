@@ -6,5 +6,5 @@
     Author     : Pablo GARCIA
     Description: Home page (Menu and Report)
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="home" label="SCREEN_TITLE_HOME" help="HELP_SCREEN_TITLE_HOME">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="home" label="SCREEN_TITLE_HOME" help="HELP_SCREEN_TITLE_HOME">
 </screen>

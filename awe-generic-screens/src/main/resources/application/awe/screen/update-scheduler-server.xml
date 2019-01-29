@@ -6,7 +6,7 @@
     Author     : David FUENTES
     Description: Ventana para la edicion de un servidor existente
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" target="SchSrv" template="window" label="MENU_UPDATE_SCHEDULER_TASK" help="HELP_SCREEN_UPDATE_SCHEDULER_TASK">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" target="SchSrv" template="window" label="MENU_UPDATE_SCHEDULER_TASK" help="HELP_SCREEN_UPDATE_SCHEDULER_TASK">
   <!--
     MESSAGES
   -->

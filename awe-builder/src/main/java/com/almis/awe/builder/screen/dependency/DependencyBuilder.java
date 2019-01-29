@@ -25,7 +25,7 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
   private SourceType sourceType;
   private TargetType targetType;
   private DependencyType type;
-  private Boolean async, invert, silent, initial;
+  private Boolean invert, initial;
   private String formule, label, targetAction, value;
   private List<AweBuilder> elements;
 
@@ -40,7 +40,7 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
 
   @Override
   public void initializeElements() {
-    //
+    this.elements = new ArrayList<>();
   }
 
   @Override
@@ -70,16 +70,8 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
       dependency.setType(getType().toString());
     }
 
-    if (isAsync() != null) {
-      dependency.setAsync(String.valueOf(isAsync()));
-    }
-
     if (isInvert() != null) {
       dependency.setInvert(String.valueOf(isInvert()));
-    }
-
-    if (isSilent() != null) {
-      dependency.setSilent(String.valueOf(isSilent()));
     }
 
     if (isInitial() != null) {
@@ -190,26 +182,6 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
   }
 
   /**
-   * Is async
-   *
-   * @return
-   */
-  public Boolean isAsync() {
-    return async;
-  }
-
-  /**
-   * Set async
-   *
-   * @param async
-   * @return
-   */
-  public DependencyBuilder setAsync(Boolean async) {
-    this.async = async;
-    return this;
-  }
-
-  /**
    * Is invert
    *
    * @return
@@ -226,26 +198,6 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
    */
   public DependencyBuilder setInvert(Boolean invert) {
     this.invert = invert;
-    return this;
-  }
-
-  /**
-   * Is silent
-   *
-   * @return
-   */
-  public Boolean isSilent() {
-    return silent;
-  }
-
-  /**
-   * Set silent
-   *
-   * @param silent
-   * @return
-   */
-  public DependencyBuilder setSilent(Boolean silent) {
-    this.silent = silent;
     return this;
   }
 
@@ -357,9 +309,6 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
    */
   public DependencyBuilder addDependencyAction(DependencyActionBuilder... dependencyAction) {
     if (dependencyAction != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyAction));
     }
     return this;
@@ -373,9 +322,6 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
    */
   public DependencyBuilder addDependencyElement(DependencyElementBuilder... dependencyElement) {
     if (dependencyElement != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyElement));
     }
     return this;

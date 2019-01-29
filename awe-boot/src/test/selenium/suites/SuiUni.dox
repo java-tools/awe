@@ -1,0 +1,63 @@
+/*!
+ * \page SelUni Unitary selenium tests
+ *
+ * \subpage TstLogIn
+ *
+ * The following table shows all the unitary tests done.
+ *
+ * <TABLE>
+ *  <TR>
+ *    <TH>Test</TH><TH>New</TH><TH>Verify new</TH><TH>Change</TH><TH>Verify change</TH><TH>Delete</TH><TH>Verify deleted</TH><TH>Other actions</TH>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniUsr</TD><TD>\ref SecNewUsr "X"</TD><TD>\ref SecUsrViw "X"</TD><TD>\ref SecChangeUsr "X"</TD><TD>\ref SecViwChangeUsr "X"</TD><TD>\ref SecUsrDel "X"</TD><TD>\ref SecViwDelUsr "X"</TD><TD>\ref SecVerDupUsr "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniSit</TD><TD>\ref SecNewSit "X"</TD><TD>\ref SecSitViw "X"</TD><TD>\ref SecChangeSit "X"</TD><TD>\ref SecViwChangeSit "X"</TD><TD>\ref SecSitDel "X"</TD><TD>\ref SecViwDelSit "X"</TD><TD></TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniMod</TD><TD>\ref SecNewMod "X"</TD><TD>\ref SecModViw "X"</TD><TD>\ref SecChangeMod "X"</TD><TD>\ref SecViwChangeMod "X"</TD><TD>\ref SecModDel "X"</TD><TD>\ref SecViwDelMod "X"</TD><TD>\ref SecSelMod "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniPro</TD><TD>\ref SecNewPro "X"</TD><TD>\ref SecProViw "X"</TD><TD>\ref SecChangePro "X"</TD><TD>\ref SecViwChangePro "X"</TD><TD>\ref SecProDel "X"</TD><TD>\ref SecViwDelPro "X"</TD><TD></TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniDbs</TD><TD>\ref SecNewDbs "X"</TD><TD>\ref SecDbsViw "X"</TD><TD>\ref SecChangeDbs "X"</TD><TD>\ref SecViwChangeDbs "X"</TD><TD>\ref SecDbsDel "X"</TD><TD>\ref SecViwDelDbs "X"</TD><TD></TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniThm</TD><TD>\ref SecNewThm "X"</TD><TD>\ref SecThmViw "X"</TD><TD>\ref SecChangeThm "X"</TD><TD>\ref SecViwChangeThm "X"</TD><TD>\ref SecThmDel "X"</TD><TD>\ref SecViwDelThm "X"</TD><TD></TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniSeq</TD><TD>\ref SecNewSeq "X"</TD><TD>\ref SecSeqViw "X"</TD><TD>\ref SecChangeSeq "X"</TD><TD>\ref SecViwChangeSeq "X"</TD><TD>\ref SecSeqDel "X"</TD><TD>\ref SecViwDelSeq "X"</TD><TD></TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniResScr</TD><TD>\ref SecNewResScr "X"</TD><TD>\ref SecResScrViw "X"</TD><TD>\ref SecChangeResScr "X"</TD><TD>\ref SecViwChangeResScr "X"</TD><TD>\ref SecResScrDel "X"</TD><TD>\ref SecViwDelResScr "X"</TD><TD></TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniIntCom</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>\ref SecTesBut "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniLog</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>\ref SecUniLog "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniBroMsg</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>\ref SecUniBroMsg "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniScrCnf</TD><TD>\ref SecNewScrCnf "X"</TD><TD>\ref SecScrCnfViw "X"</TD><TD>\ref SecChangeScrCnf "X"</TD><TD>\ref SecViwChangeScrCnf "X"</TD><TD>\ref SecScrCnfDel "X"</TD><TD>\ref ScrCnfViwDel "X"</TD><TD></TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniStlCnf</TD><TD>\ref SecNewStlCnf "X"</TD><TD>\ref SecStlCnfViw "X"</TD><TD>\ref SecChangeStlCnf "X"</TD><TD>\ref SecViwChangeStlCnf "X"</TD><TD>\ref SecStlCnfDel "X"</TD><TD>\ref StlCnfViwDel "X"</TD><TD></TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniEmlSrv</TD><TD>\ref SecNewEmlSrv "X"</TD><TD>\ref SecNewEmlSrvViw "X"</TD><TD>\ref SecChangeEmlSrv "X"</TD><TD>\ref SecViwChangeEmlSrv "X"</TD><TD>\ref SecEmlSrvDel "X"</TD><TD>\ref SecViwEmlSrv "X"</TD><TD></TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniEncTxt</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>\ref SecUniEncTxt "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniQue</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD><TD>\ref SecQue "X"</TD>
+ *  </TR>
+ * </TABLE>
+ *
+ * \subpage TstLogOut
+ */

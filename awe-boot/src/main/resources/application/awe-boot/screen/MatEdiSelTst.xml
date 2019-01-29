@@ -6,7 +6,7 @@
     Author     : Pablo Vidal
     Description: Gestion de Sites - Lista de Sites
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="MENU_TEST_MATRIX_SUGGEST" help="HELP_SCREEN_TITLE_MATRIX_TEST">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="MENU_TEST_MATRIX_SUGGEST" help="HELP_SCREEN_TITLE_MATRIX_TEST">
   <tag source="center">
     <window style="expand" maximize="true" label="SCREEN_TEXT_DATA" icon="list">
       <grid id="GrdSugLst" style="expand" server-action="data" target-action="SugTstLst" editable="true" initial-load="query" max="100" load-all="false">

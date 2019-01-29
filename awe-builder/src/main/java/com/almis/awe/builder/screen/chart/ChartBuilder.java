@@ -5,11 +5,7 @@
  */
 package com.almis.awe.builder.screen.chart;
 
-import com.almis.awe.builder.enumerates.ChartAxis;
-import com.almis.awe.builder.enumerates.IconLoading;
-import com.almis.awe.builder.enumerates.InitialLoad;
-import com.almis.awe.builder.enumerates.ServerAction;
-import com.almis.awe.builder.enumerates.Stacking;
+import com.almis.awe.builder.enumerates.*;
 import com.almis.awe.builder.screen.AweBuilder;
 import com.almis.awe.builder.screen.context.ContextButtonBuilder;
 import com.almis.awe.builder.screen.context.ContextSeparatorBuilder;
@@ -17,7 +13,8 @@ import com.almis.awe.builder.screen.dependency.DependencyBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.component.chart.Chart;
-import com.almis.awe.model.type.ChartType;
+import com.almis.awe.model.entities.screen.component.chart.ChartLegend;
+import com.almis.awe.model.entities.screen.component.chart.ChartTooltip;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,9 +46,11 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
   private Boolean inverted;
   private Boolean stockChart;
   private Boolean visible;
+  private ChartLegendBuilder chartLegend;
+  private ChartTooltipBuilder chartTooltip;
   private List<AweBuilder> elements;
-  private List<XAxisBuider> xAxisList;
-  private List<YAxisBuider> yAxisList;
+  private List<AxisBuilder> xAxisList;
+  private List<AxisBuilder> yAxisList;
 
   /**
    * Constructor
@@ -118,16 +117,24 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
       chart.setIconLoading(getIconLoading().toString());
     }
 
+    if (getChartLegend() != null) {
+      chart.setChartLegend((ChartLegend) getChartLegend().build(chart));
+    }
+
+    if (getChartTooltip() != null) {
+      chart.setChartTooltip((ChartTooltip) getChartTooltip().build(chart));
+    }
+
     for (AweBuilder aweBuilder : elements) {
       addElement(chart, aweBuilder.build(chart));
     }
 
-    for (XAxisBuider axisBuider : xAxisList) {
-      chart.getxAxisList().add((com.almis.awe.model.entities.screen.component.chart.ChartAxis) axisBuider.build(chart));
+    for (AxisBuilder axisBuilder : xAxisList) {
+      chart.getxAxisList().add((com.almis.awe.model.entities.screen.component.chart.ChartAxis) axisBuilder.build(chart));
     }
 
-    for (YAxisBuider axisBuider : yAxisList) {
-      chart.getyAxisList().add((com.almis.awe.model.entities.screen.component.chart.ChartAxis) axisBuider.build(chart));
+    for (AxisBuilder axisBuilder : yAxisList) {
+      chart.getyAxisList().add((com.almis.awe.model.entities.screen.component.chart.ChartAxis) axisBuilder.build(chart));
     }
 
     return chart;
@@ -554,20 +561,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
   }
 
   /**
-   * Add chart legend
-   *
-   * @param chartLegend
-   * @return
-   */
-  public ChartBuilder addChartLegend(ChartLegendBuilder chartLegend) {
-    if (this.elements == null) {
-      this.elements = new ArrayList<>();
-    }
-    this.elements.add(chartLegend);
-    return this;
-  }
-
-  /**
    * Add chart parameter
    *
    * @param chartParameter
@@ -575,9 +568,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addChartParameter(ChartParameterBuilder... chartParameter) {
     if (chartParameter != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(chartParameter));
     }
     return this;
@@ -591,26 +581,7 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addChartSerieList(ChartSerieBuilder... chartSerie) {
     if (chartSerie != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(chartSerie));
-    }
-    return this;
-  }
-
-  /**
-   * Add chart tooltip
-   *
-   * @param chartTooltip
-   * @return
-   */
-  public ChartBuilder addChartTooltip(ChartTooltipBuilder... chartTooltip) {
-    if (chartTooltip != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
-      this.elements.addAll(Arrays.asList(chartTooltip));
     }
     return this;
   }
@@ -623,9 +594,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addContextButton(ContextButtonBuilder... contextButton) {
     if (contextButton != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextButton));
     }
     return this;
@@ -639,9 +607,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addContextButton(ContextSeparatorBuilder... contextSeparator) {
     if (contextSeparator != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(contextSeparator));
     }
     return this;
@@ -653,11 +618,8 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    * @param xAxis
    * @return
    */
-  public ChartBuilder addXAxis(XAxisBuider... xAxis) {
+  public ChartBuilder addXAxis(AxisBuilder... xAxis) {
     if (xAxis != null) {
-      if (this.xAxisList == null) {
-        this.xAxisList = new ArrayList<>();
-      }
       this.xAxisList.addAll(Arrays.asList(xAxis));
     }
     return this;
@@ -668,7 +630,7 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    *
    * @return
    */
-  public List<XAxisBuider> getXAxisList() {
+  public List<AxisBuilder> getXAxisList() {
     return xAxisList;
   }
 
@@ -678,11 +640,8 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    * @param yAxis
    * @return
    */
-  public ChartBuilder addYAxis(YAxisBuider... yAxis) {
+  public ChartBuilder addYAxis(AxisBuilder... yAxis) {
     if (yAxis != null) {
-      if (this.yAxisList == null) {
-        this.yAxisList = new ArrayList<>();
-      }
       this.yAxisList.addAll(Arrays.asList(yAxis));
     }
     return this;
@@ -693,7 +652,7 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    *
    * @return
    */
-  public List<YAxisBuider> getYAxisList() {
+  public List<AxisBuilder> getYAxisList() {
     return yAxisList;
   }
 
@@ -705,9 +664,6 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public ChartBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;
@@ -720,5 +676,41 @@ public class ChartBuilder extends AweBuilder<ChartBuilder> {
    */
   public List<AweBuilder> getElementList() {
     return this.elements;
+  }
+
+  /**
+   * Get chart legend builder
+   * @return
+   */
+  public ChartLegendBuilder getChartLegend() {
+    return chartLegend;
+  }
+
+  /**
+   * Set chart legend builder
+   * @param chartLegend
+   * @return
+   */
+  public ChartBuilder setChartLegend(ChartLegendBuilder chartLegend) {
+    this.chartLegend = chartLegend;
+    return this;
+  }
+
+  /**
+   * Get chart tooltip builder
+   * @return
+   */
+  public ChartTooltipBuilder getChartTooltip() {
+    return chartTooltip;
+  }
+
+  /**
+   * Set chart tooltip builder
+   * @param chartTooltip
+   * @return
+   */
+  public ChartBuilder setChartTooltip(ChartTooltipBuilder chartTooltip) {
+    this.chartTooltip = chartTooltip;
+    return this;
   }
 }

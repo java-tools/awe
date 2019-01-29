@@ -1,0 +1,8 @@
+/*!
+ * \page VerifyScreenConfigTest Verify screen config selenium tests
+ *
+ * \section SecIntVerScrCnf Test screen config
+ *  Test to verify screen configuration. This test set the attribute 'visible' to 'false' in button 'ButPrn' configuration to screen 'Dbs'
+ *	and reload Dbs screen to check if this element is not present.
+ *
+ */

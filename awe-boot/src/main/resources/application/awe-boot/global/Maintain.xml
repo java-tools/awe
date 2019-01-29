@@ -4,7 +4,7 @@
 : Ismael SERRANO Description: AWE Maintain File -->
 
 <maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:noNamespaceSchemaLocation="@awe.schemas@/maintain.xsd">
+          xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/maintain.xsd">
 
 
   <!-- Test HSQL Initialization -->

@@ -5,9 +5,11 @@
  */
 package com.almis.awe.builder.screen.info;
 
+import com.almis.awe.builder.screen.AweBuilder;
 import com.almis.awe.builder.screen.criteria.CriteriaBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
+import com.almis.awe.model.entities.screen.component.criteria.Criteria;
 import com.almis.awe.model.entities.screen.component.criteria.InfoCriteria;
 
 /**
@@ -39,21 +41,83 @@ public class InfoCriteriaBuilder extends CriteriaBuilder {
 
   @Override
   public Element build(Element element) {
-    InfoCriteria infoCriteria = (InfoCriteria) super.build(element);
-
+    InfoCriteria criteria = new InfoCriteria();
+    criteria.setId(getId());
     if(getInfoStyle() != null) {
-      infoCriteria.setInfoStyle(getInfoStyle());
+      criteria.setInfoStyle(getInfoStyle());
     }
 
     if(getTitle() != null) {
-      infoCriteria.setTitle(getTitle());
+      criteria.setTitle(getTitle());
     }
 
     if( getType() != null){
-      infoCriteria.setType(getType());
+      criteria.setType(getType());
     }
 
-    return infoCriteria;
+    if (getDateViewMode() != null) {
+      criteria.setDateViewMode(getDateViewMode().toString());
+    }
+    if (getComponent() != null) {
+      criteria.setComponentType(getComponent().toString());
+    }
+    if (getInitialLoad() != null) {
+      criteria.setInitialLoad(getInitialLoad().toString());
+    }
+    if (getPrintable() != null) {
+      criteria.setPrintable(getPrintable().toString());
+    }
+    if (getServerAction() != null) {
+      criteria.setServerAction(getServerAction().toString());
+    }
+
+    criteria.setAreaRows(getValueAsString(getAreaRows()));
+    criteria.setMax(getValueAsString(getMax()));
+    criteria.setTimeout(getValueAsString(getTimeout()));
+
+    criteria.setUnit(getUnit());
+    criteria.setHelp(getHelp());
+    criteria.setHelpImage(getHelpImage());
+    criteria.setCheckTarget(getCheckTarget());
+    criteria.setDateFormat(getDateFormat());
+    criteria.setDestination(getDestination());
+    criteria.setGroup(getGroup());
+    criteria.setIcon(getIcon());
+    criteria.setLabel(getLabel());
+    criteria.setLeftLabel(getLeftLabel());
+    criteria.setMessage(getMessage());
+    criteria.setNumberFormat(getNumberFormat());
+    criteria.setPlaceholder(getPlaceholder());
+    criteria.setProperty(getProperty());
+    criteria.setSession(getSession());
+    criteria.setSize(getSize());
+    criteria.setSpecific(getSpecific());
+    criteria.setStyle(getStyle());
+    criteria.setTargetAction(getTargetAction());
+    criteria.setValidation(getValidation());
+    criteria.setValue(getValue());
+    criteria.setVariable(getVariable());
+
+    criteria.setAutoload(getValueAsString(isAutoload()));
+    criteria.setAutorefresh(getValueAsString(isAutorefresh()));
+    criteria.setCapitalize(getValueAsString(isCapitalize()));
+    criteria.setCheckEmpty(getValueAsString(isCheckEmpty()));
+    criteria.setCheckInitial(getValueAsString(isCheckInitial()));
+    criteria.setChecked(getValueAsString(isChecked()));
+    criteria.setShowTodayButton(getValueAsString(isDateShowTodayButton()));
+    criteria.setOptional(getValueAsString(isOptional()));
+    criteria.setReadonly(getValueAsString(isReadonly()));
+    criteria.setShowFutureDates(getValueAsString(isShowFutureDates()));
+    criteria.setShowSlider(getValueAsString(isShowSlider()));
+    criteria.setShowWeekends(getValueAsString(isShowWeekends()));
+    criteria.setStrict(getValueAsString(isStrict()));
+    criteria.setVisible(getValueAsString(isVisible()));
+
+    for (AweBuilder aweBuilder : getElementList()) {
+      addElement(criteria, aweBuilder.build(criteria));
+    }
+
+    return criteria;
   }
 
   /**

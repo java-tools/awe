@@ -1,0 +1,30 @@
+/*!
+ * \page SelReg Regresion selenium tests
+ *
+ * \subpage TstLogIn
+ *
+ * The following table shows all the regresion tests done.
+ *
+ * <TABLE>
+ *  <TR>
+ *    <TH>Test</TH><TH>Action</TH>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstRegDep</TD><TD>\ref SecRegDep "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstRegQuo</TD><TD>\ref SecRegQuo "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstRegLoaSug</TD><TD>\ref SecRegLoaSug "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstRegFilDat</TD><TD>\ref SecRegFilDat "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstChkKepCrt</TD><TD>\ref SecRegChkKepCrt "X"</TD>
+ *  </TR>
+ * </TABLE>
+ *
+ * \subpage TstLogOut
+ */

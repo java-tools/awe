@@ -13,24 +13,24 @@ public enum OnClose {
   ACCEPT("accept"),
   REJECT("reject");
   
-  private final String onClose;
+  private final String value;
   
-  private OnClose(String onClose) {
-    this.onClose = onClose;
+  OnClose(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param onClose
+   * @param value
    * @return
    */
-  public boolean equalsStr(String onClose) {
-    return this.onClose.equals(onClose);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.onClose;
+    return this.value;
   }  
 }

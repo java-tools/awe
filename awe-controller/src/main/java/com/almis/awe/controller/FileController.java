@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -97,7 +94,8 @@ public class FileController extends ServiceConfig {
    * @return File content
    * @throws AWException Error retrieving file
    */
-  @RequestMapping("/stream/maintain/{targetId}")
+  @GetMapping("/stream/maintain/{targetId}")
+  @PostMapping("/stream/maintain/{targetId}")
   public ResponseEntity<FileSystemResource> getFileAsStream(HttpServletRequest request, @PathVariable("targetId") String targetId) throws AWException {
     // Initialize parameters
     getRequest().init(request);
@@ -136,7 +134,8 @@ public class FileController extends ServiceConfig {
    * @return File content
    * @throws AWException Error retrieving file
    */
-  @RequestMapping("/download/maintain/{targetId}")
+  @GetMapping("/download/maintain/{targetId}")
+  @PostMapping("/download/maintain/{targetId}")
   public ResponseEntity<InputStreamResource> downloadFileMaintainGet(HttpServletRequest request, @PathVariable("targetId") String targetId) throws AWException {
     // Initialize parameters
     getRequest().init(targetId, request);

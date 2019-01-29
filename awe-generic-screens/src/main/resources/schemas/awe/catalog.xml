@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/actions.xsd" uri="./actions.xsd"/>
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/email.xsd" uri="./email.xsd"/>
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/enumerated.xsd" uri="./enumerated.xsd"/>
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/maintain.xsd" uri="./maintain.xsd"/>
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/queries.xsd" uri="./queries.xsd"/>
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/queues.xsd" uri="./queues.xsd"/>
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/services.xsd" uri="./services.xsd"/>
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/locale.xsd" uri="./locale.xsd"/>
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/menu.xsd" uri="./menu.xsd"/>
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/profile.xsd" uri="./profile.xsd"/>
+  <system systemId="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" uri="./screen.xsd"/>
+</catalog>

@@ -1,0 +1,4 @@
+P:/appref/awe/V0.0/awe-tests/src/test/selenium/suites/SuiInt/BasePdf/Chart_tests.pdf -- P:/appref/awe/export/rep_his/CURRENT_DATE/awealmora01/Chart_tests.pdf
+P:/appref/awe/V0.0/awe-tests/src/test/selenium/suites/SuiInt/BasePdf/Matrix_test.pdf -- P:/appref/awe/export/rep_his/CURRENT_DATE/awealmora01/Matrix_test.pdf
+P:/appref/awe/V0.0/awe-tests/src/test/selenium/suites/SuiInt/BasePdf/Profile_management.pdf -- P:/appref/awe/export/rep_his/CURRENT_DATE/awealmora01/Profile_management.pdf
+P:/appref/awe/V0.0/awe-tests/src/test/selenium/suites/SuiInt/BasePdf/User_management.pdf -- P:/appref/awe/export/rep_his/CURRENT_DATE/awealmora01/User_management.pdf

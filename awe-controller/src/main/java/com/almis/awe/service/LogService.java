@@ -15,13 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Paths;
+import java.util.*;
 
 /**
  * Manage logs
+ *
  * @author pgarcia
  */
 public class LogService extends ServiceConfig {
@@ -40,6 +39,7 @@ public class LogService extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param queryUtil Query utilities
    */
   @Autowired
@@ -49,10 +49,11 @@ public class LogService extends ServiceConfig {
 
   /**
    * Get log files sorted
-   * @param fileName Log file
-   * @param date Log date
+   *
+   * @param fileName  Log file
+   * @param date      Log date
    * @param startTime Start time
-   * @param endTime End time
+   * @param endTime   End time
    * @return Log list
    * @throws AWException Error retrieving log list
    */
@@ -105,17 +106,18 @@ public class LogService extends ServiceConfig {
 
   /**
    * Get files
-   * @param fileName File name
+   *
+   * @param fileName  File name
    * @param startDate Start time
-   * @param endDate End time
+   * @param endDate   End time
    * @return Files
    */
   private DataList getFiles(String fileName, Date startDate, Date endDate) throws AWException {
     DataList fileList = new DataList();
-    String logPath = "true".equalsIgnoreCase(logUserHome) ? USER_HOME + logBasePath: logBasePath;
+    String logPath = "true".equalsIgnoreCase(logUserHome) ? USER_HOME + logBasePath : logBasePath;
 
     // Check flag user home path
-    File baseLogDirectory = new File(logPath);
+    File baseLogDirectory = Paths.get(logPath).normalize().toFile();
 
     // Get base log directory
     if (baseLogDirectory.isDirectory()) {
@@ -126,60 +128,73 @@ public class LogService extends ServiceConfig {
 
   /**
    * Get files from a folder
-   * @param folder Folder
-   * @param fileName File name
+   *
+   * @param folder    Folder
+   * @param fileName  File name
    * @param startDate Start date
-   * @param endDate End date
-   * @param fileList File list
+   * @param endDate   End date
+   * @param fileList  File list
    */
   private void getFilesFromFolder(File folder, String fileName, Date startDate, Date endDate, DataList fileList) throws AWException {
-    if (folder.isDirectory()) {
-      File[] folderFiles = folder.listFiles();
-      if (folderFiles != null) {
-        for (File file : folderFiles) {
-          if (!file.isDirectory()) {
-        	if (checkFile(file, fileName, startDate, endDate)) {
-                fileList.addRow(getFileRow(file));
-            }  
-          } else {
-        	getFilesFromFolder(file, fileName, startDate, endDate, fileList);
-          }
-          
-        }
+    if (folder.isDirectory() && folder.listFiles() != null) {
+      for (File file : folder.listFiles()) {
+        checkFolderFile(file, fileName, startDate, endDate, fileList);
       }
     }
   }
 
   /**
-   * Check if file is within range
-   * @param fileName File name
+   * Check folder file
+   *
+   * @param file      File to be checked
+   * @param fileName  File name
    * @param startDate Start date
-   * @param endDate End date
+   * @param endDate   End date
+   * @param fileList  File list
+   */
+  private void checkFolderFile(File file, String fileName, Date startDate, Date endDate, DataList fileList) throws AWException {
+    if (!file.isDirectory()) {
+      if (checkFile(file, fileName, startDate, endDate)) {
+        fileList.addRow(getFileRow(file));
+      }
+    } else {
+      getFilesFromFolder(file, fileName, startDate, endDate, fileList);
+    }
+  }
+
+  /**
+   * Check if file is within range
+   *
+   * @param fileName  File name
+   * @param startDate Start date
+   * @param endDate   End date
    */
   private boolean checkFile(File file, String fileName, Date startDate, Date endDate) {
     // Get file date
+    boolean check = true;
     Date fileDate = new Date(file.lastModified());
 
     // Check filename
     if (fileName != null && !file.getName().toLowerCase().contains(fileName.toLowerCase())) {
-      return false;
+      check = false;
     }
 
     // Check start time
     if (startDate != null && startDate.after(fileDate)) {
-      return false;
+      check = false;
     }
 
     // Check end time
     if (endDate != null && endDate.before(fileDate)) {
-      return false;
+      check = false;
     }
 
-    return true;
+    return check;
   }
 
   /**
    * Generate a new file row
+   *
    * @param file File
    * @return File row
    */
@@ -196,9 +211,10 @@ public class LogService extends ServiceConfig {
 
   /**
    * Log a database change
+   *
    * @param database New database
    */
-  public void logChangeDatabase(String database)  {
+  public void logChangeDatabase(String database) {
     getLogger().log(LogService.class, Level.INFO, "Database changed to ''{0}''", database);
   }
 }

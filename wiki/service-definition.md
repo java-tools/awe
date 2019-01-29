@@ -90,8 +90,7 @@ Microservice element has the following attributes:
 | Attribute    | Use          | Type      |  Description                         |   Values                                           |
 | ------------ | -------------|-----------|------------------------------------- |----------------------------------------------------|
 | name         | **Required** | String    | Name of web service                  | **Note:** Must be unique                           |
-| method       | **Required** | String    | REST method.                         | **GET**: Send the parameters as part of the endpoint
- - **POST**: Send the parameters in the request body |
+| method       | **Required** | String    | REST method.                         | **GET**: Send the parameters as part of the endpoint - POST**: Send the parameters in the request body |
 | endpoint     | **Required** | String    | Path to REST call                    | Ej: /data/ServiceData or /maintain/ServiceMaintain |
 | wrapper      | Optional     | String    | Classname to wrap REST call response | Ej: com.almis.awe.test.bean.Postman                     |
 | content-type | Optional     | String    | Way to send the parameters           | `URLENCODED` (default), `JSON`                     |
@@ -104,8 +103,7 @@ REST service element has the following attributes:
 | Attribute    | Use          | Type      |  Description                         |   Values                                             |
 | ------------ | ------------ |-----------|--------------------------------------|----------------------------------------------------- |
 | server       | Optional     | String    | REST server property                 | Used to retrieve the `rest.server.[server]` property |
-| method       | **Required** | String    | REST method.                         | **GET**: Send the parameters as part of the endpoint 
-- **POST**: Send the parameters in the request body |
+| method       | **Required** | String    | REST method.                         | **GET**: Send the parameters as part of the endpoint - **POST**: Send the parameters in the request body |
 | endpoint     | **Required** | String    | Path to REST call                    | Ej: /data/ServiceData or /maintain/ServiceMaintain   |
 | wrapper      | Optional     | String    | Classname to wrap REST call response | Ej: com.almis.awe.test.bean.Postman                       |
 | content-type | Optional     | String    | Way to send the parameters           | `URLENCODED` (default), `JSON`                       |
@@ -118,8 +116,7 @@ The service parameter element are parameters passed from query or maintain to th
 | Attribute   | Use          | Type      |  Description                             |   Values                                      |
 | ----------- | ------------ |-----------|------------------------------------------|---------------------------------------------- |
 | name        | **Required** | String    | Name of service parameter                | **Note:** Must be unique                      |
-| type        | **Required** | String    | Type of service parameter                | The possible values are: `STRING`, `INTEGER`, 
-`FLOAT`, `DOUBLE`, `DATE`, `TIME` or `TIMESTAMP` |
+| type        | **Required** | String    | Type of service parameter                | The possible values are: `STRING`, `INTEGER`, `FLOAT`, `DOUBLE`, `DATE`, `TIME` or `TIMESTAMP` |
 | value       | Optional     | String    | To set the parameter with a static value |                                               |
 
 ## **Java services**

@@ -1,0 +1,7 @@
+/*!
+ * \page LogViewerTest Awe viewer logs selenium tests
+ *
+ * \section SecUniLog Test view loggers Awe applications
+ *  Test to view the loggers of Awe application.
+ *
+ */

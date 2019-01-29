@@ -1,0 +1,33 @@
+/*!
+ * \page StyleConfigurationManagement Style configuration management selenium tests
+ *
+ * \section SecNewStlCnf New style configuration
+ *  Test for adding a new style for generic jasper reports.
+ *  It creates a new style for a report section. This are the parameters given to the new style configuration:
+ *    - CrtStl 		: 'TitStl'
+ *    - CrtIdeOpe : 'test'
+ *    - CrtAct	  : 'Yes' (1)
+ *	  - Fnt			  : 'Verdana'
+ *
+ * \section SecStlCnfViw View style configuration
+ *  Test for verifying that the added style configuration is correct.
+ *  This process searches the type of the style and user in the correspondent criteria and searches the style configuration 
+ *
+ * \section SecChangeStlCnf Update style configuration
+ *  Test for modifying a defined style configuration.
+ *  This process searches the type of the style and user in the correspondent critera and searches the style configuration 
+ *  and updates the property "Font" of the style.
+ *
+ * \section SecViwChangeStlCnf View updated style configuration
+ *  Test for verifying that the modifications made on the style configuration are correct.
+ *  This process searches the type of the style and user in the correspondent criteria and searches the style configuration 
+ *  and verifies the "Font" value has changed
+ *
+ * \section SecStlCnfDel Delete style configuration
+ *  Test for verifying the delete of one style configuration.
+ *  This process searches the type of the style and user in the correspondent critera and searches the style configuration 
+ *  , it selects it and pushes 'Delete' button to delete it.
+ *
+ * \section SecViwDelStlnf Verify Delete style configuration
+ *  Test for verifying that the style configuation was deleted correclty.
+ */

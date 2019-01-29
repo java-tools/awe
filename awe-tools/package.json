@@ -1,10 +1,10 @@
 {
   "name": "awe-tools",
-  "version": "0.0.1-SNAPSHOT",
+  "version": "4.0.5",
   "description": "",
   "main": "./src/main/resources/webpack",
   "author": "",
-  "license": "ISC",
+  "license": "SEE LICENSE IN ./../LICENSE.md",
   "private": true,
   "dependencies": {
     "angular": "1.5.8",
@@ -17,7 +17,7 @@
     "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "^0.11.2",
     "jquery": "^2.2.4",
-    "less": "^2.7.2",
+    "less": "^3.0.0",
     "less-loader": "^4.0.5",
     "ng-file-upload": "^12.2.13",
     "prune": "0.0.2",

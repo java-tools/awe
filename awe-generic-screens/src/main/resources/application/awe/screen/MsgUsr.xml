@@ -6,7 +6,7 @@
     Author     : Pablo GARCIA
     Description: Envia un mensaje a los usuarios que se encuentran en sesion
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="SCREEN_TITLE_BROADCAST" help="HELP_SCREEN_TITLE_BROADCAST">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_BROADCAST" help="HELP_SCREEN_TITLE_BROADCAST">
   <tag source="hidden">
   </tag>
   <tag source="buttons">

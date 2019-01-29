@@ -11,6 +11,7 @@ import com.almis.awe.builder.screen.dependency.DependencyBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.component.container.WizardPanel;
+import com.almis.awe.model.entities.screen.component.panelable.Wizard;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,31 +50,31 @@ public class WizardBuilder extends AweBuilder<WizardBuilder> {
 
   @Override
   public Element build(Element element) {
-    WizardPanel wizardPanel = new WizardPanel();
+    Wizard wizard = new Wizard();
 
-    wizardPanel.setId(getId());
+    wizard.setId(getId());
 
     if (getInitialLoad() != null) {
-      wizardPanel.setInitialLoad(getInitialLoad().toString());
+      wizard.setInitialLoad(getInitialLoad().toString());
     }
 
     if (getTargetAction() != null) {
-      wizardPanel.setTargetAction(getTargetAction());
+      wizard.setTargetAction(getTargetAction());
     }
 
     if (getLabel() != null) {
-      wizardPanel.setLabel(getLabel());
+      wizard.setLabel(getLabel());
     }
 
     for (WizardPanelBuilder wizardPanelBuilder : getWizardPanelList()) {
-      addElement(wizardPanel, wizardPanelBuilder.build(wizardPanel));
+      addElement(wizard, wizardPanelBuilder.build(wizard));
     }
 
     for (DependencyBuilder dependencyBuilder : getDependencyList()) {
-      addElement(wizardPanel, dependencyBuilder.build(wizardPanel));
+      addElement(wizard, dependencyBuilder.build(wizard));
     }
 
-    return wizardPanel;
+    return wizard;
   }
 
   /**

@@ -10,6 +10,6 @@
 -->
 
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../../schemas/awe/services.xsd">
+  xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/services.xsd">
 
 </services>

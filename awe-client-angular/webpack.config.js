@@ -19,6 +19,7 @@ module.exports = {
   },
   output: {
     filename: "js/[name].js",
+    path: path.join(__dirname, 'target', 'classes', 'static'),
     publicPath: "../"
   },
   module : {

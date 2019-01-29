@@ -6,7 +6,7 @@
     Author     : David FUENTES
     Description: Ventana para la creacion de un nuevo servidor
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="window" label="MENU_NEW_SCHEDULER_SERVER" help="HELP_SCREEN_NEW_SCHEDULER_SERVER">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="MENU_NEW_SCHEDULER_SERVER" help="HELP_SCREEN_NEW_SCHEDULER_SERVER">
   <!--
     MESSAGES
   -->

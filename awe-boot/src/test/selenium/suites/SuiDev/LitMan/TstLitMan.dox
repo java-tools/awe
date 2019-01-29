@@ -1,0 +1,16 @@
+/*!
+ * \page local-managerEquity contract
+ *
+ * \section TstLitManSer
+ *  Test for searching local. 
+ *
+ * \section TstLitManNew
+ *  Test for adding a new local.
+ *
+ * \section TstLitManUpd 
+ *  Test for verifying that updated local is correct.
+ *
+ * \section TstLitManDel 
+ *  Test for verifying that delete local is correct.
+ *
+ */

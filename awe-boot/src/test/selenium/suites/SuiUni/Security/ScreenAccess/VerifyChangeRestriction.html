@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="selenium.base" href="http://change-this-to-the-site-you-are-testing/" />
+    <title>Verify changed screen restriction</title>
+  </head>
+  <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+      <thead>
+        <tr><td rowspan="1" colspan="3">Verify changed screen restriction</td></tr>
+      </thead><tbody>
+        <tr>
+	<td>setTimeout</td>
+	<td>60000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>name=screen-access</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=screen-access</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButRst:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButRst:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButRst:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='CrtOpe'] .select2-input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=[criterion-id='CrtOpe'] .select2-input</td>
+	<td>test</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-result-label:contains('test')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-result-label:contains('test')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[criterion-id='CrtOpc'] .select2-input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=[criterion-id='CrtOpc'] .select2-input</td>
+	<td>application-info</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop .select2-result-label:contains('application-info')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-result-label:contains('application-info')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButSch:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#ButSch:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButSch:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=.grid-loader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>css=.grid-loader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.ui-grid-cell-contents:contains('test')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.ui-grid-cell-contents:contains('application-info')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.ui-grid-cell-contents:contains('Restricted')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.ui-grid-cell-contents:contains('No')</td>
+	<td></td>
+</tr>
+</tbody></table>
+  </body>
+</html>

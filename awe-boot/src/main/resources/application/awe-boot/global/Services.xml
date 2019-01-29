@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--$Id$ -->
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="@awe.schemas@/services.xsd">
+  xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/services.xsd">
 
   <!-- Test services -->
 
@@ -132,9 +132,6 @@
       <service-parameter type="STRING" name="CrtUsrLst"
         list="true" />
     </java>
-  </service>
-  <service id="checkCurrentSession" launch-phase="CLIENT_START">
-    <java classname="com.almis.awe.test.Session" method="checkCurrentSession" />
   </service>
   <!-- <service id="startScheduler" launch-phase="APPLICATION_START"> <java
     classname="com.almis.awe.scheduler.controller.SchedulerController" method="startNoQuartz"

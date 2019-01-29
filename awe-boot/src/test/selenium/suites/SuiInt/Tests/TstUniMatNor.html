@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Change Profile</title>
+  </head>
+  <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+      <thead>
+        <tr><td rowspan="1" colspan="3">Change Profile</td></tr>
+      </thead><tbody>
+        <tr>
+	<td>setTimeout</td>
+	<td>60000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>name=matrix-test</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=matrix-test</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=span[translate-multiple='ENUM_MATRIX_STATIC']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[grid-id='GrdSta'] .ui-grid-cell-contents:contains('awedb')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span[translate-multiple='ENUM_MATRIX_MULTISELECT']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[grid-id='GrdMus']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertNotVisible</td>
+	<td>css=[grid-id='GrdMus']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span[translate-multiple='ENUM_MATRIX_STATIC']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>contextMenuAt</td>
+	<td>css=[grid-id='GrdSta'] .ui-grid-cell-contents:contains('awedb')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=[name=CtxGrdStaAdd]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>css=[name=CtxGrdStaDel]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.component-mask</td>
+	<td></td>
+</tr>
+<tr>
+	<td>contextMenuAt</td>
+	<td>css=[grid-id='GrdSta'] .ui-grid-cell-contents:contains('awemadora')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=[name=CtxGrdStaDel]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>css=[name=CtxGrdStaAdd]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=div.component-mask</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=[grid-id='GrdSta'] div.ui-grid-viewport</td>
+	<td></td>
+</tr>
+
+<tr>
+	<td>click</td>
+	<td>css=[grid-id='GrdSta'] .ui-grid-cell-contents:contains('awemadora')</td>
+	<td></td>
+</tr>
+</tbody></table>
+  </body>
+</html>

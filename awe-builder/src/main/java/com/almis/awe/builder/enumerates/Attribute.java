@@ -46,25 +46,25 @@ public enum Attribute {
   Y_MAX("yMax"),
   Y_MIN("yMin");
   
-  private final String attribute;
+  private final String value;
 
-  private Attribute(String attribute) {
-    this.attribute = attribute;
+  private Attribute(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param attribute
+   * @param value
    * @return
    */
-  public boolean equalsStr(String attribute) {
-    return this.attribute.equals(attribute);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.attribute;
+    return this.value;
   }          
   
 }

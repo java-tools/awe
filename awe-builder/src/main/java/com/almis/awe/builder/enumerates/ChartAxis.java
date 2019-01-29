@@ -14,24 +14,24 @@ public enum ChartAxis {
   X_AXIS("xAxis"),
   Y_AXIS("yAxis");
   
-  private final String zoomType;
+  private final String value;
   
-  private ChartAxis(String zoomType) {
-    this.zoomType = zoomType;
+  private ChartAxis(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param zoomType
+   * @param value
    * @return
    */
-  public boolean equalsStr(String zoomType) {
-    return this.zoomType.equals(zoomType);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.zoomType;
+    return this.value;
   }
 }

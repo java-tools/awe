@@ -13,22 +13,25 @@
     <!-- Application maven properties -->
     <awe.version>${project.version}</awe.version>
     <ade.version>2.0.7</ade.version>
-    
     <java.version>1.8</java.version>
-    <awe.schemas>../../../static/schemas/awe</awe.schemas>
     <application.name>\${artifactId}_V${version}</application.name>
+
+    <!-- Build properties -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.frontend>\${project.build.directory}/classes/static</project.build.frontend>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.build.frontend>\${project.build.directory}/classes/static/</project.build.frontend>
+    <check.xml.directory>\${project.basedir}/src/main/resources/application/</check.xml.directory>
     <node.version>v8.12.0</node.version>
     <yarn.version>v1.10.1</yarn.version>
+
+    <!-- Plugin versions -->
     <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
     <plugin-frontend.version>1.6</plugin-frontend.version>
     <plugin-dependency.version>3.0.2</plugin-dependency.version>
     <plugin-compiler.version>3.5.1</plugin-compiler.version>
     <plugin-surefire.version>2.20</plugin-surefire.version>
     <plugin-archetype.version>3.0.1</plugin-archetype.version>
-    <plugin-xml.maven.version>1.0</plugin-xml.maven.version>
+    <plugin-xml-maven.version>1.0</plugin-xml-maven.version>
     <plugin-jar.version>3.1.0</plugin-jar.version>
     <plugin-resources.version>3.1.0</plugin-resources.version>
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
@@ -97,7 +100,7 @@
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-compiler-plugin</artifactId>
-      <version>${plugin-compiler.version}</version>
+      <version>\${plugin-compiler.version}</version>
       <configuration>
         <source>\${java.version}</source>
         <target>\${java.version}</target>
@@ -108,11 +111,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>${plugin-dependency.version}</version>
+        <version>\${plugin-dependency.version}</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
-            <id>unpack awe-generic-screens</id>
+            <id>unpack awe-generic-screens schemas</id>
             <goals>
               <goal>unpack</goal>
             </goals>
@@ -121,9 +124,27 @@
                 <artifactItem>
                   <groupId>com.almis.awe</groupId>
                   <artifactId>awe-generic-screens</artifactId>
-                  <version>\${awe.version}</version>
+                  <version>${awe.version}</version>
+                  <outputDirectory>\${project.build.directory}</outputDirectory>
+                  <includes>schemas/**,</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>generate-sources</phase>
+            <id>unpack awe-generic-screens docs</id>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.almis.awe</groupId>
+                  <artifactId>awe-generic-screens</artifactId>
+                  <version>${awe.version}</version>
                   <outputDirectory>\${project.build.frontend}</outputDirectory>
-                  <includes>schemas/**,docs/**</includes>
+                  <includes>docs/**</includes>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -139,9 +160,9 @@
                 <artifactItem>
                   <groupId>com.almis.awe</groupId>
                   <artifactId>awe-client-angular</artifactId>
-                  <version>\${awe.version}</version>
+                  <version>${awe.version}</version>
                   <outputDirectory>\${project.build.frontend}</outputDirectory>
-                  <includes>images/**,fonts/**,js/**,css/**,less/**</includes>
+                  <includes>images/**,css/**</includes>
                 </artifactItem>
               </artifactItems>
             </configuration>
@@ -150,7 +171,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>${plugin-resources.version}</version>
+        <version>\${plugin-resources.version}</version>
         <executions>
           <execution>
             <id>copy-resources</id>
@@ -178,7 +199,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>${plugin-spring-boot.version}</version>
+        <version>\${plugin-spring-boot.version}</version>
         <executions>
           <execution>
             <goals>
@@ -192,7 +213,7 @@
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
-        <version>${plugin-frontend.version}</version>
+        <version>\${plugin-frontend.version}</version>
         <executions>
           <execution>
             <id>install node and yarn</id>
@@ -200,8 +221,8 @@
               <goal>install-node-and-yarn</goal>
             </goals>
             <configuration>
-              <nodeVersion>${node.version}</nodeVersion>
-              <yarnVersion>${yarn.version}</yarnVersion>
+              <nodeVersion>\${node.version}</nodeVersion>
+              <yarnVersion>\${yarn.version}</yarnVersion>
             </configuration>
           </execution>
           <execution>
@@ -218,18 +239,15 @@
             <goals>
               <goal>webpack</goal>
             </goals>
-            <configuration>
-              <arguments>--output-path "\${project.build.frontend}"</arguments>
-            </configuration>
           </execution>
         </executions>
       </plugin>
 
-      <!-- XML files validation -->
+      <!-- Validate XML files -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
-        <version>${plugin-xml.maven.version}</version>
+        <version>\${plugin-xml-maven.version}</version>
         <executions>
           <execution>
             <goals>
@@ -240,12 +258,18 @@
         <configuration>
           <validationSets>
             <validationSet>
-              <dir>\${project.build.directory}/classes/application/\${artifactId}/</dir>
+              <dir>\${check.xml.directory}/\${project.artifactId}/</dir>
+              <excludes>
+                <exclude>templates/**</exclude>
+              </excludes>
               <validating>true</validating>
             </validationSet>
           </validationSets>
+          <catalogs>
+            <catalog>\${project.build.directory}/schemas/awe/catalog.xml</catalog>
+          </catalogs>
         </configuration>
-      </plugin>     
+      </plugin>
     </plugins>
   </build>
 
@@ -255,7 +279,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${plugin-javadoc.version}</version>
+        <version>\${plugin-javadoc.version}</version>
         <configuration>
           <show>public</show>
           <outputDirectory>\${project.build.directory}/apidocs</outputDirectory>
@@ -264,12 +288,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>${plugin-site.version}</version>
+        <version>\${plugin-site.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>${plugin-info-reports.version}</version>
+        <version>\${plugin-info-reports.version}</version>
       </plugin>
     </plugins>
   </reporting>

@@ -6,7 +6,7 @@
     Author     : Pablo GARCIA
     Description: New Home page (Menu and Report)
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" template="full">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="full">
 
   <!--
   SAMPLE DEFAULT PARAMETER LOADING

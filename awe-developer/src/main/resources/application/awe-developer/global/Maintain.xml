@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:noNamespaceSchemaLocation="../../../schemas/awe/maintain.xsd">
+  xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/maintain.xsd">
 
   <!--
   DEVELOPER

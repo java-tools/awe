@@ -11,6 +11,7 @@ module.exports = {
   },
   output : {
     filename : "js/[name].js",
+    path: path.join(__dirname, 'target', 'classes', 'static'),
     publicPath : "../"
   },
   module : {
@@ -42,10 +43,5 @@ module.exports = {
   resolve : {
     extensions : [ ".js", ".css", ".less", "*" ]
   },
-  plugins : [ new ExtractTextPlugin("css/specific.css"),
-  /*
-   * new webpack.optimize.UglifyJsPlugin({ compress: { warnings: true,
-   * drop_console: false, } }),
-   */
-  ]
+  plugins : [ new ExtractTextPlugin("css/specific.css") ]
 };

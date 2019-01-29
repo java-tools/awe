@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head profile="http://selenium-ide.openqa.org/profiles/test-case">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>New Site</title>
+  </head>
+  <body>
+    <table cellpadding="1" cellspacing="1" border="1">
+      <thead>
+        <tr><td rowspan="1" colspan="3">New Site</td></tr>
+      </thead><tbody>
+        <tr>
+	<td>setTimeout</td>
+	<td>60000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>name=sites</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=sites</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButNew:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButNew:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>id=loading-bar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButCnf:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Nam</td>
+	<td>Site test</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[criterion-id='Act'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop li:last</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Ord</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButGrdAdd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButGrdAdd:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=[column-id='IdeMod'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[column-id='IdeMod'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=#select2-drop input..select2-input</td>
+	<td>Base</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-result-label:contains('Base')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=[column-id='IdeDbs'] .select2-choice</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#select2-drop input..select2-input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>css=#select2-drop input..select2-input</td>
+	<td>awedb</td>
+</tr>
+<tr>
+	<td>clickAt</td>
+	<td>css=#select2-drop .select2-result-label:contains('awedb')</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>css=[column-id='Order'] input</td>
+	<td>3</td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.grid-row-save</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.grid-row-save:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=#ButCnf:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#ButCnf:not([disabled])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForVisible</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForNotVisible</td>
+	<td>css=#confirm-accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>css=.alert-zone .alert-success button.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=.alert-zone .alert-success button.close</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementNotPresent</td>
+	<td>css=.alert-zone .alert-success</td>
+	<td></td>
+</tr>
+</tbody></table>
+  </body>
+</html>

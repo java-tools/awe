@@ -7,7 +7,7 @@
     Description: Ventana para la edicion de un calendario, y para anadir/editar/borrar dias al calendario seleccionado
 -->
 
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/screen.xsd" target="SchCal" template="window" label="MENU_SCHEDULER_EDIT_CALENDAR" help="HELP_SCREEN_SCHEDULER_CALENDAR">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" target="SchCal" template="window" label="MENU_SCHEDULER_EDIT_CALENDAR" help="HELP_SCREEN_SCHEDULER_CALENDAR">
   <!--
     MESSAGES
   -->

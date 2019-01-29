@@ -30,7 +30,7 @@ CREATE UNIQUE INDEX opeI1 ON ope (l1_nom);
 --------------------------------------------------------
 --  DDL for Table AweDbs
 --------------------------------------------------------
-CREATE TABLE IF NOT EXISTS AweDbs (IdeDbs int CONSTRAINT pk_AweDbs PRIMARY KEY NOT NULL, Als varchar(16) not NULL, Des varchar(40) NULL, Dct varchar(1) not NULL, Dbt varchar(3) not NULL, Drv varchar(256), DbsUsr varchar(50), DbsPwd varchar(50), Typ varchar(3) not NULL, Dbc varchar(256) not NULL, Act int default 1 not NULL);
+CREATE TABLE IF NOT EXISTS AweDbs (IdeDbs int CONSTRAINT pk_AweDbs PRIMARY KEY NOT NULL, Als varchar(16) not NULL, Des varchar(40) NULL, Dct varchar(1) not NULL, Dbt varchar(10) not NULL, Drv varchar(256), DbsUsr varchar(50), DbsPwd varchar(50), Typ varchar(3) not NULL, Dbc varchar(256) not NULL, Act int default 1 not NULL);
 CREATE UNIQUE INDEX AweDbsI1 ON AweDbs (Als);
 
 --------------------------------------------------------

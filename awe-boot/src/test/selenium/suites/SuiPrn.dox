@@ -1,0 +1,33 @@
+/*!
+ * \page SelInt Integration selenium tests
+ *
+ * \subpage TstLogIn
+ *
+ * The following table shows all the unitary tests done.
+ *
+ * <TABLE>
+ *  <TR>
+ *    <TH>Test</TH><TH>Action</TH>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstIntCreDocUsr</TD><TD>\ref SecCreDocUsr "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstIntCreDocPro</TD><TD>\ref SecCreDocPro "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstIntVerScrCnf</TD><TD>\ref SecIntVerScrCnf "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstIntMnuAcc</TD><TD>\ref SecIntMnuAcc "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniGrdChrPrn</TD><TD>\ref SecUniGrdChrPrnTst "X"</TD>
+ *  </TR>
+ *  <TR>
+ *    <TD>\subpage TstUniChrPrn</TD><TD>\ref SecUniChrPrnTst "X"</TD>
+ *  </TR>
+ * </TABLE>
+ *
+ * \subpage TstLogOut
+ */

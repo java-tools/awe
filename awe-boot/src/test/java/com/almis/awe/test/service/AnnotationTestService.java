@@ -42,13 +42,13 @@ public class AnnotationTestService {
    */
   @Locale (language = "ES")
   public String localeFromReturnedValue() {
-    return "ENUM_LAN_MO";
+    return "ENUM_LAN_ES";
   }
 
   /**
    * Check locale annotaiton value from value method on annotaiton
    */
-  public String localeFromAnnotationValue(@Locale (value = "ENUM_LAN_MO", language = "ES") String param) {
+  public String localeFromAnnotationValue(@Locale (value = "ENUM_LAN_ES", language = "ES") String param) {
     return param;
   }
 

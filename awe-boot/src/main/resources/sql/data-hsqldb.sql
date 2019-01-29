@@ -2,12 +2,23 @@
 --------------------------------------------------------
 --  DDL for INSERT DATA
 --------------------------------------------------------
+
+Delete From AweSitModDbs;
+Delete From AweAppPar;
+Delete From AweModPro;
+Delete From Ope;
+Delete From AwePro;
+Delete From AweMod;
+Delete From AweDbs;
+Delete From AweThm;
+Delete From AweKey;
+
 -- Insert sequences
 Insert into AweKey (KeyNam, KeyVal) values ('OpeKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ThmKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ProKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ModKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('DbsKey', 0);
+Insert into AweKey (KeyNam, KeyVal) values ('DbsKey', 2);
 Insert into AweKey (KeyNam, KeyVal) values ('SitKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ModOpeKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ModProKey', 0);
@@ -70,6 +81,7 @@ Insert into AwePro (IdePro, Acr, Nam, IdeThm, ScrIni, Res, Act) values ('1','ADM
 Insert into AwePro (IdePro, Acr, Nam, IdeThm, ScrIni, Res, Act) values ('2','GNR','general','1',null,'general','1');
 Insert into AwePro (IdePro, Acr, Nam, IdeThm, ScrIni, Res, Act) values ('3','OPE','operator','1',null,'operator','1');
 Insert into AwePro (IdePro, Acr, Nam, IdeThm, ScrIni, Res, Act) values ('4','TST','test','1',null,'test','1');
+
 -- Update ProKey
 UPDATE AweKey SET KeyVal = '5' where KeyNam = 'ProKey';
 
@@ -79,36 +91,15 @@ Insert into OPE (IdeOpe, l1_nom, l1_pas, l1_con, l1_dev, l1_act, l1_trt, l1_uti,
 UPDATE AweKey SET KeyVal = '2' where KeyNam = 'OpeKey';
 
 -- Insert AweMod
-delete AweMod;
-insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (916,	'Test',	'Dbs',	4,	1);
-insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (28,	'Base',	'Sit',	2,	1);
+Insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (916,	'Test',	'Dbs',	4,	1);
+Insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (28,	'Base',	'Sit',	2,	1);
 
--- Insert AweMod
-delete AweDbs;
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (9	,'awesybase1','AWE SYBASE 1','J','syb','com.sybase.jdbc3.jdbc.SybDriver','awesybase1','xxx','Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase1',	1	);
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (8	,'awesqs1','AWE SQL SERVER 1','J','sqs','com.microsoft.sqlserver.jdbc.SQLServerDriver','awesqs1','xxx','Des','	jdbc:sqlserver://localhost;databaseName=awesqs1',	1	);
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (6	,'aweora1','AWE ORACLE 1','J','ora','oracle.jdbc.driver.OracleDriver','aweora1','xxx','Des','jdbc:oracle:thin:@localhost:1521:oracle1',	1	);
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (7	,'aweora2','AWE ORACLE 2','J','ora','oracle.jdbc.driver.OracleDriver','aweora2','xxx','Des','jdbc:oracle:thin:@localhost:1521:oracle2',	1	);
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (15  , 'awesqs2','AWE SQL SERVER 2','J','sqs','com.microsoft.sqlserver.jdbc.SQLServerDriver','awesqs2','xxx','Des','	jdbc:sqlserver://localhost;databaseName=awealmsqs05',	1	);
-insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (16  , 'awesybase2','AWE SYBASE 2','J','syb','com.sybase.jdbc3.jdbc.SybDriver','awesybase2','xxx','Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase2',	1	);
+-- Insert AweDbs
+Insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (1	,'awedb','AWE DB 1','J','hsql','org.hsqldb.jdbc.JDBCDriver',null,null,'Des','jdbc:hsqldb:file:${user.home}/db/awe-boot',1);
 
 -- Insert AweSitModDbs
-delete AweSitModDbs;
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (2579,	17,	916,	7,	1);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (2580,	10,	916,	6,	1);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (2581,	17,	916,	15,	2);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (2582,	10,	916,	8,	2);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (2583,	17,	916,	16,	3);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (2584,	10,	916,	9,	3);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (75,	10,	28,	6,	1);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (60,	17,	28,	7,	1);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (76,	10,	28,	8,	2);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (78,	17,	28,	15,	2);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (77,	10,	28,	9,	3);
-insert into AweSitModDbs (IdeSitModDbs, IdeSit, IdeMod, IdeDbs, Ord) values (79,	17,	28,	16,	3);
 
 -- Insert AweModPro
-delete AweModPro;
 insert into AweModPro (IdeModPro, IdeMod, IdePro, Ord) values (937,	916,	1,	null);
 insert into AweModPro (IdeModPro, IdeMod, IdePro, Ord) values (62,	28,	1,	null);
 insert into AweModPro (IdeModPro, IdeMod, IdePro, Ord) values (65,	28,	2,	null);

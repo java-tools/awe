@@ -1,0 +1,35 @@
+/*!
+ * \page RestrictionScreens Screen restrictions selenium tests
+ *
+ * \section SecNewResScr New screen restriction
+ *  Test for adding a new screen restriction to the application.
+ *  This are the parameters given to the new restriction:
+ *    - User        	  : 'test'
+ *    - Module			  : Empty
+ *    - Option		      : 'ViwAppInf'
+ *    - Access mode       : 'Restricted' (R)
+ *    - Active     		  : 'Yes' (1)
+ *
+ * \section SecResScrViw View screen restriction
+ *  Test for verifying that the added restriction is correct.
+ *  This process search the name of the new screen option in the correspondent criterion
+ *  of screen restriction management window, it pushes 'Search ' button and check it to visualise it.
+ *
+ * \section SecChangeResScr Update screen restriction
+ *  Test for modifying a defined restriction.
+ *  This process search the name of the new option menu and user in the correspondent criterion
+ *  of screen restriction management window, it selects and update his access mode to 'R' and active to '0' to modify it.
+ *
+ * \section SecViwChangeResScr View updated screen restriction
+ *  Test for verifying that the modifications made on the restriction are correct.
+ *  This process search the name of the updated option in the correspondent criterion
+ *  of screen restriction management window, it pushes 'Search ' button and check it to visualise it.
+ *
+ * \section SecResScrDel Delete screen restriction
+ *  Test for verifying the delete of one restriction.
+ *  This process search the name of the 'ViwAppInf' option in the correspondent criterion
+ *  of screen restriction management window, it selects it and pushes 'Delete' button to delete it.
+ *
+ * \section SecViwDelResScr Verify Delete screen restriction
+ *  Test for verifying that the delete of data base 'ViwAppInf' was correct.
+ */

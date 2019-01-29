@@ -2,7 +2,7 @@
 
 <!-- Document : Maintain.xml Created on : 11 de marzo de 2010, 11:03 Author : Ismael SERRANO Description: AWE Maintain File -->
 
-<maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="@awe.schemas@/maintain.xsd">
+<maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/maintain.xsd">
 
   <target name="selectExtract" public="true">
     <serve service="selectExtract">

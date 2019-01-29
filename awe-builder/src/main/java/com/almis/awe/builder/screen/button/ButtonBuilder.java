@@ -23,8 +23,13 @@ import java.util.List;
 public class ButtonBuilder extends AweBuilder<ButtonBuilder> {
 
   private ButtonType buttonType;
-  private String label, icon, size, style, value;
-  private String help, helpImage;
+  private String label;
+  private String icon;
+  private String size;
+  private String style;
+  private String value;
+  private String help;
+  private String helpImage;
   private List<AweBuilder> elements;
 
   /**
@@ -259,9 +264,6 @@ public class ButtonBuilder extends AweBuilder<ButtonBuilder> {
    */
   public ButtonBuilder addButtonAction(ButtonActionBuilder... buttonActionBuilder) {
     if (buttonActionBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(buttonActionBuilder));
     }
     return this;
@@ -275,9 +277,6 @@ public class ButtonBuilder extends AweBuilder<ButtonBuilder> {
    */
   public ButtonBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
-      if (this.elements == null) {
-        this.elements = new ArrayList<>();
-      }
       this.elements.addAll(Arrays.asList(dependencyBuilder));
     }
     return this;

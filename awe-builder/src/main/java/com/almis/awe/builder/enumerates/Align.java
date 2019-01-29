@@ -15,25 +15,25 @@ public enum Align {
   RIGHT("right"),
   LEFT("left");
   
-  private final String align;
+  private final String value;
 
-  private Align(String align) {
-    this.align = align;
+  private Align(String value) {
+    this.value = value;
   }
 
   /**
    * Equals method
    *
-   * @param align
+   * @param value
    * @return
    */
-  public boolean equalsStr(String align) {
-    return this.align.equals(align);
+  public boolean equalsStr(String value) {
+    return this.value.equals(value);
   }
 
   @Override
   public String toString() {
-    return this.align;
+    return this.value;
   }
   
 }
