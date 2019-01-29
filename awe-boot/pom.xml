@@ -310,7 +310,7 @@
               <goal>repackage</goal>
             </goals>
           </execution>
-          <execution>
+     <!-- <execution>
             <id>pre-integration-test</id>
             <goals>
               <goal>start</goal>
@@ -321,7 +321,7 @@
             <goals>
               <goal>stop</goal>
             </goals>
-          </execution>
+          </execution>-->
         </executions>
       </plugin>
 
@@ -435,17 +435,18 @@
               <destFile>${sonar.jacoco.reportPaths}/jacoco.exec</destFile>
             </configuration>
           </execution>
-          <execution>
+<!--          <execution>
             <id>prepare-integration-agent</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>prepare-agent-integration</goal>
+              <goal>instrument</goal>
             </goals>
             <configuration>
               <append>true</append>
               <destFile>${sonar.jacoco.reportPaths}/jacoco-it.exec</destFile>
             </configuration>
-          </execution>
+          </execution>-->
         </executions>
       </plugin>
     </plugins>
@@ -469,14 +470,13 @@
             <executions>
               <execution>
                 <id>post-merge-report</id>
-                <phase>verify</phase>
+                <phase>test</phase>
                 <goals>
                   <goal>report-aggregate</goal>
                 </goals>
                 <configuration>
                   <dataFileIncludes>
                     <dataFileInclude>target/jacoco.exec</dataFileInclude>
-                    <dataFileInclude>target/jacoco-it.exec</dataFileInclude>
                   </dataFileIncludes>
                   <outputDirectory>${jacoco.reportPaths}</outputDirectory>
                 </configuration>
