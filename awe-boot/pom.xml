@@ -43,6 +43,7 @@
     <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
     <skip.selenium>true</skip.selenium>
+    <skip.junit>false</skip.junit>
   </properties>
 
   <dependencyManagement>
@@ -173,10 +174,22 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.10.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>ant-contrib</groupId>
       <artifactId>ant-contrib</artifactId>
       <version>1.0b3</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>ant</groupId>
+          <artifactId>ant</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
@@ -399,10 +412,28 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
+          <skip>${skip.junit}</skip>
           <includes>
             <include>${surefire.suite}</include>
           </includes>
         </configuration>
+      </plugin>
+
+      <!-- Failsafe -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- Ant Plugin for launch selenium test -->
@@ -414,7 +445,7 @@
             <!-- your Selenium tests should run in integration phase -->
             <phase>integration-test</phase>
             <configuration>
-              <skip>${skip.selenium}</skip>
+              <skip>true</skip>
               <target>
                 <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true"/>
               </target>

@@ -1,4 +1,4 @@
-package com.almis.awe.test.builder;
+package com.almis.awe.test.unit.builder;
 
 import com.almis.awe.builder.enumerates.*;
 import com.almis.awe.builder.enumerates.ChartAxis;

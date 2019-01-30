@@ -1,4 +1,4 @@
-package com.almis.awe.test;
+package com.almis.awe.test.unit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

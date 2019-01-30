@@ -1,4 +1,4 @@
-package com.almis.awe.test;
+package com.almis.awe.test.unit;
 
 import com.almis.awe.model.dto.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;

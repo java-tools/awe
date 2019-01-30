@@ -1,4 +1,4 @@
-package com.almis.awe.test;
+package com.almis.awe.test.unit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

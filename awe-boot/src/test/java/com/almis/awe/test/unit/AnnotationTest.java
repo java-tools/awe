@@ -1,4 +1,4 @@
-package com.almis.awe.test;
+package com.almis.awe.test.unit;
 
 import com.almis.awe.annotation.entities.security.Hash;
 import com.almis.awe.exception.AWException;

@@ -27,17 +27,20 @@ and open the template in the editor.
   </macrodef>
 
   <target name="test-selenium">
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="maven.test.classpath"/>
+    <path id="classpathref">
+      <pathelement path="${classpath}"/>
+    </path>
+
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpathref="classpathref"/>
     <echo>Reading test properties: ${basedir}/src/test/resources/test.properties</echo>
     <property file="${basedir}/src/test/resources/test.properties"/>
 
     <!-- Create classpath jar -->
     <mkdir dir="${test.classpath.dir}"/>
-    <create-classpath-jar classpathjar="${test.classpath.jar}" classpathref="maven.test.classpath" />
+    <create-classpath-jar classpathjar="${test.classpath.jar}" classpathref="classpathref" />
     <path id="selenium.class.path">
       <pathelement location="${test.classpath.jar}" />
     </path>
-    <echo message="Classpath generated at ${test.classpath.jar}" />
 
     <!-- Call selenium suites -->
     <foreach list="${selenium.suite.list}" delimiter="," param="selenium.suite" target="test-selenium-suite" inheritall="true" inheritrefs="true" trim="true"/>

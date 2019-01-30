@@ -1,4 +1,4 @@
-package com.almis.awe.test;
+package com.almis.awe.test.unit;
 
 import org.springframework.test.context.TestPropertySource;
 

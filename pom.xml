@@ -106,7 +106,16 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <systemPropertyVariables>
-            <jacoco-agent.destfile>${sonar.jacoco.reportPaths}</jacoco-agent.destfile>
+            <jacoco-agent.destfile>${sonar.jacoco.reportPaths}/jacoco.exec</jacoco-agent.destfile>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <jacoco-agent.destfile>${sonar.jacoco.reportPaths}/jacoco-it.exec</jacoco-agent.destfile>
           </systemPropertyVariables>
         </configuration>
       </plugin>

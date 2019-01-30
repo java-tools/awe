@@ -1,8 +1,9 @@
 package com.almis.awe.test;
 
-import com.almis.awe.test.builder.ScreenBuilderTest;
-import com.almis.awe.test.rest.DataRestControllerTest;
-import com.almis.awe.test.rest.MaintainRestControllerTest;
+import com.almis.awe.test.unit.builder.ScreenBuilderTest;
+import com.almis.awe.test.unit.rest.DataRestControllerTest;
+import com.almis.awe.test.unit.rest.MaintainRestControllerTest;
+import com.almis.awe.test.unit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
