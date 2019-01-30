@@ -234,19 +234,19 @@
   </service>
 
   <service id="testSimpleRestGet">
-    <rest method="GET" endpoint="http://localhost:18089/testapi/simple"/>
+    <rest method="GET" endpoint="http://localhost:18081/testapi/simple"/>
   </service>
 
   <service id="testSimpleRestPost">
-    <rest method="POST" endpoint="http://localhost:18089/testapi/simple"/>
+    <rest method="POST" endpoint="http://localhost:18081/testapi/simple"/>
   </service>
 
   <service id="testComplexRestGet">
-    <rest method="GET" endpoint="http://localhost:18089/testapi/complex/QtyTst"/>
+    <rest method="GET" endpoint="http://localhost:18081/testapi/complex/QtyTst"/>
   </service>
 
   <service id="testComplexRestPost">
-    <rest method="POST" endpoint="http://localhost:18089/testapi/complex/testInclude"/>
+    <rest method="POST" endpoint="http://localhost:18081/testapi/complex/testInclude"/>
   </service>
 
   <service id="testComplexRestGetParameters">
@@ -257,7 +257,7 @@
   </service>
 
   <service id="testComplexRestPostParameters">
-    <rest method="POST" endpoint="http://localhost:18089/testapi/complex/parameters/testRestParameters">
+    <rest method="POST" endpoint="http://localhost:18081/testapi/complex/parameters/testRestParameters">
       <service-parameter type="INTEGER" name="value" />
     </rest>
   </service>

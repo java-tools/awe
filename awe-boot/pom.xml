@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>awe-parent</artifactId>
     <groupId>com.almis.awe</groupId>
-    <version>4.0.5</version>
+    <version>4.0.5-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -39,8 +39,8 @@
 
     <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
     <sonar.skip>true</sonar.skip>
-    <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/jacoco.exec</sonar.jacoco.reportPaths>
-    <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
+    <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/</sonar.jacoco.reportPaths>
+    <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>        <surefire.suite>**/AllTestsSuite.class</surefire.suite>    
     <!-- skip deploy -->
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     <skipLocalStaging>true</skipLocalStaging>
@@ -301,10 +301,33 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <wait>1000</wait>
+          <maxAttempts>180</maxAttempts>
+        </configuration>
         <executions>
           <execution>
+            <id>repackage</id>
             <goals>
               <goal>repackage</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>pre-integration-test</id>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+            </configuration>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>post-integration-test</id>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+            </configuration>
+            <goals>
+              <goal>stop</goal>
             </goals>
           </execution>
         </executions>
@@ -372,6 +395,17 @@
         </configuration>
       </plugin>
 
+      <!-- JUnit -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>${surefire.suite}</include>
+          </includes>
+        </configuration>
+      </plugin>
+
       <!-- Ant Plugin for launch selenium test -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -381,10 +415,9 @@
             <!-- your Selenium tests should run in integration phase -->
             <phase>integration-test</phase>
             <configuration>
-              <target if="launchSelenium">
-                <ant antfile="build.xml" usenativebasedir="true"
-                  target="test-selenium" inheritall="true"
-                  inheritrefs="true" />
+              <skip>${skip.selenium}</skip>
+              <target>
+                <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true"/>
               </target>
             </configuration>
             <goals>
@@ -401,12 +434,25 @@
         <version>${jacoco.version}</version>
         <executions>
           <execution>
+            <id>prepare-agent</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
             <configuration>
               <append>true</append>
-              <destFile>${sonar.jacoco.reportPaths}</destFile>
+              <destFile>${sonar.jacoco.reportPaths}/jacoco.exec</destFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>prepare-integration-agent</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>prepare-agent-integration</goal>
+            </goals>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+              <append>true</append>
+              <destFile>${sonar.jacoco.reportPaths}/jacoco-it.exec</destFile>
             </configuration>
           </execution>
         </executions>
@@ -432,13 +478,14 @@
             <executions>
               <execution>
                 <id>post-merge-report</id>
-                <phase>test</phase>
+                <phase>post-integration-test</phase>
                 <goals>
                   <goal>report-aggregate</goal>
                 </goals>
                 <configuration>
                   <dataFileIncludes>
                     <dataFileInclude>target/jacoco.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-it.exec</dataFileInclude>
                   </dataFileIncludes>
                   <outputDirectory>${jacoco.reportPaths}</outputDirectory>
                 </configuration>

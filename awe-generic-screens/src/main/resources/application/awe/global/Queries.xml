@@ -176,7 +176,7 @@
           <filter left-field="IdeOpe" condition="eq" right-variable="Ide" optional="true" />
           <filter left-field="l1_nom" condition="like" right-variable="Usr" ignorecase="true" />
         </or>
-        <filter left-field="IdePro" condition="like" right-variable="Pro" ignorecase="true" optional="true" />
+        <filter left-field="IdePro" condition="eq" right-variable="Pro" optional="true" />
         <filter left-field="l1_act" condition="eq" right-variable="Sta" optional="true" />
       </and>
     </where>
@@ -1103,8 +1103,8 @@
     <where>
       <and>
         <filter left-field="Scr" left-table="scrCnf" condition="eq" right-variable="Scr" optional="true" />
-        <filter left-field="IdeOpe" left-table="ope" condition="eq" right-variable="IdeOpe" ignorecase="true" optional="true" />
-        <filter left-field="IdePro" left-table="pro" condition="eq" right-variable="IdePro" ignorecase="true" optional="true" />
+        <filter left-field="IdeOpe" left-table="ope" condition="eq" right-variable="IdeOpe" optional="true" />
+        <filter left-field="IdePro" left-table="pro" condition="eq" right-variable="IdePro" optional="true" />
         <filter left-field="Act" left-table="scrCnf" condition="eq" right-variable="active" optional="true" />
       </and>
     </where>

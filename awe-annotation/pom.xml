@@ -5,7 +5,7 @@
   <parent>    
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-framework</artifactId>
-    <version>4.0.5</version>
+    <version>4.0.5-SNAPSHOT</version>
     <relativePath>../awe-framework/pom.xml</relativePath>
   </parent>
 
@@ -20,7 +20,7 @@
     <sonar.sources>src</sonar.sources>
     <sonar.inclusions>src/main/java/**</sonar.inclusions>
     <sonar.language>java</sonar.language>
-    <sonar.jacoco.reportPath>target/jacoco.exec</sonar.jacoco.reportPath>
+    <sonar.jacoco.reportPath>target</sonar.jacoco.reportPath>
     <performancetest.host>localhost</performancetest.host>
     <performancetest.port>18080</performancetest.port>
     <performancetest.path />
