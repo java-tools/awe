@@ -41,9 +41,9 @@
     <sonar.skip>true</sonar.skip>
     <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/jacoco.exec</sonar.jacoco.reportPaths>
     <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
-    <!-- Skip deply to Nexus -->
+    <!-- skip deploy -->
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-    <skipStaging>true</skipStaging>       
+    <skipLocalStaging>true</skipLocalStaging>
   </properties>
 
   <dependencyManagement>
@@ -382,7 +382,9 @@
             <phase>integration-test</phase>
             <configuration>
               <target if="launchSelenium">
-                <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true" />
+                <ant antfile="build.xml" usenativebasedir="true"
+                  target="test-selenium" inheritall="true"
+                  inheritrefs="true" />
               </target>
             </configuration>
             <goals>
@@ -408,7 +410,7 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>      
+      </plugin>
     </plugins>
   </build>
 
