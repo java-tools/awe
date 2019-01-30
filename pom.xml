@@ -73,7 +73,6 @@
           </execution>
         </executions>
       </plugin>
-
       <!-- Maven javadoc plugin -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -87,7 +86,6 @@
           </execution>
         </executions>
       </plugin>
-
       <!-- Deploy nexus -->
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
@@ -99,7 +97,8 @@
           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
-      </plugin>
+      </plugin>      
+      <!-- Surfire Junit test -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
