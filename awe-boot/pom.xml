@@ -42,7 +42,10 @@
     <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target</sonar.jacoco.reportPaths>
     <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
-    <skip.selenium>true</skip.selenium>
+    <skip.selenium>true</skip.selenium>    
+    <!-- skip deploy -->
+    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    <skipLocalStaging>true</skipLocalStaging>
   </properties>
 
   <dependencyManagement>
