@@ -39,9 +39,10 @@
 
     <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
     <sonar.skip>true</sonar.skip>
-    <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/</sonar.jacoco.reportPaths>
+    <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target</sonar.jacoco.reportPaths>
     <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
+    <skip.selenium>true</skip.selenium>
   </properties>
 
   <dependencyManagement>
@@ -310,18 +311,24 @@
               <goal>repackage</goal>
             </goals>
           </execution>
-     <!-- <execution>
+          <execution>
             <id>pre-integration-test</id>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+            </configuration>
             <goals>
               <goal>start</goal>
             </goals>
           </execution>
           <execution>
             <id>post-integration-test</id>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+            </configuration>
             <goals>
               <goal>stop</goal>
             </goals>
-          </execution>-->
+          </execution>
         </executions>
       </plugin>
 
@@ -407,9 +414,9 @@
             <!-- your Selenium tests should run in integration phase -->
             <phase>integration-test</phase>
             <configuration>
-              <target if="launchSelenium">
-                <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true"
-                     inheritrefs="true"/>
+              <skip>${skip.selenium}</skip>
+              <target>
+                <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true"/>
               </target>
             </configuration>
             <goals>
@@ -435,18 +442,18 @@
               <destFile>${sonar.jacoco.reportPaths}/jacoco.exec</destFile>
             </configuration>
           </execution>
-<!--          <execution>
+          <execution>
             <id>prepare-integration-agent</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>prepare-agent-integration</goal>
-              <goal>instrument</goal>
             </goals>
             <configuration>
+              <skip>${skip.selenium}</skip>
               <append>true</append>
               <destFile>${sonar.jacoco.reportPaths}/jacoco-it.exec</destFile>
             </configuration>
-          </execution>-->
+          </execution>
         </executions>
       </plugin>
     </plugins>
@@ -470,13 +477,14 @@
             <executions>
               <execution>
                 <id>post-merge-report</id>
-                <phase>test</phase>
+                <phase>post-integration-test</phase>
                 <goals>
                   <goal>report-aggregate</goal>
                 </goals>
                 <configuration>
                   <dataFileIncludes>
                     <dataFileInclude>target/jacoco.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-it.exec</dataFileInclude>
                   </dataFileIncludes>
                   <outputDirectory>${jacoco.reportPaths}</outputDirectory>
                 </configuration>
