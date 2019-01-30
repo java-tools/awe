@@ -42,7 +42,7 @@
     <sonar.links.issue>https://gitlab.com/awe-team/awe/issues</sonar.links.issue>
     <sonar.links.scm>https://gitlab.com/awe-team/awe.git</sonar.links.scm>
     <sonar.junit.reportPath>target/surefire-reports</sonar.junit.reportPath>
-    <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/jacoco.exec</sonar.jacoco.reportPaths>
+    <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target</sonar.jacoco.reportPaths>
     <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <jacoco.version>0.8.2</jacoco.version>
@@ -50,6 +50,7 @@
     <!-- plugin versions -->
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+    <skip.selenium>true</skip.selenium>
   </properties>
 
   <modules>
@@ -120,7 +121,19 @@
             </goals>
             <configuration>
               <append>true</append>
-              <destFile>${sonar.jacoco.reportPaths}</destFile>
+              <destFile>${sonar.jacoco.reportPaths}/jacoco.exec</destFile>
+            </configuration>
+          </execution>
+          <execution>
+            <id>prepare-integration-agent</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>prepare-agent-integration</goal>
+            </goals>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+              <append>true</append>
+              <destFile>${sonar.jacoco.reportPaths}/jacoco-it.exec</destFile>
             </configuration>
           </execution>
         </executions>
