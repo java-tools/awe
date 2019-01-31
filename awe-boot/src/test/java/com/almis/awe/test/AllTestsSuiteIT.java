@@ -1,68 +1,35 @@
 package com.almis.awe.test;
 
+import io.github.bonigarcia.seljup.DockerBrowser;
+import io.github.bonigarcia.seljup.SeleniumExtension;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.DefaultLogger;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectHelper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.By;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
-import java.io.File;
-import java.nio.file.Paths;
+import static io.github.bonigarcia.seljup.BrowserType.CHROME;
 
-@RunWith(SpringRunner.class)
-@TestPropertySource("classpath:test.properties")
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@TestPropertySource("classpath:test.properties")
+@ExtendWith(SeleniumExtension.class)
 public class AllTestsSuiteIT {
   // Logger
   private static Logger logger = LogManager.getLogger(AllTestsSuiteIT.class);
 
-  @Value("${basedir}")
-  String basedir;
-
-  @Value("${java.class.path}")
-  String mavenTestClasspath;
-
   @Test
-  public void launchSeleniumTests() throws Exception {
-    /*for (String suite : suiteList) {
-      launchTestSuite(suite);
-    }*/
-    File buildFile = Paths.get(basedir, "build.xml").toFile();
-    Project p = new Project();
-
-    MyLogger consoleLogger = new MyLogger();
-    consoleLogger.setErrorPrintStream(System.err);
-    consoleLogger.setOutputPrintStream(System.out);
-    consoleLogger.setMessageOutputLevel(Project.MSG_INFO);
-
-    p.addBuildListener(consoleLogger);
-
-    p.setUserProperty("ant.file", buildFile.getAbsolutePath());
-    p.setProperty("classpath", mavenTestClasspath);
-    p.init();
-    ProjectHelper helper = ProjectHelper.getProjectHelper();
-    p.addReference("ant.projectHelper", helper);
-    helper.parse(p, buildFile);
-    p.executeTarget("test-selenium");
-  }
-
-  class MyLogger extends DefaultLogger {
-    @Override
-    public void messageLogged(BuildEvent event)
-    {
-      int priority = event.getPriority();
-
-      // Filter out messages based on priority
-      if (priority <= msgOutputLevel)
-      {
-        System.out.println("ANT: " + event.getMessage());
-      }
-    }
+  public void NGDemoTest(ChromeDriver driver) {
+    driver.get("https://www.blazemeter.com/selenium");
+    String homeUrl = driver.findElement(By.cssSelector("div#logo>   a#logo_image ")).getAttribute("href");
+    assert homeUrl.equals("https://www.blazemeter.com/");
   }
 }
 
