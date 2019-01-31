@@ -89,7 +89,7 @@ k8s-deploy-staging:
     name: staging
     url: http://staging.aweframework.com/awe-boot
   only:
-  - develop
+    - develop
 
 k8s-deploy-production:
   image: google/cloud-sdk
@@ -114,7 +114,7 @@ k8s-deploy-production:
     url: http://demo.aweframework.com/awe-boot
   when: manual
   only:
-  - production
+    - master
     
 pages:
   stage: deploy

@@ -36,7 +36,7 @@
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
     <plugin-site.version>3.5.1</plugin-site.version>
     <plugin-info-reports.version>2.9</plugin-info-reports.version>
-    <selenium.version>3.141.59</selenium.version>
+    <selenium.version>2.53.1</selenium.version>
     <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
     <webdrivermanager.version>3.2.0</webdrivermanager.version>
     <testng.version>6.14.3</testng.version>
@@ -46,6 +46,7 @@
     <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target</sonar.jacoco.reportPaths>
     <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
+    <failsafe.suite>**/AllTestsSuiteIT.class</failsafe.suite>
     <skip.selenium>true</skip.selenium>
     <skip.junit>false</skip.junit>
     <!-- skip deploy -->
@@ -180,7 +181,7 @@
       <version>1.5</version>
       <scope>test</scope>
     </dependency>
-    <!--<dependency>
+    <dependency>
       <groupId>org.apache.ant</groupId>
       <artifactId>ant</artifactId>
       <version>1.10.5</version>
@@ -191,24 +192,13 @@
       <artifactId>ant-contrib</artifactId>
       <version>1.0b3</version>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>ant</groupId>
-          <artifactId>ant</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <scope>test</scope>
-    </dependency>-->
-    <dependency>
+    <!--<dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>${testng.version}</version>
       <scope>test</scope>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
@@ -217,7 +207,7 @@
     </dependency>
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-java</artifactId>
+      <artifactId>selenium-server</artifactId>
       <version>${selenium.version}</version>
       <scope>test</scope>
       <exclusions>
@@ -364,6 +354,13 @@
             <id>pre-integration-test</id>
             <configuration>
               <skip>${skip.selenium}</skip>
+              <arguments>
+                <argument>--integration-test</argument>
+              </arguments>
+              <maxAttempts>3</maxAttempts>
+              <wait>10000</wait>
+              <fork>true</fork>
+              <jvmArguments>${argLine}</jvmArguments>
             </configuration>
             <goals>
               <goal>start</goal>
@@ -466,7 +463,10 @@
               <goal>integration-test</goal>
             </goals>
             <configuration>
-              <skip>${skip.selenium}</skip>
+              <skip>true</skip>
+              <includes>
+                <include>${failsafe.suite}</include>
+              </includes>
             </configuration>
           </execution>
         </executions>
@@ -481,7 +481,7 @@
             <!-- your Selenium tests should run in integration phase -->
             <phase>integration-test</phase>
             <configuration>
-              <skip>true</skip>
+              <skip>${skip.selenium}</skip>
               <target>
                 <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true"/>
               </target>
@@ -518,7 +518,7 @@
             <configuration>
               <skip>${skip.selenium}</skip>
               <append>true</append>
-              <destFile>${sonar.jacoco.reportPaths}/jacoco-it.exec</destFile>
+              <destFile>${sonar.jacoco.reportPaths}/jacoco.exec</destFile>
             </configuration>
           </execution>
         </executions>
