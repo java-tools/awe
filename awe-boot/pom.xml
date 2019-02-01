@@ -36,7 +36,7 @@
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
     <plugin-site.version>3.5.1</plugin-site.version>
     <plugin-info-reports.version>2.9</plugin-info-reports.version>
-    <selenium.version>2.53.1</selenium.version>
+    <selenium.version>3.141.59</selenium.version>
     <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
     <webdrivermanager.version>3.2.0</webdrivermanager.version>
     <testng.version>6.14.3</testng.version>
@@ -517,8 +517,8 @@
             </goals>
             <configuration>
               <skip>${skip.selenium}</skip>
-              <append>true</append>
-              <destFile>${sonar.jacoco.reportPaths}/jacoco.exec</destFile>
+              <!--<append>true</append>
+              <destFile>${sonar.jacoco.reportPaths}/jacoco.exec</destFile>-->
             </configuration>
           </execution>
         </executions>
