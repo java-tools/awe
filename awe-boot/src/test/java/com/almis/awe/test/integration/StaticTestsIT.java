@@ -18,22 +18,159 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     doLogout();
   }
 
-  @Test
-  public void t001_newSite() throws Exception {
+  /**
+   * Go to a screen to add a new option
+   * @param options
+   */
+  private void addNew(String... options) {
     // Go to screen
-    gotoScreen("tools", "sites");
-
-    // Wait for loading bar
-    waitForLoadingBar();
+    gotoScreen(options);
 
     // Click on new button
-    clickButton("ButNew");
-
-    // Wait for loading bar
-    waitForLoadingBar();
+    clickButton("ButNew", true);
 
     // Wait for button
     waitForButton("ButCnf");
+  }
+
+  /**
+   * Go to a screen to add a new option
+   * @param options
+   */
+  private void update(String suggest, String search, String... options) {
+    // Go to screen
+    gotoScreen(options);
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest on column selector
+    suggest(suggest, search, search, false);
+
+    // Search on grid
+    searchAndWait();
+
+    // Click row
+    clickRowContents(search);
+
+    // Click on button
+    clickButton("ButUpd", true);
+
+    // Wait for button
+    waitForButton("ButCnf");
+  }
+
+  /**
+   * Click on confirm button, accept confirmation and accept message
+   */
+  private void clickButtonAndConfirm(String button) {
+    clickButtonAndConfirm(button, "success");
+  }
+
+  /**
+   * Click on confirm button, accept confirmation and accept message
+   */
+  private void clickButtonAndConfirm(String button, String messageType) {
+    // Click on button
+    clickButton(button);
+
+    // Accept confirm
+    acceptConfirm();
+
+    // Accept message
+    acceptMessage(messageType);
+  }
+
+  /**
+   * Click on confirm button, accept confirmation and accept message
+   */
+  private void verifyView(String suggest, String search) {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest on column selector
+    suggest(suggest, search, search, false);
+
+    // Search on grid
+    searchAndWait();
+
+    // Click row
+    clickRowContents(search);
+
+    // Click on button
+    clickButton("ButViw", true);
+
+    // Wait for button
+    waitForButton("ButBck");
+  }
+
+  private void delete(String criterion, String search, String... options) {
+    // Go to screen
+    gotoScreen(options);
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest on column selector
+    suggest(criterion, search, search, false);
+
+    // Search on grid
+    searchAndWait();
+
+    // Click row
+    clickRowContents(search);
+
+    // Store and confirm
+    clickButtonAndConfirm("ButDel");
+  }
+
+  private void verifyDeleted(String search, String... options) {
+    // Go to screen
+    gotoScreen(options);
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Search on grid
+    searchAndWait();
+
+    // Click row
+    checkRowNotContains(search);
+  }
+
+  private void addNewUser() {
+    // Go for new screen
+    addNew("tools", "users");
+
+    // Insert text
+    writeText("Usr", "test selenium", false);
+
+    // Select on selector
+    selectContain("Sta",  "Yes", false);
+
+    // Insert text
+    writeText("Pas", "1234", false);
+
+    // Insert text
+    writeText("RetPas", "1234", false);
+
+    // Insert text
+    writeText("Nam", "test", false);
+
+    // Suggest on selector
+    suggest("Pro", "TS1", "TS1", false);
+
+    // Suggest on selector
+    suggest("Thm", "grass", "grass", false);
+
+    // Insert text
+    writeText("Eml", "test@almis.com", false);
+  }
+
+  @Test
+  public void t001_newSite() throws Exception {
+    // Go for new screen
+    addNew("tools", "sites");
 
     // Write on criterion
     writeText("Nam", "Site test", false);
@@ -57,49 +194,16 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     writeText("Order", "3", true);
 
     // Save line
-    saveLine();
+    saveRow();
 
-    // Click on button
-    clickButton("ButCnf");
-
-    // Accept confirm
-    acceptConfirm();
-
-    // Accept message
-    acceptMessage("success");
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
   }
 
   @Test
   public void t002_verifyNewSite() throws Exception {
-    // Go to screen
-    gotoScreen("tools", "sites");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    clickButton("ButRst");
-
-    // Suggest on column selector
-    suggest("CrtSit", "Site test", "Site test", false);
-
-    // Click on button
-    clickButton("ButSch");
-
-    // Wait for loading bar
-    waitForLoadingGrid();
-
-    // Click row
-    clickRowContents("Site test");
-
-    // Click on button
-    clickButton("ButViw");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    waitForButton("ButBck");
+    // Verify
+    verifyView("CrtSit", "Site test");
 
     // Check row contents
     checkRowContents("Base");
@@ -110,35 +214,8 @@ public class StaticTestsIT extends SeleniumTestsUtil {
 
   @Test
   public void t003_updateSite() throws Exception {
-    // Go to screen
-    gotoScreen("tools", "sites");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    clickButton("ButRst");
-
-    // Suggest on column selector
-    suggest("CrtSit", "Site", "Site", false);
-
-    // Click on button
-    clickButton("ButSch");
-
-    // Wait for loading bar
-    waitForLoadingGrid();
-
-    // Click row
-    clickRowContents("Site");
-
-    // Click on button
-    clickButton("ButUpd");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    waitForButton("ButCnf");
+    // Go to update
+    update("CrtSit", "Site", "tools", "sites");
 
     // Write on criterion
     writeText("Nam", "Site changed", false);
@@ -150,49 +227,16 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     suggest("IdeDbs", "awedb2", "awedb2", true);
 
     // Save line
-    saveLine();
+    saveRow();
 
-    // Click on button
-    clickButton("ButCnf");
-
-    // Accept confirm
-    acceptConfirm();
-
-    // Accept message
-    acceptMessage("success");
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
   }
 
   @Test
   public void t004_verifyUpdatedSite() throws Exception {
-    // Go to screen
-    gotoScreen("tools", "sites");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    clickButton("ButRst");
-
-    // Suggest on column selector
-    suggest("CrtSit", "Site changed", "Site changed", false);
-
-    // Click on button
-    clickButton("ButSch");
-
-    // Wait for loading bar
-    waitForLoadingGrid();
-
-    // Click row
-    clickRowContents("Site changed");
-
-    // Click on button
-    clickButton("ButViw");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    waitForButton("ButBck");
+    // Verify
+    verifyView("CrtSit", "Site changed");
 
     // Check row contents
     checkRowContents("Base");
@@ -203,20 +247,8 @@ public class StaticTestsIT extends SeleniumTestsUtil {
 
   @Test
   public void t011_newModule() throws Exception {
-    // Go to screen
-    gotoScreen("tools", "modules");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Click on new button
-    clickButton("ButNew");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    waitForButton("ButCnf");
+    // Go for new screen
+    addNew("tools", "modules");
 
     // Select option
     suggest("Nam", "Inf", "Inf", false);
@@ -240,7 +272,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     suggest("IdeThm", "sky", "sky", true);
 
     // Save line
-    saveLine("MdlUsrLst");
+    saveRow("MdlUsrLst");
 
     // Click on button
     clickButton("ButMdlPrfLstAdd");
@@ -249,7 +281,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     suggest("IdePro", "TS", "TS", true);
 
     // Save line
-    saveLine("MdlPrfLst");
+    saveRow("MdlPrfLst");
 
     // Click on button
     clickButton("ButMdlSitDbsLstAdd");
@@ -261,49 +293,16 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     suggest("IdeDbs", "awedb", "awedb", true);
 
     // Save line
-    saveLine("MdlSitDbsLst");
+    saveRow("MdlSitDbsLst");
 
-    // Click on button
-    clickButton("ButCnf");
-
-    // Accept confirm
-    acceptConfirm();
-
-    // Accept message
-    acceptMessage("success");
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
   }
 
   @Test
   public void t012_verifyNewModule() throws Exception {
-    // Go to screen
-    gotoScreen("tools", "modules");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    clickButton("ButRst");
-
-    // Suggest on column selector
-    suggest("CrtMod", "Inf", "Inf", false);
-
-    // Click on button
-    clickButton("ButSch");
-
-    // Wait for loading bar
-    waitForLoadingGrid();
-
-    // Click row
-    clickRowContents("Inf");
-
-    // Click on button
-    clickButton("ButViw");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    waitForButton("ButBck");
+    // Verify
+    verifyView("CrtMod", "Inf");
 
     // Check contents
     checkCriterionContents("Nam", "Inf");
@@ -326,38 +325,11 @@ public class StaticTestsIT extends SeleniumTestsUtil {
 
   @Test
   public void t013_updateModule() throws Exception {
-    // Go to screen
-    gotoScreen("tools", "modules");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    clickButton("ButRst");
-
-    // Suggest on column selector
-    suggest("CrtMod", "Inf", "Inf", false);
-
-    // Click on button
-    clickButton("ButSch");
-
-    // Wait for loading bar
-    waitForLoadingGrid();
-
-    // Click row
-    clickRowContents("Inf");
-
-    // Click on button
-    clickButton("ButUpd");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    waitForButton("ButCnf");
+    // Go to update
+    update("CrtMod", "Inf", "tools", "modules");
 
     // Write on criterion
-    suggest("Nam", "Inf changed","Inf changed", false);
+    suggest("Nam", "Inf Changed","Inf Changed", false);
 
     // Write on criterion
     suggest("Scr", "Usr", "Usr", false);
@@ -369,7 +341,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     selectContain("IdeThm", "grass", true);
 
     // Save line
-    saveLine("MdlUsrLst");
+    saveRow("MdlUsrLst");
 
     // Click row
     clickRowContents("TST");
@@ -378,7 +350,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     selectContain("IdePro", "ADM - administrator", true);
 
     // Save line
-    saveLine("MdlPrfLst");
+    saveRow("MdlPrfLst");
 
     // Click row
     clickRowContents("Site changed");
@@ -387,120 +359,483 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     selectContain("IdeDbs", "awedb", true);
 
     // Save line
-    saveLine("MdlSitDbsLst");
+    saveRow("MdlSitDbsLst");
 
-    // Click on button
-    clickButton("ButCnf");
-
-    // Accept confirm
-    acceptConfirm();
-
-    // Accept message
-    acceptMessage("success");
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
   }
 
-  /*@Test
+  @Test
   public void t014_verifyUpdatedModule() throws Exception {
-    // Go to screen
-    gotoScreen("tools", "modules");
+    // Verify
+    verifyView("CrtMod", "Inf Changed");
 
-    // Wait for loading bar
-    waitForLoadingBar();
+    // Check criterion
+    checkCriterionContents("Nam", "Inf Changed");
 
-    // Wait for button
-    clickButton("ButRst");
+    // Check criterion
+    checkCriterionContents("Thm", "grass");
 
-    // Suggest on column selector
-    suggest("CrtSit", "Site changed", "Site changed", false);
+    // Check criterion
+    checkSelectorContents("Scr", "Usr");
+
+    // Check row contents
+    checkRowContents("test");
+
+    // Check row contents
+    checkRowContents("ADM");
+
+    // Check row contents
+    checkRowContents("Site changed");
+  }
+
+  @Test
+  public void t021_newProfile() throws Exception {
+    // Go for new screen
+    addNew("tools", "profiles");
+
+    // Insert text
+    writeText("Acr", "TS1", false);
+
+    // Insert text
+    writeText("Nam", "Test profile", false);
+
+    // Select on selector
+    suggest("Act",  "Yes", "Yes", false);
+
+    // Suggest on  selector
+    suggest("IdeThm", "sunse", "sunse", false);
+
+    // Suggest on  selector
+    suggest("ScrIni", "Modules", "Modules", false);
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t022_verifyNewProfile() throws Exception {
+    // Verify
+    verifyView("CrtPro", "TS1");
+
+    // Check contents
+    checkCriterionContents("Acr", "TS1");
+
+    // Check contents
+    checkCriterionContents("Nam", "Test profile");
+
+    // Check contents
+    checkSelectorContents("Act", "Yes");
+  }
+
+  @Test
+  public void t023_updateProfile() throws Exception {
+    // Go to update
+    update("CrtPro", "TS1", "tools", "profiles");
+
+    // Insert text
+    writeText("Nam", "Profile changed", false);
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t024_verifyUpdatedProfile() throws Exception {
+    // Verify
+    verifyView("CrtPro", "TS1");
+
+    // Check contents
+    checkCriterionContents("Acr", "TS1");
+
+    // Check criterion
+    checkCriterionContents("Nam", "Profile changed");
+
+    // Check contents
+    checkSelectorContents("Act", "Yes");
+  }
+
+  @Test
+  public void t031_newDatabase() throws Exception {
+    // Go for new screen
+    addNew("tools", "databases");
+
+    // Insert text
+    writeText("Als", "DBSTest", false);
+
+    // Select on selector
+    selectContain("Dct",  "Datasource", false);
+
+    // Insert text
+    writeText("Dbc", "jdbc/Test", false);
+
+    // Select on selector
+    selectContain("Typ",  "Development", false);
+
+    // Insert text
+    writeText("Des", "This is a test case of new DataBase", false);
+
+    // Select on selector
+    selectContain("Dbt",  "ORACLE", false);
 
     // Click on button
-    clickButton("ButSch");
+    clickButton("ButSitModDbsLstAdd");
 
-    // Wait for loading bar
-    waitForLoadingGrid();
+    // Suggest on column selector
+    suggest("IdeSit", "Site changed", "Site changed", true);
 
-    // Click row
+    // Suggest on column selector
+    suggest("IdeMod", "Inf Changed", "Inf Changed", true);
+
+    // Insert text
+    writeText("Ord", "5", true);
+
+    // Save line
+    saveRow();
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t032_verifyNewDatabase() throws Exception {
+    // Verify
+    verifyView("CrtAls", "DBSTest");
+
+    // Check contents
+    checkCriterionContents("Als", "DBSTest");
+
+    // Check row contents
+    checkRowContents("Site changed");
+
+    // Check row contents
+    checkRowContents("Inf Changed");
+
+    // Check row contents
+    checkRowContents("5");
+  }
+
+  @Test
+  public void t033_updateDatabase() throws Exception {
+    // Go to update
+    update("CrtAls", "DBSTest", "tools", "databases");
+
+    // Insert text
+    writeText("Als", "DBSTest Changed", false);
+
+    // Select on selector
+    selectContain("Dct",  "Jdbc", false);
+
+    // Insert text
+    writeText("Dbc", "Test", false);
+
+    // Insert text
+    writeText("Des", "This is a tes case of modify DB", false);
+
+    // Click on row
     clickRowContents("Site changed");
 
-    // Click on button
-    clickButton("ButViw");
+    // Suggest on column selector
+    suggest("IdeMod", "Test", "Test", true);
 
-    // Wait for loading bar
-    waitForLoadingBar();
+    // Save line
+    saveRow();
 
-    // Wait for button
-    waitForButton("ButBck");
-
-    // Check row contents
-    checkRowContents("Base");
-
-    // Check row contents
-    checkRowContents("awedb2");
-  }*/
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
 
   @Test
-  public void t055_deleteModule() throws Exception {
-    // Go to screen
-    gotoScreen("tools", "modules");
+  public void t034_verifyUpdatedDatabase() throws Exception {
+    // Verify
+    verifyView("CrtAls", "DBSTest Changed");
 
-    // Wait for loading bar
-    waitForLoadingBar();
+    // Check contents
+    checkCriterionContents("Als", "DBSTest Changed");
+
+    // Check row contents
+    checkRowContents("Test");
+  }
+
+  @Test
+  public void t041_newUser() throws Exception {
+    addNewUser();
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t042_verifyNewUser() throws Exception {
+    // Verify
+    verifyView("CrtUsr", "test sel");
+
+    // Check contents
+    checkCriterionContents("Nom", "test selenium");
+
+    // Check contents
+    checkSelectorContents("Sta", "Yes");
+
+    // Check contents
+    checkCriterionContents("Nam", "test");
+
+    // Check contents
+    checkCriterionContents("Eml", "test@almis.com");
+
+    // Check contents
+    checkSelectorContents("Thm", "grass");
+
+    // Check contents
+    checkSelectorContents("Pro", "TS1 - Profile changed");
+  }
+
+  @Test
+  public void t043_updateUser() throws Exception {
+    // Go to update
+    update("CrtUsr", "test sel", "tools", "users");
+
+    // Insert text
+    writeText("Eml", "testUpd@almis.com", false);
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t044_verifyUpdatedUser() throws Exception {
+    // Verify
+    verifyView("CrtUsr", "test sel");
+
+    // Check contents
+    checkCriterionContents("Eml", "testUpd@almis.com");
+  }
+
+  @Test
+  public void t045_newDuplicatedUser() throws Exception {
+    addNewUser();
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf", "warning");
+  }
+
+  @Test
+  public void t050_deleteUser() throws Exception {
+    delete("CrtUsr", "test sel", "tools", "users");
+  }
+
+  @Test
+  public void t051_verifyDeletedUser() throws Exception {
+    verifyDeleted("test sel", "tools", "users");
+  }
+
+  @Test
+  public void t052_deleteDatabase() throws Exception {
+    delete("CrtAls", "DBSTest Changed", "tools", "databases");
+  }
+
+  @Test
+  public void t053_verifyDeletedDatabase() throws Exception {
+    verifyDeleted("DBSTest Changed", "tools", "databases");
+  }
+
+  @Test
+  public void t054_deleteProfile() throws Exception {
+    delete("CrtPro", "TS1", "tools", "profiles");
+  }
+
+  @Test
+  public void t055_verifyDeletedProfile() throws Exception {
+    verifyDeleted("TS1", "tools", "profiles");
+  }
+
+  @Test
+  public void t056_deleteModule() throws Exception {
+    delete("CrtMod", "Inf", "tools", "modules");
+  }
+
+  @Test
+  public void t057_verifyDeletedModule() throws Exception {
+    verifyDeleted("Inf", "tools", "modules");
+  }
+
+  @Test
+  public void t058_deleteSite() throws Exception {
+    delete("CrtSit", "Site", "tools", "sites");
+  }
+
+  @Test
+  public void t059_verifyDeletedSite() throws Exception {
+    verifyDeleted("Site", "tools", "sites");
+  }
+
+  @Test
+  public void t061_newTheme() throws Exception {
+    addNew("tools", "themes");
+
+    // Insert text
+    writeText("Nam", "Theme test", false);
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t062_verifyNewTheme() throws Exception {
+    // Verify
+    verifyView("CrtNam", "test");
+
+    // Check contents
+    checkCriterionContents("Nam", "Theme test");
+  }
+
+  @Test
+  public void t063_updateTheme() throws Exception {
+    // Go to update
+    update("CrtNam", "test", "tools", "themes");
+
+    // Insert text
+    writeText("Nam", "Theme changed", false);
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t064_verifyUpdatedTheme() throws Exception {
+    // Verify
+    verifyView("CrtNam", "Theme changed");
+
+    // Check contents
+    checkCriterionContents("Nam", "Theme changed");
+  }
+
+  @Test
+  public void t065_deleteTheme() throws Exception {
+    delete("CrtNam", "Theme changed", "tools", "themes");
+  }
+
+  @Test
+  public void t066_verifyDeletedTheme() throws Exception {
+    verifyDeleted("Theme changed", "tools", "themes");
+  }
+
+  @Test
+  public void t071_newSequence() throws Exception {
+    // Go to screen
+    gotoScreen("tools", "sequences");
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Wait for button
+    clickButton("ButGrdKeyLstAdd");
+
+    // Insert text
+    writeText("KeyNam", "testKey", true);
+
+    // Insert text
+    writeText("KeyVal", "0", true);
+
+    // Select on selector
+    selectContain("Act",  "Yes", true);
+
+    // Save row
+    saveRow();
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t072_verifyNewSequence() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggest("CrtKeyNam", "test", "test", false);
+
+    // Wait for button
+    searchAndWait();
+
+    // Check contents
+    checkRowContents("testKey");
+  }
+
+  @Test
+  public void t073_updateSequence() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggest("CrtKeyNam", "test", "test", false);
+
+    // Wait for button
+    searchAndWait();
+
+    // Click on row
+    clickRowContents("testKey");
+
+    // Insert text
+    writeText("KeyVal", "1", true);
+
+    // Select on selector
+    selectContain("Act",  "No", true);
+
+    // Save row
+    saveRow();
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t074_verifyUpdatedSequence() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggest("CrtKeyNam", "test", "test", false);
+
+    // Wait for button
+    searchAndWait();
+
+    // Check contents
+    checkRowContents("testKey");
+
+    // Check contents
+    checkRowContents("1");
+
+    // Check contents
+    checkRowContents("No");
+  }
+
+  @Test
+  public void t075_deleteSequence() throws Exception {
+    // Go to screen
+    gotoScreen("tools", "sequences");
 
     // Wait for button
     clickButton("ButRst");
 
     // Suggest on column selector
-    suggest("CrtMod", "Inf", "Inf", false);
+    suggest("CrtKeyNam", "test", "test", false);
 
-    // Click on button
-    clickButton("ButSch");
-
-    // Wait for loading bar
-    waitForLoadingGrid();
+    // Search on grid
+    searchAndWait();
 
     // Click row
-    clickRowContents("Inf");
+    clickRowContents("test");
 
-    // Click on button
-    clickButton("ButDel");
+    // Click on delete button
+    clickButton("ButGrdKeyLstDel");
 
-    // Accept confirm
-    acceptConfirm();
-
-    // Accept message
-    acceptMessage("success");
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
   }
 
   @Test
-  public void t056_deleteSite() throws Exception {
-    // Go to screen
-    gotoScreen("tools", "sites");
-
-    // Wait for loading bar
-    waitForLoadingBar();
-
-    // Wait for button
-    clickButton("ButRst");
-
-    // Suggest on column selector
-    suggest("CrtSit", "Site", "Site", false);
-
-    // Click on button
-    clickButton("ButSch");
-
-    // Wait for loading bar
-    waitForLoadingGrid();
-
-    // Click row
-    clickRowContents("Site");
-
-    // Click on button
-    clickButton("ButDel");
-
-    // Accept confirm
-    acceptConfirm();
-
-    // Accept message
-    acceptMessage("success");
+  public void t076_verifyDeletedSequence() throws Exception {
+    verifyDeleted("test", "tools", "sequences");
   }
+
 }

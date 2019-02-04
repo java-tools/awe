@@ -7,7 +7,6 @@ import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -122,6 +121,10 @@ public class SeleniumTestsUtil {
     assertTrue(driver.findElement(selector).getText().contains(text));
   }
 
+  protected void checkTextNotContains(By selector, String text) {
+    assertFalse(driver.findElement(selector).getText().contains(text));
+  }
+
   protected void checkCriterionContains(By selector, String text) {
     assertTrue(driver.findElement(selector).getAttribute("value").contains(text));
   }
@@ -146,11 +149,18 @@ public class SeleniumTestsUtil {
       // Click on screen
       click(By.name(option));
     }
+
+    // Wait for element not visible
+    waitUntil(invisibilityOfElementLocated(By.cssSelector(".mm-dropdown-first")));
+
+    // Wait for loading bar
+    waitForLoadingBar();
   }
 
   protected void waitForLoadingBar() {
     // Wait for element not visible
-    waitUntil(invisibilityOfElementLocated(By.id("loading-bar")));  }
+    waitUntil(invisibilityOfElementLocated(By.id("loading-bar")));
+  }
 
   protected void waitForLoadingGrid() {
     By selector = By.cssSelector(".grid-loader");
@@ -160,14 +170,37 @@ public class SeleniumTestsUtil {
 
     // Wait for element not visible
     waitUntil(invisibilityOfElementLocated(selector));
+
+    // Wait for loading bar
+    waitForLoadingBar();
   }
 
   protected void clickButton(String buttonName) {
+    clickButton(buttonName, false);
+  }
+
+  protected void clickButton(String buttonName, boolean waitForLoadingBar) {
     // Wait for element visible
     waitForButton(buttonName);
 
     // Click button
     click(By.cssSelector("#" + buttonName + ":not([disabled])"));
+
+    if (waitForLoadingBar) {
+      // Wait for loading bar
+      waitForLoadingBar();
+    }
+  }
+
+  protected void searchAndWait() {
+    searchAndWait("ButSch");
+  }
+
+  protected void searchAndWait(String buttonName) {
+    clickButton(buttonName, false);
+
+    // Wait for loading bar
+    waitForLoadingGrid();
   }
 
   protected void clickRowContents(String search) {
@@ -188,6 +221,13 @@ public class SeleniumTestsUtil {
 
     // Check text
     checkTextContains(selector, search);
+  }
+
+  protected void checkRowNotContains(String search) {
+    By selector = By.xpath("//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search +"')]/..");
+
+    // Assert element is not located
+    assertTrue(invisibilityOfElementLocated(selector).apply(driver).booleanValue());
   }
 
   protected void checkCriterionContents(String criterionName, String search) {
@@ -217,7 +257,7 @@ public class SeleniumTestsUtil {
 
   protected void writeText(String criterionName, String text, boolean isColumn) {
     String mainSelector = isColumn ? "column-id" : "criterion-id";
-    By selector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] input");
+    By selector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] input,[" + mainSelector + "='" + criterionName +  "'] textarea");
 
     // Wait for element present
     waitUntil(presenceOfElementLocated(selector));
@@ -275,6 +315,9 @@ public class SeleniumTestsUtil {
   protected void suggest(String criterionName, String search, String label, boolean isColumn) {
     By selector = By.xpath("//*[@id='select2-drop']//*[contains(@class,'select2-result-label')]//text()[contains(.,'" + label +"')]/..");
 
+    // Wait for element present
+    waitUntil(invisibilityOfElementLocated(By.cssSelector(".loader")));
+
     // Click on selector
     selectClick(criterionName, isColumn);
 
@@ -284,6 +327,9 @@ public class SeleniumTestsUtil {
     // Write username
     sendKeys(By.cssSelector("#select2-drop input.select2-input"), search);
 
+    // Wait for loading bar
+    waitForLoadingBar();
+
     // Wait for element present
     waitUntil(presenceOfElementLocated(selector));
 
@@ -291,11 +337,11 @@ public class SeleniumTestsUtil {
     click(selector);
   }
 
-  protected void saveLine() {
-    saveLine(null);
+  protected void saveRow() {
+    saveRow(null);
   }
 
-  protected void saveLine(String gridId) {
+  protected void saveRow(String gridId) {
     String gridSelector = gridId == null ? "" : "[grid-id='" + gridId + "'] ";
     By selector = By.cssSelector(gridSelector + ".grid-row-save:not([disabled])");
 
@@ -320,13 +366,16 @@ public class SeleniumTestsUtil {
     By messageSelector = By.cssSelector(".alert-zone .alert-" + messageType + " button.close");
 
     // Wait for message selector
-    waitUntil(presenceOfElementLocated(messageSelector));
+    waitUntil(visibilityOfElementLocated(messageSelector));
 
     // Click on message selector
     click(messageSelector);
 
     // Wait for element not present
     waitUntil(invisibilityOfElementLocated(messageSelector));
+
+    // Wait for loading bar
+    waitForLoadingBar();
   }
 
   protected void doLogin() throws Exception {
