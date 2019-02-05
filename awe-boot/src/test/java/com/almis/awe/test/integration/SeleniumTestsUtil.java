@@ -1,13 +1,12 @@
 package com.almis.awe.test.integration;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -21,9 +20,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
@@ -39,6 +43,17 @@ public class SeleniumTestsUtil {
 
   @Value("${failsafe.timeout:30}")
   Integer timeout;
+
+  @Value("${browser.resolution.width}")
+  Integer browserWidth;
+
+  @Value("${browser.resolution.height}")
+  Integer browserHeight;
+
+  @Value("${screenshot.path}")
+  String screenshotPath;
+
+  Integer currentSnapshot = 1;
 
   @Value("${failsafe.browser:chrome}")
   public void setBrowser(String browser) {
@@ -80,6 +95,11 @@ public class SeleniumTestsUtil {
           break;
       }
     }
+
+    // Set dimension if defined
+    if (browserWidth != null && browserHeight != null) {
+      driver.manage().window().setSize(new Dimension(browserWidth, browserHeight));
+    }
   }
 
   @AfterClass
@@ -93,22 +113,41 @@ public class SeleniumTestsUtil {
     return driver;
   }
 
-  protected void setupTimeout() {
-    driver.manage().timeouts().implicitlyWait(timeout, SECONDS);
-  }
-
   protected void waitForLoad() {
     ExpectedCondition<Boolean> pageLoadCondition = driver1 -> ((JavascriptExecutor) driver1).executeScript("return document.readyState").equals("complete");
-    WebDriverWait wait = new WebDriverWait(driver, timeout);
-    wait.until(pageLoadCondition);
+    waitUntil(pageLoadCondition);
+  }
+
+  /**
+   * Take a screenshot when an error has occurred
+   * @param message
+   */
+  protected void manageError(String message) {
+    File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+    String messageSanitized = message
+      .replaceAll("[\\s,().]", "_")
+      .replaceAll("[:\"\'&<>=/*@\\[\\]\\\\]", "");
+    String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
+    Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
+    logger.error(message);
+    logger.error("Storing screenshot at: " + path);
+
+    // Now you can do whatever you need to do with it, for example copy somewhere
+    try {
+      path.toFile().getParentFile().mkdirs();
+      FileUtils.copyFile(scrFile, path.toFile());
+    } catch (IOException ioExc) {
+      logger.error("Error trying to store screenshot at: " + path);
+    }
   }
 
   protected void waitUntil(ExpectedCondition isTrue) {
+    String message = isTrue.toString();
     try {
       new WebDriverWait(driver, timeout).until(isTrue);
-      logger.info(isTrue.toString());
+      logger.info(message);
     } catch (Exception exc) {
-      logger.error(isTrue.toString());
+      manageError(message);
       assertTrue((boolean) isTrue.apply(driver));
     }
   }
@@ -138,13 +177,17 @@ public class SeleniumTestsUtil {
   }
 
   protected void click(By selector) {
-    driver.findElement(selector).click();
+    try {
+      driver.findElement(selector).click();
+    } catch (Exception exc) {
+      manageError(exc.getMessage());
+    }
   }
 
   protected void gotoScreen(String... menuOptions) {
     for (String option : menuOptions) {
       // Wait for text in selector
-      waitUntil(presenceOfElementLocated(By.name(option)));
+      waitUntil(visibilityOfElementLocated(By.name(option)));
 
       // Click on screen
       click(By.name(option));
@@ -164,9 +207,6 @@ public class SeleniumTestsUtil {
 
   protected void waitForLoadingGrid() {
     By selector = By.cssSelector(".grid-loader");
-
-    // Wait for element visible
-    waitUntil(visibilityOfElementLocated(selector));
 
     // Wait for element not visible
     waitUntil(invisibilityOfElementLocated(selector));
@@ -207,27 +247,29 @@ public class SeleniumTestsUtil {
     By selector = By.xpath("//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search +"')]/..");
 
     // Wait for element visible
-    waitUntil(visibilityOfElementLocated(selector));
+    waitUntil(and(visibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader"))));
 
     // Click button
     click(selector);
   }
 
-  protected void checkRowContents(String search) {
-    By selector = By.xpath("//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search +"')]/..");
+  protected void checkRowContents(String... searchList) {
+    for (String search : searchList) {
+      By selector = By.xpath("//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search + "')]/..");
 
-    // Wait for element visible
-    waitUntil(visibilityOfElementLocated(selector));
+      // Wait for element visible
+      waitUntil(and(visibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader"))));
 
-    // Check text
-    checkTextContains(selector, search);
+      // Check text
+      checkTextContains(selector, search);
+    }
   }
 
   protected void checkRowNotContains(String search) {
     By selector = By.xpath("//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search +"')]/..");
 
     // Assert element is not located
-    assertTrue(invisibilityOfElementLocated(selector).apply(driver).booleanValue());
+    assertTrue(and(invisibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader"))).apply(driver).booleanValue());
   }
 
   protected void checkCriterionContents(String criterionName, String search) {
@@ -255,6 +297,13 @@ public class SeleniumTestsUtil {
     waitUntil(visibilityOfElementLocated(By.cssSelector("#" + buttonName + ":not([disabled])")));
   }
 
+  protected void waitForText(String clazz, String contains) {
+    By selector = By.xpath("//*[contains(@class,'" + clazz + "')]//text()[contains(.,'" + contains +"')]/..");
+
+    // Wait for element visible
+    waitUntil(visibilityOfElementLocated(selector));
+  }
+
   protected void writeText(String criterionName, String text, boolean isColumn) {
     String mainSelector = isColumn ? "column-id" : "criterion-id";
     By selector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] input,[" + mainSelector + "='" + criterionName +  "'] textarea");
@@ -267,6 +316,17 @@ public class SeleniumTestsUtil {
 
     // Write text
     sendKeys(selector, text);
+  }
+
+  protected void clickCheckbox(String criterionName, boolean isColumn) {
+    String mainSelector = isColumn ? "column-id" : "criterion-id";
+    By selector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] .input label");
+
+    // Wait for element present
+    waitUntil(presenceOfElementLocated(selector));
+
+    // Click on checkbox
+    click(selector);
   }
 
   private void selectClick(String criterionName, boolean isColumn) {
@@ -326,6 +386,30 @@ public class SeleniumTestsUtil {
 
     // Write username
     sendKeys(By.cssSelector("#select2-drop input.select2-input"), search);
+
+    // Wait for loading bar
+    waitForLoadingBar();
+
+    // Wait for element present
+    waitUntil(presenceOfElementLocated(selector));
+
+    // Click option
+    click(selector);
+  }
+
+  protected void suggestMultiple(String criterionName, String search, String label, boolean isColumn) {
+    By selector = By.xpath("//*[@id='select2-drop']//*[contains(@class,'select2-result-label')]//text()[contains(.,'" + label +"')]/..");
+    String mainSelector = isColumn ? "column-id" : "criterion-id";
+    By searchBox = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] input.select2-input");
+
+    // Wait for element present
+    waitUntil(invisibilityOfElementLocated(By.cssSelector(".loader")));
+
+    // Wait for element present
+    waitUntil(presenceOfElementLocated(searchBox));
+
+    // Write username
+    sendKeys(searchBox, search);
 
     // Wait for loading bar
     waitForLoadingBar();

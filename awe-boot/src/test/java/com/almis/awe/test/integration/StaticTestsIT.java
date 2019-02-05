@@ -206,10 +206,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     verifyView("CrtSit", "Site test");
 
     // Check row contents
-    checkRowContents("Base");
-
-    // Check row contents
-    checkRowContents("awedb");
+    checkRowContents("Base", "awedb");
   }
 
   @Test
@@ -239,10 +236,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     verifyView("CrtSit", "Site changed");
 
     // Check row contents
-    checkRowContents("Base");
-
-    // Check row contents
-    checkRowContents("awedb2");
+    checkRowContents("Base", "awedb2");
   }
 
   @Test
@@ -314,13 +308,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkSelectorContents("Scr", "Sites (Sit)");
 
     // Check row contents
-    checkRowContents("test");
-
-    // Check row contents
-    checkRowContents("TST");
-
-    // Check row contents
-    checkRowContents("Site changed");
+    checkRowContents("test", "TST", "Site changed");
   }
 
   @Test
@@ -380,13 +368,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkSelectorContents("Scr", "Usr");
 
     // Check row contents
-    checkRowContents("test");
-
-    // Check row contents
-    checkRowContents("ADM");
-
-    // Check row contents
-    checkRowContents("Site changed");
+    checkRowContents("test", "ADM", "Site changed");
   }
 
   @Test
@@ -506,13 +488,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkCriterionContents("Als", "DBSTest");
 
     // Check row contents
-    checkRowContents("Site changed");
-
-    // Check row contents
-    checkRowContents("Inf Changed");
-
-    // Check row contents
-    checkRowContents("5");
+    checkRowContents("Site changed", "Inf Changed", "5");
   }
 
   @Test
@@ -630,12 +606,12 @@ public class StaticTestsIT extends SeleniumTestsUtil {
 
   @Test
   public void t052_deleteDatabase() throws Exception {
-    delete("CrtAls", "DBSTest Changed", "tools", "databases");
+    delete("CrtAls", "DBSTest", "tools", "databases");
   }
 
   @Test
   public void t053_verifyDeletedDatabase() throws Exception {
-    verifyDeleted("DBSTest Changed", "tools", "databases");
+    verifyDeleted("DBSTest", "tools", "databases");
   }
 
   @Test
@@ -800,13 +776,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     searchAndWait();
 
     // Check contents
-    checkRowContents("testKey");
-
-    // Check contents
-    checkRowContents("1");
-
-    // Check contents
-    checkRowContents("No");
+    checkRowContents("testKey", "1", "No");
   }
 
   @Test
@@ -838,4 +808,470 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     verifyDeleted("test", "tools", "sequences");
   }
 
+  @Test
+  public void t081_newRestriction() throws Exception {
+    // Go to screen
+    gotoScreen("settings", "security", "screen-access");
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Wait for button
+    clickButton("ButGrdAdd");
+
+    // Select on selector
+    suggest("IdeOpe",  "test", "test", true);
+
+    // Select on selector
+    suggest("Opt",  "application-info", "application-info", true);
+
+    // Select text
+    selectContain("AccMod", "Restricted", true);
+
+    // Select text
+    selectContain("Act", "Yes", true);
+
+    // Save row
+    saveRow();
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t082_verifyNewRestriction() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggestMultiple("CrtOpe", "test", "test", false);
+
+    // Suggest
+    suggestMultiple("CrtOpc", "application-info", "application-info", false);
+
+    // Wait for button
+    searchAndWait();
+
+    // Check contents
+    checkRowContents("application-info");
+  }
+
+  @Test
+  public void t083_updateRestriction() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggestMultiple("CrtOpe", "test", "test", false);
+
+    // Suggest
+    suggestMultiple("CrtOpc", "application-info", "application-info", false);
+
+    // Wait for button
+    searchAndWait();
+
+    // Click on row
+    clickRowContents("application-info");
+
+    // Select on selector
+    selectContain("AccMod",  "Restricted", true);
+
+    // Select on selector
+    selectContain("Act",  "No", true);
+
+    // Save row
+    saveRow();
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t084_verifyUpdatedRestriction() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggestMultiple("CrtOpe", "test", "test", false);
+
+    // Suggest
+    suggestMultiple("CrtOpc", "application-info", "application-info", false);
+
+    // Wait for button
+    searchAndWait();
+
+    // Check contents
+    checkRowContents("application-info", "Restricted", "No");
+  }
+
+  @Test
+  public void t085_deleteRestriction() throws Exception {
+    // Go to screen
+    gotoScreen("settings", "security", "screen-access");
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggestMultiple("CrtOpe", "test", "test", false);
+
+    // Suggest
+    suggestMultiple("CrtOpc", "application-info", "application-info", false);
+
+    // Search on grid
+    searchAndWait();
+
+    // Click row
+    clickRowContents("application-info");
+
+    // Click on delete button
+    clickButton("ButGrdDel");
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t086_verifyDeletedRestriction() throws Exception {
+    verifyDeleted("application-info", "settings", "security", "screen-access");
+  }
+
+  @Test
+  public void t091_newEmailServer() throws Exception {
+    // Go for new screen
+    addNew("tools", "email-servers");
+
+    // Insert text
+    writeText("SrvNam", "test server", false);
+
+    // Insert text
+    writeText("Hst", "localhost", false);
+
+    // Check box
+    clickCheckbox("Ath", false);
+
+    // Insert text
+    writeText("EmlUsr", "test", false);
+
+    // Insert text
+    writeText("EmlPwd", "test", false);
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t092_verifyNewEmailServer() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest on column selector
+    suggest("CrtNam", "test", "test", false);
+
+    // Search on grid
+    searchAndWait();
+
+    // Check row contents
+    checkRowContents("test server", "localhost");
+  }
+
+  @Test
+  public void t093_updateEmailServer() throws Exception {
+    // Go to update
+    update("CrtNam", "test", "tools", "email-servers");
+
+    // Insert text
+    writeText("SrvNam", "server update", false);
+
+    // Insert text
+    writeText("EmlUsr", "test2", false);
+
+    // Insert text
+    writeText("EmlPwd", "test2", false);
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t094_verifyUpdatedEmailServer() throws Exception {
+    // Wait for button
+    t104_verifyUpdatedEmailServerNoAuth();
+
+    // Check row contents
+    checkRowContents("test2");
+  }
+
+  @Test
+  public void t095_deleteEmailServer() throws Exception {
+    delete("CrtNam", "server update", "tools", "email-servers");
+  }
+
+  @Test
+  public void t096_verifyDeletedEmailServer() throws Exception {
+    verifyDeleted("server update", "tools", "email-servers");
+  }
+
+  @Test
+  public void t101_newEmailServerNoAuth() throws Exception {
+    // Go for new screen
+    addNew("tools", "email-servers");
+
+    // Insert text
+    writeText("SrvNam", "test server", false);
+
+    // Insert text
+    writeText("Hst", "localhost", false);
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t102_verifyNewEmailServerNoAuth() throws Exception {
+    t092_verifyNewEmailServer();
+  }
+
+  @Test
+  public void t103_updateEmailServerNoAuth() throws Exception {
+    // Go to update
+    update("CrtNam", "test", "tools", "email-servers");
+
+    // Insert text
+    writeText("SrvNam", "server update", false);
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t104_verifyUpdatedEmailServerNoAuth() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest on column selector
+    suggest("CrtNam", "server update", "server update", false);
+
+    // Search on grid
+    searchAndWait();
+
+    // Check row contents
+    checkRowContents("server update");
+  }
+
+  @Test
+  public void t105_deleteEmailServerNoAuth() throws Exception {
+    t095_deleteEmailServer();
+  }
+
+  @Test
+  public void t106_verifyDeletedEmailServerNoAuth() throws Exception {
+    t096_verifyDeletedEmailServer();
+  }
+
+  @Test
+  public void t111_newScreenConfiguration() throws Exception {
+    // Go to screen
+    gotoScreen("settings", "screen-configuration");
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Wait for button
+    clickButton("ButGrdAdd");
+
+    // Select on selector
+    suggest("Scr",  "Dbs", "Dbs", true);
+
+    // Select on selector
+    suggest("IdeOpe",  "test", "test", true);
+
+    // Select on selector
+    suggest("Nam",  "ButPrn", "ButPrn", true);
+
+    // Select text
+    suggest("Atr", "visible", "Visible", true);
+
+    // Select text
+    writeText("Val", "true", true);
+
+    // Select text
+    selectContain("Act", "Yes", true);
+
+    // Save row
+    saveRow();
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t112_verifyNewScreenConfiguration() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggest("CrtScr", "Dbs", "Dbs", false);
+
+    // Suggest
+    suggest("CrtUsr", "test", "test", false);
+
+    // Select
+    selectContain("CrtAct", "Yes", false);
+
+    // Wait for button
+    searchAndWait();
+
+    // Check contents
+    checkRowContents("Dbs", "test", "ButPrn", "Visible", "true");
+  }
+
+  @Test
+  public void t113_updateScreenConfiguration() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggest("CrtScr", "Dbs", "Dbs", false);
+
+    // Suggest
+    suggest("CrtUsr", "test", "test", false);
+
+    // Select
+    selectContain("CrtAct", "Yes", false);
+
+    // Wait for button
+    searchAndWait();
+
+    // Click on row
+    clickRowContents("Dbs");
+
+    // Select on selector
+    writeText("Val",  "false", true);
+
+    // Save row
+    saveRow();
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t114_verifyUpdatedScreenConfiguration() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggest("CrtScr", "Dbs", "Dbs", false);
+
+    // Suggest
+    suggest("CrtUsr", "test", "test", false);
+
+    // Select
+    selectContain("CrtAct", "Yes", false);
+
+    // Wait for button
+    searchAndWait();
+
+    // Check contents
+    checkRowContents("Dbs", "test", "ButPrn", "Visible", "false");
+  }
+
+  @Test
+  public void t115_deleteScreenConfiguration() throws Exception {
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest
+    suggest("CrtScr", "Dbs", "Dbs", false);
+
+    // Suggest
+    suggest("CrtUsr", "test", "test", false);
+
+    // Select
+    selectContain("CrtAct", "Yes", false);
+
+    // Search on grid
+    searchAndWait();
+
+    // Click row
+    clickRowContents("Dbs");
+
+    // Click on delete button
+    clickButton("ButGrdDel");
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+  }
+
+  @Test
+  public void t116_verifyDeletedScreenConfiguration() throws Exception {
+    verifyDeleted("application-info", "settings", "screen-configuration");
+  }
+
+  @Test
+  public void t121_viewLog() throws Exception {
+    // Go to log screen
+    gotoScreen("tools", "log");
+
+    // Wait for reset button
+    waitForButton("ButRst");
+
+    // Write on criterion
+    writeText("CrtFil", "awe", false);
+
+    // Search and wait
+    searchAndWait();
+
+    // Click on row
+    clickRowContents("awe-boot");
+
+    // Click on button
+    clickButton("ButViw", true);
+
+    // Wait for button
+    waitForButton("ButBck");
+
+    // Check text
+    waitForText("visible-text", "[INFO ]");
+  }
+
+  @Test
+  public void t122_broadcastMessage() throws Exception {
+    // Go to log screen
+    gotoScreen("tools", "broadcast-messages");
+
+    // Suggest
+    suggest("MsgTar", "test", "test", false);
+
+    // Write on criterion
+    writeText("MsgDes", "This is a broadcast message test", false);
+
+    // Search and wait
+    clickButton("ButSnd");
+
+    // Accept message
+    acceptMessage("info");
+
+    // Accept message
+    acceptMessage("success");
+  }
+
+  @Test
+  public void t123_encryptText() throws Exception {
+    // Go to log screen
+    gotoScreen("settings", "security", "encrypt-tools");
+
+    // Wait for reset button
+    waitForButton("ButRst");
+
+    // Write on criterion
+    writeText("CrtTxt", "Texto de prueba", false);
+
+    // Wait for reset button
+    clickButton("ButEnc");
+
+    // Check criterion contents
+    checkCriterionContents("CrtEnc", "dOakAf2lwfqAke4O41A0Ww==");
+  }
 }
