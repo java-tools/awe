@@ -141,9 +141,10 @@ public class SeleniumTestsUtil {
     File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
     String messageSanitized = message
       .toLowerCase()
-      .replaceAll("[\\s,().\\[\\]{}:\"\'&<>=/*@#\\\\]", "_")
-      .replaceAll("__", "_")
-      .replaceAll("_build_info.*", "");
+      .replaceAll("[\\W\\s]", "_")
+      .replaceAll("_*", "_")
+      .replaceAll("_build_info.*", "")
+      .replaceAll("_session_info.*", "");
     String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
     Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
     logger.error(message);

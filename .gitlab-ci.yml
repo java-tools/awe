@@ -44,6 +44,7 @@ maven-build:
     - awe-boot/target/awe-boot.jar
     - awe-boot/target/tests/
     - awe-boot/target/surefire-reports/
+    - awe-boot/target/failsafe-reports/
     - awe-boot/target/coverage-reports/
     reports:
       junit:
@@ -58,12 +59,20 @@ test-chrome:
   script:
   - mvn $MAVEN_CLI_OPTS verify $CHROME_OPTS
   stage: test
+  artifacts:
+    paths:
+    - awe-boot/target/tests/
+    - awe-boot/target/failsafe-reports/
 
 test-firefox:
   image: registry.gitlab.com/aweframework/awe/firefox-docker:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
   stage: test
+  artifacts:
+    paths:
+    - awe-boot/target/tests/
+    - awe-boot/target/failsafe-reports/
 
 ##############################
 # Analysis stage
