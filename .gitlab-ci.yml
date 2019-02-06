@@ -33,8 +33,10 @@ maven-build:
   image: maven:3.5-jdk-8
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
-    - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'    
+    - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+    - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
+  services:
+  - selenium/standalone-chrome-debug
   artifacts:
     paths:
       - awe-boot/target/awe-boot.jar
@@ -47,7 +49,7 @@ maven-build:
 test-chrome:
   image: maven:3.5-jdk-8
   script:
-  - mvn $MAVEN_CLI_OPTS clean package $CHROME_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+  - mvn $MAVEN_CLI_OPTS clean package $CHROME_OPTS
   stage: test
   services:
     - selenium/standalone-chrome-debug
@@ -55,7 +57,7 @@ test-chrome:
 test-firefox:
   image: maven:3.5-jdk-8
   script:
-  - mvn $MAVEN_CLI_OPTS clean package $FIREFOX_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+  - mvn $MAVEN_CLI_OPTS clean package $FIREFOX_OPTS
   stage: test
   services:
     - selenium/standalone-firefox-debug
