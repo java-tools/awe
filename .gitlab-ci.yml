@@ -53,6 +53,7 @@ maven-build:
   artifacts:
     paths:
     - awe-boot/target/awe-boot.jar
+    - awe-boot/target/tests/
     - awe-boot/target/surefire-reports/
     - awe-boot/target/coverage-reports/
     reports:
