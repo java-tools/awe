@@ -193,12 +193,6 @@
       <version>1.0b3</version>
       <scope>test</scope>
     </dependency>
-    <!--<dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>${testng.version}</version>
-      <scope>test</scope>
-    </dependency>-->
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
@@ -339,10 +333,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <wait>1000</wait>
-          <maxAttempts>180</maxAttempts>
-        </configuration>
         <executions>
           <execution>
             <id>repackage</id>
@@ -357,8 +347,8 @@
               <arguments>
                 <argument>--integration-test</argument>
               </arguments>
-              <maxAttempts>3</maxAttempts>
-              <wait>10000</wait>
+              <wait>1000</wait>
+              <maxAttempts>180</maxAttempts>
               <fork>true</fork>
               <jvmArguments>${argLine}</jvmArguments>
             </configuration>
