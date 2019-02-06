@@ -157,6 +157,8 @@ release:
     - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTestProject=true
     - git checkout master
     - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
+  only:
+    - develop
   when: manual
   
 dependency_scanning:  
