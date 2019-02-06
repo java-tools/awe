@@ -142,7 +142,7 @@ public class SeleniumTestsUtil {
     String messageSanitized = message
       .toLowerCase()
       .replaceAll("[\\W\\s]", "_")
-      .replaceAll("_*", "_")
+      .replaceAll("_+", "_")
       .replaceAll("_build_info.*", "")
       .replaceAll("_session_info.*", "");
     String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
