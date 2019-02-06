@@ -17,7 +17,7 @@ cache:
   - .m2/repository/
 
 stages:
-- docker
+- browser-generation
 - build
 - test
 - analyze
@@ -27,22 +27,22 @@ stages:
 - release
 
 chrome-generation:
-  stage: docker
+  stage: browser-generation
+  services:
+  - docker:dind
   script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - docker build -f ./ChromeDockerfile -t registry.gitlab.com/aweframework/awe/chrome-docker:latest .
   - docker push registry.gitlab.com/aweframework/awe/chrome-docker:latest
-  services:
-  - docker:dind
 
 firefox-generation:
-  stage: docker
+  stage: browser-generation
+  services:
+  - docker:dind
   script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - docker build -f ./FirefoxDockerfile -t registry.gitlab.com/aweframework/awe/firefox-docker:latest .
   - docker push registry.gitlab.com/aweframework/awe/firefox-docker:latest
-  services:
-  - docker:dind
 
 maven-build:
   image: registry.gitlab.com/aweframework/awe/chrome-docker:latest
@@ -72,6 +72,24 @@ test-firefox:
   - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
   stage: test
 
+dependency_scanning:
+  stage: analyze
+  services:
+  - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+  allow_failure: true
+  script:
+  - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+  - docker run
+      --env DEP_SCAN_DISABLE_REMOTE_CHECKS="${DEP_SCAN_DISABLE_REMOTE_CHECKS:-false}"
+      --volume "$PWD:/code"
+      --volume /var/run/docker.sock:/var/run/docker.sock
+      "registry.gitlab.com/gitlab-org/security-products/dependency-scanning:$SP_VERSION" /code
+  artifacts:
+    reports:
+      dependency_scanning: gl-dependency-scanning-report.json
+
 site:
   image: maven:3.5-jdk-8
   stage: site
@@ -86,12 +104,12 @@ site:
 
 package-build:
   stage: package
+  services:
+  - docker:dind
   script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - docker build -t registry.gitlab.com/aweframework/awe/awe-boot ./awe-boot
   - docker push registry.gitlab.com/aweframework/awe/awe-boot
-  services:
-  - docker:dind
 
 deploy:
   image: maven:3.5-jdk-8
@@ -190,19 +208,3 @@ release:
   - git checkout master
   - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
   when: manual
-
-dependency_scanning:
-  stage: analyze
-  variables:
-    DOCKER_DRIVER: overlay2
-  allow_failure: true
-  script:
-  - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
-  - docker run
-      --env DEP_SCAN_DISABLE_REMOTE_CHECKS="${DEP_SCAN_DISABLE_REMOTE_CHECKS:-false}"
-      --volume "$PWD:/code"
-      --volume /var/run/docker.sock:/var/run/docker.sock
-      "registry.gitlab.com/gitlab-org/security-products/dependency-scanning:$SP_VERSION" /code
-  artifacts:
-    reports:
-      dependency_scanning: gl-dependency-scanning-report.json
