@@ -41,10 +41,11 @@
     <webdrivermanager.version>3.2.0</webdrivermanager.version>
     <testng.version>6.14.3</testng.version>
 
-    <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
+    <jacoco.base.reports>${project.basedir}/../awe-boot/target</jacoco.base.reports>
+    <jacoco.reportPaths>${jacoco.base.reports}/coverage-reports</jacoco.reportPaths>
     <sonar.skip>true</sonar.skip>
-    <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target</sonar.jacoco.reportPaths>
-    <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
+    <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
+    <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
     <failsafe.suite>**/AllTestsSuiteIT.class</failsafe.suite>
     <skip.selenium>true</skip.selenium>
@@ -496,7 +497,7 @@
             </goals>
             <configuration>
               <append>true</append>
-              <destFile>${sonar.jacoco.reportPaths}/jacoco.exec</destFile>
+              <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
             </configuration>
           </execution>
           <execution>
@@ -508,7 +509,7 @@
             <configuration>
               <skip>${skip.selenium}</skip>
               <!--<append>true</append>
-              <destFile>${sonar.jacoco.reportPaths}/jacoco.exec</destFile>-->
+              <destFile>${jacoco.base.reports}/jacoco.exec</destFile>-->
             </configuration>
           </execution>
         </executions>
