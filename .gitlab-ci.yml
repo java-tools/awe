@@ -1,8 +1,6 @@
 image: docker:latest
 services:
   - docker:dind
-  - selenium/standalone-chrome:latest
-  - selenium/standalone-firefox:latest
   
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml -B"
@@ -21,6 +19,7 @@ cache:
     - .m2/repository/
 
 stages:
+    - docker
     - build
     - test
     - analyze
@@ -28,9 +27,15 @@ stages:
     - package
     - deploy
     - release
-    
+
+docker-build:
+  stage: docker
+  script:
+    - docker build -f ./ChromeDockerfile -t chrome-docker:latest ./awe-boot
+    - docker build -f ./FirefoxDockerfile -t firefox-docker:latest ./awe-boot
+
 maven-build:
-  image: maven:3.5-jdk-8
+  image: chrome-docker:latest
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
@@ -45,13 +50,13 @@ maven-build:
       - awe-boot/target/surefire-reports/TEST-*.xml    
 
 test-chrome:
-  image: maven:3.5-jdk-8
+  image: chrome-docker:latest
   script:
   - mvn $MAVEN_CLI_OPTS clean package $CHROME_OPTS
   stage: test
 
 test-firefox:
-  image: maven:3.5-jdk-8
+  image: firefox-docker:latest
   script:
   - mvn $MAVEN_CLI_OPTS clean package $FIREFOX_OPTS
   stage: test
@@ -68,7 +73,7 @@ site:
   only:
     - master
       
-docker-build:
+package-build:
   stage: package
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com  
