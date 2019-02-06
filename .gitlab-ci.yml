@@ -31,8 +31,8 @@ stages:
 docker-build:
   stage: docker
   script:
-    - docker build -f ./ChromeDockerfile -t chrome-docker:latest ./awe-boot
-    - docker build -f ./FirefoxDockerfile -t firefox-docker:latest ./awe-boot
+    - docker build -f ./ChromeDockerfile -t chrome-docker:latest .
+    - docker build -f ./FirefoxDockerfile -t firefox-docker:latest .
 
 maven-build:
   image: chrome-docker:latest
