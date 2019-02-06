@@ -1,11 +1,22 @@
-FROM maven:3.5-jdk-8
+FROM selenium/standalone-chrome:latest
 
-# Google Chrome
+ENV MAVEN_VERSION 3.5.0
+ENV DISPLAY :99
 
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-    && apt-get update -qqy \
-    && apt-get -qqy install google-chrome-stable \
-    && rm /etc/apt/sources.list.d/google-chrome.list \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-    && sed -i 's/"$HERE\/chrome"/"$HERE\/chrome" --no-sandbox/g' /opt/google/chrome/google-chrome
+USER root
+
+RUN apt-get update -qqy \
+  && apt-get install -y openjdk-8-jdk && \
+  rm -rf /var/lib/apt/lists/*
+
+RUN wget -O- http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xzf - -C /opt \
+  && mv /opt/apache-maven-$MAVEN_VERSION /opt/maven \
+  && ln -s /opt/maven/bin/mvn /usr/bin/mvn
+
+USER seluser
+
+ENV MAVEN_HOME /opt/maven
+
+EXPOSE 9090
+
+CMD ["mvn"]
