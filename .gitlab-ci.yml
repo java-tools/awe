@@ -58,6 +58,8 @@ docker-build:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com  
     - docker build -t registry.gitlab.com/aweframework/awe/awe-boot ./awe-boot
     - docker push registry.gitlab.com/aweframework/awe/awe-boot
+  only:
+    - develop
     
 deploy:
   image: maven:3.5-jdk-8
