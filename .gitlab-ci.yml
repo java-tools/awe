@@ -1,3 +1,7 @@
+##############################
+# Pipeline definition
+##############################
+
 image: docker:latest
 
 variables:
@@ -17,7 +21,6 @@ cache:
   - .m2/repository/
 
 stages:
-- browser-generation
 - build
 - test
 - analyze
@@ -26,23 +29,9 @@ stages:
 - deploy
 - release
 
-chrome-generation:
-  stage: browser-generation
-  services:
-  - docker:dind
-  script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-  - docker build -f ./ChromeDockerfile -t registry.gitlab.com/aweframework/awe/chrome-docker:latest .
-  - docker push registry.gitlab.com/aweframework/awe/chrome-docker:latest
-
-firefox-generation:
-  stage: browser-generation
-  services:
-  - docker:dind
-  script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-  - docker build -f ./FirefoxDockerfile -t registry.gitlab.com/aweframework/awe/firefox-docker:latest .
-  - docker push registry.gitlab.com/aweframework/awe/firefox-docker:latest
+##############################
+# Build stage
+##############################
 
 maven-build:
   image: registry.gitlab.com/aweframework/awe/chrome-docker:latest
@@ -60,6 +49,10 @@ maven-build:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
 
+##############################
+# Testing stage
+##############################
+
 test-chrome:
   image: registry.gitlab.com/aweframework/awe/chrome-docker:latest
   script:
@@ -71,6 +64,10 @@ test-firefox:
   script:
   - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
   stage: test
+
+##############################
+# Analysis stage
+##############################
 
 dependency_scanning:
   stage: analyze
@@ -90,6 +87,10 @@ dependency_scanning:
     reports:
       dependency_scanning: gl-dependency-scanning-report.json
 
+##############################
+# Site stage
+##############################
+
 site:
   image: maven:3.5-jdk-8
   stage: site
@@ -102,6 +103,10 @@ site:
   only:
   - master
 
+##############################
+# Package stage
+##############################
+
 package-build:
   stage: package
   services:
@@ -110,6 +115,10 @@ package-build:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - docker build -t registry.gitlab.com/aweframework/awe/awe-boot ./awe-boot
   - docker push registry.gitlab.com/aweframework/awe/awe-boot
+
+##############################
+# Deploy stage
+##############################
 
 deploy:
   image: maven:3.5-jdk-8
@@ -182,6 +191,10 @@ pages:
     - public
   only:
   - master
+
+##############################
+# Release stage
+##############################
 
 release:
   image: maven:3.5-jdk-8
