@@ -1206,7 +1206,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
 
   @Test
   public void t116_verifyDeletedScreenConfiguration() throws Exception {
-    verifyDeleted("application-info", "settings", "screen-configuration");
+    verifyDeleted("Dbs", "settings", "screen-configuration");
   }
 
   @Test

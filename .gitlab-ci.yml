@@ -1,11 +1,15 @@
 image: docker:latest
 services:
   - docker:dind
+  - selenium/standalone-chrome-debug
+  - selenium/standalone-firefox-debug
   
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml -B"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-  SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN"  
+  SONAR_OPTS: "-Dsonar.branch.target=develop -Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN"
+  CHROME_OPTS: "-Dskip.junit=true -Dskip.selenium=false -Dfailsafe.browser=headless-chrome"
+  FIREFOX_OPTS: "-Dskip.junit=true -Dskip.selenium=false -Dfailsafe.browser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
@@ -29,7 +33,7 @@ maven-build:
   image: maven:3.5-jdk-8
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS clean package sonar:sonar -DgenerateAggregationReport=true $SONAR_OPTS
+    - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
     - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'    
   artifacts:
     paths:
@@ -39,6 +43,22 @@ maven-build:
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml    
+
+test-chrome:
+  image: maven:3.5-jdk-8
+  script:
+  - mvn $MAVEN_CLI_OPTS clean package $CHROME_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+  stage: test
+  services:
+    - selenium/standalone-chrome-debug
+
+test-firefox:
+  image: maven:3.5-jdk-8
+  script:
+  - mvn $MAVEN_CLI_OPTS clean package $FIREFOX_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+  stage: test
+  services:
+    - selenium/standalone-firefox-debug
 
 site:
   image: maven:3.5-jdk-8

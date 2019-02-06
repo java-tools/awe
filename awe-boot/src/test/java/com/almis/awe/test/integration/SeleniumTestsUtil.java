@@ -1,5 +1,6 @@
 package com.almis.awe.test.integration;
 
+import com.almis.awe.test.AppBootApplication;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -7,16 +8,21 @@ import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.*;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -26,9 +32,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertNotNull;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 @RunWith(SpringRunner.class)
@@ -61,12 +69,19 @@ public class SeleniumTestsUtil {
       switch (browser) {
         case "firefox":
           WebDriverManager.firefoxdriver().setup();
-          driver = new FirefoxDriver();
+          FirefoxOptions firefoxOptions = new FirefoxOptions();
+          FirefoxProfile firefoxProfile = new FirefoxProfile();
+          firefoxProfile.setPreference("network.proxy.no_proxies_on", "localhost, 127.0.0.1");
+          firefoxOptions.setProfile(firefoxProfile);
+          driver = new FirefoxDriver(firefoxOptions);
           break;
         case "headless-firefox":
           WebDriverManager.firefoxdriver().setup();
-          FirefoxOptions firefoxOptions = new FirefoxOptions();
+          firefoxOptions = new FirefoxOptions();
           firefoxOptions.addArguments("--headless");
+          firefoxProfile = new FirefoxProfile();
+          firefoxProfile.setPreference("network.proxy.no_proxies_on", "localhost, 127.0.0.1");
+          firefoxOptions.setProfile(firefoxProfile);
           driver = new FirefoxDriver(firefoxOptions);
           break;
         case "headless-chrome":
@@ -122,11 +137,13 @@ public class SeleniumTestsUtil {
    * Take a screenshot when an error has occurred
    * @param message
    */
-  protected void manageError(String message) {
+  private void manageError(String message) {
     File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
     String messageSanitized = message
-      .replaceAll("[\\s,().]", "_")
-      .replaceAll("[:\"\'&<>=/*@\\[\\]\\\\]", "");
+      .toLowerCase()
+      .replaceAll("[\\s,().\\[\\]{}:\"\'&<>=/*@#\\\\]", "_")
+      .replaceAll("__", "_")
+      .replaceAll("_build_info.*", "");
     String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
     Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
     logger.error(message);
@@ -148,24 +165,52 @@ public class SeleniumTestsUtil {
       logger.info(message);
     } catch (Exception exc) {
       manageError(message);
-      assertTrue((boolean) isTrue.apply(driver));
+      assert (!(boolean) isTrue.apply(driver)) : isTrue.toString();
     }
   }
 
   protected void checkText(By selector, String text) {
-    assertEquals(text, driver.findElement(selector).getText());
+    boolean condition = driver.findElement(selector).getText().equals(text);
+
+    // Assert element is not located
+    if (!condition) {
+      String conditionMessage = driver.findElement(selector).getText() + " isn't equal to " + text;
+      manageError(conditionMessage);
+      assert false : conditionMessage;
+    }
   }
 
   protected void checkTextContains(By selector, String text) {
-    assertTrue(driver.findElement(selector).getText().contains(text));
+    boolean condition = driver.findElement(selector).getText().contains(text);
+
+    // Assert element is not located
+    if (!condition) {
+      String conditionMessage = selector.toString() + " doesn't contain " + text;
+      manageError(conditionMessage);
+      assert false : conditionMessage;
+    }
   }
 
   protected void checkTextNotContains(By selector, String text) {
-    assertFalse(driver.findElement(selector).getText().contains(text));
+    boolean condition = driver.findElement(selector).getText().contains(text);
+
+    // Assert element is not located
+    if (!condition) {
+      String conditionMessage = selector.toString() + " contains " + text;
+      manageError(conditionMessage);
+      assert false : conditionMessage;
+    }
   }
 
   protected void checkCriterionContains(By selector, String text) {
-    assertTrue(driver.findElement(selector).getAttribute("value").contains(text));
+    boolean condition = driver.findElement(selector).getAttribute("value").contains(text);
+
+    // Assert element is not located
+    if (!condition) {
+      String conditionMessage = selector.toString() + " doesn't contain " + text;
+      manageError(conditionMessage);
+      assert false : conditionMessage;
+    }
   }
 
   protected void sendKeys(By selector, CharSequence... text) {
@@ -181,6 +226,7 @@ public class SeleniumTestsUtil {
       driver.findElement(selector).click();
     } catch (Exception exc) {
       manageError(exc.getMessage());
+      assert false : "Error clicking element: " + selector.toString() + "\n" + exc.getMessage();
     }
   }
 
@@ -268,8 +314,13 @@ public class SeleniumTestsUtil {
   protected void checkRowNotContains(String search) {
     By selector = By.xpath("//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search +"')]/..");
 
+    ExpectedCondition<Boolean> condition = and(invisibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader")));
+
     // Assert element is not located
-    assertTrue(and(invisibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader"))).apply(driver).booleanValue());
+    if (!condition.apply(driver).booleanValue()) {
+      manageError(condition.toString());
+      assert false : condition.toString();
+    }
   }
 
   protected void checkCriterionContents(String criterionName, String search) {
@@ -294,7 +345,18 @@ public class SeleniumTestsUtil {
 
   protected void waitForButton(String buttonName) {
     // Wait for element visible
-    waitUntil(visibilityOfElementLocated(By.cssSelector("#" + buttonName + ":not([disabled])")));
+    waitUntil(elementToBeClickable(By.cssSelector("#" + buttonName + ":not([disabled])")));
+
+    // Move mouse while help is being displayed
+    List<WebElement> popovers = driver.findElements(By.cssSelector(".popover:not(.ng-hide)"));
+    while (popovers.size() > 0) {
+      WebElement element = popovers.get(0);
+      new Actions(driver)
+        .moveByOffset(30, 30)
+        .build()
+        .perform();
+      popovers = driver.findElements(By.cssSelector(".popover:not(.ng-hide)"));
+    }
   }
 
   protected void waitForText(String clazz, String contains) {
@@ -407,6 +469,12 @@ public class SeleniumTestsUtil {
 
     // Wait for element present
     waitUntil(presenceOfElementLocated(searchBox));
+
+    // Clear selector
+    By clearSelector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] .select2-search-choice-close");
+    while (driver.findElements(clearSelector).size() > 0) {
+      click(clearSelector);
+    }
 
     // Write username
     sendKeys(searchBox, search);
