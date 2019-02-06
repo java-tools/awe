@@ -28,10 +28,14 @@ stages:
     - deploy
     - release
 
-docker-build:
+chrome-docker-build:
   stage: docker
   script:
-    - docker build -f ./ChromeDockerfile -t chrome-docker:latest .
+  - docker build -f ./ChromeDockerfile -t chrome-docker:latest .
+
+firefox-docker-build:
+  stage: docker
+  script:
     - docker build -f ./FirefoxDockerfile -t firefox-docker:latest .
 
 maven-build:
