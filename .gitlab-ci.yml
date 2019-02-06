@@ -1,4 +1,4 @@
-image: docker:dind
+image: docker:latest
 
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml -B"
@@ -26,15 +26,23 @@ stages:
     - deploy
     - release
 
-browsers-generation:
+chrome-generation:
   stage: docker
   script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - docker build -f ./ChromeDockerfile -t registry.gitlab.com/aweframework/awe/chrome-docker:latest .
   - docker push registry.gitlab.com/aweframework/awe/chrome-docker:latest
+  services:
+  - docker:dind
+
+firefox-generation:
+  stage: docker
+  script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - docker build -f ./FirefoxDockerfile -t registry.gitlab.com/aweframework/awe/firefox-docker:latest .
   - docker push registry.gitlab.com/aweframework/awe/firefox-docker:latest
+  services:
+  - docker:dind
 
 maven-build:
   image: chrome-docker:latest
