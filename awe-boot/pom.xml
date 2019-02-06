@@ -463,7 +463,7 @@
               <goal>integration-test</goal>
             </goals>
             <configuration>
-              <skip>true</skip>
+              <skip>${skip.selenium}</skip>
               <includes>
                 <include>${failsafe.suite}</include>
               </includes>
@@ -481,7 +481,7 @@
             <!-- your Selenium tests should run in integration phase -->
             <phase>integration-test</phase>
             <configuration>
-              <skip>${skip.selenium}</skip>
+              <skip>true</skip>
               <target>
                 <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true"/>
               </target>

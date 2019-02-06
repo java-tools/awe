@@ -1,8 +1,8 @@
 image: docker:latest
 services:
   - docker:dind
-  - selenium/standalone-chrome-debug
-  - selenium/standalone-firefox-debug
+  - selenium/standalone-chrome:latest
+  - selenium/standalone-firefox:latest
   
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml -B"
@@ -35,8 +35,6 @@ maven-build:
   script:
     - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
     - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
-  services:
-  - selenium/standalone-chrome-debug
   artifacts:
     paths:
       - awe-boot/target/awe-boot.jar
@@ -51,16 +49,12 @@ test-chrome:
   script:
   - mvn $MAVEN_CLI_OPTS clean package $CHROME_OPTS
   stage: test
-  services:
-    - selenium/standalone-chrome-debug
 
 test-firefox:
   image: maven:3.5-jdk-8
   script:
   - mvn $MAVEN_CLI_OPTS clean package $FIREFOX_OPTS
   stage: test
-  services:
-    - selenium/standalone-firefox-debug
 
 site:
   image: maven:3.5-jdk-8
@@ -185,8 +179,6 @@ dependency_scanning:
   variables:
     DOCKER_DRIVER: overlay2
   allow_failure: true
-  services:
-    - docker:stable-dind
   script:
     - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
     - docker run
