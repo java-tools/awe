@@ -45,7 +45,7 @@ firefox-generation:
   - docker:dind
 
 maven-build:
-  image: chrome-docker:latest
+  image: registry.gitlab.com/aweframework/awe/chrome-docker:latest
   stage: build
   script:
   - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
@@ -60,15 +60,15 @@ maven-build:
       - awe-boot/target/surefire-reports/TEST-*.xml
 
 test-chrome:
-  image: chrome-docker:latest
+  image: registry.gitlab.com/aweframework/awe/chrome-docker:latest
   script:
-  - mvn $MAVEN_CLI_OPTS clean package $CHROME_OPTS
+  - mvn $MAVEN_CLI_OPTS verify $CHROME_OPTS
   stage: test
 
 test-firefox:
-  image: firefox-docker:latest
+  image: registry.gitlab.com/aweframework/awe/firefox-docker:latest
   script:
-  - mvn $MAVEN_CLI_OPTS clean package $FIREFOX_OPTS
+  - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
   stage: test
 
 site:
