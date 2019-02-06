@@ -31,8 +31,9 @@ browsers-generation:
   script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
   - docker build -f ./ChromeDockerfile -t registry.gitlab.com/aweframework/awe/chrome-docker:latest .
-  - docker build -f ./FirefoxDockerfile -t registry.gitlab.com/aweframework/awe/firefox-docker:latest .
   - docker push registry.gitlab.com/aweframework/awe/chrome-docker:latest
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  - docker build -f ./FirefoxDockerfile -t registry.gitlab.com/aweframework/awe/firefox-docker:latest .
   - docker push registry.gitlab.com/aweframework/awe/firefox-docker:latest
 
 maven-build:
