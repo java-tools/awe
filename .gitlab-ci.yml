@@ -1,7 +1,5 @@
 image: docker:latest
-services:
-  - docker:dind
-  
+
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml -B"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
@@ -178,8 +176,7 @@ release:
     - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
   when: manual
   
-dependency_scanning:  
-  image: docker:stable
+dependency_scanning:
   stage: analyze
   variables:
     DOCKER_DRIVER: overlay2
