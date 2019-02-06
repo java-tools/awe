@@ -29,8 +29,11 @@ stages:
 browsers-generation:
   stage: docker
   script:
-    - docker build -f ./ChromeDockerfile -t chrome-docker:latest .
-    - docker build -f ./FirefoxDockerfile -t firefox-docker:latest .
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  - docker build -f ./ChromeDockerfile -t registry.gitlab.com/aweframework/awe/chrome-docker:latest .
+  - docker build -f ./FirefoxDockerfile -t registry.gitlab.com/aweframework/awe/firefox-docker:latest .
+  - docker push registry.gitlab.com/aweframework/awe/chrome-docker:latest
+  - docker push registry.gitlab.com/aweframework/awe/firefox-docker:latest
 
 maven-build:
   image: chrome-docker:latest
