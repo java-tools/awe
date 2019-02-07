@@ -29,6 +29,14 @@ stages:
 - deploy
 - release
 
+.testing:
+  stage: test
+  allow_failure: true
+  artifacts:
+    paths:
+    - awe-boot/target/tests/
+    - awe-boot/target/failsafe-reports/
+
 ##############################
 # Build stage
 ##############################
@@ -57,24 +65,16 @@ maven-build:
 ##############################
 
 test-chrome:
+  extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $CHROME_OPTS
-  stage: test
-  artifacts:
-    paths:
-    - awe-boot/target/tests/
-    - awe-boot/target/failsafe-reports/
 
 test-firefox:
+  extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/firefox-node-maven:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
-  stage: test
-  artifacts:
-    paths:
-    - awe-boot/target/tests/
-    - awe-boot/target/failsafe-reports/
 
 ##############################
 # Analysis stage
