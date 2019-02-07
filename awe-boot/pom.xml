@@ -346,6 +346,8 @@
             <id>pre-integration-test</id>
             <configuration>
               <skip>${skip.selenium}</skip>
+              <wait>1000</wait>
+              <maxAttempts>180</maxAttempts>
             </configuration>
             <goals>
               <goal>start</goal>
