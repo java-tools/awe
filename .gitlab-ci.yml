@@ -61,8 +61,6 @@ maven-build:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
       - awe-boot/target/failsafe-reports/TEST-*.xml
-  cache:
-    untracked: true
 
 ##############################
 # Testing stage
