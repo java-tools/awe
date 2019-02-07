@@ -534,6 +534,9 @@ public class SeleniumTestsUtil {
   protected void doLogin() throws Exception {
     assertNotNull(driver);
 
+    // Set driver timeout
+    driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);
+
     // Open page in different browsers
     driver.get(startURL);
 
