@@ -21,6 +21,7 @@ cache:
   - .m2/repository/
 
 stages:
+- browsers
 - build
 - test
 - analyze
@@ -30,11 +31,33 @@ stages:
 - release
 
 ##############################
+# Browsers stage
+##############################
+
+chrome-build:
+  stage: browsers
+  services:
+  - docker:dind
+  script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  - docker build -f ./ChromeDockerfile -t registry.gitlab.com/aweframework/awe/chrome-node-maven:latest .
+  - docker push registry.gitlab.com/aweframework/awe/chrome-node-maven:latest
+
+firefox-build:
+  stage: browsers
+  services:
+  - docker:dind
+  script:
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  - docker build -f ./FirefoxDockerfile -t registry.gitlab.com/aweframework/awe/firefox-node-maven:latest .
+  - docker push registry.gitlab.com/aweframework/awe/firefox-node-maven:latest
+
+##############################
 # Build stage
 ##############################
 
 maven-build:
-  image: registry.gitlab.com/aweframework/awe/chrome-docker:latest
+  image: registry.gitlab.com/aweframework/awe/chrome-node-maven:latest
   stage: build
   script:
   - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
@@ -55,7 +78,7 @@ maven-build:
 ##############################
 
 test-chrome:
-  image: registry.gitlab.com/aweframework/awe/chrome-docker:latest
+  image: registry.gitlab.com/aweframework/awe/chrome-node-maven:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $CHROME_OPTS
   stage: test
@@ -65,7 +88,7 @@ test-chrome:
     - awe-boot/target/failsafe-reports/
 
 test-firefox:
-  image: registry.gitlab.com/aweframework/awe/firefox-docker:latest
+  image: registry.gitlab.com/aweframework/awe/firefox-node-maven:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
   stage: test
