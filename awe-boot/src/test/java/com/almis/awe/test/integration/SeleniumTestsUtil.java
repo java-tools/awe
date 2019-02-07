@@ -1,6 +1,5 @@
 package com.almis.awe.test.integration;
 
-import com.almis.awe.test.AppBootApplication;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -8,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.*;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -21,8 +19,6 @@ import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -61,11 +57,13 @@ public class SeleniumTestsUtil {
   @Value("${screenshot.path}")
   String screenshotPath;
 
-  Integer currentSnapshot = 1;
+  // Browser
+  String browser;
 
-  @Value("${failsafe.browser:chrome}")
+  @Value("${failsafe.browser:headless-chrome}")
   public void setBrowser(String browser) {
     if (driver == null) {
+      this.browser = browser;
       switch (browser) {
         case "firefox":
           WebDriverManager.firefoxdriver().setup();
@@ -533,6 +531,9 @@ public class SeleniumTestsUtil {
 
   protected void doLogin() throws Exception {
     assertNotNull(driver);
+
+    logger.info("Launching tests with '" + browser + "' browser");
+    System.out.println("Launching tests with '" + browser + "' browser");
 
     // Set driver timeout
     driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);

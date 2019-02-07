@@ -48,6 +48,7 @@
     <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
     <failsafe.suite>**/AllTestsSuiteIT.class</failsafe.suite>
+    <browser>headless-chrome</browser>
     <skip.selenium>true</skip.selenium>
     <skip.junit>false</skip.junit>
     <!-- skip deploy -->
@@ -345,13 +346,6 @@
             <id>pre-integration-test</id>
             <configuration>
               <skip>${skip.selenium}</skip>
-              <arguments>
-                <argument>--integration-test</argument>
-              </arguments>
-              <wait>1000</wait>
-              <maxAttempts>180</maxAttempts>
-              <fork>true</fork>
-              <jvmArguments>${argLine}</jvmArguments>
             </configuration>
             <goals>
               <goal>start</goal>
@@ -458,6 +452,9 @@
               <includes>
                 <include>${failsafe.suite}</include>
               </includes>
+              <systemPropertyVariables>
+                <failsafe.browser>${browser}</failsafe.browser>
+              </systemPropertyVariables>
             </configuration>
           </execution>
         </executions>
@@ -498,18 +495,6 @@
             <configuration>
               <append>true</append>
               <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
-            </configuration>
-          </execution>
-          <execution>
-            <id>prepare-integration-agent</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>prepare-agent-integration</goal>
-            </goals>
-            <configuration>
-              <skip>${skip.selenium}</skip>
-              <!--<append>true</append>
-              <destFile>${jacoco.base.reports}/jacoco.exec</destFile>-->
             </configuration>
           </execution>
         </executions>
@@ -566,6 +551,13 @@
             <version>${jacoco.version}</version>
             <executions>
               <execution>
+                <id>prepare-integration-agent</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>prepare-agent-integration</goal>
+                </goals>
+              </execution>
+              <execution>
                 <id>report-integration</id>
                 <phase>post-integration-test</phase>
                 <goals>
@@ -578,6 +570,39 @@
                   </dataFileIncludes>
                   <outputDirectory>${jacoco.reportPaths}</outputDirectory>
                 </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>repackage</id>
+                <goals>
+                  <goal>repackage</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>pre-integration-test</id>
+                <configuration>
+                  <arguments>
+                    <argument>--integration-test</argument>
+                  </arguments>
+                  <wait>1000</wait>
+                  <maxAttempts>180</maxAttempts>
+                  <fork>true</fork>
+                  <jvmArguments>${argLine}</jvmArguments>
+                </configuration>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>post-integration-test</id>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
               </execution>
             </executions>
           </plugin>

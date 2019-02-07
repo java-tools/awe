@@ -22,7 +22,6 @@
     <sonar.sources>src</sonar.sources>
     <sonar.inclusions>src/main/java/**</sonar.inclusions>
     <sonar.language>java</sonar.language>
-    <sonar.jacoco.reportPath>target</sonar.jacoco.reportPath>
     <performancetest.host>localhost</performancetest.host>
     <performancetest.port>18080</performancetest.port>
     <performancetest.path />
