@@ -36,6 +36,9 @@ stages:
     paths:
     - awe-boot/target/tests/
     - awe-boot/target/failsafe-reports/
+    reports:
+      junit:
+      - awe-boot/target/failsafe-reports/TEST-*.xml
 
 ##############################
 # Build stage
@@ -57,6 +60,7 @@ maven-build:
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
+      - awe-boot/target/failsafe-reports/TEST-*.xml
   cache:
     untracked: true
 
