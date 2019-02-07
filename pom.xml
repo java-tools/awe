@@ -54,6 +54,7 @@
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <skip.selenium>true</skip.selenium>
+    <skip.main>false</skip.main>
   </properties>
 
   <modules>
@@ -81,6 +82,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>${skip.main}</skip>
+        </configuration>
         <executions>
           <execution>
             <id>attach-javadocs</id>
@@ -228,6 +232,7 @@
         <configuration>
           <show>public</show>
           <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
+          <skip>${skip.main}</skip>
         </configuration>
         <reportSets>
           <reportSet>

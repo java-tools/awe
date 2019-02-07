@@ -49,6 +49,7 @@
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
     <failsafe.suite>**/AllTestsSuiteIT.class</failsafe.suite>
     <browser>headless-chrome</browser>
+    <skip.main>false</skip.main>
     <skip.selenium>true</skip.selenium>
     <skip.junit>false</skip.junit>
     <!-- skip deploy -->
@@ -370,6 +371,9 @@
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
         <version>1.6</version>
+        <configuration>
+          <skip>${skip.main}</skip>
+        </configuration>
         <executions>
           <execution>
             <id>install node and yarn</id>
@@ -488,18 +492,9 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>${jacoco.version}</version>
-        <executions>
-          <execution>
-            <id>prepare-agent</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-            <configuration>
-              <append>true</append>
-              <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
-            </configuration>
-          </execution>
-        </executions>
+        <configuration>
+          <skip>${skip.main}</skip>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -520,6 +515,16 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>${jacoco.version}</version>
             <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <configuration>
+                  <append>true</append>
+                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
+                </configuration>
+              </execution>
               <execution>
                 <id>report-aggregate</id>
                 <phase>test</phase>
@@ -552,6 +557,16 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>${jacoco.version}</version>
             <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <configuration>
+                  <append>true</append>
+                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
+                </configuration>
+              </execution>
               <execution>
                 <id>prepare-integration-agent</id>
                 <phase>pre-integration-test</phase>

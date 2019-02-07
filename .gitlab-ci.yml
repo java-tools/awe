@@ -8,8 +8,8 @@ variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml -B"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN"
-  CHROME_OPTS: "-Dskip.junit=true -Dskip.selenium=false -Dbrowser=headless-chrome"
-  FIREFOX_OPTS: "-Dskip.junit=true -Dskip.selenium=false -Dbrowser=headless-firefox"
+  CHROME_OPTS: "-f awe-boot/pom.xml -Dskip.main=true -Dskip.junit=true -Dskip.selenium=false -Dbrowser=headless-chrome"
+  FIREFOX_OPTS: "-f awe-boot/pom.xml -Dskip.main=true -Dskip.junit=true -Dskip.selenium=false -Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
@@ -49,6 +49,9 @@ maven-build:
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
+  cache:
+    paths:
+    - awe-boot/target
 
 ##############################
 # Testing stage
