@@ -32,6 +32,11 @@ stages:
 .testing:
   stage: test
   allow_failure: true
+  retry:
+    max: 2
+    when:
+    - runner_system_failure
+    - stuck_or_timeout_failure
   artifacts:
     paths:
     - awe-boot/target/tests/
