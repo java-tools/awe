@@ -37,7 +37,7 @@ maven-build:
   image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
   stage: build
   script:
-  - mvn $MAVEN_CLI_OPTS clean verify sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+  - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS -Dsonar.branch.name=$CI_COMMIT_REF_NAME
   - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
   artifacts:
     paths:

@@ -452,6 +452,7 @@
             <id>integration-test</id>
             <goals>
               <goal>integration-test</goal>
+              <goal>verify</goal>
             </goals>
             <configuration>
               <skip>${skip.selenium}</skip>
