@@ -1,11 +1,15 @@
+##############################
+# Pipeline definition
+##############################
+
 image: docker:latest
-services:
-  - docker:dind
-  
+
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml -B"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-  SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN"  
+  SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
+  CHROME_OPTS: "-f awe-boot/pom.xml -Dskip.main=true -Dskip.junit=true -Dskip.selenium=false -Dbrowser=headless-chrome"
+  FIREFOX_OPTS: "-f awe-boot/pom.xml -Dskip.main=true -Dskip.junit=true -Dskip.selenium=false -Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
@@ -14,168 +18,225 @@ variables:
 
 cache:
   paths:
-    - .m2/repository/
+  - .m2/repository/
 
 stages:
-    - build
-    - test
-    - analyze
-    - site
-    - package
-    - deploy
-    - release
-    
-maven-build:
-  image: maven:3.5-jdk-8
-  stage: build
-  script:
-    - mvn $MAVEN_CLI_OPTS clean package sonar:sonar -DgenerateAggregationReport=true $SONAR_OPTS
-    - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'    
+- build
+- test
+- analyze
+- site
+- package
+- deploy
+- release
+
+.testing:
+  stage: test
+  allow_failure: true
   artifacts:
     paths:
-      - awe-boot/target/awe-boot.jar
-      - awe-boot/target/surefire-reports/
-      - awe-boot/target/coverage-reports/
+    - awe-boot/target/tests/
+    - awe-boot/target/failsafe-reports/
     reports:
       junit:
-      - awe-boot/target/surefire-reports/TEST-*.xml    
+      - awe-boot/target/failsafe-reports/TEST-*.xml
+
+##############################
+# Build stage
+##############################
+
+maven-build:
+  image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
+  stage: build
+  script:
+  - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
+  - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
+  artifacts:
+    paths:
+    - awe-boot/target/awe-boot.jar
+    - awe-boot/target/tests/
+    - awe-boot/target/surefire-reports/
+    - awe-boot/target/failsafe-reports/
+    - awe-boot/target/coverage-reports/
+    reports:
+      junit:
+      - awe-boot/target/surefire-reports/TEST-*.xml
+      - awe-boot/target/failsafe-reports/TEST-*.xml
+  cache:
+    untracked: true
+
+##############################
+# Testing stage
+##############################
+
+test-chrome:
+  extends: .testing
+  image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
+  script:
+  - mvn $MAVEN_CLI_OPTS verify $CHROME_OPTS
+
+test-firefox:
+  extends: .testing
+  image: registry.gitlab.com/aweframework/docker-tools/firefox-node-maven:latest
+  script:
+  - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
+
+##############################
+# Analysis stage
+##############################
+
+dependency_scanning:
+  stage: analyze
+  services:
+  - docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+  allow_failure: true
+  script:
+  - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
+  - docker run
+      --env DEP_SCAN_DISABLE_REMOTE_CHECKS="${DEP_SCAN_DISABLE_REMOTE_CHECKS:-false}"
+      --volume "$PWD:/code"
+      --volume /var/run/docker.sock:/var/run/docker.sock
+      "registry.gitlab.com/gitlab-org/security-products/dependency-scanning:$SP_VERSION" /code
+  artifacts:
+    reports:
+      dependency_scanning: gl-dependency-scanning-report.json
+
+##############################
+# Site stage
+##############################
 
 site:
   image: maven:3.5-jdk-8
   stage: site
   script:
-    - mvn $MAVEN_CLI_OPTS install site -DskipTests
+  - mvn $MAVEN_CLI_OPTS install site -DskipTests
   artifacts:
     paths:
-      - target/site/apidocs
-      - awe-generic-screens/src/main/resources/schemas/
+    - target/site/apidocs
+    - awe-generic-screens/src/main/resources/schemas/
   only:
-    - master
-      
-docker-build:
+  - master
+
+##############################
+# Package stage
+##############################
+
+package-build:
   stage: package
+  services:
+  - docker:dind
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com  
-    - docker build -t registry.gitlab.com/aweframework/awe/awe-boot ./awe-boot
-    - docker push registry.gitlab.com/aweframework/awe/awe-boot
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  - docker build -t registry.gitlab.com/aweframework/awe/awe-boot ./awe-boot
+  - docker push registry.gitlab.com/aweframework/awe/awe-boot
   only:
-    - develop
-    
+  - develop
+
+##############################
+# Deploy stage
+##############################
+
 deploy:
   image: maven:3.5-jdk-8
   stage: deploy
   script:
-    - mvn $MAVEN_CLI_OPTS deploy -DskipTests      
+  - mvn $MAVEN_CLI_OPTS deploy -DskipTests
   only:
-    - develop
-    
+  - develop
+
 k8s-deploy-staging:
   image: google/cloud-sdk
   stage: deploy
   script:
-    - echo "$GOOGLE_KEY" > key.json
-    - gcloud auth activate-service-account --key-file key.json
-    - gcloud config set compute/zone us-central1-a
-    - gcloud config set project $KUBERNETES_PROJECT_ID
-    - gcloud config set container/use_client_certificate True
-    - gcloud container clusters get-credentials $KUNERNETES_CLUSTER_NAME
-    - kubectl config set-cluster $KUNERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
-    - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-    - kubectl config set-context default-system --cluster=$KUNERNETES_CLUSTER_NAME --user=admin
-    - kubectl config use-context default-system  
-    - kubectl delete secret registry.gitlab.com  
-    - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
-    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-boot/deployment.yaml  
-    - kubectl apply -f awe-boot/deployment.yaml --namespace=staging
+  - echo "$GOOGLE_KEY" > key.json
+  - gcloud auth activate-service-account --key-file key.json
+  - gcloud config set compute/zone us-central1-a
+  - gcloud config set project $KUBERNETES_PROJECT_ID
+  - gcloud config set container/use_client_certificate True
+  - gcloud container clusters get-credentials $KUNERNETES_CLUSTER_NAME
+  - kubectl config set-cluster $KUNERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
+  - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
+  - kubectl config set-context default-system --cluster=$KUNERNETES_CLUSTER_NAME --user=admin
+  - kubectl config use-context default-system
+  - kubectl delete secret registry.gitlab.com
+  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
+  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-boot/deployment.yaml
+  - kubectl apply -f awe-boot/deployment.yaml --namespace=staging
   environment:
     name: staging
     url: http://staging.aweframework.com/awe-boot
   only:
-    - develop
+  - develop
 
 k8s-deploy-production:
   image: google/cloud-sdk
   stage: deploy
   script:
-    - echo "$GOOGLE_KEY" > key.json
-    - gcloud auth activate-service-account --key-file key.json
-    - gcloud config set compute/zone us-central1-a
-    - gcloud config set project $KUBERNETES_PROJECT_ID
-    - gcloud config set container/use_client_certificate True
-    - gcloud container clusters get-credentials $KUNERNETES_CLUSTER_NAME
-    - kubectl config set-cluster $KUNERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
-    - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-    - kubectl config set-context default-system --cluster=$KUNERNETES_CLUSTER_NAME --user=admin
-    - kubectl config use-context default-system  
-    - kubectl delete secret registry.gitlab.com  
-    - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
-    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-boot/deployment.yaml  
-    - kubectl apply -f awe-boot/deployment.yaml --namespace=production
+  - echo "$GOOGLE_KEY" > key.json
+  - gcloud auth activate-service-account --key-file key.json
+  - gcloud config set compute/zone us-central1-a
+  - gcloud config set project $KUBERNETES_PROJECT_ID
+  - gcloud config set container/use_client_certificate True
+  - gcloud container clusters get-credentials $KUNERNETES_CLUSTER_NAME
+  - kubectl config set-cluster $KUNERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
+  - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
+  - kubectl config set-context default-system --cluster=$KUNERNETES_CLUSTER_NAME --user=admin
+  - kubectl config use-context default-system
+  - kubectl delete secret registry.gitlab.com
+  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
+  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-boot/deployment.yaml
+  - kubectl apply -f awe-boot/deployment.yaml --namespace=production
   environment:
     name: production
     url: http://demo.aweframework.com/awe-boot
   when: manual
   only:
-    - master
-    
+  - master
+
 pages:
   stage: deploy
   dependencies:
-    - site
+  - site
   script:
-    - mkdir -p .public/docs/schemas
-    - cp -r target/site/apidocs .public/javadoc-api/
-    - cp -r awe-generic-screens/src/main/resources/schemas/awe/*.xsd .public/docs/schemas/
-    - mv .public public
+  - mkdir -p .public/docs/schemas
+  - cp -r target/site/apidocs .public/javadoc-api/
+  - cp -r awe-generic-screens/src/main/resources/schemas/awe/*.xsd .public/docs/schemas/
+  - mv .public public
   artifacts:
     paths:
-      - public
+    - public
   only:
-    - master
+  - master
+
+##############################
+# Release stage
+##############################
 
 release:
   image: maven:3.5-jdk-8
   stage: release
   before_script:
-    ## Install ssh-agent if not already installed, it is required by Docker.
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    # Use ssh-keyscan to scan the keys of your private server.
-    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-    ## Config git
-    - git config --global user.email no-reply@almis.com
-    - git config --global user.name "Gitlab CI"
-    - git remote set-url $CI_PROJECT_URL_SSH
-    ## Add gpg key to sign
-    - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
+  ## Install ssh-agent if not already installed, it is required by Docker.
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  # Use ssh-keyscan to scan the keys of your private server.
+  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  ## Config git
+  - git config --global user.email no-reply@almis.com
+  - git config --global user.name "Gitlab CI"
+  - git remote set-url $CI_PROJECT_URL_SSH
+  ## Add gpg key to sign
+  - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
   script:
-    - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTestProject=true
-    - git checkout master
-    - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
+  - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTestProject=true
+  - git checkout master
+  - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
   only:
-    - develop
+  - develop
   when: manual
-  
-dependency_scanning:  
-  image: docker:stable
-  stage: analyze
-  variables:
-    DOCKER_DRIVER: overlay2
-  allow_failure: true
-  services:
-    - docker:stable-dind
-  script:
-    - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
-    - docker run
-        --env DEP_SCAN_DISABLE_REMOTE_CHECKS="${DEP_SCAN_DISABLE_REMOTE_CHECKS:-false}"
-        --volume "$PWD:/code"
-        --volume /var/run/docker.sock:/var/run/docker.sock
-        "registry.gitlab.com/gitlab-org/security-products/dependency-scanning:$SP_VERSION" /code
-  artifacts:
-    reports:
-      dependency_scanning: gl-dependency-scanning-report.json

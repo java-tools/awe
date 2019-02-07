@@ -572,8 +572,7 @@
   <query id="ModIni" cacheable="true">
     <table id="AweMod" />
     <field id="IdeMod" alias="value" />
-    <field id="Nam" alias="Nam" />
-    <computed format="[Nam]" alias="label" />
+    <field id="Nam" alias="label" />
     <where>
       <and>
         <filter left-field="IdeMod" condition="eq" right-variable="Nam"/>
