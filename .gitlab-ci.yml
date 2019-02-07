@@ -50,8 +50,7 @@ maven-build:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
   cache:
-    paths:
-    - awe-boot/target
+    untracked: true
 
 ##############################
 # Testing stage
