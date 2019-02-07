@@ -23,20 +23,22 @@ cache:
 stages:
 - build
 - test
-- analyze
 - site
 - package
 - deploy
 - release
 
-.testing:
-  stage: test
-  allow_failure: true
+.retry:
   retry:
     max: 2
     when:
     - runner_system_failure
     - stuck_or_timeout_failure
+
+.testing:
+  extends: .retry
+  stage: test
+  allow_failure: true
   artifacts:
     paths:
     - awe-boot/target/tests/
@@ -50,13 +52,9 @@ stages:
 ##############################
 
 maven-build:
+  extends: .retry
   image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
   stage: build
-  retry:
-    max: 2
-    when:
-    - runner_system_failure
-    - stuck_or_timeout_failure
   script:
   - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
   - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
@@ -88,12 +86,9 @@ test-firefox:
   script:
   - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
 
-##############################
-# Analysis stage
-##############################
-
 dependency_scanning:
-  stage: analyze
+  extends: .retry
+  stage: test
   services:
   - docker:dind
   variables:
@@ -115,6 +110,7 @@ dependency_scanning:
 ##############################
 
 site:
+  extends: .retry
   image: maven:3.5-jdk-8
   stage: site
   script:
@@ -131,6 +127,7 @@ site:
 ##############################
 
 package-build:
+  extends: .retry
   stage: package
   services:
   - docker:dind
@@ -146,6 +143,7 @@ package-build:
 ##############################
 
 deploy:
+  extends: .retry
   image: maven:3.5-jdk-8
   stage: deploy
   script:
@@ -203,6 +201,7 @@ k8s-deploy-production:
   - master
 
 pages:
+  extends: .retry
   stage: deploy
   dependencies:
   - site
