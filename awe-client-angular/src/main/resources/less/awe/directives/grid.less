@@ -218,7 +218,6 @@
     .checkbox {
       width: 15px;
       height: 15px;
-      margin: 0;
       display: inline-block;
       .flex(1);
       .flex-align-self(center);
@@ -235,6 +234,44 @@
         }
       }
     }
+  }
+
+  .pagination {
+    overflow: hidden;
+  }
+
+  .pagination-content {
+    overflow:hidden;
+    padding: 0px !important;
+  }
+
+  .pagination-number {
+    display: inline-block;
+    vertical-align:top;
+  }
+
+  .pagination-goto {
+    height: 23px;
+    width: 28px;
+    padding-left: 2px;
+    border: 1px solid #ddd;
+  }
+
+  input[type="number"][class~="pagination-goto"]::-webkit-outer-spin-button, input[type="number"][class~="pagination-goto"]::-webkit-inner-spin-button {
+    appearance: textfield;
+    margin: 0;
+  }
+
+  .pagination-pager {
+    float: right;
+    overflow:hidden;
+    display: inline-block;
+    background-color: transparent;
+    padding: 0px 7px;
+    font-size: 12px;
+    border-radius: 2px;
+    width: auto;
+    margin-left:15px;
   }
 
   &.grid-sm {
@@ -286,6 +323,20 @@
       padding: 3px 12px 2px 12px;
       line-height: 24px;
       height: 28px;
+    }
+    .pagination-content {
+      line-height: 23px;
+
+      .text-center {
+        display: inline-flex;
+        justify-content: center;
+      }
+    }
+    .grid-buttons {
+      margin: -1px;
+    }
+    .loader {
+      line-height: 26px;
     }
   }
   &.grid-md {
@@ -342,6 +393,18 @@
         line-height: 32px;
       }
     }
+    .pagination-content {
+      .text-center {
+        display: inline-flex;
+        justify-content: center;
+      }
+    }
+    .grid-buttons {
+      margin: -2px;
+    }
+    .loader {
+      line-height: 32px;
+    }
   }
   &.grid-lg {
     font-size: @font-size-large;
@@ -397,77 +460,6 @@
         line-height: 36px;
       }
     }
-  }
-
-  .pagination {
-    overflow: hidden;
-  }
-
-  .pagination-content {
-    overflow:hidden;
-    padding: 0px !important;
-  }
-
-  .pagination-number {
-    display: inline-block;
-    vertical-align:top;
-  }
-
-  .pagination-goto {
-      height: 23px;
-      width: 28px;
-      padding-left: 2px;
-      border: 1px solid #ddd;
-  }
-
-  input[type="number"][class~="pagination-goto"]::-webkit-outer-spin-button, input[type="number"][class~="pagination-goto"]::-webkit-inner-spin-button {
-    appearance: textfield;
-    margin: 0;
-  }
-
-  .pagination-pager {
-    float: right;
-    overflow:hidden;
-    display: inline-block;
-    background-color: transparent;
-    padding: 0px 7px;
-    font-size: 12px;
-    border-radius: 2px;
-    width: auto;
-    margin-left:15px;
-  }
-
-  &.grid-sm {
-    .pagination-content {
-      line-height: 23px;
-
-      .text-center {
-        display: inline-flex;
-        justify-content: center;
-      }
-    }
-    .grid-buttons {
-      margin: -1px;
-    }
-    .loader {
-      line-height: 26px;
-    }
-  }
-  &.grid-md {
-    .pagination-content {
-      .text-center {
-        display: inline-flex;
-        justify-content: center;
-      }
-    }
-    .grid-buttons {
-      margin: -2px;
-    }
-    .loader {
-      line-height: 32px;
-    }
-  }
-  &.grid-lg {
     .pagination-content {
       .text-center {
         display: inline-flex;
