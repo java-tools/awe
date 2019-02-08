@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertNotNull;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
@@ -537,7 +538,7 @@ public class SeleniumTestsUtil {
 
     // Set driver timeout
     driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);
-    driver.manage().timeouts().implicitlyWait(2, SECONDS);
+    driver.manage().timeouts().implicitlyWait(100, MILLISECONDS);
 
     // Open page in different browsers
     driver.get(startURL);
