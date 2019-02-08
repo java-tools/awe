@@ -108,14 +108,14 @@ public class ScreenBuilderTest {
       .setTemplate("full");
     Screen screen = builder.build();
 
-    assertEquals(screen.getHelp(), "HELP");
-    assertEquals(screen.getHelpImage(), "HELP_IMAGE");
-    assertEquals(screen.getKeepCriteria(), "true");
-    assertEquals(screen.getLabel(), "LABEL");
-    assertEquals(screen.getTarget(), "initial_target");
-    assertEquals(screen.getTemplate(), "full");
-    assertEquals(screen.getOnLoad(), "OnLoad");
-    assertEquals(screen.getOnUnload(), "OnUnLoad");
+    assertEquals("HELP", screen.getHelp());
+    assertEquals("HELP_IMAGE", screen.getHelpImage());
+    assertEquals("true", screen.getKeepCriteria());
+    assertEquals("LABEL", screen.getLabel());
+    assertEquals("initial_target", screen.getTarget());
+    assertEquals("full", screen.getTemplate());
+    assertEquals("OnLoad", screen.getOnLoad());
+    assertEquals("OnUnLoad", screen.getOnUnload());
   }
 
   /**
@@ -151,11 +151,11 @@ public class ScreenBuilderTest {
         .setExpandible(Expandible.VERTICAL)
         .setType("div"));
     Screen screen = builder.build();
-    assertEquals(screen.getElementList().get(0).getLabel(), "LABEL");
-    assertEquals(screen.getElementList().get(0).getSource(), Source.CENTER.toString());
-    assertEquals(screen.getElementList().get(0).getStyle(), "expand");
+    assertEquals("LABEL", screen.getElementList().get(0).getLabel());
+    assertEquals(Source.CENTER.toString(), screen.getElementList().get(0).getSource());
+    assertEquals("expand", screen.getElementList().get(0).getStyle());
     assertTrue(Expandible.VERTICAL.equalsStr(screen.getElementList().get(0).getExpand()));
-    assertEquals(screen.getElementList().get(0).getType(), "div");
+    assertEquals("div", screen.getElementList().get(0).getType());
   }
 
   /**
@@ -171,8 +171,8 @@ public class ScreenBuilderTest {
         .setTitle("MESSAGE_TITLE")
         .setMessage("MESSAGE"));
     Screen screen = builder.build();
-    assertEquals(((Message) screen.getElementList().get(0)).getTitle(), "MESSAGE_TITLE");
-    assertEquals(((Message) screen.getElementList().get(0)).getMessage(), "MESSAGE");
+    assertEquals("MESSAGE_TITLE", ((Message) screen.getElementList().get(0)).getTitle());
+    assertEquals("MESSAGE", ((Message) screen.getElementList().get(0)).getMessage());
   }
 
   /**
@@ -194,7 +194,7 @@ public class ScreenBuilderTest {
           .setOnClose(OnClose.ACCEPT)));
 
     Screen screen = builder.build();
-    assertEquals(((Dialog) screen.getElementList().get(0).getElementList().get(0)).getLabel(), "DIALOG_LABEL");
+    assertEquals("DIALOG_LABEL", ((Dialog) screen.getElementList().get(0).getElementList().get(0)).getLabel());
     assertTrue(OnClose.ACCEPT.equalsStr(((Dialog) screen.getElementList().get(0).getElementList().get(0)).getOnClose()));
   }
 
@@ -217,8 +217,8 @@ public class ScreenBuilderTest {
           .setTargetSource("center")));
 
     Screen screen = builder.build();
-    assertEquals(((Include) screen.getElementList().get(0).getElementList().get(0)).getTargetScreen(), "TargetScreen");
-    assertEquals(((Include) screen.getElementList().get(0).getElementList().get(0)).getTargetSource(), "center");
+    assertEquals("TargetScreen", ((Include) screen.getElementList().get(0).getElementList().get(0)).getTargetScreen());
+    assertEquals("center", ((Include) screen.getElementList().get(0).getElementList().get(0)).getTargetSource());
   }
 
   /**
@@ -239,7 +239,7 @@ public class ScreenBuilderTest {
           .setName("ViewName")));
 
     Screen screen = builder.build();
-    assertEquals(((View) screen.getElementList().get(0).getElementList().get(0)).getName(), "ViewName");
+    assertEquals("ViewName", ((View) screen.getElementList().get(0).getElementList().get(0)).getName());
   }
 
   /**
@@ -266,13 +266,13 @@ public class ScreenBuilderTest {
           .setType("div")));
 
     Screen screen = builder.build();
-    assertEquals(((TagList) screen.getElementList().get(0).getElementList().get(0)).getAutoload(), "true");
-    assertEquals(((TagList) screen.getElementList().get(0).getElementList().get(0)).getAutorefresh(), "true");
+    assertEquals("true", ((TagList) screen.getElementList().get(0).getElementList().get(0)).getAutoload());
+    assertEquals("true", ((TagList) screen.getElementList().get(0).getElementList().get(0)).getAutorefresh());
     assertTrue(InitialLoad.QUERY.equalsStr(((TagList) screen.getElementList().get(0).getElementList().get(0)).getInitialLoad()));
-    assertEquals(((TagList) screen.getElementList().get(0).getElementList().get(0)).getMax(), "50");
+    assertEquals("50", ((TagList) screen.getElementList().get(0).getElementList().get(0)).getMax());
     assertTrue(ServerAction.DATA.equalsStr(((TagList) screen.getElementList().get(0).getElementList().get(0)).getServerAction()));
-    assertEquals(((TagList) screen.getElementList().get(0).getElementList().get(0)).getTargetAction(), "TagListTargetAction");
-    assertEquals(screen.getElementList().get(0).getElementList().get(0).getType(), "div");
+    assertEquals("TagListTargetAction", ((TagList) screen.getElementList().get(0).getElementList().get(0)).getTargetAction());
+    assertEquals("div", screen.getElementList().get(0).getElementList().get(0).getType());
   }
 
   /**
@@ -295,9 +295,9 @@ public class ScreenBuilderTest {
           .setLabel("LABEL")));
 
     Screen screen = builder.build();
-    assertEquals(((Resizable) screen.getElementList().get(0).getElementList().get(0)).getDirections(), "left");
-    assertEquals(((Resizable) screen.getElementList().get(0).getElementList().get(0)).getIcon(), "icon");
-    assertEquals(((Resizable) screen.getElementList().get(0).getElementList().get(0)).getLabel(), "LABEL");
+    assertEquals("left", ((Resizable) screen.getElementList().get(0).getElementList().get(0)).getDirections());
+    assertEquals("icon", ((Resizable) screen.getElementList().get(0).getElementList().get(0)).getIcon());
+    assertEquals("LABEL", ((Resizable) screen.getElementList().get(0).getElementList().get(0)).getLabel());
   }
 
   /**
@@ -333,22 +333,22 @@ public class ScreenBuilderTest {
           .setTargetAction("targetAction")));
 
     Screen screen = builder.build();
-    assertEquals(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getAggregationField(), "agg");
+    assertEquals("agg", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getAggregationField());
     assertTrue(Aggregator.AVERAGE.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getAggregator()));
-    assertEquals(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getAutoload(), "true");
-    assertEquals(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getCols(), "3");
-    assertEquals(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getRows(), "4");
-    assertSame(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getDecimalNumbers(), 4);
-    assertEquals(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getDecimalSeparator(), ",");
-    assertEquals(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getThousandSeparator(), ".");
+    assertEquals("true", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getAutoload());
+    assertEquals("3", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getCols());
+    assertEquals("4", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getRows());
+    assertSame(4, ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getDecimalNumbers());
+    assertEquals(",", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getDecimalSeparator());
+    assertEquals(".", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getThousandSeparator());
     assertTrue(Renderer.COL_HEATMAP.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getRenderer()));
     assertTrue(TotalColumnPlacement.LEFT.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getTotalColumnPlacement()));
     assertTrue(TotalRowPlacement.BOTTOM.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getTotalRowPlacement()));
     assertTrue(SortMethod.ABSOLUTE.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getSortMethod()));
     assertTrue(InitialLoad.QUERY.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getInitialLoad()));
-    assertEquals(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getMax(), "50");
+    assertEquals("50", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getMax());
     assertTrue(ServerAction.DATA.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getServerAction()));
-    assertEquals(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getTargetAction(), "targetAction");
+    assertEquals("targetAction", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getTargetAction());
   }
 
   /**
@@ -372,10 +372,10 @@ public class ScreenBuilderTest {
           .setMaximize(true)));
 
     Screen screen = builder.build();
-    assertEquals(((Window) screen.getElementList().get(0).getElementList().get(0)).getIcon(), "icon");
-    assertEquals(((Window) screen.getElementList().get(0).getElementList().get(0)).getLabel(), "LABEL");
-    assertEquals(((Window) screen.getElementList().get(0).getElementList().get(0)).getStyle(), "style");
-    assertEquals(((Window) screen.getElementList().get(0).getElementList().get(0)).getMaximize(), "true");
+    assertEquals("icon", ((Window) screen.getElementList().get(0).getElementList().get(0)).getIcon());
+    assertEquals("LABEL", ((Window) screen.getElementList().get(0).getElementList().get(0)).getLabel());
+    assertEquals("style", ((Window) screen.getElementList().get(0).getElementList().get(0)).getStyle());
+    assertEquals("true", ((Window) screen.getElementList().get(0).getElementList().get(0)).getMaximize());
   }
 
   /**
@@ -398,7 +398,7 @@ public class ScreenBuilderTest {
 
     Screen screen = builder.build();
     assertTrue(MenuType.HORIZONTAL.equalsStr(screen.getElementList().get(0).getElementList().get(0).getType()));
-    assertEquals(screen.getElementList().get(0).getElementList().get(0).getStyle(), "style");
+    assertEquals("style", screen.getElementList().get(0).getElementList().get(0).getStyle());
   }
 
   /**
@@ -422,9 +422,9 @@ public class ScreenBuilderTest {
           .setServerAction(ServerAction.APPLICATION_HELP)));
 
     Screen screen = builder.build();
-    assertEquals(((Frame) screen.getElementList().get(0).getElementList().get(0)).getScreen(), "screen");
-    assertEquals(((Frame) screen.getElementList().get(0).getElementList().get(0)).getScreenVariable(), "var");
-    assertEquals(((Frame) screen.getElementList().get(0).getElementList().get(0)).getScroll(), "true");
+    assertEquals("screen", ((Frame) screen.getElementList().get(0).getElementList().get(0)).getScreen());
+    assertEquals("var", ((Frame) screen.getElementList().get(0).getElementList().get(0)).getScreenVariable());
+    assertEquals("true", ((Frame) screen.getElementList().get(0).getElementList().get(0)).getScroll());
     assertTrue(ServerAction.APPLICATION_HELP.equalsStr(((Frame) screen.getElementList().get(0).getElementList().get(0)).getServerAction()));
   }
 
@@ -453,12 +453,12 @@ public class ScreenBuilderTest {
             .setLabel("OTHER_LABEL"))));
 
     Screen screen = builder.build();
-    assertEquals(((Accordion) screen.getElementList().get(0).getElementList().get(0)).getAutocollapse(), "true");
-    assertEquals(((Accordion) screen.getElementList().get(0).getElementList().get(0)).getSelected(), "selected");
-    assertEquals(((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0)).getId(), "notSelected");
-    assertEquals(((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0)).getLabel(), "LABEL");
-    assertEquals(((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(1)).getId(), "selected");
-    assertEquals(((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(1)).getLabel(), "OTHER_LABEL");
+    assertEquals("true", ((Accordion) screen.getElementList().get(0).getElementList().get(0)).getAutocollapse());
+    assertEquals("selected", ((Accordion) screen.getElementList().get(0).getElementList().get(0)).getSelected());
+    assertEquals("notSelected", ((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0)).getId());
+    assertEquals("LABEL", ((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0)).getLabel());
+    assertEquals("selected", ((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(1)).getId());
+    assertEquals("OTHER_LABEL", ((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(1)).getLabel());
   }
 
   /**
@@ -500,29 +500,29 @@ public class ScreenBuilderTest {
 
     Screen screen = builder.build();
     Button button = (Button) screen.getElementList().get(0).getElementList().get(0);
-    assertEquals(button.getIcon(), "button_icon");
-    assertEquals(button.getSize(), "sm");
-    assertEquals(button.getId(), "button1");
+    assertEquals("button_icon", button.getIcon());
+    assertEquals("sm", button.getSize());
+    assertEquals("button1", button.getId());
 
     ButtonAction buttonAction = (ButtonAction) button.getElementList().get(0);
     assertTrue(ServerAction.MAINTAIN.equalsStr(buttonAction.getServerAction()));
     assertTrue(Action.ADD_CLASS.equalsStr(buttonAction.getType()));
-    assertEquals(buttonAction.getTargetAction(), "targetAction1");
-    assertEquals(buttonAction.getTarget(), "target1");
-    assertEquals(buttonAction.getAsync(), "true");
-    assertEquals(buttonAction.getSilent(), "true");
-    assertEquals(buttonAction.getValue(), "buttonValue1");
-    assertEquals(buttonAction.getScreenContext(), "home");
+    assertEquals("targetAction1", buttonAction.getTargetAction());
+    assertEquals("target1", buttonAction.getTarget());
+    assertEquals("true", buttonAction.getAsync());
+    assertEquals("true", buttonAction.getSilent());
+    assertEquals("buttonValue1", buttonAction.getValue());
+    assertEquals("home", buttonAction.getScreenContext());
 
     buttonAction = (ButtonAction) button.getElementList().get(1);
     assertTrue(ServerAction.MAINTAIN_ASYNC.equalsStr(buttonAction.getServerAction()));
     assertTrue(Action.SERVER.equalsStr(buttonAction.getType()));
-    assertEquals(buttonAction.getTargetAction(), "targetAction2");
-    assertEquals(buttonAction.getTarget(), "target2");
-    assertEquals(buttonAction.getAsync(), "false");
-    assertEquals(buttonAction.getSilent(), "false");
-    assertEquals(buttonAction.getValue(), "buttonValue2");
-    assertEquals(buttonAction.getScreenContext(), "home");
+    assertEquals("targetAction2", buttonAction.getTargetAction());
+    assertEquals("target2", buttonAction.getTarget());
+    assertEquals("false", buttonAction.getAsync());
+    assertEquals("false", buttonAction.getSilent());
+    assertEquals("buttonValue2", buttonAction.getValue());
+    assertEquals("home", buttonAction.getScreenContext());
   }
 
   /**
@@ -631,96 +631,96 @@ public class ScreenBuilderTest {
     Screen screen = builder.build();
     Chart chart = (Chart) screen.getElementList().get(0).getElementList().get(0);
 
-    assertEquals(chart.getStockChart(), "true");
-    assertEquals(chart.getAutoload(), "true");
-    assertEquals(chart.getId(), "chart1");
-    assertEquals(chart.getAutorefresh(), "true");
-    assertEquals(chart.getEnableDataLabels(), "true");
-    assertEquals(chart.getFormatDataLabels(), "formatDataLabels");
+    assertEquals("true", chart.getStockChart());
+    assertEquals("true", chart.getAutoload());
+    assertEquals("chart1", chart.getId());
+    assertEquals("true", chart.getAutorefresh());
+    assertEquals("true", chart.getEnableDataLabels());
+    assertEquals("formatDataLabels", chart.getFormatDataLabels());
     assertTrue(IconLoading.CIRCLEBAR.equalsStr(chart.getIconLoading()));
     assertTrue(Stacking.PERCENT.equalsStr(chart.getStacking()));
-    assertEquals(chart.getInverted(), "true");
-    assertEquals(chart.getMax(), "45");
-    assertEquals(chart.getTheme(), "chartTheme");
-    assertEquals(chart.getVisible(), "false");
-    assertEquals(chart.getSubTitle(), "SUBTITLE");
+    assertEquals("true", chart.getInverted());
+    assertEquals("45", chart.getMax());
+    assertEquals("chartTheme", chart.getTheme());
+    assertEquals("false", chart.getVisible());
+    assertEquals("SUBTITLE", chart.getSubTitle());
     assertEquals(chart.getType(), ChartType.BUBBLE.toString());
     assertTrue(ChartAxis.Y_AXIS.equalsStr(chart.getZoomType()));
 
     ChartLegend chartLegend = chart.getChartLegend();
     assertTrue(ChartLayout.HORIZONTAL.equalsStr(chartLegend.getLayout()));
     assertTrue(Align.CENTER.equalsStr(chartLegend.getAlign()));
-    assertEquals(chartLegend.getEnabled(), "true");
-    assertEquals(chartLegend.getFloating(), "true");
-    assertEquals(chartLegend.getBorderWidth(), "2");
+    assertEquals("true", chartLegend.getEnabled());
+    assertEquals("true", chartLegend.getFloating());
+    assertEquals("2", chartLegend.getBorderWidth());
 
     ChartTooltip chartTooltip = chart.getChartTooltip();
     assertTrue(ChartAxis.ALL.equalsStr(chartTooltip.getCrosshairs()));
-    assertEquals(chartTooltip.getEnabled(), "true");
-    assertEquals(chartTooltip.getNumberDecimals(), "4");
-    assertEquals(chartTooltip.getPointFormat(), "pointFormat");
-    assertEquals(chartTooltip.getPreffix(), "pre");
-    assertEquals(chartTooltip.getSuffix(), "post");
-    assertEquals(chartTooltip.getDateFormat(), "yyyymmdd");
-    assertEquals(chartTooltip.getShared(), "true");
+    assertEquals("true", chartTooltip.getEnabled());
+    assertEquals("4", chartTooltip.getNumberDecimals());
+    assertEquals("pointFormat", chartTooltip.getPointFormat());
+    assertEquals("pre", chartTooltip.getPreffix());
+    assertEquals("post", chartTooltip.getSuffix());
+    assertEquals("yyyymmdd", chartTooltip.getDateFormat());
+    assertEquals("true", chartTooltip.getShared());
 
     ChartParameter chartParameter = (ChartParameter) chart.getElementList().get(0);
     assertTrue(DataType.DOUBLE.equalsStr(chartParameter.getType()));
-    assertEquals(chartParameter.getName(), "parameterName");
-    assertEquals(chartParameter.getValue(), "0.1213");
+    assertEquals("parameterName", chartParameter.getName());
+    assertEquals("0.1213", chartParameter.getValue());
     assertEquals(0.1213, chartParameter.getParameterValue(JsonNodeFactory.instance.objectNode()).asDouble(), 0.01);
 
     ChartSerie chartSerie = (ChartSerie) chart.getElementList().get(1);
-    assertEquals(chartSerie.getColor(), "red");
-    assertEquals(chartSerie.getDrillDown(), "true");
-    assertEquals(chartSerie.getxAxis(), "xAxis");
-    assertEquals(chartSerie.getyAxis(), "yAxis");
-    assertEquals(chartSerie.getxValue(), "x");
-    assertEquals(chartSerie.getyValue(), "y");
-    assertEquals(chartSerie.getzValue(), "z");
-    assertEquals(chartSerie.getDrillDownSerie(), "drilldownSerie");
+    assertEquals("red", chartSerie.getColor());
+    assertEquals("true", chartSerie.getDrillDown());
+    assertEquals("xAxis", chartSerie.getxAxis());
+    assertEquals("yAxis", chartSerie.getyAxis());
+    assertEquals("x", chartSerie.getxValue());
+    assertEquals("y", chartSerie.getyValue());
+    assertEquals("z", chartSerie.getzValue());
+    assertEquals("drilldownSerie", chartSerie.getDrillDownSerie());
 
     ContextButton contextButton = (ContextButton) chart.getElementList().get(2);
-    assertEquals(contextButton.getLabel(), "LABEL");
+    assertEquals("LABEL", contextButton.getLabel());
     assertTrue(ButtonType.BUTTON.equalsStr(contextButton.getType()));
-    assertEquals(contextButton.getIcon(), "icon");
-    assertEquals(contextButton.getSize(), "sm");
-    assertEquals(contextButton.getValue(), "value");
+    assertEquals("icon", contextButton.getIcon());
+    assertEquals("sm", contextButton.getSize());
+    assertEquals("value", contextButton.getValue());
 
     ContextSeparator contextSeparator = (ContextSeparator) chart.getElementList().get(3);
     Dependency dependency = (Dependency) chart.getElementList().get(4);
-    assertEquals(dependency.getFormule(), "formule");
-    assertEquals(dependency.getInitial(), "true");
-    assertEquals(dependency.getInvert(), "true");
-    assertEquals(dependency.getLabel(), "LABEL");
+    assertEquals("formule", dependency.getFormule());
+    assertEquals("true", dependency.getInitial());
+    assertEquals("true", dependency.getInvert());
+    assertEquals("LABEL", dependency.getLabel());
     assertTrue(ServerAction.CONTROL.equalsStr(dependency.getServerAction()));
     assertTrue(SourceType.QUERY.equalsStr(dependency.getSourceType()));
     assertTrue(TargetType.ATTRIBUTE.equalsStr(dependency.getTargetType()));
     assertTrue(DependencyType.AND.equalsStr(dependency.getType()));
-    assertEquals(dependency.getValue(), "value");
+    assertEquals("value", dependency.getValue());
 
     DependencyAction dependencyAction = (DependencyAction) dependency.getElementList().get(0);
     assertTrue(ServerAction.GET_SERVER_FILE.equalsStr(dependencyAction.getServerAction()));
-    assertEquals(dependencyAction.getTargetAction(), "TargetAction");
-    assertEquals(dependencyAction.getTarget(), "target");
-    assertEquals(dependencyAction.getAsync(), "true");
-    assertEquals(dependencyAction.getScreenContext(), "context");
+    assertEquals("TargetAction", dependencyAction.getTargetAction());
+    assertEquals("target", dependencyAction.getTarget());
+    assertEquals("true", dependencyAction.getAsync());
+    assertEquals("context", dependencyAction.getScreenContext());
     assertTrue(DependencyActionType.ADD_ROW.equalsStr(dependencyAction.getType()));
-    assertEquals(dependencyAction.getSilent(), "true");
-    assertEquals(dependencyAction.getValue(), "value");
+    assertEquals("true", dependencyAction.getSilent());
+    assertEquals("value", dependencyAction.getValue());
 
     DependencyElement dependencyElement = (DependencyElement) dependency.getElementList().get(1);
-    assertEquals(dependencyElement.getAlias(), "alias");
-    assertEquals(dependencyElement.getId(), "id");
-    assertEquals(dependencyElement.getCancel(), "false");
+    assertEquals("alias", dependencyElement.getAlias());
+    assertEquals("id", dependencyElement.getId());
+    assertEquals("false", dependencyElement.getCancel());
     assertTrue(Attribute.CURRENT_ROW_VALUE.equalsStr(dependencyElement.getAttribute()));
-    assertEquals(dependencyElement.getColumn(), "column");
-    assertEquals(dependencyElement.getView(), com.almis.awe.builder.enumerates.View.REPORT.toString());
-    assertEquals(dependencyElement.getEvent(), Event.AFTER_ADD_ROW.toString());
+    assertEquals("column", dependencyElement.getColumn());
+    assertEquals(com.almis.awe.builder.enumerates.View.REPORT.toString(), dependencyElement.getView());
+    assertEquals(Event.AFTER_ADD_ROW.toString(), dependencyElement.getEvent());
     assertTrue(Condition.EQUALS.equalsStr(dependencyElement.getCondition()));
     assertTrue(Attribute.EDITABLE.equalsStr(dependencyElement.getAttribute2()));
-    assertEquals(dependencyElement.getColumn2(), "column2");
-    assertEquals(dependencyElement.getId2(), "id2");
+    assertEquals("column2", dependencyElement.getColumn2());
+    assertEquals("id2", dependencyElement.getId2());
   }
 
   /**
@@ -788,16 +788,16 @@ public class ScreenBuilderTest {
     assertEquals("true", criterion.getCheckEmpty());
     assertEquals("true", criterion.getCheckInitial());
     assertEquals("checkTarget", criterion.getCheckTarget());
-    assertEquals(Component.CHECKBOX.toString(), criterion.getComponentType());
+    assertEquals(criterion.getComponentType(), Component.CHECKBOX.toString());
     assertEquals("dd/mm/yyyy", criterion.getDateFormat());
     assertEquals("true", criterion.getShowTodayButton());
-    assertEquals(DateViewMode.MONTHS.toString(), criterion.getDateViewMode());
+    assertEquals(criterion.getDateViewMode(), DateViewMode.MONTHS.toString());
     assertEquals("destination", criterion.getDestination());
     assertEquals("group", criterion.getGroup());
     assertEquals("leftLabel", criterion.getLeftLabel());
     assertEquals("numberFormat", criterion.getNumberFormat());
     assertEquals("placeholder", criterion.getPlaceholder());
-    assertEquals(Printable.EXCEL.toString(), criterion.getPrintable());
+    assertEquals(criterion.getPrintable(), Printable.EXCEL.toString());
     assertEquals("true", criterion.getReadonly());
     assertEquals("true", criterion.getStrict());
     assertEquals("proper.ty", criterion.getProperty());
@@ -888,53 +888,53 @@ public class ScreenBuilderTest {
     GroupHeader header = grid.getGroupHeaderModel().get(0);
     Column column = (Column) header.getElementList().get(0);
 
-    assertEquals(grid.isTreegrid(), true);
-    assertEquals(grid.getAutoload(), "true");
-    assertEquals(grid.getAutorefresh(), "true");
-    assertEquals(grid.getCheckboxMultiselect(), "true");
-    assertEquals(grid.getEditable(), "true");
-    assertEquals(grid.getExpandColumn(), "name");
-    assertEquals(grid.getIconCollapse(), "iconCollapse");
-    assertEquals(grid.getIconLeaf(), "iconLeaf");
-    assertEquals(grid.getIconLoading(), IconLoading.CIRCLES.toString());
-    assertEquals(grid.getInitialLevel(), "2");
-    assertEquals(grid.getInitialLoad(), InitialLoad.QUERY.toString());
-    assertEquals(grid.getMultiselect(), "true");
-    assertEquals(grid.getName(), "grid1");
-    assertEquals(grid.getPagerValues(), "10,20,30");
-    assertEquals(grid.getDisablePagination(), "true");
-    assertEquals(grid.getRowNumbers(), "true");
-    assertEquals(grid.getSendAll(), "true");
-    assertEquals(grid.getSendOperations(), "false");
-    assertEquals(grid.getServerAction(), ServerAction.DATA.toString());
-    assertEquals(grid.getTargetAction(), "lalal");
-    assertEquals(grid.isValidateOnSave(), true);
-    assertEquals(grid.getTreeId(), "treeId");
-    assertEquals(grid.getLoadAll(), "true");
-    assertEquals(grid.getShowTotals(), "true");
-    assertEquals(grid.getTreeLeaf(), "treeLeaf");
+    assertEquals(true, grid.isTreegrid());
+    assertEquals("true", grid.getAutoload());
+    assertEquals("true", grid.getAutorefresh());
+    assertEquals("true", grid.getCheckboxMultiselect());
+    assertEquals("true", grid.getEditable());
+    assertEquals("name", grid.getExpandColumn());
+    assertEquals("iconCollapse", grid.getIconCollapse());
+    assertEquals("iconLeaf", grid.getIconLeaf());
+    assertEquals(IconLoading.CIRCLES.toString(), grid.getIconLoading());
+    assertEquals("2", grid.getInitialLevel());
+    assertEquals(InitialLoad.QUERY.toString(), grid.getInitialLoad());
+    assertEquals("true", grid.getMultiselect());
+    assertEquals("grid1", grid.getName());
+    assertEquals("10,20,30", grid.getPagerValues());
+    assertEquals("true", grid.getDisablePagination());
+    assertEquals("true", grid.getRowNumbers());
+    assertEquals("true", grid.getSendAll());
+    assertEquals("false", grid.getSendOperations());
+    assertEquals(ServerAction.DATA.toString(), grid.getServerAction());
+    assertEquals("lalal", grid.getTargetAction());
+    assertEquals(true, grid.isValidateOnSave());
+    assertEquals("treeId", grid.getTreeId());
+    assertEquals("true", grid.getLoadAll());
+    assertEquals("true", grid.getShowTotals());
+    assertEquals("treeLeaf", grid.getTreeLeaf());
 
-    assertEquals(header.getLabel(), "LABEL1");
+    assertEquals("LABEL1", header.getLabel());
 
-    assertEquals(column.getIcon(), "criterion_icon");
-    assertEquals(column.getAutorefresh(), "true");
-    assertEquals(column.getChecked(), "true");
-    assertEquals(column.getCheckInitial(), "true");
-    assertEquals(column.getComponentType(), Component.CHECKBOX.toString());
-    assertEquals(column.getDateFormat(), "dd/mm/yyyy");
-    assertEquals(column.getShowTodayButton(), "true");
-    assertEquals(column.getDateViewMode(), DateViewMode.MONTHS.toString());
-    assertEquals(column.getNumberFormat(), "numberFormat");
-    assertEquals(column.getPrintable(), Printable.EXCEL.toString());
-    assertEquals(column.getReadonly(), "true");
-    assertEquals(column.getStrict(), "true");
-    assertEquals(column.getShowFutureDates(), "true");
-    assertEquals(column.getShowWeekends(), "true");
-    assertEquals(column.getUnit(), "unit1");
-    assertEquals(column.getValidation(), "required");
-    assertEquals(column.getVisible(), "true");
-    assertEquals(column.getOptional(), "true");
-    assertEquals(column.getValue(), "asada");
+    assertEquals("criterion_icon", column.getIcon());
+    assertEquals("true", column.getAutorefresh());
+    assertEquals("true", column.getChecked());
+    assertEquals("true", column.getCheckInitial());
+    assertEquals(Component.CHECKBOX.toString(), column.getComponentType());
+    assertEquals("dd/mm/yyyy", column.getDateFormat());
+    assertEquals("true", column.getShowTodayButton());
+    assertEquals(DateViewMode.MONTHS.toString(), column.getDateViewMode());
+    assertEquals("numberFormat", column.getNumberFormat());
+    assertEquals(Printable.EXCEL.toString(), column.getPrintable());
+    assertEquals("true", column.getReadonly());
+    assertEquals("true", column.getStrict());
+    assertEquals("true", column.getShowFutureDates());
+    assertEquals("true", column.getShowWeekends());
+    assertEquals("unit1", column.getUnit());
+    assertEquals("required", column.getValidation());
+    assertEquals("true", column.getVisible());
+    assertEquals("true", column.getOptional());
+    assertEquals("asada", column.getValue());
   }
 
   /**
@@ -966,13 +966,13 @@ public class ScreenBuilderTest {
     Info info = (Info) screen.getElementList().get(0).getElementList().get(0);
     InfoButton infoButton = (InfoButton) info.getElementList().get(0);
     InfoCriteria infoCriteria = (InfoCriteria) info.getElementList().get(1);
-    assertEquals(info.getDropdownStyle(), "popup");
-    assertEquals(info.getName(), "tutu");
-    assertEquals(infoButton.getInfoStyle(), "infoStyle");
-    assertEquals(infoButton.getType(), "button");
-    assertEquals(infoCriteria.getInfoStyle(), "infoStyle2");
-    assertEquals(infoCriteria.getTitle(), "title");
-    assertEquals(infoCriteria.getType(), "criteriaType");
+    assertEquals("popup", info.getDropdownStyle());
+    assertEquals("tutu", info.getName());
+    assertEquals("infoStyle", infoButton.getInfoStyle());
+    assertEquals("button", infoButton.getType());
+    assertEquals("infoStyle2", infoCriteria.getInfoStyle());
+    assertEquals("title", infoCriteria.getTitle());
+    assertEquals("criteriaType", infoCriteria.getType());
   }
 
   /**
@@ -1000,11 +1000,11 @@ public class ScreenBuilderTest {
     Screen screen = builder.build();
     Tab tab = (Tab) screen.getElementList().get(0).getElementList().get(0);
     TabContainer tabContainer = (TabContainer) tab.getElementList().get(0);
-    assertEquals(tab.getInitialLoad(), InitialLoad.ENUMERATED.toString());
-    assertEquals(tab.getMaximize(), "true");
-    assertEquals(tab.getId(), "tab1");
-    assertEquals(tabContainer.getLabel(), "LABEL");
-    assertEquals(tabContainer.getType(), "div");
+    assertEquals(InitialLoad.ENUMERATED.toString(), tab.getInitialLoad());
+    assertEquals("true", tab.getMaximize());
+    assertEquals("tab1", tab.getId());
+    assertEquals("LABEL", tabContainer.getLabel());
+    assertEquals("div", tabContainer.getType());
   }
 
   /**
@@ -1032,11 +1032,11 @@ public class ScreenBuilderTest {
     Screen screen = builder.build();
     Widget widget = (Widget) screen.getElementList().get(0).getElementList().get(0);
     WidgetParameter widgetParameter = (WidgetParameter) widget.getElementList().get(0);
-    assertEquals(widget.getComponentType(), WidgetComponent.FILE_VIEWER.toString());
-    assertEquals(widget.getStyle(), "widgetStyle");
-    assertEquals(widget.getId(), "widget1");
-    assertEquals(widgetParameter.getValue(), "12,24");
-    assertEquals(widgetParameter.getType(), DataType.ARRAY.toString());
+    assertEquals(WidgetComponent.FILE_VIEWER.toString(), widget.getComponentType());
+    assertEquals("widgetStyle", widget.getStyle());
+    assertEquals("widget1", widget.getId());
+    assertEquals("12,24", widgetParameter.getValue());
+    assertEquals(DataType.ARRAY.toString(), widgetParameter.getType());
   }
 
   /**
@@ -1063,9 +1063,9 @@ public class ScreenBuilderTest {
     Screen screen = builder.build();
     Wizard wizard = (Wizard) screen.getElementList().get(0).getElementList().get(0);
     WizardPanel wizardPanel = (WizardPanel) wizard.getElementList().get(0);
-    assertEquals(wizard.getInitialLoad(), InitialLoad.ENUMERATED.toString());
-    assertEquals(wizard.getId(), "tab1");
-    assertEquals(wizardPanel.getLabel(), "LABEL");
-    assertEquals(wizardPanel.getType(), "div");
+    assertEquals(InitialLoad.ENUMERATED.toString(), wizard.getInitialLoad());
+    assertEquals("tab1", wizard.getId());
+    assertEquals("LABEL", wizardPanel.getLabel());
+    assertEquals("div", wizardPanel.getType());
   }
 }
