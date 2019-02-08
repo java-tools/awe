@@ -23,17 +23,14 @@ cache:
 stages:
 - build
 - test
+- analysis
 - site
 - package
 - deploy
 - release
 
 .retry:
-  retry:
-    max: 2
-    when:
-    - runner_system_failure
-    - stuck_or_timeout_failure
+  retry: 2
 
 .testing:
   extends: .retry
@@ -86,9 +83,13 @@ test-firefox:
   script:
   - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
 
+##############################
+# Analysis stage
+##############################
+
 dependency_scanning:
   extends: .retry
-  stage: test
+  stage: analysis
   services:
   - docker:dind
   variables:
