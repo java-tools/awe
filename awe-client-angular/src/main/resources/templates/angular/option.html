@@ -1,4 +1,4 @@
-<li class="{{::getStaticOptionClasses()}}" ng-class="getOptionClasses()" ng-cloak>
+<li class="awe-option {{::getStaticOptionClasses()}}" ng-class="getOptionClasses()" ng-cloak>
   <a ng-if="::!controller.separator" title="{{::optionTitle| translateMultiple}}" name="{{::optionName}}" class="{{::optionStyle}}"
      ng-click="optionClick()">
     <i ng-if="::optionIcon" class="menu-icon fa fa-{{::optionIcon}}"></i>

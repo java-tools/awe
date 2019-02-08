@@ -36,6 +36,7 @@ stages:
   extends: .retry
   stage: test
   allow_failure: true
+  timeout: 20
   artifacts:
     paths:
     - awe-boot/target/tests/

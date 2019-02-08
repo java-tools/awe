@@ -1,5 +1,5 @@
 <div class="chart expand {{::controller.style}}" ng-show="controller.visible" ui-dependency="dependencies" ng-cloak>
   <div class="chart-container" ui-chart="chartOptions" ng-model="component.model.values"></div>
   <awe-context-menu ng-cloak></awe-context-menu>
-  <awe-loader class="chart-loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+  <awe-loader class="loader chart-loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
 </div>
