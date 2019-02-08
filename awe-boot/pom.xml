@@ -45,7 +45,9 @@
     <jacoco.reportPaths>${jacoco.base.reports}/coverage-reports</jacoco.reportPaths>
     <sonar.skip>true</sonar.skip>
     <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
-    <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
+    <sonar.junit.reportPath>target/surefire-reports</sonar.junit.reportPath>
+    <sonar.failsafe.reportPath>target/failsafe-reports</sonar.failsafe.reportPath>
+    <sonar.jacoco.reportPaths>target/jacoco.exec,target/jacoco-it.exec</sonar.jacoco.reportPaths>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
     <failsafe.suite>**/AllTestsSuiteIT.class</failsafe.suite>
     <browser>headless-chrome</browser>
