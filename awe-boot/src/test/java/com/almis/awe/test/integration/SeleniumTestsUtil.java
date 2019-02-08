@@ -537,6 +537,7 @@ public class SeleniumTestsUtil {
 
     // Set driver timeout
     driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);
+    driver.manage().timeouts().implicitlyWait(2, SECONDS);
 
     // Open page in different browsers
     driver.get(startURL);
