@@ -74,6 +74,7 @@ test-chrome:
   image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $CHROME_OPTS
+  - chmod +x ./check-tests.sh
   - ./check-tests.sh
 
 test-firefox:
@@ -81,6 +82,7 @@ test-firefox:
   image: registry.gitlab.com/aweframework/docker-tools/firefox-node-maven:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
+  - chmod +x ./check-tests.sh
   - ./check-tests.sh
 
 ##############################
