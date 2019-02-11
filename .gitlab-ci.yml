@@ -17,6 +17,7 @@ variables:
   KUNERNETES_CLUSTER_NAME: awe-selenium-testing
 
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
   - .m2/repository/
 
