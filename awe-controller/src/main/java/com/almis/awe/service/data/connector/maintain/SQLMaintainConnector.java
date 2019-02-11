@@ -113,7 +113,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     while (hasNext(query, indexMaintain, false, parameterMap)) {
       if (isBatch) {
         // If operation is batched
-        queryBuilt = launchBatchOperation(indexMaintain, builder, maintainOut, query, true, false);
+        queryBuilt = launchBatchOperation(indexMaintain, queryBuilt, builder, maintainOut, query, true, false);
       } else {
         // Operation is not batched
         queryBuilt = launchSingleOperation(indexMaintain, builder, maintainOut, query, true, false);
@@ -122,7 +122,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
       if (auditResults(query, maintainOut)) {
         if (isBatch) {
           // If operation is batched
-          auditQueryBuilt = launchBatchOperation(indexMaintain, builder, maintainOut, query, true, true);
+          auditQueryBuilt = launchBatchOperation(indexMaintain, auditQueryBuilt, builder, maintainOut, query, true, true);
         } else {
           // Operation is not batched
           auditQueryBuilt = launchSingleOperation(indexMaintain, builder, maintainOut, query, true, true);
@@ -158,9 +158,9 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     boolean auditActive = audit && query.getAuditTable() != null;
     long rowsAffected = 0;
     for (MaintainResultDetails resultDetails : maintainOut.getResultDetails()) {
-      rowsAffected += resultDetails.getRowsAffected();
+      rowsAffected = resultDetails.getRowsAffected();
     }
-    return auditActive && rowsAffected > 0;
+    return auditActive && (query.isBatch() || rowsAffected > 0);
   }
 
   /**
@@ -219,7 +219,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
       while (hasNext(query, indexAudit, true, parameterMap)) {
         if (isBatch) {
           // If operation is batched
-          auditQueryBuilt = launchBatchOperation(indexAudit, builder, maintainOut, query, false, true);
+          auditQueryBuilt = launchBatchOperation(indexAudit, auditQueryBuilt, builder, maintainOut, query, false, true);
 
         } else {
           // Operation is not batched
@@ -299,6 +299,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
   /**
    * Launch batch operation
    * @param index Index audit
+   * @param queryBuilt Query built
    * @param builder Maintain builder
    * @param maintainOut Maintain output
    * @param query Maintain query
@@ -306,14 +307,12 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
    * @throws AWException
    * @return Query built
    */
-  private AbstractSQLClause<?> launchBatchOperation(int index, SQLMaintainBuilder builder, ServiceData maintainOut, MaintainQuery query, boolean addIndex, boolean isAudit) throws AWException {
+  private AbstractSQLClause<?> launchBatchOperation(int index, AbstractSQLClause<?> queryBuilt, SQLMaintainBuilder builder, ServiceData maintainOut, MaintainQuery query, boolean addIndex, boolean isAudit) throws AWException {
     Long rowsUpdated;
 
     // Batch block
     Integer batchBlock = Integer.valueOf(batchMax);
-
-    // Define query built
-    AbstractSQLClause<?> queryBuilt = null;
+    MaintainType maintainType = isAudit ? MaintainType.AUDIT : query.getMaintainType();
 
     // If this is the first operation of the batch, generate the initial definition
     if (index % batchBlock == 0) {
@@ -327,6 +326,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
       queryBuilt = builder.build();
     }
+
     // Build query given the initial definition
     builder.setAudit(isAudit)
       .setOperation(MaintainBuildOperation.BATCH_INCREASING_ELEMENTS)
@@ -340,13 +340,13 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     queryBuilt = builder.build();
 
     // Add to batch
-    addBatch(queryBuilt, query.getMaintainType());
+    addBatch(queryBuilt, maintainType);
 
     // If this is the last operation of the batch, launch it
     if ((index + 1) % batchBlock == 0) {
       // Launch as single operation
       rowsUpdated = launchAsSingleOperation(queryBuilt, index, isAudit, query.getId());
-      maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(builder.getVariables())));
+      maintainOut.addResultDetails(new MaintainResultDetails(maintainType, rowsUpdated, new HashMap<>(builder.getVariables())));
 
       queryBuilt = null;
     }
@@ -366,6 +366,8 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
    * @throws AWException
    */
   private AbstractSQLClause<?> launchSingleOperation(Integer index, SQLMaintainBuilder builder, ServiceData maintainOut, MaintainQuery query, boolean addIndex, boolean isAudit) throws AWException {
+    MaintainType maintainType = isAudit ? MaintainType.AUDIT : query.getMaintainType();
+
     // Build query
     builder.setAudit(isAudit)
       .setOperation(MaintainBuildOperation.NO_BATCH);
@@ -378,7 +380,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
     // Launch as single operation
     Long rowsUpdated = launchAsSingleOperation(queryBuilt, index, true, query.getId());
-    maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(builder.getVariables())));
+    maintainOut.addResultDetails(new MaintainResultDetails(maintainType, rowsUpdated, new HashMap<>(builder.getVariables())));
 
     // Restore query's initial definition
     return null;
