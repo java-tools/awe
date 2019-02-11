@@ -30,9 +30,11 @@ stages:
 - deploy
 - release
 
+# Retry extension
 .retry:
   retry: 2
 
+# Testing extension
 .testing:
   extends: .retry
   stage: test
