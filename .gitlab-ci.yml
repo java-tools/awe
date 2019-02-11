@@ -41,7 +41,7 @@ stages:
   allow_failure: true
   after_script:
   - errors=`cat "${1:-/dev/stdin}" | grep 'errors\=\"[^\"]*' | grep 'failures\=\"[^\"]*' | sed -e 's/.*errors="//g' | sed -e 's/\"\s*skipped="[^\"]*"\s*failures="/\t/g' | sed -e 's/">//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
-  - echo "Were there errors? ${errors}."
+  - echo "Were there errors? $errors"
   - exit $errors
   artifacts:
     paths:
