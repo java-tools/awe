@@ -37,6 +37,8 @@ stages:
   extends: .retry
   stage: test
   allow_failure: true
+  after_script:
+  - exit `cat "${1:-/dev/stdin}" | grep 'errors\=\"[^\"]*' | grep 'failures\=\"[^\"]*' | sed -e 's/.*errors="//g' | sed -e 's/\"\s*skipped="[^\"]*"\s*failures="/\t/g' | sed -e 's/">//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
   artifacts:
     paths:
     - awe-boot/target/tests/
@@ -75,16 +77,12 @@ test-chrome:
   image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $CHROME_OPTS
-  - chmod +x ./check-tests.sh
-  - ./check-tests.sh
 
 test-firefox:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/firefox-node-maven:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
-  - chmod +x ./check-tests.sh
-  - ./check-tests.sh
 
 ##############################
 # Analysis stage
