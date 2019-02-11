@@ -43,10 +43,10 @@
 
     <!-- Sonar configuration -->
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-    <sonar.links.homepage>https://git.almis.com/isban-market-risk/fx-blotter</sonar.links.homepage>
-    <sonar.links.ci>https://gitlab.com/awe-team/awe/pipelines</sonar.links.ci>
-    <sonar.links.issue>https://gitlab.com/awe-team/awe/issues</sonar.links.issue>
-    <sonar.links.scm>https://gitlab.com/awe-team/awe.git</sonar.links.scm>
+    <sonar.links.homepage>https://gitlab.com/aweframework/awe</sonar.links.homepage>
+    <sonar.links.ci>https://gitlab.com/aweframework/awe/pipelines</sonar.links.ci>
+    <sonar.links.issue>https://gitlab.com/aweframework/awe/issues</sonar.links.issue>
+    <sonar.links.scm>https://gitlab.com/aweframework/awe.git</sonar.links.scm>
     <sonar.junit.reportPath>${jacoco.base.reports}/surefire-reports</sonar.junit.reportPath>
     <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
     <sonar.java.source>${java.version}</sonar.java.source>
