@@ -39,10 +39,10 @@ stages:
   artifacts:
     paths:
     - awe-boot/target/tests/
-    - awe-boot/target/failsafe-reports/
+    - awe-boot/target/surefire-reports/
     reports:
       junit:
-      - awe-boot/target/failsafe-reports/TEST-*.xml
+      - awe-boot/target/surefire-reports/TEST-*.xml
 
 ##############################
 # Build stage
@@ -60,12 +60,10 @@ maven-build:
     - awe-boot/target/awe-boot.jar
     - awe-boot/target/tests/
     - awe-boot/target/surefire-reports/
-    - awe-boot/target/failsafe-reports/
     - awe-boot/target/coverage-reports/
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
-      - awe-boot/target/failsafe-reports/TEST-*.xml
 
 ##############################
 # Testing stage

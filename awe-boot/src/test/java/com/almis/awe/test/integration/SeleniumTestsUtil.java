@@ -344,18 +344,22 @@ public class SeleniumTestsUtil {
   }
 
   protected void waitForButton(String buttonName) {
+    // Safecheck
+    Integer safecheck = 0;
+
     // Wait for element visible
     waitUntil(elementToBeClickable(By.cssSelector("#" + buttonName + ":not([disabled])")));
 
     // Move mouse while help is being displayed
     List<WebElement> popovers = driver.findElements(By.cssSelector(".popover:not(.ng-hide)"));
-    while (popovers.size() > 0) {
+    while (popovers.size() > 0 && safecheck < 5) {
       WebElement element = popovers.get(0);
       new Actions(driver)
         .moveByOffset(30, 30)
         .build()
         .perform();
       popovers = driver.findElements(By.cssSelector(".popover:not(.ng-hide)"));
+      safecheck++;
     }
   }
 
@@ -460,6 +464,9 @@ public class SeleniumTestsUtil {
   }
 
   protected void suggestMultiple(String criterionName, String search, String label, boolean isColumn) {
+    // Safecheck
+    Integer safecheck = 0;
+
     By selector = By.xpath("//*[@id='select2-drop']//*[contains(@class,'select2-result-label')]//text()[contains(.,'" + label +"')]/..");
     String mainSelector = isColumn ? "column-id" : "criterion-id";
     By searchBox = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] input.select2-input");
@@ -472,8 +479,9 @@ public class SeleniumTestsUtil {
 
     // Clear selector
     By clearSelector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] .select2-search-choice-close");
-    while (driver.findElements(clearSelector).size() > 0) {
+    while (driver.findElements(clearSelector).size() > 0 && safecheck < 10) {
       click(clearSelector);
+      safecheck++;
     }
 
     // Write username
