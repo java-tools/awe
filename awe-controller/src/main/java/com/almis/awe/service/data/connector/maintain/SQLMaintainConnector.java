@@ -76,7 +76,6 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     long rowsUpdated = 0;
     boolean auditActive = false;
     boolean isBatch = query.isBatch();
-    int batchBlock = Integer.parseInt(batchMax);
 
     AbstractSQLClause<?> queryBuilt = null;
     AbstractSQLClause<?> auditQueryBuilt = null;
@@ -112,93 +111,21 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     // If we have a variable which is a list, generate a audit query for each value
     Integer indexMaintain = 0;
     while (hasNext(query, indexMaintain, false, parameterMap)) {
-      // If operation is batched
       if (isBatch) {
-        // If this is the first operation of the batch, generate the initial definition
-        if (indexMaintain % batchBlock == 0) {
-          queryBuilt = builder.setAudit(false)
-                  .setOperation(MaintainBuildOperation.BATCH_INITIAL_DEFINITION)
-                  .setVariableIndex(indexMaintain)
-                  .build();
-        }
-        // Build query given the initial definition
-        queryBuilt = builder.setAudit(false)
-                .setOperation(MaintainBuildOperation.BATCH_INCREASING_ELEMENTS)
-                .setPreviousQuery(queryBuilt)
-                .setVariableIndex(indexMaintain)
-                .build();
-
-        // Add to batch
-        addBatch(queryBuilt, query.getMaintainType());
-
-        // If this is the last operation of the batch, launch it
-        if ((indexMaintain + 1) % batchBlock == 0) {
-          // Launch as single operation
-          rowsUpdated = launchAsSingleOperation(queryBuilt, indexMaintain, false, query.getId());
-          maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(parameterMap)));
-
-          // Restore query's initial definition
-          queryBuilt = null;
-        }
-        // Operation is not batched
+        // If operation is batched
+        queryBuilt = launchBatchOperation(indexMaintain, builder, maintainOut, query, true, false);
       } else {
-        // Build query
-        queryBuilt = builder.setAudit(false)
-                .setOperation(MaintainBuildOperation.NO_BATCH)
-                .setVariableIndex(indexMaintain)
-                .build();
-
-        // Launch as single operation
-        rowsUpdated = launchAsSingleOperation(queryBuilt, indexMaintain, false, query.getId());
-        maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<String, QueryParameter>(parameterMap)));
-
-        // Restore query's initial definition
-        queryBuilt = null;
+        // Operation is not batched
+        queryBuilt = launchSingleOperation(indexMaintain, builder, maintainOut, query, true, false);
       }
 
-      if (auditActive && (isBatch || rowsUpdated > 0)) {
-        // If operation is batched
+      if (auditResults(query, maintainOut)) {
         if (isBatch) {
-          // If this is the first operation of the batch, generate the initial definition
-          if (indexMaintain % batchBlock == 0) {
-            auditQueryBuilt = builder.setAudit(true)
-                    .setOperation(MaintainBuildOperation.BATCH_INITIAL_DEFINITION)
-                    .setVariableIndex(indexMaintain)
-                    .build();
-          }
-          // Build AUDIT query given the initial definition
-          auditQueryBuilt = builder.setAudit(true)
-                  .setOperation(MaintainBuildOperation.BATCH_INCREASING_ELEMENTS)
-                  .setPreviousQuery(auditQueryBuilt)
-                  .setVariableIndex(indexMaintain)
-                  .build();
-
-          // Add to batch
-          ((SQLInsertClause) auditQueryBuilt).addBatch().setBatchToBulk(true);
-
-          // If this is the last operation of the batch, launch it
-          if ((indexMaintain + 1) % batchBlock == 0) {
-            // Launch as single operation
-            rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexMaintain, true, query.getId());
-            maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, new HashMap<>(parameterMap)));
-
-            // Restore query's initial definition
-            auditQueryBuilt = null;
-          }
-          // Operation is not batched
+          // If operation is batched
+          auditQueryBuilt = launchBatchOperation(indexMaintain, builder, maintainOut, query, true, true);
         } else {
-          // Build AUDIT query
-          auditQueryBuilt = builder.setAudit(true)
-                  .setOperation(MaintainBuildOperation.NO_BATCH)
-                  .setVariableIndex(indexMaintain)
-                  .build();
-
-          // Launch as single operation
-          rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexMaintain, true, query.getId());
-          maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, new HashMap<>(parameterMap)));
-
-          // Restore query's initial definition
-          auditQueryBuilt = null;
+          // Operation is not batched
+          auditQueryBuilt = launchSingleOperation(indexMaintain, builder, maintainOut, query, true, true);
         }
       }
 
@@ -222,6 +149,21 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
   }
 
   /**
+   * Check audit results
+   * @param query Query
+   * @param maintainOut Service output
+   * @return Launch audit results
+   */
+  private boolean auditResults(MaintainQuery query, ServiceData maintainOut) {
+    boolean auditActive = audit && query.getAuditTable() != null;
+    long rowsAffected = 0;
+    for (MaintainResultDetails resultDetails : maintainOut.getResultDetails()) {
+      rowsAffected += resultDetails.getRowsAffected();
+    }
+    return auditActive && rowsAffected > 0;
+  }
+
+  /**
    * Launches a single SQL statement with multiple AUDIT statement
    *
    * @param query              Maintain query
@@ -237,8 +179,6 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     Long rowsUpdated;
     boolean auditActive;
     boolean isBatch = query.isBatch();
-
-    Integer batchBlock = Integer.valueOf(batchMax);
 
     AbstractSQLClause<?> queryBuilt;
     AbstractSQLClause<?> auditQueryBuilt;
@@ -277,45 +217,13 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
       // If we have a variable which is a list, generate a audit query for each value
       Integer indexAudit = 0;
       while (hasNext(query, indexAudit, true, parameterMap)) {
-        // If operation is batched
         if (isBatch) {
-          // If this is the first operation of the batch, generate the initial definition
-          if (indexAudit % batchBlock == 0) {
-            auditQueryBuilt = builder.setAudit(true)
-                    .setOperation(MaintainBuildOperation.BATCH_INITIAL_DEFINITION)
-                    .build();
-          }
-          // Build AUDIT query given the initial definition
-          auditQueryBuilt = builder.setAudit(true)
-                  .setOperation(MaintainBuildOperation.BATCH_INCREASING_ELEMENTS)
-                  .setPreviousQuery(auditQueryBuilt)
-                  .build();
+          // If operation is batched
+          auditQueryBuilt = launchBatchOperation(indexAudit, builder, maintainOut, query, false, true);
 
-          // Add to batch
-          ((SQLInsertClause) auditQueryBuilt).addBatch().setBatchToBulk(true);
-
-          // If this is the last operation of the batch, launch it
-          if ((indexAudit + 1) % batchBlock == 0) {
-            // Launch as single operation
-            rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexAudit, true, query.getId());
-            maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, new HashMap<>(parameterMap)));
-
-            // Restore query's initial definition
-            auditQueryBuilt = null;
-          }
-          // Operation is not batched
         } else {
-          // Build AUDIT query
-          auditQueryBuilt = builder.setAudit(true)
-                  .setOperation(MaintainBuildOperation.NO_BATCH)
-                  .build();
-
-          // Launch as single operation
-          rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexAudit, true, query.getId());
-          maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, parameterMap));
-
-          // Restore query's initial definition
-          auditQueryBuilt = null;
+          // Operation is not batched
+          auditQueryBuilt = launchSingleOperation(indexAudit, builder,  maintainOut, query, false, true);
         }
 
         // Increase index
@@ -389,6 +297,94 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
   }
 
   /**
+   * Launch batch operation
+   * @param index Index audit
+   * @param builder Maintain builder
+   * @param maintainOut Maintain output
+   * @param query Maintain query
+   * @param addIndex Add index to builder
+   * @throws AWException
+   * @return Query built
+   */
+  private AbstractSQLClause<?> launchBatchOperation(int index, SQLMaintainBuilder builder, ServiceData maintainOut, MaintainQuery query, boolean addIndex, boolean isAudit) throws AWException {
+    Long rowsUpdated;
+
+    // Batch block
+    Integer batchBlock = Integer.valueOf(batchMax);
+
+    // Define query built
+    AbstractSQLClause<?> queryBuilt = null;
+
+    // If this is the first operation of the batch, generate the initial definition
+    if (index % batchBlock == 0) {
+      builder.setAudit(isAudit)
+        .setOperation(MaintainBuildOperation.BATCH_INITIAL_DEFINITION);
+
+      // Add index if defined
+      if (addIndex) {
+        builder.setVariableIndex(index);
+      }
+
+      queryBuilt = builder.build();
+    }
+    // Build query given the initial definition
+    builder.setAudit(isAudit)
+      .setOperation(MaintainBuildOperation.BATCH_INCREASING_ELEMENTS)
+      .setPreviousQuery(queryBuilt);
+
+    // Add index if defined
+    if (addIndex) {
+      builder.setVariableIndex(index);
+    }
+
+    queryBuilt = builder.build();
+
+    // Add to batch
+    addBatch(queryBuilt, query.getMaintainType());
+
+    // If this is the last operation of the batch, launch it
+    if ((index + 1) % batchBlock == 0) {
+      // Launch as single operation
+      rowsUpdated = launchAsSingleOperation(queryBuilt, index, isAudit, query.getId());
+      maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(builder.getVariables())));
+
+      queryBuilt = null;
+    }
+
+    return queryBuilt;
+  }
+
+  /**
+   * Launch single operation
+   * @param index Index
+   * @param builder Maintain builder
+   * @param maintainOut Maintain output
+   * @param query Query
+   * @param addIndex Add index to builder
+   * @param isAudit Query is an audit query
+   * @return Operation builder
+   * @throws AWException
+   */
+  private AbstractSQLClause<?> launchSingleOperation(Integer index, SQLMaintainBuilder builder, ServiceData maintainOut, MaintainQuery query, boolean addIndex, boolean isAudit) throws AWException {
+    // Build query
+    builder.setAudit(isAudit)
+      .setOperation(MaintainBuildOperation.NO_BATCH);
+
+    if (addIndex) {
+      builder.setVariableIndex(index);
+    }
+
+    AbstractSQLClause<?> queryBuilt = builder.build();
+
+    // Launch as single operation
+    Long rowsUpdated = launchAsSingleOperation(queryBuilt, index, true, query.getId());
+    maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(builder.getVariables())));
+
+    // Restore query's initial definition
+    return null;
+  }
+
+  /**
    * Launch as single operation
    *
    * @param statement SQL Statement
@@ -455,6 +451,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
         ((SQLDeleteClause) query).addBatch();
         break;
       case INSERT:
+      case AUDIT:
         ((SQLInsertClause) query).addBatch().setBatchToBulk(true);
         break;
       case UPDATE:
