@@ -74,12 +74,14 @@ test-chrome:
   image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $CHROME_OPTS
+  - ./check-tests.sh
 
 test-firefox:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/firefox-node-maven:latest
   script:
   - mvn $MAVEN_CLI_OPTS verify $FIREFOX_OPTS
+  - ./check-tests.sh
 
 ##############################
 # Analysis stage
