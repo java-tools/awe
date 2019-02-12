@@ -15,11 +15,17 @@ variables:
   SPRING_PROFILES_ACTIVE: gitlab-ci
   KUBERNETES_PROJECT_ID: wired-armor-229610
   KUNERNETES_CLUSTER_NAME: awe-selenium-testing
+  CACHE_KEY: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+  CACHE_PATH: "/home/gitlab-runner/cache/group/project/repo/"
 
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
+  key: $CACHE_KEY
+  policy: pull
   paths:
   - .m2/repository/
+  - awe-client-angular/node_modules/
+  - awe-boot/node_modules/
+  - awe-tools/node_modules/
 
 stages:
 - build
@@ -29,6 +35,7 @@ stages:
 - package
 - deploy
 - release
+- cleanup
 
 # Retry extension
 .retry:
@@ -39,6 +46,8 @@ stages:
   extends: .retry
   stage: test
   allow_failure: true
+  tags:
+  - test
   script:
   - mvn $MAVEN_CLI_OPTS verify $BROWSER_OPTS
   - errors=`cat awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml | grep 'errors\=\"[^\"]*' | grep 'failures\=\"[^\"]*' | sed -e 's/.*errors="//g' | sed -e 's/\"\s*skipped="[^\"]*"\s*failures="/\t/g' | sed -e 's/">//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
@@ -63,6 +72,17 @@ maven-build:
   script:
   - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
   - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
+  tags:
+  - build
+  - test
+  cache:
+    key: $CACHE_KEY
+    policy: push
+    paths:
+    - .m2/repository/
+    - awe-client-angular/node_modules/
+    - awe-boot/node_modules/
+    - awe-tools/node_modules/
   artifacts:
     paths:
     - awe-boot/target/awe-boot.jar
@@ -254,3 +274,14 @@ release:
   only:
   - develop
   when: manual
+
+##############################
+# Cleanup stage
+##############################
+
+cleanup:
+  stage: cleanup
+  script:
+  - echo "Cleaning up"
+  - rm -rf "$CACHE_PATH/$CACHE_KEY"
+  when: always
