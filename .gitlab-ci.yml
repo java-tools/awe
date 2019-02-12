@@ -15,7 +15,7 @@ variables:
   SPRING_PROFILES_ACTIVE: gitlab-ci
   KUBERNETES_PROJECT_ID: wired-armor-229610
   KUNERNETES_CLUSTER_NAME: awe-selenium-testing
-  CACHE_KEY: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+  CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
   CACHE_PATH: "/home/gitlab-runner/cache/group/project/repo/"
 
 cache:
