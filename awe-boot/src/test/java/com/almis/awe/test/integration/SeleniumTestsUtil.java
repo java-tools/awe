@@ -42,6 +42,7 @@ public class SeleniumTestsUtil {
   // Logger
   private static Logger logger = LogManager.getLogger(SeleniumTestsUtil.class);
   private static WebDriver driver;
+  private static final Integer RETRY_COUNT = 10;
 
   @Value("${selenium.start.url}")
   String startURL;
@@ -352,12 +353,14 @@ public class SeleniumTestsUtil {
 
     // Move mouse while help is being displayed
     List<WebElement> popovers = driver.findElements(By.cssSelector(".popover:not(.ng-hide)"));
-    while (popovers.size() > 0 && safecheck < 5) {
+    while (popovers.size() > 0 && safecheck < RETRY_COUNT) {
       WebElement element = popovers.get(0);
       new Actions(driver)
+        .pause(100)
         .moveByOffset(30, 30)
         .build()
         .perform();
+
       popovers = driver.findElements(By.cssSelector(".popover:not(.ng-hide)"));
       safecheck++;
     }
@@ -479,7 +482,7 @@ public class SeleniumTestsUtil {
 
     // Clear selector
     By clearSelector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] .select2-search-choice-close");
-    while (driver.findElements(clearSelector).size() > 0 && safecheck < 10) {
+    while (driver.findElements(clearSelector).size() > 0 && safecheck < RETRY_COUNT) {
       click(clearSelector);
       safecheck++;
     }

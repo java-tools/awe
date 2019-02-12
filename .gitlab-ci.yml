@@ -16,7 +16,6 @@ variables:
   KUBERNETES_PROJECT_ID: wired-armor-229610
   KUNERNETES_CLUSTER_NAME: awe-selenium-testing
   CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
-  CACHE_PATH: "/home/gitlab-runner/cache/group/project/repo/"
 
 cache:
   key: $CACHE_KEY
@@ -32,7 +31,6 @@ stages:
 - package
 - deploy
 - release
-- cleanup
 
 # Retry extension
 .retry:
@@ -72,10 +70,7 @@ maven-build:
     policy: push
   artifacts:
     paths:
-    - awe-boot/target/awe-boot.jar
-    - awe-boot/target/tests/
-    - awe-boot/target/surefire-reports/
-    - awe-boot/target/coverage-reports/
+    - awe-boot/target/
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
@@ -261,14 +256,3 @@ release:
   only:
   - develop
   when: manual
-
-##############################
-# Cleanup stage
-##############################
-
-cleanup:
-  stage: cleanup
-  script:
-  - echo "Cleaning up"
-  - rm -rf "$CACHE_PATH/$CACHE_KEY"
-  when: always
