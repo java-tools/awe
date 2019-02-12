@@ -47,7 +47,7 @@ stages:
   stage: test
   allow_failure: true
   tags:
-  - gitlab-org
+  - kubernetes
   script:
   - mvn $MAVEN_CLI_OPTS verify $BROWSER_OPTS
   - errors=`cat awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml | grep 'errors\=\"[^\"]*' | grep 'failures\=\"[^\"]*' | sed -e 's/.*errors="//g' | sed -e 's/\"\s*skipped="[^\"]*"\s*failures="/\t/g' | sed -e 's/">//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
@@ -73,7 +73,7 @@ maven-build:
   - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
   - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
   tags:
-  - gitlab-org
+  - kubernetes
   cache:
     key: $CACHE_KEY
     policy: push
