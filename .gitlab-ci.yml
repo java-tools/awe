@@ -40,7 +40,7 @@ stages:
   stage: test
   allow_failure: true
   script:
-  - mvn $MAVEN_CLI_OPTS verify $OPTIONS
+  - mvn $MAVEN_CLI_OPTS verify $BROWSER_OPTS
   - errors=`cat awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml | grep 'errors\=\"[^\"]*' | grep 'failures\=\"[^\"]*' | sed -e 's/.*errors="//g' | sed -e 's/\"\s*skipped="[^\"]*"\s*failures="/\t/g' | sed -e 's/">//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
   - echo "Are there any errors? $errors"
   - exit $errors
@@ -80,14 +80,14 @@ maven-build:
 test-chrome:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
-  before_script:
-  - OPTIONS=$CHROME_OPTS
+  variables:
+   BROWSER_OPTS: $CHROME_OPTS
 
 test-firefox:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/firefox-node-maven:latest
-  before_script:
-  - OPTIONS=$FIREFOX_OPTS
+  variables:
+    BROWSER_OPTS: $FIREFOX_OPTS
 
 ##############################
 # Analysis stage
