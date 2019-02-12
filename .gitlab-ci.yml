@@ -22,7 +22,6 @@ cache:
   key: $CACHE_KEY
   policy: pull
   paths:
-  - .m2/repository/
   - awe-client-angular/node_modules/
   - awe-boot/node_modules/
   - awe-tools/node_modules/
@@ -46,8 +45,6 @@ stages:
   extends: .retry
   stage: test
   allow_failure: true
-  tags:
-  - kubernetes
   script:
   - mvn $MAVEN_CLI_OPTS verify $BROWSER_OPTS
   - errors=`cat awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml | grep 'errors\=\"[^\"]*' | grep 'failures\=\"[^\"]*' | sed -e 's/.*errors="//g' | sed -e 's/\"\s*skipped="[^\"]*"\s*failures="/\t/g' | sed -e 's/">//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
@@ -60,6 +57,7 @@ stages:
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
+    when: on_failure
 
 ##############################
 # Build stage
@@ -72,18 +70,16 @@ maven-build:
   script:
   - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
   - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
-  tags:
-  - kubernetes
   cache:
     key: $CACHE_KEY
     policy: push
     paths:
-    - .m2/repository/
     - awe-client-angular/node_modules/
     - awe-boot/node_modules/
     - awe-tools/node_modules/
   artifacts:
     paths:
+    - .m2/repository/
     - awe-boot/target/awe-boot.jar
     - awe-boot/target/tests/
     - awe-boot/target/surefire-reports/
