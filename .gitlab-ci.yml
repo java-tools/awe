@@ -40,7 +40,8 @@ stages:
 .testing:
   extends: .retry
   stage: test
-  tags: shared
+  tags:
+  - shared
   allow_failure: true
   script:
   - mvn -f awe-boot/pom.xml $MAVEN_CLI_OPTS verify $BROWSER_OPTS
@@ -65,7 +66,8 @@ maven-build:
   extends: .retry
   image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
   stage: build
-  tags: shared
+  tags:
+  - shared
   script:
   - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
   - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
