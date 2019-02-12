@@ -5,11 +5,12 @@
 image: docker:latest
 
 variables:
-  MAVEN_CLI_OPTS: "-s .m2/settings.xml -B"
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
-  CHROME_OPTS: "-f awe-boot/pom.xml -Dskip.main=true -Dskip.junit=true -Dskip.selenium=false -Dbrowser=headless-chrome"
-  FIREFOX_OPTS: "-f awe-boot/pom.xml -Dskip.main=true -Dskip.junit=true -Dskip.selenium=false -Dbrowser=headless-firefox"
+  GENERAL_BROWSER_OPTS: "-f awe-boot/pom.xml -Dskip.main=true -Dskip.junit=true -Dskip.selenium=false"
+  CHROME_OPTS: "$GENERAL_BROWSER_OPTS -Dbrowser=headless-chrome"
+  FIREFOX_OPTS: "$GENERAL_BROWSER_OPTS -Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
@@ -19,7 +20,6 @@ variables:
 
 cache:
   key: $CACHE_KEY
-  policy: pull
   paths:
   - .m2/repository/
 
@@ -40,12 +40,14 @@ stages:
 .testing:
   extends: .retry
   stage: test
+  tags: shared
   allow_failure: true
   script:
   - mvn -f awe-boot/pom.xml $MAVEN_CLI_OPTS verify $BROWSER_OPTS
-  - errors=`cat awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml | grep 'errors\=\"[^\"]*' | grep 'failures\=\"[^\"]*' | sed -e 's/.*errors="//g' | sed -e 's/\"\s*skipped="[^\"]*"\s*failures="/\t/g' | sed -e 's/">//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
-  - echo "Are there any errors? $errors"
-  - exit $errors
+  - errors=`cat awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml | grep 'errors\=\"[^\"]*' | sed -e 's/.*errors="//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$3)}'`
+  - echo "$errors errors found"
+  - exitWithErrors=`echo $errors | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1>0)}'`
+  - exit $exitWithErrors
   artifacts:
     paths:
     - awe-boot/target/tests/
@@ -63,14 +65,16 @@ maven-build:
   extends: .retry
   image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
   stage: build
+  tags: shared
   script:
   - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
   - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
-  cache:
-    policy: push
   artifacts:
     paths:
-    - awe-boot/target/
+    - awe-boot/target/awe-boot.jar
+    - awe-boot/target/tests/
+    - awe-boot/target/coverage-reports/
+    - awe-boot/target/surefire-reports/
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
