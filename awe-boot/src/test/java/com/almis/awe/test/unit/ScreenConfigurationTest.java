@@ -109,7 +109,7 @@ public class ScreenConfigurationTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.valueOf(operation), 1l)
     });
@@ -139,8 +139,8 @@ public class ScreenConfigurationTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    //logger.info(result);
-    //logger.info(expected);
+    //logger.debug(result);
+    //logger.debug(expected);
   }
 
   /**
@@ -167,8 +167,8 @@ public class ScreenConfigurationTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    // logger.info(result);
-    // logger.info(expected);
+    // logger.debug(result);
+    // logger.debug(expected);
   }
 
   /**

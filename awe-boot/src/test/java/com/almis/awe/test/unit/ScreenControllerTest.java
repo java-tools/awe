@@ -91,8 +91,8 @@ public class ScreenControllerTest {
             //.andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
-    logger.info(expected);
+    logger.debug(result);
+    logger.debug(expected);
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
 
     ObjectNode screenDataAction = (ObjectNode) resultList.get(0);
@@ -116,12 +116,12 @@ public class ScreenControllerTest {
     for (JsonNode element: screenDataComponents) {
       ObjectNode component = (ObjectNode) element;
       String key = component.get("id").asText();
-      logger.info(key + ": " + component.get("model").get("selected").toString());
+      logger.debug(key + ": " + component.get("model").get("selected").toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
+    logger.debug("-------------------------------------------");
   }
 
   /**
@@ -139,7 +139,7 @@ public class ScreenControllerTest {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
   }
 
   /**
@@ -155,7 +155,7 @@ public class ScreenControllerTest {
             .andExpect(status().isOk())
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    //logger.info(result);
+    //logger.debug(result);
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
 
     ObjectNode endLoad = (ObjectNode) resultList.get(0);
@@ -176,7 +176,7 @@ public class ScreenControllerTest {
             .andExpect(status().isOk())
             .andReturn();
     result = mvcResult.getResponse().getContentAsString();
-    //logger.info(result);
+    //logger.debug(result);
 
     ObjectNode localsRetrievedActionEN = (ObjectNode) resultList.get(1);
     assertEquals("locals-retrieved", localsRetrievedActionEN.get("type").textValue());
@@ -191,7 +191,7 @@ public class ScreenControllerTest {
             .andExpect(status().isOk())
             .andReturn();
     result = mvcResult.getResponse().getContentAsString();
-    //logger.info(result);
+    //logger.debug(result);
 
     ObjectNode localsRetrievedActionFR = (ObjectNode) resultList.get(1);
     assertEquals("locals-retrieved", localsRetrievedActionFR.get("type").textValue());
@@ -212,8 +212,8 @@ public class ScreenControllerTest {
       assertTrue(translationsFR.has(key));
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + translationEsSize + " locales");
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + translationEsSize + " locales");
+    logger.debug("-------------------------------------------");
   }
 }

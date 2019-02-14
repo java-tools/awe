@@ -102,7 +102,7 @@ public class ScreenRestrictionTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    //logger.info(result);
+    //logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.valueOf(operation), 1l),
             new MaintainResultDetails(MaintainType.AUDIT, 1l)
@@ -137,9 +137,9 @@ public class ScreenRestrictionTest extends TestUtil {
 
     // Add restriction
     addRestriction("INSERT", user, profile, optionName, value);
-    logger.info(setParameter("user", userSession));
-    logger.info(setParameter("restriction", restrictionSession));
-    logger.info(setParameter("profile", profileSession));
+    logger.debug(setParameter("user", userSession));
+    logger.debug(setParameter("restriction", restrictionSession));
+    logger.debug(setParameter("profile", profileSession));
 
     // Check screen
     String expected = "[{\"type\":\"change-menu\",\"parameters\":" + parameters + "},{\"type\":\"end-load\",\"parameters\":{}}]";
@@ -150,8 +150,8 @@ public class ScreenRestrictionTest extends TestUtil {
             .andExpect(status().isOk())
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
-    logger.info(expected);
+    logger.debug(result);
+    logger.debug(expected);
   }
 
   /**

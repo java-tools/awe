@@ -9,8 +9,8 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
   GENERAL_BROWSER_OPTS: "-f awe-boot/pom.xml -Dskip.main=true -Dskip.junit=true -Dskip.selenium=false"
-  CHROME_OPTS: "$GENERAL_BROWSER_OPTS -Dbrowser=headless-chrome"
-  FIREFOX_OPTS: "$GENERAL_BROWSER_OPTS -Dbrowser=headless-firefox"
+  CHROME_OPTS: "-Dbrowser=headless-chrome"
+  FIREFOX_OPTS: "-Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
@@ -20,6 +20,7 @@ variables:
 
 cache:
   key: $CACHE_KEY
+  policy: pull
   paths:
   - .m2/repository/
 
@@ -32,19 +33,14 @@ stages:
 - deploy
 - release
 
-# Retry extension
-.retry:
-  retry: 2
-
 # Testing extension
 .testing:
-  extends: .retry
   stage: test
   tags:
   - shared
   allow_failure: true
   script:
-  - mvn -f awe-boot/pom.xml $MAVEN_CLI_OPTS verify $BROWSER_OPTS
+  - mvn -f awe-boot/pom.xml $MAVEN_CLI_OPTS verify $GENERAL_BROWSER_OPTS $BROWSER_OPTS
   - errors=`cat awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml | grep 'errors\=\"[^\"]*' | sed -e 's/.*errors="//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$3)}'`
   - echo "$errors errors found"
   - exitWithErrors=`echo $errors | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1>0)}'`
@@ -63,9 +59,13 @@ stages:
 ##############################
 
 maven-build:
-  extends: .retry
   image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
   stage: build
+  cache:
+    key: $CACHE_KEY
+    policy: push
+    paths:
+    - .m2/repository/
   tags:
   - shared
   script:
@@ -102,7 +102,6 @@ test-firefox:
 ##############################
 
 dependency_scanning:
-  extends: .retry
   stage: analysis
   services:
   - docker:dind
@@ -125,7 +124,6 @@ dependency_scanning:
 ##############################
 
 site:
-  extends: .retry
   image: maven:3.5-jdk-8
   stage: site
   script:
@@ -142,7 +140,6 @@ site:
 ##############################
 
 package-build:
-  extends: .retry
   stage: package
   services:
   - docker:dind
@@ -158,7 +155,6 @@ package-build:
 ##############################
 
 deploy:
-  extends: .retry
   image: maven:3.5-jdk-8
   stage: deploy
   script:
@@ -216,7 +212,6 @@ k8s-deploy-production:
   - master
 
 pages:
-  extends: .retry
   stage: deploy
   dependencies:
   - site

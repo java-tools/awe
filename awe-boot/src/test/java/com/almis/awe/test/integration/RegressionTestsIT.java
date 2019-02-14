@@ -4,22 +4,254 @@ package com.almis.awe.test.integration;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegressionTestsIT extends SeleniumTestsUtil {
 
+  /**
+   * Log into the application
+   * @throws Exception Error on test
+   */
   @Test
   public void t000_loginTest() throws Exception {
     doLogin();
   }
 
+  /**
+   * Log out from the application
+   * @throws Exception Error on test
+   */
   @Test
   public void t999_logoutTest() throws Exception {
     doLogout();
   }
 
+  /**
+   * Select test module on select criterion
+   * @throws Exception Error on test
+   */
   @Test
   public void t001_selectTestModule() throws Exception {
+    // Title
+    setTestTitle("Select test module: Test to select test module");
 
+    // Click on info button
+    clickInfoButton("ButSetTog");
+
+    // Suggest
+    suggest("module",  "Test", "Test", false);
+
+    // Wait for loading bar
+    waitForLoadingBar();
+
+    // Wait for text
+    waitForText("mm-text", "Tests");
+  }
+
+  /**
+   * Select test module on select criterion (#30648)
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t002_loadSuggestOnGrid() throws Exception {
+    // Title
+    setTestTitle("Load suggest on grid: Test to check suggest initial load on grid (#30648)");
+
+    // Go to matrix test
+    gotoScreen("test", "matrix", "matrix-test");
+
+    // Click on tab
+    clickTab("TabSelMat", "EDITABLE");
+
+    // Check row contents
+    checkRowContents("Prueba - adminflare");
+  }
+
+  /**
+   * Test to check suggest criteria with 'strict' attribute set to false
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t003_suggestStrict() throws Exception {
+    // Title
+    setTestTitle("Suggest Strict: Test to check suggest criteria with 'strict' attribute set to false");
+
+    // Go to screen
+    gotoScreen("tools", "users");
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest on column selector
+    suggestLast("CrtUsr", "te", false);
+
+    // Search and wait
+    searchAndWait();
+
+    // Check grid values
+    checkRowContents("test");
+
+    // Check criterion value
+    checkSelectorContents("CrtUsr", "te");
+  }
+
+  /**
+   * Test for read dependency
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t004_readDependency() throws Exception {
+    // Title
+    setTestTitle("Test for read dependency");
+
+    // Go to screen
+    gotoScreen("test","criteria", "criteria-test");
+
+    // Wait for button
+    waitForButton("ButPrn");
+
+    // Write on criterion
+    writeText("TxtReq", "aaa", false);
+
+    // Write on criterion
+    writeText("TxtReq", Keys.TAB, false,false);
+
+
+    // Write on criterion
+    writeText("Unt", "325.274,50", false,false);
+
+    // Assert text
+    checkCriterionContents("Unt", "325.274,50");
+  }
+
+  /**
+   * Quote check on unit label
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t005_quoteCheckUnitLabel() throws Exception {
+    // Title
+    setTestTitle("Quote check on unit label");
+
+    // Write on criterion
+    writeText("Tar", "\"", false);
+
+    // Write on criterion
+    writeText("Tar", Keys.TAB, false,false);
+
+    // Click on checkbox
+    clickCheckbox("RadBox3", false);
+
+    // Wait for text
+    checkText(By.cssSelector("[criterion-id='Unt'] .unit"), "USD");
+  }
+
+  /**
+   * Check filtered date dependency (#31141)
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t006_checkFilteredDateDependency() throws Exception {
+    // Title
+    setTestTitle("Check filtered date dependency (#31141)");
+
+    // Write on criterion
+    writeText("Txt", "edita", false);
+
+    // Write on criterion
+    writeText("Txt", Keys.TAB, false,false);
+
+    // Click on date
+    clickDate("FilCalRea");
+
+    // Click on selector
+    clickSelector(By.cssSelector(".datepicker td.day:not(.disabled)"));
+  }
+
+  /**
+   * Keep criteria test
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t007_keepCriteria() throws Exception {
+    // Title
+    setTestTitle("Keep criteria test");
+
+    // Go to screen
+    gotoScreen("tools","users");
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest on column selector
+    suggest("CrtUsr", "test", "test", false);
+
+    // Search and wait
+    searchAndWait();
+
+    // Check grid values
+    clickRowContents("test");
+
+    // Click button
+    clickButton("ButViw", true);
+
+    // Click button
+    clickButton("ButBck", true);
+
+    // Wait for button
+    waitForButton("ButRst");
+
+    // Wait for button
+    checkSelectorContents("CrtUsr", "test");
+  }
+
+  /**
+   * Delayed suggest
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t008_delayedSuggest() throws Exception {
+    // Title
+    setTestTitle("Delayed suggest");
+
+    // Go to screen
+    gotoScreen("test","criteria", "criteria-test");
+
+    // Click button
+    clickButton("ButRst");
+
+    // Suggest delayed
+    clickSelector(By.cssSelector("[criterion-id='Sug'] .select2-choice"));
+    suggestDelayed("#select2-drop", "tee", "test", "test", 800);
+
+    // Suggest delayed
+    suggestDelayed("[criterion-id='SugMulReq']", "tee", "test", "test", 800);
+  }
+
+  /**
+   * Suggest delayed
+   * @param selector Selector
+   * @param search1 Search on first case
+   * @param search2 Search on second case
+   * @param match Match result
+   * @param pause Pause
+   */
+  private void suggestDelayed(String selector, String search1, String search2, String match, Integer pause) {
+    // Write text
+    writeText(By.cssSelector(selector + " input.select2-input"), search1);
+
+    // Pause
+    pause(pause);
+
+    // Clear text
+    clearText(By.cssSelector(selector + " input.select2-input"));
+
+    // Write text
+    writeText(By.cssSelector(selector + " input.select2-input"), search2);
+
+    // Click selector
+    clickSelector(By.xpath("//*[@id='select2-drop']//*[contains(@class,'select2-result-label')]//text()[contains(.,'" + match + "')]/.."));
   }
 }

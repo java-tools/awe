@@ -45,8 +45,8 @@ public class EncryptTest extends TestUtil {
   @Test
   public void checkEncryptedProperty() {
     EncryptService service = applicationContext.getBean(EncryptService.class);
-    logger.info("With @Value: " +service.getProperty());
-    logger.info("With Environment.getProperty: " +service.getEnvironmentProperty());
+    logger.debug("With @Value: " +service.getProperty());
+    logger.debug("With Environment.getProperty: " +service.getEnvironmentProperty());
     assertEquals("prueba2", service.getProperty());
     assertEquals("prueba2", service.getEnvironmentProperty());
   }

@@ -126,9 +126,9 @@ public class TestUtil {
       }
     }
 
-    logger.info("--------------------------------------------------------------------------------------");
-    logger.info("There are " + resultDetails.size() + " operations as a result of launching maintain " + maintainName);
-    logger.info("--------------------------------------------------------------------------------------");
+    logger.debug("--------------------------------------------------------------------------------------");
+    logger.debug("There are " + resultDetails.size() + " operations as a result of launching maintain " + maintainName);
+    logger.debug("--------------------------------------------------------------------------------------");
   }
 
 
@@ -140,9 +140,9 @@ public class TestUtil {
    */
   void cleanUp(String method) throws Exception {
 
-    logger.info("--------------------------------------------------------------------------------------");
-    logger.info(" Cleaning up all the mess... ");
-    logger.info("--------------------------------------------------------------------------------------");
+    logger.debug("--------------------------------------------------------------------------------------");
+    logger.debug(" Cleaning up all the mess... ");
+    logger.debug("--------------------------------------------------------------------------------------");
 
     String maintainName = method;
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
@@ -151,7 +151,7 @@ public class TestUtil {
       .andExpect(status().isOk())
       .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
       new MaintainResultDetails(MaintainType.DELETE, 0l)
     });
@@ -164,9 +164,9 @@ public class TestUtil {
    */
   void loginUser() throws Exception {
 
-    logger.info("--------------------------------------------------------------------------------------");
-    logger.info(" Login user... ");
-    logger.info("--------------------------------------------------------------------------------------");
+    logger.debug("--------------------------------------------------------------------------------------");
+    logger.debug(" Login user... ");
+    logger.debug("--------------------------------------------------------------------------------------");
 
     String maintainName = "loginUser";
 
@@ -178,7 +178,7 @@ public class TestUtil {
       .andReturn();
     setParameter("user", "test");
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
       new MaintainResultDetails(MaintainType.UPDATE, 0l)
     });
@@ -191,9 +191,9 @@ public class TestUtil {
    */
   void logoutUser() throws Exception {
 
-    logger.info("--------------------------------------------------------------------------------------");
-    logger.info(" Logout user... ");
-    logger.info("--------------------------------------------------------------------------------------");
+    logger.debug("--------------------------------------------------------------------------------------");
+    logger.debug(" Logout user... ");
+    logger.debug("--------------------------------------------------------------------------------------");
 
     String maintainName = "logoutUser";
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
@@ -203,7 +203,7 @@ public class TestUtil {
       .andExpect(status().isOk())
       .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
       new MaintainResultDetails(MaintainType.UPDATE, 0l)
     });
