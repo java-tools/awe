@@ -58,6 +58,6 @@ public class MaintainHSQLTest extends MaintainTest {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
   }
 }

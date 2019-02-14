@@ -125,6 +125,9 @@
       <AppenderRef ref="${bundle:log4j2-app:log.scheduler}" />
     </Logger>
 
+    <!-- Test logger -->
+    <Logger name="com.almis.awe.test" level="info"/>
+
     <!-- ROOT logger -->
     <Root level="${bundle:log4j2-app:log.level}">
       <AppenderRef ref="CONSOLE" />

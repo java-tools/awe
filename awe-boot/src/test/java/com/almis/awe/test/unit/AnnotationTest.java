@@ -74,8 +74,8 @@ public class AnnotationTest extends TestUtil {
   //@Test
   public void checkCryptoAnnotations() throws AWException {
     // Crypto annotation on input parameters
-    logger.info("EncodeUtil => " + EncodeUtil.encryptAes("Moderdonio",  "1234"));
-    logger.info("Annotation => " + annotationTestService.encryptText("Moderdonio"));
+    logger.debug("EncodeUtil => " + EncodeUtil.encryptAes("Moderdonio",  "1234"));
+    logger.debug("Annotation => " + annotationTestService.encryptText("Moderdonio"));
     Assert.assertEquals("Moderdonio", EncodeUtil.decryptAes(annotationTestService.encryptText("Moderdonio"), "1234"));
     Assert.assertEquals("Moderdonio", annotationTestService.decryptText(EncodeUtil.encryptAes("Moderdonio", "1234")));
 

@@ -2,6 +2,7 @@ package com.almis.awe.test.integration;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
@@ -31,7 +32,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertNotNull;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
@@ -40,27 +40,27 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 @TestPropertySource("classpath:test.properties")
 public class SeleniumTestsUtil {
   // Logger
-  private static Logger logger = LogManager.getLogger(SeleniumTestsUtil.class);
+  private Logger logger = LogManager.getLogger(SeleniumTestsUtil.class);
   private static WebDriver driver;
   private static final Integer RETRY_COUNT = 10;
 
   @Value("${selenium.start.url}")
-  String startURL;
+  private String startURL;
 
   @Value("${failsafe.timeout:30}")
-  Integer timeout;
+  private Integer timeout;
 
   @Value("${browser.resolution.width}")
-  Integer browserWidth;
+  private Integer browserWidth;
 
   @Value("${browser.resolution.height}")
-  Integer browserHeight;
+  private Integer browserHeight;
 
   @Value("${screenshot.path}")
-  String screenshotPath;
+  private String screenshotPath;
 
   // Browser
-  String browser;
+  private String browser;
 
   @Value("${failsafe.browser:headless-chrome}")
   public void setBrowser(String browser) {
@@ -121,6 +121,7 @@ public class SeleniumTestsUtil {
   public static void cleanDrivers() {
     if (driver != null) {
       driver.quit();
+      driver = null;
     }
   }
 
@@ -128,7 +129,10 @@ public class SeleniumTestsUtil {
     return driver;
   }
 
-  protected void waitForLoad() {
+  /**
+   * Wait for screen load
+   */
+  private void waitForLoad() {
     ExpectedCondition<Boolean> pageLoadCondition = driver1 -> ((JavascriptExecutor) driver1).executeScript("return document.readyState").equals("complete");
     waitUntil(pageLoadCondition);
   }
@@ -137,7 +141,7 @@ public class SeleniumTestsUtil {
    * Take a screenshot when an error has occurred
    * @param message
    */
-  private void manageError(String message) {
+  private void manageError(String message, Throwable... throwable) {
     File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
     String messageSanitized = message
       .toLowerCase()
@@ -147,7 +151,7 @@ public class SeleniumTestsUtil {
       .replaceAll("_session_info.*", "");
     String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
     Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
-    logger.error(message);
+    logger.error(message, throwable);
     logger.error("Storing screenshot at: " + path);
 
     // Now you can do whatever you need to do with it, for example copy somewhere
@@ -155,21 +159,30 @@ public class SeleniumTestsUtil {
       path.toFile().getParentFile().mkdirs();
       FileUtils.copyFile(scrFile, path.toFile());
     } catch (IOException ioExc) {
-      logger.error("Error trying to store screenshot at: " + path);
+      logger.error("Error trying to store screenshot at: " + path, ioExc);
     }
   }
 
-  protected void waitUntil(ExpectedCondition isTrue) {
-    String message = isTrue.toString();
+  /**
+   * Wait until an expected condition
+   * @param condition Expected condition
+   */
+  protected void waitUntil(ExpectedCondition condition) {
+    String message = condition.toString();
     try {
-      new WebDriverWait(driver, timeout).until(isTrue);
-      logger.info(message);
+      new WebDriverWait(driver, timeout).until(condition);
+      logger.log(Level.DEBUG, message);
     } catch (Exception exc) {
-      manageError(message);
-      assert (!(boolean) isTrue.apply(driver)) : isTrue.toString();
+      manageError(message, exc);
+      assert (!(boolean) condition.apply(driver)) : condition.toString();
     }
   }
 
+  /**
+   * Check text inside selector
+   * @param selector Selector to check
+   * @param text Text to compare
+   */
   protected void checkText(By selector, String text) {
     boolean condition = driver.findElement(selector).getText().equals(text);
 
@@ -181,6 +194,11 @@ public class SeleniumTestsUtil {
     }
   }
 
+  /**
+   * Check if selector contains text
+   * @param selector Selector to check
+   * @param text Text to compare
+   */
   protected void checkTextContains(By selector, String text) {
     boolean condition = driver.findElement(selector).getText().contains(text);
 
@@ -192,6 +210,11 @@ public class SeleniumTestsUtil {
     }
   }
 
+  /**
+   * Check if selector doesn't contain a text
+   * @param selector Selector to check
+   * @param text Text to compare
+   */
   protected void checkTextNotContains(By selector, String text) {
     boolean condition = driver.findElement(selector).getText().contains(text);
 
@@ -203,6 +226,11 @@ public class SeleniumTestsUtil {
     }
   }
 
+  /**
+   * Check if a criterion contains text
+   * @param selector Criterion selector
+   * @param text Text to compare
+   */
   protected void checkCriterionContains(By selector, String text) {
     boolean condition = driver.findElement(selector).getAttribute("value").contains(text);
 
@@ -214,14 +242,27 @@ public class SeleniumTestsUtil {
     }
   }
 
+  /**
+   * Type keys on a criterion
+   * @param selector Criterion selector to type keys
+   * @param text Text to type
+   */
   protected void sendKeys(By selector, CharSequence... text) {
     driver.findElement(selector).sendKeys(text);
   }
 
+  /**
+   * Clear text on criterion
+   * @param selector Criterion selector
+   */
   protected void clearText(By selector) {
     driver.findElement(selector).clear();
   }
 
+  /**
+   * Click on an element
+   * @param selector Element selector
+   */
   protected void click(By selector) {
     try {
       driver.findElement(selector).click();
@@ -231,6 +272,10 @@ public class SeleniumTestsUtil {
     }
   }
 
+  /**
+   * Go to a screen defined on the menu
+   * @param menuOptions Menu options to navigate to
+   */
   protected void gotoScreen(String... menuOptions) {
     for (String option : menuOptions) {
       // Wait for text in selector
@@ -247,11 +292,17 @@ public class SeleniumTestsUtil {
     waitForLoadingBar();
   }
 
+  /**
+   * Wait for loading bar to hide
+   */
   protected void waitForLoadingBar() {
     // Wait for element not visible
     waitUntil(invisibilityOfElementLocated(By.id("loading-bar")));
   }
 
+  /**
+   * Wait for loading grid to hide
+   */
   protected void waitForLoadingGrid() {
     By selector = By.cssSelector(".grid-loader");
 
@@ -262,10 +313,19 @@ public class SeleniumTestsUtil {
     waitForLoadingBar();
   }
 
+  /**
+   * Click on a button
+   * @param buttonName Button name
+   */
   protected void clickButton(String buttonName) {
     clickButton(buttonName, false);
   }
 
+  /**
+   * Click on a button
+   * @param buttonName Button name
+   * @param waitForLoadingBar Wait for loading bar after clicking
+   */
   protected void clickButton(String buttonName, boolean waitForLoadingBar) {
     // Wait for element visible
     waitForButton(buttonName);
@@ -277,6 +337,66 @@ public class SeleniumTestsUtil {
       // Wait for loading bar
       waitForLoadingBar();
     }
+  }
+
+  /**
+   * Click on tab
+   * @param tabName Tab name
+   * @param tabLabel Tab label local
+   */
+  protected void clickTab(String tabName, String tabLabel) {
+    // Tab selector
+    By tabSelector = By.cssSelector("[criterion-id='" + tabName + "'] span[translate-multiple*='" + tabLabel + "']");
+    By tabActive = By.cssSelector("[criterion-id='" + tabName + "'] li.active span[translate-multiple*='" + tabLabel + "']");
+
+    // Wait for element visible
+    waitUntil(visibilityOfElementLocated(tabSelector));
+
+    // Click on tab selector
+    click(tabSelector);
+
+    // Wait for tab active
+    waitUntil(visibilityOfElementLocated(tabActive));
+  }
+
+  /**
+   * Click on info button
+   * @param infoButtonName Button name
+   */
+  protected void clickInfoButton(String infoButtonName) {
+    By settingsToggleButton = By.cssSelector("[info-dropdown-id='" + infoButtonName + "'] a");
+
+    // Wait for element visible
+    waitUntil(visibilityOfElementLocated(settingsToggleButton));
+
+    // Click on button
+    click(settingsToggleButton);
+  }
+
+  /**
+   * Click on datepicker
+   * @param dateName Datepicker name
+   */
+  protected void clickDate(String dateName) {
+    By datePicker = By.id(dateName);
+
+    // Wait for element visible
+    waitUntil(visibilityOfElementLocated(datePicker));
+
+    // Click on datepicker
+    click(datePicker);
+  }
+
+  /**
+   * Click on selector
+   * @param selector Selector
+   */
+  protected void clickSelector(By selector) {
+    // Wait for element visible
+    waitUntil(visibilityOfElementLocated(selector));
+
+    // Click on selector
+    click(selector);
   }
 
   protected void searchAndWait() {
@@ -373,7 +493,48 @@ public class SeleniumTestsUtil {
     waitUntil(visibilityOfElementLocated(selector));
   }
 
-  protected void writeText(String criterionName, String text, boolean isColumn) {
+  /**
+   * Pause
+   * @param time Milliseconds
+   */
+  protected void pause(Integer time) {
+    new Actions(driver)
+      .pause(time)
+      .build()
+      .perform();
+  }
+
+  /**
+   * Write text on selector
+   * @param selector Selector
+   * @param text Text
+   */
+  protected void writeText(By selector, CharSequence text) {
+    // Wait for element present
+    waitUntil(presenceOfElementLocated(selector));
+
+    // Write text
+    sendKeys(selector, text);
+  }
+
+  /**
+   * Write text on criterion
+   * @param criterionName Criterion name
+   * @param text Text
+   * @param isColumn Is column
+   */
+  protected void writeText(String criterionName, CharSequence text, boolean isColumn) {
+    writeText(criterionName, text, true, isColumn);
+  }
+
+  /**
+   * Write text check clear text
+   * @param criterionName Criterion name
+   * @param text Text
+   * @param clearText Clear text
+   * @param isColumn Is column
+   */
+  protected void writeText(String criterionName, CharSequence text, boolean clearText, boolean isColumn) {
     String mainSelector = isColumn ? "column-id" : "criterion-id";
     By selector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] input,[" + mainSelector + "='" + criterionName +  "'] textarea");
 
@@ -381,7 +542,9 @@ public class SeleniumTestsUtil {
     waitUntil(presenceOfElementLocated(selector));
 
     // Clear previous text
-    clearText(selector);
+    if (clearText) {
+      clearText(selector);
+    }
 
     // Write text
     sendKeys(selector, text);
@@ -420,6 +583,11 @@ public class SeleniumTestsUtil {
     click(By.cssSelector("#select2-drop li:first-of-type"));
   }
 
+  /**
+   * Select last element
+   * @param criterionName Select name
+   * @param isColumn Criterion is in a column
+   */
   protected void selectLast(String criterionName, boolean isColumn) {
     // Click on selector
     selectClick(criterionName, isColumn);
@@ -428,6 +596,12 @@ public class SeleniumTestsUtil {
     click(By.cssSelector("#select2-drop li:last-of-type"));
   }
 
+  /**
+   * Select an element which contains a label
+   * @param criterionName Select name
+   * @param label Label to search
+   * @param isColumn Criterion is in a column
+   */
   protected void selectContain(String criterionName, String label, boolean isColumn) {
     By selector = By.xpath("//*[@id='select2-drop']//*[contains(@class,'select2-result-label')]//text()[contains(.,'" + label +"')]/..");
 
@@ -441,8 +615,46 @@ public class SeleniumTestsUtil {
     click(selector);
   }
 
+  /**
+   * Suggest element which contains label
+   * @param criterionName Criterion name
+   * @param search Search string
+   * @param label Label to search
+   * @param isColumn Criterion is in a column
+   */
   protected void suggest(String criterionName, String search, String label, boolean isColumn) {
     By selector = By.xpath("//*[@id='select2-drop']//*[contains(@class,'select2-result-label')]//text()[contains(.,'" + label +"')]/..");
+
+    // Wait for element present
+    waitUntil(invisibilityOfElementLocated(By.cssSelector(".loader")));
+
+    // Click on selector
+    selectClick(criterionName, isColumn);
+
+    // Wait for element present
+    waitUntil(presenceOfElementLocated(By.cssSelector("#select2-drop input.select2-input")));
+
+    // Write username
+    sendKeys(By.cssSelector("#select2-drop input.select2-input"), search);
+
+    // Wait for loading bar
+    waitForLoadingBar();
+
+    // Wait for element present
+    waitUntil(presenceOfElementLocated(selector));
+
+    // Click option
+    click(selector);
+  }
+
+  /**
+   * Suggest last element which contains label
+   * @param criterionName Criterion name
+   * @param search Search string
+   * @param isColumn Criterion is in a column
+   */
+  protected void suggestLast(String criterionName, String search, boolean isColumn) {
+    By selector = By.cssSelector("#select2-drop li:last-of-type .select2-result-label");
 
     // Wait for element present
     waitUntil(invisibilityOfElementLocated(By.cssSelector(".loader")));
@@ -544,7 +756,6 @@ public class SeleniumTestsUtil {
   protected void doLogin() throws Exception {
     assertNotNull(driver);
 
-    logger.info("Launching tests with '" + browser + "' browser");
     System.out.println("Launching tests with '" + browser + "' browser");
 
     // Set driver timeout
@@ -555,6 +766,9 @@ public class SeleniumTestsUtil {
 
     // Wait for load
     waitForLoad();
+
+    // Test title
+    setTestTitle("Login test: Log into the application");
 
     // Wait for text in selector
     waitUntil(textMatches(By.cssSelector("div.slogan"), Pattern.compile("Almis Web Engine")));
@@ -585,6 +799,9 @@ public class SeleniumTestsUtil {
   }
 
   protected void doLogout() throws Exception {
+    // Test title
+    setTestTitle("Logout test: Log out the application");
+
     // Wait for element not visible
     waitForLoadingBar();
 
@@ -602,5 +819,16 @@ public class SeleniumTestsUtil {
 
     // Wait for text in selector
     waitUntil(textMatches(By.cssSelector("div.slogan"), Pattern.compile("Almis Web Engine")));
+  }
+
+  /**
+   * Set test title
+   * @param title
+   */
+  protected void setTestTitle(String title) {
+    // Info
+    logger.log(Level.INFO, "======================================================================================");
+    logger.log(Level.INFO, "| " + title);
+    logger.log(Level.INFO, "======================================================================================");
   }
 }

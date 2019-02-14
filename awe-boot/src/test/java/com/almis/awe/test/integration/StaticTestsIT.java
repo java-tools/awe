@@ -8,11 +8,19 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class StaticTestsIT extends SeleniumTestsUtil {
 
+  /**
+   * Log into the application
+   * @throws Exception
+   */
   @Test
   public void t000_loginTest() throws Exception {
     doLogin();
   }
 
+  /**
+   * Log out from the application
+   * @throws Exception
+   */
   @Test
   public void t999_logoutTest() throws Exception {
     doLogout();
@@ -104,6 +112,12 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     waitForButton("ButBck");
   }
 
+  /**
+   * Delete from a screen
+   * @param criterion Criterion to search
+   * @param search Search text
+   * @param options Screen options
+   */
   private void delete(String criterion, String search, String... options) {
     // Go to screen
     gotoScreen(options);
@@ -124,6 +138,11 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButDel");
   }
 
+  /**
+   * Verify deleted
+   * @param search
+   * @param options
+   */
   private void verifyDeleted(String search, String... options) {
     // Go to screen
     gotoScreen(options);
@@ -138,6 +157,9 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowNotContains(search);
   }
 
+  /**
+   * Add a new user
+   */
   private void addNewUser() {
     // Go for new screen
     addNew("tools", "users");
@@ -167,8 +189,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     writeText("Eml", "test@almis.com", false);
   }
 
+  /**
+   * Add a new site
+   * @throws Exception
+   */
   @Test
   public void t001_newSite() throws Exception {
+    // Title
+    setTestTitle("Add a new site");
+
     // Go for new screen
     addNew("tools", "sites");
 
@@ -200,8 +229,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify a new site has been added
+   * @throws Exception
+   */
   @Test
   public void t002_verifyNewSite() throws Exception {
+    // Title
+    setTestTitle("Verify a new site has been added");
+
     // Verify
     verifyView("CrtSit", "Site test");
 
@@ -209,8 +245,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("Base", "awedb");
   }
 
+  /**
+   * Update a site
+   * @throws Exception
+   */
   @Test
   public void t003_updateSite() throws Exception {
+    // Title
+    setTestTitle("Update a site");
+
     // Go to update
     update("CrtSit", "Site", "tools", "sites");
 
@@ -230,8 +273,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the site has been updated
+   * @throws Exception
+   */
   @Test
   public void t004_verifyUpdatedSite() throws Exception {
+    // Title
+    setTestTitle("Verify the site has been updated");
+
     // Verify
     verifyView("CrtSit", "Site changed");
 
@@ -239,8 +289,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("Base", "awedb2");
   }
 
+  /**
+   * Add a new module
+   * @throws Exception
+   */
   @Test
   public void t011_newModule() throws Exception {
+    // Title
+    setTestTitle("Add a new module");
+
     // Go for new screen
     addNew("tools", "modules");
 
@@ -293,8 +350,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify a new module has been added
+   * @throws Exception
+   */
   @Test
   public void t012_verifyNewModule() throws Exception {
+    // Title
+    setTestTitle("Verify a new module has been added");
+
     // Verify
     verifyView("CrtMod", "Inf");
 
@@ -311,8 +375,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("test", "TST", "Site changed");
   }
 
+  /**
+   * Update the module
+   * @throws Exception
+   */
   @Test
   public void t013_updateModule() throws Exception {
+    // Title
+    setTestTitle("Update the module");
+
     // Go to update
     update("CrtMod", "Inf", "tools", "modules");
 
@@ -353,8 +424,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the module has been updated
+   * @throws Exception
+   */
   @Test
   public void t014_verifyUpdatedModule() throws Exception {
+    // Title
+    setTestTitle("Verify the module has been updated");
+
     // Verify
     verifyView("CrtMod", "Inf Changed");
 
@@ -371,8 +449,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("test", "ADM", "Site changed");
   }
 
+  /**
+   * Add a new profile
+   * @throws Exception
+   */
   @Test
   public void t021_newProfile() throws Exception {
+    // Title
+    setTestTitle("Add a new profile");
+
     // Go for new screen
     addNew("tools", "profiles");
 
@@ -395,8 +480,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify a new profile has been added
+   * @throws Exception
+   */
   @Test
   public void t022_verifyNewProfile() throws Exception {
+    // Title
+    setTestTitle("Verify a new profile has been added");
+
     // Verify
     verifyView("CrtPro", "TS1");
 
@@ -410,8 +502,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkSelectorContents("Act", "Yes");
   }
 
+  /**
+   * Update a profile
+   * @throws Exception
+   */
   @Test
   public void t023_updateProfile() throws Exception {
+    // Title
+    setTestTitle("Update a profile");
+
     // Go to update
     update("CrtPro", "TS1", "tools", "profiles");
 
@@ -422,8 +521,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the profile has been updated
+   * @throws Exception
+   */
   @Test
   public void t024_verifyUpdatedProfile() throws Exception {
+    // Title
+    setTestTitle("Verify the profile has been updated");
+
     // Verify
     verifyView("CrtPro", "TS1");
 
@@ -437,8 +543,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkSelectorContents("Act", "Yes");
   }
 
+  /**
+   * Add a new database connection
+   * @throws Exception
+   */
   @Test
   public void t031_newDatabase() throws Exception {
+    // Title
+    setTestTitle("Add a new database connection");
+
     // Go for new screen
     addNew("tools", "databases");
 
@@ -479,8 +592,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the database connection has been added
+   * @throws Exception
+   */
   @Test
   public void t032_verifyNewDatabase() throws Exception {
+    // Title
+    setTestTitle("Verify the database connection has been added");
+
     // Verify
     verifyView("CrtAls", "DBSTest");
 
@@ -491,8 +611,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("Site changed", "Inf Changed", "5");
   }
 
+  /**
+   * Update a database connection
+   * @throws Exception
+   */
   @Test
   public void t033_updateDatabase() throws Exception {
+    // Title
+    setTestTitle("Update a database connection");
+
     // Go to update
     update("CrtAls", "DBSTest", "tools", "databases");
 
@@ -521,8 +648,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the database connection has been updated
+   * @throws Exception
+   */
   @Test
   public void t034_verifyUpdatedDatabase() throws Exception {
+    // Title
+    setTestTitle("Verify the database connection has been updated");
+
     // Verify
     verifyView("CrtAls", "DBSTest Changed");
 
@@ -533,16 +667,30 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("Test");
   }
 
+  /**
+   * Add a new user
+   * @throws Exception
+   */
   @Test
   public void t041_newUser() throws Exception {
+    // Title
+    setTestTitle("Add a new user");
+
     addNewUser();
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify a new user has been added
+   * @throws Exception
+   */
   @Test
   public void t042_verifyNewUser() throws Exception {
+    // Title
+    setTestTitle("Verify a new user has been added");
+
     // Verify
     verifyView("CrtUsr", "test sel");
 
@@ -565,8 +713,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkSelectorContents("Pro", "TS1 - Profile changed");
   }
 
+  /**
+   * Update a user
+   * @throws Exception
+   */
   @Test
   public void t043_updateUser() throws Exception {
+    // Title
+    setTestTitle("Update a user");
+
     // Go to update
     update("CrtUsr", "test sel", "tools", "users");
 
@@ -577,8 +732,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the user has been updated
+   * @throws Exception
+   */
   @Test
   public void t044_verifyUpdatedUser() throws Exception {
+    // Title
+    setTestTitle("Verify the user has been updated");
+
     // Verify
     verifyView("CrtUsr", "test sel");
 
@@ -586,66 +748,150 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkCriterionContents("Eml", "testUpd@almis.com");
   }
 
+  /**
+   * Try to add a duplicated user
+   * @throws Exception
+   */
   @Test
   public void t045_newDuplicatedUser() throws Exception {
+    // Title
+    setTestTitle("Try to add a duplicated user");
+
     addNewUser();
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf", "warning");
   }
 
+  /**
+   * Delete a user
+   * @throws Exception
+   */
   @Test
   public void t050_deleteUser() throws Exception {
+    // Title
+    setTestTitle("Delete a user");
+
     delete("CrtUsr", "test sel", "tools", "users");
   }
 
+  /**
+   * Verify the user has been deleted
+   * @throws Exception
+   */
   @Test
   public void t051_verifyDeletedUser() throws Exception {
+    // Title
+    setTestTitle("Verify the user has been deleted");
+
     verifyDeleted("test sel", "tools", "users");
   }
 
+  /**
+   * Delete a database connection
+   * @throws Exception
+   */
   @Test
   public void t052_deleteDatabase() throws Exception {
+    // Title
+    setTestTitle("Delete a database connection");
+
     delete("CrtAls", "DBSTest", "tools", "databases");
   }
 
+  /**
+   * Verify the database connection has been deleted
+   * @throws Exception
+   */
   @Test
   public void t053_verifyDeletedDatabase() throws Exception {
+    // Title
+    setTestTitle("Verify the database connection has been deleted");
+
     verifyDeleted("DBSTest", "tools", "databases");
   }
 
+  /**
+   * Delete a profile
+   * @throws Exception
+   */
   @Test
   public void t054_deleteProfile() throws Exception {
+    // Title
+    setTestTitle("Delete a profile");
+
     delete("CrtPro", "TS1", "tools", "profiles");
   }
 
+  /**
+   * Verify the profile has been deleted
+   * @throws Exception
+   */
   @Test
   public void t055_verifyDeletedProfile() throws Exception {
+    // Title
+    setTestTitle("Verify the profile has been deleted");
+
     verifyDeleted("TS1", "tools", "profiles");
   }
 
+  /**
+   * Delete a module
+   * @throws Exception
+   */
   @Test
   public void t056_deleteModule() throws Exception {
+    // Title
+    setTestTitle("Delete a module");
+
     delete("CrtMod", "Inf", "tools", "modules");
   }
 
+  /**
+   * Verify the module has been deleted
+   * @throws Exception
+   */
   @Test
   public void t057_verifyDeletedModule() throws Exception {
+    // Title
+    setTestTitle("Verify the module has been deleted");
+
     verifyDeleted("Inf", "tools", "modules");
   }
 
+  /**
+   * Delete a site
+   * @throws Exception
+   */
   @Test
   public void t058_deleteSite() throws Exception {
+    // Title
+    setTestTitle("Delete a site");
+
     delete("CrtSit", "Site", "tools", "sites");
   }
 
+  /**
+   * Verify the site has been deleted
+   * @throws Exception
+   */
   @Test
   public void t059_verifyDeletedSite() throws Exception {
+    // Title
+    setTestTitle("Verify the site has been deleted");
+
     verifyDeleted("Site", "tools", "sites");
   }
 
+  /**
+   * Add a new theme
+   * @throws Exception
+   */
   @Test
   public void t061_newTheme() throws Exception {
+    // Title
+    setTestTitle("Add a new theme");
+
     addNew("tools", "themes");
 
     // Insert text
@@ -655,8 +901,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the new theme has been added
+   * @throws Exception
+   */
   @Test
   public void t062_verifyNewTheme() throws Exception {
+    // Title
+    setTestTitle("Verify the new theme has been added");
+
     // Verify
     verifyView("CrtNam", "test");
 
@@ -664,8 +917,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkCriterionContents("Nam", "Theme test");
   }
 
+  /**
+   * Update a theme
+   * @throws Exception
+   */
   @Test
   public void t063_updateTheme() throws Exception {
+    // Title
+    setTestTitle("Update a theme");
+
     // Go to update
     update("CrtNam", "test", "tools", "themes");
 
@@ -676,8 +936,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the theme has been updated
+   * @throws Exception
+   */
   @Test
   public void t064_verifyUpdatedTheme() throws Exception {
+    // Title
+    setTestTitle("Verify the theme has been updated");
+
     // Verify
     verifyView("CrtNam", "Theme changed");
 
@@ -685,18 +952,39 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkCriterionContents("Nam", "Theme changed");
   }
 
+  /**
+   * Delete a theme
+   * @throws Exception
+   */
   @Test
   public void t065_deleteTheme() throws Exception {
+    // Title
+    setTestTitle("Delete a theme");
+
     delete("CrtNam", "Theme changed", "tools", "themes");
   }
 
+  /**
+   * Verify the theme has been deleted
+   * @throws Exception
+   */
   @Test
   public void t066_verifyDeletedTheme() throws Exception {
+    // Title
+    setTestTitle("Verify the theme has been deleted");
+
     verifyDeleted("Theme changed", "tools", "themes");
   }
 
+  /**
+   * Add a new sequence
+   * @throws Exception
+   */
   @Test
   public void t071_newSequence() throws Exception {
+    // Title
+    setTestTitle("Add a new sequence");
+
     // Go to screen
     gotoScreen("tools", "sequences");
 
@@ -722,8 +1010,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the sequence has been added
+   * @throws Exception
+   */
   @Test
   public void t072_verifyNewSequence() throws Exception {
+    // Title
+    setTestTitle("Verify the sequence has been added");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -737,8 +1032,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("testKey");
   }
 
+  /**
+   * Update a sequence
+   * @throws Exception
+   */
   @Test
   public void t073_updateSequence() throws Exception {
+    // Title
+    setTestTitle("Update a sequence");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -764,8 +1066,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the sequence has been updated
+   * @throws Exception
+   */
   @Test
   public void t074_verifyUpdatedSequence() throws Exception {
+    // Title
+    setTestTitle("Verify the sequence has been updated");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -779,8 +1088,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("testKey", "1", "No");
   }
 
+  /**
+   * Delete a sequence
+   * @throws Exception
+   */
   @Test
   public void t075_deleteSequence() throws Exception {
+    // Title
+    setTestTitle("Delete a sequence");
+
     // Go to screen
     gotoScreen("tools", "sequences");
 
@@ -803,13 +1119,27 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify the sequence has been deleted
+   * @throws Exception
+   */
   @Test
   public void t076_verifyDeletedSequence() throws Exception {
+    // Title
+    setTestTitle("Verify the sequence has been deleted");
+
     verifyDeleted("test", "tools", "sequences");
   }
 
+  /**
+   * Add a new screen restriction
+   * @throws Exception
+   */
   @Test
   public void t081_newRestriction() throws Exception {
+    // Title
+    setTestTitle("Add a new screen restriction");
+
     // Go to screen
     gotoScreen("settings", "security", "screen-access");
 
@@ -838,8 +1168,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify a screen restriction has been added
+   * @throws Exception
+   */
   @Test
   public void t082_verifyNewRestriction() throws Exception {
+    // Title
+    setTestTitle("Verify a screen restriction has been added");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -856,8 +1193,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("application-info");
   }
 
+  /**
+   * Update a screen restriction
+   * @throws Exception
+   */
   @Test
   public void t083_updateRestriction() throws Exception {
+    // Title
+    setTestTitle("Update a screen restriction");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -886,8 +1230,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify a screen restriction has been updated
+   * @throws Exception
+   */
   @Test
   public void t084_verifyUpdatedRestriction() throws Exception {
+    // Title
+    setTestTitle("Verify a screen restriction has been updated");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -904,8 +1255,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("application-info", "Restricted", "No");
   }
 
+  /**
+   * Delete a screen restriction
+   * @throws Exception
+   */
   @Test
   public void t085_deleteRestriction() throws Exception {
+    // Title
+    setTestTitle("Delete a screen restriction");
+
     // Go to screen
     gotoScreen("settings", "security", "screen-access");
 
@@ -931,13 +1289,27 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify a screen restriction has been deleted
+   * @throws Exception
+   */
   @Test
   public void t086_verifyDeletedRestriction() throws Exception {
+    // Title
+    setTestTitle("Verify a screen restriction has been deleted");
+
     verifyDeleted("application-info", "settings", "security", "screen-access");
   }
 
+  /**
+   * Add a new email server
+   * @throws Exception
+   */
   @Test
   public void t091_newEmailServer() throws Exception {
+    // Title
+    setTestTitle("Add a new email server");
+
     // Go for new screen
     addNew("tools", "email-servers");
 
@@ -960,8 +1332,24 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify an email server has been added
+   * @throws Exception
+   */
   @Test
   public void t092_verifyNewEmailServer() throws Exception {
+    // Title
+    setTestTitle("Verify an email server has been added");
+
+    // Wait for button
+    verifyNewEmailServer();
+  }
+
+  /**
+   * Verify an email server has been added
+   * @throws Exception
+   */
+  private void verifyNewEmailServer() throws Exception {
     // Wait for button
     clickButton("ButRst");
 
@@ -975,8 +1363,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("test server", "localhost");
   }
 
+  /**
+   * Update an email server
+   * @throws Exception
+   */
   @Test
   public void t093_updateEmailServer() throws Exception {
+    // Title
+    setTestTitle("Update an email server");
+
     // Go to update
     update("CrtNam", "test", "tools", "email-servers");
 
@@ -993,8 +1388,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify an email server has been updated
+   * @throws Exception
+   */
   @Test
   public void t094_verifyUpdatedEmailServer() throws Exception {
+    // Title
+    setTestTitle("Verify an email server has been updated");
+
     // Wait for button
     t104_verifyUpdatedEmailServerNoAuth();
 
@@ -1002,18 +1404,41 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("test2");
   }
 
+  /**
+   * Delete an email server
+   * @throws Exception
+   */
   @Test
   public void t095_deleteEmailServer() throws Exception {
+    // Title
+    setTestTitle("Delete an email server");
+
+    // Delete email server
     delete("CrtNam", "server update", "tools", "email-servers");
   }
 
+  /**
+   * Verify an email server has been deleted
+   * @throws Exception
+   */
   @Test
   public void t096_verifyDeletedEmailServer() throws Exception {
+    // Title
+    setTestTitle("Verify an email server has been deleted");
+
+    // Verify deleted
     verifyDeleted("server update", "tools", "email-servers");
   }
 
+  /**
+   * Add a new email server without authentication
+   * @throws Exception
+   */
   @Test
   public void t101_newEmailServerNoAuth() throws Exception {
+    // Title
+    setTestTitle("Add a new email server without authentication");
+
     // Go for new screen
     addNew("tools", "email-servers");
 
@@ -1027,13 +1452,28 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify an email server without authentication has been added
+   * @throws Exception
+   */
   @Test
   public void t102_verifyNewEmailServerNoAuth() throws Exception {
-    t092_verifyNewEmailServer();
+    // Title
+    setTestTitle("Verify an email server without authentication has been added");
+
+    // Verify new email server
+    verifyNewEmailServer();
   }
 
+  /**
+   * Update an email server without authentication
+   * @throws Exception
+   */
   @Test
   public void t103_updateEmailServerNoAuth() throws Exception {
+    // Title
+    setTestTitle("Update an email server without authentication");
+
     // Go to update
     update("CrtNam", "test", "tools", "email-servers");
 
@@ -1044,8 +1484,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify an email server without authentication has been updated
+   * @throws Exception
+   */
   @Test
   public void t104_verifyUpdatedEmailServerNoAuth() throws Exception {
+    // Title
+    setTestTitle("Verify an email server without authentication has been updated");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -1059,18 +1506,41 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("server update");
   }
 
+  /**
+   * Delete an email server without authentication
+   * @throws Exception
+   */
   @Test
   public void t105_deleteEmailServerNoAuth() throws Exception {
-    t095_deleteEmailServer();
+    // Title
+    setTestTitle("Delete an email server without authentication");
+
+    // Delete email server
+    delete("CrtNam", "server update", "tools", "email-servers");
   }
 
+  /**
+   * Verify an email server without authentication has been deleted
+   * @throws Exception
+   */
   @Test
   public void t106_verifyDeletedEmailServerNoAuth() throws Exception {
-    t096_verifyDeletedEmailServer();
+    // Title
+    setTestTitle("Verify an email server without authentication has been deleted");
+
+    // Verify deleted email server
+    verifyDeleted("server update", "tools", "email-servers");
   }
 
+  /**
+   * Add a new screen configuration
+   * @throws Exception
+   */
   @Test
   public void t111_newScreenConfiguration() throws Exception {
+    // Title
+    setTestTitle("Add a new screen configuration");
+
     // Go to screen
     gotoScreen("settings", "screen-configuration");
 
@@ -1105,8 +1575,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify a screen configuration has been added
+   * @throws Exception
+   */
   @Test
   public void t112_verifyNewScreenConfiguration() throws Exception {
+    // Title
+    setTestTitle("Verify a screen configuration has been added");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -1126,8 +1603,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("Dbs", "test", "ButPrn", "Visible", "true");
   }
 
+  /**
+   * Update a screen configuration
+   * @throws Exception
+   */
   @Test
   public void t113_updateScreenConfiguration() throws Exception {
+    // Title
+    setTestTitle("Update a screen configuration");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -1156,8 +1640,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify a screen configuration has been updated
+   * @throws Exception
+   */
   @Test
   public void t114_verifyUpdatedScreenConfiguration() throws Exception {
+    // Title
+    setTestTitle("Verify a screen configuration has been updated");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -1177,8 +1668,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     checkRowContents("Dbs", "test", "ButPrn", "Visible", "false");
   }
 
+  /**
+   * Delete a screen configuration
+   * @throws Exception
+   */
   @Test
   public void t115_deleteScreenConfiguration() throws Exception {
+    // Title
+    setTestTitle("Delete a screen configuration");
+
     // Wait for button
     clickButton("ButRst");
 
@@ -1204,13 +1702,27 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
   }
 
+  /**
+   * Verify a screen configuration has been deleted
+   * @throws Exception
+   */
   @Test
   public void t116_verifyDeletedScreenConfiguration() throws Exception {
+    // Title
+    setTestTitle("Verify a screen configuration has been deleted");
+
     verifyDeleted("Dbs", "settings", "screen-configuration");
   }
 
+  /**
+   * View a log file
+   * @throws Exception
+   */
   @Test
   public void t121_viewLog() throws Exception {
+    // Title
+    setTestTitle("View a log file");
+
     // Go to log screen
     gotoScreen("tools", "log");
 
@@ -1236,8 +1748,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     waitForText("visible-text", "[INFO ]");
   }
 
+  /**
+   * Broadcast message to a user
+   * @throws Exception
+   */
   @Test
   public void t122_broadcastMessage() throws Exception {
+    // Title
+    setTestTitle("Broadcast message to a user");
+
     // Go to log screen
     gotoScreen("tools", "broadcast-messages");
 
@@ -1257,8 +1776,15 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     acceptMessage("success");
   }
 
+  /**
+   * Encrypt text with encryption tools
+   * @throws Exception
+   */
   @Test
   public void t123_encryptText() throws Exception {
+    // Title
+    setTestTitle("Encrypt text with encryption tools");
+
     // Go to log screen
     gotoScreen("settings", "security", "encrypt-tools");
 

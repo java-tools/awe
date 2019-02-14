@@ -82,7 +82,7 @@ public class MicroserviceTest extends TestUtil {
             .andExpect(status().isOk())
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
 
     // Check expected
     if (expected != null) {

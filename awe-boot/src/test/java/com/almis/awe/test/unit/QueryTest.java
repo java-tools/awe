@@ -99,9 +99,9 @@ public class QueryTest extends TestUtil {
     ObjectNode endLoadParameters = (ObjectNode) endLoad.get("parameters");
     assertEquals(0, endLoadParameters.size());
 
-    logger.info("--------------------------------------------------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("--------------------------------------------------------------------------------------");
+    logger.debug("--------------------------------------------------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("--------------------------------------------------------------------------------------");
 
     return dataListRows;
   }
@@ -284,7 +284,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"Sum\":24,\"Max\":2584,\"Avg\":10.16666666666666666666666666666666666667,\"Cnt\":12,\"Min\":60}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database);
-    logger.info(expected);
+    logger.debug(expected);
 
     ArrayNode dataListRows = assertResultJson(queryName, result, 1);
 
@@ -296,12 +296,12 @@ public class QueryTest extends TestUtil {
       assertEquals(10, component.get("Avg").asInt());
       assertEquals(12, component.get("Cnt").asInt());
       assertEquals(60, component.get("Min").asInt());
-      logger.info(component.toString());
+      logger.debug(component.toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("-------------------------------------------");
   }
 
   /**
@@ -397,7 +397,7 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"IdeModPro\":62,\"1\":1},{\"IdeModPro\":65,\"1\":1},{\"IdeModPro\":74,\"1\":1},{\"IdeModPro\":937,\"1\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(queryName, result, 4);
   }
 
@@ -1106,12 +1106,12 @@ public class QueryTest extends TestUtil {
     // Test all keys
     for (JsonNode element : dataListRows) {
       ObjectNode component = (ObjectNode) element;
-      logger.info(component.toString());
+      logger.debug(component.toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("-------------------------------------------");
   }
 
   /**
@@ -1154,12 +1154,12 @@ public class QueryTest extends TestUtil {
     // Test all keys
     for (JsonNode element : dataListRows) {
       ObjectNode component = (ObjectNode) element;
-      logger.info(component.toString());
+      logger.debug(component.toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("-------------------------------------------");
   }
 
   /**
@@ -1202,12 +1202,12 @@ public class QueryTest extends TestUtil {
     // Test all keys
     for (JsonNode element : dataListRows) {
       ObjectNode component = (ObjectNode) element;
-      logger.info(component.toString());
+      logger.debug(component.toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("-------------------------------------------");
   }
 
   /**
@@ -1250,12 +1250,12 @@ public class QueryTest extends TestUtil {
     // Test all keys
     for (JsonNode element : dataListRows) {
       ObjectNode component = (ObjectNode) element;
-      logger.info(component.toString());
+      logger.debug(component.toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("-------------------------------------------");
   }
 
   /**
@@ -1336,8 +1336,8 @@ public class QueryTest extends TestUtil {
 
     String result = performRequest(queryName, variables, database, expected);
     assertResultJson(queryName, result, 25);
-    logger.info(expected);
-    logger.info(result);
+    logger.debug(expected);
+    logger.debug(result);
   }
 
   /**
@@ -1548,8 +1548,8 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"label\":1,\"id\":1,\"value\":1},{\"label\":811,\"id\":2,\"value\":811},{\"label\":1702,\"id\":3,\"value\":1702}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, database, expected);
-    logger.info("Expected: " + expected);
-    logger.info("Result: " + result);
+    logger.debug("Expected: " + expected);
+    logger.debug("Result: " + result);
     assertResultJson(queryName, result, 3);
   }
 
@@ -1832,8 +1832,8 @@ public class QueryTest extends TestUtil {
 
     String result = performRequest(queryName, variables, database, expected);
     assertResultJson(queryName, result, 4, 1, 1, 4);
-    logger.info(expected);
-    logger.info(result);
+    logger.debug(expected);
+    logger.debug(result);
   }
 
   /**
@@ -1858,8 +1858,8 @@ public class QueryTest extends TestUtil {
 
     String result = performRequest(queryName, variables, database, expected);
     assertResultJson(queryName, result, 8, 1, 1, 8);
-    logger.info(expected);
-    logger.info(result);
+    logger.debug(expected);
+    logger.debug(result);
   }
 
   // *****************************************************************************************************************//
@@ -1887,12 +1887,12 @@ public class QueryTest extends TestUtil {
     // Test all keys
     for (JsonNode element : dataListRows) {
       ObjectNode component = (ObjectNode) element;
-      logger.info(component.toString());
+      logger.debug(component.toString());
     }
 
-    logger.info("--------------------------------------------------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("--------------------------------------------------------------------------------------");
+    logger.debug("--------------------------------------------------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("--------------------------------------------------------------------------------------");
   }
 
   /**
@@ -2811,12 +2811,12 @@ public class QueryTest extends TestUtil {
     // Test all keys
     for (JsonNode element : dataListRows) {
       ObjectNode component = (ObjectNode) element;
-      logger.info(component.toString());
+      logger.debug(component.toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("-------------------------------------------");
 
     return dataListRows;
   }
@@ -2925,8 +2925,8 @@ public class QueryTest extends TestUtil {
     Date currentDate = new Date();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
     Date parsedDate = sdf.parse(date + " " + time);
-    logger.info("Retrieved date: " + parsedDate.toString() + " - Current date: " + currentDate.toString());
-    logger.info("Difference between dates: " + (currentDate.getTime() - parsedDate.getTime()));
+    logger.debug("Retrieved date: " + parsedDate.toString() + " - Current date: " + currentDate.toString());
+    logger.debug("Difference between dates: " + (currentDate.getTime() - parsedDate.getTime()));
 
     // Check that the difference is less than a second
     assertTrue(parsedDate.getTime() - currentDate.getTime() < 1000);
@@ -3099,9 +3099,9 @@ public class QueryTest extends TestUtil {
     ObjectNode endLoadParameters = (ObjectNode) endLoad.get("parameters");
     assertEquals(0, endLoadParameters.size());
 
-    logger.info("--------------------------------------------------------------------------------------");
-    logger.info("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
-    logger.info("--------------------------------------------------------------------------------------");
+    logger.debug("--------------------------------------------------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("--------------------------------------------------------------------------------------");
 
     return dataListRows;
   }
@@ -3415,12 +3415,12 @@ public class QueryTest extends TestUtil {
     for (JsonNode element : screenDataComponents) {
       ObjectNode component = (ObjectNode) element;
       String key = component.get("id").asText();
-      logger.info(key + ": " + component.get("model").get("selected").toString());
+      logger.debug(key + ": " + component.get("model").get("selected").toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
+    logger.debug("-------------------------------------------");
   }
 
   /**
@@ -3466,12 +3466,12 @@ public class QueryTest extends TestUtil {
     for (JsonNode element : screenDataComponents) {
       ObjectNode component = (ObjectNode) element;
       String key = component.get("id").asText();
-      logger.info(key + ": " + component.get("model").get("selected").toString());
+      logger.debug(key + ": " + component.get("model").get("selected").toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
+    logger.debug("-------------------------------------------");
   }
 
   /**
@@ -3516,12 +3516,12 @@ public class QueryTest extends TestUtil {
     for (JsonNode element : screenDataComponents) {
       ObjectNode component = (ObjectNode) element;
       String key = component.get("id").asText();
-      logger.info(key + ": " + component.get("model").get("selected").toString());
+      logger.debug(key + ": " + component.get("model").get("selected").toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
+    logger.debug("-------------------------------------------");
   }
 
   /**
@@ -3564,12 +3564,12 @@ public class QueryTest extends TestUtil {
     for (JsonNode element : screenDataComponents) {
       ObjectNode component = (ObjectNode) element;
       String key = component.get("id").asText();
-      logger.info(key + ": " + component.get("model").get("selected").toString());
+      logger.debug(key + ": " + component.get("model").get("selected").toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
+    logger.debug("-------------------------------------------");
   }
 
   /**
@@ -3617,12 +3617,12 @@ public class QueryTest extends TestUtil {
     for (JsonNode element : screenDataComponents) {
       ObjectNode component = (ObjectNode) element;
       String key = component.get("id").asText();
-      logger.info(key + ": " + component.get("model").get("selected").toString());
+      logger.debug(key + ": " + component.get("model").get("selected").toString());
     }
 
-    logger.info("-------------------------------------------");
-    logger.info("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
-    logger.info("-------------------------------------------");
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + screenDataComponents.size() + " component in the screen " + screenData.get("screen").get("name"));
+    logger.debug("-------------------------------------------");
   }
 
   // *****************************************************************************************************************//

@@ -74,7 +74,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
@@ -101,7 +101,7 @@ public class MaintainTest extends TestUtil {
               .andExpect(content().json(expected))
               .andReturn();
       String result = mvcResult.getResponse().getContentAsString();
-      logger.info(result);
+      logger.debug(result);
       assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
               new MaintainResultDetails(MaintainType.INSERT, 1l)
       });
@@ -128,7 +128,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
@@ -154,7 +154,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l),
             new MaintainResultDetails(MaintainType.INSERT, 1l)
@@ -181,7 +181,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
@@ -196,7 +196,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.UPDATE, 1l)
     });
@@ -222,7 +222,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.DELETE, 0l)
     });
@@ -248,7 +248,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l),
             new MaintainResultDetails(MaintainType.AUDIT, 1l)
@@ -274,7 +274,7 @@ public class MaintainTest extends TestUtil {
         .andExpect(content().json(expected))
         .andReturn();
       String result = mvcResult.getResponse().getContentAsString();
-      logger.info(result);
+      logger.debug(result);
       assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
         new MaintainResultDetails(MaintainType.INSERT, 1l)
       });
@@ -301,7 +301,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 6, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.UPDATE, 5l),
             new MaintainResultDetails(MaintainType.AUDIT, 1l),
@@ -335,7 +335,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.UPDATE, 5l),
             new MaintainResultDetails(MaintainType.AUDIT, 5l)
@@ -364,7 +364,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 5, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.UPDATE, 1l),
             new MaintainResultDetails(MaintainType.UPDATE, 1l),
@@ -397,7 +397,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 10, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.UPDATE, 1l),
             new MaintainResultDetails(MaintainType.AUDIT, 1l),
@@ -435,7 +435,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.UPDATE, 5l),
             new MaintainResultDetails(MaintainType.AUDIT, 5l)
@@ -462,7 +462,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 3, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l),
             new MaintainResultDetails(MaintainType.UPDATE, 1l),
@@ -490,7 +490,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 5, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l),
             new MaintainResultDetails(MaintainType.INSERT, 1l),
@@ -520,7 +520,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
 
     String queryName = "CheckRollback";
     expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
@@ -531,7 +531,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
 
     // Clean the mess
     cleanUp("CleanUp");
@@ -554,7 +554,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
 
     String queryName = "CheckRollback";
     expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"HISope\":\"test\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
@@ -565,7 +565,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
 
     // Clean the mess
     cleanUp("CleanUp");
@@ -588,7 +588,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l),
             new MaintainResultDetails(MaintainType.INSERT, 1l)
@@ -615,7 +615,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
@@ -640,7 +640,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 3, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l),
             new MaintainResultDetails(MaintainType.UPDATE, 1l),
@@ -671,7 +671,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.INSERT, 1l),
             new MaintainResultDetails(MaintainType.INSERT, 1l)
@@ -699,7 +699,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
             new MaintainResultDetails(MaintainType.DELETE, 1l),
             new MaintainResultDetails(MaintainType.DELETE, 1l)
@@ -723,7 +723,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
   }
 
   /**
@@ -743,7 +743,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
   }
 
   /**
@@ -763,7 +763,7 @@ public class MaintainTest extends TestUtil {
             .andExpect(content().json(expected))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
+    logger.debug(result);
   }
 
   // *****************************************************************************************************************//
