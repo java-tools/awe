@@ -14,6 +14,6 @@ VOLUME /logs
 VOLUME /tmp
 
 # Execute jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/awe-boot.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-jar","/awe-boot.jar"]
 
 

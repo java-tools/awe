@@ -1,8 +1,5 @@
 package com.almis.awe.model.component;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
-
 import java.util.Observable;
 
 /**

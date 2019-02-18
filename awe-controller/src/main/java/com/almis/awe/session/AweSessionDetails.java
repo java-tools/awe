@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.almis.awe.model.constant.AweConstants.*;
 
@@ -29,7 +26,7 @@ public class AweSessionDetails extends ServiceConfig {
   // Autowired services
   private AweClientTracker clientTracker;
   private QueryService queryService;
-  private Map<String, List<String>> connectedUsers;
+  private Map<String, Set<String>> connectedUsers;
 
   // Change password screen
   @Value("${session.parameters:}")
@@ -57,7 +54,7 @@ public class AweSessionDetails extends ServiceConfig {
    * @param connectedUsers
    */
   @Autowired
-  public AweSessionDetails(AweClientTracker aweClientTracker, QueryService queryService, Map<String, List<String>> connectedUsers) {
+  public AweSessionDetails(AweClientTracker aweClientTracker, QueryService queryService, Map<String, Set<String>> connectedUsers) {
     this.clientTracker = aweClientTracker;
     this.queryService = queryService;
     this.connectedUsers = connectedUsers;
@@ -76,15 +73,19 @@ public class AweSessionDetails extends ServiceConfig {
       // Store user details
       storeUserDetails();
 
-      // Add cometUID to user session
-      List<String> sessionList = null;
+      // Get user session list
+      Set<String> sessionList = null;
       if (connectedUsers.containsKey(session.getUser())) {
         sessionList = connectedUsers.get(session.getUser());
       } else {
-        sessionList = new ArrayList<>();
+        sessionList = new HashSet();
         connectedUsers.put(session.getUser(), sessionList);
       }
-      sessionList.add(getRequest().getParameterAsString(sessionKey));
+
+      // Add cometUID to user session
+      if (!sessionList.contains(sessionKey)) {
+        sessionList.add(getRequest().getParameterAsString(sessionKey));
+      }
 
       // Initialize session variables
       initializeSessionVariables();
@@ -112,9 +113,8 @@ public class AweSessionDetails extends ServiceConfig {
     String user = getSession().getUser();
 
     // Remove cometUID from user session
-    List<String> sessionList = null;
     if (connectedUsers.containsKey(user)) {
-      sessionList = connectedUsers.get(user);
+      Set<String> sessionList = connectedUsers.get(user);
       sessionList.remove(getRequest().getParameterAsString(sessionKey));
     }
   }

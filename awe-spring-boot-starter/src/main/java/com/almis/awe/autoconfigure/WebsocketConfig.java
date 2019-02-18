@@ -18,10 +18,7 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Awe Web Socket configuration.
@@ -35,7 +32,7 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
   @Value("application.acronym")
   private String applicationAcronym;
-  private Map<String, List<String>> connectedUsers = Collections.synchronizedMap(new HashMap<>());
+  private Map<String, Set<String>> connectedUsers = Collections.synchronizedMap(new HashMap<>());
 
   /**
    * Configures the message broker.
@@ -72,7 +69,7 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
    * @return Connected users
    */
   @Bean
-  public Map<String, List<String>> connectedUsers() {
+  public Map<String, Set<String>> connectedUsers() {
     return connectedUsers;
   }
 
@@ -89,7 +86,7 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
    */
   @Bean
   @ConditionalOnMissingBean
-  public BroadcastService broadcastService(SimpMessagingTemplate brokerMessagingTemplate, Map<String, List<String>> connectedUsers,
+  public BroadcastService broadcastService(SimpMessagingTemplate brokerMessagingTemplate, Map<String, Set<String>> connectedUsers,
                                       LogUtil logger) {
     return new BroadcastService(brokerMessagingTemplate, connectedUsers, logger);
   }

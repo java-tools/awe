@@ -6,7 +6,9 @@ import com.almis.awe.service.QueryService;
 import com.almis.awe.service.SessionService;
 import com.almis.awe.session.AweHttpSessionStrategy;
 import com.almis.awe.session.AweSessionDetails;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
@@ -14,8 +16,8 @@ import org.springframework.session.web.http.HttpSessionStrategy;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by dfuentes on 17/07/2017.
@@ -23,6 +25,9 @@ import java.util.Map;
 @Configuration
 @EnableSpringHttpSession
 public class SessionConfig {
+
+  @Autowired
+  ApplicationContext context;
 
   /**
    * Session strategy
@@ -67,7 +72,7 @@ public class SessionConfig {
   @Bean
   @ConditionalOnMissingBean
   public AweSessionDetails aweSessionDetails(AweClientTracker aweClientTracker,
-                                             QueryService queryService, Map<String, List<String>> connectedUsers) {
+                                             QueryService queryService, Map<String, Set<String>> connectedUsers) {
     return new AweSessionDetails(aweClientTracker, queryService, connectedUsers);
   }
 }

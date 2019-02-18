@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
@@ -127,6 +128,10 @@ public class SeleniumTestsUtil {
 
   public WebDriver getDriver() {
     return driver;
+  }
+
+  public String getBaseUrl() {
+    return startURL;
   }
 
   /**
@@ -731,6 +736,9 @@ public class SeleniumTestsUtil {
   }
 
   protected void acceptConfirm() {
+    // Pause 250 ms
+    pause(250);
+
     clickButton("confirm-accept");
 
     // Wait for element not present
@@ -740,8 +748,11 @@ public class SeleniumTestsUtil {
   protected void acceptMessage(String messageType) {
     By messageSelector = By.cssSelector(".alert-zone .alert-" + messageType + " button.close");
 
+    // Pause 250 ms
+    pause(250);
+
     // Wait for message selector
-    waitUntil(visibilityOfElementLocated(messageSelector));
+    waitUntil(elementToBeClickable(messageSelector));
 
     // Click on message selector
     click(messageSelector);
@@ -751,6 +762,21 @@ public class SeleniumTestsUtil {
 
     // Wait for loading bar
     waitForLoadingBar();
+  }
+
+  /**
+   * Check if message is missing
+   * @param messageType Message type
+   */
+  protected void checkMessageMissing(String messageType) {
+    By messageSelector = By.cssSelector(".alert-zone .alert-" + messageType + " button.close");
+
+    // Wait 1 second
+    pause(1000);
+    List<WebElement> messages = driver.findElements(messageSelector);
+
+    // Check there are no messages of messageType
+    assertEquals(0, messages.size());
   }
 
   protected void doLogin() throws Exception {
@@ -819,6 +845,29 @@ public class SeleniumTestsUtil {
 
     // Wait for text in selector
     waitUntil(textMatches(By.cssSelector("div.slogan"), Pattern.compile("Almis Web Engine")));
+  }
+
+  /**
+   * Broadcast a message to a user
+   */
+  protected void broadcastMessageToUser() {
+    // Go to broadcast screen
+    gotoScreen("tools", "broadcast-messages");
+
+    // Suggest
+    suggest("MsgTar", "test", "test", false);
+
+    // Write on criterion
+    writeText("MsgDes", "This is a broadcast message test", false);
+
+    // Search and wait
+    clickButton("ButSnd");
+
+    // Accept message
+    acceptMessage("success");
+
+    // Accept message
+    acceptMessage("info");
   }
 
   /**

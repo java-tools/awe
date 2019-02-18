@@ -1757,23 +1757,8 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     // Title
     setTestTitle("Broadcast message to a user");
 
-    // Go to log screen
-    gotoScreen("tools", "broadcast-messages");
-
-    // Suggest
-    suggest("MsgTar", "test", "test", false);
-
-    // Write on criterion
-    writeText("MsgDes", "This is a broadcast message test", false);
-
-    // Search and wait
-    clickButton("ButSnd");
-
-    // Accept message
-    acceptMessage("info");
-
-    // Accept message
-    acceptMessage("success");
+    // Broadcast messaget o user
+    broadcastMessageToUser();
   }
 
   /**
