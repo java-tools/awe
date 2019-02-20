@@ -1280,7 +1280,7 @@ public class QueryTest extends TestUtil {
    * @throws Exception Test error
    */
   private void testQueryHaving(String database) throws Exception {
-    String queryName = "HavTst";
+    String queryName = "HavTstUni";
     String variables = "";
 
     String result = performRequest(queryName, variables, database);

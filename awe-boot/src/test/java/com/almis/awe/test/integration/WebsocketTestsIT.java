@@ -74,7 +74,7 @@ public class WebsocketTestsIT extends SeleniumTestsUtil {
     gotoScreen("tools", "broadcast-messages");
 
     // Write on criterion
-    writeText("MsgDes", "This is a broadcast message test", false);
+    writeText("MsgDes", "This is a broadcast message test");
 
     // Search and wait
     clickButton("ButSnd");

@@ -18,6 +18,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.TestPropertySource;
@@ -30,11 +31,9 @@ import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 
 @RunWith(SpringRunner.class)
@@ -126,10 +125,18 @@ public class SeleniumTestsUtil {
     }
   }
 
+  /**
+   * Get current driver
+   * @return
+   */
   public WebDriver getDriver() {
     return driver;
   }
 
+  /**
+   * Get current base url
+   * @return
+   */
   public String getBaseUrl() {
     return startURL;
   }
@@ -154,6 +161,7 @@ public class SeleniumTestsUtil {
       .replaceAll("_+", "_")
       .replaceAll("_build_info.*", "")
       .replaceAll("_session_info.*", "");
+    messageSanitized = messageSanitized.length() > 180 ? messageSanitized.substring(0, 180) : messageSanitized;
     String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
     Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
     logger.error(message, throwable);
@@ -166,6 +174,9 @@ public class SeleniumTestsUtil {
     } catch (IOException ioExc) {
       logger.error("Error trying to store screenshot at: " + path, ioExc);
     }
+
+    // Assert false
+    assertTrue(message, false);
   }
 
   /**
@@ -176,10 +187,11 @@ public class SeleniumTestsUtil {
     String message = condition.toString();
     try {
       new WebDriverWait(driver, timeout).until(condition);
+      // Assert true on condition
+      assertTrue(message, true);
       logger.log(Level.DEBUG, message);
     } catch (Exception exc) {
       manageError(message, exc);
-      assert (!(boolean) condition.apply(driver)) : condition.toString();
     }
   }
 
@@ -192,10 +204,11 @@ public class SeleniumTestsUtil {
     boolean condition = driver.findElement(selector).getText().equals(text);
 
     // Assert element is not located
+    String conditionMessage = driver.findElement(selector).getText() + " isn't equal to " + text;
     if (!condition) {
-      String conditionMessage = driver.findElement(selector).getText() + " isn't equal to " + text;
       manageError(conditionMessage);
-      assert false : conditionMessage;
+    } else {
+      assertTrue(conditionMessage, condition);
     }
   }
 
@@ -205,13 +218,15 @@ public class SeleniumTestsUtil {
    * @param text Text to compare
    */
   protected void checkTextContains(By selector, String text) {
-    boolean condition = driver.findElement(selector).getText().contains(text);
+    String nodeText = driver.findElement(selector).getText();
+    boolean condition = nodeText.contains(text);
 
     // Assert element is not located
+    String conditionMessage = selector.toString() + " text: '" + nodeText + "'  doesn't contain " + text;
     if (!condition) {
-      String conditionMessage = selector.toString() + " doesn't contain " + text;
       manageError(conditionMessage);
-      assert false : conditionMessage;
+    } else {
+      assertTrue(conditionMessage, condition);
     }
   }
 
@@ -224,10 +239,11 @@ public class SeleniumTestsUtil {
     boolean condition = driver.findElement(selector).getText().contains(text);
 
     // Assert element is not located
+    String conditionMessage = selector.toString() + " contains " + text;
     if (!condition) {
-      String conditionMessage = selector.toString() + " contains " + text;
       manageError(conditionMessage);
-      assert false : conditionMessage;
+    } else {
+      assertTrue(conditionMessage, condition);
     }
   }
 
@@ -240,10 +256,11 @@ public class SeleniumTestsUtil {
     boolean condition = driver.findElement(selector).getAttribute("value").contains(text);
 
     // Assert element is not located
+    String conditionMessage = selector.toString() + " doesn't contain " + text;
     if (!condition) {
-      String conditionMessage = selector.toString() + " doesn't contain " + text;
       manageError(conditionMessage);
-      assert false : conditionMessage;
+    } else {
+      assertTrue(conditionMessage, condition);
     }
   }
 
@@ -269,11 +286,33 @@ public class SeleniumTestsUtil {
    * @param selector Element selector
    */
   protected void click(By selector) {
+    String conditionMessage = "";
     try {
       driver.findElement(selector).click();
+      // Assert true on condition
+      assertTrue(conditionMessage, true);
     } catch (Exception exc) {
-      manageError(exc.getMessage());
-      assert false : "Error clicking element: " + selector.toString() + "\n" + exc.getMessage();
+      conditionMessage = "Error clicking on element: " + selector.toString() + "\n" + exc.getMessage();
+      manageError(conditionMessage, exc);
+    }
+  }
+
+  /**
+   * Context menu on element
+   * @param selector Element selector
+   */
+  protected void contextMenu(By selector) {
+    String conditionMessage = "";
+    try {
+      new Actions(driver)
+        .moveToElement(driver.findElement(selector))
+        .contextClick()
+        .build()
+        .perform();
+      assertTrue(conditionMessage, true);
+    } catch (Exception exc) {
+      conditionMessage = "Error right clicking on element: " + selector.toString() + "\n" + exc.getMessage();
+      manageError(conditionMessage, exc);
     }
   }
 
@@ -336,11 +375,38 @@ public class SeleniumTestsUtil {
     waitForButton(buttonName);
 
     // Click button
-    click(By.cssSelector("#" + buttonName + ":not([disabled])"));
+    clickSelector(By.cssSelector("#" + buttonName + ":not([disabled])"));
 
     if (waitForLoadingBar) {
       // Wait for loading bar
       waitForLoadingBar();
+    }
+  }
+
+  /**
+   * Click on a context button
+   * @param contextButtonOptionList Context button option list
+   */
+  protected void clickContextButton(String... contextButtonOptionList) {
+    By contextButtonSelector = null;
+    for (String contextButtonOption : contextButtonOptionList) {
+      // Set context button name
+      contextButtonSelector = By.cssSelector(".context-menu [option-id='" + contextButtonOption + "'] a:not([disabled])");
+
+      // Wait for context button
+      waitForContextButton(contextButtonOption);
+
+      // Mouse over context button
+      new Actions(driver)
+        .moveToElement(driver.findElement(contextButtonSelector))
+        .build()
+        .perform();
+    }
+
+    // Click on last option
+    if (contextButtonSelector != null) {
+      // Click button
+      clickSelector(contextButtonSelector);
     }
   }
 
@@ -351,14 +417,8 @@ public class SeleniumTestsUtil {
    */
   protected void clickTab(String tabName, String tabLabel) {
     // Tab selector
-    By tabSelector = By.cssSelector("[criterion-id='" + tabName + "'] span[translate-multiple*='" + tabLabel + "']");
-    By tabActive = By.cssSelector("[criterion-id='" + tabName + "'] li.active span[translate-multiple*='" + tabLabel + "']");
-
-    // Wait for element visible
-    waitUntil(visibilityOfElementLocated(tabSelector));
-
-    // Click on tab selector
-    click(tabSelector);
+    clickSelector(By.cssSelector(getCriterionSelectorCss(tabName) + " span[translate-multiple*='" + tabLabel + "']"));
+    By tabActive = By.cssSelector(getCriterionSelectorCss(tabName) + " li.active span[translate-multiple*='" + tabLabel + "']");
 
     // Wait for tab active
     waitUntil(visibilityOfElementLocated(tabActive));
@@ -369,27 +429,159 @@ public class SeleniumTestsUtil {
    * @param infoButtonName Button name
    */
   protected void clickInfoButton(String infoButtonName) {
-    By settingsToggleButton = By.cssSelector("[info-dropdown-id='" + infoButtonName + "'] a");
+    clickSelector(By.cssSelector("[info-dropdown-id='" + infoButtonName + "'] a"));
+  }
 
-    // Wait for element visible
-    waitUntil(visibilityOfElementLocated(settingsToggleButton));
+  /**
+   * Click on tree button
+   * @param gridId Grid id
+   * @param rowId Row id
+   */
+  protected void clickTreeButton(String gridId, String rowId) {
 
-    // Click on button
-    click(settingsToggleButton);
+    // Click on tree button
+    clickSelector(By.cssSelector("[tree-grid-id='" + gridId + "'] [row-id='" + rowId + "'] i.tree-icon"));
+
+    // Check loader is not visible
+    checkNotVisible(".fa-spin");
+
+    // Pause to wait tree leaf to open
+    pause(250);
+  }
+
+  /**
+   * Retrieve parent selector in css
+   * @param criterionName Criterion name
+   * @return Css parent selector
+   */
+  private String getCriterionSelectorCss(String criterionName) {
+      return "[criterion-id='" + criterionName + "']";
+  }
+
+  /**
+   * Retrieve parent selector in css
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @return Css parent selector
+   */
+  private String getParentSelectorCss(String gridId, String rowId, String columnId) {
+    if (rowId == null) {
+      return ".grid [id='scope-" + gridId + "'] .ui-grid-row-selected [column-id='" + columnId + "'] ";
+    } else {
+      return ".grid [id='scope-" + gridId + "'] [row-id='" + rowId + "'] [column-id='" + columnId + "'] " ;
+    }
+  }
+
+  /**
+   * Retrieve parent selector in xpath
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @return Css parent selector
+   */
+  private String getParentSelectorXpath(String gridId, String rowId, String columnId) {
+    if (rowId == null) {
+      return "//*[contains(@grid-id, '" + gridId + "') or contains(@tree-grid-id, '" + gridId + "')]//*[contains(@class, 'ui-grid-row-selected')]//*[contains(@column-id, '" + columnId + "')]";
+    } else {
+      return "//*[contains(@grid-id, '" + gridId + "') or contains(@tree-grid-id, '" + gridId + "')]//*[contains(@row-id, '" + rowId + "')]//*[contains(@column-id, '" + columnId + "')]";
+    }
+  }
+
+  /**
+   * Retrieve parent selector in xpath
+   * @param gridId Grid id
+   * @return Css parent selector
+   */
+  private String getGridSelectorXpath(String gridId) {
+    if (gridId == null) {
+      return "";
+    } else {
+      return "//*[contains(@grid-id, '" + gridId + "') or contains(@tree-grid-id, '" + gridId + "')]";
+    }
   }
 
   /**
    * Click on datepicker
-   * @param dateName Datepicker name
+   * @param criterionName Datepicker name
    */
-  protected void clickDate(String dateName) {
-    By datePicker = By.id(dateName);
+  protected void clickDate(String criterionName) {
+    clickDateFromSelector(getCriterionSelectorCss(criterionName));
+  }
 
-    // Wait for element visible
-    waitUntil(visibilityOfElementLocated(datePicker));
+  /**
+   * Click on datepicker on grid
+   * @param gridId Grid id
+   * @param columnId Column id
+   */
+  protected void clickDate(String gridId, String columnId) {
+    clickDateFromSelector(getParentSelectorCss(gridId, null, columnId));
+  }
 
-    // Click on datepicker
-    click(datePicker);
+  /**
+   * Click on datepicker on grid
+   * @param gridId Grid id
+   * @param rowId row id
+   * @param columnId Column id
+   */
+  protected void clickDate(String gridId, String rowId, String columnId) {
+    clickDateFromSelector(getParentSelectorCss(gridId, rowId, columnId));
+  }
+
+  /**
+   * Click on datepicker
+   * @param parentSelector Parent selector
+   */
+  private void clickDateFromSelector(String parentSelector) {
+    clickSelector(By.cssSelector(parentSelector + " input"));
+  }
+
+  /**
+   * Select a date in datepicker
+   * @param dateName Datepicker name
+   * @param dateValue Date to select
+   */
+  protected void selectDate(String dateName, CharSequence dateValue) {
+    selectDateFromSelector(getCriterionSelectorCss(dateName), dateValue);
+  }
+
+  /**
+   * Select a date in a grid
+   * @param gridId Grid id
+   * @param columnId Column id
+   * @param dateValue Date to select
+   */
+  protected void selectDate(String gridId, String columnId, CharSequence dateValue) {
+    // Select date with parent selector
+    selectDateFromSelector(getParentSelectorCss(gridId, null, columnId), dateValue);
+  }
+
+  /**
+   * Select a date in a grid
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @param dateValue Date to select
+   */
+  protected void selectDate(String gridId, String rowId, String columnId, CharSequence dateValue) {
+    // Select date with parent selector
+    selectDateFromSelector(getParentSelectorCss(gridId, rowId, columnId), dateValue);
+  }
+
+  /**
+   * Select a date in datepicker
+   * @param parentSelector Parent selector
+   * @param dateValue Date value
+   */
+  protected void selectDateFromSelector(String parentSelector, CharSequence dateValue) {
+    // Click on date
+    clickDateFromSelector(parentSelector);
+
+    // Write text on date
+    writeTextFromSelector(parentSelector, dateValue, true);
+
+    // Click on selector
+    clickSelector(By.cssSelector(".datepicker td.day:not(.disabled)"));
   }
 
   /**
@@ -404,10 +596,17 @@ public class SeleniumTestsUtil {
     click(selector);
   }
 
+  /**
+   * Click on search button (ButSch) and wait the grid to load
+   */
   protected void searchAndWait() {
     searchAndWait("ButSch");
   }
 
+  /**
+   * Click on search button and wait the grid to load
+   * @param buttonName Button name
+   */
   protected void searchAndWait(String buttonName) {
     clickButton(buttonName, false);
 
@@ -415,8 +614,48 @@ public class SeleniumTestsUtil {
     waitForLoadingGrid();
   }
 
+  /**
+   * Click on row with a text
+   * @param search Text to search
+   */
   protected void clickRowContents(String search) {
-    By selector = By.xpath("//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search +"')]/..");
+    clickRowContentsFromSelector("", search);
+  }
+
+  /**
+   * Click on row with a text
+   * @param gridId Grid to search in
+   * @param search Text to search
+   */
+  protected void clickRowContents(String gridId, String search) {
+    clickRowContentsFromSelector(getGridSelectorXpath(gridId), search);
+  }
+
+  /**
+   * Click on row with a text
+   * @param gridId Grid id
+   * @param columnId Column id
+   */
+  protected void clickRow(String gridId, String columnId) {
+    clickRowFromSelector(getParentSelectorXpath(gridId, null, columnId));
+  }
+
+  /**
+   * Click on row with a text
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   */
+  protected void clickRow(String gridId, String rowId, String columnId) {
+    clickRowFromSelector(getParentSelectorXpath(gridId, rowId, columnId));
+  }
+
+  /**
+   * Click on row
+   * @param parentSelector Parent selector
+   */
+  private void clickRowFromSelector(String parentSelector) {
+    By selector = By.xpath(parentSelector);
 
     // Wait for element visible
     waitUntil(and(visibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader"))));
@@ -425,9 +664,73 @@ public class SeleniumTestsUtil {
     click(selector);
   }
 
+  /**
+   * Click on row with a text
+   * @param parentSelector Grid to search in
+   * @param search Text to search
+   */
+  private void clickRowContentsFromSelector(String parentSelector, String search) {
+    clickRowFromSelector(parentSelector + "//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search +"')]/..");
+  }
+
+  /**
+   * Context menu on row
+   * @param search Text to search
+   */
+  protected void contextMenuRowContents(String search) {
+    contextMenuRowContents(null, search);
+  }
+
+  /**
+   * Context menu on row
+   * @param search Text to search
+   */
+  protected void contextMenuRowContents(String gridId, String search) {
+    contextMenuFromSelector(getGridSelectorXpath(gridId) + "//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search +"')]/..");
+  }
+
+
+  /**
+   * Context menu on a grid
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   */
+  protected void contextMenu(String gridId, String rowId, String columnId) {
+    contextMenuFromSelector(getParentSelectorXpath(gridId, rowId, columnId));
+  }
+
+  /**
+   * Context menu on row
+   * @param parentSelector Text to search
+   */
+  protected void contextMenuFromSelector(String parentSelector) {
+    By selector = By.xpath(parentSelector);
+
+    // Wait for element visible
+    waitUntil(and(visibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader"))));
+
+    // Click button
+    contextMenu(selector);
+  }
+
+  /**
+   * Check if grid contains some texts
+   * @param searchList Texts to search for in the grid
+   */
   protected void checkRowContents(String... searchList) {
+    checkRowContentsGrid(null, searchList);
+  }
+
+  /**
+   * Check if grid contains some texts
+   * @param gridId Grid Identifier
+   * @param searchList Texts to search for in the grid
+   */
+  protected void checkRowContentsGrid(String gridId, String... searchList) {
+    String gridSelector = getGridSelectorXpath(gridId);
     for (String search : searchList) {
-      By selector = By.xpath("//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search + "')]/..");
+      By selector = By.xpath(gridSelector + "//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search + "')]/..");
 
       // Wait for element visible
       waitUntil(and(visibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader"))));
@@ -437,30 +740,83 @@ public class SeleniumTestsUtil {
     }
   }
 
+  /**
+   * Check cell contents
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @param search Search value
+   */
+  protected void checkCellContents(String gridId, String rowId, String columnId, String search) {
+    By selector = By.xpath(getParentSelectorXpath(gridId, rowId, columnId) + "//text()[contains(.,'" + search + "')]/..");
+
+    // Wait for element visible
+    waitUntil(and(visibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader"))));
+
+    // Check text
+    checkTextContains(selector, search);
+  }
+
+  /**
+   * Check if grid doesn't contain some texts
+   * @param search Texts to search for in the grid
+   */
   protected void checkRowNotContains(String search) {
     By selector = By.xpath("//*[contains(@class,'ui-grid-row')]//*[contains(@class,'ui-grid-cell-contents')]//text()[contains(.,'" + search +"')]/..");
 
     ExpectedCondition<Boolean> condition = and(invisibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader")));
 
     // Assert element is not located
+    String conditionMessage = condition.toString();
     if (!condition.apply(driver).booleanValue()) {
-      manageError(condition.toString());
-      assert false : condition.toString();
+      manageError(conditionMessage);
+    } else {
+      assertTrue(conditionMessage, true);
     }
   }
 
+  /**
+   * Assert if a criterion contains a text
+   * @param criterionName Criterion name
+   * @param search Text to check
+   */
   protected void checkCriterionContents(String criterionName, String search) {
-    By selector = By.cssSelector("[criterion-id='" + criterionName +  "'] input");
+    By selector = By.cssSelector(
+      getCriterionSelectorCss(criterionName) + " input," +
+      getCriterionSelectorCss(criterionName) + " textarea");
 
     // Wait for element visible
-    waitUntil(visibilityOfElementLocated(selector));
+    waitUntil(presenceOfElementLocated(selector));
 
     // Check text
     checkCriterionContains(selector, search);
   }
 
+  /**
+   * Assert if some criteria are checked or not
+   * @param isChecked Flag to check
+   * @param criteriaNames Elements to check
+   */
+  protected void checkCheckboxRadio(boolean isChecked, String... criteriaNames) {
+    String checkedSelector = isChecked ? ":checked" : ":not(:checked)";
+    String activeSelector = isChecked ? ".active" : ":not(.active)";
+    for (String criterionName : criteriaNames) {
+      By selector = By.cssSelector(
+          getCriterionSelectorCss(criterionName) + " .input label input" + checkedSelector + "," +
+          getCriterionSelectorCss(criterionName) + activeSelector);
+
+      // Wait for element visible
+      waitUntil(presenceOfElementLocated(selector));
+    }
+  }
+
+  /**
+   * Assert if a selector contains a text
+   * @param criterionName Selector name
+   * @param search Text to check
+   */
   protected void checkSelectorContents(String criterionName, String search) {
-    By selector = By.cssSelector("[criterion-id='" + criterionName +  "'] .select2-chosen");
+    By selector = By.cssSelector(getCriterionSelectorCss(criterionName) + " .select2-chosen");
 
     // Wait for element visible
     waitUntil(visibilityOfElementLocated(selector));
@@ -469,12 +825,32 @@ public class SeleniumTestsUtil {
     checkTextContains(selector, search);
   }
 
+  /**
+   * Wait for button to be clickable
+   * @param buttonName Button name
+   */
   protected void waitForButton(String buttonName) {
+    waitForSelector(By.cssSelector("#" + buttonName + ":not([disabled])"));
+  }
+
+  /**
+   * Wait for context button to be clickable
+   * @param buttonName Button name
+   */
+  protected void waitForContextButton(String buttonName) {
+    waitForSelector(By.cssSelector(".context-menu [option-id='" + buttonName + "'] a:not([disabled])"));
+  }
+
+  /**
+   * Wait for selector to be clickable
+   * @param selector Selector to wait for
+   */
+  protected void waitForSelector(By selector) {
     // Safecheck
     Integer safecheck = 0;
 
     // Wait for element visible
-    waitUntil(elementToBeClickable(By.cssSelector("#" + buttonName + ":not([disabled])")));
+    waitUntil(elementToBeClickable(selector));
 
     // Move mouse while help is being displayed
     List<WebElement> popovers = driver.findElements(By.cssSelector(".popover:not(.ng-hide)"));
@@ -491,6 +867,11 @@ public class SeleniumTestsUtil {
     }
   }
 
+  /**
+   * Wait for text inside a tag with a CSS class
+   * @param clazz CSS class
+   * @param contains Text to check
+   */
   protected void waitForText(String clazz, String contains) {
     By selector = By.xpath("//*[contains(@class,'" + clazz + "')]//text()[contains(.,'" + contains +"')]/..");
 
@@ -526,10 +907,9 @@ public class SeleniumTestsUtil {
    * Write text on criterion
    * @param criterionName Criterion name
    * @param text Text
-   * @param isColumn Is column
    */
-  protected void writeText(String criterionName, CharSequence text, boolean isColumn) {
-    writeText(criterionName, text, true, isColumn);
+  protected void writeText(String criterionName, CharSequence text) {
+    writeText(criterionName, text, true);
   }
 
   /**
@@ -537,11 +917,57 @@ public class SeleniumTestsUtil {
    * @param criterionName Criterion name
    * @param text Text
    * @param clearText Clear text
-   * @param isColumn Is column
    */
-  protected void writeText(String criterionName, CharSequence text, boolean clearText, boolean isColumn) {
-    String mainSelector = isColumn ? "column-id" : "criterion-id";
-    By selector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] input,[" + mainSelector + "='" + criterionName +  "'] textarea");
+  protected void writeText(String criterionName, CharSequence text, boolean clearText) {
+    writeTextFromSelector(getCriterionSelectorCss(criterionName), text, clearText);
+  }
+
+  /**
+   * Write text check clear text
+   * @param gridId Grid id
+   * @param columnId Column id
+   * @param text Text to write
+   */
+  protected void writeText(String gridId, String columnId, CharSequence text) {
+    // Write text on grid
+    writeTextFromSelector(getParentSelectorCss(gridId, null, columnId), text, true);
+  }
+
+
+  /**
+   * Write text check clear text
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @param text Text to write
+   */
+  protected void writeText(String gridId, String rowId, String columnId, CharSequence text) {
+    // Write text on grid
+    writeTextFromSelector(getParentSelectorCss(gridId, rowId, columnId), text, true);
+  }
+
+  /**
+   * Write text check clear text
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @param text Text to write
+   * @param clearText Clear previous text
+   */
+  protected void writeText(String gridId, String rowId, String columnId, CharSequence text, boolean clearText) {
+    // Write text on grid
+    writeTextFromSelector(getParentSelectorCss(gridId, rowId, columnId), text, clearText);
+  }
+
+  /**
+   * Write text check clear text
+   * @param parentSelector Parent selector
+   * @param text Text
+   * @param clearText Clear text
+   */
+  private void writeTextFromSelector(String parentSelector, CharSequence text, boolean clearText) {
+    By selector = By.cssSelector(parentSelector + " input," +
+      parentSelector + " textarea");
 
     // Wait for element present
     waitUntil(presenceOfElementLocated(selector));
@@ -553,11 +979,89 @@ public class SeleniumTestsUtil {
 
     // Write text
     sendKeys(selector, text);
+
+    // Write text
+    sendKeys(selector, Keys.TAB);
   }
 
-  protected void clickCheckbox(String criterionName, boolean isColumn) {
-    String mainSelector = isColumn ? "column-id" : "criterion-id";
-    By selector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] .input label");
+  /**
+   * Get criterion text
+   * @param criterionName Criterion name
+   */
+  protected String getText(String criterionName) {
+    return getTextFromSelector(getCriterionSelectorCss(criterionName));
+  }
+
+  /**
+   * Get criterion text
+   * @param gridId Grid id
+   * @param columnId Column id
+   * @return Criterion text
+   */
+  protected String getText(String gridId, String columnId) {
+    return getTextFromSelector(getParentSelectorCss(gridId, null, columnId));
+  }
+
+  /**
+   * Get criterion text
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @return Criterion text
+   */
+  protected String getText(String gridId, String rowId, String columnId) {
+    return getTextFromSelector(getParentSelectorCss(gridId, rowId, columnId));
+  }
+
+  /**
+   * Get criterion text
+   * @param parentSelector Parent selector
+   */
+  protected String getTextFromSelector(String parentSelector) {
+    By selector = By.cssSelector(
+      parentSelector + " input," +
+      parentSelector + " textarea");
+
+    // Wait for element present
+    waitUntil(presenceOfElementLocated(selector));
+
+    // Get selector text
+    return driver.findElement(selector).getAttribute("value");
+  }
+
+  /**
+   * Click on a checkbox or a radio button
+   * @param criterionName Criterion name
+   */
+  protected void clickCheckbox(String criterionName) {
+    clickCheckboxFromSelector(getCriterionSelectorCss(criterionName));
+  }
+
+  /**
+   * Click on a checkbox or a radio button
+   * @param gridId Grid id
+   * @param columnId Column id
+   */
+  protected void clickCheckbox(String gridId, String columnId) {
+    clickCheckboxFromSelector(getParentSelectorCss(gridId, null, columnId));
+  }
+
+  /**
+   * Click on a checkbox or a radio button
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   */
+  protected void clickCheckbox(String gridId, String rowId, String columnId) {
+    clickCheckboxFromSelector(getParentSelectorCss(gridId, rowId, columnId));
+  }
+
+  /**
+   * Click on a checkbox or a radio button
+   * @param parentSelector parent selector
+   */
+  private void clickCheckboxFromSelector(String parentSelector) {
+    By selector = By.cssSelector(parentSelector + " .input label," + parentSelector);
 
     // Wait for element present
     waitUntil(presenceOfElementLocated(selector));
@@ -566,9 +1070,16 @@ public class SeleniumTestsUtil {
     click(selector);
   }
 
-  private void selectClick(String criterionName, boolean isColumn) {
-    String mainSelector = isColumn ? "column-id" : "criterion-id";
-    By selector = By.cssSelector("[" + mainSelector + "='" + criterionName + "'] .select2-choice");
+  /**
+   * Click on select box
+   * @param parentSelector Select box
+   */
+  private void selectClick(String parentSelector) {
+    By selector = By.cssSelector(parentSelector + " .select2-choice");
+    By loaderSelector = By.cssSelector(parentSelector + " .loader");
+
+    // Wait for loader
+    waitUntil(invisibilityOfElementLocated(loaderSelector));
 
     // Wait for element present
     waitUntil(presenceOfElementLocated(selector));
@@ -580,38 +1091,124 @@ public class SeleniumTestsUtil {
     waitUntil(presenceOfElementLocated(By.cssSelector("#select2-drop")));
   }
 
-  protected void selectFirst(String criterionName, boolean isColumn) {
+  /**
+   * Select first value of the select
+   * @param criterionName Criterion name
+   */
+  protected void selectFirst(String criterionName) {
+    selectFirstFromSelector(getCriterionSelectorCss(criterionName));
+  }
+
+  /**
+   * Select first value of the select
+   * @param gridId Grid id
+   * @param columnId Column id
+   */
+  protected void selectFirst(String gridId, String columnId) {
+    selectFirstFromSelector(getParentSelectorCss(gridId, null, columnId));
+  }
+
+  /**
+   * Select first value of the select
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   */
+  protected void selectFirst(String gridId, String rowId, String columnId) {
+    selectFirstFromSelector(getParentSelectorCss(gridId, rowId, columnId));
+  }
+
+  /**
+   * Select first value of the select
+   * @param parentSelector Parent selector
+   */
+  private void selectFirstFromSelector(String parentSelector) {
     // Click on selector
-    selectClick(criterionName, isColumn);
+    selectClick(parentSelector);
 
     // Click option
     click(By.cssSelector("#select2-drop li:first-of-type"));
   }
 
   /**
-   * Select last element
-   * @param criterionName Select name
-   * @param isColumn Criterion is in a column
+   * Select first value of the select
+   * @param criterionName Criterion name
    */
-  protected void selectLast(String criterionName, boolean isColumn) {
+  protected void selectLast(String criterionName) {
+    selectLastFromSelector(getCriterionSelectorCss(criterionName));
+  }
+
+  /**
+   * Select first value of the select
+   * @param gridId Grid id
+   * @param columnId Column id
+   */
+  protected void selectLast(String gridId, String columnId) {
+    selectLastFromSelector(getParentSelectorCss(gridId, null, columnId));
+  }
+
+  /**
+   * Select first value of the select
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   */
+  protected void selectLast(String gridId, String rowId, String columnId) {
+    selectLastFromSelector(getParentSelectorCss(gridId, rowId, columnId));
+  }
+
+  /**
+   * Select last element
+   * @param parentSelector Parent selector
+   */
+  private void selectLastFromSelector(String parentSelector) {
     // Click on selector
-    selectClick(criterionName, isColumn);
+    selectClick(parentSelector);
 
     // Click option
     click(By.cssSelector("#select2-drop li:last-of-type"));
   }
 
   /**
-   * Select an element which contains a label
-   * @param criterionName Select name
+   * Select value on the selector
+   * @param criterionName Criterion name
    * @param label Label to search
-   * @param isColumn Criterion is in a column
    */
-  protected void selectContain(String criterionName, String label, boolean isColumn) {
+  protected void selectContain(String criterionName, String label) {
+    selectContainFromSelector(getCriterionSelectorCss(criterionName), label);
+  }
+
+  /**
+   * Select value on the selector
+   * @param gridId Grid id
+   * @param columnId Column id
+   * @param label Label to search
+   */
+  protected void selectContain(String gridId, String columnId, String label) {
+    selectContainFromSelector(getParentSelectorCss(gridId, null, columnId), label);
+  }
+
+  /**
+   * Select value on the selector
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @param label Label to search
+   */
+  protected void selectContain(String gridId, String rowId, String columnId, String label) {
+    selectContainFromSelector(getParentSelectorCss(gridId, rowId, columnId), label);
+  }
+
+  /**
+   * Select an element which contains a label
+   * @param parentSelector Parent selector
+   * @param label Label to search
+   */
+  private void selectContainFromSelector(String parentSelector, String label) {
     By selector = By.xpath("//*[@id='select2-drop']//*[contains(@class,'select2-result-label')]//text()[contains(.,'" + label +"')]/..");
 
     // Click on selector
-    selectClick(criterionName, isColumn);
+    selectClick(parentSelector);
 
     // Wait for element present
     waitUntil(presenceOfElementLocated(selector));
@@ -625,16 +1222,48 @@ public class SeleniumTestsUtil {
    * @param criterionName Criterion name
    * @param search Search string
    * @param label Label to search
-   * @param isColumn Criterion is in a column
    */
-  protected void suggest(String criterionName, String search, String label, boolean isColumn) {
+  protected void suggest(String criterionName, String search, String label) {
+    suggestFromSelector(getCriterionSelectorCss(criterionName), search, label);
+  }
+
+  /**
+   * Suggest element which contains label
+   * @param gridId Grid id
+   * @param columnId Column id
+   * @param search Search string
+   * @param label Label to search
+   */
+  protected void suggest(String gridId, String columnId, String search, String label) {
+    suggestFromSelector(getParentSelectorCss(gridId, null, columnId), search, label);
+  }
+
+  /**
+   * Suggest element which contains label
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @param search Search string
+   * @param label Label to search
+   */
+  protected void suggest(String gridId, String rowId, String columnId, String search, String label) {
+    suggestFromSelector(getParentSelectorCss(gridId, rowId, columnId), search, label);
+  }
+
+  /**
+   * Suggest element which contains label
+   * @param parentSelector Parent selector
+   * @param search Search string
+   * @param label Label to search
+   */
+  private void suggestFromSelector(String parentSelector, String search, String label) {
     By selector = By.xpath("//*[@id='select2-drop']//*[contains(@class,'select2-result-label')]//text()[contains(.,'" + label +"')]/..");
 
     // Wait for element present
     waitUntil(invisibilityOfElementLocated(By.cssSelector(".loader")));
 
     // Click on selector
-    selectClick(criterionName, isColumn);
+    selectClick(parentSelector);
 
     // Wait for element present
     waitUntil(presenceOfElementLocated(By.cssSelector("#select2-drop input.select2-input")));
@@ -653,19 +1282,48 @@ public class SeleniumTestsUtil {
   }
 
   /**
-   * Suggest last element which contains label
+   * Suggest element which contains label
    * @param criterionName Criterion name
    * @param search Search string
-   * @param isColumn Criterion is in a column
    */
-  protected void suggestLast(String criterionName, String search, boolean isColumn) {
+  protected void suggestLast(String criterionName, String search) {
+    suggestLastFromSelector(getCriterionSelectorCss(criterionName), search);
+  }
+
+  /**
+   * Suggest element which contains label
+   * @param gridId Grid id
+   * @param columnId Column id
+   * @param search Search string
+   */
+  protected void suggestLast(String gridId, String columnId, String search) {
+    suggestLastFromSelector(getParentSelectorCss(gridId, null, columnId), search);
+  }
+
+  /**
+   * Suggest element which contains label
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @param search Search string
+   */
+  protected void suggestLast(String gridId, String rowId, String columnId, String search) {
+    suggestLastFromSelector(getParentSelectorCss(gridId, rowId, columnId), search);
+  }
+
+  /**
+   * Suggest last element which contains label
+   * @param parentSelector Criterion name
+   * @param search Search string
+   */
+  private void suggestLastFromSelector(String parentSelector, String search) {
     By selector = By.cssSelector("#select2-drop li:last-of-type .select2-result-label");
 
     // Wait for element present
     waitUntil(invisibilityOfElementLocated(By.cssSelector(".loader")));
 
     // Click on selector
-    selectClick(criterionName, isColumn);
+    selectClick(parentSelector);
 
     // Wait for element present
     waitUntil(presenceOfElementLocated(By.cssSelector("#select2-drop input.select2-input")));
@@ -683,13 +1341,51 @@ public class SeleniumTestsUtil {
     click(selector);
   }
 
-  protected void suggestMultiple(String criterionName, String search, String label, boolean isColumn) {
+  /**
+   * Suggest or select multiple element which contains label
+   * @param criterionName Criterion name
+   * @param search Search string
+   * @param label Text to find in label
+   */
+  protected void suggestMultiple(String criterionName, String search, String label) {
+    suggestMultipleFromSelector(getCriterionSelectorCss(criterionName), search, label);
+  }
+
+  /**
+   * Suggest or select multiple element which contains label
+   * @param gridId Grid id
+   * @param columnId Column id
+   * @param search Search string
+   * @param label Text to find in label
+   */
+  protected void suggestMultiple(String gridId, String columnId, String search, String label) {
+    suggestMultipleFromSelector(getParentSelectorCss(gridId, null, columnId), search, label);
+  }
+
+  /**
+   * Suggest or select multiple element which contains label
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @param search Search string
+   * @param label Text to find in label
+   */
+  protected void suggestMultiple(String gridId, String rowId, String columnId, String search, String label) {
+    suggestMultipleFromSelector(getParentSelectorCss(gridId, rowId, columnId), search, label);
+  }
+
+  /**
+   * Suggest or select multiple
+   * @param parentSelector Parent selector
+   * @param search Text to search
+   * @param label Text to find in label
+   */
+  private void suggestMultipleFromSelector(String parentSelector, String search, String label) {
     // Safecheck
     Integer safecheck = 0;
 
     By selector = By.xpath("//*[@id='select2-drop']//*[contains(@class,'select2-result-label')]//text()[contains(.,'" + label +"')]/..");
-    String mainSelector = isColumn ? "column-id" : "criterion-id";
-    By searchBox = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] input.select2-input");
+    By searchBox = By.cssSelector(parentSelector + " input.select2-input");
 
     // Wait for element present
     waitUntil(invisibilityOfElementLocated(By.cssSelector(".loader")));
@@ -698,7 +1394,7 @@ public class SeleniumTestsUtil {
     waitUntil(presenceOfElementLocated(searchBox));
 
     // Clear selector
-    By clearSelector = By.cssSelector("[" + mainSelector + "='" + criterionName +  "'] .select2-search-choice-close");
+    By clearSelector = By.cssSelector(parentSelector + " .select2-search-choice-close");
     while (driver.findElements(clearSelector).size() > 0 && safecheck < RETRY_COUNT) {
       click(clearSelector);
       safecheck++;
@@ -717,13 +1413,27 @@ public class SeleniumTestsUtil {
     click(selector);
   }
 
+  /**
+   * Click on save row and wait
+   */
   protected void saveRow() {
-    saveRow(null);
+    saveRowFromSelector(".grid-row-save:not([disabled])");
   }
 
+  /**
+   * Click on save row and wait
+    * @param gridId Grid with the save button
+   */
   protected void saveRow(String gridId) {
-    String gridSelector = gridId == null ? "" : "[grid-id='" + gridId + "'] ";
-    By selector = By.cssSelector(gridSelector + ".grid-row-save:not([disabled])");
+    saveRowFromSelector(".grid [id='scope-" + gridId + "'] .grid-row-save:not([disabled])");
+  }
+
+  /**
+   * Click on save row and wait
+   * @param parentSelector Parent selector
+   */
+  private void saveRowFromSelector(String parentSelector) {
+    By selector = By.cssSelector(parentSelector);
 
     // Wait for element present
     waitUntil(presenceOfElementLocated(selector));
@@ -735,16 +1445,24 @@ public class SeleniumTestsUtil {
     waitUntil(presenceOfElementLocated(selector));
   }
 
+  /**
+   * Accept confirm window and wait for it to disappear
+   */
   protected void acceptConfirm() {
     // Pause 250 ms
     pause(250);
 
+    // Click on button
     clickButton("confirm-accept");
 
     // Wait for element not present
     waitUntil(invisibilityOfElementLocated(By.id("confirm-accept")));
   }
 
+  /**
+   * Accept a message box
+   * @param messageType Message type (success (default), info, warning, danger)
+   */
   protected void acceptMessage(String messageType) {
     By messageSelector = By.cssSelector(".alert-zone .alert-" + messageType + " button.close");
 
@@ -765,6 +1483,27 @@ public class SeleniumTestsUtil {
   }
 
   /**
+   * Click on confirm button, accept confirmation and accept message
+   */
+  protected void clickButtonAndConfirm(String button) {
+    clickButtonAndConfirm(button, "success");
+  }
+
+  /**
+   * Click on confirm button, accept confirmation and accept message
+   */
+  protected void clickButtonAndConfirm(String button, String messageType) {
+    // Click on button
+    clickButton(button);
+
+    // Accept confirm
+    acceptConfirm();
+
+    // Accept message
+    acceptMessage(messageType);
+  }
+
+  /**
    * Check if message is missing
    * @param messageType Message type
    */
@@ -779,6 +1518,72 @@ public class SeleniumTestsUtil {
     assertEquals(0, messages.size());
   }
 
+  /**
+   * Check element is present
+   * @param cssSelector CSS selector
+   */
+  protected void checkPresence(String cssSelector) {
+    By selector = By.cssSelector(cssSelector);
+
+    // Wait until visible
+    waitUntil(ExpectedConditions.presenceOfElementLocated(selector));
+  }
+
+  /**
+   * Check element is visible
+   * @param cssSelector CSS selector
+   */
+  protected void checkVisible(String cssSelector) {
+    By selector = By.cssSelector(cssSelector);
+
+    // Wait until visible
+    waitUntil(ExpectedConditions.visibilityOfElementLocated(selector));
+  }
+
+  /**
+   * Check element is visible
+   * @param cssSelector CSS selector
+   * @param search Search string
+   */
+  protected void checkVisibleAndContains(String cssSelector, String search) {
+    // Check if it is visible
+    checkVisible(cssSelector);
+
+    // Check text contains
+    checkTextContains(By.cssSelector(cssSelector), search);
+  }
+
+  /**
+   * Check element is not visible
+   * @param cssSelector CSS selector
+   */
+  protected void checkNotVisible(String cssSelector) {
+    By selector = By.cssSelector(cssSelector);
+
+    // Wait until visible
+    waitUntil(ExpectedConditions.invisibilityOfElementLocated(selector));
+  }
+
+  /**
+   * Select module
+   * @param moduleName Module name
+   * @throws Exception
+   */
+  protected void selectModule(String moduleName) throws Exception {
+    // Click on info button
+    clickInfoButton("ButSetTog");
+
+    // Suggest
+    suggest("module",  moduleName, moduleName);
+
+    // Wait for loading bar
+    waitForLoadingBar();
+  }
+
+  /**
+   * Log into the application
+   * @throws Exception
+   */
   protected void doLogin() throws Exception {
     assertNotNull(driver);
 
@@ -797,16 +1602,16 @@ public class SeleniumTestsUtil {
     setTestTitle("Login test: Log into the application");
 
     // Wait for text in selector
-    waitUntil(textMatches(By.cssSelector("div.slogan"), Pattern.compile("Almis Web Engine")));
+    waitForText("slogan", "Almis Web Engine");
 
     // Wait for element present
     waitForButton("ButLogIn");
 
     // Write username
-    writeText("cod_usr", "test", false);
+    writeText("cod_usr", "test");
 
     // Write password
-    writeText("pwd_usr", "test", false);
+    writeText("pwd_usr", "test");
 
     // Click button
     clickButton("ButLogIn");
@@ -815,15 +1620,19 @@ public class SeleniumTestsUtil {
     waitForLoadingBar();
 
     // Wait for element present
-    waitUntil(presenceOfElementLocated(By.cssSelector("#ButUsrAct span.info-text")));
+    checkPresence("#ButUsrAct span.info-text");
 
     // Wait for element present
-    waitUntil(textMatches(By.cssSelector("#ButUsrAct span.info-text"), Pattern.compile("Manager \\(test\\)")));
+    waitForText("info-text", "Manager (test)");
 
     // Assertion
     checkText(By.cssSelector("#ButUsrAct span.info-text"), "Manager (test)");
   }
 
+  /**
+   * Log out the application
+   * @throws Exception
+   */
   protected void doLogout() throws Exception {
     // Test title
     setTestTitle("Logout test: Log out the application");
@@ -835,7 +1644,7 @@ public class SeleniumTestsUtil {
     waitUntil(presenceOfElementLocated(By.cssSelector("#ButUsrAct span.info-text")));
 
     // Wait for element present
-    waitUntil(textMatches(By.cssSelector("#ButUsrAct span.info-text"), Pattern.compile("Manager \\(test\\)")));
+    waitForText("info-text", "Manager (test)");
 
     // Wait for element present
     clickButton("ButLogOut");
@@ -844,7 +1653,7 @@ public class SeleniumTestsUtil {
     waitForLoadingBar();
 
     // Wait for text in selector
-    waitUntil(textMatches(By.cssSelector("div.slogan"), Pattern.compile("Almis Web Engine")));
+    waitForText("slogan", "Almis Web Engine");
   }
 
   /**
@@ -855,10 +1664,10 @@ public class SeleniumTestsUtil {
     gotoScreen("tools", "broadcast-messages");
 
     // Suggest
-    suggest("MsgTar", "test", "test", false);
+    suggest("MsgTar", "test", "test");
 
     // Write on criterion
-    writeText("MsgDes", "This is a broadcast message test", false);
+    writeText("MsgDes", "This is a broadcast message test");
 
     // Search and wait
     clickButton("ButSnd");
