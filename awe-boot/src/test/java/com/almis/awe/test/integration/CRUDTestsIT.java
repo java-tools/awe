@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class StaticTestsIT extends SeleniumTestsUtil {
+public class CRUDTestsIT extends SeleniumTestsUtil {
 
   /**
    * Log into the application
@@ -53,7 +53,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest on column selector
-    suggest(suggest, search, search, false);
+    suggest(suggest, search, search);
 
     // Search on grid
     searchAndWait();
@@ -71,33 +71,12 @@ public class StaticTestsIT extends SeleniumTestsUtil {
   /**
    * Click on confirm button, accept confirmation and accept message
    */
-  private void clickButtonAndConfirm(String button) {
-    clickButtonAndConfirm(button, "success");
-  }
-
-  /**
-   * Click on confirm button, accept confirmation and accept message
-   */
-  private void clickButtonAndConfirm(String button, String messageType) {
-    // Click on button
-    clickButton(button);
-
-    // Accept confirm
-    acceptConfirm();
-
-    // Accept message
-    acceptMessage(messageType);
-  }
-
-  /**
-   * Click on confirm button, accept confirmation and accept message
-   */
   private void verifyView(String suggest, String search) {
     // Wait for button
     clickButton("ButRst");
 
     // Suggest on column selector
-    suggest(suggest, search, search, false);
+    suggest(suggest, search, search);
 
     // Search on grid
     searchAndWait();
@@ -126,7 +105,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest on column selector
-    suggest(criterion, search, search, false);
+    suggest(criterion, search, search);
 
     // Search on grid
     searchAndWait();
@@ -165,28 +144,28 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     addNew("tools", "users");
 
     // Insert text
-    writeText("Usr", "test selenium", false);
+    writeText("Usr", "test selenium");
 
     // Select on selector
-    selectContain("Sta",  "Yes", false);
+    selectContain("Sta",  "Yes");
 
     // Insert text
-    writeText("Pas", "1234", false);
+    writeText("Pas", "1234");
 
     // Insert text
-    writeText("RetPas", "1234", false);
+    writeText("RetPas", "1234");
 
     // Insert text
-    writeText("Nam", "test", false);
+    writeText("Nam", "test");
 
     // Suggest on selector
-    suggest("Pro", "TS1", "TS1", false);
+    suggest("Pro", "TS1", "TS1");
 
     // Suggest on selector
-    suggest("Thm", "grass", "grass", false);
+    suggest("Thm", "grass", "grass");
 
     // Insert text
-    writeText("Eml", "test@almis.com", false);
+    writeText("Eml", "test@almis.com");
   }
 
   /**
@@ -202,25 +181,25 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     addNew("tools", "sites");
 
     // Write on criterion
-    writeText("Nam", "Site test", false);
+    writeText("Nam", "Site test");
 
     // Select on selector
-    selectLast("Act", false);
+    selectLast("Act");
 
     // Write on criterion
-    writeText("Ord", "3", false);
+    writeText("Ord", "3");
 
     // Click on button
     clickButton("ButGrdAdd");
 
     // Suggest on column selector
-    suggest("IdeMod", "Base", "Base", true);
+    suggest("SitModDbsLst", "IdeMod", "Base", "Base");
 
     // Suggest on column selector
-    suggest("IdeDbs", "awedb", "awedb", true);
+    suggest("SitModDbsLst", "IdeDbs", "awedb", "awedb");
 
     // Write on criterion
-    writeText("Order", "3", true);
+    writeText("SitModDbsLst", "Order", "3");
 
     // Save line
     saveRow();
@@ -258,13 +237,13 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     update("CrtSit", "Site", "tools", "sites");
 
     // Write on criterion
-    writeText("Nam", "Site changed", false);
+    writeText("Nam", "Site changed");
 
     // Click row
     clickRowContents("Base");
 
     // Suggest on column selector
-    suggest("IdeDbs", "awedb2", "awedb2", true);
+    suggest("SitModDbsLst", "IdeDbs", "awedb2", "awedb2");
 
     // Save line
     saveRow();
@@ -302,25 +281,25 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     addNew("tools", "modules");
 
     // Select option
-    suggest("Nam", "Inf", "Inf", false);
+    suggest("Nam", "Inf", "Inf");
 
     // Suggest on selector
-    suggest("Scr", "Sites", "Sites", false);
+    suggest("Scr", "Sites", "Sites");
 
     // Suggest on  selector
-    suggest("Thm", "gra", "gra", false);
+    suggest("Thm", "gra", "gra");
 
     // Select on selector
-    suggest("Act",  "Yes", "Yes", false);
+    suggest("Act",  "Yes", "Yes");
 
     // Click on button
     clickButton("ButMdlUsrLstAdd");
 
     // Suggest on column selector
-    suggest("IdeOpe", "test", "test", true);
+    suggest("MdlUsrLst", "IdeOpe", "test", "test");
 
     // Suggest on column selector
-    suggest("IdeThm", "sky", "sky", true);
+    suggest("MdlUsrLst", "IdeThm", "sky", "sky");
 
     // Save line
     saveRow("MdlUsrLst");
@@ -329,7 +308,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButMdlPrfLstAdd");
 
     // Suggest on column selector
-    suggest("IdePro", "TS", "TS", true);
+    suggest("MdlPrfLst", "IdePro", "TS", "TS");
 
     // Save line
     saveRow("MdlPrfLst");
@@ -338,10 +317,10 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButMdlSitDbsLstAdd");
 
     // Suggest on column selector
-    suggest("IdeSit", "Site", "Site", true);
+    suggest("MdlSitDbsLst", "IdeSit", "Site", "Site");
 
     // Suggest on column selector
-    suggest("IdeDbs", "awedb", "awedb", true);
+    suggest("MdlSitDbsLst", "IdeDbs", "awedb", "awedb");
 
     // Save line
     saveRow("MdlSitDbsLst");
@@ -388,16 +367,16 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     update("CrtMod", "Inf", "tools", "modules");
 
     // Write on criterion
-    suggest("Nam", "Inf Changed","Inf Changed", false);
+    suggest("Nam", "Inf Changed","Inf Changed");
 
     // Write on criterion
-    suggest("Scr", "Usr", "Usr", false);
+    suggest("Scr", "Usr", "Usr");
 
     // Click row
     clickRowContents("test");
 
     // Suggest on column selector
-    selectContain("IdeThm", "grass", true);
+    selectContain("MdlUsrLst", "IdeThm", "grass");
 
     // Save line
     saveRow("MdlUsrLst");
@@ -406,7 +385,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickRowContents("TST");
 
     // Suggest on column selector
-    selectContain("IdePro", "ADM - administrator", true);
+    selectContain("MdlPrfLst", "IdePro", "ADM - administrator");
 
     // Save line
     saveRow("MdlPrfLst");
@@ -415,7 +394,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickRowContents("Site changed");
 
     // Suggest on column selector
-    selectContain("IdeDbs", "awedb", true);
+    selectContain("MdlSitDbsLst", "IdeDbs", "awedb");
 
     // Save line
     saveRow("MdlSitDbsLst");
@@ -462,19 +441,19 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     addNew("tools", "profiles");
 
     // Insert text
-    writeText("Acr", "TS1", false);
+    writeText("Acr", "TS1");
 
     // Insert text
-    writeText("Nam", "Test profile", false);
+    writeText("Nam", "Test profile");
 
     // Select on selector
-    suggest("Act",  "Yes", "Yes", false);
+    suggest("Act",  "Yes", "Yes");
 
     // Suggest on  selector
-    suggest("IdeThm", "sunse", "sunse", false);
+    suggest("IdeThm", "sunse", "sunse");
 
     // Suggest on  selector
-    suggest("ScrIni", "Modules", "Modules", false);
+    suggest("ScrIni", "Modules", "Modules");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
@@ -515,7 +494,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     update("CrtPro", "TS1", "tools", "profiles");
 
     // Insert text
-    writeText("Nam", "Profile changed", false);
+    writeText("Nam", "Profile changed");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
@@ -556,34 +535,34 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     addNew("tools", "databases");
 
     // Insert text
-    writeText("Als", "DBSTest", false);
+    writeText("Als", "DBSTest");
 
     // Select on selector
-    selectContain("Dct",  "Datasource", false);
+    selectContain("Dct",  "Datasource");
 
     // Insert text
-    writeText("Dbc", "jdbc/Test", false);
+    writeText("Dbc", "jdbc/Test");
 
     // Select on selector
-    selectContain("Typ",  "Development", false);
+    selectContain("Typ",  "Development");
 
     // Insert text
-    writeText("Des", "This is a test case of new DataBase", false);
+    writeText("Des", "This is a test case of new DataBase");
 
     // Select on selector
-    selectContain("Dbt",  "ORACLE", false);
+    selectContain("Dbt",  "ORACLE");
 
     // Click on button
     clickButton("ButSitModDbsLstAdd");
 
     // Suggest on column selector
-    suggest("IdeSit", "Site changed", "Site changed", true);
+    suggest("SitModDbsLst", "IdeSit", "Site changed", "Site changed");
 
     // Suggest on column selector
-    suggest("IdeMod", "Inf Changed", "Inf Changed", true);
+    suggest("SitModDbsLst", "IdeMod", "Inf Changed", "Inf Changed");
 
     // Insert text
-    writeText("Ord", "5", true);
+    writeText("SitModDbsLst","Ord", "5");
 
     // Save line
     saveRow();
@@ -624,22 +603,22 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     update("CrtAls", "DBSTest", "tools", "databases");
 
     // Insert text
-    writeText("Als", "DBSTest Changed", false);
+    writeText("Als", "DBSTest Changed");
 
     // Select on selector
-    selectContain("Dct",  "Jdbc", false);
+    selectContain("Dct",  "Jdbc");
 
     // Insert text
-    writeText("Dbc", "Test", false);
+    writeText("Dbc", "Test");
 
     // Insert text
-    writeText("Des", "This is a tes case of modify DB", false);
+    writeText("Des", "This is a tes case of modify DB");
 
     // Click on row
     clickRowContents("Site changed");
 
     // Suggest on column selector
-    suggest("IdeMod", "Test", "Test", true);
+    suggest("SitModDbsLst", "IdeMod", "Test", "Test");
 
     // Save line
     saveRow();
@@ -726,7 +705,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     update("CrtUsr", "test sel", "tools", "users");
 
     // Insert text
-    writeText("Eml", "testUpd@almis.com", false);
+    writeText("Eml", "testUpd@almis.com");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
@@ -895,7 +874,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     addNew("tools", "themes");
 
     // Insert text
-    writeText("Nam", "Theme test", false);
+    writeText("Nam", "Theme test");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
@@ -930,7 +909,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     update("CrtNam", "test", "tools", "themes");
 
     // Insert text
-    writeText("Nam", "Theme changed", false);
+    writeText("Nam", "Theme changed");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
@@ -995,13 +974,13 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButGrdKeyLstAdd");
 
     // Insert text
-    writeText("KeyNam", "testKey", true);
+    writeText("GrdKeyLst", "KeyNam", "testKey");
 
     // Insert text
-    writeText("KeyVal", "0", true);
+    writeText("GrdKeyLst", "KeyVal", "0");
 
     // Select on selector
-    selectContain("Act",  "Yes", true);
+    selectContain("GrdKeyLst", "Act",  "Yes");
 
     // Save row
     saveRow();
@@ -1023,7 +1002,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggest("CrtKeyNam", "test", "test", false);
+    suggest("CrtKeyNam", "test", "test");
 
     // Wait for button
     searchAndWait();
@@ -1045,7 +1024,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggest("CrtKeyNam", "test", "test", false);
+    suggest("CrtKeyNam", "test", "test");
 
     // Wait for button
     searchAndWait();
@@ -1054,10 +1033,10 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickRowContents("testKey");
 
     // Insert text
-    writeText("KeyVal", "1", true);
+    writeText("GrdKeyLst", "KeyVal", "1");
 
     // Select on selector
-    selectContain("Act",  "No", true);
+    selectContain("GrdKeyLst", "Act",  "No");
 
     // Save row
     saveRow();
@@ -1079,7 +1058,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggest("CrtKeyNam", "test", "test", false);
+    suggest("CrtKeyNam", "test", "test");
 
     // Wait for button
     searchAndWait();
@@ -1104,7 +1083,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest on column selector
-    suggest("CrtKeyNam", "test", "test", false);
+    suggest("CrtKeyNam", "test", "test");
 
     // Search on grid
     searchAndWait();
@@ -1150,16 +1129,16 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButGrdAdd");
 
     // Select on selector
-    suggest("IdeOpe",  "test", "test", true);
+    suggest("GrdScrAccLst", "IdeOpe",  "test", "test");
 
     // Select on selector
-    suggest("Opt",  "application-info", "application-info", true);
+    suggest("GrdScrAccLst", "Opt",  "application-info", "application-info");
 
     // Select text
-    selectContain("AccMod", "Restricted", true);
+    selectContain("GrdScrAccLst", "AccMod", "Restricted");
 
     // Select text
-    selectContain("Act", "Yes", true);
+    selectContain("GrdScrAccLst", "Act", "Yes");
 
     // Save row
     saveRow();
@@ -1181,10 +1160,10 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggestMultiple("CrtOpe", "test", "test", false);
+    suggestMultiple("CrtOpe", "test", "test");
 
     // Suggest
-    suggestMultiple("CrtOpc", "application-info", "application-info", false);
+    suggestMultiple("CrtOpc", "application-info", "application-info");
 
     // Wait for button
     searchAndWait();
@@ -1206,10 +1185,10 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggestMultiple("CrtOpe", "test", "test", false);
+    suggestMultiple("CrtOpe", "test", "test");
 
     // Suggest
-    suggestMultiple("CrtOpc", "application-info", "application-info", false);
+    suggestMultiple("CrtOpc", "application-info", "application-info");
 
     // Wait for button
     searchAndWait();
@@ -1218,10 +1197,10 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickRowContents("application-info");
 
     // Select on selector
-    selectContain("AccMod",  "Restricted", true);
+    selectContain("GrdScrAccLst", "AccMod",  "Restricted");
 
     // Select on selector
-    selectContain("Act",  "No", true);
+    selectContain("GrdScrAccLst", "Act",  "No");
 
     // Save row
     saveRow();
@@ -1243,10 +1222,10 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggestMultiple("CrtOpe", "test", "test", false);
+    suggestMultiple("CrtOpe", "test", "test");
 
     // Suggest
-    suggestMultiple("CrtOpc", "application-info", "application-info", false);
+    suggestMultiple("CrtOpc", "application-info", "application-info");
 
     // Wait for button
     searchAndWait();
@@ -1271,10 +1250,10 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggestMultiple("CrtOpe", "test", "test", false);
+    suggestMultiple("CrtOpe", "test", "test");
 
     // Suggest
-    suggestMultiple("CrtOpc", "application-info", "application-info", false);
+    suggestMultiple("CrtOpc", "application-info", "application-info");
 
     // Search on grid
     searchAndWait();
@@ -1314,19 +1293,19 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     addNew("tools", "email-servers");
 
     // Insert text
-    writeText("SrvNam", "test server", false);
+    writeText("SrvNam", "test server");
 
     // Insert text
-    writeText("Hst", "localhost", false);
+    writeText("Hst", "localhost");
 
     // Check box
-    clickCheckbox("Ath", false);
+    clickCheckbox("Ath");
 
     // Insert text
-    writeText("EmlUsr", "test", false);
+    writeText("EmlUsr", "test");
 
     // Insert text
-    writeText("EmlPwd", "test", false);
+    writeText("EmlPwd", "test");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
@@ -1354,7 +1333,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest on column selector
-    suggest("CrtNam", "test", "test", false);
+    suggest("CrtNam", "test", "test");
 
     // Search on grid
     searchAndWait();
@@ -1376,13 +1355,13 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     update("CrtNam", "test", "tools", "email-servers");
 
     // Insert text
-    writeText("SrvNam", "server update", false);
+    writeText("SrvNam", "server update");
 
     // Insert text
-    writeText("EmlUsr", "test2", false);
+    writeText("EmlUsr", "test2");
 
     // Insert text
-    writeText("EmlPwd", "test2", false);
+    writeText("EmlPwd", "test2");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
@@ -1443,10 +1422,10 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     addNew("tools", "email-servers");
 
     // Insert text
-    writeText("SrvNam", "test server", false);
+    writeText("SrvNam", "test server");
 
     // Insert text
-    writeText("Hst", "localhost", false);
+    writeText("Hst", "localhost");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
@@ -1478,7 +1457,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     update("CrtNam", "test", "tools", "email-servers");
 
     // Insert text
-    writeText("SrvNam", "server update", false);
+    writeText("SrvNam", "server update");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
@@ -1497,7 +1476,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest on column selector
-    suggest("CrtNam", "server update", "server update", false);
+    suggest("CrtNam", "server update", "server update");
 
     // Search on grid
     searchAndWait();
@@ -1551,22 +1530,22 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButGrdAdd");
 
     // Select on selector
-    suggest("Scr",  "Dbs", "Dbs", true);
+    suggest("GrdScrCnf", "Scr",  "Dbs", "Dbs");
 
     // Select on selector
-    suggest("IdeOpe",  "test", "test", true);
+    suggest("GrdScrCnf", "IdeOpe",  "test", "test");
 
     // Select on selector
-    suggest("Nam",  "ButPrn", "ButPrn", true);
+    suggest("GrdScrCnf", "Nam",  "ButPrn", "ButPrn");
 
     // Select text
-    suggest("Atr", "visible", "Visible", true);
+    suggest("GrdScrCnf", "Atr", "visible", "Visible");
 
     // Select text
-    writeText("Val", "true", true);
+    writeText("GrdScrCnf", "Val", "true");
 
     // Select text
-    selectContain("Act", "Yes", true);
+    selectContain("GrdScrCnf", "Act", "Yes");
 
     // Save row
     saveRow();
@@ -1588,13 +1567,13 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggest("CrtScr", "Dbs", "Dbs", false);
+    suggest("CrtScr", "Dbs", "Dbs");
 
     // Suggest
-    suggest("CrtUsr", "test", "test", false);
+    suggest("CrtUsr", "test", "test");
 
     // Select
-    selectContain("CrtAct", "Yes", false);
+    selectContain("CrtAct", "Yes");
 
     // Wait for button
     searchAndWait();
@@ -1616,13 +1595,13 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggest("CrtScr", "Dbs", "Dbs", false);
+    suggest("CrtScr", "Dbs", "Dbs");
 
     // Suggest
-    suggest("CrtUsr", "test", "test", false);
+    suggest("CrtUsr", "test", "test");
 
     // Select
-    selectContain("CrtAct", "Yes", false);
+    selectContain("CrtAct", "Yes");
 
     // Wait for button
     searchAndWait();
@@ -1631,7 +1610,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickRowContents("Dbs");
 
     // Select on selector
-    writeText("Val",  "false", true);
+    writeText("GrdScrCnf", "Val",  "false");
 
     // Save row
     saveRow();
@@ -1653,13 +1632,13 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggest("CrtScr", "Dbs", "Dbs", false);
+    suggest("CrtScr", "Dbs", "Dbs");
 
     // Suggest
-    suggest("CrtUsr", "test", "test", false);
+    suggest("CrtUsr", "test", "test");
 
     // Select
-    selectContain("CrtAct", "Yes", false);
+    selectContain("CrtAct", "Yes");
 
     // Wait for button
     searchAndWait();
@@ -1681,13 +1660,13 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest
-    suggest("CrtScr", "Dbs", "Dbs", false);
+    suggest("CrtScr", "Dbs", "Dbs");
 
     // Suggest
-    suggest("CrtUsr", "test", "test", false);
+    suggest("CrtUsr", "test", "test");
 
     // Select
-    selectContain("CrtAct", "Yes", false);
+    selectContain("CrtAct", "Yes");
 
     // Search on grid
     searchAndWait();
@@ -1730,7 +1709,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     waitForButton("ButRst");
 
     // Write on criterion
-    writeText("CrtFil", "awe", false);
+    writeText("CrtFil", "awe");
 
     // Search and wait
     searchAndWait();
@@ -1777,7 +1756,7 @@ public class StaticTestsIT extends SeleniumTestsUtil {
     waitForButton("ButRst");
 
     // Write on criterion
-    writeText("CrtTxt", "Texto de prueba", false);
+    writeText("CrtTxt", "Texto de prueba");
 
     // Wait for reset button
     clickButton("ButEnc");

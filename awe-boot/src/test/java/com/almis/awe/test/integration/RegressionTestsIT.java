@@ -37,21 +37,15 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     // Title
     setTestTitle("Select test module: Test to select test module");
 
-    // Click on info button
-    clickInfoButton("ButSetTog");
-
-    // Suggest
-    suggest("module",  "Test", "Test", false);
-
-    // Wait for loading bar
-    waitForLoadingBar();
+    // Select module
+    selectModule("Test");
 
     // Wait for text
     waitForText("mm-text", "Tests");
   }
 
   /**
-   * Select test module on select criterion (#30648)
+   * Load suggest on grid: Test to check suggest initial load on grid (#30648)
    * @throws Exception Error on test
    */
   @Test
@@ -85,7 +79,7 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest on column selector
-    suggestLast("CrtUsr", "te", false);
+    suggestLast("CrtUsr", "te");
 
     // Search and wait
     searchAndWait();
@@ -113,14 +107,10 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     waitForButton("ButPrn");
 
     // Write on criterion
-    writeText("TxtReq", "aaa", false);
+    writeText("TxtReq", "aaa");
 
     // Write on criterion
-    writeText("TxtReq", Keys.TAB, false,false);
-
-
-    // Write on criterion
-    writeText("Unt", "325.274,50", false,false);
+    writeText("Unt", "325.274,50");
 
     // Assert text
     checkCriterionContents("Unt", "325.274,50");
@@ -136,13 +126,10 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     setTestTitle("Quote check on unit label");
 
     // Write on criterion
-    writeText("Tar", "\"", false);
-
-    // Write on criterion
-    writeText("Tar", Keys.TAB, false,false);
+    writeText("Tar", "\"");
 
     // Click on checkbox
-    clickCheckbox("RadBox3", false);
+    clickCheckbox("RadBox3");
 
     // Wait for text
     checkText(By.cssSelector("[criterion-id='Unt'] .unit"), "USD");
@@ -158,10 +145,7 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     setTestTitle("Check filtered date dependency (#31141)");
 
     // Write on criterion
-    writeText("Txt", "edita", false);
-
-    // Write on criterion
-    writeText("Txt", Keys.TAB, false,false);
+    writeText("Txt", "edita");
 
     // Click on date
     clickDate("FilCalRea");
@@ -186,7 +170,7 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest on column selector
-    suggest("CrtUsr", "test", "test", false);
+    suggest("CrtUsr", "test", "test");
 
     // Search and wait
     searchAndWait();

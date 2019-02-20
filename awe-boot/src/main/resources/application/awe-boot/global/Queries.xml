@@ -918,6 +918,22 @@
 
   <!-- TEST HAVING -->
   <query id="HavTst" public="true">
+    <table id="HisAweEmlSrv" />
+    <field id="HISact" alias="typ" />
+    <field variable="one" function="SUM" alias="act" />
+    <group-by field="HISact" />
+    <having>
+      <and>
+        <filter left-variable="one" left-function="SUM" condition="gt" right-variable="top" />
+      </and>
+    </having>
+    <order-by field="HISact"/>
+    <variable id="top" type="INTEGER" value="1" />
+    <variable id="one" type="INTEGER" value="1" />
+  </query>
+
+  <!-- TEST HAVING FOR UNIT TEST -->
+  <query id="HavTstUni" public="true">
     <table id="AweThm" />
     <field id="act" alias="act" />
     <field variable="one" function="SUM" alias="act" />
@@ -1283,14 +1299,15 @@
     <computed format="" alias="Col1" />
     <field id="IdeThm" alias="IdeThm" transform="NUMBER" />
     <field id="IdeThm" alias="IdeThm1" transform="NUMBER" />
+    <field id="IdeThm" alias="IdeThmNum"/>
     <compound alias="Sug">
       <computed alias="label" format="Prueba - [Txt]" />
-      <computed alias="value" format="[IdeThm]" transform="NUMBER" />
+      <computed alias="value" format="[IdeThmNum]" transform="NUMBER" />
       <computed alias="icon" format="[Sel]" transform="NUMBER" />
     </compound>
     <compound alias="Sug1">
       <computed alias="label" format="Prueba - [Txt]" />
-      <computed alias="value" format="[IdeThm]" transform="NUMBER" />
+      <computed alias="value" format="[IdeThmNum]" transform="NUMBER" />
       <computed alias="icon" format="[Sel]" transform="NUMBER" />
     </compound>
     <field id="Act" alias="Sel" />
@@ -1324,21 +1341,22 @@
     <computed format="" alias="Tim1" />
     <computed format="" alias="Col" />
     <computed format="" alias="Col1" />
-    <field id="IdeThm" alias="IdeThm" transform="NUMBER" />
+    <field id="IdeThm" alias="IdeThm" transform="NUMBER"/>
     <field id="IdeThm" alias="IdeThm1" transform="NUMBER" />
+    <field id="IdeThm" alias="IdeThmNum"/>
     <compound alias="Sug">
       <computed alias="label" format="Prueba - [Txt]" />
-      <computed alias="value" format="[IdeThm]" transform="NUMBER" />
+      <computed alias="value" format="[IdeThmNum]" transform="NUMBER" />
       <computed alias="icon" format="[Sel]" transform="NUMBER" />
     </compound>
     <compound alias="Sug1">
       <computed alias="label" format="Prueba - [Txt]" />
-      <computed alias="value" format="[IdeThm]" transform="NUMBER" />
+      <computed alias="value" format="[IdeThmNum]" transform="NUMBER" />
       <computed alias="icon" format="[Sel]" transform="NUMBER" />
     </compound>
     <compound alias="Ico">
       <computed alias="label" format="fa-rebel" />
-      <computed alias="value" format="[IdeThm]" transform="NUMBER" />
+      <computed alias="value" format="[IdeThmNum]" transform="NUMBER" />
       <computed alias="icon" format="fa-rebel"/>
       <computed alias="style" format="text-warning"/>
     </compound>
