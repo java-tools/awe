@@ -5,7 +5,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegressionTestsIT extends SeleniumTestsUtil {
@@ -16,7 +15,7 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
    */
   @Test
   public void t000_loginTest() throws Exception {
-    doLogin();
+    checkLogin();
   }
 
   /**
@@ -25,7 +24,7 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
    */
   @Test
   public void t999_logoutTest() throws Exception {
-    doLogout();
+    checkLogout();
   }
 
   /**
@@ -42,6 +41,9 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
 
     // Wait for text
     waitForText("mm-text", "Tests");
+
+    // Check text
+    checkVisible("[translate-multiple='MENU_TEST'");
   }
 
   /**
@@ -147,6 +149,9 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     // Write on criterion
     writeText("Txt", "edita");
 
+    // Check text
+    checkCriterionContents("Txt", "edita");
+
     // Click on date
     clickDate("FilCalRea");
 
@@ -212,6 +217,9 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
 
     // Suggest delayed
     suggestDelayed("[criterion-id='SugMulReq']", "tee", "test", "test", 800);
+
+    // Check selector
+    checkMultipleSelectorContents("SugMulReq", "test (test@test.com)");
   }
 
   /**
