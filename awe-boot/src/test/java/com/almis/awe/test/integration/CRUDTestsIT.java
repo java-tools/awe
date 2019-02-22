@@ -4,6 +4,7 @@ package com.almis.awe.test.integration;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.By;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CRUDTestsIT extends SeleniumTestsUtil {
@@ -14,7 +15,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
    */
   @Test
   public void t000_loginTest() throws Exception {
-    doLogin();
+    checkLogin();
   }
 
   /**
@@ -23,7 +24,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
    */
   @Test
   public void t999_logoutTest() throws Exception {
-    doLogout();
+    checkLogout();
   }
 
   /**
@@ -204,18 +205,11 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Save line
     saveRow();
 
+    // Check row values
+    checkRowContents("Base", "awedb", "3");
+
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify a new site has been added
-   * @throws Exception
-   */
-  @Test
-  public void t002_verifyNewSite() throws Exception {
-    // Title
-    setTestTitle("Verify a new site has been added");
 
     // Verify
     verifyView("CrtSit", "Site test");
@@ -248,18 +242,11 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Save line
     saveRow();
 
+    // Check row values
+    checkRowContents("Base", "awedb2", "3");
+
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify the site has been updated
-   * @throws Exception
-   */
-  @Test
-  public void t004_verifyUpdatedSite() throws Exception {
-    // Title
-    setTestTitle("Verify the site has been updated");
 
     // Verify
     verifyView("CrtSit", "Site changed");
@@ -304,6 +291,9 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Save line
     saveRow("MdlUsrLst");
 
+    // Check row values
+    checkRowContentsGrid("MdlUsrLst","test", "sky");
+
     // Click on button
     clickButton("ButMdlPrfLstAdd");
 
@@ -312,6 +302,9 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Save line
     saveRow("MdlPrfLst");
+
+    // Check row values
+    checkRowContentsGrid("MdlPrfLst","TS");
 
     // Click on button
     clickButton("ButMdlSitDbsLstAdd");
@@ -325,18 +318,11 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Save line
     saveRow("MdlSitDbsLst");
 
+    // Check row values
+    checkRowContentsGrid("MdlSitDbsLst","Site", "awedb");
+
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify a new module has been added
-   * @throws Exception
-   */
-  @Test
-  public void t012_verifyNewModule() throws Exception {
-    // Title
-    setTestTitle("Verify a new module has been added");
 
     // Verify
     verifyView("CrtMod", "Inf");
@@ -381,6 +367,9 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Save line
     saveRow("MdlUsrLst");
 
+    // Check row values
+    checkRowContentsGrid("MdlUsrLst","grass");
+
     // Click row
     clickRowContents("TST");
 
@@ -390,27 +379,23 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Save line
     saveRow("MdlPrfLst");
 
+    // Check row values
+    checkRowContentsGrid("MdlPrfLst","ADM - administrator");
+
     // Click row
     clickRowContents("Site changed");
 
     // Suggest on column selector
-    selectContain("MdlSitDbsLst", "IdeDbs", "awedb");
+    selectContain("MdlSitDbsLst", "IdeDbs", "awedb2");
 
     // Save line
     saveRow("MdlSitDbsLst");
 
+    // Check row values
+    checkRowContentsGrid("MdlSitDbsLst","awedb2");
+
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify the module has been updated
-   * @throws Exception
-   */
-  @Test
-  public void t014_verifyUpdatedModule() throws Exception {
-    // Title
-    setTestTitle("Verify the module has been updated");
 
     // Verify
     verifyView("CrtMod", "Inf Changed");
@@ -455,18 +440,11 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Suggest on  selector
     suggest("ScrIni", "Modules", "Modules");
 
+    // Verify criterion
+    checkSelectorContents("IdeThm", "sunset");
+
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify a new profile has been added
-   * @throws Exception
-   */
-  @Test
-  public void t022_verifyNewProfile() throws Exception {
-    // Title
-    setTestTitle("Verify a new profile has been added");
 
     // Verify
     verifyView("CrtPro", "TS1");
@@ -496,18 +474,11 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Insert text
     writeText("Nam", "Profile changed");
 
+    // Verify criterion
+    checkCriterionContents("Nam", "Profile changed");
+
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify the profile has been updated
-   * @throws Exception
-   */
-  @Test
-  public void t024_verifyUpdatedProfile() throws Exception {
-    // Title
-    setTestTitle("Verify the profile has been updated");
 
     // Verify
     verifyView("CrtPro", "TS1");
@@ -567,18 +538,11 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Save line
     saveRow();
 
+    // Check row
+    checkRowContents("Site changed", "Inf Changed", "5");
+
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify the database connection has been added
-   * @throws Exception
-   */
-  @Test
-  public void t032_verifyNewDatabase() throws Exception {
-    // Title
-    setTestTitle("Verify the database connection has been added");
 
     // Verify
     verifyView("CrtAls", "DBSTest");
@@ -623,18 +587,11 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Save line
     saveRow();
 
+    // Check row
+    checkRowContents("Test");
+
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify the database connection has been updated
-   * @throws Exception
-   */
-  @Test
-  public void t034_verifyUpdatedDatabase() throws Exception {
-    // Title
-    setTestTitle("Verify the database connection has been updated");
 
     // Verify
     verifyView("CrtAls", "DBSTest Changed");
@@ -655,20 +612,14 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Title
     setTestTitle("Add a new user");
 
+    // Add a new user
     addNewUser();
+
+    // Check new user added
+    checkCriterionContents("Usr", "test selenium");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify a new user has been added
-   * @throws Exception
-   */
-  @Test
-  public void t042_verifyNewUser() throws Exception {
-    // Title
-    setTestTitle("Verify a new user has been added");
 
     // Verify
     verifyView("CrtUsr", "test sel");
@@ -709,16 +660,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify the user has been updated
-   * @throws Exception
-   */
-  @Test
-  public void t044_verifyUpdatedUser() throws Exception {
-    // Title
-    setTestTitle("Verify the user has been updated");
 
     // Verify
     verifyView("CrtUsr", "test sel");
@@ -736,7 +677,11 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Title
     setTestTitle("Try to add a duplicated user");
 
+    // Check user
     addNewUser();
+
+    // Check text
+    checkCriterionContents("Usr", "test selenium");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf", "warning");
@@ -751,18 +696,10 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Title
     setTestTitle("Delete a user");
 
+    // Delete the user
     delete("CrtUsr", "test sel", "tools", "users");
-  }
 
-  /**
-   * Verify the user has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t051_verifyDeletedUser() throws Exception {
-    // Title
-    setTestTitle("Verify the user has been deleted");
-
+    // Verify deleted user
     verifyDeleted("test sel", "tools", "users");
   }
 
@@ -775,18 +712,10 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Title
     setTestTitle("Delete a database connection");
 
+    // Delete the database
     delete("CrtAls", "DBSTest", "tools", "databases");
-  }
 
-  /**
-   * Verify the database connection has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t053_verifyDeletedDatabase() throws Exception {
-    // Title
-    setTestTitle("Verify the database connection has been deleted");
-
+    // Verify deleted
     verifyDeleted("DBSTest", "tools", "databases");
   }
 
@@ -799,18 +728,10 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Title
     setTestTitle("Delete a profile");
 
+    // Delete the profile
     delete("CrtPro", "TS1", "tools", "profiles");
-  }
 
-  /**
-   * Verify the profile has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t055_verifyDeletedProfile() throws Exception {
-    // Title
-    setTestTitle("Verify the profile has been deleted");
-
+    // Verify deleted
     verifyDeleted("TS1", "tools", "profiles");
   }
 
@@ -823,18 +744,10 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Title
     setTestTitle("Delete a module");
 
+    // Delete the module
     delete("CrtMod", "Inf", "tools", "modules");
-  }
 
-  /**
-   * Verify the module has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t057_verifyDeletedModule() throws Exception {
-    // Title
-    setTestTitle("Verify the module has been deleted");
-
+    // Verify deleted
     verifyDeleted("Inf", "tools", "modules");
   }
 
@@ -847,18 +760,10 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Title
     setTestTitle("Delete a site");
 
+    // Delete the site
     delete("CrtSit", "Site", "tools", "sites");
-  }
 
-  /**
-   * Verify the site has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t059_verifyDeletedSite() throws Exception {
-    // Title
-    setTestTitle("Verify the site has been deleted");
-
+    // Verify deleted site
     verifyDeleted("Site", "tools", "sites");
   }
 
@@ -878,16 +783,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify the new theme has been added
-   * @throws Exception
-   */
-  @Test
-  public void t062_verifyNewTheme() throws Exception {
-    // Title
-    setTestTitle("Verify the new theme has been added");
 
     // Verify
     verifyView("CrtNam", "test");
@@ -913,16 +808,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify the theme has been updated
-   * @throws Exception
-   */
-  @Test
-  public void t064_verifyUpdatedTheme() throws Exception {
-    // Title
-    setTestTitle("Verify the theme has been updated");
 
     // Verify
     verifyView("CrtNam", "Theme changed");
@@ -940,18 +825,10 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Title
     setTestTitle("Delete a theme");
 
+    // Delete a theme
     delete("CrtNam", "Theme changed", "tools", "themes");
-  }
 
-  /**
-   * Verify the theme has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t066_verifyDeletedTheme() throws Exception {
-    // Title
-    setTestTitle("Verify the theme has been deleted");
-
+    // Verify
     verifyDeleted("Theme changed", "tools", "themes");
   }
 
@@ -987,16 +864,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify the sequence has been added
-   * @throws Exception
-   */
-  @Test
-  public void t072_verifyNewSequence() throws Exception {
-    // Title
-    setTestTitle("Verify the sequence has been added");
 
     // Wait for button
     clickButton("ButRst");
@@ -1043,16 +910,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify the sequence has been updated
-   * @throws Exception
-   */
-  @Test
-  public void t074_verifyUpdatedSequence() throws Exception {
-    // Title
-    setTestTitle("Verify the sequence has been updated");
 
     // Wait for button
     clickButton("ButRst");
@@ -1096,17 +953,8 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
 
-  /**
-   * Verify the sequence has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t076_verifyDeletedSequence() throws Exception {
-    // Title
-    setTestTitle("Verify the sequence has been deleted");
-
+    // Verify
     verifyDeleted("test", "tools", "sequences");
   }
 
@@ -1143,18 +991,11 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Save row
     saveRow();
 
+    // Check row contents
+    checkRowContents("application-info", "Restricted", "Yes");
+
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify a screen restriction has been added
-   * @throws Exception
-   */
-  @Test
-  public void t082_verifyNewRestriction() throws Exception {
-    // Title
-    setTestTitle("Verify a screen restriction has been added");
 
     // Wait for button
     clickButton("ButRst");
@@ -1205,18 +1046,11 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     // Save row
     saveRow();
 
+    // Check row contents
+    checkRowContents("Restricted", "No");
+
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify a screen restriction has been updated
-   * @throws Exception
-   */
-  @Test
-  public void t084_verifyUpdatedRestriction() throws Exception {
-    // Title
-    setTestTitle("Verify a screen restriction has been updated");
 
     // Wait for button
     clickButton("ButRst");
@@ -1266,17 +1100,8 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
 
-  /**
-   * Verify a screen restriction has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t086_verifyDeletedRestriction() throws Exception {
-    // Title
-    setTestTitle("Verify a screen restriction has been deleted");
-
+    // Verify
     verifyDeleted("application-info", "settings", "security", "screen-access");
   }
 
@@ -1309,16 +1134,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify an email server has been added
-   * @throws Exception
-   */
-  @Test
-  public void t092_verifyNewEmailServer() throws Exception {
-    // Title
-    setTestTitle("Verify an email server has been added");
 
     // Wait for button
     verifyNewEmailServer();
@@ -1365,19 +1180,9 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify an email server has been updated
-   * @throws Exception
-   */
-  @Test
-  public void t094_verifyUpdatedEmailServer() throws Exception {
-    // Title
-    setTestTitle("Verify an email server has been updated");
 
     // Wait for button
-    t104_verifyUpdatedEmailServerNoAuth();
+    verifyUpdatedEmailServerNoAuth();
 
     // Check row contents
     checkRowContents("test2");
@@ -1394,16 +1199,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Delete email server
     delete("CrtNam", "server update", "tools", "email-servers");
-  }
-
-  /**
-   * Verify an email server has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t096_verifyDeletedEmailServer() throws Exception {
-    // Title
-    setTestTitle("Verify an email server has been deleted");
 
     // Verify deleted
     verifyDeleted("server update", "tools", "email-servers");
@@ -1429,16 +1224,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify an email server without authentication has been added
-   * @throws Exception
-   */
-  @Test
-  public void t102_verifyNewEmailServerNoAuth() throws Exception {
-    // Title
-    setTestTitle("Verify an email server without authentication has been added");
 
     // Verify new email server
     verifyNewEmailServer();
@@ -1461,17 +1246,16 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
+
+    // Verify
+    verifyUpdatedEmailServerNoAuth();
   }
 
   /**
    * Verify an email server without authentication has been updated
    * @throws Exception
    */
-  @Test
-  public void t104_verifyUpdatedEmailServerNoAuth() throws Exception {
-    // Title
-    setTestTitle("Verify an email server without authentication has been updated");
-
+  private void verifyUpdatedEmailServerNoAuth() throws Exception {
     // Wait for button
     clickButton("ButRst");
 
@@ -1496,16 +1280,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Delete email server
     delete("CrtNam", "server update", "tools", "email-servers");
-  }
-
-  /**
-   * Verify an email server without authentication has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t106_verifyDeletedEmailServerNoAuth() throws Exception {
-    // Title
-    setTestTitle("Verify an email server without authentication has been deleted");
 
     // Verify deleted email server
     verifyDeleted("server update", "tools", "email-servers");
@@ -1552,16 +1326,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify a screen configuration has been added
-   * @throws Exception
-   */
-  @Test
-  public void t112_verifyNewScreenConfiguration() throws Exception {
-    // Title
-    setTestTitle("Verify a screen configuration has been added");
 
     // Wait for button
     clickButton("ButRst");
@@ -1617,16 +1381,6 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
-
-  /**
-   * Verify a screen configuration has been updated
-   * @throws Exception
-   */
-  @Test
-  public void t114_verifyUpdatedScreenConfiguration() throws Exception {
-    // Title
-    setTestTitle("Verify a screen configuration has been updated");
 
     // Wait for button
     clickButton("ButRst");
@@ -1679,17 +1433,8 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
-  }
 
-  /**
-   * Verify a screen configuration has been deleted
-   * @throws Exception
-   */
-  @Test
-  public void t116_verifyDeletedScreenConfiguration() throws Exception {
-    // Title
-    setTestTitle("Verify a screen configuration has been deleted");
-
+    // Verify
     verifyDeleted("Dbs", "settings", "screen-configuration");
   }
 
@@ -1725,6 +1470,9 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Check text
     waitForText("visible-text", "[INFO ]");
+
+    // Check text
+    checkTextContains(By.cssSelector(".visible-text"), "[INFO ]");
   }
 
   /**
@@ -1738,6 +1486,9 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
 
     // Broadcast messaget o user
     broadcastMessageToUser();
+
+    // Check message box is empty
+    checkCriterionContents("MsgDes", "");
   }
 
   /**

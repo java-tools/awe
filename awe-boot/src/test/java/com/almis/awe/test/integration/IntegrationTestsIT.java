@@ -1,6 +1,7 @@
 package com.almis.awe.test.integration;
 
 
+import com.google.common.io.ByteArrayDataOutput;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -15,7 +16,7 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
    */
   @Test
   public void t000_loginTest() throws Exception {
-    doLogin();
+    checkLogin();
   }
 
   /**
@@ -24,7 +25,7 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
    */
   @Test
   public void t999_logoutTest() throws Exception {
-    doLogout();
+    checkLogout();
   }
 
   /**
@@ -126,6 +127,9 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
 
     // Wait for text
     waitForText("mm-text", "Tests");
+
+    // Check text
+    checkVisible("[translate-multiple='MENU_TEST'");
   }
 
   /**
@@ -305,14 +309,26 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     // Select on selector
     suggestMultiple("SelMul", "e", "e");
 
+    // Verify text
+    checkMultipleSelectorContents("SelMul", "test (test@test.com)");
+
     // Select on selector
     suggestMultiple("SelMulReq", "e", "e");
+
+    // Verify text
+    checkMultipleSelectorContents("SelMulReq", "general");
 
     // Select on selector
     suggestMultiple("SugMul", "e", "e");
 
+    // Verify text
+    checkMultipleSelectorContents("SugMul", "test (test@test.com)");
+
     // Select on selector
     suggestMultiple("SugMulReq", "e", "e");
+
+    // Verify text
+    checkMultipleSelectorContents("SugMulReq", "test (test@test.com)");
   }
 
   /**
@@ -847,7 +863,7 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
   @Test
   public void t084_gridTestEditableLoadingTree() throws Exception {
     // Title
-    setTestTitle("Grid test: Loading tree grid");
+    setTestTitle("Grid test: Loading editable tree grid");
 
     // Manage loading tree grid
     manageLoadingTreeGrid("ENUM_MATRIX_TREEGRID_EDITABLE_LOADNODE", "TreGrdLoaEdi");

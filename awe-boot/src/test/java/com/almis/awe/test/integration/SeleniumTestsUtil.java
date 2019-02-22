@@ -153,30 +153,32 @@ public class SeleniumTestsUtil {
    * Take a screenshot when an error has occurred
    * @param message
    */
-  private void manageError(String message, Throwable... throwable) {
-    File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-    String messageSanitized = message
-      .toLowerCase()
-      .replaceAll("[\\W\\s]", "_")
-      .replaceAll("_+", "_")
-      .replaceAll("_build_info.*", "")
-      .replaceAll("_session_info.*", "");
-    messageSanitized = messageSanitized.length() > 180 ? messageSanitized.substring(0, 180) : messageSanitized;
-    String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
-    Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
-    logger.error(message, throwable);
-    logger.error("Storing screenshot at: " + path);
+  private void assertWithScreenshot(String message, boolean condition, Throwable... throwable) {
+    if (!condition) {
+      File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+      String messageSanitized = message
+        .toLowerCase()
+        .replaceAll("[\\W\\s]", "_")
+        .replaceAll("_+", "_")
+        .replaceAll("_build_info.*", "")
+        .replaceAll("_session_info.*", "");
+      messageSanitized = messageSanitized.length() > 180 ? messageSanitized.substring(0, 180) : messageSanitized;
+      String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
+      Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
+      logger.error(message, throwable);
+      logger.error("Storing screenshot at: " + path);
 
-    // Now you can do whatever you need to do with it, for example copy somewhere
-    try {
-      path.toFile().getParentFile().mkdirs();
-      FileUtils.copyFile(scrFile, path.toFile());
-    } catch (IOException ioExc) {
-      logger.error("Error trying to store screenshot at: " + path, ioExc);
+      // Now you can do whatever you need to do with it, for example copy somewhere
+      try {
+        path.toFile().getParentFile().mkdirs();
+        FileUtils.copyFile(scrFile, path.toFile());
+      } catch (IOException ioExc) {
+        logger.error("Error trying to store screenshot at: " + path, ioExc);
+      }
     }
 
     // Assert false
-    assertTrue(message, false);
+    assertTrue(message, condition);
   }
 
   /**
@@ -191,7 +193,7 @@ public class SeleniumTestsUtil {
       assertTrue(message, true);
       logger.log(Level.DEBUG, message);
     } catch (Exception exc) {
-      manageError(message, exc);
+      assertWithScreenshot(message, false, exc);
     }
   }
 
@@ -201,15 +203,11 @@ public class SeleniumTestsUtil {
    * @param text Text to compare
    */
   protected void checkText(By selector, String text) {
-    boolean condition = driver.findElement(selector).getText().equals(text);
+    String nodeText = driver.findElement(selector).getText();
+    String message = selector.toString() + " text: '" + nodeText + " isn't equal to " + text;
 
     // Assert element is not located
-    String conditionMessage = driver.findElement(selector).getText() + " isn't equal to " + text;
-    if (!condition) {
-      manageError(conditionMessage);
-    } else {
-      assertTrue(conditionMessage, condition);
-    }
+    assertWithScreenshot(message, nodeText.equalsIgnoreCase(text));
   }
 
   /**
@@ -219,15 +217,10 @@ public class SeleniumTestsUtil {
    */
   protected void checkTextContains(By selector, String text) {
     String nodeText = driver.findElement(selector).getText();
-    boolean condition = nodeText.contains(text);
+    String message = selector.toString() + " text: '" + nodeText + "'  doesn't contain " + text;
 
     // Assert element is not located
-    String conditionMessage = selector.toString() + " text: '" + nodeText + "'  doesn't contain " + text;
-    if (!condition) {
-      manageError(conditionMessage);
-    } else {
-      assertTrue(conditionMessage, condition);
-    }
+    assertWithScreenshot(message, nodeText.contains(text));
   }
 
   /**
@@ -236,15 +229,11 @@ public class SeleniumTestsUtil {
    * @param text Text to compare
    */
   protected void checkTextNotContains(By selector, String text) {
-    boolean condition = driver.findElement(selector).getText().contains(text);
+    String nodeText = driver.findElement(selector).getText();
+    String message = selector.toString() + " text: '" + nodeText + " contains " + text;
 
     // Assert element is not located
-    String conditionMessage = selector.toString() + " contains " + text;
-    if (!condition) {
-      manageError(conditionMessage);
-    } else {
-      assertTrue(conditionMessage, condition);
-    }
+    assertWithScreenshot(message, !nodeText.contains(text));
   }
 
   /**
@@ -253,15 +242,11 @@ public class SeleniumTestsUtil {
    * @param text Text to compare
    */
   protected void checkCriterionContains(By selector, String text) {
-    boolean condition = driver.findElement(selector).getAttribute("value").contains(text);
+    String nodeText = driver.findElement(selector).getAttribute("value");
+    String message = selector.toString() + " text: '" + nodeText + " doesn't contain " + text;
 
     // Assert element is not located
-    String conditionMessage = selector.toString() + " doesn't contain " + text;
-    if (!condition) {
-      manageError(conditionMessage);
-    } else {
-      assertTrue(conditionMessage, condition);
-    }
+    assertWithScreenshot(message, nodeText.contains(text));
   }
 
   /**
@@ -292,8 +277,7 @@ public class SeleniumTestsUtil {
       // Assert true on condition
       assertTrue(conditionMessage, true);
     } catch (Exception exc) {
-      conditionMessage = "Error clicking on element: " + selector.toString() + "\n" + exc.getMessage();
-      manageError(conditionMessage, exc);
+      assertWithScreenshot( "Error clicking on element: " + selector.toString() + "\n" + exc.getMessage(), false, exc);
     }
   }
 
@@ -311,8 +295,7 @@ public class SeleniumTestsUtil {
         .perform();
       assertTrue(conditionMessage, true);
     } catch (Exception exc) {
-      conditionMessage = "Error right clicking on element: " + selector.toString() + "\n" + exc.getMessage();
-      manageError(conditionMessage, exc);
+      assertWithScreenshot("Error right clicking on element: " + selector.toString() + "\n" + exc.getMessage(), false, exc);
     }
   }
 
@@ -767,12 +750,7 @@ public class SeleniumTestsUtil {
     ExpectedCondition<Boolean> condition = and(invisibilityOfElementLocated(selector), invisibilityOfElementLocated(By.cssSelector(".grid-loader")));
 
     // Assert element is not located
-    String conditionMessage = condition.toString();
-    if (!condition.apply(driver).booleanValue()) {
-      manageError(conditionMessage);
-    } else {
-      assertTrue(conditionMessage, true);
-    }
+    assertWithScreenshot(condition.toString(), condition.apply(driver).booleanValue());
   }
 
   /**
@@ -817,6 +795,21 @@ public class SeleniumTestsUtil {
    */
   protected void checkSelectorContents(String criterionName, String search) {
     By selector = By.cssSelector(getCriterionSelectorCss(criterionName) + " .select2-chosen");
+
+    // Wait for element visible
+    waitUntil(visibilityOfElementLocated(selector));
+
+    // Check text
+    checkTextContains(selector, search);
+  }
+
+  /**
+   * Assert if a selector contains a text
+   * @param criterionName Selector name
+   * @param search Text to check
+   */
+  protected void checkMultipleSelectorContents(String criterionName, String search) {
+    By selector = By.cssSelector(getCriterionSelectorCss(criterionName) + " .select2-search-choice div");
 
     // Wait for element visible
     waitUntil(visibilityOfElementLocated(selector));
@@ -982,6 +975,9 @@ public class SeleniumTestsUtil {
 
     // Write text
     sendKeys(selector, Keys.TAB);
+
+    // Pause 100 ms
+    pause(100);
   }
 
   /**
@@ -1463,7 +1459,7 @@ public class SeleniumTestsUtil {
    * Accept a message box
    * @param messageType Message type (success (default), info, warning, danger)
    */
-  protected void acceptMessage(String messageType) {
+  protected void verifyAndAcceptMessage(String messageType) {
     By messageSelector = By.cssSelector(".alert-zone .alert-" + messageType + " button.close");
 
     // Pause 250 ms
@@ -1500,7 +1496,7 @@ public class SeleniumTestsUtil {
     acceptConfirm();
 
     // Accept message
-    acceptMessage(messageType);
+    verifyAndAcceptMessage(messageType);
   }
 
   /**
@@ -1584,7 +1580,7 @@ public class SeleniumTestsUtil {
    * Log into the application
    * @throws Exception
    */
-  protected void doLogin() throws Exception {
+  protected void checkLogin() throws Exception {
     assertNotNull(driver);
 
     System.out.println("Launching tests with '" + browser + "' browser");
@@ -1633,7 +1629,7 @@ public class SeleniumTestsUtil {
    * Log out the application
    * @throws Exception
    */
-  protected void doLogout() throws Exception {
+  protected void checkLogout() throws Exception {
     // Test title
     setTestTitle("Logout test: Log out the application");
 
@@ -1673,10 +1669,10 @@ public class SeleniumTestsUtil {
     clickButton("ButSnd");
 
     // Accept message
-    acceptMessage("success");
+    verifyAndAcceptMessage("success");
 
     // Accept message
-    acceptMessage("info");
+    verifyAndAcceptMessage("info");
   }
 
   /**

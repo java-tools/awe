@@ -15,7 +15,7 @@ public class WebsocketTestsIT extends SeleniumTestsUtil {
    */
   @Test
   public void t000_loginTest() throws Exception {
-    doLogin();
+    checkLogin();
   }
 
   /**
@@ -24,7 +24,7 @@ public class WebsocketTestsIT extends SeleniumTestsUtil {
    */
   @Test
   public void t999_logoutTest() throws Exception {
-    doLogout();
+    checkLogout();
   }
 
   /**
@@ -49,10 +49,10 @@ public class WebsocketTestsIT extends SeleniumTestsUtil {
     gotoScreen("tools", "sites");
 
     // Accept danger message
-    acceptMessage("danger");
+    verifyAndAcceptMessage("danger");
 
     // Do login
-    doLogin();
+    checkLogin();
 
     // Do broadcast test
     broadcastMessageToUser();
@@ -80,9 +80,12 @@ public class WebsocketTestsIT extends SeleniumTestsUtil {
     clickButton("ButSnd");
 
     // Accept message
-    acceptMessage("success");
+    verifyAndAcceptMessage("success");
 
     // Accept message
-    acceptMessage("info");
+    verifyAndAcceptMessage("info");
+
+    // Check message has been deleted
+    checkCriterionContents("MsgDes", "");
   }
 }
