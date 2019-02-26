@@ -340,9 +340,8 @@ aweApplication.factory('AweUtilities',
          * @returns {Object} expression evaluated
          */
         eval: function (expression) {
-          var output;
-          var ctor = "constructor";
-          return $window.constructor[ctor][ctor]("return " + expression + ";")();
+          let c = "constructor";
+          return $window[c][c]("return " + expression + ";")();
         },
         /**
          * Evaluates a formule and retrieves the result
@@ -901,23 +900,24 @@ aweApplication.factory('AweUtilities',
          * @return Context path
          */
         getState: function(location) {
-          var state = {};
-          var locationData = location.split('/');
-          if (location.indexOf('/public') != -1) {
+          let state = {};
+          let locationFixed = location.replace(Utilities.getContextPath(), "");
+          let locationData = locationFixed.split('/');
+          if (locationFixed.indexOf('/public') != -1) {
             // Public state
             state.to = 'public.screen';
             state.parameters = {
               screenId: locationData[3],
               subScreenId: locationData[4]
             };
-          } else if (location.indexOf('/private') != -1) {
+          } else if (locationFixed.indexOf('/private') != -1) {
             // Private state
             state.to = 'private.screen';
             state.parameters = {
               screenId: locationData[3],
               subScreenId: locationData[4]
             };
-          } else if (location.indexOf('/screen') != -1) {
+          } else if (locationFixed.indexOf('/screen') != -1) {
             // Global state
             state.to = 'global';
             state.parameters = {

@@ -354,15 +354,22 @@ public class SeleniumTestsUtil {
    * @param waitForLoadingBar Wait for loading bar after clicking
    */
   protected void clickButton(String buttonName, boolean waitForLoadingBar) {
+    // Move mouse
+    moveMouse();
+
     // Wait for element visible
     waitForButton(buttonName);
 
     // Click button
-    clickSelector(By.cssSelector("#" + buttonName + ":not([disabled])"));
+    By selector = By.cssSelector("#" + buttonName + ":not([disabled])");
+    clickSelector(selector);
 
     if (waitForLoadingBar) {
       // Wait for loading bar
       waitForLoadingBar();
+    } else {
+      // Move mouse
+      moveMouse();
     }
   }
 
@@ -575,6 +582,9 @@ public class SeleniumTestsUtil {
     // Wait for element visible
     waitUntil(visibilityOfElementLocated(selector));
 
+    // Move mouse before clicking on selector
+    moveMouse();
+
     // Click on selector
     click(selector);
   }
@@ -595,6 +605,9 @@ public class SeleniumTestsUtil {
 
     // Wait for loading bar
     waitForLoadingGrid();
+
+    // Move mouse
+    moveMouse();
   }
 
   /**
@@ -839,24 +852,39 @@ public class SeleniumTestsUtil {
    * @param selector Selector to wait for
    */
   protected void waitForSelector(By selector) {
-    // Safecheck
-    Integer safecheck = 0;
-
     // Wait for element visible
-    waitUntil(elementToBeClickable(selector));
+    waitUntil(visibilityOfElementLocated(selector));
 
-    // Move mouse while help is being displayed
-    List<WebElement> popovers = driver.findElements(By.cssSelector(".popover:not(.ng-hide)"));
-    while (popovers.size() > 0 && safecheck < RETRY_COUNT) {
-      WebElement element = popovers.get(0);
-      new Actions(driver)
-        .pause(100)
-        .moveByOffset(30, 30)
-        .build()
-        .perform();
+    // Move mouse again
+    moveMouse();
+  }
 
-      popovers = driver.findElements(By.cssSelector(".popover:not(.ng-hide)"));
-      safecheck++;
+  /**
+   * Move mouse to avoid help popovers
+   */
+  private void moveMouse() {
+    By popoverSelector = By.cssSelector(".popover:not(.ng-hide)");
+    try {
+      // Safecheck
+      Integer safecheck = 0;
+
+      // Move mouse while help is being displayed
+      List<WebElement> popovers = driver.findElements(popoverSelector);
+      while (popovers.size() > 0 && safecheck < RETRY_COUNT) {
+        new Actions(driver)
+          .pause(100)
+          .moveToElement(popovers.get(0))
+          .click(driver.findElements(By.cssSelector("body")).get(0))
+          .pause(100)
+          .build()
+          .perform();
+
+        popovers = driver.findElements(popoverSelector);
+        safecheck++;
+      }
+    } catch (Exception exc) {
+      // Assert error moving mouse
+      assertWithScreenshot(exc.getMessage(), true);
     }
   }
 
@@ -1610,10 +1638,7 @@ public class SeleniumTestsUtil {
     writeText("pwd_usr", "test");
 
     // Click button
-    clickButton("ButLogIn");
-
-    // Wait for element not visible
-    waitForLoadingBar();
+    clickButton("ButLogIn", true);
 
     // Wait for element present
     checkPresence("#ButUsrAct span.info-text");
@@ -1643,10 +1668,7 @@ public class SeleniumTestsUtil {
     waitForText("info-text", "Manager (test)");
 
     // Wait for element present
-    clickButton("ButLogOut");
-
-    // Wait for element not visible
-    waitForLoadingBar();
+    clickButton("ButLogOut", true);
 
     // Wait for text in selector
     waitForText("slogan", "Almis Web Engine");
