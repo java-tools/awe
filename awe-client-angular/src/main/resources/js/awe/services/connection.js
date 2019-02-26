@@ -25,6 +25,9 @@ aweApplication.factory('Connection',
           // Initialize connection and backup
           comet.init();
           ajax.init();
+
+          // Return protocol
+          return protocol;
         },
         /**
          * Send message via websocket (does not wait response)

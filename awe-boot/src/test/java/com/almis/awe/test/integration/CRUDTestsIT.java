@@ -121,12 +121,8 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
   /**
    * Verify deleted
    * @param search
-   * @param options
    */
-  private void verifyDeleted(String search, String... options) {
-    // Go to screen
-    gotoScreen(options);
-
+  private void verifyDeleted(String search) {
     // Wait for button
     clickButton("ButRst");
 
@@ -700,7 +696,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     delete("CrtUsr", "test sel", "tools", "users");
 
     // Verify deleted user
-    verifyDeleted("test sel", "tools", "users");
+    verifyDeleted("test sel");
   }
 
   /**
@@ -716,7 +712,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     delete("CrtAls", "DBSTest", "tools", "databases");
 
     // Verify deleted
-    verifyDeleted("DBSTest", "tools", "databases");
+    verifyDeleted("DBSTest");
   }
 
   /**
@@ -732,7 +728,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     delete("CrtPro", "TS1", "tools", "profiles");
 
     // Verify deleted
-    verifyDeleted("TS1", "tools", "profiles");
+    verifyDeleted("TS1");
   }
 
   /**
@@ -748,7 +744,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     delete("CrtMod", "Inf", "tools", "modules");
 
     // Verify deleted
-    verifyDeleted("Inf", "tools", "modules");
+    verifyDeleted("Inf");
   }
 
   /**
@@ -764,7 +760,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     delete("CrtSit", "Site", "tools", "sites");
 
     // Verify deleted site
-    verifyDeleted("Site", "tools", "sites");
+    verifyDeleted("Site");
   }
 
   /**
@@ -829,7 +825,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     delete("CrtNam", "Theme changed", "tools", "themes");
 
     // Verify
-    verifyDeleted("Theme changed", "tools", "themes");
+    verifyDeleted("Theme changed");
   }
 
   /**
@@ -955,7 +951,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
 
     // Verify
-    verifyDeleted("test", "tools", "sequences");
+    verifyDeleted("test");
   }
 
   /**
@@ -1102,7 +1098,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
 
     // Verify
-    verifyDeleted("application-info", "settings", "security", "screen-access");
+    verifyDeleted("application-info");
   }
 
   /**
@@ -1201,7 +1197,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     delete("CrtNam", "server update", "tools", "email-servers");
 
     // Verify deleted
-    verifyDeleted("server update", "tools", "email-servers");
+    verifyDeleted("server update");
   }
 
   /**
@@ -1282,7 +1278,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     delete("CrtNam", "server update", "tools", "email-servers");
 
     // Verify deleted email server
-    verifyDeleted("server update", "tools", "email-servers");
+    verifyDeleted("server update");
   }
 
   /**
@@ -1435,7 +1431,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     clickButtonAndConfirm("ButCnf");
 
     // Verify
-    verifyDeleted("Dbs", "settings", "screen-configuration");
+    verifyDeleted("Dbs");
   }
 
   /**

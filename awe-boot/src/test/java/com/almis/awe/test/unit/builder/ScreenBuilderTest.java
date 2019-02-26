@@ -29,6 +29,7 @@ import com.almis.awe.builder.screen.wizard.WizardBuilder;
 import com.almis.awe.builder.screen.wizard.WizardPanelBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweElements;
+import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.menu.Menu;
 import com.almis.awe.model.entities.screen.Include;
 import com.almis.awe.model.entities.screen.Message;
@@ -84,9 +85,10 @@ public class ScreenBuilderTest {
    */
   @Test
   public void buildClientAction() throws Exception {
-    new ScreenBuilder()
+    ServiceData serviceData = new ScreenBuilder()
       .setMenuType("public")
       .buildClientAction(aweElements);
+    assertEquals("screen", serviceData.getClientActionList().get(0).getType());
   }
 
   /**

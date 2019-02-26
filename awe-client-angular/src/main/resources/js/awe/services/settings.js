@@ -38,7 +38,7 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
        */
       settingsLoaded: function (settings) {
         // Retrieve $settings and set initial language
-        var language = AweSettings.getLanguage();
+        let language = AweSettings.getLanguage();
 
         $storage.setSharedSession(settings.shareSessionInTabs);
         AweSettings.setToken(AweSettings.getToken());
@@ -46,29 +46,25 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
         // Store updated and language
         $storage.putRoot("language", language);
 
-        // Load current state
-        var dataService = angular.element(document).injector().get('ServerData');
-        if (settings.reloadCurrentScreen) {
-          // Go to initial screen
-          var state = $utilities.getState(settings.initialURL);
-          $state.go(state.to, state.parameters, {reload: false, inherit: true, notify: true, location: true});
-
-          // Activate cache when redirected
-          var removeEvent = $scope.$on('$viewContentLoaded', function () {
-            dataService.toggleCache(true);
-            removeEvent();
-          });
-        } else {
-          // Activate cache
-          dataService.toggleCache(true);
-        }
+        // Start server connection
+        $storage.putRoot("connection", angular.element(document).injector().get('Connection').init());
 
         // Set language
         AweSettings.changeLanguage(language, true);
 
-        // Start server connection
-        var connection = angular.element(document).injector().get('Connection');
-        $storage.putRoot("connection", connection.init());
+        // Load current state
+        let initialState = $utilities.getState(settings.reloadCurrentScreen ? settings.initialURL : location.href);
+
+        // Go to initial state
+        $state.go(initialState.to, initialState.parameters, {reload: false, inherit: true, notify: true, location: true});
+
+        // Activate cache when redirected
+        let removeEvent = $scope.$on('$viewContentLoaded', function () {
+          angular.element(document).injector().get('ServerData').toggleCache(true);
+          removeEvent();
+        });
+
+        // Resolve initialization
         initialize.resolve();
       },
       /**

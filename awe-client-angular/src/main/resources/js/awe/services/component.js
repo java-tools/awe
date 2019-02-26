@@ -15,6 +15,25 @@ aweApplication.factory('Component',
      */
     function (Control, $settings, Utilities, ServerData, ActionController, $log, Actions) {
 
+      /**
+       * Destroys autorefresh timer
+       * @param {object} component
+       */
+      function destroyTimers(component) {
+        Utilities.timeout.cancel(component.helpTimer);
+        Utilities.timeout.cancel(component.eventTimer);
+        Utilities.interval.cancel(component.autoRefreshTimer);
+      }
+
+      /**
+       * Destroy component
+       * @param {object} component
+       */
+      function destroy(component) {
+        destroyTimers(component);
+        // Clear listeners
+        Utilities.clearListeners(component.listeners);
+      }
 
       /**
        * Component constructor
@@ -119,24 +138,6 @@ aweApplication.factory('Component',
               // Check autorefresh attribute of controller
               component.checkAutoRefresh();
 
-              /**
-               * Destroys autorefresh timer
-               */
-              function destroyTimers() {
-                Utilities.timeout.cancel(component.helpTimer);
-                Utilities.timeout.cancel(component.eventTimer);
-                Utilities.interval.cancel(component.autoRefreshTimer);
-              }
-
-              /**
-               * Destroy component
-               */
-              function destroy() {
-                destroyTimers();
-                // Clear listeners
-                Utilities.clearListeners(component.listeners);
-              }
-
               /******************************************************************************
                * EVENT LISTENERS
                *****************************************************************************/
@@ -149,7 +150,7 @@ aweApplication.factory('Component',
               component.listeners['destroy'] = component.scope.$on("$destroy", destroy);
               component.listeners['unload'] = component.scope.$on("unload", function (event, view) {
                 if (view === component.view) {
-                  destroy();
+                  destroy(component);
                 }
               });
             }
@@ -206,7 +207,7 @@ aweApplication.factory('Component',
              * @param {object} data New model data attributes
              */
             var methodName = "updateModelValues";
-            if(component.api.updateModelValues) {
+            if (component.api.updateModelValues) {
               methodName = "updateComponentModelValues";
             }
 
