@@ -15,7 +15,7 @@
   <description>Awe Spring Controller Module</description>
 
   <properties>
-    <querydsl.version>4.1.4</querydsl.version>
+    <querydsl.version>4.2.1</querydsl.version>
     <!-- Sonar properties -->
     <application.folder>.</application.folder>
     <sonar.sources>src</sonar.sources>
@@ -89,9 +89,19 @@
       <artifactId>commons-dbcp</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.querydsl</groupId>
       <artifactId>querydsl-sql</artifactId>
       <version>${querydsl.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.assertj</groupId>

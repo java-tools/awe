@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: awe-boot
-        image: registry.gitlab.com/aweframework/awe/awe-boot
+        image: registry.gitlab.com/aweframework/awe/awe-boot:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

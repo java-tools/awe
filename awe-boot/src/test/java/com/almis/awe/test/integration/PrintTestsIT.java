@@ -1,28 +1,29 @@
 package com.almis.awe.test.integration;
 
+import com.almis.awe.testing.utilities.SeleniumUtilities;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class PrintTestsIT extends SeleniumTestsUtil {
+public class PrintTestsIT extends SeleniumUtilities {
 
   /**
    * Log into the application
-   * @throws Exception Error on test
+   * @throws Exception
    */
   @Test
   public void t000_loginTest() throws Exception {
-    checkLogin();
+    checkLogin("test", "test", "span.info-text", "Manager (test)");
   }
 
   /**
    * Log out from the application
-   * @throws Exception Error on test
+   * @throws Exception
    */
   @Test
   public void t999_logoutTest() throws Exception {
-    checkLogout();
+    checkLogout(".slogan", "Almis Web Engine");
   }
 
   /**
@@ -154,7 +155,7 @@ public class PrintTestsIT extends SeleniumTestsUtil {
     clickButton("ButDiaVal");
 
     // Accept message
-    verifyAndAcceptMessage("success");
+    checkAndCloseMessage("success");
 
     // Wait modal backdrop to disappear
     checkNotVisible(".modal-backdrop");

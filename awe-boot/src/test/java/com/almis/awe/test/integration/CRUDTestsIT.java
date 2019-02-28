@@ -1,13 +1,12 @@
 package com.almis.awe.test.integration;
 
-
+import com.almis.awe.testing.utilities.SeleniumUtilities;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.By;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CRUDTestsIT extends SeleniumTestsUtil {
+public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Log into the application
@@ -15,7 +14,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
    */
   @Test
   public void t000_loginTest() throws Exception {
-    checkLogin();
+    checkLogin("test", "test", "span.info-text", "Manager (test)");
   }
 
   /**
@@ -24,7 +23,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
    */
   @Test
   public void t999_logoutTest() throws Exception {
-    checkLogout();
+    checkLogout(".slogan", "Almis Web Engine");
   }
 
   /**
@@ -330,7 +329,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     checkCriterionContents("Thm", "grass");
 
     // Check contents
-    checkSelectorContents("Scr", "Sites (Sit)");
+    checkSelectContents("Scr", "Sites (Sit)");
 
     // Check row contents
     checkRowContents("test", "TST", "Site changed");
@@ -403,7 +402,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     checkCriterionContents("Thm", "grass");
 
     // Check criterion
-    checkSelectorContents("Scr", "Usr");
+    checkSelectContents("Scr", "Usr");
 
     // Check row contents
     checkRowContents("test", "ADM", "Site changed");
@@ -437,7 +436,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     suggest("ScrIni", "Modules", "Modules");
 
     // Verify criterion
-    checkSelectorContents("IdeThm", "sunset");
+    checkSelectContents("IdeThm", "sunset");
 
     // Store and confirm
     clickButtonAndConfirm("ButCnf");
@@ -452,7 +451,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     checkCriterionContents("Nam", "Test profile");
 
     // Check contents
-    checkSelectorContents("Act", "Yes");
+    checkSelectContents("Act", "Yes");
   }
 
   /**
@@ -486,7 +485,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     checkCriterionContents("Nam", "Profile changed");
 
     // Check contents
-    checkSelectorContents("Act", "Yes");
+    checkSelectContents("Act", "Yes");
   }
 
   /**
@@ -624,7 +623,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     checkCriterionContents("Nom", "test selenium");
 
     // Check contents
-    checkSelectorContents("Sta", "Yes");
+    checkSelectContents("Sta", "Yes");
 
     // Check contents
     checkCriterionContents("Nam", "test");
@@ -633,10 +632,10 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     checkCriterionContents("Eml", "test@almis.com");
 
     // Check contents
-    checkSelectorContents("Thm", "grass");
+    checkSelectContents("Thm", "grass");
 
     // Check contents
-    checkSelectorContents("Pro", "TS1 - Profile changed");
+    checkSelectContents("Pro", "TS1 - Profile changed");
   }
 
   /**
@@ -1468,7 +1467,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     waitForText("visible-text", "[INFO ]");
 
     // Check text
-    checkTextContains(By.cssSelector(".visible-text"), "[INFO ]");
+    checkTextContains(".visible-text", "[INFO ]");
   }
 
   /**
@@ -1481,7 +1480,7 @@ public class CRUDTestsIT extends SeleniumTestsUtil {
     setTestTitle("Broadcast message to a user");
 
     // Broadcast messaget o user
-    broadcastMessageToUser();
+    broadcastMessageToUser("test", "This is a broadcast message test");
 
     // Check message box is empty
     checkCriterionContents("MsgDes", "");

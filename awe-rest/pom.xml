@@ -17,7 +17,7 @@
 
 	<properties>
 		<querydsl.version>4.1.4</querydsl.version>
-		<swagger.version>2.7.0</swagger.version>
+		<swagger.version>2.9.2</swagger.version>
 		<!-- Sonar properties -->
 		<application.folder>.</application.folder>
 		<sonar.sources>src</sonar.sources>
@@ -34,9 +34,19 @@
 			<artifactId>awe-controller</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${swagger.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>

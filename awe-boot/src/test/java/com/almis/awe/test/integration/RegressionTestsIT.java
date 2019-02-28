@@ -1,30 +1,30 @@
 package com.almis.awe.test.integration;
 
-
+import com.almis.awe.testing.utilities.SeleniumUtilities;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class RegressionTestsIT extends SeleniumTestsUtil {
+public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Log into the application
-   * @throws Exception Error on test
+   * @throws Exception
    */
   @Test
   public void t000_loginTest() throws Exception {
-    checkLogin();
+    checkLogin("test", "test", "span.info-text", "Manager (test)");
   }
 
   /**
    * Log out from the application
-   * @throws Exception Error on test
+   * @throws Exception
    */
   @Test
   public void t999_logoutTest() throws Exception {
-    checkLogout();
+    checkLogout(".slogan", "Almis Web Engine");
   }
 
   /**
@@ -90,7 +90,7 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     checkRowContents("test");
 
     // Check criterion value
-    checkSelectorContents("CrtUsr", "te");
+    checkSelectContents("CrtUsr", "te");
   }
 
   /**
@@ -134,7 +134,7 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     clickCheckbox("RadBox3");
 
     // Wait for text
-    checkText(By.cssSelector("[criterion-id='Unt'] .unit"), "USD");
+    checkText("[criterion-id='Unt'] .unit", "USD");
   }
 
   /**
@@ -156,7 +156,7 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     clickDate("FilCalRea");
 
     // Click on selector
-    clickSelector(By.cssSelector(".datepicker td.day:not(.disabled)"));
+    click(".datepicker td.day:not(.disabled)");
   }
 
   /**
@@ -193,7 +193,7 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     waitForButton("ButRst");
 
     // Wait for button
-    checkSelectorContents("CrtUsr", "test");
+    checkSelectContents("CrtUsr", "test");
   }
 
   /**
@@ -212,7 +212,7 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     clickButton("ButRst");
 
     // Suggest delayed
-    clickSelector(By.cssSelector("[criterion-id='Sug'] .select2-choice"));
+    click("[criterion-id='Sug'] .select2-choice");
     suggestDelayed("#select2-drop", "tee", "test", "test", 800);
 
     // Suggest delayed
@@ -238,12 +238,12 @@ public class RegressionTestsIT extends SeleniumTestsUtil {
     pause(pause);
 
     // Clear text
-    clearText(By.cssSelector(selector + " input.select2-input"));
+    clearText(selector + " input.select2-input");
 
-    // Write text
+    // Write select
     writeText(By.cssSelector(selector + " input.select2-input"), search2);
 
     // Click selector
-    clickSelector(By.xpath("//*[@id='select2-drop']//*[contains(@class,'select2-result-label')]//text()[contains(.,'" + match + "')]/.."));
+    selectResult(match);
   }
 }
