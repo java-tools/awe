@@ -88,36 +88,15 @@
         </Delete>
       </DefaultRolloverStrategy>
     </RollingFile>
-
-    <!-- Model file log -->
-    <RollingFile name="${bundle:log4j2-app:log.model}" fileName="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.model}${bundle:log4j2-app:log.ext}" filePattern="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}/${bundle:log4j2-app:log.model}${bundle:log4j2-app:log.pattern.file}${bundle:log4j2-app:log.ext}">
-      <PatternLayout charset="${bundle:log4j2-app:log.charset}" pattern="${bundle:log4j2-app:log.pattern.layout}" />
-      <Policies>
-        <TimeBasedTriggeringPolicy interval="${bundle:log4j2-app:log.date.rolling}" modulate="true" />
-        <SizeBasedTriggeringPolicy size="${bundle:log4j2-app:log.size.rolling}" />
-      </Policies>
-      <DefaultRolloverStrategy max="${bundle:log4j2-app:log.num.file.rolling}">
-        <Delete basePath="${bundle:log4j2-app:log.path}/${bundle:log4j2-app:log.app}/${bundle:log4j2-app:log.app.version}/${bundle:log4j2-app:application.log.type}">
-          <IfFileName glob="${bundle:log4j2-app:log.model}_*.log">
-            <IfAny>
-              <IfLastModified age="${bundle:log4j2-app:log.delete.if.days.exceeds}" />
-              <IfAccumulatedFileSize exceeds="${bundle:log4j2-app:log.delete.if.size.exceeds}" />
-            </IfAny>
-          </IfFileName>
-        </Delete>
-      </DefaultRolloverStrategy>
-    </RollingFile>
   </Appenders>
 
-  <Loggers>    
+  <Loggers>
+    <!-- Awe logger -->
+    <Logger name="com.almis.awe" includeLocation="true" level="${bundle:log4j2-app:log.level}"/>
+
     <!-- Ade logger -->
     <Logger name="com.almis.ade" includeLocation="true" level="${bundle:log4j2-app:log.level}">
       <AppenderRef ref="${bundle:log4j2-app:log.ade}" />
-    </Logger>
-
-    <!-- Model logger -->
-    <Logger name="com.almis.awe.model" includeLocation="true" level="${bundle:log4j2-app:log.level}">
-      <AppenderRef ref="${bundle:log4j2-app:log.model}" />
     </Logger>
 
     <!-- Scheduler logger -->
@@ -125,8 +104,8 @@
       <AppenderRef ref="${bundle:log4j2-app:log.scheduler}" />
     </Logger>
 
-    <!-- Test logger -->
-    <Logger name="com.almis.awe.test" level="info"/>
+    <!-- Awe testing logger -->
+    <Logger name="com.almis.awe.testing" includeLocation="true" level="info"/>
 
     <!-- ROOT logger -->
     <Root level="${bundle:log4j2-app:log.level}">

@@ -22,8 +22,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.frontend>${project.build.directory}/classes/static</project.build.frontend>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <node.version>v8.12.0</node.version>
-    <yarn.version>v1.10.1</yarn.version>
+    <node.version>v11.10.0</node.version>
+    <yarn.version>v1.13.0</yarn.version>
     <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
     <plugin-frontend.version>1.6</plugin-frontend.version>
     <plugin-dependency.version>3.0.2</plugin-dependency.version>
@@ -156,63 +156,11 @@
       <scope>runtime</scope>
     </dependency>
 
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>27.0.1-jre</version>
-    </dependency>
-
     <!-- Test dependencies -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-testing</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>xmlunit</groupId>
-      <artifactId>xmlunit</artifactId>
-      <version>1.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.ant</groupId>
-      <artifactId>ant</artifactId>
-      <version>1.10.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>ant-contrib</groupId>
-      <artifactId>ant-contrib</artifactId>
-      <version>1.0b3</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.github.bonigarcia</groupId>
-      <artifactId>webdrivermanager</artifactId>
-      <version>${webdrivermanager.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-server</artifactId>
-      <version>${selenium.version}</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>com.google.guava</groupId>
-          <artifactId>guava</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 

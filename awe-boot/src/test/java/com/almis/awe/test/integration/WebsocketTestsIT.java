@@ -1,30 +1,30 @@
 package com.almis.awe.test.integration;
 
-
+import com.almis.awe.testing.utilities.SeleniumUtilities;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.JavascriptExecutor;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class WebsocketTestsIT extends SeleniumTestsUtil {
+public class WebsocketTestsIT extends SeleniumUtilities {
 
   /**
    * Log into the application
-   * @throws Exception Error on test
+   * @throws Exception
    */
   @Test
   public void t000_loginTest() throws Exception {
-    checkLogin();
+    checkLogin("test", "test", "span.info-text", "Manager (test)");
   }
 
   /**
    * Log out from the application
-   * @throws Exception Error on test
+   * @throws Exception
    */
   @Test
   public void t999_logoutTest() throws Exception {
-    checkLogout();
+    checkLogout(".slogan", "Almis Web Engine");
   }
 
   /**
@@ -37,7 +37,7 @@ public class WebsocketTestsIT extends SeleniumTestsUtil {
     setTestTitle("Websocket message send test");
 
     // Do broadcast test
-    broadcastMessageToUser();
+    broadcastMessageToUser("test", "This is a broadcast message test");
 
     String a = "var winNew = window.open('" + getBaseUrl() + "session/invalidate','_blank', 'width=1, height=1');setTimeout(function(){ winNew.close();}, 1000);";
     ((JavascriptExecutor) getDriver()).executeScript(a);
@@ -49,13 +49,13 @@ public class WebsocketTestsIT extends SeleniumTestsUtil {
     gotoScreen("tools", "sites");
 
     // Accept danger message
-    verifyAndAcceptMessage("danger");
+    checkAndCloseMessage("danger");
 
     // Do login
-    checkLogin();
+    checkLogin("test", "test", "span.info-text", "Manager (test)");
 
     // Do broadcast test
-    broadcastMessageToUser();
+    broadcastMessageToUser("test", "This is a broadcast message test");
 
     // Assert there are no info messages
     checkMessageMissing("info");
@@ -80,10 +80,10 @@ public class WebsocketTestsIT extends SeleniumTestsUtil {
     clickButton("ButSnd");
 
     // Accept message
-    verifyAndAcceptMessage("success");
+    checkAndCloseMessage("success");
 
     // Accept message
-    verifyAndAcceptMessage("info");
+    checkAndCloseMessage("info");
 
     // Check message has been deleted
     checkCriterionContents("MsgDes", "");

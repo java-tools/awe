@@ -21,8 +21,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.frontend>\${project.build.directory}/classes/static/</project.build.frontend>
     <check.xml.directory>\${project.basedir}/src/main/resources/application/</check.xml.directory>
-    <node.version>v8.12.0</node.version>
-    <yarn.version>v1.10.1</yarn.version>
+    <node.version>v11.10.0</node.version>
+    <yarn.version>v1.13.0</yarn.version>
 
     <!-- Plugin versions -->
     <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>

@@ -1,31 +1,29 @@
 package com.almis.awe.test.integration;
 
-
-import com.google.common.io.ByteArrayDataOutput;
+import com.almis.awe.testing.utilities.SeleniumUtilities;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.By;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class IntegrationTestsIT extends SeleniumTestsUtil {
+public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Log into the application
-   * @throws Exception Error on test
+   * @throws Exception
    */
   @Test
   public void t000_loginTest() throws Exception {
-    checkLogin();
+    checkLogin("test", "test", "span.info-text", "Manager (test)");
   }
 
   /**
    * Log out from the application
-   * @throws Exception Error on test
+   * @throws Exception
    */
   @Test
   public void t999_logoutTest() throws Exception {
-    checkLogout();
+    checkLogout(".slogan", "Almis Web Engine");
   }
 
   /**
@@ -151,13 +149,13 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     waitForButton("ButRst");
 
     // Check selector
-    checkSelectorContents("Sug", "test (Manager)");
+    checkSelectContents("Sug", "test (Manager)");
 
     // Click button
     clickButton("ButRst");
 
     // Check selector
-    checkSelectorContents("Sug", "");
+    checkSelectContents("Sug", "");
   }
 
   /**
@@ -173,7 +171,7 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     writeText("Txt", "Texto Normal");
 
     // Check text on criterion
-    checkText(By.cssSelector("label[for=Unt]"), "Texto Normal");
+    checkText("label[for=Unt]", "Texto Normal");
 
     // Write text on criterion
     writeText("TxtReq", "Text Required");
@@ -193,7 +191,7 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     writeText("Num", "10000");
 
     // Check text on criterion
-    checkText(By.cssSelector("label[for=Unt]"), "Numeric");
+    checkText("label[for=Unt]", "Numeric");
 
     // Write text on numeric
     writeText("NumReq", "-20000");
@@ -222,13 +220,13 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     clickDate("FilCal");
 
     // Click on selector
-    clickSelector(By.cssSelector(".datepicker td.day:not(.disabled)"));
+    click(".datepicker td.day:not(.disabled)");
 
     // Click on date
     clickDate("FilCalReq");
 
     // Click on selector
-    clickSelector(By.cssSelector(".datepicker td.day:not(.disabled)"));
+    click(".datepicker td.day:not(.disabled)");
 
     // Check date contents
     checkCriterionContents("Cal", "23/10/1978");
@@ -271,7 +269,7 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     selectContain("SelReq", "administrator");
 
     // Check select
-    checkSelectorContents("SelReq", "administrator");
+    checkSelectContents("SelReq", "administrator");
   }
 
   /**
@@ -345,13 +343,13 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     clickCheckbox("ChkBoxVa1");
 
     // Check text on criterion
-    checkText(By.cssSelector("label[for=Unt]"), "Inf");
+    checkText("label[for=Unt]", "Inf");
 
     // Click checkbox
     clickCheckbox("ChkBoxVa2");
 
     // Check text on criterion
-    checkText(By.cssSelector("[criterion-id='Unt'] .unit"), "Inf");
+    checkText("[criterion-id='Unt'] .unit", "Inf");
 
     // Click checkbox
     clickCheckbox("ChkBoxVa5");
@@ -360,13 +358,13 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     clickCheckbox("RadBox1");
 
     // Check text on criterion
-    checkText(By.cssSelector("[criterion-id='Unt'] .unit"), "EUR");
+    checkText("[criterion-id='Unt'] .unit", "EUR");
 
     // Click checkbox
     clickCheckbox("RadBox3");
 
     // Check text on criterion
-    checkText(By.cssSelector("[criterion-id='Unt'] .unit"), "USD");
+    checkText("[criterion-id='Unt'] .unit", "USD");
 
     // Click checkbox
     clickCheckbox("RadBox4");
@@ -407,7 +405,7 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     checkVisible("div.error-container");
 
     // Check suggest value
-    checkSelectorContents("SugRea", "test (Manager)");
+    checkSelectContents("SugRea", "test (Manager)");
 
     // Click button
     clickButton("ButRst");
@@ -631,7 +629,7 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     waitForContextButton("CtxGrdStaAdd");
 
     // Click on component mask
-    click(By.cssSelector("div.component-mask"));
+    click("div.component-mask");
 
     // Wait for context menu to hide
     checkNotVisible(".context-menu");
@@ -643,13 +641,13 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     waitForContextButton("CtxGrdStaDel");
 
     // Click on component mask
-    click(By.cssSelector("div.component-mask"));
+    click("div.component-mask");
 
     // Wait for context menu to hide
     checkNotVisible(".context-menu");
 
     // Click on viewport
-    click(By.cssSelector("[grid-id='GrdSta'] div.ui-grid-viewport"));
+    click("[grid-id='GrdSta'] div.ui-grid-viewport");
 
     // Click row contents
     clickRowContents("GrdSta", "awedb2");
@@ -699,7 +697,7 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     clickDate("GrdEdi", "FilDat");
 
     // Click on selector
-    clickSelector(By.cssSelector(".datepicker td.day:not(.disabled)"));
+    click(".datepicker td.day:not(.disabled)");
 
     // Get selector text
     String date = getText("GrdEdi", "FilDat");
@@ -768,8 +766,8 @@ public class IntegrationTestsIT extends SeleniumTestsUtil {
     // Check icon
     checkVisible("[grid-id='GrdMuo'] [column-id='RowIco'] span.fa.fa-plus");
 
-    // Click on row
-    clickRow("GrdMuo", "1", "Des2");
+    // Click on a cell
+    clickCell("GrdMuo", "1", "Des2");
 
     // Write on text
     writeText("GrdMuo", "Des2", "asdasda");
