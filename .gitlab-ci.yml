@@ -276,7 +276,7 @@ release:
   - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
   script:
   ## Generate changelog
-  - git checkout -b $CI_COMMIT_REF_NAME
+  - git checkout $CI_COMMIT_REF_NAME
   - chmod +x ./bin/changelog.sh
   - /bin/sh ./bin/changelog.sh
   - git checkout ./bin/changelog.sh
