@@ -88,7 +88,6 @@ Desktop.ini
 # Directories
 ######################
 build/
-bin/
 deploy/
 node/
 node_modules/

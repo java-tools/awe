@@ -255,7 +255,7 @@ pages:
 ##############################
 
 release:
-  image: maven:3.5-jdk-8
+  image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
   before_script:
   ## Install ssh-agent if not already installed, it is required by Docker.
@@ -275,6 +275,14 @@ release:
   ## Add gpg key to sign
   - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
   script:
+  ## Generate changelog
+  - git checkout -b $CI_COMMIT_REF_NAME
+  - chmod +x ./bin/changelog.sh
+  - /bin/sh ./bin/changelog.sh
+  - git checkout ./bin/changelog.sh
+  - git add ./CHANGELOG.md
+  - git commit -m "Generated CHANGELOG"
+  ## Generate release
   - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTestProject=true
   - git checkout master
   - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
