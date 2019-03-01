@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Get version number
 version=`cat ./pom.xml | grep -o '<version>[0-9\.]*[A-Z\-]*</version>' | sed -e 's/<[\/]*version>//g' | sed ':a;N;$!ba;s/\n/ /g' | sed 's/[A-Z\-]*//g' | awk '{printf $2}'`
@@ -11,4 +11,4 @@ changelogText=`echo "# Changelog for AWE $version ($currentDate)\n\n$changelog\n
 echo "$changelogText"
 
 # Generate changelog
-cat <(echo "$changelogText") ./CHANGELOG.md > temp && mv temp ./CHANGELOG.md && echo "Generated changelog file at ./CHANGELOG.md"
+cat < (echo "$changelogText") ./CHANGELOG.md > temp && mv temp ./CHANGELOG.md && echo "Generated changelog file at ./CHANGELOG.md"
