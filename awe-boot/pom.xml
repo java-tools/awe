@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>awe-parent</artifactId>
     <groupId>com.almis.awe</groupId>
@@ -22,8 +22,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.frontend>${project.build.directory}/classes/static</project.build.frontend>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <node.version>v8.12.0</node.version>
-    <yarn.version>v1.10.1</yarn.version>
+    <node.version>v11.10.0</node.version>
+    <yarn.version>v1.13.0</yarn.version>
     <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
     <plugin-frontend.version>1.6</plugin-frontend.version>
     <plugin-dependency.version>3.0.2</plugin-dependency.version>
@@ -36,14 +36,25 @@
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
     <plugin-site.version>3.5.1</plugin-site.version>
     <plugin-info-reports.version>2.9</plugin-info-reports.version>
+    <selenium.version>3.141.59</selenium.version>
+    <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
+    <webdrivermanager.version>3.2.0</webdrivermanager.version>
+    <testng.version>6.14.3</testng.version>
 
+    <jacoco.base.reports>${project.basedir}/../awe-boot/target</jacoco.base.reports>
+    <jacoco.reportPaths>${jacoco.base.reports}/coverage-reports</jacoco.reportPaths>
     <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
-    <sonar.skip>true</sonar.skip>
-    <sonar.jacoco.reportPaths>${project.basedir}/../awe-boot/target/jacoco.exec</sonar.jacoco.reportPaths>
-    <jacoco.reportPaths>${project.basedir}/../awe-boot/target/coverage-reports</jacoco.reportPaths>
-    <!-- Skip deply to Nexus -->
+    <sonar.junit.reportPath>${jacoco.base.reports}/surefire-reports</sonar.junit.reportPath>
+    <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
+    <surefire.suite>**/AllTestsSuite.class</surefire.suite>
+    <failsafe.suite>**/AllTestsSuiteIT.class</failsafe.suite>
+    <browser>headless-chrome</browser>
+    <skip.main>false</skip.main>
+    <skip.selenium>true</skip.selenium>
+    <skip.junit>false</skip.junit>
+    <!-- skip deploy -->
     <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-    <skipStaging>true</skipStaging>       
+    <skipLocalStaging>true</skipLocalStaging>
   </properties>
 
   <dependencyManagement>
@@ -147,36 +158,8 @@
 
     <!-- Test dependencies -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>xmlunit</groupId>
-      <artifactId>xmlunit</artifactId>
-      <version>1.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-server</artifactId>
-      <version>2.53.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>ant-contrib</groupId>
-      <artifactId>ant-contrib</artifactId>
-      <version>1.0b3</version>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-testing</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -301,10 +284,36 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <profiles>
+            <profile>dev</profile>
+          </profiles>
+        </configuration>
         <executions>
           <execution>
+            <id>repackage</id>
             <goals>
               <goal>repackage</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>pre-integration-test</id>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+              <wait>1000</wait>
+              <maxAttempts>180</maxAttempts>
+            </configuration>
+            <goals>
+              <goal>start</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>post-integration-test</id>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+            </configuration>
+            <goals>
+              <goal>stop</goal>
             </goals>
           </execution>
         </executions>
@@ -315,6 +324,9 @@
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
         <version>1.6</version>
+        <configuration>
+          <skip>${skip.main}</skip>
+        </configuration>
         <executions>
           <execution>
             <id>install node and yarn</id>
@@ -372,6 +384,42 @@
         </configuration>
       </plugin>
 
+      <!-- JUnit -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>${skip.junit}</skip>
+          <includes>
+            <include>${surefire.suite}</include>
+          </includes>
+        </configuration>
+      </plugin>
+
+      <!-- Failsafe -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+            <configuration>
+              <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+              <skip>${skip.selenium}</skip>
+              <includes>
+                <include>${failsafe.suite}</include>
+              </includes>
+              <systemPropertyVariables>
+                <failsafe.browser>${browser}</failsafe.browser>
+              </systemPropertyVariables>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- Ant Plugin for launch selenium test -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -381,8 +429,9 @@
             <!-- your Selenium tests should run in integration phase -->
             <phase>integration-test</phase>
             <configuration>
-              <target if="launchSelenium">
-                <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true" />
+              <skip>true</skip>
+              <target>
+                <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true"/>
               </target>
             </configuration>
             <goals>
@@ -397,18 +446,10 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>${jacoco.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-            <configuration>
-              <append>true</append>
-              <destFile>${sonar.jacoco.reportPaths}</destFile>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>      
+        <configuration>
+          <skip>${skip.main}</skip>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -429,17 +470,124 @@
             <version>${jacoco.version}</version>
             <executions>
               <execution>
-                <id>post-merge-report</id>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <configuration>
+                  <append>true</append>
+                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
+                </configuration>
+              </execution>
+              <execution>
+                <id>report-aggregate</id>
                 <phase>test</phase>
                 <goals>
                   <goal>report-aggregate</goal>
                 </goals>
                 <configuration>
                   <dataFileIncludes>
+                    <dataFileInclude>target/jacoco.exec</dataFileInclude></dataFileIncludes>
+                  <outputDirectory>${jacoco.reportPaths}</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>generate-integration-report</id>
+      <activation>
+        <property>
+          <name>generateIntegrationReport</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Failsafe -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>integration-test</id>
+                <goals>
+                  <goal>integration-test</goal>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco.version}</version>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <configuration>
+                  <append>true</append>
+                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
+                </configuration>
+              </execution>
+              <execution>
+                <id>prepare-integration-agent</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>prepare-agent-integration</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>report-integration</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>report-aggregate</goal>
+                </goals>
+                <configuration>
+                  <dataFileIncludes>
                     <dataFileInclude>target/jacoco.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-it.exec</dataFileInclude>
                   </dataFileIncludes>
                   <outputDirectory>${jacoco.reportPaths}</outputDirectory>
                 </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>repackage</id>
+                <goals>
+                  <goal>repackage</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>pre-integration-test</id>
+                <configuration>
+                  <arguments>
+                    <argument>--integration-test</argument>
+                  </arguments>
+                  <wait>1000</wait>
+                  <maxAttempts>180</maxAttempts>
+                  <fork>true</fork>
+                  <jvmArguments>${argLine}</jvmArguments>
+                </configuration>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>post-integration-test</id>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
               </execution>
             </executions>
           </plugin>

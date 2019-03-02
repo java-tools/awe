@@ -112,6 +112,11 @@ aweApplication.controller('AppController',
 
       // Route change start (show loading message)
       $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState/*, fromParams*/) {
+        // Prevent start if settings are still not defined
+        if (!Storage.getRoot("connection")) {
+          return event.preventDefault();
+        }
+
         var views = _.merge({}, fromState.views, toState.views);
         _.each(views, function (view, viewName) {
           $scope.$broadcast("unload", viewName);

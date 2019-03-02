@@ -14,22 +14,22 @@ Delete From AweThm;
 Delete From AweKey;
 
 -- Insert sequences
-Insert into AweKey (KeyNam, KeyVal) values ('OpeKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('ThmKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('ProKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('ModKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('DbsKey', 2);
-Insert into AweKey (KeyNam, KeyVal) values ('SitKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('ModOpeKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('ModProKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('SitModDbsKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('ScrOpeKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('ScrProKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('EmlSrvKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('AppParKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('JmsKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('ScrCnfKey', 0);
-Insert into AweKey (KeyNam, KeyVal) values ('ScrResKey', 0);
+Insert into AweKey (KeyNam, KeyVal) values ('OpeKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('ThmKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('ProKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('ModKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('DbsKey', 4);
+Insert into AweKey (KeyNam, KeyVal) values ('SitKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('ModOpeKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('ModProKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('SitModDbsKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('ScrOpeKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('ScrProKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('EmlSrvKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('AppParKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('JmsKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('ScrCnfKey', 1);
+Insert into AweKey (KeyNam, KeyVal) values ('ScrResKey', 1);
 
 -- Insert themes
 Insert into AweThm (IdeThm, Nam, Act) values ('1','sunset','1');
@@ -71,7 +71,7 @@ Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('14','Djr
 Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('15','DjrDefFnt',null,'2','Default jasper reports font','1');
 Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('16','MaxFntHor','10','2','Maximum font size for horizontal alignment','1');
 Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('17','MaxFntVer','10','2','Maximum font size for vertical alignment','1');
-Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('18','DjrHdgPag','0','2','Remove heading and pagination when exorting to excel','1');
+Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('18','DjrHdgPag','0','2','Remove heading and pagination when exporting to excel','1');
 Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('19','DjrBokTit','0','2','Include book in report title','1');
 -- Update AppParKey
 UPDATE AweKey SET KeyVal = '20' where KeyNam = 'AppParKey';
@@ -86,7 +86,7 @@ Insert into AwePro (IdePro, Acr, Nam, IdeThm, ScrIni, Res, Act) values ('4','TST
 UPDATE AweKey SET KeyVal = '5' where KeyNam = 'ProKey';
 
 -- Insert default user
-Insert into OPE (IdeOpe, l1_nom, l1_pas, l1_con, l1_dev, l1_act, l1_trt, l1_uti, l1_opr, l1_dat, imp_nom, dat_mod, l1_psd, l1_lan, l1_sgn, PcPrn, EmlSrv, EmlAdr, OpeNam, IdePro, IdeThm) values ((select KeyVal from AweKey where KeyNam = 'OpeKey' ),'test','5e52fee47e6b070565f74372468cdc699de89107',0,null,1,null,0,null,null,'none',null,null,'ENG',1,null,null,'test@test.com','Manager',(select IdePro from AwePro where Nam = 'administrator'),(select IdeThm from AweThm where Nam = 'sunset'));
+Insert into OPE (IdeOpe, l1_nom, l1_pas, l1_con, l1_dev, l1_act, l1_trt, l1_uti, l1_opr, l1_dat, imp_nom, dat_mod, l1_psd, l1_lan, l1_sgn, PcPrn, EmlSrv, EmlAdr, OpeNam, IdePro, IdeThm) values (1,'test','5e52fee47e6b070565f74372468cdc699de89107',0,null,1,null,0,null,null,'none',null,null,'ENG',1,null,null,'test@test.com','Manager',(select IdePro from AwePro where Nam = 'administrator'),(select IdeThm from AweThm where Nam = 'sunset'));
 -- Update OpeKey
 UPDATE AweKey SET KeyVal = '2' where KeyNam = 'OpeKey';
 
@@ -95,7 +95,9 @@ Insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (916,	'Test',	'Dbs'
 Insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (28,	'Base',	'Sit',	2,	1);
 
 -- Insert AweDbs
-Insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (1	,'awedb','AWE DB 1','J','hsql','org.hsqldb.jdbc.JDBCDriver',null,null,'Des','jdbc:hsqldb:file:${user.home}/db/awe-boot',1);
+Insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (1	,'awedb1','AWE DB 1','J','hsql','${spring.datasource.driver-class-name}','${spring.datasource.username}','IKvBjXjD26bm2TY7m7DorU36kI6AuXY1DFKxB3C7LE8=','Des','${spring.datasource.url}',1);
+Insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (2	,'awedb2','AWE DB 2','J','hsql','${spring.datasource.driver-class-name}','${spring.datasource.username}','IKvBjXjD26bm2TY7m7DorU36kI6AuXY1DFKxB3C7LE8=','Des','${spring.datasource.url}',1);
+Insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (3	,'awedb3','AWE DB 3','J','hsql','${spring.datasource.driver-class-name}','${spring.datasource.username}','IKvBjXjD26bm2TY7m7DorU36kI6AuXY1DFKxB3C7LE8=','Des','${spring.datasource.url}',1);
 
 -- Insert AweSitModDbs
 

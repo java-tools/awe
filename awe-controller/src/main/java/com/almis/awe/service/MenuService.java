@@ -474,7 +474,7 @@ public class MenuService extends ServiceConfig {
     } else if (address.startsWith(AweConstants.JSON_SCREEN + "/" + AweConstants.PUBLIC_MENU))  {
       return isAvailableOption(optionId, AweConstants.PUBLIC_MENU);
     } else {
-      return true;
+      return false;
     }
   }
 

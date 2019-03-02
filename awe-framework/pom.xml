@@ -26,6 +26,7 @@
     <module>../awe-tools-spring-boot-starter</module>    
     <module>../awe-rest</module>
     <module>../awe-rest-spring-boot-starter</module>
+    <module>../awe-testing</module>
     <module>../awe-spring-boot-starter</module>
     <module>../awe-boot-archetype</module>
   </modules>

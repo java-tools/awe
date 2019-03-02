@@ -54,14 +54,14 @@
             <context-button id="CtxGrdStaAdd" label="BUTTON_NEW" icon="plus-circle">
               <button-action type="add-row" target="GrdSta" />
               <dependency target-type="show" initial="true">
-                <dependency-element id="GrdSta" column="Als" attribute="selectedRowValue" condition="ne" value="awemadora05" />
+                <dependency-element id="GrdSta" column="Als" attribute="selectedRowValue" condition="ne" value="awedb2" />
                 <dependency-element id="GrdSta" event="select-row" />
               </dependency>
             </context-button>
             <context-button id="CtxGrdStaDel" label="BUTTON_DELETE" icon="trash">
               <button-action type="delete-row" target="GrdSta" silent="true" />
               <dependency target-type="show" initial="true">
-                <dependency-element id="GrdSta" column="Als" attribute="selectedRowValue" condition="eq" value="awemadora05" />
+                <dependency-element id="GrdSta" column="Als" attribute="selectedRowValue" condition="eq" value="awedb2" />
                 <dependency-element id="GrdSta" event="select-row" />
               </dependency>
             </context-button>

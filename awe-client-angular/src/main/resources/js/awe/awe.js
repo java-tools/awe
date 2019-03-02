@@ -18,12 +18,7 @@ export const aweApplication = angular.module("aweApplication", [
   'ngSanitize',
   'pascalprecht.translate'])
 // Config state router
-.config(['$stateProvider',
-  function ($stateProvider) {
-    // Assign states
-    states.forEach((state) => $stateProvider.state(state));
-  }
-])
+.config(["$stateProvider", ($stateProvider) => states.forEach((state) => $stateProvider.state(state))])
 // Filter animate provider
 .config(["$animateProvider", $animate => $animate.classNameFilter(/^((?!no-animate).)*$/)])
 // For any unmatched url, redirect to /

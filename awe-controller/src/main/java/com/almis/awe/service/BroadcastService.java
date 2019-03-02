@@ -11,6 +11,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * BroadcastService Class
@@ -24,7 +25,7 @@ public class BroadcastService extends ServiceConfig {
 
   // Autowired services
   private SimpMessagingTemplate brokerMessagingTemplate;
-  private Map<String, List<String>> connectedUsers;
+  private Map<String, Set<String>> connectedUsers;
   private LogUtil logger;
 
   /**
@@ -34,7 +35,7 @@ public class BroadcastService extends ServiceConfig {
    * @param logger Logger
    */
   @Autowired
-  public BroadcastService(SimpMessagingTemplate brokerMessagingTemplate, Map<String, List<String>> connectedUsers,
+  public BroadcastService(SimpMessagingTemplate brokerMessagingTemplate, Map<String, Set<String>> connectedUsers,
                           LogUtil logger) {
     this.brokerMessagingTemplate = brokerMessagingTemplate;
     this.connectedUsers = connectedUsers;
@@ -65,7 +66,7 @@ public class BroadcastService extends ServiceConfig {
    */
   public void broadcastMessageToUser(String user, ClientAction... actionList) {
     if (connectedUsers.containsKey(user)) {
-      List<String> sessions = connectedUsers.get(user);
+      Set<String> sessions = connectedUsers.get(user);
       for (String cometUID: sessions) {
         broadcastMessageToUID(cometUID, actionList);
       }

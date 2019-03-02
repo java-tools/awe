@@ -20,19 +20,14 @@
     </button>
   </tag>
   <tag source="center">
-    <window label="ELEMENT_TYPE_GRID" icon="filter">
-      <tag type="div" style="panel-body">
-        <grid id="GrdStrLit" server-action="data" style="expand"
-          target-action="HavTst">
-          <column label="COLUMN_TYPE" name="typ" align="left"
-            charlength="25" validation="" />
-          <column label="COLUMN_VALUE" name="act" align="left"
-            charlength="25" validation="" />
-          <button label="BUTTON_ACCEPT" id="ButGrdEdiDel">
-            <button-action type="filter" target="GrdStrLit" />
-          </button>
-        </grid>
-      </tag>
+    <window label="ELEMENT_TYPE_GRID" icon="filter" style="expand" expandible="vertical">
+      <grid id="GrdStrLit" server-action="data" style="expand" target-action="HavTst">
+        <column label="COLUMN_TYPE" name="typ" align="left" charlength="25"/>
+        <column label="COLUMN_VALUE" name="act" align="left" charlength="25"/>
+        <button label="BUTTON_ACCEPT" id="ButGrdEdiDel">
+          <button-action type="filter" target="GrdStrLit" />
+        </button>
+      </grid>
     </window>
   </tag>
   <tag source="modal">

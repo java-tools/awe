@@ -14,7 +14,9 @@ import com.almis.awe.service.data.builder.EnumBuilder;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.EmbeddedValueResolverAware;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.util.StringValueResolver;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.sql.DataSource;
@@ -25,7 +27,7 @@ import java.util.Map;
  *
  * @author pgarcia
  */
-public class AweDatabaseContextHolder {
+public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
 
   // Autowired services
   private AweElements elements;
@@ -33,6 +35,7 @@ public class AweDatabaseContextHolder {
   private SessionService sessionService;
   private WebApplicationContext context;
   private LogUtil logger;
+  private StringValueResolver resolver;
 
 
   // Database jndi-url
@@ -122,13 +125,17 @@ public class AweDatabaseContextHolder {
     if (jndi != null && !jndi.isEmpty()) {
       final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
       dsLookup.setResourceRef(true);
-      dataSource = dsLookup.getDataSource(jndi);
+      dataSource = dsLookup.getDataSource(resolver.resolveStringValue(jndi));
     } else if (url != null && !url.isEmpty()) {
       org.apache.tomcat.jdbc.pool.DataSource tomcatDataSource = new org.apache.tomcat.jdbc.pool.DataSource();
-      tomcatDataSource.setUrl(url);
-      tomcatDataSource.setUsername(user);
-      tomcatDataSource.setPassword(pass);
-      tomcatDataSource.setDriverClassName(driver);
+      tomcatDataSource.setUrl(resolver.resolveStringValue(url));
+      if (user != null) {
+        tomcatDataSource.setUsername(resolver.resolveStringValue(user));
+      }
+      if (pass != null) {
+        tomcatDataSource.setPassword(resolver.resolveStringValue(pass));
+      }
+      tomcatDataSource.setDriverClassName(resolver.resolveStringValue(driver));
       tomcatDataSource.setLogAbandoned(false);
       tomcatDataSource.setTestOnBorrow(true);
       tomcatDataSource.setValidationQuery(validationQuery);
@@ -245,5 +252,10 @@ public class AweDatabaseContextHolder {
    */
   public DatabaseConnection getDatabaseConnection(String alias) throws AWException {
     return new DatabaseConnection(getDatabaseType(alias), getDataSource(alias), alias);
+  }
+
+  @Override
+  public void setEmbeddedValueResolver(StringValueResolver stringValueResolver) {
+    resolver = stringValueResolver;
   }
 }
