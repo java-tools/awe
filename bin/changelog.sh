@@ -11,4 +11,4 @@ changelogText=`echo "# Changelog for AWE $version ($currentDate)\n\n$changelog\n
 echo "$changelogText"
 
 # Generate changelog
-cat <(echo "$changelogText") ./CHANGELOG.md > temp && mv temp ./CHANGELOG.md && echo "Generated changelog file at ./CHANGELOG.md"
+echo "$changelogText" > changelogUpdate && cat changelogUpdate ./CHANGELOG.md > allChangelog && rm changelogUpdate && mv allChangelog ./CHANGELOG.md && echo "Generated changelog file at ./CHANGELOG.md"
