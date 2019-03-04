@@ -574,7 +574,7 @@
                   <wait>1000</wait>
                   <maxAttempts>180</maxAttempts>
                   <fork>true</fork>
-                  <jvmArguments>@{argLine}</jvmArguments>
+                  <jvmArguments>${argLine}</jvmArguments>
                 </configuration>
                 <goals>
                   <goal>start</goal>
