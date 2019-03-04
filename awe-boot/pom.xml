@@ -5,7 +5,7 @@
   <parent>
     <artifactId>awe-parent</artifactId>
     <groupId>com.almis.awe</groupId>
-    <version>4.0.6-SNAPSHOT</version>
+    <version>4.0.5-SNAPSHOT</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -52,9 +52,6 @@
     <skip.main>false</skip.main>
     <skip.selenium>true</skip.selenium>
     <skip.junit>false</skip.junit>
-    <!-- skip deploy -->
-    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-    <skipLocalStaging>true</skipLocalStaging>
   </properties>
 
   <dependencyManagement>
@@ -577,7 +574,7 @@
                   <wait>1000</wait>
                   <maxAttempts>180</maxAttempts>
                   <fork>true</fork>
-                  <jvmArguments>${argLine}</jvmArguments>
+                  <jvmArguments>@{argLine}</jvmArguments>
                 </configuration>
                 <goals>
                   <goal>start</goal>
