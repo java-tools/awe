@@ -52,9 +52,6 @@
     <skip.main>false</skip.main>
     <skip.selenium>true</skip.selenium>
     <skip.junit>false</skip.junit>
-    <!-- skip deploy -->
-    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-    <skipLocalStaging>true</skipLocalStaging>
   </properties>
 
   <dependencyManagement>
