@@ -2043,4 +2043,64 @@
     <variable id="Nbk" type="INTEGER" value="1" />
   </query>
 
+  <query id="testCaseWhenElseDistinct" distinct="true">
+    <table id="AweThm"/>
+    <field alias="Value">
+      <case-when left-field="Nam" condition="like" right-variable="sunset" then-variable="1"/>
+      <case-when left-field="Nam" condition="like" right-variable="sunny" then-variable="2"/>
+      <case-when left-field="Nam" condition="eq" right-variable="purple-hills" then-variable="3"/>
+      <case-else then-variable="null"/>
+    </field>
+    <field alias="label">
+      <case-when left-field="Nam" condition="like" right-variable="sunset" then-variable="sunset-mays"/>
+      <case-when left-field="Nam" condition="like" right-variable="sunny" then-variable="sunny-mays"/>
+      <case-when left-field="Nam" condition="eq" right-variable="purple-hills" then-variable="purple-hills-mays"/>
+      <case-else then-variable="null"/>
+    </field>
+    <field alias="other">
+      <case-else then-variable="3"/>
+    </field>
+    <field alias="another">
+      <case-when left-field="Nam" condition="like" right-variable="sunset" then-table="AweThm" then-field="Nam"/>
+      <case-else then-variable="purple-hills"/>
+    </field>
+    <variable id="sunset" type="STRINGL" value="sunset"/>
+    <variable id="sunny" type="STRINGR" value="sunny"/>
+    <variable id="purple-hills" type="STRING" value="purple-hills"/>
+    <variable id="sunset-mays" type="STRING" value="SUNSET"/>
+    <variable id="sunny-mays" type="STRING" value="SUNNY"/>
+    <variable id="purple-hills-mays" type="STRING" value="PURPLE-HILLS"/>
+    <variable id="1" type="INTEGER" value="1"/>
+    <variable id="2" type="INTEGER" value="2"/>
+    <variable id="3" type="INTEGER" value="3"/>
+    <variable id="null" type="NULL"/>
+  </query>
+
+  <query id="testCaseWhenElse">
+    <table id="AweThm"/>
+    <field alias="value">
+      <case-when left-field="Nam" condition="eq" right-variable="sunset" then-variable="1"/>
+      <case-when left-field="Nam" condition="eq" right-variable="sunny" then-variable="2"/>
+      <case-when left-field="Nam" condition="eq" right-variable="purple-hills" then-variable="3"/>
+      <case-else then-variable="0"/>
+    </field>
+    <field alias="label">
+      <case-when left-field="Nam" condition="eq" right-variable="sunset" then-variable="sunset-mays"/>
+      <case-when left-field="Nam" condition="eq" right-variable="sunny" then-variable="sunny-mays"/>
+      <case-when left-field="Nam" condition="eq" right-variable="purple-hills" then-variable="purple-hills-mays"/>
+      <case-else then-variable="EMPTY"/>
+    </field>
+    <variable id="sunset" type="STRING" value="sunset"/>
+    <variable id="sunny" type="STRING" value="sunny"/>
+    <variable id="purple-hills" type="STRING" value="purple-hills"/>
+    <variable id="sunset-mays" type="STRING" value="SUNSET"/>
+    <variable id="sunny-mays" type="STRING" value="SUNNY"/>
+    <variable id="purple-hills-mays" type="STRING" value="PURPLE-HILLS"/>
+    <variable id="0" type="INTEGER" value="0"/>
+    <variable id="EMPTY" type="STRING" value=""/>
+    <variable id="1" type="INTEGER" value="1"/>
+    <variable id="2" type="INTEGER" value="2"/>
+    <variable id="3" type="INTEGER" value="3"/>
+  </query>
+
 </queries>
