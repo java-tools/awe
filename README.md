@@ -4,13 +4,17 @@
 
 AWE is a light-weight Java web framework. Allows you build web applications in the fastest way.
 
-- ✅  Automatic server-client communication with WebSocket support
-- ✅  Use Xml or Java for building views
-- ✅  Modern UI responsive components
-- ✅  Themes and Multi-language support
-- ✅  Multiple data binding. Rest, SQL and noSql database, ...
-- ✅ Built-in Spring Boot support
-- ✅ Easiest learning curve
+- Automatic server-client communication with WebSocket support
+- Use Xml or Java for building views
+- Modern UI responsive components
+- Themes and Multi-language support
+- Multiple data binding. Rest, SQL and noSql database, ...
+- Built-in Spring Boot support
+- Easiest learning curve
+
+## AWE Project main page
+
+Please visit us at https://www.aweframework.com
 
 ## Getting Started
 
@@ -54,6 +58,10 @@ Check full stack libraries in [stackshare.io](https://stackshare.io/almis-inform
 * **Migration guides**
   * [AWE 4.0.0](wiki/awe-4.0-migration-guide.md)
   
+## Changelogs
+
+Latest changelog file: [CHANGELOG.md](CHANGELOG.md)
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.

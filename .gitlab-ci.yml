@@ -206,7 +206,7 @@ k8s-deploy-staging:
   - kubectl apply -f awe-boot/deployment.yaml --namespace=staging
   environment:
     name: staging
-    url: http://staging.aweframework.com/awe-boot
+    url: http://staging.aweframework.com
   only:
   - develop
 
@@ -230,7 +230,7 @@ k8s-deploy-production:
   - kubectl apply -f awe-boot/deployment.yaml --namespace=production
   environment:
     name: production
-    url: http://demo.aweframework.com/awe-boot
+    url: http://demo.aweframework.com
   when: manual
   only:
   - master

@@ -13,6 +13,9 @@
      * [Query element](#query-element)
      * [Table element](#table-element)
      * [Field element](#field-element)
+       * [Transform attribute](#transform-attribute)       
+       * [Concat element](#concat-element)     
+       * [Case element](#case-element)       
      * [Computed element](#computed-element)
      * [Compound element](#compound-element)
      * [Join element](#join-element)
@@ -264,7 +267,7 @@ The *concat* element goes inside a *field* element, and has the following attrib
 | table | Optional | String | Table name of field |  |
 | value | Optional | String | A static value to be used as field value | **Note:** If `value` attribute is defined, `table` and `id` attributes will be ignored |
 
-#### Concat examples
+##### Concat examples
 
 Concatenated field: `"Pro" + profile + "-Mod" + module`
 
@@ -275,6 +278,47 @@ Concatenated field: `"Pro" + profile + "-Mod" + module`
   <concat value="-Mod" />
   <concat id="Nam" table="mod" />
 </field>
+```
+
+#### Case element
+
+The *case* element allows to generate a case-when clause inside a *field* element. It has the same attributes as a [filter element](#filter-element) **plus** some extra attributes:
+
+| Attribute     | Use      | Type      |  Description                    |   Values                                           |
+| ------------- | ---------|-----------|---------------------------------|----------------------------------------------------|
+| then-field    | Optional | String    | Name of field | **Note:** Is the real column name of table in data base                 |
+| then-table    | Optional | String    | Table name of field |  |
+| then-variable | Optional | String    | A static value to be used as field value | **Note:** If `value` attribute is defined, `table` and `id` attributes will be ignored |
+
+> **Note**: These attributes correspond to the data we want to show if the case clause is matched.
+
+##### Case examples
+
+Case field: 
+
+```xml
+<query id="testCaseWhenElse">
+  <table id="AweThm"/>
+  <field alias="value">
+    <case-when left-field="Nam" condition="eq" right-variable="sunset" then-variable="1"/>
+    <case-when left-field="Nam" condition="eq" right-variable="sunny" then-variable="2"/>
+    <case-when left-field="Nam" condition="eq" right-variable="purple-hills" then-variable="3"/>
+    <case-else then-variable="0"/>
+  </field>
+  <variable id="sunset" type="STRING" value="sunset"/>
+  <variable id="sunny" type="STRING" value="sunny"/>
+  <variable id="purple-hills" type="STRING" value="purple-hills"/>
+  <variable id="0" type="INTEGER" value="0"/>
+  <variable id="1" type="INTEGER" value="1"/>
+  <variable id="2" type="INTEGER" value="2"/>
+  <variable id="3" type="INTEGER" value="3"/>
+</query>
+```
+
+Is the same as:
+
+```sql
+CASE WHEN (Nam = "sunset") THEN 1 WHEN (Nam = "sunny") THEN 2 WHEN (Nam = "purple-hills") THEN 3 ELSE 0 END AS "value"
 ```
 
 ### Computed element

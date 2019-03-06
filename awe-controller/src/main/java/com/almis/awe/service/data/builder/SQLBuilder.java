@@ -88,8 +88,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     } else if (field.getVariable() != null) {
       fieldExpression = getVariableExpression(field.getVariable());
       // Field as caseWhen
-    } else if (field.getCaseWhenList() != null) {
-      fieldExpression = getCaseWhenExpression(field);
+    } else if (field.getCaseElse() != null) {
+      fieldExpression = getCaseExpression(field);
       // Field as concat
     } else if (field.getConcatList() != null) {
       fieldExpression = getConcatExpression(field);
@@ -214,20 +214,29 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   }
 
   /**
-   * Retrieve caseWhen expression
+   * Retrieve case expression
    *
    * @param field Field to apply the case when condition
    * @return Expression caseWhen expression
    */
-  protected Expression getCaseWhenExpression(Field field) throws AWException {
-    CaseBuilder caseWhenExpression = new CaseBuilder();
+  protected Expression getCaseExpression(Field field) throws AWException {
+    CaseBuilder initialCase = new CaseBuilder();
     CaseBuilder.Cases caseList = null;
+    Expression caseElse = getCaseThenExpression(field.getCaseElse());
 
-    for (CaseWhen caseWhen: field.getCaseWhenList()) {
-      caseList = caseWhenExpression.when(getFilters(caseWhen)).then(getCaseThenExpression(caseWhen));
+    if (field.getCaseWhenList() != null) {
+      for (CaseWhen caseWhen : field.getCaseWhenList()) {
+        BooleanExpression filter = getFilters(caseWhen);
+        Expression caseThen = getCaseThenExpression(caseWhen);
+        if (caseList == null) {
+          caseList = initialCase.when(filter).then(caseThen);
+        } else {
+          caseList.when(filter).then(caseThen);
+        }
+      }
     }
 
-    return caseList == null ? Expressions.nullExpression() : caseList.otherwise(getCaseThenExpression(field.getCaseElse()));
+    return caseList == null ? caseElse : caseList.otherwise(caseElse);
   }
 
   /**
