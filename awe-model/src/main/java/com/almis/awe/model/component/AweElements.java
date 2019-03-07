@@ -627,7 +627,7 @@ public class AweElements {
 
       // If component is an include, retrieve included screen and add it
       if (element instanceof Include) {
-        includeScreen(screenId, (Include) element, includedScreens);
+        includeScreen(screenId, (Include) element, new HashSet(includedScreens));
       }
     }
 
@@ -651,7 +651,7 @@ public class AweElements {
         includedScreens.add(includeKey);
 
         // Retrieve include screen
-        Screen includeScreen = readScreen(include.getTargetScreen(), includedScreens);
+        Screen includeScreen = readScreen(include.getTargetScreen(), new HashSet(includedScreens));
 
         // Retrieve include screen source
         Tag source = getScreenSource(includeScreen, include.getTargetSource());
