@@ -61,6 +61,7 @@ aweApplication.directive('aweTreeGrid',
                 // Update grid styles
                 component.gridStyle = "grid-" + scope.size + " " + (component.controller.style || "");
                 component.gridButtonClass = "btn btn-" + scope.size;
+                component.enableSorting = false;
 
                 // Fix column model
                 component.fixColumnModel(true);
@@ -74,7 +75,7 @@ aweApplication.directive('aweTreeGrid',
                   noUnselect: component.controller.editable && !component.controller.multiselect,
                   enableColumnResizing: true,
                   enableFiltering: component.controller.enableFilters,
-                  enableSorting: true,
+                  enableSorting: component.enableSorting,
                   useExternalSorting: !component.controller.loadAll,
                   useExternalPagination: !component.controller.loadAll,
                   fastWatch: true,
