@@ -8,10 +8,13 @@ import com.almis.awe.service.QueryService;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -96,6 +99,46 @@ public class TestRestController {
     aweRequest.setParameter("value", JsonNodeFactory.instance.numberNode(value));
 
     return maintainService.launchPrivateMaintain(name);
+  }
+
+  /**
+   * Test post parameter list
+   * @return Empty service data
+   */
+  @PostMapping(value = "/complex/parameterList")
+  @ResponseBody
+  public ServiceData testPostParameterList(@RequestParam(name = "integerList", required = true) List<Integer> integerList,
+                                           @RequestParam(name = "stringList", required = true) List<String> stringList,
+                                           @RequestParam(name = "dateList", required = true) @DateTimeFormat(pattern="dd/MM/yyyy") List<Date> dateList,
+                                           HttpServletRequest request) throws AWException {
+    // Initialize parameters
+    aweRequest.init(request);
+    return new ServiceData();
+  }
+
+  /**
+   * Test post parameter list
+   * @return Empty service data
+   */
+  @PostMapping(value = "/complex/parameterListGetParameters")
+  @ResponseBody
+  public ServiceData testPostParameterListGetParametersFromRequest(HttpServletRequest request) throws AWException {
+    // Initialize parameters
+    aweRequest.init(request);
+    return new ServiceData();
+  }
+
+  /**
+   * Test post parameter list
+   * @return Empty service data
+   */
+  @PostMapping(value = "/complex/parameterListJson")
+  @ResponseBody
+  public ServiceData testPostParameterListJson(@RequestBody ObjectNode result, HttpServletRequest request) throws AWException {
+    // Initialize parameters
+    aweRequest.init(request);
+    aweRequest.setParameterList(result);
+    return new ServiceData();
   }
 
   /**

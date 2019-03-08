@@ -80,7 +80,7 @@ public class RestServiceTest extends TestUtil {
             .andExpect(status().isOk())
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    logger.debug(result);
+    logger.warn(result);
 
     // Check expected
     if (expected != null) {
@@ -196,5 +196,35 @@ public class RestServiceTest extends TestUtil {
   @Test
   public void testPostmanRestApi() throws Exception {
     doRestTest("TestPostmanRestApi", "data","", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"acceptLanguage\":\"\",\"acceptEncoding\":\"gzip,deflate\",\"cookie\":\"\",\"method\":\"GET\",\"gzipped\":\"true\",\"postmanToken\":\"\",\"id\":1,\"cacheControl\":\"\",\"accept\":\"application/json, application/*+json\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+  }
+
+  /**
+   * Rest test: Complex post with parameters
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testPostParameterList() throws Exception {
+    doRestTest("TestComplexRestPostParametersList", "maintain","\"stringList\":[\"tutu\", \"lala\", \"yoyo\"],\"integerList\":[4, 6, 7],\"dateList\":[\"23/04/2014\", \"22/05/2017\", \"07/01/2019\"],", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[]}}]");
+  }
+
+  /**
+   * Rest test: Complex post with parameters
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testPostParameterListGetParameters() throws Exception {
+    doRestTest("TestComplexRestPostParametersListGetParameters", "maintain","\"stringList\":[\"tutu\", \"lala\", \"yoyo\"],\"integerList\":[4, 6, 7],\"dateList\":[\"23/04/2014\", \"22/05/2017\", \"07/01/2019\"],", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[]}}]");
+  }
+
+  /**
+   * Rest test: Complex post with parameters
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testPostParameterListJson() throws Exception {
+    doRestTest("TestComplexRestPostParametersListJson", "maintain","\"stringList\":[\"tutu\", \"lala\", \"yoyo\"],\"integerList\":[4, 6, 7],\"dateList\":[\"23/04/2014\", \"22/05/2017\", \"07/01/2019\"],", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[]}}]");
   }
 }
