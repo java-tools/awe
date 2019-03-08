@@ -1238,6 +1238,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           column.headerClass = column.style || "";
           column.name = column.name || column.id;
           column.id = column.name;
+          column.enableSorting = component.enableSorting && column.sortable;
           column.sortField = column.sortField || column.name;
           column.field = column.name;
 

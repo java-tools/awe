@@ -2,8 +2,8 @@ import { aweApplication } from "./../awe";
 
 // Grid directive
 aweApplication.directive('aweGrid',
-  ['ServerData', 'AweSettings', 'GridBase', 'Options',
-    function (serverData, $settings, GridBase, Options) {
+  ['ServerData', 'AweSettings', 'AweUtilities', 'GridBase', 'Options',
+    function (serverData, $settings, $utilities, GridBase, Options) {
       // Retrieve default $settings
 
       // Set default options
@@ -56,6 +56,7 @@ aweApplication.directive('aweGrid',
                 component.gridStyle = "grid-" + scope.size + " " + (component.controller.style || "");
                 component.gridButtonClass = "btn btn-" + scope.size;
                 component.gridPaginationClass = "pagination pagination-" + scope.size;
+                component.enableSorting = !$utilities.isEmpty(component.controller.targetAction) || component.controller.loadAll;
 
                 // Fix column model
                 component.fixColumnModel(true);
@@ -72,7 +73,7 @@ aweApplication.directive('aweGrid',
                   noUnselect: component.controller.editable && !component.controller.multiselect,
                   enableColumnResizing: true,
                   enableFiltering: component.controller.enableFilters,
-                  enableSorting: true,
+                  enableSorting: component.enableSorting,
                   enableColumnMoving: true,
                   useExternalSorting: !component.controller.loadAll,
                   useExternalPagination: !component.controller.loadAll,
