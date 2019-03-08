@@ -262,6 +262,30 @@
     </rest>
   </service>
 
+  <service id="testComplexRestPostParametersList">
+    <rest method="POST" endpoint="http://localhost:18081/testapi/complex/parameterList">
+      <service-parameter type="INTEGER" name="integerList" list="true"/>
+      <service-parameter type="STRING" name="stringList" list="true"/>
+      <service-parameter type="DATE" name="dateList" list="true"/>
+    </rest>
+  </service>
+
+  <service id="testComplexRestPostParametersListGetParameters">
+    <rest method="POST" endpoint="http://localhost:18081/testapi/complex/parameterListGetParameters">
+      <service-parameter type="INTEGER" name="integerList" list="true"/>
+      <service-parameter type="STRING" name="stringList" list="true"/>
+      <service-parameter type="DATE" name="dateList" list="true"/>
+    </rest>
+  </service>
+
+  <service id="testComplexRestPostParametersListJson">
+    <rest method="POST" endpoint="http://localhost:18081/testapi/complex/parameterListJson" content-type="JSON">
+      <service-parameter type="INTEGER" name="integerList" list="true"/>
+      <service-parameter type="STRING" name="stringList" list="true"/>
+      <service-parameter type="DATE" name="dateList" list="true"/>
+    </rest>
+  </service>
+
   <service id="testComplexRestPostParametersJson">
     <rest server="local" method="POST" endpoint="/testapi/complex/parameters/json/testRestParameters" content-type="JSON">
       <service-parameter type="INTEGER" name="value" />
