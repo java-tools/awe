@@ -149,8 +149,8 @@
     <microservice name="alu-microservice" method="GET" endpoint="/invoke" />
   </service>
   
-  <service id="simpleGETMicroservice2">
-    <microservice name="alu-microservice2" method="GET" endpoint="/invoke" />
+  <service id="simpleMicroservice2">
+    <microservice name="alu-microservice2" method="POST" endpoint="/invoke" />
   </service>
   
   <service id="simpleGETMicroserviceWithWrapper">
@@ -201,6 +201,10 @@
       <service-parameter name="Ken" type="STRING"/>
       <service-parameter name="Nbk" type="INTEGER"/>
     </microservice>
+  </service>
+
+  <service id="aluGetKeyNoParam">
+    <microservice name="alu-microservice" method="POST" endpoint="/data/aluWbsCorGetKey"/>
   </service>
 
   <service id="aluGetKeyRest">

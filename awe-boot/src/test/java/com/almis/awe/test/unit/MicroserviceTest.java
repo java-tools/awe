@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -14,8 +13,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @WithMockUser(username = "test", password = "test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-@Ignore("Needs infrastructure")
 public class MicroserviceTest extends TestUtil {
 
   // Logger
@@ -78,6 +74,7 @@ public class MicroserviceTest extends TestUtil {
   private void doRestTest(String name, String action, String parameters, String expected) throws Exception {
     MvcResult mvcResult = mockMvc.perform(post("/action/" + action + "/" + name)
             .param("p", "{\"serverAction\":\"" + action + "\",\"targetAction\":\"" + name + "\"," + parameters +"\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
+            .session(session)
             .accept("application/json"))
             .andExpect(status().isOk())
             .andReturn();
@@ -91,22 +88,36 @@ public class MicroserviceTest extends TestUtil {
   }
 
   /**
-   * Rest test: Simple get query
+   * Simple microservice call
    *
    * @throws Exception Test error
    */
   @Test
   public void testSimpleMicroservice() throws Exception {
+    setParameter("database", "awedb01");
+    setParameter("currentDate", "22/02/2019");
     doRestTest("CallAluMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }
 
   /**
-   * Rest test: Simple get query
+   * Simple microservice call to another microservice
    *
    * @throws Exception Test error
    */
   @Test
-  public void testSimpleRestService() throws Exception {
-    doRestTest("CallAluAsRest", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+  public void testAnotherMicroservice() throws Exception {
+    doRestTest("CallAnotherMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+  }
+
+  /**
+   * Simple microservice call without parameters
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testSimpleMicroserviceWithoutParameters() throws Exception {
+    setParameter("database", "awedb01");
+    setParameter("currentDate", "22/02/2019");
+    doRestTest("CallAluMicroserviceWithoutParameters", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }
 }

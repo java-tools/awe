@@ -198,6 +198,8 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
         valueList.add(value.asText());
       }
       requestParametersMap.put(paramName, valueList);
+    } else if (nodeValue == null){
+      requestParametersMap.set(paramName, null);
     } else {
       requestParametersMap.set(paramName, nodeValue.asText());
     }
