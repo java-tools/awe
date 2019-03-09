@@ -199,12 +199,18 @@
   <locale name="ENUM_CATEGORY_SECURITY" value="Sécurité"/>
   <locale name="ENUM_CHART" value="Graphique"/>
   <locale name="ENUM_CRT_STL" value="Criteria style"/>
+  <locale name="ENUM_DBM_H2" value="H2"/>
+  <locale name="ENUM_DBM_HSQL" value="HSQL"/>
+  <locale name="ENUM_DBM_MYSQL" value="MYSQL"/>
   <locale name="ENUM_DBM_ORACLE" value="ORACLE"/>
   <locale name="ENUM_DBM_SQLSERVER" value="SQLSERVER"/>
   <locale name="ENUM_DBM_SYBASE" value="SYBASE"/>
   <locale name="ENUM_DBS_TYP_DATASOURCE" value="Datasource"/>
   <locale name="ENUM_DBS_TYP_JDBC" value="Jdbc"/>
   <locale name="ENUM_DJR" value="Jasper reports"/>
+  <locale name="ENUM_DRV_H2" value="H2"/>
+  <locale name="ENUM_DRV_HSQL" value="HSQL"/>
+  <locale name="ENUM_DRV_MYSQL" value="MYSQL"/>
   <locale name="ENUM_DRV_ORACLE" value="ORACLE"/>
   <locale name="ENUM_DRV_SQLSERVER" value="SQLSERVER"/>
   <locale name="ENUM_DRV_SYBASE" value="SYBASE"/>

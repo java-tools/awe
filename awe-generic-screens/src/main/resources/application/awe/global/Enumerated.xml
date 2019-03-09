@@ -130,8 +130,9 @@
     <option label="ENUM_DBM_ORACLE" value="ora" />
     <option label="ENUM_DBM_SQLSERVER" value="sqs" />
     <option label="ENUM_DBM_SYBASE" value="syb" />
-    <option label="ENUM_DBM_HSQL" value="syb" />
-    <option label="ENUM_DBM_MYSQL" value="mys" />
+    <option label="ENUM_DBM_HSQL" value="hsql" />
+    <option label="ENUM_DBM_H2" value="h2" />
+    <option label="ENUM_DBM_MYSQL" value="mysql" />
   </group>
 
   <!-- DATABASE BEAN TRANSLATION -->
@@ -142,8 +143,10 @@
     <option label="hsql" value="hsql" />
     <option label="h2" value="h2" />
     <option label="mysql" value="mysql" />
+    <!--
     <option label="teradata" value="teradata" />
     <option label="postgre" value="postgre" />
+    -->
   </group>
 
   <!-- DATABASE DRIVERS TYPE -->
@@ -151,6 +154,9 @@
     <option label="ENUM_DRV_ORACLE" value="oracle.jdbc.driver.OracleDriver" />
     <option label="ENUM_DRV_SQLSERVER" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
     <option label="ENUM_DRV_SYBASE" value="com.sybase.jdbc3.jdbc.SybDriver" />
+    <option label="ENUM_DRV_HSQL" value="org.hsqldb.jdbc.JDBCDriver" />
+    <option label="ENUM_DRV_H2" value="org.h2.Driver" />
+    <option label="ENUM_DRV_MYSQL" value="com.mysql.jdbc.Driver" />
   </group>
 
   <!-- ENVIROMENTS -->
