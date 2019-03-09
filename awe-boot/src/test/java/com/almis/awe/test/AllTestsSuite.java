@@ -14,6 +14,7 @@ import org.junit.runners.Suite;
   MaintainHSQLTest.class,
   QueryHSQLTest.class,
   RestServiceTest.class,
+  MicroserviceTest.class,
   ScreenConfigurationTest.class,
   ScreenControllerTest.class,
   ScreenRestrictionTest.class,

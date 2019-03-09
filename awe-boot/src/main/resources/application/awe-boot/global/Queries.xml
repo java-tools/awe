@@ -2038,6 +2038,10 @@
     <variable id="Nbk" type="INTEGER" value="1" />
   </query>
 
+  <query id="CallAnotherMicroservice" service="simpleMicroservice2"/>
+
+  <query id="CallAluMicroserviceWithoutParameters" service="aluGetKeyNoParam"/>
+
   <query id="CallAluAsRest" service="aluGetKeyRest">
     <variable id="Ken" type="STRING" value="prueba" />
     <variable id="Nbk" type="INTEGER" value="1" />

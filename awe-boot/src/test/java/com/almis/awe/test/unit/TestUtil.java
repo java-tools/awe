@@ -57,7 +57,8 @@ public class TestUtil {
    * @return Parameter set
    */
   String setParameter(String name, String value) throws Exception {
-    MvcResult mvcResult = mockMvc.perform(get("/session/set/" + name + "/" + value)
+    MvcResult mvcResult = mockMvc.perform(post("/session/set/" + name)
+            .param("value", value)
             .session(session))
             .andReturn();
     return mvcResult.getResponse().getContentAsString();

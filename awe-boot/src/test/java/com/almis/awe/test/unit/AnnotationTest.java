@@ -64,9 +64,10 @@ public class AnnotationTest extends TestUtil {
     Assert.assertEquals("Spanish", annotationTestService.localeFromAnnotationValue("This value should be overwritten"));
   }
 
-  //@Test
+  @Test
   public void checkHashAnnotations() throws AWException {
     //Hashing
+    logger.warn("Check hash annotations");
     Assert.assertEquals(EncodeUtil.hash(Hash.HashingAlgorithm.SHA_256.getAlgorithm(), "Moderdonio", "1234"), annotationTestService.hashParameter("Moderdonio"));
     Assert.assertEquals(EncodeUtil.hash(Hash.HashingAlgorithm.SHA_256.getAlgorithm(), "Moderdonio", "1234"), annotationTestService.hashReturnedValue("Moderdonio"));
   }
@@ -74,6 +75,7 @@ public class AnnotationTest extends TestUtil {
   //@Test
   public void checkCryptoAnnotations() throws AWException {
     // Crypto annotation on input parameters
+    logger.warn("Check crypto annotations");
     logger.debug("EncodeUtil => " + EncodeUtil.encryptAes("Moderdonio",  "1234"));
     logger.debug("Annotation => " + annotationTestService.encryptText("Moderdonio"));
     Assert.assertEquals("Moderdonio", EncodeUtil.decryptAes(annotationTestService.encryptText("Moderdonio"), "1234"));

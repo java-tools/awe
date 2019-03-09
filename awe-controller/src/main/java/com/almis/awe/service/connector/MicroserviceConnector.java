@@ -2,11 +2,15 @@ package com.almis.awe.service.connector;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.ServiceData;
+import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.entities.services.ServiceMicroservice;
 import com.almis.awe.model.entities.services.ServiceType;
+import com.almis.awe.model.type.ParameterType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestClientException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +32,9 @@ public class MicroserviceConnector extends AbstractRestConnector {
       microservice = (ServiceMicroservice) service;
       partialUrl = endpointBaseUrl + microservice.getName() + microservice.getEndpoint();
 
+      // Add specific parameters to the microservice call
+      addDefinedParameters(microservice, paramsMapFromRequest);
+
       // Create request to microservice
       try {
         outData = doRequest(partialUrl, microservice, paramsMapFromRequest);
@@ -40,5 +47,51 @@ public class MicroserviceConnector extends AbstractRestConnector {
     }
 
     return outData;
+  }
+
+  /**
+   * Read defined parameters from properties and add them to the parameter map
+   * @param microserviceName Microservice name
+   * @param paramsMapFromRequest Parameter map
+   */
+  private void addDefinedParameters(ServiceMicroservice microservice, Map<String, Object> paramsMapFromRequest) {
+
+    // Read session parameters
+    List<String> parameterList = getProperty("microservice." + microservice.getName() + ".session", List.class);
+    if (parameterList != null) {
+      for (String parameterName: parameterList) {
+        String sessionParameter = getProperty("microservice.parameter." + parameterName);
+        paramsMapFromRequest.put(parameterName, getSession().getParameter(sessionParameter));
+        addParameterToService(microservice, parameterName);
+      }
+    }
+
+    // Read static parameters
+    parameterList = getProperty("microservice." + microservice.getName() + ".static", List.class);
+    if (parameterList != null) {
+      for (String parameterName: parameterList) {
+        String staticValue = getProperty("microservice.parameter." + parameterName);
+        paramsMapFromRequest.put(parameterName, staticValue);
+        addParameterToService(microservice, parameterName);
+      }
+    }
+  }
+
+  /**
+   * Add parameter to service
+   * @param microservice Microservice
+   * @param parameterName Parameter to add
+   */
+  private void addParameterToService(ServiceMicroservice microservice, String parameterName) {
+    ServiceInputParameter parameter = new ServiceInputParameter();
+    parameter.setName(parameterName);
+    parameter.setValue(parameterName);
+    parameter.setType(ParameterType.STRING.toString());
+    List<ServiceInputParameter> parameterList = microservice.getParameterList();
+    if (parameterList == null) {
+      parameterList = new ArrayList<>();
+    }
+    parameterList.add(parameter);
+    microservice.setParameterList(parameterList);
   }
 }

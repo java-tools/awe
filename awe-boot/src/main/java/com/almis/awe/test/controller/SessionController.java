@@ -7,10 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -41,9 +38,9 @@ public class SessionController {
    * @param value Value
    * @return set
    */
-  @GetMapping("/set/{name}/{value}")
+  @PostMapping("/set/{name}")
   @ResponseBody
-  public String setParameter(@PathVariable("name") String name, @PathVariable("value") String value) {
+  public String setParameter(@PathVariable("name") String name, @RequestParam("value") String value) {
 
     // Initialize parameters
     session.setParameter(name, value);
