@@ -150,9 +150,19 @@
   </service>
   
   <service id="simpleMicroservice2">
-    <microservice name="alu-microservice2" method="POST" endpoint="/invoke" />
+    <microservice name="alu-microservice2" method="POST" endpoint="/invoke" content-type="JSON"/>
   </service>
-  
+
+  <service id="simpleMicroservice2WithParameters">
+    <microservice name="alu-microservice2" method="POST" endpoint="/invoke" content-type="JSON">
+      <service-parameter name="param1" type="STRING"/>
+    </microservice>
+  </service>
+
+  <service id="simpleMicroservice3">
+    <microservice name="alu-microservice3" method="POST" endpoint="/invoke"/>
+  </service>
+
   <service id="simpleGETMicroserviceWithWrapper">
     <microservice name="alu-microservice" method="GET" endpoint="/invoke" wrapper="com.almis.awe.test.service.dto.ServiceDataWrapper" />
   </service>

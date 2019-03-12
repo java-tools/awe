@@ -120,4 +120,24 @@ public class MicroserviceTest extends TestUtil {
     setParameter("currentDate", "22/02/2019");
     doRestTest("CallAluMicroserviceWithoutParameters", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }
+
+  /**
+   * Simple microservice call to another microservice
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testAnotherMicroserviceWithParameters() throws Exception {
+    doRestTest("CallAnotherMicroserviceWithParameters", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+  }
+
+  /**
+   * Simple microservice call to another microservice
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testAnotherMoreMicroservice() throws Exception {
+    doRestTest("CallAnotherMoreMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+  }
 }

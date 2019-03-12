@@ -2040,6 +2040,12 @@
 
   <query id="CallAnotherMicroservice" service="simpleMicroservice2"/>
 
+  <query id="CallAnotherMicroserviceWithParameters" service="simpleMicroservice2WithParameters">
+    <variable id="param1" type="STRING" value="prueba" />
+  </query>
+
+  <query id="CallAnotherMoreMicroservice" service="simpleMicroservice3"/>
+
   <query id="CallAluMicroserviceWithoutParameters" service="aluGetKeyNoParam"/>
 
   <query id="CallAluAsRest" service="aluGetKeyRest">

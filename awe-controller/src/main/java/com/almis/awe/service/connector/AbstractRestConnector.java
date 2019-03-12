@@ -183,8 +183,6 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
    * Read parameter map
    * @param requestParametersMap Request parameters
    * @param param Parameter to read
-   * @param uriBuilder URI builder
-   * @param urlParameters URL parameters
    * @param paramsMapFromRequest Parameters from request
    */
   private void readParameterMap(MultiValueMap<String, String> requestParametersMap, ServiceInputParameter param, Map<String, Object> paramsMapFromRequest) {
@@ -193,11 +191,9 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
     String paramName = param.getName();
     JsonNode nodeValue = mapper.valueToTree(paramsMapFromRequest.get(paramName));
     if (param.isList()) {
-      List<String> valueList = new ArrayList<>();
       for (JsonNode value : nodeValue) {
-        valueList.add(value.asText());
+        requestParametersMap.add(paramName, value.asText());
       }
-      requestParametersMap.put(paramName, valueList);
     } else if (nodeValue == null){
       requestParametersMap.set(paramName, null);
     } else {

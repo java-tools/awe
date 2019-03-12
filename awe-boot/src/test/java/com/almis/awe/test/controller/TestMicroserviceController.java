@@ -48,7 +48,19 @@ public class TestMicroserviceController {
    */
   @PostMapping(value = "/alu-microservice2/invoke")
   @ResponseBody
-  public ServiceData testPostParameterListAnotherMicroservice(HttpServletRequest request) throws AWException {
+  public ServiceData testPostParameterListAnotherMicroservice(@RequestBody ObjectNode jsonData, HttpServletRequest request) throws AWException {
+    // Initialize parameters
+    aweRequest.init(request);
+    return new ServiceData();
+  }
+
+  /**
+   * Test post parameter list
+   * @return Empty service data
+   */
+  @PostMapping(value = "/alu-microservice3/invoke")
+  @ResponseBody
+  public ServiceData testPostMicroservice(HttpServletRequest request) throws AWException {
     // Initialize parameters
     aweRequest.init(request);
     return new ServiceData();
