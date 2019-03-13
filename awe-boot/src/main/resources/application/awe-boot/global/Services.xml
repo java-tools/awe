@@ -150,11 +150,11 @@
   </service>
   
   <service id="simpleMicroservice2">
-    <microservice name="alu-microservice2" method="POST" endpoint="/invoke" content-type="JSON"/>
+    <microservice name="alu-microservice2" method="POST" endpoint="/invoke/hgf" content-type="JSON"/>
   </service>
 
   <service id="simpleMicroservice2WithParameters">
-    <microservice name="alu-microservice2" method="POST" endpoint="/invoke" content-type="JSON">
+    <microservice name="alu-microservice2" method="POST" endpoint="/invoke/hgvgh" content-type="JSON">
       <service-parameter name="param1" type="STRING"/>
     </microservice>
   </service>
