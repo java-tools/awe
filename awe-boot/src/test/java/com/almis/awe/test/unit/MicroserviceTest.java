@@ -128,7 +128,7 @@ public class MicroserviceTest extends TestUtil {
    */
   @Test
   public void testAnotherMicroserviceWithParameters() throws Exception {
-    doRestTest("CallAnotherMicroserviceWithParameters", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("CallAnotherMicroserviceWithParameters", "data", "\"tutu\":\"23/10/1978\", \"lala\":[1,2,4],", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
   }
 
   /**
