@@ -13,6 +13,7 @@ import com.almis.awe.model.util.log.LogUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -27,9 +28,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -219,13 +218,38 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
         String paramName = param.getName();
         if (!urlParameters.containsKey(paramName)) {
           setParametersInURI(rest, uriBuilder, paramName, paramsMapFromRequest);
-          requestParametersJson.set(paramName, mapper.valueToTree(paramsMapFromRequest.get(paramName)));
+          readParameterJson(requestParametersJson, param, paramsMapFromRequest);
         }
       }
     }
 
     // Create request using headers and parameters defined previously
     return mapper.writeValueAsString(requestParametersJson);
+  }
+
+  /**
+   * Read parameter json
+   * @param requestParametersJson Request parameters
+   * @param param Parameter to read
+   * @param paramsMapFromRequest Parameters from request
+   */
+  private void readParameterJson(ObjectNode requestParametersJson, ServiceInputParameter param, Map<String, Object> paramsMapFromRequest) {
+    // If it has parameters, expand the url avoiding parameters already used
+    ObjectMapper mapper = new ObjectMapper();
+    String paramName = param.getName();
+    JsonNode nodeValue = mapper.valueToTree(paramsMapFromRequest.get(paramName));
+    if (param.isList()) {
+      ArrayNode list = JsonNodeFactory.instance.arrayNode();
+      if (nodeValue.isArray()) {
+        for (JsonNode value : nodeValue) {
+          list.add(value);
+        }
+      } else {
+        list.add(nodeValue);
+      }
+      nodeValue = list;
+    }
+    requestParametersJson.set(paramName, nodeValue);
   }
 
   /**
