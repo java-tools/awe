@@ -1,9 +1,10 @@
 import { aweApplication } from "./../awe";
+import { DefaultSpin } from "./../data/options";
 
 // Chart directive
 aweApplication.directive('aweChart',
-  ['ServerData', 'Chart', 'Options',
-    function (serverData, Chart, Options) {
+  ['ServerData', 'Chart',
+    function (serverData, Chart) {
       return {
         restrict: 'E',
         replace: true,
@@ -16,7 +17,7 @@ aweApplication.directive('aweChart',
         },
         link: function (scope, element) {
           // Set spin options
-          scope.spinOptions = Options.spin.big;
+          scope.spinOptions = DefaultSpin.big;
 
           // Init as component
           var component = new Chart(scope, scope.chartId, element);

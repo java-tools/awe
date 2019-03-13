@@ -40,6 +40,9 @@
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
     <plugin-site.version>3.5.1</plugin-site.version>
     <plugin-info-reports.version>2.9</plugin-info-reports.version>
+    <!-- Karma configuration -->
+    <karma.launch.edge>true</karma.launch.edge>
+    <karma.launch.gitlab>false</karma.launch.gitlab>
   </properties>
 
   <dependencies>
@@ -259,6 +262,19 @@
               <goals>
                 <goal>webpack</goal>
               </goals>
+            </execution>
+            <execution>
+              <id>karma</id>
+              <goals>
+                <goal>karma</goal>
+              </goals>
+              <phase>test</phase>
+              <configuration>
+                <environmentVariables>
+                  <launch.edge>${karma.launch.edge}</launch.edge>
+                  <launch.gitlab>${karma.launch.gitlab}</launch.gitlab>
+                </environmentVariables>
+              </configuration>
             </execution>
           </executions>
         </plugin>

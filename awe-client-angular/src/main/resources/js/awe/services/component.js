@@ -1,8 +1,9 @@
 import { aweApplication } from "./../awe";
+import { ClientActions } from "../data/actions";
 
 // Component service
 aweApplication.factory('Component',
-  ['Control', 'AweSettings', 'AweUtilities', 'ServerData', 'ActionController', '$log', 'Actions',
+  ['Control', 'AweSettings', 'AweUtilities', 'ServerData', 'ActionController', '$log',
     /**
      * Component generic methods
      * @param {object} Control
@@ -11,9 +12,8 @@ aweApplication.factory('Component',
      * @param {object} ServerData Server data calls
      * @param {object} ActionController Action controller
      * @param {object} $log Log
-     * @param {object} Actions Actions
      */
-    function (Control, $settings, Utilities, ServerData, ActionController, $log, Actions) {
+    function (Control, $settings, Utilities, ServerData, ActionController, $log) {
 
       /**
        * Destroys autorefresh timer
@@ -106,7 +106,7 @@ aweApplication.factory('Component',
             component.scope.model = component.model;
 
             // Controller
-            component.controller = Control.getAddressController(component.address);
+            component.controller = Control.getAddressController(component.address) || {};
             component.controller.id = component.id;
             component.scope.controller = component.controller;
 
@@ -114,46 +114,43 @@ aweApplication.factory('Component',
               component.scope.iconLoader = component.controller.iconLoading;
             }
 
-            // Add extras to controller
-            if (component.controller) {
-              // Set loading as false
-              component.controller.loading = false;
+            // Set loading as false
+            component.controller.loading = false;
 
-              // Set dependencies if existing
-              if ("dependencies" in component.controller) {
-                component.dependencies = component.controller.dependencies;
-                component.scope.dependencies = component;
-              }
-
-              // Set dependencies if existing
-              if ("contextMenu" in component.controller) {
-                component.scope.contextMenuData = component.controller.contextMenu;
-              } else {
-                component.scope.contextMenuData = [];
-              }
-
-              // Check autoload attribute of controller
-              component.checkAutoLoad();
-
-              // Check autorefresh attribute of controller
-              component.checkAutoRefresh();
-
-              /******************************************************************************
-               * EVENT LISTENERS
-               *****************************************************************************/
-              component.listeners = component.listeners || {};
-
-              // Action listener definition
-              Utilities.defineActionListeners(component.listeners, Actions.component, component.scope, component);
-
-              // Clean objects on destroy | unload
-              component.listeners['destroy'] = component.scope.$on("$destroy", destroy);
-              component.listeners['unload'] = component.scope.$on("unload", function (event, view) {
-                if (view === component.view) {
-                  destroy(component);
-                }
-              });
+            // Set dependencies if existing
+            if ("dependencies" in component.controller) {
+              component.dependencies = component.controller.dependencies;
+              component.scope.dependencies = component;
             }
+
+            // Set dependencies if existing
+            if ("contextMenu" in component.controller) {
+              component.scope.contextMenuData = component.controller.contextMenu;
+            } else {
+              component.scope.contextMenuData = [];
+            }
+
+            // Check autoload attribute of controller
+            component.checkAutoLoad();
+
+            // Check autorefresh attribute of controller
+            component.checkAutoRefresh();
+
+            /******************************************************************************
+             * EVENT LISTENERS
+             *****************************************************************************/
+            component.listeners = component.listeners || {};
+
+            // Action listener definition
+            Utilities.defineActionListeners(component.listeners, ClientActions.component, component.scope, component);
+
+            // Clean objects on destroy | unload
+            component.listeners['destroy'] = component.scope.$on("$destroy", destroy);
+            component.listeners['unload'] = component.scope.$on("unload", function (event, view) {
+              if (view === component.view) {
+                destroy(component);
+              }
+            });
 
             /**
              * Generate component API

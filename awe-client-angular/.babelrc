@@ -36,7 +36,14 @@
         "transform-object-assign",
         "array-includes",
         "object-values-to-object-keys",
-        "transform-object-entries"
+        "transform-object-entries",
+        ["istanbul", {
+          "exclude": [
+            "**/test/",
+            "**/node_modules/",
+            "**/lib/"
+          ]
+        }]
       ]
     }
   }

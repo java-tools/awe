@@ -1,9 +1,10 @@
 import { aweApplication } from "./../awe";
+import { ClientActions } from "../data/actions";
 
 // Menu directive
 aweApplication.directive('aweMenu',
-  ['ServerData', 'Component', '$document', '$window', '$filter', '$location', 'AweUtilities', 'Actions',
-    function (serverData, Component, $document, $window, $filter, $location, Utilities, Actions) {
+  ['ServerData', 'Component', '$document', '$window', '$filter', '$location', 'AweUtilities',
+    function (serverData, Component, $document, $window, $filter, $location, Utilities) {
       return {
         restrict: 'E',
         replace: false,
@@ -245,7 +246,7 @@ aweApplication.directive('aweMenu',
            *****************************************************************************/
           let listeners = {};
           // Action listener definition
-          _.each(Actions.menu, function (actionOptions, actionId) {
+          _.each(ClientActions.menu, function (actionOptions, actionId) {
             listeners[actionId] = scope.$on("/action/" + actionId, function (event, action) {
               return component[actionOptions.method](action, scope);
             });

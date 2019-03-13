@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import { templateSelector } from "../../services/selector";
 
 // Suggest directive
 aweApplication.directive('aweInputSuggest',
@@ -7,9 +8,7 @@ aweApplication.directive('aweInputSuggest',
       return {
         restrict: 'E',
         replace: true,
-        templateUrl: function () {
-          return serverData.getAngularTemplateUrl('input/select');
-        },
+        template: templateSelector,
         scope: {
           'criterionId': '@inputSuggestId'
         },

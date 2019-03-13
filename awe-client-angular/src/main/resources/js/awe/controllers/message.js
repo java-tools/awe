@@ -1,8 +1,9 @@
 import { aweApplication } from "./../awe";
+import { ClientActions } from "../data/actions";
 
 // Manage the message calls
 aweApplication.controller("MessageController",
-  ['$scope', 'AweSettings', 'AweUtilities', 'Control', 'Position', 'Actions',
+  ['$scope', 'AweSettings', 'AweUtilities', 'Control', 'Position',
     /**
      * Control screen data
      * @param {object} $scope
@@ -10,9 +11,8 @@ aweApplication.controller("MessageController",
      * @param {object} Utilities
      * @param {object} Control Control service
      * @param {object} Position Position service
-     * @param {object} Actions Actions service
      */
-    function ($scope, $settings, Utilities, Control, Position, Actions) {
+    function ($scope, $settings, Utilities, Control, Position) {
       // Define scope alerts
       $scope.alerts = [];
 
@@ -236,7 +236,7 @@ aweApplication.controller("MessageController",
 
       // Define listeners
       let listeners = {};
-      _.each(Actions.message, function (actionOptions, actionId) {
+      _.each(ClientActions.message, function (actionOptions, actionId) {
         listeners[actionId] = $scope.$on("/action/" + actionId, function (event, action) {
           return MessageActions[actionOptions.method](action);
         });

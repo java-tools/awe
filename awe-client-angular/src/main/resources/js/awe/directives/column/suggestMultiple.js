@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import { templateSelectorColumn } from "../../services/selector";
 
 // Column suggest multiple directive
 aweApplication.directive('aweColumnSuggestMultiple',
@@ -7,9 +8,7 @@ aweApplication.directive('aweColumnSuggestMultiple',
       return {
         restrict: 'E',
         replace: true,
-        templateUrl: function () {
-          return serverData.getAngularTemplateUrl('column/select');
-        },
+        template: templateSelectorColumn,
         link: function (scope, elem, attrs) {
           // Create column, criterion and component
           var column = new Column(attrs);

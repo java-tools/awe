@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import { templateSelector } from "../../services/selector";
 
 // Select multiple directive
 aweApplication.directive('aweInputSelectMultiple',
@@ -7,9 +8,7 @@ aweApplication.directive('aweInputSelectMultiple',
       return {
         restrict: 'E',
         replace: true,
-        templateUrl: function () {
-          return serverData.getAngularTemplateUrl('input/select');
-        },
+        template: templateSelector,
         scope: {
           'criterionId': '@inputSelectMultipleId'
         },

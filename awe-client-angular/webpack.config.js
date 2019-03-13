@@ -76,7 +76,6 @@ module.exports = {
       "numeral" : path.resolve(__dirname, "node_modules", "numeral"),
       "ng-caps-lock" : path.resolve(__dirname, "src", "main", "resources", "js", "lib", "ngCapsLock", "ng-caps-lock"),
       "bootstrap-tabdrop" : path.resolve(__dirname, "src", "main", "resources", "js", "lib", "bootstrap-tabdrop", "src", "js", "bootstrap-tabdrop"),
-      "bootstrap-tabdrop-less" : path.resolve(__dirname, "src", "main", "resources", "less", "libs", "bootstrap-tabdrop", "src", "less", "tabdrop"),
       "HighchartsLocale" : path.resolve(__dirname, "src", "main", "resources", "js", "lib", "highcharts", "i18n", "highcharts-lang")
     }
   },

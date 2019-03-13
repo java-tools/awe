@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import { getUID } from "../data/options";
 import _ from 'lodash';
 
 // Utilities service
@@ -151,14 +152,7 @@ aweApplication.factory('AweUtilities',
          * @param {Integer} char_numbers Number of characters of the new UID
          * @return {String} UID generated
          */
-        getUID: function () {
-          function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-              .toString(16)
-              .substring(1);
-          }
-          return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-        },
+        getUID: getUID,
         /**
          * Capitalizes a string
          * @public

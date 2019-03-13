@@ -6,39 +6,52 @@ aweApplication.controller("DownloadController",
     /**
      * Control downloads data
      * @param {type} $scope
-     * @param {type} Utilities
-     * @param {type} ActionController
+     * @param {type} $utilities
+     * @param {type} $actionController
      */
-    function ($scope, Utilities, ActionController) {
+    function ($scope, $utilities, $actionController) {
+      // Define controller
+      let $ctrl = this;
+
       // Define scope alerts
-      $scope.downloads = [];
+      $ctrl.downloads = [];
+
+      /**
+       * Start downloading a file
+       * @param {object} file Download file
+       */
+      $ctrl.startDownload = function(file) {
+        file.index = $ctrl.downloads.length;
+        $ctrl.downloads.push(file);
+      }
+
       /**
        * Remove the download from list
        * @param {type} file Download file
        */
-      $scope.finishDownload = function (file) {
-        Utilities.timeout(function () {
-          $scope.downloads.splice(file.index, 1);
+      $ctrl.finishDownload = function (file) {
+        $utilities.timeout(function () {
+          $ctrl.downloads.splice(file.index, 1);
           // If action exists, accept it
           if (file.action) {
             file.action.accept();
           }
         });
       };
+
       /**
        * Remove the download from list
        * @param {type} file Download file
        */
-      $scope.failDownload = function (file) {
+      $ctrl.failDownload = function (file) {
         // Send error message
-        ActionController.sendMessage($scope, 'error', 'ERROR_TITLE_FILE_ACCESS', 'ERROR_MESSAGE_FILE_NOT_DEFINED');
+        $actionController.sendMessage($scope, 'error', 'ERROR_TITLE_FILE_ACCESS', 'ERROR_MESSAGE_FILE_NOT_DEFINED');
+
         // Finish the action
-        $scope.finishDownload(file);
+        $ctrl.finishDownload(file);
       };
-      // Launch message action
-      $scope.$on('download-file', function (event, file) {
-        file.index = $scope.downloads.length;
-        $scope.downloads.push(file);
-      });
+
+      // On event start downloading file
+      $scope.$on('download-file', (event, file) => $ctrl.startDownload(file));
     }
   ]);

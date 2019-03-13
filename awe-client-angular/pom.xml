@@ -21,6 +21,8 @@
     <application.folder>.</application.folder>
     <sonar.sources>src</sonar.sources>
     <sonar.inclusions>src/main/resources/js/awe/**,src/main/resources/less/awe/**</sonar.inclusions>
+    <sonar.javascript.lcov.reportPaths>target/reports/karma/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
+    <sonar.junit.reportPaths>target/reports/karma/junit</sonar.junit.reportPaths>
     <performancetest.host>localhost</performancetest.host>
     <performancetest.port>18080</performancetest.port>
     <performancetest.path />
