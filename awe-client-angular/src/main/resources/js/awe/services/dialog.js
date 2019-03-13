@@ -1,9 +1,10 @@
 import { aweApplication } from "./../awe";
+import { ClientActions } from "../data/actions";
 
 // Dialog service
 aweApplication.factory('Dialog',
-  ['ActionController', 'AweUtilities', 'Control', 'AweSettings', 'Actions', 'Button',
-    function (ActionController, Utilities, Control, $settings, Actions, Button) {
+  ['ActionController', 'AweUtilities', 'Control', 'AweSettings', 'Button',
+    function (ActionController, Utilities, Control, $settings, Button) {
       /**
        * Numeric constructor
        * @param {Scope} scope Numeric scope
@@ -162,7 +163,7 @@ aweApplication.factory('Dialog',
           component.listeners = component.listeners || {};
 
           // Action listener definition
-          Utilities.defineActionListeners(component.listeners, Actions.dialog, component.scope, component);
+          Utilities.defineActionListeners(component.listeners, ClientActions.dialog, component.scope, component);
 
           // Return initialization
           return true;

@@ -1,17 +1,17 @@
 import { aweApplication } from "./../../awe";
+import { ClientActions } from "../../data/actions";
 
 // Grid events service
 aweApplication.factory('GridEvents',
-  ['ActionController', 'AweUtilities', 'Control', 'Actions', '$translate',
+  ['ActionController', 'AweUtilities', 'Control', '$translate',
     /**
      * Grid generic methods
      *
      * @param {service} ActionController Action controller service
      * @param {service} Utilities Awe utilities service
      * @param {service} Control Awe control service
-     * @param {service} Actions Awe actions
      */
-    function (ActionController, Utilities, Control, Actions, $translate) {
+    function (ActionController, Utilities, Control, $translate) {
       /**
        * Add a row
        * @param {Object} parameters Action parameters
@@ -80,7 +80,7 @@ aweApplication.factory('GridEvents',
           });
 
           // Action listener definition
-          Utilities.defineActionListeners(component.listeners, Actions.grid.commons, component.scope, GridEvents);
+          Utilities.defineActionListeners(component.listeners, ClientActions.grid.commons, component.scope, GridEvents);
         },
         /**
          * Map base actions
@@ -95,7 +95,7 @@ aweApplication.factory('GridEvents',
          * @param {object} component
          */
         mapTreeActions: function (component) {
-          Utilities.defineActionListeners(component.listeners, Actions.grid.tree, component.scope, GridEvents);
+          Utilities.defineActionListeners(component.listeners, ClientActions.grid.tree, component.scope, GridEvents);
         },
         /**
          * Map editable actions
@@ -103,7 +103,7 @@ aweApplication.factory('GridEvents',
          * @param {object} component
          */
         mapEditableActions: function (component) {
-          Utilities.defineActionListeners(component.listeners, Actions.grid.editable, component.scope, GridEvents);
+          Utilities.defineActionListeners(component.listeners, ClientActions.grid.editable, component.scope, GridEvents);
         },
         /**
          * Reset grid

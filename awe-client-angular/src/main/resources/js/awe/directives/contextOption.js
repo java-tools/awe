@@ -1,5 +1,17 @@
 import { aweApplication } from "./../awe";
 
+const template =
+`<li ng-show="controller.visible || controller.separator" class="context-option {{controller.opened ? 'open' : ''}}" ng-class="::{'divider': controller.separator, 'dropdown-submenu': controller.hasChildren}" ui-dependency="dependencies" ng-cloak>
+  <a ng-if="::!controller.separator" ng-disabled="isDisabled()" title="{{controller.label| translateMultiple}}" name="{{::controller.id}}" class="{{::controller.style}}"
+     ng-click="onClick()">
+    <i ng-if="::controller.icon" class="nav-icon fa fa-{{::controller.icon}} fa-fw"></i>
+    <span ng-if="::controller.label" class="context-option-text" translate-multiple="{{::controller.label}}"></span>
+  </a>
+  <ul ng-if="::!controller.separator && controller.hasChildren" class="context-submenu dropdown-menu" ng-show="controller.opened">
+    <awe-context-option ng-repeat="option in controller.contextMenu track by option.id" option-id="{{::option.id}}" option="option"></awe-context-option>
+  </ul>
+</li>`;
+
 // Context option directive
 aweApplication.directive('aweContextOption',
   ['ServerData', 'ActionController', '$compile', 'Component', 'AweUtilities', 'Storage',
@@ -7,9 +19,7 @@ aweApplication.directive('aweContextOption',
       return {
         restrict: 'E',
         replace: true,
-        templateUrl: function () {
-          return serverData.getAngularTemplateUrl('contextOption');
-        },
+        template: template,
         scope: {
           'optionId': '@',
           'option': '='

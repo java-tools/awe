@@ -13,7 +13,6 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
    * @param {service} $settings AWE $settings
    * @param {service} Control Control service
    * @param {service} Utilities AWE Utilities
-   * @param {service} $sce Sce
    */
   function (GridComponents, GridEditable, GridMultioperation, GridEvents, $translate, $settings, Control, Utilities) {
     // Retrieve $settings

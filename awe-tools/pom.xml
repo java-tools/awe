@@ -29,6 +29,7 @@
   <properties>
     <application.acronym>awe-tools</application.acronym>
     <awe.schemas>../../../static/schemas/awe</awe.schemas>
+    <skip.karma>true</skip.karma>
   </properties>
 
   <build>

@@ -1,6 +1,6 @@
 <!doctype html>
-<!--[if IE 9 ]><html xmlns:th="http://www.thymeleaf.org" class="ie gt-ie8 gt-ie9 pxajs" lang="{{settings.language}}" ng-app="aweApplication" ng-controller="AppController"><![endif]-->
-<!--[if !IE]><!--><html xmlns:th="http://www.thymeleaf.org" class="{{::isIE}} gt-ie8 gt-ie9 pxajs" lang="{{settings.language}}" ng-app="aweApplication" ng-controller="AppController"><!--<![endif]-->
+<!--[if IE 9 ]><html xmlns:th="http://www.thymeleaf.org" class="ie gt-ie8 gt-ie9 pxajs" lang="{{settings.language}}" ng-app="aweApplication" ng-controller="AppController as $app"><![endif]-->
+<!--[if !IE]><!--><html xmlns:th="http://www.thymeleaf.org" class="{{::$app.isIE()}} gt-ie8 gt-ie9 pxajs" lang="{{settings.language}}" ng-app="aweApplication" ng-controller="AppController as $app"><!--<![endif]-->
   <head>
     <base th:href="@{/}"/>
     <link rel="stylesheet" type="text/css" href="css/splash.css"/>
@@ -18,7 +18,7 @@
     <link rel="shortcut icon" th:href="${@environment.getProperty('application.icon.favicon')}"/>
     <link rel="apple-touch-icon" th:href="${@environment.getProperty('application.icon.tablet')}"/>
   </head>
-  <body class="theme-{{settings.theme}} page-{{screen.name}} size-{{settings.defaultComponentSize}}" ng-init="loading = false" ng-controller="ScreenController" ng-keydown="onKeydown($event)">
+  <body class="theme-{{settings.theme}} page-{{screen.name}} size-{{settings.defaultComponentSize}}" ng-init="loading = false" ng-controller="ScreenController as $screen" ng-keydown="$app.onKeydown($event)">
     <h1 class="hidden" ng-cloak></h1>
     <p class="hidden" ng-cloak></p>
     <div class="alert-zone" ng-controller="MessageController" ng-cloak>
@@ -34,20 +34,20 @@
     </form>
     <div class="actions-zone" ng-cloak>
       <div class="async-zone" ng-cloak>
-        <div ng-if="showActions()" class="action-stack-list" ng-cloak>
-          <div class="action async" ng-repeat="action in asyncStack" ng-class="{'running': action.attr('running') &amp;&amp; action.attr('alive'), 'silent': action.attr('silent')}" ng-click="action.showInfo()" ng-cloak>{{::action.attr("type")}} {{::action.attr("target")}}</div>
+        <div ng-if="$screen.showActions()" class="action-stack-list" ng-cloak>
+          <div class="action async" ng-repeat="action in $screen.asyncStack" ng-class="{'running': action.attr('running') &amp;&amp; action.attr('alive'), 'silent': action.attr('silent')}" ng-click="$screen.showInfo(action)" ng-cloak>{{::action.attr("type")}} {{::action.attr("target")}}</div>
         </div>
       </div>
       <div class="sync-zone" ng-cloak>
-        <div ng-if="showActions()" class="action-stack-list" ng-cloak>
-          <div ng-repeat="stack in syncStacks| reverse" class="action-stack" ng-cloak>
-            <div class="action" ng-repeat="action in stack" ng-class="{'running': action.attr('running') &amp;&amp; action.attr('alive'), 'silent': action.attr('silent')}" ng-click="action.showInfo()" ng-cloak>{{::action.attr("type")}} {{::action.attr("target")}}</div>
+        <div ng-if="$screen.showActions()" class="action-stack-list" ng-cloak>
+          <div ng-repeat="stack in $screen.syncStacks| reverse" class="action-stack" ng-cloak>
+            <div class="action" ng-repeat="action in stack" ng-class="{'running': action.attr('running') &amp;&amp; action.attr('alive'), 'silent': action.attr('silent')}" ng-click="$screen.showInfo(action)" ng-cloak>{{::action.attr("type")}} {{::action.attr("target")}}</div>
           </div>
         </div>
       </div>
     </div>
-    <div class="download-zone" ng-controller="DownloadController" ng-cloak>
-      <downloader ng-repeat="download in downloads" file="download" on-load="finishDownload(download)" on-fail="failDownload(download)" class="ng-cloak"></downloader>
+    <div class="download-zone" ng-controller="DownloadController as $download" ng-cloak>
+      <downloader ng-repeat="download in $download.downloads" file="download" on-load="$download.finishDownload(download)" on-fail="$download.failDownload(download)" class="ng-cloak"></downloader>
     </div>
     <div id="splash">
       <div id="splashBackground"></div>

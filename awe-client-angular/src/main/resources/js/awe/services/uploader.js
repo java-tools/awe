@@ -1,11 +1,12 @@
 import { aweApplication } from "./../awe";
+import { ClientActions } from "../data/actions";
 
 // Require file upload
 aweApplication.requires.push("ngFileUpload");
 
 // Uploader service
 aweApplication.factory('Uploader',
-  ['Criterion', 'AweSettings', 'Upload', 'ActionController', 'ServerData', 'AweUtilities', 'Actions', '$translate',
+  ['Criterion', 'AweSettings', 'Upload', 'ActionController', 'ServerData', 'AweUtilities', '$translate',
     /**
      * Uploader service methods
      * @param {type} Criterion
@@ -15,10 +16,9 @@ aweApplication.factory('Uploader',
      * @param {type} ServerData
      * @param {type} Utilities
      * @param {type} Control
-     * @param {type} Actions
      * @param {type} $translate
      */
-    function (Criterion, $settings, Upload, ActionController, ServerData, Utilities, Actions, $translate) {
+    function (Criterion, $settings, Upload, ActionController, ServerData, Utilities, $translate) {
       /**
        * Uploader constructor
        * @param {Scope} scope Numeric scope
@@ -272,7 +272,7 @@ aweApplication.factory('Uploader',
           component.listeners = component.listeners || {};
 
           // Action listener definition
-          Utilities.defineActionListeners(component.listeners, Actions.uploader, component.scope, component);
+          Utilities.defineActionListeners(component.listeners, ClientActions.uploader, component.scope, component);
 
           // Action listener definition
           Utilities.defineModelChangeListeners(component.listeners, {scope: component.scope, check: ["selected"], service: component, method: "onModelChanged"});

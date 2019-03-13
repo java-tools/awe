@@ -1,18 +1,18 @@
 import { aweApplication } from "./../awe";
+import { DefaultSpin } from "./../data/options";
 
 // Criterion service
 aweApplication.factory('Criterion',
-  ['Component', 'AweUtilities', 'Control', 'AweSettings', 'Options', 'Validator',
+  ['Component', 'AweUtilities', 'Control', 'AweSettings', 'Validator',
     /**
      * Criterion generic methods
      * @param {object} Component
      * @param {object} Utilities Awe Utilities
      * @param {object} Control Controller service
      * @param {object} $settings Awe $settings
-     * @param {object} Options Awe Options
      * @param {object} Validator Validator service
      */
-    function (Component, Utilities, Control, $settings, Options, Validator) {
+    function (Component, Utilities, Control, $settings, Validator) {
 
 
       /**
@@ -125,7 +125,7 @@ aweApplication.factory('Criterion',
           controller.criterion = true;
 
           // Spin options store
-          component.scope.spinOptions = component.scope.spinOptions || Options.spin.medium;
+          component.scope.spinOptions = component.scope.spinOptions || DefaultSpin.medium;
 
           /******************************************************************************
            * SCOPE METHODS

@@ -191,7 +191,6 @@ require("./directives/dialog");
 require("./directives/column/dialog");
 
 require("bootstrap-tabdrop");
-require("bootstrap-tabdrop-less");
 require("./directives/plugins/uiTabdrop");
 require("./directives/input/tab");
 require("./directives/tabcontainer");

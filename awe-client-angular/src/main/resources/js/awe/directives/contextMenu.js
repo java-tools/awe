@@ -1,5 +1,10 @@
 import { aweApplication } from "./../awe";
 
+const template =
+`<ul ng-if="::contextMenu" ng-show="contextMenu.isVisible()" class="context-menu dropdown-menu ng-hide" role="menu" ng-cloak>
+  <awe-context-option ng-repeat="option in contextMenuData track by option.id" option-id="{{::option.id}}" option="option"></awe-context-option>
+</ul>`;
+
 // Context menu directive
 aweApplication.directive('aweContextMenu',
   ['ServerData', 'ContextMenu',
@@ -7,9 +12,7 @@ aweApplication.directive('aweContextMenu',
       return {
         restrict: 'E',
         replace: true,
-        templateUrl: function () {
-          return serverData.getAngularTemplateUrl('contextMenu');
-        },
+        template: template,
         link: function (scope, elem) {
           // Watch for context menu
           let removeComponentWatch = scope.$watch("contextMenuData", initContextMenu);

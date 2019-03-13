@@ -2,32 +2,54 @@ import { aweApplication } from "./../awe";
 
 // Application controller
 aweApplication.controller('AppController',
-  ['$scope', '$log', 'LoadingBar', 'ServerData', 'Storage', 'AweUtilities',
+  ['$scope', '$log', 'LoadingBar', 'ServerData', 'Storage', 'AweUtilities', 'AweSettings',
     /**
      * Control the base application behaviour
-     * @param {type} $scope
-     * @param {type} $log
-     * @param {type} loadingBar
-     * @param {type} ServerData
-     * @param {type} Storage
-     * @param {type} Utilities
+     * @param {object} $scope
+     * @param {object} $log
+     * @param {object} $loadingBar
+     * @param {object} $serverData
+     * @param {object} $storage
+     * @param {object} $utilities
+     * @param {object} $settings
      */
-    function ($scope, $log, loadingBar, ServerData, Storage, Utilities) {
+    function ($scope, $log, $loadingBar, $serverData, $storage, $utilities, $settings) {
+      // Define controller
+      let $ctrl = this;
+
+      /**
+       * Manage keydown event
+       * @param {Object} $event jQuery Event
+       */
+      $ctrl.onKeydown = function($event) {
+        // On Alt + Shift + 0-9, toggle actions to 0-9 secs
+        let DIGITS = [48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
+        if ($event.altKey && $event.shiftKey && DIGITS.includes($event.which)) {
+          // Toggle stack
+          $settings.update({actionsStack: DIGITS.indexOf($event.which) * 1000});
+        }
+      };
+
+      /**
+       * Check if application is IE or not
+       * @returns {string} Application ie detector
+       */
+      $ctrl.isIE = function() {
+        let browser = $utilities.getBrowser();
+        return browser.includes("ie") ? browser : `not-ie ${browser}`;
+      };
+
       // Define root scope
       var $root = $scope.$root;
 
       // Initialize controller, model, messages and api
-      Storage.put("controller", {});
-      Storage.put("model", {});
-      Storage.put("messages", {});
-      Storage.put("screen", {});
-      Storage.put("screenData", {});
-      Storage.put("api", {});
-      Storage.put("status", {});
-
-      // Initialize rootScope attributes
-      $root.stackPosition = window.history.length - 1;
-      $root.activeDependencies = true;
+      $storage.put("controller", {});
+      $storage.put("model", {});
+      $storage.put("messages", {});
+      $storage.put("screen", {});
+      $storage.put("screenData", {});
+      $storage.put("api", {});
+      $storage.put("status", {});
 
       var $window = $(window);
       var ON_UNLOAD = "onunload";
@@ -38,16 +60,12 @@ aweApplication.controller('AppController',
       // View is resizing
       $scope.resizing = true;
 
-      // Navigator is IE
-      var browser = Utilities.getBrowser();
-      $scope.isIE = browser === "ie" ? browser : "not-ie " + browser;
-
       /**
        * Broadcasts a resize event
        */
       var resize = function () {
         $scope.$apply(function () {
-          Utilities.publish('resize');
+          $utilities.publish('resize');
         });
       };
 
@@ -55,7 +73,7 @@ aweApplication.controller('AppController',
        * Broadcasts a resize action
        */
       var resizeAction = function () {
-        Utilities.publish('resize-action');
+        $utilities.publish('resize-action');
       };
 
       /**
@@ -78,67 +96,54 @@ aweApplication.controller('AppController',
        * @param {type} closingTab
        */
       var checkUnload = function (screenParameters, closingTab) {
-        var onunload = null;
-        if (ON_UNLOAD in screenParameters) {
-          onunload = screenParameters[ON_UNLOAD];
-        }
-        if (onunload) {
+        let onUnload = ON_UNLOAD in screenParameters ? screenParameters[ON_UNLOAD] : false;
+        if (onUnload) {
           if (closingTab) {
             var message = {};
             message[$root.settings.serverActionKey] = 'maintain-async';
-            message[$root.settings.targetActionKey] = onunload;
+            message[$root.settings.targetActionKey] = onUnload;
 
-            ServerData.send(message);
+            $serverData.send(message);
 
             // Time for browser to send ajax
-            for (var i = 0; i < 10000000; i++) {
+            for (let i = 0; i < 10000000; i++) {
+              // Wait actively
             }
           } else {
-            ServerData.sendMaintain({type: "maintain-silent", maintain: onunload}, false, true);
+            $serverData.sendMaintain({type: "maintain-silent", maintain: onUnload}, false, true);
           }
         }
       };
 
-      // Route change start (hide loading message)
-      $scope.$on('$viewContentLoading', function (/*event, viewConfig*/) {
-        //$log.debug("$viewContentLoading", {evento: event, config: viewConfig})
-      });
-
-      // Route change start (hide loading message)
-      $scope.$on('$viewContentLoaded', function (/*event*/) {
-        //Launch a resize on view content loaded
-        //$log.debug("$viewContentLoaded", {evento: event})
-      });
-
       // Route change start (show loading message)
       $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState/*, fromParams*/) {
         // Prevent start if settings are still not defined
-        if (!Storage.getRoot("connection")) {
+        if (!$storage.getRoot("connection")) {
           return event.preventDefault();
         }
 
-        var views = _.merge({}, fromState.views, toState.views);
+        let views = _.merge({}, fromState.views, toState.views);
         _.each(views, function (view, viewName) {
           $scope.$broadcast("unload", viewName);
         });
         //$log.debug("$stateChangeStart", {evento: event, to: {state: toState, params: toParams}, from: {state: fromState, params: fromParams}})
         $scope.resizing = true;
-        loadingBar.startTask();
+        $loadingBar.startTask();
 
-        var views = {};
+        let unloadViews = {};
         // Retrieve view from target state
-        for (var view in toState.views) {
-          views[view] = true;
+        for (let view in toState.views) {
+          unloadViews[view] = true;
         }
         // Retrieve view from source state
-        for (var view in fromState.views) {
-          views[view] = true;
+        for (let view in fromState.views) {
+          unloadViews[view] = true;
         }
 
         // For each model retrieve unload and launch
-        var screen = Storage.get("screen");
+        let screen = $storage.get("screen");
         _.each(screen, function (screenView, viewId) {
-          if (viewId in views) {
+          if (viewId in unloadViews) {
             checkUnload(screenView, false);
           }
         });
@@ -154,7 +159,7 @@ aweApplication.controller('AppController',
       $scope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
         $root.loading = false;
         $scope.resizing = false;
-        loadingBar.end();
+        $loadingBar.end();
         $log.warn("State '" + toState.name + "' rejected: " + error);
       });
 
@@ -162,7 +167,7 @@ aweApplication.controller('AppController',
       $scope.$on('$stateNotFound', function (event, current/*, previous, reject*/) {
         //do you work here
         $root.loading = false;
-        loadingBar.end();
+        $loadingBar.end();
         $log.warn("State not found: " + current);
       });
 
@@ -172,7 +177,7 @@ aweApplication.controller('AppController',
       $scope.$on('/action/resize', function (event, action) {
         var parameters = action.attr("parameters");
         var delay = parameters ? parameters.delay || 0 : 0;
-        Utilities.timeout(function () {
+        $utilities.timeout(function () {
           resizeAction();
           // Finish screen action
           action.accept();
@@ -185,8 +190,8 @@ aweApplication.controller('AppController',
 
       // On loaded screen
       $scope.$on('initialised', function () {
-        Utilities.timeout(function () {
-          loadingBar.endTask();
+        $utilities.timeout(function () {
+          $loadingBar.endTask();
         }, 100);
       });
 
@@ -196,13 +201,13 @@ aweApplication.controller('AppController',
       /**
        * Check for unload maintain actions in opened views
        */
-      function onbeforeunload() {
-        var screen = Storage.get("screen");
+      $ctrl.beforeUnload = function() {
+        let screen = $storage.get("screen");
         _.each(screen, function (screenView) {
           checkUnload(screenView, true);
         });
-      }
+      };
 
-      window.onbeforeunload = onbeforeunload;
+      $window.onbeforeunload = $ctrl.beforeUnload;
     }
   ]);

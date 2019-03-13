@@ -1,8 +1,9 @@
 import { aweApplication } from "./../awe";
+import { DefaultSettings } from "../data/options";
 
 // $settings service
-aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtilities', '$http', '$location', '$rootScope', '$state', 'Options', '$httpParamSerializerJQLike',
-  function ($storage, $translate, $log, $utilities, $http, $location, $scope, $state, $options, $httpParamSerializer ) {
+aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtilities', '$http', '$location', '$rootScope', '$state', '$httpParamSerializerJQLike',
+  function ($storage, $translate, $log, $utilities, $http, $location, $scope, $state, $httpParamSerializer ) {
     var tokenKey = "token";
     var initialize = $utilities.q.defer();
     var AweSettings = {
@@ -11,7 +12,7 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
        */
       init: function () {
         // Define default application $settings
-        var settings = $options.settings.values;
+        let settings = DefaultSettings;
         $storage.init();
         AweSettings.update(settings);
         var data = this.getTokenObject();

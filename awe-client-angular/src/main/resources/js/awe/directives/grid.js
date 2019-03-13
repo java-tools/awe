@@ -1,13 +1,15 @@
 import { aweApplication } from "./../awe";
+import { DefaultGridOptions, DefaultSpin } from "../data/options";
 
 // Grid directive
 aweApplication.directive('aweGrid',
-  ['ServerData', 'AweSettings', 'AweUtilities', 'GridBase', 'Options',
-    function (serverData, $settings, $utilities, GridBase, Options) {
+  ['ServerData', 'AweSettings', 'GridBase', 'AweUtilities',
+    function (serverData, $settings, GridBase, $utilities) {
       // Retrieve default $settings
 
       // Set default options
-      var options = {
+      let options = {
+        ...DefaultGridOptions,
         // Elements per page
         rowNum: $settings.get("recordsPerPage"),
         // Total width
@@ -50,7 +52,7 @@ aweApplication.directive('aweGrid',
                 component.bigGrid = true;
 
                 // Set spin options
-                scope.spinOptions = Options.spin.big;
+                scope.spinOptions = DefaultSpin.big;
 
                 // Update grid styles
                 component.gridStyle = "grid-" + scope.size + " " + (component.controller.style || "");

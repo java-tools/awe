@@ -71,7 +71,7 @@ maven-build:
   tags:
   - shared
   script:
-  - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
+  - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false -Dkarma.launch.gitlab=true $SONAR_OPTS
   - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
   retry: 2
   artifacts:
@@ -80,9 +80,11 @@ maven-build:
     - awe-boot/target/tests/
     - awe-boot/target/coverage-reports/
     - awe-boot/target/surefire-reports/
+    - awe-client-angular/target/reports/karma/
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
+      - awe-client-angular/target/reports/karma/junit/TESTS-*.xml
 
 ##############################
 # Testing stage
