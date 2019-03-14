@@ -1,8 +1,5 @@
-import { updateMessages } from "./../../../main/resources/js/awe/actions/messages";
-
 describe('Message controller', function() {
-  let scope, controller, $utilities, $ngRedux, $settings, $actionController, $control, $load;
-  let currentStatus = 0;
+  let scope, controller, $utilities, $settings, $actionController, $control, $injector, $storage;
   let originalTimeout;
 
   // Mock module
@@ -10,21 +7,20 @@ describe('Message controller', function() {
     angular.mock.module('aweApplication');
 
     // Inject controller
-    inject(["$rootScope", "$controller", "AweUtilities", "AweSettings", "ActionController", "Control", "$ngRedux", "Load",
-      function($rootScope, $controller, _AweUtilities_, _AweSettings_, _ActionController_, _Control_, _$ngRedux_, _Load_){
+    inject(["$rootScope", "$controller", "AweUtilities", "AweSettings", "ActionController", "Control", "$injector", "Storage",
+      function($rootScope, $controller, _AweUtilities_, _AweSettings_, _ActionController_, _Control_, _$injector_, _Storage_){
       scope = $rootScope.$new();
       $utilities = _AweUtilities_;
-      $ngRedux = _$ngRedux_;
       $settings = _AweSettings_;
       $actionController = _ActionController_;
       $control = _Control_;
-      $load = _Load_;
+      $injector = _$injector_;
+      $storage = _Storage_;
       controller = $controller('MessageController', {
         '$scope': scope,
         'AweSettings': $settings,
         'AweUtilities': $utilities,
-        'Control': $control,
-        'ActionController': $actionController
+        'Control': $control
         });
     }]);
 
@@ -57,6 +53,7 @@ describe('Message controller', function() {
     function callMessageAction(actionName, actionMethod, parameters, async, silent, top, done) {
       // Spy screen action
       spyOn(controller.MessageActions, actionMethod).and.callFake(done);
+      spyOn($utilities, "timeout").and.callFake((fn) => fn());
 
       // Launch action
       $actionController.closeAllActions();
@@ -87,23 +84,27 @@ describe('Message controller', function() {
      * @param {Function} done Launch when done
      */
     function launchMessageAction(actionName, actionMethod, parameters, done = () => null) {
-      // Spy screen action
-      let acceptAction = $actionController.acceptAction.bind($actionController);
-      spyOn($actionController, "acceptAction").and.callFake((action) => {
-        acceptAction(action);
-        done();
-      });
+      let $actionController = $injector.get('ActionController');
+      spyOn($utilities, "timeout").and.callFake((fn) => fn());
 
       // Launch action
       $actionController.closeAllActions();
       let action = $actionController.generateAction({type: actionName, ...parameters}, {address: {view: "base"}}, true, true);
+
+      // Spy screen action
+      spyOn(action, "accept").and.callFake(done);
+      spyOn(action, "isAlive").and.returnValue(true);
+
+      // Call action
       controller.MessageActions[actionMethod].call(this, action);
+
+      // Return action
       return action;
     }
 
     // Launch message action
     it('should launch a message action', function(done) {
-      spyOn(scope.alerts, "push").and.callFake((message) => {
+      spyOn(controller.alerts, "push").and.callFake((message) => {
         expect(message.type).toBe("success");
         expect(message.title).toBe("tutu");
         expect(message.msg).toBe("lala");
@@ -114,7 +115,7 @@ describe('Message controller', function() {
 
     // Launch message action
     it('should launch a message action without message', function(done) {
-      spyOn(scope.alerts, "push").and.callFake((message) => {
+      spyOn(controller.alerts, "push").and.callFake((message) => {
         expect(message.type).toBe("danger");
         expect(message.title).not.toBeDefined();
         expect(message.msg).not.toBeDefined();
@@ -125,17 +126,15 @@ describe('Message controller', function() {
 
     // Launch message action with a target message
     it('should launch a message action with a target message', function(done) {
-      spyOn(scope.alerts, "push").and.callFake((message) => {
+      spyOn($storage, "get").and.returnValue({base: {testMessage: {title: "lala", message: "tutu"}}});
+      spyOn(controller.alerts, "push").and.callFake((message) => {
         expect(message.type).toBe("warning");
         expect(message.title).toBe("lala");
         expect(message.msg).toBe("tutu");
-        scope.alerts[0] = message;
-        scope.closeAlert(0);
+        controller.alerts[0] = message;
+        controller.closeAlert(0);
         done();
       });
-
-      // Store screen messages
-      $ngRedux.dispatch(updateMessages("base", {"testMessage": {id: "testMessage", title: "lala", message: "tutu"}}));
 
       // Launch message action
       launchMessageAction("message", "message", {parameters:{view: "base", type: "warning", target: "testMessage"}});
@@ -144,7 +143,7 @@ describe('Message controller', function() {
     // Launch target-message action
     it('should launch a target-message action', function(done) {
       let finished = false;
-      spyOn($.fn, "popover").and.callFake(function() {return this});
+      spyOn($.fn, "popover").and.callFake(function() {return this;});
       spyOn(scope, "$on").and.callFake((event, func) => {
         if (!finished) {
           finished = true;
@@ -164,8 +163,7 @@ describe('Message controller', function() {
     // Launch target-message action with address
     it('should launch a target-message action with a component address', function(done) {
       let finished = false;
-      spyOn($.fn, "popover").and.callFake(function() {return this});
-      spyOn($actionController, "isAlive").and.returnValue(true);
+      spyOn($.fn, "popover").and.callFake(function() {return this;});
       spyOn(scope, "$on").and.callFake((event, func) => {
         if (!finished) {
           finished = true;
@@ -185,7 +183,7 @@ describe('Message controller', function() {
     // Launch target-message action with address
     it('should launch a target-message action with a grid cell address', function(done) {
       let finished = false;
-      spyOn($.fn, "popover").and.callFake(function() {return this});
+      spyOn($.fn, "popover").and.callFake(function() {return this;});
       spyOn(scope, "$on").and.callFake((event, func) => {
         if (!finished) {
           finished = true;
@@ -205,7 +203,7 @@ describe('Message controller', function() {
     // Launch target-message twice
     it('should launch a target-message action with a previous message defined', function(done) {
       let finished = false;
-      spyOn($.fn, "popover").and.callFake(function() {return this});
+      spyOn($.fn, "popover").and.callFake(function() {return this;});
       controller.popover = {target: null};
       spyOn($settings, "get").and.returnValue({"error": 1000});
       spyOn(scope, "$on").and.callFake((event, func) => {

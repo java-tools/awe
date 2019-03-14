@@ -1,29 +1,31 @@
-import { aweApplication } from "./../awe";
+import {aweApplication} from "./../awe";
 
 // Action controller
 aweApplication.service('ActionController',
   ['Storage', 'AweUtilities', 'Action',
     function (Storage, Utilities, Action) {
 
+      // Define controller
+      let $ctrl = this;
+
       // Action number
-      var actionNumber = 0;
+      $ctrl.actionNumber = 0;
 
       // Action stack initialization
-      this.actionStackList = [];
-      this.asyncStackList = [];
-      var currentStack = 0;
-      this.actionStackList[currentStack] = [];
-      var active = null;
+      $ctrl.actionStackList = [];
+      $ctrl.asyncStackList = [];
+      $ctrl.currentStack = 0;
+      $ctrl.actionStackList[$ctrl.currentStack] = [];
+      $ctrl.active = null;
 
       /**
        * Generate an action
        * @param actionData action  data
        * @return Action
        */
-      this.generateAction = function(actionData, addressData, silent, async) {
-        var view = addressData.address && addressData.address.view ? addressData.address.view : "base";
-        var context = actionData.context || addressData.context || "";
-        var actionTarget = addressData.address;
+      $ctrl.generateAction = function (actionData, addressData, silent, async) {
+        let view = addressData.address && addressData.address.view ? addressData.address.view : "base";
+        let actionTarget = addressData.address;
         if ("address" in actionData) {
           actionTarget = actionData.address;
         } else if ("target" in actionData) {
@@ -31,15 +33,16 @@ aweApplication.service('ActionController',
         }
 
         // Update actionData with extra parameters
-        var newAction = _.cloneDeep(actionData);
-        newAction["actionId"] = "action-" + actionNumber++;
-        newAction["callbackTarget"] = actionTarget;
-        newAction["silent"] = actionData.silent || silent || false;
-        newAction["async"] = actionData.async || async || false;
-        newAction["context"] = context;
-        newAction["view"] = view;
-        return new Action(newAction);
-      }
+        return new Action({
+          ...actionData,
+          actionId: "action-" + $ctrl.actionNumber++,
+          callbackTarget: actionTarget,
+          silent: actionData.silent || silent || false,
+          async: actionData.async || async || false,
+          context: actionData.context || addressData.context || "",
+          view: view
+        });
+      };
 
       /**
        * Launchs an action list
@@ -48,15 +51,12 @@ aweApplication.service('ActionController',
        * @param {Object} addressData Launcher address and context
        * @public
        */
-      this.addActionList = function (data, addAtBottom, addressData) {
-        // Get self instance
-        var _self = this;
+      $ctrl.addActionList = function (data, addAtBottom, addressData) {
 
         // Variable definition
-        var controller = this;
-        var stack = this.actionStackList[currentStack];
-        var actionList = [];
-        var firstAction = true;
+        let stack = $ctrl.actionStackList[$ctrl.currentStack];
+        let actionList = [];
+        let firstAction = true;
 
         // If data is empty, exit
         if (Utilities.isNull(data)) {
@@ -65,17 +65,17 @@ aweApplication.service('ActionController',
 
         // For each action,
         _.each(data, function (actionData) {
-          var action = actionData;
+          let action = actionData;
           if (!(actionData instanceof Action)) {
-            action = _self.generateAction(actionData, addressData, data.silent, data.async);
+            action = $ctrl.generateAction(actionData, addressData, data.silent, data.async);
           }
 
           // Store action or launch it if it's asynchronous
           if (action.attr("async") && firstAction) {
             // Store action in async list
-            controller.asyncStackList.push(action);
+            $ctrl.asyncStackList.push(action);
             // Run the action
-            controller.runAction(action);
+            $ctrl.runAction(action);
           } else {
             actionList.push(action);
             firstAction = false;
@@ -83,43 +83,43 @@ aweApplication.service('ActionController',
         });
 
         if (!addAtBottom) {
-          this.actionStackList[currentStack] = _.concat(actionList, stack);
+          $ctrl.actionStackList[$ctrl.currentStack] = [...actionList, ...stack];
         } else {
-          this.actionStackList[currentStack] = _.concat(stack, actionList);
+          $ctrl.actionStackList[$ctrl.currentStack] = [...stack, ...actionList];
         }
 
         // Run first action
-        this.runNext();
+        $ctrl.runNext();
 
         // Return promise which tells if queue is empty
-        active = active === null ? Utilities.q.defer() : active;
-        return active.promise;
+        $ctrl.active = $ctrl.active === null ? Utilities.q.defer() : $ctrl.active;
+        return $ctrl.active.promise;
       };
 
       /**
        * Launches the last stack action and removes it from the stack
        * @public
        */
-      this.runNext = function () {
+      $ctrl.runNext = function () {
         // Variable definition
-        var stack = this.actionStackList[currentStack];
+        var stack = $ctrl.actionStackList[$ctrl.currentStack];
         if (stack.length === 0) {
-          this.enableButtons();
+          $ctrl.enableButtons();
         } else {
           // Retrieve and launch action
           var action = stack[0];
           if (!action.attr("running")) {
-            this.runAction(action);
+            $ctrl.runAction(action);
           }
 
           // If action is async, move the action to the other stack and call next action
           if (action.attr("async")) {
             // Store action in async list
-            this.asyncStackList.push(action);
+            $ctrl.asyncStackList.push(action);
             // Remove from stack
             stack.splice(0, 1);
             // Call next action
-            this.runNext();
+            $ctrl.runNext();
           }
         }
       };
@@ -129,13 +129,13 @@ aweApplication.service('ActionController',
        * @public
        * @param {String} actionId Action identifier
        */
-      this.closeAction = function (actionId) {
+      $ctrl.closeAction = function (actionId) {
         // Variable definition
         var searchStacks = [];
-        var currentSyncStack = this.actionStackList[currentStack];
+        var currentSyncStack = $ctrl.actionStackList[$ctrl.currentStack];
 
         // Add stacks to search stack
-        searchStacks.push(this.asyncStackList);
+        searchStacks.push($ctrl.asyncStackList);
         searchStacks.push(currentSyncStack);
 
         // Search in stacks
@@ -147,14 +147,14 @@ aweApplication.service('ActionController',
           });
 
           // Destroy found actions
-          _.map(toBeRemoved, function(action) {
+          _.map(toBeRemoved, function (action) {
             action.destroy();
           });
         });
 
         if (currentSyncStack.length === 0) {
           // Enable all buttons
-          this.enableButtons();
+          $ctrl.enableButtons();
         }
       };
 
@@ -162,45 +162,44 @@ aweApplication.service('ActionController',
        * Relaunch last action and continue with stack
        * @public
        */
-      this.relaunch = function () {
-        this.runNext();
+      $ctrl.relaunch = function () {
+        $ctrl.runNext();
       };
 
       /**
        * Deletes the action stack removing all actions
        * @public
        */
-      this.deleteStack = function () {
-        var stack = this.actionStackList[currentStack];
+      $ctrl.deleteStack = function () {
+        var stack = $ctrl.actionStackList[$ctrl.currentStack];
         for (var i = 0, t = stack.length; i < t; i++) {
           stack[i].destroy();
           stack[i] = null;
         }
-        this.actionStackList[currentStack] = [];
-        this.enableButtons();
+        $ctrl.actionStackList[$ctrl.currentStack] = [];
+        $ctrl.enableButtons();
       };
 
       /**
        * Finishes all actions
        * @public
        */
-      this.closeAllActions = function () {
+      $ctrl.closeAllActions = function () {
         // Variable definition
-        var searchStacks = [];
-        var rejectStack = [];
+        let searchStacks = [];
+        let rejectStack = [];
 
         // Retrieve all actions to be rejected
-        _.each(this.actionStackList, function(stack) {
-         _.concat(rejectStack, stack);
-          stack = [];
+        _.each($ctrl.actionStackList, function (stack) {
+          rejectStack = [...rejectStack, ...stack];
         });
 
         // Add also async actions
-        _.concat(rejectStack, this.asyncStackList);
+        rejectStack = [...rejectStack, ...$ctrl.asyncStackList];
 
         // Empty stacks
-        this.actionStackList[currentStack] = [];
-        this.asyncStackList = [];
+        $ctrl.actionStackList[$ctrl.currentStack] = [];
+        $ctrl.asyncStackList = [];
 
         // Search action in stack
         _.each(searchStacks, function (action) {
@@ -209,30 +208,30 @@ aweApplication.service('ActionController',
         });
 
         // Enable all buttons
-        this.enableButtons();
+        $ctrl.enableButtons();
       };
 
       /**
        * Enables all buttons in screen if actions stack is empty
        * @public
        */
-      this.enableButtons = function () {
+      $ctrl.enableButtons = function () {
         // Set actions running to false
         Utilities.timeout(function () {
           Storage.put("actions-running", false);
         });
 
         // Resolve active
-        if (active !== null) {
-          active.resolve();
-          active = null;
+        if ($ctrl.active !== null) {
+          $ctrl.active.resolve();
+          $ctrl.active = null;
         }
       };
 
       /**
        * Disables all buttons in screen if actions stack is not empty
        */
-      this.disableButtons = function () {
+      $ctrl.disableButtons = function () {
         Storage.put("actions-running", true);
         Utilities.publish("disable-buttons");
       };
@@ -242,24 +241,21 @@ aweApplication.service('ActionController',
        * @param {Action} action Action to launch
        * @public
        */
-      this.runAction = function (action) {
-        // Get self instance
-        var _self = this;
-
+      $ctrl.runAction = function (action) {
         // Disable all buttons
         if (!action.attr("silent")) {
-          this.disableButtons();
+          $ctrl.disableButtons();
         }
 
         // Run the action
         action.run()
           .then(function () {
             //Accept
-            _self.closeAction(action.attr("actionId"));
-            _self.runNext();
+            $ctrl.closeAction(action.attr("actionId"));
+            $ctrl.runNext();
           }, function () {
             //Reject
-            _self.deleteStack();
+            $ctrl.deleteStack();
           });
       };
 
@@ -267,38 +263,38 @@ aweApplication.service('ActionController',
        * Adds a new stack to separate the stack context
        * @public
        */
-      this.addStack = function () {
+      $ctrl.addStack = function () {
         // Variable definition
-        currentStack++;
+        $ctrl.currentStack++;
 
         // Generate stack
-        this.actionStackList[currentStack] = [];
+        $ctrl.actionStackList[$ctrl.currentStack] = [];
 
         // Run new stack next option (should be empty)
-        this.runNext();
+        $ctrl.runNext();
       };
 
       /**
        * Removes last stack
        * @public
        */
-      this.removeStack = function () {
+      $ctrl.removeStack = function () {
         // Retrieve pending actions
-        var previousStack = currentStack;
-        var pendingActions = this.actionStackList[previousStack];
+        var previousStack = $ctrl.currentStack;
+        var pendingActions = $ctrl.actionStackList[previousStack];
 
         // Change stack number
-        var nextStack = Math.max(0, currentStack - 1);
+        var nextStack = Math.max(0, $ctrl.currentStack - 1);
 
         // Set new stack number
-        currentStack = nextStack;
+        $ctrl.currentStack = nextStack;
 
         // Concat pending actions
-        var currentActionList = this.actionStackList[currentStack];
-        this.actionStackList[currentStack] = pendingActions.concat(currentActionList);
+        var currentActionList = $ctrl.actionStackList[$ctrl.currentStack];
+        $ctrl.actionStackList[$ctrl.currentStack] = pendingActions.concat(currentActionList);
 
         // Delete previous stack
-        this.actionStackList[previousStack] = [];
+        $ctrl.actionStackList[previousStack] = [];
       };
       /**
        * Send a message
@@ -307,9 +303,9 @@ aweApplication.service('ActionController',
        * @param {String} title Message title
        * @param {String} content Message content
        */
-      this.sendMessage = function ($scope, type, title, content) {
+      $ctrl.sendMessage = function ($scope, type, title, content) {
         // Send message
-        var messageAction = {type: 'message', silent: false};
+        let messageAction = {type: 'message', silent: false};
         // Add message to action
         messageAction.parameters = {
           type: type,
@@ -317,7 +313,7 @@ aweApplication.service('ActionController',
           message: content
         };
         // Send action send message
-        this.addActionList([messageAction], false, {address: {view: $scope.view}, context: $scope.context});
+        $ctrl.addActionList([messageAction], false, {address: {view: $scope.view}, context: $scope.context});
       };
     }
   ]);

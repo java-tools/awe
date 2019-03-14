@@ -1,4 +1,4 @@
-import { aweApplication } from "./../awe";
+import {aweApplication} from "./../awe";
 
 // Manage the view requests
 aweApplication.controller("ViewController",
@@ -18,51 +18,61 @@ aweApplication.controller("ViewController",
      * @param {type} context
      */
     function ($scope, ServerData, Storage, ActionController, Utilities, Load, loadingBar, $log, view, context) {
+      let $ctrl = this;
 
-      // Initialize scope view
-      loadingBar.end();
-      var screenData = Storage.get("screenData");
-      var data = screenData[view];
-      var sendInitialization = true;
-      // If there's no controller in data, probably the request has been cancelled
-      if (data) {
-        if (typeof data !== "object") {
-          $log.error("[ERROR] Loading view (screen data is not an object)", {view: view, screenData: screenData, context: context});
+      /**
+       * On view controller initialization
+       * @param data Screen data
+       */
+      $ctrl.onInit = function (data) {
+        let sendInitialization = true;
+        // If there's no controller in data, probably the request has been cancelled
+        if (data) {
+          if (typeof data !== "object") {
+            $log.error("[ERROR] Loading view (screen data is not an object)", {
+              view: view,
+              screenData: screenData,
+              context: context
+            });
 
-          // Send error message
-          ActionController.sendMessage({view:view, context:context}, 'error', 'ERROR_TITLE_SCREEN_GENERATION_ERROR', data);
-        } else {
-          if ('components' in data) {
-            sendInitialization = false;
-            // Start loading bar task
-            loadingBar.startTask();
-            $scope.view = view;
-            $scope.context = context;
+            // Send error message
+            ActionController.sendMessage({
+              view: view,
+              context: context
+            }, 'error', 'ERROR_TITLE_SCREEN_GENERATION_ERROR', data);
+          } else {
+            if ('components' in data) {
+              sendInitialization = false;
+              // Start loading bar task
+              loadingBar.startTask();
+              $scope.view = view;
+              $scope.context = context;
 
-            // Store data
-            ServerData.storeScreenData(data, view);
+              // Store data
+              ServerData.storeScreenData(data, view);
 
-            // Check controller
-            if(data.screen){
-              $scope.$root.screen = data.screen;
+              // Check controller
+              if (data.screen) {
+                $scope.$root.screen = data.screen;
+              }
+
+              // Clear data
+              screenData[view] = null;
+
+              // Start loading phase
+              var load = new Load($scope, view, data.components);
+              load.start();
             }
-
-            // Clear data
-            screenData[view] = null;
-
-            // Start loading phase
-            var load = new Load($scope, view, data.components);
-            load.start();
           }
+        } else {
+          $log.error("[ERROR] Loading view", {view: view, screenData: screenData, context: context});
         }
-      } else {
-        $log.error("[ERROR] Loading view", {view: view, screenData: screenData, context: context});
-      }
 
-      // Check whether to send initialization if it's not delayed
-      if (sendInitialization) {
-        Utilities.publish('initialised');
-      }
+        // Check whether to send initialization if it's not delayed
+        if (sendInitialization) {
+          Utilities.publish('initialised');
+        }
+      };
 
       // Hack to hide screen in IE before dirty change
       $scope.$on("unload", function ($event, viewName) {
@@ -73,5 +83,10 @@ aweApplication.controller("ViewController",
           $scope.visible = false;
         }
       });
+
+      // Initialize scope view
+      loadingBar.end();
+      let screenData = Storage.get("screenData");
+      $ctrl.onInit(screenData[view]);
     }
   ]);
