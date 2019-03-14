@@ -84,7 +84,7 @@ maven-build:
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
-      - awe-client-angular/target/reports/karma/junit/TESTS-*.xml
+      - awe-client-angular/target/reports/karma/junit/*.xml
 
 ##############################
 # Testing stage
