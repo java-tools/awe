@@ -23,7 +23,7 @@ export function launchScreenAction($injector, actionName, actionMethod, paramete
 }
 
 describe('Screen service', function() {
-  let $injector, $utilities, $settings, $actionController, $windowMock, $control, $rootScope, $state, $storage, $timeout, $httpBackend, $location;
+  let $injector, $utilities, $settings, $actionController, $windowMock, $control, $rootScope, $state, $storage, $httpBackend, $location;
   let originalTimeout;
 
   // Mock module
@@ -42,7 +42,6 @@ describe('Screen service', function() {
       $state = $injector.get('$state');
       $actionController = $injector.get('ActionController');
       $storage = $injector.get('Storage');
-      $timeout = $injector.get('$timeout');
       $httpBackend = $injector.get('$httpBackend');
       $location = $injector.get('$location');
 

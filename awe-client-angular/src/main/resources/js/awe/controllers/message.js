@@ -1,34 +1,34 @@
-import { aweApplication } from "./../awe";
-import { ClientActions } from "../data/actions";
+import {aweApplication} from "./../awe";
+import {ClientActions} from "../data/actions";
 
 // Manage the message calls
 aweApplication.controller("MessageController",
-  ['$scope', 'AweSettings', 'AweUtilities', 'Control', 'Position',
+  ['$scope', 'AweSettings', 'AweUtilities', 'Control',
     /**
      * Control screen data
      * @param {object} $scope
-     * @param {object} $settings Awe $settings
-     * @param {object} Utilities
-     * @param {object} Control Control service
-     * @param {object} Position Position service
+     * @param {object} $settings Awe Settings
+     * @param {object} $utilities
+     * @param {object} $control Control service
      */
-    function ($scope, $settings, Utilities, Control, Position) {
+    function ($scope, $settings, $utilities, $control) {
+      let $ctrl = this;
+
       // Define scope alerts
-      $scope.alerts = [];
+      $ctrl.alerts = [];
+      $ctrl.popover = null;
 
       /**
        * On alert close
        * @param {type} index
        * @returns {undefined}
        */
-      $scope.closeAlert = function (index) {
-        let alert = $scope.alerts.splice(index, 1)[0];
+      $ctrl.closeAlert = function (index) {
+        var alert = $ctrl.alerts.splice(index, 1)[0];
         if (alert && "action" in alert) {
-          if ("action" in alert) {
-            alert.action.accept();
-          }
+          alert.action.accept();
           if ("timer" in alert) {
-            Utilities.timeout.cancel(alert.timer);
+            $utilities.timeout.cancel(alert.timer);
           }
         }
       };
@@ -40,12 +40,12 @@ aweApplication.controller("MessageController",
        * @returns {Object} message text
        */
       function getMessageText(view, parameters) {
-        let messageText = {};
+        var messageText = {};
         if (parameters) {
           // Retrieve title and parameters
           if ("target" in parameters) {
             // If message target in parameters, retrieve from message target
-            messageText = Control.getMessageFromScope(view, parameters.target);
+            messageText = $control.getMessageFromScope(view, parameters.target);
           } else {
             if ("title" in parameters) {
               messageText.title = parameters.title;
@@ -59,29 +59,72 @@ aweApplication.controller("MessageController",
         return messageText;
       }
 
-      var MessageActions = {
+      /**
+       * Translate incoming type
+       * @param {String} incomingType Incoming type
+       * @return {String} Translated type
+       */
+      function getMessageType(incomingType) {
+        // Translate class name
+        switch (incomingType) {
+          case "error":
+          case "wrong":
+            return "danger";
+          case "ok":
+            return "success";
+          default:
+            return incomingType;
+        }
+      }
+
+      /**
+       * Start the popover message
+       * @param {Object} message Popover message
+       */
+      $ctrl.startPopover = function (message = $ctrl.popover) {
+        message.visible = true;
+      };
+
+      /**
+       * Hide the popover
+       * @param {Object} message Popover message
+       */
+      $ctrl.hidePopover = function (message = $ctrl.popover) {
+        if ((message.target || {}).popover) {
+          message.visible = false;
+          $utilities.timeout.cancel(message.timer);
+          message.target.popover('hide');
+        }
+      };
+
+      /**
+       * Destroy the popover
+       * @param {Object} message Popover message
+       */
+      $ctrl.destroyPopover = function (message = $ctrl.popover) {
+        if ((message.target || {}).popover) {
+          message.background.remove();
+          message.target.popover('destroy');
+          // Finish action if alive
+          if (message.action.isAlive()) {
+            message.action.accept();
+          }
+        }
+        $ctrl.popover = null;
+      };
+
+      $ctrl.MessageActions = {
         /**
          * Show a message in the screen
          * @param {Action} action Action received
          */
         message: function (action) {
-          var parameters = action.attr("parameters");
-          var type, timeout;
-          // Translate class name
-          switch (parameters.type) {
-            case "error":
-            case "wrong":
-              type = "danger";
-              break;
-            case "ok":
-              type = "success";
-              break;
-            default:
-              type = parameters.type;
-          }
+          let parameters = action.attr("parameters");
+          let timeout;
+          let type = getMessageType(parameters.type);
 
           // Retrieve timeout
-          timeout = $settings.get("messageTimeout")[parameters.type];
+          timeout = $settings.get('messageTimeout')[parameters.type];
 
           // Generate message
           var messageContent = {
@@ -91,7 +134,7 @@ aweApplication.controller("MessageController",
 
           // Retrieve message text
           var messageText = getMessageText(action.attr("view"), parameters);
-          if ("title" in messageText && !Utilities.isEmpty(messageText.title)) {
+          if ("title" in messageText && !$utilities.isEmpty(messageText.title)) {
             messageContent.title = messageText.title;
           }
           if ("message" in messageText) {
@@ -99,15 +142,13 @@ aweApplication.controller("MessageController",
           }
 
           // Publish timeout when needed
-          Utilities.timeout(function () {
-            if (timeout > 0) {
-              messageContent.timer = Utilities.timeout(function () {
-                $scope.closeAlert($scope.alerts.length - 1);
-              }, timeout);
-            }
-            // Push message
-            $scope.alerts.push(messageContent);
-          });
+          if (timeout > 0) {
+            messageContent.timer = $utilities.timeout(function () {
+              $ctrl.closeAlert($ctrl.alerts.length - 1);
+            }, timeout);
+          }
+          // Push message
+          $ctrl.alerts.push(messageContent);
         },
         /**
          * Show a message over a target in the screen
@@ -115,102 +156,62 @@ aweApplication.controller("MessageController",
          */
         targetMessage: function (action) {
           let parameters = action.attr("parameters");
-          let type, timeout;
-          // Translate class name
-          switch (parameters.type) {
-            case "error":
-            case "wrong":
-              type = "danger";
-              break;
-            case "ok":
-              type = "success";
-              break;
-            default:
-              type = parameters.type;
+
+          // Delete previous popover
+          if ($ctrl.popover != null) {
+            $ctrl.destroyPopover($ctrl.popover);
           }
 
-          // Retrieve timeout
-          timeout = $settings.get("messageTimeout")[parameters.type];
+          // Retrieve message data
+          $ctrl.popover = {
+            action: action,
+            type: getMessageType(parameters.type),
+            text: getMessageText(action.attr("view"), parameters),
+            timeout: $settings.get('messageTimeout')[parameters.type]
+          };
 
-          // Retrieve message text
-          let messageText = getMessageText(action.attr("view"), parameters);
+          // Clean up function
+          let cleanUp = () => $ctrl.destroyPopover($ctrl.popover);
 
           // Get message target
-          let address = action.attr("callbackTarget");
-          let target, popoverTimer;
+          let address = action.attr("callbackTarget") || {};
           if ("view" in address && "component" in address) {
             if ("column" in address && "row" in address) {
-              target = $("#" + address.component + " [row-id='" + address.row + "'] [column-id='" + address.column + "']");
+              $ctrl.popover.target = $(`#${address.component} [row-id='${address.row}'] [column-id='${address.column}']`);
             } else {
-              target = $("#" + address.component);
+              $ctrl.popover.target = $(`#${address.component}`);
             }
+            $ctrl.popover.view = $(`[ui-view='${address.view}']`);
           } else {
-            target = $("body");
-          }
-
-          /**
-           * Hide the popover
-           */
-          function hidePopover() {
-            if (target.popover) {
-              Utilities.timeout.cancel(popoverTimer);
-              target.popover('hide');
-            }
-          }
-
-          /**
-           * Hide the popover
-           */
-          let isVisible = false;
-          function startPopover() {
-            isVisible = true;
+            $ctrl.popover.target = $("body");
+            $ctrl.popover.view = $("[ui-view='base']");
           }
 
           // Create message
-          let fixedBackground = $("<div class='target-message component-mask popover-dark popover-" + type + "'></div>");
-          $('body').append(fixedBackground);
-
-          /**
-           * Hide the popover
-           */
-          function destroyPopover() {
-            if (target.popover && isVisible) {
-              fixedBackground.remove();
-              target.popover('destroy');
-              // Finish action if alive
-              if (action.isAlive()) {
-                action.accept();
-              }
-              isVisible = false;
-            }
-          }
-
-        // Delete previous popover
-        if (target.popover) {
-          $('body > .target-message').remove();
-          target.popover('destroy');
-        }
-
-        target.popover({
-          container: 'body',
-          title: "title" in messageText ? messageText.title : "",
-          content: "message" in messageText ? messageText.message : "",
-          placement: "auto bottom", //getPopoverPlacement,
-          trigger: "manual"
-        }).on('shown.bs.popover', startPopover).on('hidden.bs.popover', destroyPopover).popover('show');
+          $ctrl.popover.background = $(`<div class="target-message component-mask popover-dark popover-${$ctrl.popover.type}"></div>`);
+          $('body').append($ctrl.popover.background);
+          $ctrl.popover.target.popover({
+            container: 'body',
+            title: "title" in $ctrl.popover.text ? $ctrl.popover.text.title : "",
+            content: "message" in $ctrl.popover.text ? $ctrl.popover.text.message : "",
+            placement: "auto bottom",
+            trigger: "manual"
+          })
+            .on('shown.bs.popover', () => $ctrl.startPopover($ctrl.popover))
+            .on('hidden.bs.popover', cleanUp)
+            .popover('show');
 
           // Hide the popover on click
-          fixedBackground.on("click", hidePopover);
+          let hide = () => $ctrl.hidePopover($ctrl.popover);
+          $ctrl.popover.background.on("click", hide);
 
           // Hide the popover on timeout
-          if (timeout > 0) {
-            popoverTimer = Utilities.timeout(hidePopover, timeout);
+          if ($ctrl.popover.timeout > 0) {
+            $ctrl.popover.timer = $utilities.timeout(hide, $ctrl.popover.timeout);
           }
 
-          // Destroy on unload & destroy
-          $scope.$on('resize', destroyPopover);
-          $scope.$on('unload', destroyPopover);
-          $scope.$on('$destroy', destroyPopover);
+          // Destroy on resize, unload & destroy
+          ['resize', 'unload', 'destroy'].forEach((event) => $scope.$on(event, cleanUp));
         },
         /**
          * Show modal confirm
@@ -235,16 +236,10 @@ aweApplication.controller("MessageController",
       };
 
       // Define listeners
-      let listeners = {};
       _.each(ClientActions.message, function (actionOptions, actionId) {
-        listeners[actionId] = $scope.$on("/action/" + actionId, function (event, action) {
-          return MessageActions[actionOptions.method](action);
+        $scope.$on("/action/" + actionId, function (event, action) {
+          return $ctrl.MessageActions[actionOptions.method](action);
         });
-      });
-
-      // Destroy listeners
-      listeners["destroy"] = $scope.$on("$destroy", function () {
-        Utilities.clearListeners(listeners);
       });
     }
   ]);

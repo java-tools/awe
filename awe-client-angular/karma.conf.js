@@ -10,7 +10,7 @@ module.exports = (config) => {
   config.set({
     basePath: path.join(__dirname, "target", "reports", "karma"),
     frameworks: ['detectBrowsers', 'jasmine'],
-    reporters: ['spec', 'junit', 'coverage-istanbul'],
+    reporters: ['spec', 'sonarqubeUnit', 'coverage-istanbul'],
     //concurrency: 1,
     browserConsoleLogOptions: { level: 'info', format: '%b %T: %m', terminal: true},
     reportSlowerThan: 500,
@@ -44,7 +44,7 @@ module.exports = (config) => {
           {
             test: /\.jsx?$/,
             loader: 'babel-loader',
-            exclude: /node_modules/
+            exclude: /node_modules|webpack/
           }]
       },
       resolve : {
@@ -111,8 +111,11 @@ module.exports = (config) => {
       },
       verbose: true // output config used by istanbul for debugging
     },
-    junitReporter: {
-      outputDir: path.join(__dirname, "target", "reports", "karma", "junit"),
-    }
+    sonarQubeUnitReporter: {
+      sonarQubeVersion: 'LATEST',
+      outputFile: path.join("junit", "javascriptUnitTests.xml"),
+      testFilePattern: '.js',
+      useBrowserName: false
+    },
   });
 };
