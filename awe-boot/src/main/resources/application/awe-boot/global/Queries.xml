@@ -2044,6 +2044,9 @@
     <variable id="param1" type="STRING" value="prueba" />
     <variable id="param2" type="DATE" name="tutu" />
     <variable id="param3" type="INTEGER" name="lala" />
+    <variable id="param4" type="STRING" name="erre" />
+    <variable id="param5" type="STRINGN" name="queErre" />
+    <variable id="param6" type="STRINGN" name="yQueErre" />
   </query>
 
   <query id="CallAnotherMoreMicroservice" service="simpleMicroservice3"/>

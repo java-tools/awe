@@ -2,7 +2,7 @@ import $ from "jquery";
 import _ from "lodash";
 import {DefaultSettings} from "../../../main/resources/js/awe/data/options";
 
-describe('Application controller', function() {
+describe('awe-client-angular/src/test/js/controllers/application.js', function() {
   var scope, controller, $utilities, $loadingBar, $settings, $storage, $serverData, $log, $window;
   var currentStatus = 0;
   // Mock module

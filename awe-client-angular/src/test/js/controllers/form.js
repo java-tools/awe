@@ -1,4 +1,4 @@
-describe('Form controller', function() {
+describe('awe-client-angular/src/test/js/controllers/form.js', function() {
   let scope, controller, $utilities, $ngRedux, $settings, $actionController, $control, $serverData, $validator;
   let originalTimeout;
 
