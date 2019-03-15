@@ -1,4 +1,4 @@
-describe('Message controller', function() {
+describe('awe-client-angular/src/test/js/controllers/message.js', function() {
   let scope, controller, $utilities, $settings, $actionController, $control, $injector, $storage;
   let originalTimeout;
 

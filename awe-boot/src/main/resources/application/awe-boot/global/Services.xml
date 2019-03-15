@@ -158,6 +158,9 @@
       <service-parameter name="param1" type="STRING"/>
       <service-parameter name="param2" type="DATE" list="true"/>
       <service-parameter name="param3" type="INTEGER" list="true"/>
+      <service-parameter name="param4" type="STRING" list="true"/>
+      <service-parameter name="param5" type="STRING" list="true"/>
+      <service-parameter name="param6" type="STRING"/>
     </microservice>
   </service>
 

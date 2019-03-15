@@ -22,7 +22,7 @@ export function launchScreenAction($injector, actionName, actionMethod, paramete
   $screen[actionMethod].call(this, action);
 }
 
-describe('Screen service', function() {
+describe('awe-client-angular/src/test/js/services/screen.js', function() {
   let $injector, $utilities, $settings, $actionController, $windowMock, $control, $rootScope, $state, $storage, $httpBackend, $location;
   let originalTimeout;
 

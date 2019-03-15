@@ -238,13 +238,14 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
     ObjectMapper mapper = new ObjectMapper();
     String paramName = param.getName();
     JsonNode nodeValue = mapper.valueToTree(paramsMapFromRequest.get(paramName));
+    nodeValue = nodeValue == null ? JsonNodeFactory.instance.nullNode() : nodeValue;
     if (param.isList()) {
       ArrayNode list = JsonNodeFactory.instance.arrayNode();
       if (nodeValue.isArray()) {
         for (JsonNode value : nodeValue) {
           list.add(value);
         }
-      } else {
+      } else if (!nodeValue.isNull() && !nodeValue.asText().isEmpty()){
         list.add(nodeValue);
       }
       nodeValue = list;
