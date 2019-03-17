@@ -21,7 +21,8 @@ import org.junit.runners.Suite;
   TemplateControllerTest.class,
   DataRestControllerTest.class,
   MaintainRestControllerTest.class,
-  ScreenBuilderTest.class
+  ScreenBuilderTest.class,
+  MenuTest.class
 })
 @RunWith(Suite.class)
 public class AllTestsSuite {

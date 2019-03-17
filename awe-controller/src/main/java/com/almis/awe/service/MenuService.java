@@ -421,30 +421,8 @@ public class MenuService extends ServiceConfig {
     for (Option option : optionList) {
       String screenId = option.getScreen();
       if (screenId != null && !addedScreens.contains(screenId)) {
-        Map<String, CellData> row = new HashMap<>();
-
-        // Get screen label
-        String screenLabel = option.getLabel();
-        if (screenLabel == null) {
-          Screen screen = getScreen(screenId);
-          screenLabel = screen.getLabel();
-        }
-
-        // Get screen label locale
-        screenLabel = screenLabel == null ? screenId : getLocale(screenLabel) + " (" + screenId + ")";
-
-        // Add screen if matches with screen or locale
-        if (StringUtil.containsIgnoreCase(screenLabel, suggest.trim())) {
-          // Set screen name
-          row.put(AweConstants.JSON_VALUE_PARAMETER, new CellData(screenId));
-
-          // Store screen label
-          row.put(AweConstants.JSON_LABEL_PARAMETER, new CellData(screenLabel));
-
-          // Store row
-          dataList.addRow(row);
-          addedScreens.add(screenId);
-        }
+        // Add to list
+        addOptionToList(suggest, screenId, option, dataList, addedScreens);
       }
     }
 
@@ -460,6 +438,43 @@ public class MenuService extends ServiceConfig {
   }
 
   /**
+   * Add an option to the datalist
+   * @param suggest Suggest to search
+   * @param id Option/screen identifier
+   * @param option Option
+   * @param dataList Datalist to add data
+   * @param previouslyAdded Previously added identifiers
+   * @throws AWException
+   */
+  private void addOptionToList(String suggest, String id, Option option, DataList dataList, Set<String> previouslyAdded) throws AWException {
+    Map<String, CellData> row = new HashMap<>();
+
+    // Get screen label
+    String label = option.getLabel();
+    String screenId = option.getScreen();
+    if (label == null && screenId != null) {
+      Screen screen = getScreen(screenId);
+      label = screen.getLabel();
+    }
+
+    // Get option label locale
+    label = label == null ? id : getLocale(label) + " (" + id + ")";
+
+    // Add screen if matches with screen or locale
+    if (StringUtil.containsIgnoreCase(label, suggest.trim())) {
+      // Set screen name
+      row.put(AweConstants.JSON_VALUE_PARAMETER, new CellData(id));
+
+      // Store screen label
+      row.put(AweConstants.JSON_LABEL_PARAMETER, new CellData(label));
+
+      // Store row
+      dataList.addRow(row);
+      previouslyAdded.add(id);
+    }
+  }
+
+  /**
    * Check if address is valid
    *
    * @param address Option to check
@@ -471,7 +486,7 @@ public class MenuService extends ServiceConfig {
     String optionId = address.startsWith(AweConstants.JSON_SCREEN) ? address.substring(address.lastIndexOf('/') + 1, address.length()) : null;
     if (address.startsWith(AweConstants.JSON_SCREEN + "/" + AweConstants.PRIVATE_MENU)) {
       return getSession().isAuthenticated() && isAvailableOption(optionId, AweConstants.PRIVATE_MENU);
-    } else if (address.startsWith(AweConstants.JSON_SCREEN + "/" + AweConstants.PUBLIC_MENU))  {
+    } else if (address.startsWith(AweConstants.JSON_SCREEN + "/"))  {
       return isAvailableOption(optionId, AweConstants.PUBLIC_MENU);
     } else {
       return false;
@@ -553,32 +568,9 @@ public class MenuService extends ServiceConfig {
     DataList dataList = new DataList();
     for (Option option : optionList) {
       String optionName = option.getName();
-      String screenId = option.getScreen();
       if (optionName != null && !addedOptions.contains(optionName)) {
-        Map<String, CellData> row = new HashMap<>();
-
-        // Get screen label
-        String optionLabel = option.getLabel();
-        if (optionLabel == null && screenId != null) {
-          Screen screen = getScreen(screenId);
-          optionLabel = screen.getLabel();
-        }
-
-        // Get screen label locale
-        optionLabel = optionLabel == null ? optionName : getLocale(optionLabel) + " (" + optionName + ")";
-
-        // Add screen if matches with screen or locale
-        if (StringUtil.containsIgnoreCase(optionLabel, suggest.trim())) {
-          // Set screen name
-          row.put(AweConstants.JSON_VALUE_PARAMETER, new CellData(optionName));
-
-          // Store screen label
-          row.put(AweConstants.JSON_LABEL_PARAMETER, new CellData(optionLabel));
-
-          // Store row
-          dataList.addRow(row);
-          addedOptions.add(optionName);
-        }
+        // Add the option to the list
+        addOptionToList(suggest, optionName, option, dataList, addedOptions);
       }
     }
 
