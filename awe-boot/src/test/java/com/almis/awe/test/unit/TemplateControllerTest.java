@@ -176,6 +176,23 @@ public class TemplateControllerTest extends TestUtil {
   }
 
   /**
+   * Test of public screen
+   * @throws Exception test error
+   */
+  @Test
+  public void testGetPublicScreenTemplate() throws Exception {
+    String expected = readFileAsText("templates/DefaultScreen.txt").replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
+    MvcResult result = mockMvc.perform(get("/template/screen/base/signin")
+      .accept("text/html;charset=UTF-8"))
+      .andExpect(status().isOk())
+      .andExpect(content().encoding("UTF-8"))
+      //.andDo(print())
+      .andReturn();
+
+    assertEquals(result.getResponse().getContentAsString().replaceAll("\\n|\\r\\n", System.getProperty("line.separator")), expected);
+  }
+
+  /**
    * Test of getAngularTemplate method, of class TemplateController.
    * @throws Exception Test error
    */
