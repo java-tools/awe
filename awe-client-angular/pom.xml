@@ -19,7 +19,7 @@
     <jetspeed.version>2.3.1</jetspeed.version>
     <!-- Sonar properties -->
     <application.folder>.</application.folder>
-    <sonar.sources>src</sonar.sources>
+    <sonar.sources>src/main/resources/js/awe</sonar.sources>
     <sonar.tests>src/test/js</sonar.tests>
     <sonar.inclusions>src/main/resources/js/awe/**,src/main/resources/less/awe/**</sonar.inclusions>
     <sonar.testExecutionReportPaths>target/reports/karma/junit/javascriptUnitTests.xml</sonar.testExecutionReportPaths>

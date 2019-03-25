@@ -445,6 +445,7 @@
   <locale name="ERROR_MESSAGE_INITIALIZING_JASPER" value="There has been a problem launching document engine initialization"/>
   <locale name="ERROR_MESSAGE_INVALID_ARGUMENTS" value="The selected arguments are not valid"/>
   <locale name="ERROR_MESSAGE_INVALID_CONNECTION" value="There was a problem trying to make the connection"/>
+  <locale name="ERROR_MESSAGE_INVALID_CREDENTIALS" value="The credentials entered for the user -{0}- are not valid or the user is incorrect"/>
   <locale name="ERROR_MESSAGE_INVALID_DATABASE_ARGUMENTS" value="The selected arguments of database connections are no valid. [Type:{0}, Alias:{1}, Url: {2}]"/>
   <locale name="ERROR_MESSAGE_INVALID_DATASOURCE" value="The selected datasource doesn&apos;t exist: {0}"/>
   <locale name="ERROR_MESSAGE_INVALID_PASSWORD" value="Password is wrong for user {0}. Check caps."/>
@@ -620,6 +621,7 @@
   <locale name="ERROR_TITLE_INITIALIZING_JASPER" value="Error initilizing Jasper"/>
   <locale name="ERROR_TITLE_INVALID_ARGUMENTS" value="Invalid arguments"/>
   <locale name="ERROR_TITLE_INVALID_CONNECTION" value="Invalid connection"/>
+  <locale name="ERROR_TITLE_INVALID_CREDENTIALS" value="Invalid credentials"/>
   <locale name="ERROR_TITLE_INVALID_PASSWORD" value="Wrong password"/>
   <locale name="ERROR_TITLE_INVALID_SESSION_TOKEN" value="Session is not valid"/>
   <locale name="ERROR_TITLE_INVALID_USER" value="Wrong username"/>

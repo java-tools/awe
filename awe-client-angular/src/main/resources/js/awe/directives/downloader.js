@@ -1,10 +1,10 @@
 import { aweApplication } from "./../awe";
+import "jquery-file-download";
 
 // Downloader directive
 aweApplication.directive('downloader',
-  ['AweUtilities', 'LoadingBar', 'AweSettings', 'Connection',
-    function (Utilities, LoadingBar, $settings, $connection) {
-
+  ['AweUtilities', 'LoadingBar', 'AweSettings',
+    function (Utilities, LoadingBar, $settings) {
       return {
         scope: {
           file: '=',
@@ -46,12 +46,16 @@ aweApplication.directive('downloader',
           };
 
           // Download the file
-          var data = scope.file.data || {};
-          data[$settings.get("downloadIdentifier")] = scope.file.index;
+          let data = {
+            ...scope.file.data,
+            d: scope.file.index,
+            token: $settings.getToken(),
+          };
+
           scope.file.data = data;
           var deferred = $.fileDownload(scope.file.url, {
             httpMethod: "POST",
-            data: $connection.serializeParameters(data),
+            data: data,
             container: element,
             abortCallback: onSuccess,
             failCallback: onFail

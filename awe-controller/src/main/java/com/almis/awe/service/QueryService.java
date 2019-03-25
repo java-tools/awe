@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
@@ -37,10 +36,6 @@ public class QueryService extends ServiceConfig {
   // Autowired services
   private QueryLauncher queryLauncher;
   private QueryUtil queryUtil;
-  
-  // Connection identifier
-  @Value("${application.parameter.comet.id:s}")
-  private String connectionIdentifierKey;
 
   /**
    * Autowired constructor
@@ -98,7 +93,7 @@ public class QueryService extends ServiceConfig {
     ComponentAddress componentAddress = new ComponentAddress(address);
 
     // Store session token into the address
-    componentAddress.setSession(getRequest().getParameterAsString(connectionIdentifierKey));
+    componentAddress.setSession(getRequest().getToken());
 
     // Subscribe to query
     return subscribe(query, componentAddress);

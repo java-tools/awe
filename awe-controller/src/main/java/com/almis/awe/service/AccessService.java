@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import static com.almis.awe.model.constant.AweConstants.*;
 
@@ -31,11 +32,18 @@ public class AccessService extends ServiceConfig {
   @Value("${security.master.key:fdvsd4@sdsa08}")
   private String masterKey;
 
+  @Value("${language.default:en}")
+  private String defaultLanguage;
+
+  @Value("${application.theme:sky}")
+  private String defaultTheme;
+
   // Autowire
   private MenuService menuService;
 
   /**
    * Autowired constructor
+   *
    * @param menuService
    */
   @Autowired
@@ -54,7 +62,6 @@ public class AccessService extends ServiceConfig {
     // Variable definition
     AweSession session = getSession();
     ServiceData serviceData = new ServiceData();
-    ClientAction screen = new ClientAction("screen");
     AWException exc = (AWException) session.getParameter(SESSION_FAILURE);
 
     // Something failed
@@ -72,12 +79,15 @@ public class AccessService extends ServiceConfig {
       String initialURL = "/" + menu.getScreenContext() + "/" + session.getParameter(SESSION_INITIAL_SCREEN);
       session.setParameter(SESSION_INITIAL_URL, initialURL);
 
-      screen.addParameter(SESSION_LANGUAGE, session.getParameter(SESSION_LANGUAGE));
-      screen.addParameter(SESSION_THEME, session.getParameter(SESSION_THEME));
-      screen.addParameter(JSON_SCREEN, initialURL);
+      serviceData
+        .addClientAction(new ClientAction("screen")
+          .addParameter(SESSION_CONNECTION_TOKEN, session.getSessionId())
+          .addParameter(JSON_SCREEN, initialURL))
+        .addClientAction(new ClientAction("change-language")
+          .addParameter(SESSION_LANGUAGE, session.getParameter(SESSION_LANGUAGE)))
+        .addClientAction(new ClientAction("change-theme")
+          .addParameter(SESSION_THEME, session.getParameter(SESSION_THEME)));
     }
-
-    serviceData.addClientAction(screen);
     return serviceData;
   }
 
@@ -89,8 +99,13 @@ public class AccessService extends ServiceConfig {
   public ServiceData logout() {
     // Return to home screen
     return new ServiceData()
-            .addClientAction(new ClientAction("screen")
-                    .addParameter(JSON_SCREEN, "/"));
+      .addClientAction(new ClientAction("screen")
+        .addParameter(SESSION_CONNECTION_TOKEN, UUID.randomUUID())
+        .addParameter(JSON_SCREEN, "/"))
+      .addClientAction(new ClientAction("change-language")
+        .addParameter(SESSION_LANGUAGE, defaultLanguage))
+      .addClientAction(new ClientAction("change-theme")
+        .addParameter(SESSION_THEME, defaultTheme));
   }
 
   /**
@@ -153,7 +168,7 @@ public class AccessService extends ServiceConfig {
     DataList dataList = new DataList();
     DataListUtil.addColumnWithOneRow(dataList, "encoded", textEncripted);
     return new ServiceData()
-            .setDataList(dataList);
+      .setDataList(dataList);
   }
 
   /**
@@ -181,6 +196,6 @@ public class AccessService extends ServiceConfig {
     DataList dataList = new DataList();
     DataListUtil.addColumnWithOneRow(dataList, "encoded", textEncripted);
     return new ServiceData()
-            .setDataList(dataList);
+      .setDataList(dataList);
   }
 }

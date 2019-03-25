@@ -11,6 +11,7 @@ import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
@@ -29,7 +30,7 @@ public class AweSessionDetails extends ServiceConfig {
   private Map<String, Set<String>> connectedUsers;
 
   // Change password screen
-  @Value("${session.parameters:}")
+  @Value("#{'${session.parameters:}'.split(',')}")
   private List<String> sessionParameters;
 
   @Value("${language.default:en}")
@@ -44,8 +45,8 @@ public class AweSessionDetails extends ServiceConfig {
   @Value("${security.default.restriction:general}")
   private String defaultRestriction;
 
-  @Value("${application.parameter.comet.id:s}")
-  private String sessionKey;
+  @Value("${screen.parameter.username:cod_usr}")
+  private String usernameParameter;
 
   /**
    * Autowired constructor
@@ -66,7 +67,11 @@ public class AweSessionDetails extends ServiceConfig {
    */
   public void onLoginSuccess(Authentication authentication) {
     AweSession session = getSession().setAuthentication(authentication);
+    String token = session.getSessionId();
     try {
+      // Set session new token
+      getRequest().setToken(token);
+
       // Store user in session
       session.setParameter(SESSION_USER, session.getUser());
 
@@ -74,7 +79,7 @@ public class AweSessionDetails extends ServiceConfig {
       storeUserDetails();
 
       // Get user session list
-      Set<String> sessionList = null;
+      Set<String> sessionList;
       if (connectedUsers.containsKey(session.getUser())) {
         sessionList = connectedUsers.get(session.getUser());
       } else {
@@ -83,8 +88,8 @@ public class AweSessionDetails extends ServiceConfig {
       }
 
       // Add cometUID to user session
-      if (!sessionList.contains(sessionKey)) {
-        sessionList.add(getRequest().getParameterAsString(sessionKey));
+      if (!sessionList.contains(token)) {
+        sessionList.add(token);
       }
 
       // Initialize session variables
@@ -99,7 +104,11 @@ public class AweSessionDetails extends ServiceConfig {
    * @param authenticationException Authentication error
    */
   public void onLoginFailure(AuthenticationException authenticationException) {
-    getSession().setParameter(SESSION_FAILURE, new AWException(authenticationException.getMessage(), authenticationException));
+    if (authenticationException instanceof BadCredentialsException) {
+      getSession().setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_CREDENTIALS"), getLocale("ERROR_MESSAGE_INVALID_CREDENTIALS", getRequest().getParameterAsString(usernameParameter)), authenticationException));
+    } else {
+      getSession().setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_ARGUMENTS"), authenticationException.getMessage(), authenticationException));
+    }
   }
 
   /**
@@ -115,7 +124,7 @@ public class AweSessionDetails extends ServiceConfig {
     // Remove cometUID from user session
     if (connectedUsers.containsKey(user)) {
       Set<String> sessionList = connectedUsers.get(user);
-      sessionList.remove(getRequest().getParameterAsString(sessionKey));
+      sessionList.remove(getRequest().getToken());
     }
   }
 
@@ -207,6 +216,6 @@ public class AweSessionDetails extends ServiceConfig {
     session.setParameter(SESSION_PROFILE, profile);
     session.setParameter(SESSION_RESTRICTION, restriction);
     session.setParameter(SESSION_INITIAL_SCREEN, initialScreen);
-    session.setParameter(SESSION_TOKEN, getRequest().getParameterAsString(sessionKey));
+    session.setParameter(SESSION_TOKEN, getRequest().getToken());
   }
 }

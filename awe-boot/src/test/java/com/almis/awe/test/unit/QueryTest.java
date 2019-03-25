@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
@@ -31,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Class used for testing queries through ActionController
  *
  * @author jbellon
- *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -41,9 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Ignore("Generic class for database testing")
 public class QueryTest extends TestUtil {
 
+  private static final String DATABASE = "aweora2";
   // Logger
   private static Logger logger = LogManager.getLogger(QueryTest.class);
-  private static final String DATABASE = "aweora2";
 
   /**
    * Initializes json mapper for tests
@@ -56,8 +56,8 @@ public class QueryTest extends TestUtil {
   /**
    * Asserts the JSON in the response
    *
-   * @param queryName query name
-   * @param result Result
+   * @param queryName    query name
+   * @param result       Result
    * @param expectedRows Expected rows
    * @return Result list
    * @throws Exception Test error
@@ -69,12 +69,12 @@ public class QueryTest extends TestUtil {
   /**
    * Asserts the JSON in the response
    *
-   * @param queryName Query name
-   * @param result Result
+   * @param queryName    Query name
+   * @param result       Result
    * @param expectedRows Expected rows
-   * @param page Page
-   * @param totalPages Total pages
-   * @param records Total records
+   * @param page         Page
+   * @param totalPages   Total pages
+   * @param records      Total records
    * @return Result list
    * @throws Exception Test error
    */
@@ -112,20 +112,22 @@ public class QueryTest extends TestUtil {
    *
    * @param queryName Query ID
    * @param variables Variables
-   * @param database Database
-   * @param expected Expected result
+   * @param database  Database
+   * @param expected  Expected result
    * @return Output
    * @throws Exception Error performing request
    */
   private String performRequest(String queryName, String variables, String database, String expected) throws Exception {
     setParameter("database", database);
     MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
-            .param("p", "{\"serverAction\":\"data\",\"targetAction\":\"" + queryName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\"}")
-            .session(session)
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
+      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .content("{" + variables + "}")
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON)
+      .session(session))
+      .andExpect(status().isOk())
+      .andExpect(content().json(expected))
+      .andReturn();
     return mvcResult.getResponse().getContentAsString();
   }
 
@@ -134,16 +136,18 @@ public class QueryTest extends TestUtil {
    *
    * @param queryName Query ID
    * @param variables Variables
-   * @param database Database
+   * @param database  Database
    * @return Output
    * @throws Exception Error performing request
    */
   private String performRequestWithoutCheckExpected(String queryName, String variables, String database) throws Exception {
     setParameter("database", database);
     MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
-      .param("p", "{\"serverAction\":\"data\",\"targetAction\":\"" + queryName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\"}")
-      .session(session)
-      .accept("application/json"))
+      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .content("{" + variables + "}")
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON)
+      .session(session))
       .andExpect(status().isOk())
       .andReturn();
     return mvcResult.getResponse().getContentAsString();
@@ -154,18 +158,20 @@ public class QueryTest extends TestUtil {
    *
    * @param queryName Query ID
    * @param variables Variables
-   * @param database Database
+   * @param database  Database
    * @return Output
    * @throws Exception Error performing request
    */
   private String performRequest(String queryName, String variables, String database) throws Exception {
     setParameter("database", database);
     MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
-            .param("p", "{\"max\":\"30\",\"serverAction\":\"data\",\"targetAction\":\"" + queryName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\"}")
-            .session(session)
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andReturn();
+      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .content("{" + variables + "}")
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON)
+      .session(session))
+      .andExpect(status().isOk())
+      .andReturn();
     return mvcResult.getResponse().getContentAsString();
   }
 
@@ -313,7 +319,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseQueryVariableInField() throws Exception {
     String queryName = "QueryVariableInField";
-    String variables = "\"variable\": 1,";
+    String variables = "\"variable\": 1";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"IdeModPro\":62,\"1\":1},{\"IdeModPro\":65,\"1\":1},{\"IdeModPro\":74,\"1\":1},{\"IdeModPro\":937,\"1\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -534,7 +540,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseQueryFilterFieldVarIn() throws Exception {
     String queryName = "FilterField-Var-In";
-    String variables = "\"list\":[0, 1],";
+    String variables = "\"list\":[0, 1]";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"IdeAweAppPar\":7,\"id\":1},{\"IdeAweAppPar\":8,\"id\":2},{\"IdeAweAppPar\":9,\"id\":3},{\"IdeAweAppPar\":10,\"id\":4}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -549,7 +555,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseQueryFilterFieldVarNotIn() throws Exception {
     String queryName = "FilterField-Var-NotIn";
-    String variables = "\"list\":[0, 1],";
+    String variables = "\"list\":[0, 1]";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":2,\"page\":1,\"records\":35,\"rows\":[{\"IdeAweAppPar\":1,\"id\":1},{\"IdeAweAppPar\":2,\"id\":2},{\"IdeAweAppPar\":3,\"id\":3},{\"IdeAweAppPar\":4,\"id\":4},{\"IdeAweAppPar\":5,\"id\":5},{\"IdeAweAppPar\":6,\"id\":6},{\"IdeAweAppPar\":11,\"id\":7},{\"IdeAweAppPar\":12,\"id\":8},{\"IdeAweAppPar\":13,\"id\":9},{\"IdeAweAppPar\":14,\"id\":10},{\"IdeAweAppPar\":15,\"id\":11},{\"IdeAweAppPar\":16,\"id\":12},{\"IdeAweAppPar\":17,\"id\":13},{\"IdeAweAppPar\":18,\"id\":14},{\"IdeAweAppPar\":19,\"id\":15},{\"IdeAweAppPar\":20,\"id\":16},{\"IdeAweAppPar\":21,\"id\":17},{\"IdeAweAppPar\":22,\"id\":18},{\"IdeAweAppPar\":23,\"id\":19},{\"IdeAweAppPar\":24,\"id\":20},{\"IdeAweAppPar\":25,\"id\":21},{\"IdeAweAppPar\":26,\"id\":22},{\"IdeAweAppPar\":27,\"id\":23},{\"IdeAweAppPar\":28,\"id\":24},{\"IdeAweAppPar\":29,\"id\":25},{\"IdeAweAppPar\":30,\"id\":26},{\"IdeAweAppPar\":31,\"id\":27},{\"IdeAweAppPar\":32,\"id\":28},{\"IdeAweAppPar\":33,\"id\":29},{\"IdeAweAppPar\":34,\"id\":30}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
     String result = performRequest(queryName, variables, DATABASE, expected);
     assertResultJson(queryName, result, 30);
@@ -742,7 +748,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseSimplePagination() throws Exception {
     String queryName = "SimplePagination";
-    String variables = "\"max\": 5,";
+    String variables = "\"max\": 5";
     String result = performRequest(queryName, variables, DATABASE);
 
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -781,7 +787,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseSimplePaginationPage1Max30() throws Exception {
     String queryName = "SimplePagination";
-    String variables = "\"page\": 1, \"max\": 30,";
+    String variables = "\"page\": 1, \"max\": 30";
     String result = performRequest(queryName, variables, DATABASE);
 
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -820,7 +826,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseSimplePaginationPage1Max10() throws Exception {
     String queryName = "SimplePagination";
-    String variables = "\"page\": 1, \"max\": 10,";
+    String variables = "\"page\": 1, \"max\": 10";
     String result = performRequest(queryName, variables, DATABASE);
 
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -859,7 +865,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseSimplePaginationPage2Max10() throws Exception {
     String queryName = "SimplePagination";
-    String variables = "\"page\": 2, \"max\": 10,";
+    String variables = "\"page\": 2, \"max\": 10";
     String result = performRequest(queryName, variables, DATABASE);
 
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -1023,7 +1029,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseQueryQryEdiSug() throws Exception {
     String queryName = "QryEdiSug";
-    String variables = "\"suggest\": \"fr\",";
+    String variables = "\"suggest\": \"fr\"";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"name\":\"frost\",\"value\":7,\"label\":\"Prueba - frost\"},{\"name\":\"fresh\",\"value\":8,\"label\":\"Prueba - fresh\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -1053,7 +1059,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseTstUsrSug() throws Exception {
     String queryName = "TstUsrSug";
-    String variables = "\"suggest\": \"ito\",";
+    String variables = "\"suggest\": \"ito\"";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"label\":\"jaimito (Jaimito)\",\"id\":1,\"value\":\"jaimito\",\"nom\":\"Jaimito\"},{\"label\":\"jorgito (Jorgito)\",\"id\":2,\"value\":\"jorgito\",\"nom\":\"Jorgito\"},{\"label\":\"juanito (Juanito)\",\"id\":3,\"value\":\"juanito\",\"nom\":\"Juanito\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -1068,7 +1074,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseUserSuggest() throws Exception {
     String queryName = "TstUsrSugIde";
-    String variables = "\"suggest\": 1,";
+    String variables = "\"suggest\": 1";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"label\":1,\"id\":1,\"value\":1},{\"label\":811,\"id\":2,\"value\":811},{\"label\":1702,\"id\":3,\"value\":1702}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -1085,7 +1091,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseTstUsrSel() throws Exception {
     String queryName = "TstUsrSel";
-    String variables = "\"suggest\": \"jaimito\",";
+    String variables = "\"suggest\": \"jaimito\"";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"label\":\"jaimito (Jaimito)\",\"id\":1,\"value\":\"jaimito\",\"nom\":\"Jaimito\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -1170,7 +1176,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseSugTstLst() throws Exception {
     String queryName = "SugTstLst";
-    String variables = "\"suggest\": \"jaimito\",";
+    String variables = "\"suggest\": \"jaimito\"";
 
     String result = performRequest(queryName, variables, DATABASE);
     assertResultJson(queryName, result, 30, 1, 200, 6000);
@@ -1184,7 +1190,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseSugTstLstPagination() throws Exception {
     String queryName = "SugTstLstPagination";
-    String variables = "\"suggest\": \"jaimito\",";
+    String variables = "\"suggest\": \"jaimito\"";
 
     String result = performRequest(queryName, variables, DATABASE);
     assertResultJson(queryName, result, 30, 1, 200, 6000);
@@ -1440,13 +1446,13 @@ public class QueryTest extends TestUtil {
     ObjectNode resultDatalist = (ObjectNode) resultParameters.get("datalist");
     ArrayNode expectedRows = (ArrayNode) expectedDatalist.get("rows");
     ArrayNode resultRows = (ArrayNode) resultDatalist.get("rows");
-    ObjectNode expectedRow1= (ObjectNode) expectedRows.get(2);
+    ObjectNode expectedRow1 = (ObjectNode) expectedRows.get(2);
     ObjectNode resultRow1 = (ObjectNode) resultRows.get(4);
-    ObjectNode expectedRow2= (ObjectNode) expectedRows.get(4);
+    ObjectNode expectedRow2 = (ObjectNode) expectedRows.get(4);
     ObjectNode resultRow2 = (ObjectNode) resultRows.get(0);
 
-    assert(Math.abs(expectedRow1.get("fecha").asLong() - resultRow1.get("fecha").asLong()) < 7200001);
-    assert(Math.abs(expectedRow2.get("fecha").asLong() - resultRow2.get("fecha").asLong()) < 7200001);
+    assert (Math.abs(expectedRow1.get("fecha").asLong() - resultRow1.get("fecha").asLong()) < 7200001);
+    assert (Math.abs(expectedRow2.get("fecha").asLong() - resultRow2.get("fecha").asLong()) < 7200001);
   }
 
   /**
@@ -1474,9 +1480,9 @@ public class QueryTest extends TestUtil {
     ObjectNode resultDatalist = (ObjectNode) resultParameters.get("datalist");
     ArrayNode expectedRows = (ArrayNode) expectedDatalist.get("rows");
     ArrayNode resultRows = (ArrayNode) resultDatalist.get("rows");
-    ObjectNode expectedRow1= (ObjectNode) expectedRows.get(2);
+    ObjectNode expectedRow1 = (ObjectNode) expectedRows.get(2);
     ObjectNode resultRow1 = (ObjectNode) resultRows.get(4);
-    ObjectNode expectedRow2= (ObjectNode) expectedRows.get(4);
+    ObjectNode expectedRow2 = (ObjectNode) expectedRows.get(4);
     ObjectNode resultRow2 = (ObjectNode) resultRows.get(0);
 
     assertEquals(expectedRow1.get("RDB").textValue().toUpperCase(), resultRow1.get("RDB").textValue().toUpperCase());
@@ -1671,7 +1677,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseComputedEvalVariable() throws Exception {
     String queryName = "ComputedEvalVariable";
-    String variables = "\"prueba\":\"lalala\",";
+    String variables = "\"prueba\":\"lalala\"";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":16,\"rows\":[{\"variable\":\"lalala\",\"label\":1,\"value\":\"adminflare\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"amazonia\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"asphalt\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"clean\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"default\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"dust\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"eclipse\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"fresh\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"frost\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"grass\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"purple-hills\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"silver\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"sky\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"sunny\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"sunset\"},{\"variable\":\"lalala\",\"label\":0,\"value\":\"white\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -1914,8 +1920,8 @@ public class QueryTest extends TestUtil {
   /**
    * Asserts the JSON in the response
    *
-   * @param queryName Query name
-   * @param result Query result
+   * @param queryName    Query name
+   * @param result       Query result
    * @param expectedRows Expected rows number
    * @return Value list
    * @throws Exception Test error
@@ -1959,7 +1965,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseQueryVariableStringNull() throws Exception {
     String queryName = "VariableStringNull";
-    String variables = "\"stringNull\":null,";
+    String variables = "\"stringNull\":null";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":16,\"rows\":[{\"value\":\"adminflare\"},{\"value\":\"amazonia\"},{\"value\":\"asphalt\"},{\"value\":\"clean\"},{\"value\":\"default\"},{\"value\":\"dust\"},{\"value\":\"eclipse\"},{\"value\":\"fresh\"},{\"value\":\"frost\"},{\"value\":\"grass\"},{\"value\":\"purple-hills\"},{\"value\":\"silver\"},{\"value\":\"sky\"},{\"value\":\"sunny\"},{\"value\":\"sunset\"},{\"value\":\"white\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -2049,7 +2055,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseVariableObject() throws Exception {
     String queryName = "VariableObject";
-    String variables = "\"object\":{\"total\":1,\"page\":1,\"records\":1},";
+    String variables = "\"object\":{\"total\":1,\"page\":1,\"records\":1}";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"l1_nom\":\"test\",\"object\":\"{\\\"total\\\":1,\\\"page\\\":1,\\\"records\\\":1}\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -2065,7 +2071,7 @@ public class QueryTest extends TestUtil {
   public void testDatabaseVariableProperty() throws Exception {
     String propertyValue = "awe-boot";
     String queryName = "VariableProperty";
-    String variables = "\"object\":{\"total\":1,\"page\":1,\"records\":1},";
+    String variables = "\"object\":{\"total\":1,\"page\":1,\"records\":1}";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"l1_nom\":\"test\",\"property\":\"" + propertyValue + "\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, propertyValue, expected);
@@ -2080,7 +2086,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseVariableOptional() throws Exception {
     String queryName = "VariableOptional";
-    String variables = "\"var1\":null,\"var2\":1,";
+    String variables = "\"var1\":null,\"var2\":1";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"l1_nom\":\"test\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -2095,7 +2101,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseVariableList() throws Exception {
     String queryName = "VariableList";
-    String variables = "\"list1\":null,\"list2\":[\"1\",\"2\",\"3\",\"4\"],\"list3\":[],\"list4\":[1,3,4,5],";
+    String variables = "\"list1\":null,\"list2\":[\"1\",\"2\",\"3\",\"4\"],\"list3\":[],\"list4\":[1,3,4,5]";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"l1_nom\":\"test\"},{\"l1_nom\":\"jorgito\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -2109,8 +2115,8 @@ public class QueryTest extends TestUtil {
   /**
    * Asserts the JSON in the response
    *
-   * @param queryName Query name
-   * @param result result
+   * @param queryName    Query name
+   * @param result       result
    * @param expectedRows Expected rows
    * @return Result list
    * @throws Exception Test error
@@ -2122,12 +2128,12 @@ public class QueryTest extends TestUtil {
   /**
    * Asserts the JSON in the response
    *
-   * @param queryName query name
-   * @param result result
+   * @param queryName    query name
+   * @param result       result
    * @param expectedRows Expected rows
-   * @param page page
-   * @param totalPages total pages
-   * @param records records
+   * @param page         page
+   * @param totalPages   total pages
+   * @param records      records
    * @return Record list
    * @throws Exception Test error
    */
@@ -2299,7 +2305,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabasePaginationMax10() throws Exception {
     String queryName = "SimplePaginationService";
-    String variables = "\"max\": 10,";
+    String variables = "\"max\": 10";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":7,\"page\":1,\"records\":65,\"rows\":[{\"id\":1,\"value\":\"0\"},{\"id\":2,\"value\":\"1\"},{\"id\":3,\"value\":\"2\"},{\"id\":4,\"value\":\"3\"},{\"id\":5,\"value\":\"4\"},{\"id\":6,\"value\":\"5\"},{\"id\":7,\"value\":\"6\"},{\"id\":8,\"value\":\"7\"},{\"id\":9,\"value\":\"8\"},{\"id\":10,\"value\":\"9\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -2314,7 +2320,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseManagedPagination() throws Exception {
     String queryName = "SimpleManagedPaginationService";
-    String variables = "\"page\": 2, \"max\": 10,";
+    String variables = "\"page\": 2, \"max\": 10";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":7,\"page\":2,\"records\":65,\"rows\":[{\"id\":1,\"value\":\"10\"},{\"id\":2,\"value\":\"11\"},{\"id\":3,\"value\":\"12\"},{\"id\":4,\"value\":\"13\"},{\"id\":5,\"value\":\"14\"},{\"id\":6,\"value\":\"15\"},{\"id\":7,\"value\":\"16\"},{\"id\":8,\"value\":\"17\"},{\"id\":9,\"value\":\"18\"},{\"id\":10,\"value\":\"19\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -2335,11 +2341,13 @@ public class QueryTest extends TestUtil {
   public void testCheckInitialQueryTarget() throws Exception {
     String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ComponentSelectEnum\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectEnum\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"Es1Es0\",\"visible\":true},\"model\":{\"selected\":[1],\"defaultValues\":[],\"values\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]}},{\"id\":\"ComponentSelectQuery\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectQuery\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadQuery\",\"visible\":true},\"model\":{\"selected\":[1],\"defaultValues\":[],\"values\":[{\"label\":\"test\",\"id\":1,\"value\":1},{\"label\":\"donald\",\"id\":2,\"value\":2},{\"label\":\"jorgito\",\"id\":3,\"value\":3},{\"label\":\"juanito\",\"id\":4,\"value\":811},{\"label\":\"jaimito\",\"id\":5,\"value\":1702}]}},{\"id\":\"WinDat\",\"controller\":{\"contextMenu\":[],\"dependencies\":[],\"label\":\"SCREEN_TEXT_DATA\",\"maximize\":true,\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"ComponentSuggestValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestValue\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}]}}],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"TestInitialLoad\",\"title\":\"SCREEN_TITLE_BUTTON_TEST\",\"option\":\"test-initial-load\"}}}},{\"type\":\"end-load\",\"parameters\":{}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-            .param("p", "{\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"option\":\"test-initial-load\",\"view\":\"base\"}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
+      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .content("{\"option\":\"test-initial-load\",\"view\":\"base\"}")
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().json(expected))
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
 
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -2380,17 +2388,19 @@ public class QueryTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
-  @WithMockUser(username = "LaloElMalo", roles = { "ADMIN", "USER" })
+  @WithMockUser(username = "LaloElMalo", roles = {"ADMIN", "USER"})
   public void testCheckInitialQuerySelectedValues() throws Exception {
     setParameter("user", "LaloElMalo");
     String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ComponentSelectEnum\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectEnum\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"Es1Es0\",\"value\":\"0\",\"visible\":true},\"model\":{\"selected\":[\"0\"],\"defaultValues\":[\"0\"],\"values\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]}},{\"id\":\"ComponentSuggestCheckInitial\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":\"TestComponentInitialSuggestValue\",\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestCheckInitial\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[]}},{\"id\":\"ComponentSelectQuery\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectQuery\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadQuery\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[{\"label\":\"test\",\"id\":1,\"value\":1},{\"label\":\"donald\",\"id\":2,\"value\":2},{\"label\":\"jorgito\",\"id\":3,\"value\":3},{\"label\":\"juanito\",\"id\":4,\"value\":811},{\"label\":\"jaimito\",\"id\":5,\"value\":1702}]}},{\"id\":\"ComponentTextStaticValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"prueba\",\"visible\":true},\"model\":{\"selected\":[\"prueba\"],\"defaultValues\":[\"prueba\"],\"values\":[]}},{\"id\":\"WinDat\",\"controller\":{\"contextMenu\":[],\"dependencies\":[],\"label\":\"SCREEN_TEXT_DATA\",\"maximize\":true,\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"ComponentSuggestValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestValue\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextStaticSessionValue\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticSessionValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"LaloElMalo\"],\"defaultValues\":[\"LaloElMalo\"],\"values\":[]}},{\"id\":\"ComponentTextStaticPropertyValue\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticPropertyValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"awe-boot\"],\"defaultValues\":[\"awe-boot\"],\"values\":[]}}],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"TestInitialValues\",\"title\":\"SCREEN_TITLE_BUTTON_TEST\",\"option\":\"test-initial-values\"}}}},{\"type\":\"end-load\",\"parameters\":{}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-            .param("p", "{\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"option\":\"test-initial-values\",\"view\":\"base\"}")
-            .session(session)
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
+      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .content("{\"option\":\"test-initial-values\",\"view\":\"base\"}")
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON)
+      .session(session))
+      .andExpect(status().isOk())
+      .andExpect(content().json(expected))
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
 
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -2436,11 +2446,13 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ComponentSelectEnum\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectEnum\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"Es1Es0\",\"value\":\"0\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]}},{\"id\":\"ComponentSuggestCheckInitial\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":\"TestComponentInitialSuggestValue\",\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestCheckInitial\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[]}},{\"id\":\"ComponentSelectQuery\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectQuery\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadQuery\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"2\"],\"defaultValues\":[\"2\"],\"values\":[{\"label\":\"test\",\"id\":1,\"value\":1},{\"label\":\"donald\",\"id\":2,\"value\":2},{\"label\":\"jorgito\",\"id\":3,\"value\":3},{\"label\":\"juanito\",\"id\":4,\"value\":811},{\"label\":\"jaimito\",\"id\":5,\"value\":1702}]}},{\"id\":\"ComponentTextStaticValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"prueba\",\"visible\":true},\"model\":{\"selected\":[\"variableStatic\"],\"defaultValues\":[\"variableStatic\"],\"values\":[]}},{\"id\":\"WinDat\",\"controller\":{\"contextMenu\":[],\"dependencies\":[],\"label\":\"SCREEN_TEXT_DATA\",\"maximize\":true,\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"ComponentSuggestValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestValue\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextStaticSessionValue\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticSessionValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"variableSession\"],\"defaultValues\":[\"variableSession\"],\"values\":[]}},{\"id\":\"ComponentTextStaticPropertyValue\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticPropertyValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"variableProperty\"],\"defaultValues\":[\"variableProperty\"],\"values\":[]}}],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"TestInitialValues\",\"title\":\"SCREEN_TITLE_BUTTON_TEST\",\"option\":\"test-initial-values\"}}}},{\"type\":\"end-load\",\"parameters\":{}}]";
     String parameters = "\"SelectEnum\":\"1\",\"SelectQuery\":\"2\",\"InitialLoadValue\":\"otra\",\"StaticValue\":\"variableStatic\",\"SessionValue\":\"variableSession\",\"PropertyValue\":\"variableProperty\",";
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-            .param("p", "{" + parameters + "\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"option\":\"test-initial-values\",\"view\":\"base\"}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
+      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .content("{" + parameters + "\"option\":\"test-initial-values\",\"view\":\"base\"}")
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().json(expected))
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
 
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -2485,10 +2497,12 @@ public class QueryTest extends TestUtil {
   public void testCheckInitialQueryTargetVariables() throws Exception {
     String parameters = "\"SelectEnum\":\"1\",\"SelectQuery\":\"2\",\"InitialLoadValue\":\"otra\",\"StaticValue\":\"variableStatic\",\"SessionValue\":\"variableSession\",\"PropertyValue\":\"variableProperty\",";
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-            .param("p", "{" + parameters + "\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"option\":\"test-initial-values-load\",\"view\":\"base\"}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andReturn();
+      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .content("{" + parameters + "\"option\":\"test-initial-values-load\",\"view\":\"base\"}")
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
 
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -2530,10 +2544,13 @@ public class QueryTest extends TestUtil {
    */
   @Test
   public void testDatabaseGridsAndChartScreen() throws Exception {
-    MvcResult mvcResult = mockMvc
-            .perform(post("/action/screen-data").param("p", "{\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"option\":\"grid-and-chart\",\"view\":\"report\"}").accept("application/json"))
-            .andExpect(status().isOk())
-            .andReturn();
+    MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
+      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .content("{\"option\":\"grid-and-chart\",\"view\":\"report\"}")
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
 
@@ -2574,8 +2591,8 @@ public class QueryTest extends TestUtil {
   /**
    * Asserts the JSON in the response
    *
-   * @param queryName Query name
-   * @param result Query result
+   * @param queryName    Query name
+   * @param result       Query result
    * @param expectedRows Expected rows
    * @return Result data lines
    * @throws Exception Test error
@@ -2622,7 +2639,7 @@ public class QueryTest extends TestUtil {
   @Test
   public void testDatabaseLongerPaginatedEnum() throws Exception {
     String queryName = "LongerEnum";
-    String variables = "\"max\": 45, \"page\": 1,";
+    String variables = "\"max\": 45, \"page\": 1";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":2,\"page\":1,\"records\":58,\"rows\":[{\"id\":1,\"value\":\"required\",\"label\":\"ENUM_SCR_ATR_REQUIRED\"},{\"id\":2,\"value\":\"validation\",\"label\":\"ENUM_SCR_ATR_VALIDATION\"},{\"id\":3,\"value\":\"style\",\"label\":\"ENUM_SCR_ATR_STYLE\"},{\"id\":4,\"value\":\"label\",\"label\":\"ENUM_SCR_ATR_LABEL\"},{\"id\":5,\"value\":\"value\",\"label\":\"ENUM_SCR_ATR_VALUE\"},{\"id\":6,\"value\":\"session\",\"label\":\"ENUM_SCR_ATR_SESSION\"},{\"id\":7,\"value\":\"variable\",\"label\":\"ENUM_SCR_ATR_VARIABLE\"},{\"id\":8,\"value\":\"component\",\"label\":\"ENUM_SCR_ATR_COMPONENT\"},{\"id\":9,\"value\":\"initialLoad\",\"label\":\"ENUM_SCR_ATR_INITLOAD\"},{\"id\":10,\"value\":\"format\",\"label\":\"ENUM_SCR_ATR_FORMAT\"},{\"id\":11,\"value\":\"numberFormat\",\"label\":\"ENUM_SCR_ATR_NUMFORMAT\"},{\"id\":12,\"value\":\"capitalize\",\"label\":\"ENUM_SCR_ATR_CAPITALIZE\"},{\"id\":13,\"value\":\"visible\",\"label\":\"ENUM_SCR_ATR_VISIBLE\"},{\"id\":14,\"value\":\"readonly\",\"label\":\"ENUM_SCR_ATR_READONLY\"},{\"id\":15,\"value\":\"checked\",\"label\":\"ENUM_SCR_ATR_CHECKED\"},{\"id\":16,\"value\":\"strict\",\"label\":\"ENUM_SCR_ATR_STRICT\"},{\"id\":17,\"value\":\"serverAction\",\"label\":\"ENUM_SCR_ATR_SERVERACTION\"},{\"id\":18,\"value\":\"targetAction\",\"label\":\"ENUM_SCR_ATR_TARGETACTION\"},{\"id\":19,\"value\":\"message\",\"label\":\"ENUM_SCR_ATR_MESSAGE\"},{\"id\":20,\"value\":\"formule\",\"label\":\"ENUM_SCR_ATR_FORMULE\"},{\"id\":21,\"value\":\"optional\",\"label\":\"ENUM_SCR_ATR_OPTIONAL\"},{\"id\":22,\"value\":\"max\",\"label\":\"ENUM_SCR_ATR_MAX\"},{\"id\":23,\"value\":\"movable\",\"label\":\"ENUM_SCR_ATR_MOVABLE\"},{\"id\":24,\"value\":\"printable\",\"label\":\"ENUM_SCR_ATR_PRINTABLE\"},{\"id\":25,\"value\":\"unit\",\"label\":\"ENUM_SCR_ATR_UNIT\"},{\"id\":26,\"value\":\"checkEmpty\",\"label\":\"ENUM_SCR_ATR_CHECKEMPTY\"},{\"id\":27,\"value\":\"checkInitial\",\"label\":\"ENUM_SCR_ATR_CHECKINITIAL\"},{\"id\":28,\"value\":\"checkTarget\",\"label\":\"ENUM_SCR_ATR_CHECKTARGET\"},{\"id\":29,\"value\":\"specific\",\"label\":\"ENUM_SCR_ATR_SPECIFIC\"},{\"id\":30,\"value\":\"timeout\",\"label\":\"ENUM_SCR_ATR_TIMEOUT\"},{\"id\":31,\"value\":\"field\",\"label\":\"ENUM_SCR_ATR_FIELD\"},{\"id\":32,\"value\":\"width\",\"label\":\"ENUM_SCR_ATR_WIDTH\"},{\"id\":33,\"value\":\"charLength\",\"label\":\"ENUM_SCR_ATR_CHARLENGTH\"},{\"id\":34,\"value\":\"align\",\"label\":\"ENUM_SCR_ATR_ALIGN\"},{\"id\":35,\"value\":\"inputType\",\"label\":\"ENUM_SCR_ATR_INPUTTYPE\"},{\"id\":36,\"value\":\"sortable\",\"label\":\"ENUM_SCR_ATR_SORTABLE\"},{\"id\":37,\"value\":\"hidden\",\"label\":\"ENUM_SCR_ATR_HIDDEN\"},{\"id\":38,\"value\":\"sendable\",\"label\":\"ENUM_SCR_ATR_SENDABLE\"},{\"id\":39,\"value\":\"summaryType\",\"label\":\"ENUM_SCR_ATR_SUMMARYTYPE\"},{\"id\":40,\"value\":\"formatter\",\"label\":\"ENUM_SCR_ATR_FORMATTER\"},{\"id\":41,\"value\":\"formatOptions\",\"label\":\"ENUM_SCR_ATR_FORMATOPTIONS\"},{\"id\":42,\"value\":\"frozen\",\"label\":\"ENUM_SCR_ATR_FROZEN\"},{\"id\":43,\"value\":\"position\",\"label\":\"ENUM_SCR_ATR_POSITION\"},{\"id\":44,\"value\":\"autoload\",\"label\":\"ENUM_SCR_ATR_AUTOLOAD\"},{\"id\":45,\"value\":\"totalize\",\"label\":\"ENUM_SCR_ATR_TOTALIZE\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
@@ -2644,11 +2661,13 @@ public class QueryTest extends TestUtil {
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"Session has expired. Please reload\",\"title\":\"Error in maintain operation\",\"type\":\"error\"}},{\"type\":\"cancel\",\"parameters\":{}}]";
 
     mockMvc.perform(post("/action/maintain/SimpleSingleInsert")
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"SimpleSingleInsert\"," + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
+      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .content("{\"max\":30}")
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().json(expected))
+      .andReturn();
   }
 
   /**
@@ -2658,15 +2677,17 @@ public class QueryTest extends TestUtil {
    */
 
   @Test
-  @WithMockUser(username = "test", password = "test", roles = { "ADMIN", "USER" })
+  @WithMockUser(username = "test", password = "test", roles = {"ADMIN", "USER"})
   public void testCheckAuthenticatedUserQuery() throws Exception {
     String queryName = "SimpleGetAll";
     String variables = "";
     MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
-            .param("p", "{\"serverAction\":\"data\",\"targetAction\":\"" + queryName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andReturn();
+      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .content("{"+ variables +"\"option\":\"grid-and-chart\",\"view\":\"base\"}")
+      .contentType(MediaType.APPLICATION_JSON)
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
 
     assertResultSecurityJson(queryName, result, 12, 1, 1, 12);
@@ -2675,15 +2696,13 @@ public class QueryTest extends TestUtil {
   /**
    * Asserts the JSON in the response
    *
-   * @param queryName Query name
-   * @param result Result
+   * @param queryName    Query name
+   * @param result       Result
    * @param expectedRows Expected rows
-   * @param page Page
-   * @param totalPages Total pages
-   * @param records Total records
-   *
+   * @param page         Page
+   * @param totalPages   Total pages
+   * @param records      Total records
    * @return Result list
-   *
    * @throws Exception Test error
    */
   public ArrayNode assertResultSecurityJson(String queryName, String result, int expectedRows, int page, int totalPages, int records) throws Exception {

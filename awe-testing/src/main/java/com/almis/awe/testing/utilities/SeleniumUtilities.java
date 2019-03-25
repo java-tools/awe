@@ -462,6 +462,20 @@ public class SeleniumUtilities {
   }
 
   /**
+   * Wait for css selector
+   * @param cssSelector
+   */
+  private By waitForCssSelector(String cssSelector) {
+    By selector = By.cssSelector(cssSelector);
+
+    // Wait for selector
+    waitForSelector(selector);
+
+    // Return selector
+    return selector;
+  }
+
+  /**
    * Move mouse to avoid help popovers
    */
   private void moveMouse() {
@@ -1619,7 +1633,8 @@ public class SeleniumUtilities {
    * @param text Text to compare
    */
   protected void checkText(String cssSelector, String text) {
-    checkText(By.cssSelector(cssSelector), text);
+    // Check selector text
+    checkText(waitForCssSelector(cssSelector), text);
   }
 
   /**
@@ -1628,7 +1643,8 @@ public class SeleniumUtilities {
    * @param text Text to compare
    */
   protected void checkTextContains(String cssSelector, String text) {
-    checkTextContains(By.cssSelector(cssSelector), text);
+    // Check selector text
+    checkTextContains(waitForCssSelector(cssSelector), text);
   }
 
   /**
@@ -1637,7 +1653,7 @@ public class SeleniumUtilities {
    * @param text Text to compare
    */
   protected void checkTextNotContains(String cssSelector, String text) {
-    checkTextNotContains(By.cssSelector(cssSelector), text);
+    checkTextNotContains(waitForCssSelector(cssSelector), text);
   }
 
   /**

@@ -3,9 +3,6 @@ package com.almis.awe.test.controller;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.dto.ServiceData;
-import com.almis.awe.service.MaintainService;
-import com.almis.awe.service.QueryService;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -38,7 +34,6 @@ public class TestMicroserviceController {
                                            @RequestParam(name = "numPar", required = true) Integer parameterNumber,
                                            HttpServletRequest request) throws AWException {
     // Initialize parameters
-    aweRequest.init(request);
     return new ServiceData();
   }
 
@@ -50,7 +45,6 @@ public class TestMicroserviceController {
   @ResponseBody
   public ServiceData testPostParameterListAnotherMicroservice(@PathVariable(value = "lala", required = true) String lala, @RequestBody ObjectNode jsonData, HttpServletRequest request) throws AWException {
     // Initialize parameters
-    aweRequest.init(request);
     return new ServiceData();
   }
 
@@ -62,7 +56,6 @@ public class TestMicroserviceController {
   @ResponseBody
   public ServiceData testPostMicroservice(HttpServletRequest request) throws AWException {
     // Initialize parameters
-    aweRequest.init(request);
     return new ServiceData();
   }
 }

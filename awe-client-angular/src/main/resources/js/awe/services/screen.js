@@ -39,16 +39,6 @@ aweApplication.factory("Screen",
             }
           }
 
-          // If language has been received, update it
-          if ("language" in parameters) {
-            $settings.changeLanguage(parameters.language);
-          }
-
-          // If theme has been received, update it
-          if ("theme" in parameters) {
-            $settings.update({theme: parameters.theme});
-          }
-
           // Define target screen
           var target = context ? "/" + context + "/" : "";
           if ("screen" in parameters) {
@@ -103,16 +93,17 @@ aweApplication.factory("Screen",
          */
         changeLanguage: function (action) {
           // Retrieve action parameters
-          var target = action.attr("target");
-          var view = action.attr("view");
-          var model = $storage.get("model");
-          var language;
+          let parameters = action.attr("parameters") || {};
+          let target = action.attr("target");
+          let view = action.attr("view");
+          let model = $storage.get("model");
+          let language = parameters.language;
           if (view in model && target in model[view]) {
             language = model[view][target].selected;
           }
 
           // If language has been received, update it
-          if (target) {
+          if (language) {
             $settings.changeLanguage(language);
           }
 
@@ -138,18 +129,18 @@ aweApplication.factory("Screen",
          * @param {Action} action Action received
          */
         changeTheme: function (action) {
-
           // Retrieve action parameters
-          var target = action.attr("target");
-          var view = action.attr("view");
-          var theme = $settings.get("theme");
-          var model = $storage.get("model");
+          let parameters = action.attr("parameters") || {};
+          let target = action.attr("target");
+          let view = action.attr("view");
+          let model = $storage.get("model");
+          let theme = parameters.theme;
           if (view in model && target in model[view]) {
             theme = model[view][target].selected;
           }
 
           // If language has been received, update it
-          if (target) {
+          if (theme) {
             $settings.update({theme: theme});
           }
 
@@ -236,8 +227,7 @@ aweApplication.factory("Screen",
           // Variable definition
           let parameters = {
             ...action.attr("parameters"),
-            [$settings.get("serverActionKey")]: "get-file",
-            ...$settings.getTokenObject()
+            [$settings.get("serverActionKey")]: "get-file"
           };
 
           // Generate url parameter

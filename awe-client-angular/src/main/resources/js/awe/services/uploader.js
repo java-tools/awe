@@ -9,16 +9,15 @@ aweApplication.factory('Uploader',
   ['Criterion', 'AweSettings', 'Upload', 'ActionController', 'ServerData', 'AweUtilities', '$translate',
     /**
      * Uploader service methods
-     * @param {type} Criterion
-     * @param {type} $settings
-     * @param {type} Upload
-     * @param {type} ActionController
-     * @param {type} ServerData
-     * @param {type} Utilities
-     * @param {type} Control
-     * @param {type} $translate
+     * @param {object} Criterion
+     * @param {object} $settings
+     * @param {object} Upload
+     * @param {object} ActionController
+     * @param {object} ServerData
+     * @param {object} $utilities
+     * @param {object} $translate
      */
-    function (Criterion, $settings, Upload, ActionController, ServerData, Utilities, $translate) {
+    function (Criterion, $settings, Upload, ActionController, ServerData, $utilities, $translate) {
       /**
        * Uploader constructor
        * @param {Scope} scope Numeric scope
@@ -67,7 +66,7 @@ aweApplication.factory('Uploader',
           component.scope.validate = function(file) {
             if (file.size > $settings.get("uploadMaxSize")) {
               // Send error message
-              ActionController.sendMessage(component.scope, 'error', 'ERROR_TITLE_FILE_UPLOAD', $translate.instant('ERROR_MESSAGE_SIZE_LIMIT', { elementSize: Utilities.getSizeString(file.size), maxSize: Utilities.getSizeString($settings.get("uploadMaxSize"))}));
+              ActionController.sendMessage(component.scope, 'error', 'ERROR_TITLE_FILE_UPLOAD', $translate.instant('ERROR_MESSAGE_SIZE_LIMIT', { elementSize: $utilities.getSizeString(file.size), maxSize: $utilities.getSizeString($settings.get("uploadMaxSize"))}));
 
               // Return not valid
               return false;
@@ -88,15 +87,17 @@ aweApplication.factory('Uploader',
               component.uploaderIdentifier = "uploader-" + component.id + "-" + component.uploaderUID;
 
               // Send the file
-              var parameters = $settings.getTokenObject();
-              var file = files[0];
-              parameters[$settings.get("uploadIdentifier")] = component.uploaderIdentifier;
-              parameters[$settings.get("addressIdentifier")] = component.address;
-              parameters["destination"] = destination;
+              let file = files[0];
+              let parameters = {
+                [$settings.get("uploadIdentifier")]: component.uploaderIdentifier,
+                [$settings.get("addressIdentifier")]: $utilities.stringifyJSON(component.address),
+                destination: destination
+              };
 
               var uploader = Upload.upload({
                   url: ServerData.getFileUrl("upload"),
-                  fields: ServerData.getEncodedParameters(parameters), // additional data to send
+                  headers: $settings.getAuthenticationHeaders(),
+                  fields: parameters, // additional data to send
                   file: file
                 });
 
@@ -126,9 +127,9 @@ aweApplication.factory('Uploader',
            * @param {Event} event
            */
           component.scope.clearFile = function (event) {
-            Utilities.stopPropagation(event, true);
+            $utilities.stopPropagation(event, true);
             // Launch clear file action
-            Utilities.timeout(function () {
+            $utilities.timeout(function () {
               component.deleting = true;
               var deleteValues = {type: "delete-file"};
               deleteValues["filename"] = component.model.selected;
@@ -144,12 +145,11 @@ aweApplication.factory('Uploader',
            * @param {Event} event
            */
           component.scope.downloadFile = function (event) {
-            Utilities.stopPropagation(event, true);
+            $utilities.stopPropagation(event, true);
             // Launch clear file action
-            Utilities.timeout(function () {
+            $utilities.timeout(function () {
               // Generate download parameters
               var parameters = {
-                ...$settings.getTokenObject(),
                 filename: component.model.selected,
                 destination: destination
               }
@@ -158,7 +158,7 @@ aweApplication.factory('Uploader',
               var fileData = ServerData.getFileData("download", parameters);
 
               // Download file
-              Utilities.downloadFile(fileData);
+              $utilities.downloadFile(fileData);
             });
           };
 
@@ -168,7 +168,7 @@ aweApplication.factory('Uploader',
            */
           component.onFileStatus = function (percent) {
             if (!updateTimer) {
-              updateTimer = Utilities.timeout(function () {
+              updateTimer = $utilities.timeout(function () {
                 updateTimer = null;
                 if (!component.model.selected) {
                   // Change uploading percent
@@ -185,12 +185,12 @@ aweApplication.factory('Uploader',
            */
           component.onFileUploaded = function (parameters) {
             // Fill progress bar
-            Utilities.timeout.cancel(updateTimer);
+            $utilities.timeout.cancel(updateTimer);
             updatingStatus = true;
             component.uploadProgress = "100%";
 
             // Finish file upload
-            updateTimer = Utilities.timeout(function () {
+            updateTimer = $utilities.timeout(function () {
               // Change model and finish uploading
               component.uploading = false;
               component.model.selected = parameters.path;
@@ -212,7 +212,7 @@ aweApplication.factory('Uploader',
           component.getVisibleValue = function () {
             var visibleValue = "";
             if (component.model.name && component.model.size) {
-              visibleValue = component.model.name + " (" + Utilities.getSizeString(component.model.size) + ")";
+              visibleValue = component.model.name + " (" + $utilities.getSizeString(component.model.size) + ")";
             }
             return visibleValue;
           };
@@ -233,7 +233,7 @@ aweApplication.factory('Uploader',
            */
           component.clearUploader = function () {
             // Cancel status timeout
-            Utilities.timeout.cancel(updateTimer);
+            $utilities.timeout.cancel(updateTimer);
 
             // Reset status
             component.deleting = false;
@@ -272,10 +272,10 @@ aweApplication.factory('Uploader',
           component.listeners = component.listeners || {};
 
           // Action listener definition
-          Utilities.defineActionListeners(component.listeners, ClientActions.uploader, component.scope, component);
+          $utilities.defineActionListeners(component.listeners, ClientActions.uploader, component.scope, component);
 
           // Action listener definition
-          Utilities.defineModelChangeListeners(component.listeners, {scope: component.scope, check: ["selected"], service: component, method: "onModelChanged"});
+          $utilities.defineModelChangeListeners(component.listeners, {scope: component.scope, check: ["selected"], service: component, method: "onModelChanged"});
         }
       };
       return Uploader;

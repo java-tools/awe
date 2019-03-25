@@ -6,16 +6,19 @@ import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.HelpService;
 import com.almis.awe.service.TemplateService;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADER;
 
 /**
  * Manage template request
@@ -122,16 +125,18 @@ public class TemplateController {
    * Retrieve taglist template
    *
    * @param tagListId Taglist id
-   * @param request   Request
+   * @param parameters Parameters
    * @return Taglist template
    */
-  @PostMapping(value = "/taglist/{tagListId}", produces = "text/plain; charset=utf-8")
+  @PostMapping(value = "/taglist/{tagListId}", produces = MediaType.TEXT_PLAIN_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   public @ResponseBody
-  String generateTaglistTemplate(@PathVariable String tagListId, HttpServletRequest request) {
+  String generateTaglistTemplate(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                                 @PathVariable String tagListId,
+                                 @RequestBody ObjectNode parameters) {
     String template = null;
     try {
       // Initialize parameters
-      aweRequest.init(request);
+      aweRequest.init(parameters, token);
 
       // Generate taglist template
       template = templateService.generateTaglistTemplate(tagListId);
@@ -147,16 +152,19 @@ public class TemplateController {
    *
    * @param optionId  Option id
    * @param tagListId Taglist id
-   * @param request   Request
+   * @param parameters Parameters
    * @return Taglist template
    */
-  @PostMapping(value = "/taglist/{optionId}/{tagListId}", produces = "text/plain; charset=utf-8")
+  @PostMapping(value = "/taglist/{optionId}/{tagListId}", produces = MediaType.TEXT_PLAIN_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
   public @ResponseBody
-  String generateTaglistTemplate(@PathVariable String optionId, @PathVariable String tagListId, HttpServletRequest request) {
+  String generateTaglistTemplate(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                                 @PathVariable String optionId,
+                                 @PathVariable String tagListId,
+                                 @RequestBody ObjectNode parameters) {
     String template = null;
     try {
       // Initialize parameters
-      aweRequest.init(request);
+      aweRequest.init(parameters, token);
 
       // Generate taglist template
       template = templateService.generateTaglistTemplate(optionId, tagListId);

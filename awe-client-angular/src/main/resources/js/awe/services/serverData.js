@@ -14,10 +14,7 @@ aweApplication.factory('ServerData',
      * @param {type} $templateCache
      */
     function (Connection, $log, Storage, $settings, ActionController, Control, $templateCache) {
-
-
-      var cacheActive = false;
-      var ServerData = {
+      let ServerData = {
         /**
          * Retrieve a screen template code
          * @param {String} screen Screen name
@@ -40,7 +37,7 @@ aweApplication.factory('ServerData',
           var actionList = [serverAction];
 
           // Add action to actions stack
-          return ActionController.addActionList(actionList, true, {});
+          return ActionController.addActionList(actionList, false, {});
         },
         /**
          * Store the loaded screen data
@@ -116,9 +113,6 @@ aweApplication.factory('ServerData',
             template = "/" + view + "/" + screen;
           }
 
-          // Add connection id
-          template += ServerData.getConnectionId();
-
           // Retrieve url
           return Connection.getRawUrl() + "/template/screen" + template;
         },
@@ -140,9 +134,6 @@ aweApplication.factory('ServerData',
             template += "/" + taglist;
           }
 
-          // Add connection id
-          template += ServerData.getConnectionId();
-
           // Retrieve url
           return Connection.getRawUrl() + "/template/taglist" + template;
         },
@@ -158,9 +149,6 @@ aweApplication.factory('ServerData',
           if (option !== null) {
             template = "/" + option;
           }
-
-          // Add connection id
-          template += ServerData.getConnectionId();
 
           // Retrieve url
           return Connection.getRawUrl() + "/template/help" + template;
@@ -183,9 +171,6 @@ aweApplication.factory('ServerData',
             }
           }
 
-          // Add connection id
-          template += ServerData.getConnectionId();
-
           // Retrieve url
           return Connection.getRawUrl() + template;
         },
@@ -197,16 +182,7 @@ aweApplication.factory('ServerData',
          */
         getFileData: function (action, parameters) {
           // Retrieve url
-          return {url: ServerData.getFileUrl(action), data: Connection.getEncodedParameters(parameters)};
-        },
-        /**
-         * Get encoded parameters
-         * @param {Object} parameters Parameter list
-         * @returns {Object} Encoded parameters
-         */
-        getEncodedParameters: function (parameters) {
-          // Retrieve url
-          return Connection.getEncodedParameters(parameters);
+          return {url: ServerData.getFileUrl(action), data: parameters};
         },
         /**
          * Retrieve URL for one server file
@@ -287,9 +263,6 @@ aweApplication.factory('ServerData',
             });
           });
 
-          // Add token to model
-          _.merge(model, $settings.getTokenObject());
-
           // Return data
           return model;
         },
@@ -310,9 +283,6 @@ aweApplication.factory('ServerData',
               model = ServerData.getComponentData(component, model, "getPrintData", orientation);
             });
           });
-
-          // Add token to model
-          _.merge(model, $settings.getTokenObject());
 
           // Return data
           return model;
@@ -435,29 +405,6 @@ aweApplication.factory('ServerData',
          */
         get: function (url) {
           return Connection.get(url);
-        },
-        /**
-         * Toggle cache status
-         * @param {boolean} enable Enable cache
-         */
-        toggleCache: function (enable) {
-          cacheActive = enable;
-        },
-        /**
-         * Get connection ID
-         * @return {string} Connection ID
-         */
-        getConnectionId: function () {
-          var template = "";
-          // Add connection ID
-          var token = $settings.getTokenString();
-          if (token != null) {
-            template += "?" + token;
-            if (!cacheActive) {
-              template += "&r=" + Math.random();
-            }
-          }
-          return template;
         }
       };
       return ServerData;

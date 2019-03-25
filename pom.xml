@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-dependencies</artifactId>
     <version>1.5.10.RELEASE</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -25,6 +25,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
+    <java.debug>false</java.debug>
 
     <!-- Application properties -->
     <application.version>V4.0</application.version>
@@ -48,8 +49,13 @@
     <sonar.links.issue>https://gitlab.com/aweframework/awe/issues</sonar.links.issue>
     <sonar.links.scm>https://gitlab.com/aweframework/awe.git</sonar.links.scm>
     <sonar.junit.reportPath>${jacoco.base.reports}/surefire-reports</sonar.junit.reportPath>
-    <sonar.testExecutionReportPaths>${project.basedir}/awe-client-angular/target/reports/karma/junit/javascriptUnitTests.xml</sonar.testExecutionReportPaths>
-    <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
+    <sonar.testExecutionReportPaths>
+      ${project.basedir}/awe-client-angular/target/reports/karma/junit/javascriptUnitTests.xml
+    </sonar.testExecutionReportPaths>
+    <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec
+    </sonar.jacoco.reportPaths>
+    <sonar.sources>${project.basedir}/src/main</sonar.sources>
+    <sonar.binaries>${project.build.directory}/classes</sonar.binaries>
     <sonar.java.source>${java.version}</sonar.java.source>
 
     <!-- plugin versions -->
@@ -107,54 +113,15 @@
           <nexusUrl>https://oss.sonatype.org/</nexusUrl>
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
-      </plugin>      
-      <!-- Surfire Junit test -->
+      </plugin>
+      <!-- Surefire Junit test -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <systemPropertyVariables>
-            <jacoco-agent.destfile>${jacoco.base.reports}/jacoco.exec</jacoco-agent.destfile>
-          </systemPropertyVariables>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <configuration>
-          <systemPropertyVariables>
-            <jacoco-agent.destfile>${jacoco.base.reports}/jacoco-it.exec</jacoco-agent.destfile>
-          </systemPropertyVariables>
-        </configuration>
-      </plugin>
-      <!-- Jacoco coverage -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-            <configuration>
-              <append>true</append>
-              <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
-            </configuration>
-          </execution>
-          <execution>
-            <id>prepare-integration-agent</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>prepare-agent-integration</goal>
-            </goals>
-            <configuration>
-              <skip>${skip.selenium}</skip>
-              <append>true</append>
-              <destFile>${jacoco.base.reports}/jacoco-it.exec</destFile>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <!-- Git flow -->
       <plugin>
@@ -221,8 +188,52 @@
         </property>
       </activation>
       <modules>
-        <module>awe-boot</module>        
+        <module>awe-boot</module>
       </modules>
+    </profile>
+    <!-- Integration report profile -->
+    <profile>
+      <id>generate-integration-report</id>
+      <activation>
+        <property>
+          <name>generateIntegrationReport</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Jacoco coverage -->
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <configuration>
+                  <append>true</append>
+                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
+                </configuration>
+              </execution>
+              <execution>
+                <id>prepare-integration-agent</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>prepare-agent-integration</goal>
+                </goals>
+                <configuration>
+                  <skip>${skip.selenium}</skip>
+                  <append>true</append>
+                  <destFile>${jacoco.base.reports}/jacoco-it.exec</destFile>
+                  <propertyName>failsafe.argLine</propertyName>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 

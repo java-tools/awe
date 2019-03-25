@@ -41,11 +41,13 @@
     <webdrivermanager.version>3.2.0</webdrivermanager.version>
     <testng.version>6.14.3</testng.version>
 
-    <jacoco.base.reports>${project.basedir}/../awe-boot/target</jacoco.base.reports>
+    <jacoco.base.reports>${project.build.directory}</jacoco.base.reports>
     <jacoco.reportPaths>${jacoco.base.reports}/coverage-reports</jacoco.reportPaths>
+    <aggregated.reportPaths>${jacoco.base.reports}/aggregated-reports</aggregated.reportPaths>
     <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
     <sonar.junit.reportPath>${jacoco.base.reports}/surefire-reports</sonar.junit.reportPath>
     <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
+    <sonar.tests>${project.basedir}/src/test</sonar.tests>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
     <failsafe.suite>**/AllTestsSuiteIT.class</failsafe.suite>
     <browser>headless-chrome</browser>
@@ -177,6 +179,8 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+          <debug>true</debug>
+          <debuglevel>lines,vars,source</debuglevel>
         </configuration>
       </plugin>
 
@@ -294,9 +298,9 @@
             </goals>
           </execution>
           <execution>
-            <id>pre-integration-test</id>
+            <id>start-application</id>
+            <phase>integration-test</phase>
             <configuration>
-              <skip>${skip.selenium}</skip>
               <wait>1000</wait>
               <maxAttempts>180</maxAttempts>
             </configuration>
@@ -305,10 +309,8 @@
             </goals>
           </execution>
           <execution>
-            <id>post-integration-test</id>
-            <configuration>
-              <skip>${skip.selenium}</skip>
-            </configuration>
+            <id>stop-application</id>
+            <phase>post-integration-test</phase>
             <goals>
               <goal>stop</goal>
             </goals>
@@ -326,6 +328,7 @@
         </configuration>
         <executions>
           <execution>
+            <phase>compile</phase>
             <id>install node and yarn</id>
             <goals>
               <goal>install-node-and-yarn</goal>
@@ -336,6 +339,7 @@
             </configuration>
           </execution>
           <execution>
+            <phase>compile</phase>
             <id>yarn install</id>
             <goals>
               <goal>yarn</goal>
@@ -345,6 +349,7 @@
             </configuration>
           </execution>
           <execution>
+            <phase>compile</phase>
             <id>webpack</id>
             <goals>
               <goal>webpack</goal>
@@ -400,6 +405,7 @@
         <executions>
           <execution>
             <id>integration-test</id>
+            <phase>integration-test</phase>
             <goals>
               <goal>integration-test</goal>
             </goals>
@@ -417,82 +423,20 @@
         </executions>
       </plugin>
 
-      <!-- Ant Plugin for launch selenium test -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <!-- your Selenium tests should run in integration phase -->
-            <phase>integration-test</phase>
-            <configuration>
-              <skip>true</skip>
-              <target>
-                <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true"/>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- Jacoco coverage -->
-      <plugin>
+      <!--<plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>${jacoco.version}</version>
         <configuration>
           <skip>${skip.main}</skip>
         </configuration>
-      </plugin>
+      </plugin>-->
     </plugins>
   </build>
 
   <profiles>
-    <profile>
-      <id>generate-aggregation-report</id>
-      <activation>
-        <property>
-          <name>generateAggregationReport</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco.version}</version>
-            <executions>
-              <execution>
-                <id>prepare-agent</id>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-                <configuration>
-                  <append>true</append>
-                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
-                </configuration>
-              </execution>
-              <execution>
-                <id>report-aggregate</id>
-                <phase>test</phase>
-                <goals>
-                  <goal>report-aggregate</goal>
-                </goals>
-                <configuration>
-                  <dataFileIncludes>
-                    <dataFileInclude>target/jacoco.exec</dataFileInclude></dataFileIncludes>
-                  <outputDirectory>${jacoco.reportPaths}</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
+    <!-- Integration report profile -->
     <profile>
       <id>generate-integration-report</id>
       <activation>
@@ -510,6 +454,7 @@
             <executions>
               <execution>
                 <id>integration-test</id>
+                <phase>integration-test</phase>
                 <goals>
                   <goal>integration-test</goal>
                   <goal>verify</goal>
@@ -522,23 +467,6 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>${jacoco.version}</version>
             <executions>
-              <execution>
-                <id>prepare-agent</id>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-                <configuration>
-                  <append>true</append>
-                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
-                </configuration>
-              </execution>
-              <execution>
-                <id>prepare-integration-agent</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>prepare-agent-integration</goal>
-                </goals>
-              </execution>
               <execution>
                 <id>report-integration</id>
                 <phase>post-integration-test</phase>
@@ -560,13 +488,8 @@
             <artifactId>spring-boot-maven-plugin</artifactId>
             <executions>
               <execution>
-                <id>repackage</id>
-                <goals>
-                  <goal>repackage</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>pre-integration-test</id>
+                <id>start-application</id>
+                <phase>integration-test</phase>
                 <configuration>
                   <arguments>
                     <argument>--integration-test</argument>
@@ -574,14 +497,15 @@
                   <wait>1000</wait>
                   <maxAttempts>180</maxAttempts>
                   <fork>true</fork>
-                  <jvmArguments>${argLine}</jvmArguments>
+                  <jvmArguments>${failsafe.argLine}</jvmArguments>
                 </configuration>
                 <goals>
                   <goal>start</goal>
                 </goals>
               </execution>
               <execution>
-                <id>post-integration-test</id>
+                <id>stop-application</id>
+                <phase>post-integration-test</phase>
                 <goals>
                   <goal>stop</goal>
                 </goals>

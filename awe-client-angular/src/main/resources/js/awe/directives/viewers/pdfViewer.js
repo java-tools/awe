@@ -38,14 +38,13 @@ aweApplication.directive('awePdfViewer',
             parameters["r"] = Math.random();
 
             // Get parameters encoded
-            var encodedParameters = ServerData.getEncodedParameters(parameters);
-            var encodedParametersList = [];
-            _.each(encodedParameters, function(value, key) {
-              encodedParametersList.push(key + "=" + encodeURI(value));
+            let parameterList = [];
+            _.each(parameters, function(value, key) {
+              parameterList.push(`${key}=${encodeURI(value)}`);
             });
 
             // Generate url
-            var fileData = ServerData.getFileUrl("stream/maintain/" + targetAction + "?" + encodedParametersList.join("&"));
+            var fileData = ServerData.getFileUrl("stream/maintain/" + targetAction + "?" + parameterList.join("&"));
 
             // Change url in iframe
             if (fileData !== null) {

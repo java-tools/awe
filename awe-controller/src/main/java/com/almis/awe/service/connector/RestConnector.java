@@ -4,6 +4,8 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.services.ServiceRest;
 import com.almis.awe.model.entities.services.ServiceType;
+import com.almis.awe.model.util.log.LogUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestClientException;
 
 import java.util.Map;
@@ -12,6 +14,15 @@ import java.util.Map;
  * Launches a Rest service
  */
 public class RestConnector extends AbstractRestConnector {
+
+  /**
+   * Autowired constructor
+   * @param logger Logger
+   */
+  @Autowired
+  public RestConnector(LogUtil logger) {
+    super(logger);
+  }
 
   @Override
   public ServiceData launch(ServiceType service, Map<String, Object> paramsMapFromRequest) throws AWException {

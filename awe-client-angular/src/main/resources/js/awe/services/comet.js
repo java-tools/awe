@@ -4,23 +4,36 @@ import Stomp from "@stomp/stompjs";
 
 // Comet service
 aweApplication.factory('Comet',
-  ['AweSettings', 'AweUtilities', 'ActionController', '$location',
+  ['AweSettings', 'AweUtilities', 'ActionController',
     /**
      * Retrieve the comet connection object
      * @param {Service} $settings AweSettings service
      * @param {Service} utils AweUtilities service
      * @param {Service} actionController Action controller
-     * @param {Service} $location Location service
      * @returns {Object} Comet connection
      */
-    function ($settings, utils, actionController, $location) {
+    function ($settings, utils, actionController) {
 
       // Service variables
-
       let connection = null;
       let connected = false;
 
-      let Comet = {
+      const $comet = {
+        /**
+         * Set connection
+         * @param {object} connection
+         * @private
+         */
+        setConnection: function(_connection) {
+          connection = _connection;
+        },
+        /**
+         * Retrieve connection
+         * @private
+         */
+        getConnection: function() {
+          return connection;
+        },
         /**
          * Retrieve if connection is active
          * @private
@@ -32,14 +45,11 @@ aweApplication.factory('Comet',
          * Init WebSocket Connection
          */
         init: function () {
-          // Set current connection
-          var websocketPath = utils.getContextPath();
-          var connectionUrl = websocketPath + '/websocket';
-          var socket = new SockJS(connectionUrl);
-          connection = Stomp.over(socket);
-
-          // Request subscription
-          Comet._connect();
+          if ($comet.getConnection() === null) {
+            $comet._connect();
+          } else {
+            $comet._reconnect();
+          }
         },
         /**
          * Connection Management
@@ -47,31 +57,41 @@ aweApplication.factory('Comet',
          */
         _connect: function () {
           // Set connection
-          connection.connect(null, null, function (frame) {
-            connected = true;
-            /**
-             * Manage broadcast
-             */
-            var manageBroadcast = function(outputMessage) {
-              Comet.manageBroadcast(outputMessage);
-            };
+          let connectionUrl = utils.getContextPath() + '/websocket';
+          $comet.setConnection(Stomp.over(new SockJS(connectionUrl)));
 
+          // Connect
+          $comet.getConnection().connect(null, null, function (frame) {
+            connected = true;
             // Subscribe to broadcast
-            connection.subscribe("/topic/broadcast", manageBroadcast);
+            $comet.getConnection().subscribe("/topic/broadcast", $comet.manageBroadcast);
             // Subscribe to cometUID
-            connection.subscribe("/topic/" + $settings.getToken(), manageBroadcast);
-          }, function (frame) {
-            connected = false;
-          });
+            $comet.getConnection().subscribe("/topic/" + $settings.getToken(), $comet.manageBroadcast);
+          }, () => $comet._disconnect());
         },
         _disconnect: function () {
           // Set connection
-          connection.disconnect(function (frame) {
+          $comet.getConnection().disconnect((frame) => {
             connected = false;
+            $comet.setConnection(null);
           });
         },
         /**
-         * Receive broadcasted message
+         * Reconnect connection
+         */
+        _reconnect: function () {
+          // Set connection
+          if ($comet.getConnection() !== null) {
+            $comet.getConnection().disconnect((frame) => {
+              $comet._connect();
+            });
+          } else {
+            $comet.init();
+          }
+
+        },
+        /**
+         * Receive broadcast message
          * @param {Object} message Message received
          */
         manageBroadcast: function (message) {
@@ -88,9 +108,9 @@ aweApplication.factory('Comet',
          * @private
          */
         _close: function () {
-          Comet._disconnect();
+          $comet._disconnect();
         }
       };
-      return Comet;
+      return $comet;
     }
   ]);

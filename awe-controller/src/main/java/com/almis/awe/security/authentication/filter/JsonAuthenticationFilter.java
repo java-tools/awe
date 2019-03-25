@@ -1,114 +1,78 @@
 package com.almis.awe.security.authentication.filter;
 
-import com.almis.awe.exception.AWException;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.almis.awe.component.AweHttpServletRequestWrapper;
+import com.almis.awe.model.component.AweElements;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.NullNode;
-import java.io.IOException;
-import javax.servlet.Filter;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Json user and password parser
- * Created by dfuentes on 24/03/2017.
  */
-public class JsonAuthenticationFilter implements Filter {
+public class JsonAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-  private final String userParameter;
-  private final String passwordParameter;
-  private final String securityParameter;
+  private AweElements elements;
 
   /**
-   * Authentication filter
-   *
-   * @param userParameter User parameter
-   * @param passwordParameter Password parameter
-   * @param securityParameter Security parameter
+   * Autowired constructor
+   * @param aweElements AweElements
    */
-  public JsonAuthenticationFilter(String userParameter, String passwordParameter, String securityParameter) {
-    this.userParameter = userParameter;
-    this.passwordParameter = passwordParameter;
-    this.securityParameter = securityParameter;
+  public JsonAuthenticationFilter(AweElements aweElements) {
+    this.elements = aweElements;
   }
 
-  /**
-   * Initialize current class
-   *
-   * @param filterConfig Filter configuration
-   *
-   * @throws ServletException Error initializing class
-   */
+
   @Override
-  public void init(FilterConfig filterConfig) throws ServletException {
-    // TODO: Añadir log
+  @Autowired
+  public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+    super.setAuthenticationManager(authenticationManager);
   }
 
-  /**
-   * Apply current filter
-   *
-   * @param request  Servlet request
-   * @param response Servlet response
-   * @param chain    Filter chain
-   *
-   * @throws IOException      Error accessing files
-   * @throws ServletException Error with servlet management
-   */
   @Override
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-    try {
-      JsonNode loginRequest = new ObjectMapper().reader().readTree(String.valueOf(request.getParameter(securityParameter)));
-      final String user;
-      final String password;
-      if (loginRequest != NullNode.getInstance()) {
-        user = loginRequest.get(userParameter).textValue();
-        password = loginRequest.get(passwordParameter).textValue();
-        HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper((HttpServletRequest) request) {
-          @Override
-          public String getParameter(String name) {
-            if (name.equals(userParameter)) {
-              return user;
-            }
-            if (name.equals(passwordParameter)) {
-              return password;
-            }
-            return super.getParameter(name);
-          }
-        };
-        chain.doFilter(requestWrapper, response);
-      } else {
-        throw new AWException("Not valid user/password");
-      }
-    } catch (Exception e) {
-      chain.doFilter(request, response);
+  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+    if (!requiresAuthentication((HttpServletRequest) req, (HttpServletResponse) res)) {
+      super.doFilter(req, res, chain);
+    } else {
+      super.doFilter(new AweHttpServletRequestWrapper((HttpServletRequest) req), res, chain);
     }
   }
 
   @Override
-  public void destroy() {
-    // TODO: Añadir log
+  public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+    return this.getAuthenticationManager().authenticate(getAuthRequest(request));
   }
 
   /**
-   * Get user parameter
-   *
-   * @return User parameter
+   * Retrieve authorization request parameters
+   * @param request Request
+   * @return Authentication Token
    */
-  public String getUserParameter() {
-    return userParameter;
-  }
+  private UsernamePasswordAuthenticationToken getAuthRequest(HttpServletRequest request) {
+    // Read from request
+    String body = ((AweHttpServletRequestWrapper) request).getBody();
+    try {
+      // Read the parameters
+      ObjectNode parameters = (ObjectNode) new ObjectMapper().readTree(body);
 
-  /**
-   * Get password parameter
-   *
-   * @return Password parameter
-   */
-  public String getPasswordParameter() {
-    return passwordParameter;
+      // Fill username and password authentication token with the right values
+      return new UsernamePasswordAuthenticationToken(
+        parameters.get(getUsernameParameter()).asText(),
+        parameters.get(getPasswordParameter()).asText());
+    } catch (IOException exc) {
+      throw new InternalAuthenticationServiceException(elements.getLocale("ERROR_MESSAGE_INVALID_ARGUMENTS"));
+    }
   }
 }

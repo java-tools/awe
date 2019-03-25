@@ -223,6 +223,26 @@ public class RegressionTestsIT extends SeleniumUtilities {
   }
 
   /**
+   * Wrong login
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t009_wrongLogin() throws Exception {
+    // Title
+    setTestTitle("Wrong login");
+
+    // Do logout
+    checkLogout(".slogan", "Almis Web Engine");
+
+    // Check wrong login
+    checkLogin("test", "lala", ".alert.alert-warning div", "Invalid credentials  The credentials entered for the user -test- are not valid or the user is incorrect");
+
+    // Do right login
+    checkLogin("test", "test", "span.info-text", "Manager (test)");
+  }
+
+
+  /**
    * Suggest delayed
    * @param selector Selector
    * @param search1 Search on first case

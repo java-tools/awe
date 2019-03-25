@@ -1,14 +1,14 @@
 package com.almis.awe.config;
 
-import com.almis.awe.model.util.log.LogUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.component.AweSession;
+import com.almis.awe.model.util.log.LogUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 
@@ -18,16 +18,26 @@ import javax.annotation.PostConstruct;
  * @author Jorge BELLON
  */
 @Configuration
-public abstract class ServiceConfig {
-
-  @Autowired
-  private WebApplicationContext context;
+public abstract class ServiceConfig implements ApplicationContextAware {
 
   // Injected services
+  private ApplicationContext context;
   private AweElements elements;
   private Environment environment;
   private LogUtil logger;
 
+  /**
+   * Autowired application context
+   * @param context application context
+   */
+  @Autowired
+  public void setApplicationContext(ApplicationContext context) {
+    this.context = context;
+  }
+
+  /**
+   * On initialize bean, inject elements
+   */
   @PostConstruct
   public void onInitialize() {
     this.elements = getBean(AweElements.class);

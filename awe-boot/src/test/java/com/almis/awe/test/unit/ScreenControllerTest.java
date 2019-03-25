@@ -5,21 +5,11 @@
  */
 package com.almis.awe.test.unit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
+import com.almis.awe.controller.ActionController;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
@@ -27,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.test.annotation.DirtiesContext;
@@ -37,18 +28,25 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.almis.awe.controller.ActionController;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- *
  * @author jbellon
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @WithAnonymousUser
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class ScreenControllerTest {
@@ -85,11 +83,13 @@ public class ScreenControllerTest {
   public void testLaunchScreenDataAction() throws Exception {
     String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ButLogIn\",\"controller\":{\"actions\":[{\"type\":\"validate\",\"parameters\":{}},{\"type\":\"server\",\"parameters\":{\"serverAction\":\"login\"}}],\"buttonType\":\"submit\",\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"icon\":\"sign-in\",\"id\":\"ButLogIn\",\"label\":\"BUTTON_LOGIN\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"no-class btn btn-primary signin-btn bg-primary\",\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"pwd_usr\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"icon\":\"key signin-form-icon\",\"id\":\"pwd_usr\",\"optional\":false,\"placeholder\":\"SCREEN_TEXT_PASS\",\"printable\":true,\"readonly\":false,\"required\":true,\"size\":\"lg\",\"strict\":true,\"style\":\"no-label\",\"validation\":\"required\",\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"cod_usr\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"icon\":\"user signin-form-icon\",\"id\":\"cod_usr\",\"optional\":false,\"placeholder\":\"SCREEN_TEXT_USER\",\"printable\":true,\"readonly\":false,\"required\":true,\"size\":\"lg\",\"strict\":true,\"style\":\"no-label\",\"validation\":\"required\",\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}}],\"messages\":{},\"errors\":[],\"screen\":{\"name\":\"signin\",\"title\":\"SCREEN_TITLE_LOGIN\",\"option\":null}}}},{\"type\":\"end-load\",\"parameters\":{}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-            .param("p", "{\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"view\":\"base\"}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            //.andExpect(content().json(expected))
-            .andReturn();
+      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"view\":\"base\"}")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      //.andExpect(content().json(expected))
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
     logger.debug(result);
     logger.debug(expected);
@@ -113,7 +113,7 @@ public class ScreenControllerTest {
     assertEquals(0, endLoadParameters.size());
 
     // Test all keys
-    for (JsonNode element: screenDataComponents) {
+    for (JsonNode element : screenDataComponents) {
       ObjectNode component = (ObjectNode) element;
       String key = component.get("id").asText();
       logger.debug(key + ": " + component.get("model").get("selected").toString());
@@ -126,34 +126,40 @@ public class ScreenControllerTest {
 
   /**
    * Test of launchAction method, of class ActionController.
+   *
    * @throws Exception Test error
    */
   @Test
   public void testLaunchScreenDataActionError() throws Exception {
     String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"error\",\"title\":\"Option not defined\",\"option\":\"error\"}}}},{\"type\":\"end-load\",\"parameters\":{}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-            .param("p", "{\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"option\":\"pantalla-inexistente\",\"view\":\"base\"}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andDo(print())
-            .andExpect(content().json(expected))
-            .andReturn();
+      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"option\":\"pantalla-inexistente\",\"view\":\"base\"}")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andDo(print())
+      .andExpect(content().json(expected))
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
     logger.debug(result);
   }
 
   /**
    * Test of launchAction method, of class ActionController.
+   *
    * @throws Exception Test error
    */
   @Test
   public void testLaunchGetLocalsAction() throws Exception {
 
     MvcResult mvcResult = mockMvc.perform(post("/action/get-locals")
-            .param("p", "{\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"language\":\"es\"}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andReturn();
+      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"language\":\"es\"}")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
     //logger.debug(result);
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -171,10 +177,12 @@ public class ScreenControllerTest {
     int translationEsSize = translationsES.size();
 
     mvcResult = mockMvc.perform(post("/action/get-locals")
-            .param("p", "{\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"language\":\"en\"}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andReturn();
+      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"language\":\"en\"}")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andReturn();
     result = mvcResult.getResponse().getContentAsString();
     //logger.debug(result);
 
@@ -186,10 +194,12 @@ public class ScreenControllerTest {
     assertEquals(translationEsSize, translationsEN.size());
 
     mvcResult = mockMvc.perform(post("/action/get-locals")
-            .param("p", "{\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"language\":\"fr\"}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andReturn();
+      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"language\":\"fr\"}")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andReturn();
     result = mvcResult.getResponse().getContentAsString();
     //logger.debug(result);
 
@@ -202,7 +212,7 @@ public class ScreenControllerTest {
 
     // Test all keys
     ObjectMapper mapper = new ObjectMapper();
-		Map<String, Object> translationsMap = mapper.convertValue(translationsES, Map.class);
+    Map<String, Object> translationsMap = mapper.convertValue(translationsES, Map.class);
     List<String> keys = new ArrayList<>();
     keys.addAll(translationsMap.keySet());
     Collections.sort(keys);

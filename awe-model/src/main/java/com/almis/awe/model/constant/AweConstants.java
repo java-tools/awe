@@ -155,7 +155,9 @@ public class AweConstants {
   public static final String SESSION_PROFILE = "profile";
   public static final String SESSION_RESTRICTION = "restriction";
   public static final String SESSION_FAILURE = "sessionFailure";
+  public static final String SESSION_CONNECTION_TOKEN = "token";
   public static final String SESSION_TOKEN = "sessionToken";
+  public static final String SESSION_CONNECTION_HEADER = "Authorization";
 
   // Action variables
   public static final String ACTION_MESSAGE_TYPE = "MESSAGE_TYPE";

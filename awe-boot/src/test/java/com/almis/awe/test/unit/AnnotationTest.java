@@ -33,10 +33,13 @@ import java.io.File;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @WithMockUser(username = "test", password = "test")
 public class AnnotationTest extends TestUtil {
-  @Autowired
-  private AnnotationTestService annotationTestService;
+
   @Value ("${application.base.path:/}")
   private String applicationBasePath;
+
+  @Autowired
+  private AnnotationTestService annotationTestService;
+
   @Autowired
   private FileUtil fileUtil;
 

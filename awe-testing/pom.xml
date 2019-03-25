@@ -3,9 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>awe-parent</artifactId>
     <groupId>com.almis.awe</groupId>
+    <artifactId>awe-framework</artifactId>
     <version>4.0.6-SNAPSHOT</version>
+    <relativePath>../awe-framework/pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -22,18 +23,6 @@
     <testng.version>6.14.3</testng.version>
 
   </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.almis.awe</groupId>
-        <artifactId>awe-dependencies</artifactId>
-        <version>${awe.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <dependencies>
     <!-- Log4j2 -->
@@ -78,16 +67,6 @@
 
   <build>
     <finalName>${project.artifactId}</finalName>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
-      </plugin>
-    </plugins>
   </build>
 
 </project>

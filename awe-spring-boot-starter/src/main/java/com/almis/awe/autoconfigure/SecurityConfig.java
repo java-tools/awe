@@ -1,6 +1,9 @@
 package com.almis.awe.autoconfigure;
 
+import com.almis.awe.component.AweHttpServletRequestWrapper;
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.model.component.AweElements;
+import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.security.accessbean.LoginAccessControl;
 import com.almis.awe.security.authentication.encoder.Ripemd160PasswordEncoder;
@@ -8,6 +11,9 @@ import com.almis.awe.security.authentication.filter.JsonAuthenticationFilter;
 import com.almis.awe.service.AccessService;
 import com.almis.awe.service.MenuService;
 import com.almis.awe.session.AweSessionDetails;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
@@ -29,9 +35,11 @@ import org.springframework.security.ldap.authentication.BindAuthenticator;
 import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
 import org.springframework.security.ldap.search.FilterBasedLdapUserSearch;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.servlet.Filter;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import java.io.IOException;
 
 /**
  * Spring security main configuration method
@@ -44,6 +52,7 @@ public class SecurityConfig extends ServiceConfig {
   // Autowired services
   private AweSessionDetails aweSessionDetails;
   private LogUtil logger;
+  private AweElements elements;
 
   /**
    * Autowired constructor
@@ -51,9 +60,10 @@ public class SecurityConfig extends ServiceConfig {
    * @param logger Logger
    */
   @Autowired
-  public SecurityConfig(AweSessionDetails sessionDetails, LogUtil logger) {
+  public SecurityConfig(AweSessionDetails sessionDetails, LogUtil logger, AweElements elements) {
     this.aweSessionDetails = sessionDetails;
     this.logger = logger;
+    this.elements = elements;
   }
 
   private enum AUTHENTICATION_MODE {
@@ -103,9 +113,6 @@ public class SecurityConfig extends ServiceConfig {
 
   @Value("${screen.parameter.password:pwd_usr}")
   private String passwordParameter;
-
-  @Value("${security.json.parameter:p}")
-  private String securityParameter;
 
   @Value ("${language.default}:en")
   private String defaultLocale;
@@ -164,45 +171,25 @@ public class SecurityConfig extends ServiceConfig {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      Filter jsonAuthenticationFilter = new JsonAuthenticationFilter(usernameParameter, passwordParameter, securityParameter);
-      http.authorizeRequests()
-        //.anyRequest().access("@loginAccessControl.checkAccess(authentication, request)")
-        //.anyRequest().authenticated().accessDecisionManager(accessDecisionManager())
-//              .antMatchers("/beans").hasRole("ACTUATOR")
-//              .anyRequest().permitAll()
+      http
+        .csrf().disable()
+        .authorizeRequests()
         .and()
-        .addFilterAt(jsonAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) //Add a filter to parse login parameters
-        .formLogin()
-        .usernameParameter(usernameParameter)
-        .passwordParameter(passwordParameter)
-        //.loginPage("/")
-        .loginProcessingUrl("/action/login")
-        .permitAll()
-        .successHandler((request, response, authentication) -> {
-          // Initialize parameters
-          getRequest().init(request);
-          aweSessionDetails.onLoginSuccess(authentication);
-          request.getRequestDispatcher("/action/loginRedirect").forward(request, response);
-        })
-        .failureHandler((request, response, authenticationException) -> {
-          // Initialize parameters
-          getRequest().init(request);
-          aweSessionDetails.onLoginFailure(authenticationException);
-          request.getRequestDispatcher("/action/loginRedirect").forward(request, response);
-        })
+        // Add a filter to parse login parameters
+        .addFilterAt(getBean(JsonAuthenticationFilter.class), UsernamePasswordAuthenticationFilter.class)
+        .formLogin().permitAll()
         .and()
         .logout().logoutUrl("/action/logout").clearAuthentication(true)
-        .addLogoutHandler((request, response, authentication) -> {
-          getRequest().init(request);
+        .addLogoutHandler((request, response, authentication) ->  {
+          initRequest(request);
           aweSessionDetails.onBeforeLogout();
         })
         .logoutSuccessHandler((request, response, authentication) -> {
+          initRequest(request);
           aweSessionDetails.onLogoutSuccess();
           request.getRequestDispatcher("/action/logoutRedirect").forward(request, response);
         })
-        .deleteCookies("SESSION").invalidateHttpSession(true)
-        .and()
-        .csrf().disable();
+        .deleteCookies("SESSION").invalidateHttpSession(true);
 
       if (sameOrigin) {
         http.headers().frameOptions().sameOrigin();
@@ -225,7 +212,7 @@ public class SecurityConfig extends ServiceConfig {
 
       switch (mode) {
         case LDAP:
-          auth.authenticationProvider(ldapAuthenticationProvider());
+          auth.authenticationProvider(getBean(LdapAuthenticationProvider.class));
           break;
 
         case CUSTOM:
@@ -255,6 +242,50 @@ public class SecurityConfig extends ServiceConfig {
     }
 
     /**
+     * Initialize request
+     * @param request Request
+     */
+    private void initRequest(HttpServletRequest request)  {
+      String body = "{}";
+      if (request instanceof AweHttpServletRequestWrapper) {
+        body = ((AweHttpServletRequestWrapper) request).getBody();
+      }
+      String token = request.getHeader(AweConstants.SESSION_CONNECTION_HEADER);
+      try {
+        // Read the parameters
+        ObjectNode parameters = (ObjectNode) new ObjectMapper().readTree(body);
+        getRequest().init(parameters, token);
+      } catch (IOException exc) {
+        getRequest().init(JsonNodeFactory.instance.objectNode(), token);
+      }
+    }
+
+    /**
+     * Username and password authentication filter
+     * @return Json Authentication filter
+     */
+    @Bean
+    public JsonAuthenticationFilter authenticationFilter() {
+      JsonAuthenticationFilter authenticationFilter = new JsonAuthenticationFilter(elements);
+      authenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/action/login","POST"));
+      authenticationFilter.setUsernameParameter(usernameParameter);
+      authenticationFilter.setPasswordParameter(passwordParameter);
+      authenticationFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
+        // Initialize parameters
+        initRequest(request);
+        aweSessionDetails.onLoginSuccess(authentication);
+        request.getRequestDispatcher("/action/loginRedirect").forward(request, response);
+      });
+      authenticationFilter.setAuthenticationFailureHandler((request, response, authenticationException) -> {
+        // Initialize parameters
+        initRequest(request);
+        aweSessionDetails.onLoginFailure(authenticationException);
+        request.getRequestDispatcher("/action/loginRedirect").forward(request, response);
+      });
+      return authenticationFilter;
+    }
+
+    /**
      * Configure Ldap provider for bind auth
      *
      * @return LdapAuthenticationProvider
@@ -265,7 +296,7 @@ public class SecurityConfig extends ServiceConfig {
 
       // Bind authenticator with search filter
       final BindAuthenticator bindAuthenticator = new BindAuthenticator(getBean(LdapContextSource.class));
-      bindAuthenticator.setUserSearch(new FilterBasedLdapUserSearch("", "(" + ldapUserFilter + ")", contextSource()));
+      bindAuthenticator.setUserSearch(new FilterBasedLdapUserSearch("", "(" + ldapUserFilter + ")", getBean(LdapContextSource.class)));
 
       // Ldap provider
       final LdapAuthenticationProvider ldapAuthenticationProvider = new LdapAuthenticationProvider(bindAuthenticator);

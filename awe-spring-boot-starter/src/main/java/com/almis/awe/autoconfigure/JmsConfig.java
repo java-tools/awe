@@ -113,18 +113,18 @@ public class JmsConfig {
 
   /**
    * Queue builder
-   * @param serializer Serializer
    * @param jmsDestination Destination
    * @param connectionFactory Connection factory
    * @param transactionManager Transaction manager
+   * @param queryUtil Query utilities
    * @return Queue builder bean
    */
   @Bean
   @ConditionalOnMissingBean
   @Scope("prototype")
-  public QueueBuilder queueBuilder(XStreamSerializer serializer, AweJmsDestination jmsDestination,
-                                   ConnectionFactory connectionFactory, PlatformTransactionManager transactionManager) {
-    return new QueueBuilder(serializer, jmsDestination, connectionFactory, transactionManager);
+  public QueueBuilder queueBuilder(AweJmsDestination jmsDestination, ConnectionFactory connectionFactory,
+                                   PlatformTransactionManager transactionManager, QueryUtil queryUtil) {
+    return new QueueBuilder(jmsDestination, connectionFactory, transactionManager, queryUtil);
   }
 
   /**

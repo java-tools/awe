@@ -26,7 +26,6 @@ public class QueueQueryConnector extends AbstractQueryConnector {
 
   /**
    * Autowired constructor
-   *
    * @param queryUtil Query utilities
    */
   @Autowired

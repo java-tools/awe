@@ -1,7 +1,6 @@
 package com.almis.awe.service.connector;
 
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.ResponseWrapper;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.dto.ServiceDataWrapper;
@@ -38,11 +37,17 @@ import java.util.regex.Pattern;
  */
 public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
-  @Autowired
-  private AweElements elements;
-
-  @Autowired
+  // Autowired services
   private LogUtil logger;
+
+  /**
+   * Autowired constructor
+   * @param logger Logger
+   */
+  @Autowired
+  public AbstractRestConnector(LogUtil logger) {
+    this.logger = logger;
+  }
 
   /**
    * Generates the request and launches it
