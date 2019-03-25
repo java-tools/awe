@@ -6,6 +6,8 @@ import com.almis.awe.annotation.processor.locale.LocaleProcessor;
 import com.almis.awe.annotation.processor.security.CryptoProcessor;
 import com.almis.awe.annotation.processor.session.SessionProcessor;
 import com.almis.awe.model.util.file.FileUtil;
+
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,15 +62,15 @@ public class AnnotationConfig {
 
   /**
    * Security annotation processor
-   * @param cryptoProcessor Crypto processor
+   * @param cryptoProcessorObjectFactory Crypto processor
    * @return Security annotation processor bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public SecurityAnnotationProcessor securityAnnotationProcessor(CryptoProcessor cryptoProcessor) {
-    return new SecurityAnnotationProcessor(cryptoProcessor);
+  public SecurityAnnotationProcessor securityAnnotationProcessor(final ObjectFactory<CryptoProcessor> cryptoProcessorObjectFactory) {
+    return new SecurityAnnotationProcessor(cryptoProcessorObjectFactory);
   }
-
+  
   /////////////////////////////////////////////
   // ANNOTATIONS
   /////////////////////////////////////////////

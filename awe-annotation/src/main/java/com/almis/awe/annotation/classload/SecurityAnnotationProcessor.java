@@ -1,15 +1,17 @@
 package com.almis.awe.annotation.classload;
 
+import org.apache.logging.log4j.Level;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.util.ReflectionUtils;
+
 import com.almis.awe.annotation.entities.security.Crypto;
 import com.almis.awe.annotation.entities.security.Hash;
 import com.almis.awe.annotation.processor.security.CryptoProcessor;
 import com.almis.awe.annotation.processor.security.HashProcessor;
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
-import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.util.ReflectionUtils;
 
 /**
  * Security annotations c processor class
@@ -22,16 +24,16 @@ import org.springframework.util.ReflectionUtils;
 public class SecurityAnnotationProcessor extends ServiceConfig implements BeanPostProcessor {
 
   // Autowired services
-    private CryptoProcessor cryptoProcessor;
+    private ObjectFactory<CryptoProcessor> cryptoProcessorObjectFactory;
 
-  /**
-   * Autowired constructor
-   * @param cryptoProcessor Crypto processor
-   */
-  @Autowired
-    public SecurityAnnotationProcessor(CryptoProcessor cryptoProcessor) {
-      this.cryptoProcessor = cryptoProcessor;
-    }
+    /**
+     * Autowired constructor
+     * @param cryptoProcessorObjectFactory Crypto processor
+     */
+	@Autowired
+	public SecurityAnnotationProcessor(final ObjectFactory<CryptoProcessor> cryptoProcessorObjectFactory) {
+		this.cryptoProcessorObjectFactory = cryptoProcessorObjectFactory;
+	}  
 
     /**
      * Process annotations before class load
@@ -95,7 +97,8 @@ public class SecurityAnnotationProcessor extends ServiceConfig implements BeanPo
                 field.setAccessible(true);
                 Crypto annotation = field.getAnnotation(Crypto.class);
 
-                field.set(bean, cryptoProcessor.processCrypto(annotation, (String) field.get(bean)));
+                // lazy instantiation of CryptoProcessor bean in order to avoid 'is not eligible for getting processed by all BeanPostProcessors' message
+                field.set(bean, cryptoProcessorObjectFactory.getObject().processCrypto(annotation, (String) field.get(bean)));
                 field.setAccessible(isAccessible);
             }
         });
