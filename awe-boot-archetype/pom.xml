@@ -35,6 +35,10 @@
     </developer>
   </developers>
 
+  <properties>
+    <sonar.exclusions>src/**</sonar.exclusions>
+  </properties>
+
   <build>
     <extensions>
       <extension>

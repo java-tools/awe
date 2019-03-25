@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
@@ -44,7 +45,10 @@ public class TemplateService extends ServiceConfig {
    * @param queryService Query service
    */
   @Autowired
-  public TemplateService(MenuService menuService, STGroup elementsTemplateGroup, STGroup helpTemplateGroup, STGroup screensTemplateGroup,
+  public TemplateService(MenuService menuService,
+                         @Qualifier("elementsTemplateGroup") STGroup elementsTemplateGroup,
+                         @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup,
+                         @Qualifier("screensTemplateGroup") STGroup screensTemplateGroup,
                          QueryService queryService) {
     this.menuService = menuService;
     this.elementsTemplateGroup = elementsTemplateGroup;

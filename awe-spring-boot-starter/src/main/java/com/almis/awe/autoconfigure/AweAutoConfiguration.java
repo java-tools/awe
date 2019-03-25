@@ -436,7 +436,6 @@ public class AweAutoConfiguration {
 
   /**
    * Microservice connector
-   * @param elements Awe elements
    * @param logUtil logger
    * @return Microservice connector bean
    */

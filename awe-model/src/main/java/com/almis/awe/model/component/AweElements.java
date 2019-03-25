@@ -42,6 +42,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -452,7 +453,7 @@ public class AweElements {
    * @return The ENUMERATED group corresponding the groupId
    * @throws AWException Clone not supported
    */
-  @Cacheable("enumerated")
+  @Cacheable(value = "enumerated", key = "#groupId")
   public EnumeratedGroup getEnumerated(String groupId) throws AWException {
     try {
       // Clone from list
@@ -469,7 +470,7 @@ public class AweElements {
    * @return The query corresponding the queryId
    * @throws AWException Clone not supported
    */
-  @Cacheable("query")
+  @Cacheable(value = "query", key = "#queryId")
   public Query getQuery(String queryId) throws AWException {
     try {
       // Clone from list
@@ -486,7 +487,7 @@ public class AweElements {
    * @return The query corresponding the queryId
    * @throws AWException Clone not supported
    */
-  @Cacheable("queue")
+  @Cacheable(value = "queue", key = "#queueId")
   public Queue getQueue(String queueId) throws AWException {
     try {
       // Clone from list
@@ -503,7 +504,7 @@ public class AweElements {
    * @return The MAINTAIN operation corresponding the maintainId
    * @throws AWException Clone not supported
    */
-  @Cacheable("maintain")
+  @Cacheable(value = "maintain", key = "#maintainId")
   public Target getMaintain(String maintainId) throws AWException {
     try {
       // Clone from list
@@ -520,7 +521,7 @@ public class AweElements {
    * @return The email operation corresponding the mntId
    * @throws AWException Clone not supported
    */
-  @Cacheable("email")
+  @Cacheable(value = "email", key = "#emailId")
   public Email getEmail(String emailId) throws AWException {
     try {
       // Clone from list
@@ -537,7 +538,7 @@ public class AweElements {
    * @return The service corresponding the serviceId
    * @throws AWException Clone not supported
    */
-  @Cacheable("service")
+  @Cacheable(value = "service", key = "#serviceId")
   public Service getService(String serviceId) throws AWException {
     try {
       // Clone from list
@@ -554,7 +555,7 @@ public class AweElements {
    * @return The action corresponding the actionId
    * @throws AWException Clone not supported
    */
-  @Cacheable("action")
+  @Cacheable(value = "action", key = "#actionId")
   public Action getAction(String actionId) throws AWException {
     try {
       // Clone from list
@@ -571,7 +572,7 @@ public class AweElements {
    * @return The screen corresponding the screenId
    * @throws AWException Clone not supported
    */
-  @Cacheable("screen")
+  @Cacheable(value = "screen", key = "#screenId")
   public synchronized Screen getScreen(String screenId) throws AWException {
     // Get Action
     Screen screen = readScreen(screenId, new HashSet());
@@ -590,7 +591,7 @@ public class AweElements {
    * @return Screen
    */
   @CachePut(value = "screen", key = "#screen.getId()")
-  public Screen setScreen(Screen screen) {
+  public Screen setScreen(@NotNull Screen screen) {
     return screen;
   }
 

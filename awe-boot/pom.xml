@@ -44,7 +44,7 @@
     <jacoco.base.reports>${project.build.directory}</jacoco.base.reports>
     <jacoco.reportPaths>${jacoco.base.reports}/coverage-reports</jacoco.reportPaths>
     <aggregated.reportPaths>${jacoco.base.reports}/aggregated-reports</aggregated.reportPaths>
-    <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
+    <sonar.exclusions>src/**</sonar.exclusions>
     <sonar.junit.reportPath>${jacoco.base.reports}/surefire-reports</sonar.junit.reportPath>
     <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
     <sonar.tests>${project.basedir}/src/test</sonar.tests>
@@ -301,6 +301,7 @@
             <id>start-application</id>
             <phase>integration-test</phase>
             <configuration>
+              <skip>${skip.selenium}</skip>
               <wait>1000</wait>
               <maxAttempts>180</maxAttempts>
             </configuration>
@@ -314,6 +315,9 @@
             <goals>
               <goal>stop</goal>
             </goals>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+            </configuration>
           </execution>
         </executions>
       </plugin>

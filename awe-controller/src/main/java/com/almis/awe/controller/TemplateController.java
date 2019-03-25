@@ -59,7 +59,7 @@ public class TemplateController {
    * @return Angular template
    */
   @GetMapping("/angular/{template}")
-  @Cacheable("angularTemplates")
+  @Cacheable(value = "angularTemplates", key = "#template")
   public String getAngularTemplate(@PathVariable String template) {
     return angularPath + template;
   }
@@ -72,7 +72,7 @@ public class TemplateController {
    * @return Angular template
    */
   @GetMapping("/angular/{module}/{template}")
-  @Cacheable("angularTemplates")
+  @Cacheable(value = "angularTemplates", key = "#module + '-' + #template")
   public String getAngularSubTemplate(@PathVariable String module, @PathVariable String template) {
     return angularPath + module + "/" + template;
   }
@@ -181,7 +181,7 @@ public class TemplateController {
    * @return Application help
    */
   @GetMapping("/help")
-  @Cacheable("helpTemplates")
+  @Cacheable(value = "helpTemplates", key = "'default'")
   public @ResponseBody
   String getApplicationHelp() {
     return helpService.getApplicationHelp();

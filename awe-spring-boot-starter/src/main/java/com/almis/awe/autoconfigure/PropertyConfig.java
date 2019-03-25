@@ -30,11 +30,6 @@ import org.springframework.core.convert.support.DefaultConversionService;
 @PropertySource(value = "${properties.specific}", ignoreResourceNotFound = true)
 public class PropertyConfig {
 
-  @Bean
-  public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
-    return new PropertySourcesPlaceholderConfigurer();
-  }
-
   /**
    * Allow reading property comma separated
    * @return conversion service

@@ -6,6 +6,7 @@ import com.almis.awe.service.MenuService;
 import com.almis.awe.service.QueryService;
 import com.almis.awe.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -85,7 +86,7 @@ public class TemplateConfig {
    * 
    * @return Partials template group
    */
-  @Bean
+  @Bean("elementsTemplateGroup")
   public STGroup elementsTemplateGroup() {
     STGroup group = new STGroup('$', '$');
     for (String path : getPaths("screen/elements.stg")) {
@@ -100,7 +101,7 @@ public class TemplateConfig {
    * 
    * @return Partials template group
    */
-  @Bean
+  @Bean("helpTemplateGroup")
   public STGroup helpTemplateGroup() {
     STGroup group = new STGroup('$', '$');
     for (String path : getPaths("screen/help.stg")) {
@@ -115,7 +116,7 @@ public class TemplateConfig {
    * 
    * @return Partials template group
    */
-  @Bean
+  @Bean("screensTemplateGroup")
   public STGroup screensTemplateGroup() {
     STGroup group = new STGroup('$', '$');
     for (String path : getPaths("screen/templates.stg")) {
@@ -140,7 +141,10 @@ public class TemplateConfig {
    */
   @Bean
   @ConditionalOnMissingBean
-  public TemplateService templateService(MenuService menuService, STGroup elementsTemplateGroup, STGroup helpTemplateGroup, STGroup screensTemplateGroup,
+  public TemplateService templateService(MenuService menuService,
+                                         @Qualifier("elementsTemplateGroup") STGroup elementsTemplateGroup,
+                                         @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup,
+                                         @Qualifier("screensTemplateGroup") STGroup screensTemplateGroup,
                                          QueryService queryService) {
     return new TemplateService(menuService, elementsTemplateGroup, helpTemplateGroup, screensTemplateGroup, queryService);
   }
