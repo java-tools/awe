@@ -216,6 +216,7 @@
         <version>\${plugin-frontend.version}</version>
         <executions>
           <execution>
+            <phase>compile</phase>
             <id>install node and yarn</id>
             <goals>
               <goal>install-node-and-yarn</goal>
@@ -226,6 +227,7 @@
             </configuration>
           </execution>
           <execution>
+            <phase>compile</phase>
             <id>yarn install</id>
             <goals>
               <goal>yarn</goal>
@@ -235,6 +237,7 @@
             </configuration>
           </execution>
           <execution>
+            <phase>compile</phase>
             <id>webpack</id>
             <goals>
               <goal>webpack</goal>

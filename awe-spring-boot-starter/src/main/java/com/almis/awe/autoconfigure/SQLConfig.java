@@ -169,24 +169,26 @@ public class SQLConfig {
 
   /**
    * SQL Query builder
+   * @param queryUtil Query utilities
    * @return SQL Query builder bean
    */
   @Bean
   @ConditionalOnMissingBean
   @Scope("prototype")
-  public SQLQueryBuilder sqlQueryBuilder() {
-    return new SQLQueryBuilder();
+  public SQLQueryBuilder sqlQueryBuilder(QueryUtil queryUtil) {
+    return new SQLQueryBuilder(queryUtil);
   }
 
   /**
    * SQL Maintain builder
    * @param session Awe session
+   * @param queryUtil Query utilities
    * @return SQL Maintain builder bean
    */
   @Bean
   @ConditionalOnMissingBean
   @Scope("prototype")
-  public SQLMaintainBuilder sqlMaintainBuilder(AweSession session) {
-    return new SQLMaintainBuilder(session);
+  public SQLMaintainBuilder sqlMaintainBuilder(AweSession session, QueryUtil queryUtil) {
+    return new SQLMaintainBuilder(session, queryUtil);
   }
 }

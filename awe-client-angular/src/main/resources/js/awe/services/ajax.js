@@ -14,16 +14,17 @@ aweApplication.factory('Ajax',
      * @param {object} $http Http request service
      * @param {object} $actionController Action controller
      * @param {object} $settings AweSettings service
+     * @param {object} $httpParamSerializer Parameter serializer
      * @param {object} $loadingBar Loading bar
      * @returns {Object} Ajax connection
      */
     function ($utilities, $log, $http, $actionController, $settings, $httpParamSerializer, $loadingBar) {
 
       // Service variables;
-      var connectionType = 'Ajax';
-      var connected = true;
+      let connectionType = 'Ajax';
+      let connected = true;
 
-      var Ajax = {
+      const $ajax = {
         /**
          * Retrieve if connection is active
          * @private
@@ -50,14 +51,14 @@ aweApplication.factory('Ajax',
           $log.info("[" + connectionType + "] Sending message", {message: message});
 
           // Send message
-          var promise = Ajax.send(message)
+          let promise = $ajax.send(message)
             .then(function (response) {
               // Manage message and hide loading bar
-              Ajax.manageMessage(response, action);
+              $ajax.manageMessage(response, action);
             })
             .catch(function (response) {
               // Manage message and hide loading bar
-              Ajax.manageError(response, action);
+              $ajax.manageError(response, action);
             })
             .finally(function () {
               $loadingBar.endTask();
@@ -77,13 +78,10 @@ aweApplication.factory('Ajax',
          */
         send: function (message) {
           // Send data
-          return Ajax.httpRequest({
+          return $ajax.httpRequest({
             method: 'POST',
-            url: Ajax.getActionUrl(message.values.serverAction, message.values.targetAction),
-            data: Ajax.serializeParameters(Ajax.getEncodedParameters(message.values)),
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            url: $ajax.getActionUrl(message.values.serverAction, message.values.targetAction),
+            data: message.values
           });
         },
         /**
@@ -92,7 +90,7 @@ aweApplication.factory('Ajax',
          * @param {Object} expectedContent Content type expected
          */
         get: function (url, expectedContent) {
-          return Ajax.httpRequest({
+          return $ajax.httpRequest({
             method: 'GET',
             url: url
           }, expectedContent);
@@ -104,13 +102,10 @@ aweApplication.factory('Ajax',
          * @param {Object} expectedContent Content type expected
          */
         post: function (url, data, expectedContent) {
-          return Ajax.httpRequest({
+          return $ajax.httpRequest({
             method: 'POST',
             url: url,
-            data: Ajax.serializeParameters(Ajax.getEncodedParameters(data)),
-            headers: {
-             'Content-Type': 'application/x-www-form-urlencoded'
-            }
+            data: data
           }, expectedContent);
         },
         /**
@@ -122,20 +117,12 @@ aweApplication.factory('Ajax',
           // Set content-type if defined
           if (expectedContent) {
             parameters["headers"] = {
-              "Accept": expectedContent
+              'Accept': expectedContent
             };
           }
 
           // Send data
           return $http(parameters);
-        },
-        /**
-         * Retrieve message url
-         * @param {Object} message Send message parameters
-         * @return {String} Message url
-         */
-        getUrl: function (message) {
-          return Ajax.getRawUrl() + "?p=" + $utilities.encodeParameters(message, $settings.get("encodeTransmission"));
         },
         /**
          * Retrieve raw url
@@ -151,18 +138,7 @@ aweApplication.factory('Ajax',
          * @return {String} Action url
          */
         getActionUrl: function (actionId, targetId) {
-          return Ajax.getRawUrl() + "/action/" + actionId + (($utilities.isEmpty(targetId)) ? "" : "/" + targetId);
-        },
-        /**
-         * Retrieve encoded parameters
-         * @param {Object} message Send message parameters
-         * @return {Object} Encoded parameters
-         */
-        getEncodedParameters: function (message) {
-          return {
-            [$settings.get("encodeKey")]:  $utilities.encodeParameters(message, $settings.get("encodeTransmission")),
-            [$settings.get("connectionId")]: $settings.getToken()
-          };
+          return $ajax.getRawUrl() + "/action/" + actionId + (($utilities.isEmpty(targetId)) ? "" : "/" + targetId);
         },
         /**
          * Serialize the post parameters
@@ -170,7 +146,7 @@ aweApplication.factory('Ajax',
          * @return {Object} Serialized parameters
          */
         serializeParameters: function (parameters) {
-          return $httpParamSerializer(parameters);
+          return parameters;
         },
         /**
          * Receive message
@@ -230,6 +206,6 @@ aweApplication.factory('Ajax',
           $actionController.addActionList(actions, false, {address: target, context: action.attr("context")});
         }
       };
-      return Ajax;
+      return $ajax;
     }
   ]);

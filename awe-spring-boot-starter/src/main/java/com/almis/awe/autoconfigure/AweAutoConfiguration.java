@@ -56,7 +56,6 @@ public class AweAutoConfiguration {
 
   // Autowired beans
   private WebApplicationContext context;
-  private Environment environment;
 
   /**
    * Autowired constructor
@@ -66,7 +65,6 @@ public class AweAutoConfiguration {
   @Autowired
   public AweAutoConfiguration(WebApplicationContext context, Environment environment) {
     this.context = context;
-    this.environment = environment;
 
     // Initialize static utilities
     NumericUtil.init(environment);
@@ -80,8 +78,8 @@ public class AweAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   @RequestScope
-  public AweRequest aweRequest(LogUtil logger) {
-    return new AweRequest(environment, logger);
+  public AweRequest aweRequest() {
+    return new AweRequest();
   }
 
   /**
@@ -438,22 +436,25 @@ public class AweAutoConfiguration {
 
   /**
    * Microservice connector
+   * @param elements Awe elements
+   * @param logUtil logger
    * @return Microservice connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public MicroserviceConnector microserviceConnector() {
-    return new MicroserviceConnector();
+  public MicroserviceConnector microserviceConnector(LogUtil logUtil) {
+    return new MicroserviceConnector(logUtil);
   }
 
   /**
    * REST connector
+   * @param logUtil logger
    * @return REST connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public RestConnector restConnector() {
-    return new RestConnector();
+  public RestConnector restConnector(LogUtil logUtil) {
+    return new RestConnector(logUtil);
   }
 
   /**
@@ -519,8 +520,8 @@ public class AweAutoConfiguration {
    */
   @Bean
   @Scope("prototype")
-  public ServiceBuilder serviceBuilder(LauncherService launcherService) {
-    return new ServiceBuilder(launcherService);
+  public ServiceBuilder serviceBuilder(LauncherService launcherService, QueryUtil queryUtil) {
+    return new ServiceBuilder(launcherService, queryUtil);
   }
 
   /////////////////////////////////////////////

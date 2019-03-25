@@ -1,14 +1,11 @@
 package com.almis.awe.test.unit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.almis.awe.model.dto.MaintainResultDetails;
+import com.almis.awe.model.type.MaintainType;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Joiner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -17,23 +14,23 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 
-import com.almis.awe.model.dto.MaintainResultDetails;
-import com.almis.awe.model.type.MaintainType;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.base.Joiner;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Class used for testing queries through ActionController
  *
  * @author jbellon
- *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -45,9 +42,9 @@ public class MaintainTest extends TestUtil {
   // Logger
   private static Logger logger = LogManager.getLogger(MaintainTest.class);
 
-	/*
-	 * Tables - Test schema Fields - Test functions with doubles (now is casted to Long always)
-	 */
+  /*
+   * Tables - Test schema Fields - Test functions with doubles (now is casted to Long always)
+   */
 
   /**
    * Initializes json mapper for tests
@@ -55,6 +52,51 @@ public class MaintainTest extends TestUtil {
   @Before
   public void setup() throws Exception {
     super.setup();
+  }
+
+  /**
+   * Launch a maintain test
+   * @param maintainName Maintain name
+   * @param variables Variables
+   * @param expected Expected value
+   * @return Maintain result
+   * @throws Exception
+   */
+  private String launchMaintain(String maintainName, String variables, String expected) throws Exception {
+    return launchPostRequest("maintain", maintainName, variables, expected);
+  }
+
+  /**
+   * Launch a query test
+   * @param queryName Maintain name
+   * @param variables Variables
+   * @param expected Expected value
+   * @return Maintain result
+   * @throws Exception
+   */
+  private String launchQuery(String queryName, String variables, String expected) throws Exception {
+    return launchPostRequest("data", queryName, variables, expected);
+  }
+
+  /**
+   * Launch a request test
+   * @param type Request type
+   * @param name Name
+   * @param variables Variables
+   * @param expected Expected value
+   * @return Maintain result
+   * @throws Exception
+   */
+  private String launchPostRequest(String type, String name, String variables, String expected) throws Exception {
+    MvcResult mvcResult = mockMvc.perform(post("/action/" + type + "/" + name)
+      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{" + variables + "\"max\":30}")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().json(expected))
+      .andReturn();
+    return mvcResult.getResponse().getContentAsString();
   }
 
   /**
@@ -67,16 +109,10 @@ public class MaintainTest extends TestUtil {
     String maintainName = "SimpleSingleInsert";
     String variables = "";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l)
+    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
 
     // Clean the mess
@@ -94,16 +130,10 @@ public class MaintainTest extends TestUtil {
       String maintainName = "SimpleSingleInsertFromVariableValue";
       String variables = "\"variable\":\"AWEBOOT-TEST-" + i + "\",";
       String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-      MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-              .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-              .accept("application/json"))
-              .andExpect(status().isOk())
-              .andExpect(content().json(expected))
-              .andReturn();
-      String result = mvcResult.getResponse().getContentAsString();
+      String result = launchMaintain(maintainName, variables, expected);
       logger.debug(result);
-      assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-              new MaintainResultDetails(MaintainType.INSERT, 1l)
+      assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
+        new MaintainResultDetails(MaintainType.INSERT, 1l)
       });
 
       // Clean the mess
@@ -121,16 +151,10 @@ public class MaintainTest extends TestUtil {
     String maintainName = "SingleInsertWithSequence";
     String variables = "";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l)
+    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
 
     // Clean the mess
@@ -147,17 +171,11 @@ public class MaintainTest extends TestUtil {
     String maintainName = "MultipleInsertWithSequence";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"],";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l),
-            new MaintainResultDetails(MaintainType.INSERT, 1l)
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
 
     // Clean the mess
@@ -174,31 +192,19 @@ public class MaintainTest extends TestUtil {
     String maintainName = "SimpleSingleInsert";
     String variables = "";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l)
+    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
 
     maintainName = "SimpleSingleUpdate";
     variables = "";
     expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    result = mvcResult.getResponse().getContentAsString();
+    result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.UPDATE, 1l)
+    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.UPDATE, 1l)
     });
 
     // Clean the mess
@@ -215,16 +221,10 @@ public class MaintainTest extends TestUtil {
     String maintainName = "CleanUp";
     String variables = "";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":0}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.DELETE, 0l)
+    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.DELETE, 0l)
     });
   }
 
@@ -240,18 +240,11 @@ public class MaintainTest extends TestUtil {
     String variables = "";
     setParameter("user", "test");
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .session(session)
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l)
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
 
     // Clean the mess
@@ -260,6 +253,7 @@ public class MaintainTest extends TestUtil {
 
   /**
    * Launch a simple single insert from variable
+   *
    * @throws Exception
    */
   private void launchSimpleSingleInsertFromVariable() throws Exception {
@@ -267,15 +261,9 @@ public class MaintainTest extends TestUtil {
       String maintainName = "SimpleSingleInsertFromVariable";
       String variables = "\"variable\":\"AWEBOOT-TEST-" + i + "\",";
       String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-      MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-        .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-        .accept("application/json"))
-        .andExpect(status().isOk())
-        .andExpect(content().json(expected))
-        .andReturn();
-      String result = mvcResult.getResponse().getContentAsString();
+      String result = launchMaintain(maintainName, variables, expected);
       logger.debug(result);
-      assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
+      assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
         new MaintainResultDetails(MaintainType.INSERT, 1l)
       });
     }
@@ -294,21 +282,15 @@ public class MaintainTest extends TestUtil {
     String maintainName = "SingleUpdateWithVariableListAudit";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":5},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 6, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.UPDATE, 5l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l)
+    assertResultJson(maintainName, result, 6, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.UPDATE, 5l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
 
     // Clean the mess
@@ -328,17 +310,11 @@ public class MaintainTest extends TestUtil {
     String maintainName = "SingleUpdateWithVariableListAuditBatched";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":5},{\"operationType\":\"AUDIT\",\"rowsAffected\":5}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.UPDATE, 5l),
-            new MaintainResultDetails(MaintainType.AUDIT, 5l)
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.UPDATE, 5l),
+      new MaintainResultDetails(MaintainType.AUDIT, 5l)
     });
 
     // Clean the mess
@@ -357,20 +333,14 @@ public class MaintainTest extends TestUtil {
     String maintainName = "MultipleUpdate";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 5, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l)
+    assertResultJson(maintainName, result, 5, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l)
     });
 
     // Clean the mess
@@ -390,25 +360,19 @@ public class MaintainTest extends TestUtil {
     String maintainName = "MultipleUpdateAudit";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 10, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l)
+    assertResultJson(maintainName, result, 10, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
 
     // Clean the mess
@@ -428,17 +392,11 @@ public class MaintainTest extends TestUtil {
     String maintainName = "MultipleUpdateAuditBatched";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":5},{\"operationType\":\"AUDIT\",\"rowsAffected\":5}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.UPDATE, 5l),
-            new MaintainResultDetails(MaintainType.AUDIT, 5l)
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.UPDATE, 5l),
+      new MaintainResultDetails(MaintainType.AUDIT, 5l)
     });
 
     // Clean the mess
@@ -455,18 +413,12 @@ public class MaintainTest extends TestUtil {
     String maintainName = "InsertUpdateDelete";
     String variables = "";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"DELETE\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 3, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.DELETE, 1l)
+    assertResultJson(maintainName, result, 3, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.DELETE, 1l)
     });
 
     // Clean the mess
@@ -483,20 +435,14 @@ public class MaintainTest extends TestUtil {
     String maintainName = "InsertUpdateDeleteWithVariables";
     String variables = "\"var1\": \"AWEBOOT-TEST-0\", \"var2\": \"AWEBOOT-TEST-1\",";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"DELETE\",\"rowsAffected\":2}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 5, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l),
-            new MaintainResultDetails(MaintainType.INSERT, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.DELETE, 2l)
+    assertResultJson(maintainName, result, 5, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.DELETE, 2l)
     });
 
     // Clean the mess
@@ -513,24 +459,11 @@ public class MaintainTest extends TestUtil {
     String maintainName = "TestRollback";
     String variables = "";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"There was a problem calling a maintain process\",\"title\":\"Error in maintain operation\",\"type\":\"error\"}},{\"type\":\"cancel\",\"parameters\":{}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables	+ "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
 
-    String queryName = "CheckRollback";
     expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
-    mvcResult = mockMvc.perform(post("/action/data/" + queryName)
-            .param("p", "{\"serverAction\":\"data\",\"targetAction\":\"" + queryName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    result = mvcResult.getResponse().getContentAsString();
+    result = launchQuery("CheckRollback", variables, expected);
     logger.debug(result);
 
     // Clean the mess
@@ -547,24 +480,11 @@ public class MaintainTest extends TestUtil {
     String maintainName = "TestCommit";
     String variables = "";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"There was a problem calling a maintain process\",\"title\":\"Error in maintain operation\",\"type\":\"error\"}},{\"type\":\"cancel\",\"parameters\":{}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables	+ "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
 
-    String queryName = "CheckRollback";
     expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"HISope\":\"test\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
-    mvcResult = mockMvc.perform(post("/action/data/" + queryName)
-            .param("p", "{\"serverAction\":\"data\",\"targetAction\":\"" + queryName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    result = mvcResult.getResponse().getContentAsString();
+    result = launchQuery("CheckRollback", variables, expected);
     logger.debug(result);
 
     // Clean the mess
@@ -581,17 +501,11 @@ public class MaintainTest extends TestUtil {
     String maintainName = "GridMultiple";
     String variables = "\"grid-RowTyp\": [\"INSERT\", \"INSERT\"], \"nam\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"], \"act\":[0, 0],";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l),
-            new MaintainResultDetails(MaintainType.INSERT, 1l)
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
 
     // Clean the mess
@@ -608,16 +522,10 @@ public class MaintainTest extends TestUtil {
     String maintainName = "GridMultiple";
     String variables = "\"grid-RowTyp\": [\"INSERT\"], \"nam\": [\"AWEBOOT-TEST-0\"], \"act\":[0],";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l)
+    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
 
     // Clean the mess
@@ -633,18 +541,12 @@ public class MaintainTest extends TestUtil {
   public void testIncludeTarget() throws Exception {
     String maintainName = "testInclude";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\",\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, "", expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 3, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l),
-            new MaintainResultDetails(MaintainType.UPDATE, 1l),
-            new MaintainResultDetails(MaintainType.DELETE, 1l)
+    assertResultJson(maintainName, result, 3, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.DELETE, 1l)
     });
 
     // Clean the mess
@@ -664,17 +566,11 @@ public class MaintainTest extends TestUtil {
     String maintainName = "GridMultiple";
     String variables = "\"grid-RowTyp\": [\"INSERT\", \"INSERT\"], \"nam\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"], \"act\":[0, 0],";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.INSERT, 1l),
-            new MaintainResultDetails(MaintainType.INSERT, 1l)
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
 
     List<String> keys = new ArrayList<String>();
@@ -682,7 +578,7 @@ public class MaintainTest extends TestUtil {
     ObjectNode messageAction = (ObjectNode) resultList.get(1);
     ObjectNode messageParameters = (ObjectNode) messageAction.get("parameters");
     ArrayNode resultDetails = (ArrayNode) messageParameters.get("result_details");
-    for (JsonNode resultDetail: resultDetails) {
+    for (JsonNode resultDetail : resultDetails) {
       ObjectNode resultNode = (ObjectNode) resultDetail;
       ObjectNode parameterMap = (ObjectNode) resultNode.get("parameterMap");
       keys.add(parameterMap.get("varKey").asText());
@@ -692,17 +588,11 @@ public class MaintainTest extends TestUtil {
     String key = "\"key\":[" + Joiner.on(", ").join(keys) + "],";
     variables = "\"grid-RowTyp\": [\"DELETE\", \"DELETE\"], \"nam\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"], \"act\":[0, 0]," + key;
     expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    result = mvcResult.getResponse().getContentAsString();
+    result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.DELETE, 1l),
-            new MaintainResultDetails(MaintainType.DELETE, 1l)
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.DELETE, 1l),
+      new MaintainResultDetails(MaintainType.DELETE, 1l)
     });
   }
 
@@ -716,13 +606,7 @@ public class MaintainTest extends TestUtil {
     String maintainName = "ServeNoParams";
     String variables = "";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
   }
 
@@ -736,13 +620,7 @@ public class MaintainTest extends TestUtil {
     String maintainName = "ServeMessageParams";
     String variables = "";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"message\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
   }
 
@@ -756,13 +634,7 @@ public class MaintainTest extends TestUtil {
     String maintainName = "ServeTitleMessageParams";
     String variables = "";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"message\",\"title\":\"title\",\"type\":\"ok\"}}]";
-    MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
+    String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
   }
 
@@ -772,7 +644,6 @@ public class MaintainTest extends TestUtil {
 
   /**
    * Sends an email created with the AWE XML format
-   *
    */
   @Test
   public void testXMLEmail() {
@@ -782,9 +653,11 @@ public class MaintainTest extends TestUtil {
 
     try {
       mockMvc.perform(post("/action/maintain/" + maintainName)
-              .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-              .accept("application/json"))
-              .andReturn();
+        .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content("{" + variables + "\"max\":30}")
+        .accept(MediaType.APPLICATION_JSON))
+        .andReturn();
     } catch (Exception e) {
       ex = e;
     }

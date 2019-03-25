@@ -6,6 +6,7 @@ import com.almis.awe.model.type.FilterValueType;
 import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.type.UnionType;
 import com.almis.awe.model.util.data.DateUtil;
+import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,6 +17,7 @@ import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -34,6 +36,15 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   private static final String ERROR_TITLE_GENERATING_FILTER = "ERROR_TITLE_GENERATING_FILTER";
   private static final List<String> NULL_CONDITIONS = Arrays.asList((String[]) new String[] { IS_NULL, IS_NOT_NULL });
   private static final List<String> IN_CONDITIONS = Arrays.asList((String[]) new String[] { IN, NOT_IN });
+
+  /**
+   * Autowired constructor
+   * @param queryUtil Query utilities
+   */
+  @Autowired
+  public SQLBuilder(QueryUtil queryUtil) {
+    super(queryUtil);
+  }
 
   /**
    * Sets the SQLQueryFactory used by QueryDSL to create the SQLQuery

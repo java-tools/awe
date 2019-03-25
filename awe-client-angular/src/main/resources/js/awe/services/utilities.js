@@ -376,16 +376,6 @@ aweApplication.factory('AweUtilities',
           return booleanValue;
         },
         /**
-         * Encode parameters
-         * @param {Object} parameters Parameter map
-         * @param {boolean} encode Encode parameters
-         * @returns {String} Parameter list
-         */
-        encodeParameters: function (parameters, encode) {
-          var parameterString = Utilities.stringifyJSON(parameters);
-          return encode ? Utilities.encodeSymetric(parameterString) : parameterString;
-        },
-        /**
          * Decode data
          * @param {Object} data Data received
          * @param {boolean} decode Decode data

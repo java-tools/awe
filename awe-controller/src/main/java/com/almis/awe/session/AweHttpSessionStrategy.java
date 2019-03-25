@@ -1,38 +1,29 @@
 package com.almis.awe.session;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
+import com.almis.awe.model.component.AweSession;
 import org.springframework.session.Session;
 import org.springframework.session.web.http.CookieSerializer;
 import org.springframework.session.web.http.DefaultCookieSerializer;
-import org.springframework.session.web.http.HttpSessionManager;
 import org.springframework.session.web.http.HttpSessionStrategy;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADER;
 
 /**
  * Awe Session strategy
  */
-public class AweHttpSessionStrategy implements HttpSessionStrategy, HttpSessionManager {
+public class AweHttpSessionStrategy implements HttpSessionStrategy {
 
   private static final String DEFAULT_DELIMITER = "|";
   private static final String SESSION_IDS_WRITTEN_ATTR = AweHttpSessionStrategy.class
           .getName().concat(".SESSIONS_WRITTEN_ATTR");
-
-  @Value ("${security.json.parameter:p}")
-  String securityParameter = "p";
-
-  @Value ("${application.parameter.comet.id:s}")
-  private String sessionAliasParameter;
-
-  private static final Pattern ALIAS_PATTERN = Pattern.compile("^[\\w-]{1,50}$");
-
-  private String sessionParam = sessionAliasParameter;
 
   private CookieSerializer cookieSerializer = new DefaultCookieSerializer();
 
@@ -55,9 +46,7 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy, HttpSessionM
    * @return Session id
    */
   public String getRequestedSessionId(HttpServletRequest request) {
-    Map<String, String> sessionIds = getSessionIds(request);
-    String sessionAlias = getCurrentSessionAlias(request);
-    return sessionIds.get(sessionAlias);
+    return getCurrentSessionAlias(request, null);
   }
 
   /**
@@ -66,8 +55,8 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy, HttpSessionM
    * @param request Servlet request
    * @return Session alias
    */
-  public String getCurrentSessionAlias(HttpServletRequest request) {
-    return getCometUUIDFromRequest(request);
+  public String getCurrentSessionAlias(HttpServletRequest request, Session session) {
+    return getConnectionId(request, session);
   }
 
   /**
@@ -77,7 +66,7 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy, HttpSessionM
    * @return Session alias
    */
   public String getNewSessionAlias(HttpServletRequest request) {
-    return getCometUUIDFromRequest(request);
+    return getConnectionId(request, null);
   }
 
   /**
@@ -89,24 +78,31 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy, HttpSessionM
    */
   public void onNewSession(Session session, HttpServletRequest request,
                            HttpServletResponse response) {
-    Set<String> sessionIdsWritten = getSessionIdsWritten(request);
-    String sessionAlias = getCurrentSessionAlias(request);
+    if (request.isRequestedSessionIdValid()) {
+      onInvalidateSession(request, response);
+    } else {
+      Set<String> sessionIdsWritten = getSessionIdsWritten(request);
+      String sessionAlias = getCurrentSessionAlias(request, session);
 
-    if(sessionAlias == null){
-      return;
+      if (sessionAlias == null) {
+        return;
+      }
+
+      if (sessionIdsWritten.contains(session.getId())) {
+        return;
+      }
+      sessionIdsWritten.add(session.getId());
+
+      Set<String> sessionIds = getSessionIds(request);
+      sessionIds.add(session.getId());
+
+      // Check if AweSession is authenticathed, and if so, write cookie value
+      AweSession aweSession = session.getAttribute("scopedTarget.aweSession");
+      if (aweSession.isAuthenticated()) {
+        String cookieValue = createSessionCookieValue(sessionIds);
+        this.cookieSerializer.writeCookieValue(new CookieSerializer.CookieValue(request, response, cookieValue));
+      }
     }
-
-    if (sessionIdsWritten.contains(session.getId())) {
-      return;
-    }
-    sessionIdsWritten.add(session.getId());
-
-    Map<String, String> sessionIds = getSessionIds(request);
-    sessionIds.put(sessionAlias, session.getId());
-
-    String cookieValue = createSessionCookieValue(sessionIds);
-    this.cookieSerializer
-            .writeCookieValue(new CookieSerializer.CookieValue(request, response, cookieValue));
   }
 
   /**
@@ -132,23 +128,18 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy, HttpSessionM
    * @param sessionIds Session id list
    * @return Session cookie value
    */
-  private String createSessionCookieValue(Map<String, String> sessionIds) {
+  private String createSessionCookieValue(Set<String> sessionIds) {
     if (sessionIds.isEmpty()) {
       return "";
     }
 
-    StringBuffer buffer = new StringBuffer();
-    for (Map.Entry<String, String> entry : sessionIds.entrySet()) {
-      String alias = entry.getKey();
-      String id = entry.getValue();
-
-      buffer.append(alias);
-      buffer.append(this.serializationDelimiter);
-      buffer.append(id);
-      buffer.append(this.serializationDelimiter);
+    StringBuilder builder = new StringBuilder();
+    for (String alias : sessionIds) {
+      builder.append(alias);
+      builder.append(this.serializationDelimiter);
     }
-    buffer.deleteCharAt(buffer.length() - 1);
-    return buffer.toString();
+    builder.deleteCharAt(builder.length() - 1);
+    return builder.toString();
   }
 
   /**
@@ -159,24 +150,12 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy, HttpSessionM
    */
   public void onInvalidateSession(HttpServletRequest request,
                                   HttpServletResponse response) {
-    Map<String, String> sessionIds = getSessionIds(request);
-    String requestedAlias = getCurrentSessionAlias(request);
+    Set<String> sessionIds = getSessionIds(request);
+    String requestedAlias = getCurrentSessionAlias(request, null);
     sessionIds.remove(requestedAlias);
 
     String cookieValue = createSessionCookieValue(sessionIds);
-    this.cookieSerializer
-            .writeCookieValue(new CookieSerializer.CookieValue(request, response, cookieValue));
-  }
-
-  /**
-   * Sets the name of the HTTP parameter that is used to specify the session alias. If
-   * the value is null, then only a single session is supported per browser.
-   *
-   * @param sessionAliasParamName the name of the HTTP parameter used to specify the
-   *                              session alias. If null, then ony a single session is supported per browser.
-   */
-  public void setSessionAliasParamName(String sessionAliasParamName) {
-    this.sessionParam = sessionAliasParamName;
+    this.cookieSerializer.writeCookieValue(new CookieSerializer.CookieValue(request, response, cookieValue));
   }
 
   /**
@@ -187,20 +166,6 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy, HttpSessionM
   public void setCookieSerializer(CookieSerializer cookieSerializer) {
     Assert.notNull(cookieSerializer, "cookieSerializer cannot be null");
     this.cookieSerializer = cookieSerializer;
-  }
-
-  /**
-   * Sets the name of the cookie to be used.
-   *
-   * @param cookieName the name of the cookie to be used
-   *
-   * @deprecated use {@link #setCookieSerializer(CookieSerializer)}
-   */
-  @Deprecated
-  public void setCookieName(String cookieName) {
-    DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-    serializer.setCookieName(cookieName);
-    this.cookieSerializer = serializer;
   }
 
   /**
@@ -234,48 +199,29 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy, HttpSessionM
    * @param request Servlet request
    * @return Session id map
    */
-  public Map<String, String> getSessionIds(HttpServletRequest request) {
+  public Set<String> getSessionIds(HttpServletRequest request) {
     List<String> cookieValues = this.cookieSerializer.readCookieValues(request);
     String sessionCookieValue = cookieValues.isEmpty() ? ""
             : cookieValues.iterator().next();
-    Map<String, String> result = new LinkedHashMap<String, String>();
+    Set<String> result = new HashSet<>();
     StringTokenizer tokens = new StringTokenizer(sessionCookieValue,
             this.deserializationDelimiter);
     while (tokens.hasMoreTokens()) {
       String alias = tokens.nextToken();
-      if (!tokens.hasMoreTokens()) {
-        break;
-      }
-      String id = tokens.nextToken();
-      result.put(alias, id);
+      result.add(alias);
     }
     return result;
   }
 
   /**
-   * Encode url with session value
-   *
-   * @param url URL
-   * @param sessionAlias Session alias
-   * @return URL encoded
-   */
-  @Override
-  public String encodeURL(String url, String sessionAlias) {
-    return url;
-  }
-
-  /**
    * Get alias from current request
-   *
-   * @param request Servlet request
    * @return Comet UUID
    */
-  public String getCometUUIDFromRequest(HttpServletRequest request) {
-    try {
-      JsonNode jsonRequest = new ObjectMapper().reader().readTree(String.valueOf(request.getParameter(securityParameter)));
-      return jsonRequest.get(sessionAliasParameter).textValue();
-    } catch (Exception e) {
-      return request.getParameter(sessionAliasParameter);
+  public String getConnectionId(HttpServletRequest request, Session session) {
+    if (session != null) {
+      return session.getId();
+    } else {
+      return request.getHeader(SESSION_CONNECTION_HEADER);
     }
   }
 }

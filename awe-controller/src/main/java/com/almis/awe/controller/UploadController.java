@@ -10,18 +10,23 @@ import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.util.file.FileUtil;
 import com.almis.awe.service.BroadcastService;
 import com.almis.awe.service.FileService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
+import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADER;
 
 /**
  * Manage template request
@@ -39,10 +44,6 @@ public class UploadController extends ServiceConfig {
   @Value("${file.upload.identifier:u}")
   private String uploadIdentifierKey;
 
-  // Connection identifier
-  @Value("${application.parameter.comet.id:s}")
-  private String connectionIdentifierKey;
-
   /**
    * Autowired constructor
    * @param fileService File service
@@ -58,35 +59,42 @@ public class UploadController extends ServiceConfig {
 
   /**
    * Upload a file
+   * @param token Request token
    * @param file File to upload
-   * @param request Request
+   * @param address Component address
+   * @param destination Destination folder
+   * @param uploadIdentifier Uploader identifier
    * @throws AWException Error uploading file
    */
-  @RequestMapping(value="/upload", method=RequestMethod.POST, consumes = {"multipart/form-data"})
+  @PostMapping(value="/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
   @ResponseStatus(HttpStatus.OK)
-  public void handleFileUpload(@RequestParam("file") MultipartFile file,
-                                 HttpServletRequest request) throws AWException {
-    // Initialize parameters
+  public void handleFileUpload(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                               @RequestParam("file") MultipartFile file,
+                               @RequestParam(AweConstants.PARAMETER_ADDRESS) String address,
+                               @RequestParam(AweConstants.PARAMETER_DESTINATION) String destination,
+                               @RequestParam("u") String uploadIdentifier) throws AWException, IOException {
+    // Retrieve parameters
     AweRequest aweRequest = getRequest();
-    aweRequest.init(request);
-    String connectionKey = aweRequest.getParameterAsString(connectionIdentifierKey);
-    ObjectNode address = (ObjectNode) aweRequest.getParameter(AweConstants.PARAMETER_ADDRESS);
-    String folder = aweRequest.getParameterAsString(AweConstants.PARAMETER_DESTINATION);
+    ObjectMapper mapper = new ObjectMapper();
+    ObjectNode parameters = JsonNodeFactory.instance.objectNode();
+    parameters.set(AweConstants.PARAMETER_ADDRESS, mapper.readTree(address));
+    parameters.put(AweConstants.PARAMETER_DESTINATION, destination);
+    parameters.put(uploadIdentifierKey, uploadIdentifier);
+
+    // Initialize parameters
+    aweRequest.init(parameters, token);
 
     // Upload the file
-    FileData fileData = fileService.uploadFile(file, folder);
-
-    // Generate file uploaded
-    ClientAction uploadedNotification = new ClientAction("file-uploaded");
-    uploadedNotification.setAsync(true);
-    uploadedNotification.setAddress(new ComponentAddress(address));
-    uploadedNotification.addParameter("path", fileUtil.fileDataToString(fileData));
-    uploadedNotification.addParameter("name", fileData.getFileName());
-    uploadedNotification.addParameter("size", fileData.getFileSize());
-    uploadedNotification.addParameter("type", fileData.getMimeType());
+    FileData fileData = fileService.uploadFile(file, parameters.get(AweConstants.PARAMETER_DESTINATION).asText());
 
     // Broadcast file uploaded
-    broadcastService.broadcastMessageToUID(connectionKey, uploadedNotification);
+    broadcastService.broadcastMessageToUID(token, new ClientAction("file-uploaded")
+      .setAsync(true)
+      .setAddress(new ComponentAddress((ObjectNode) parameters.get(AweConstants.PARAMETER_ADDRESS)))
+      .addParameter("path", fileUtil.fileDataToString(fileData))
+      .addParameter("name", fileData.getFileName())
+      .addParameter("size", fileData.getFileSize())
+      .addParameter("type", fileData.getMimeType()));
   }
 
   /**
@@ -135,15 +143,12 @@ public class UploadController extends ServiceConfig {
     // Log error
     getLogger().log(UploadController.class, Level.ERROR, title, exc);
 
-    // Generate message action
-    ClientAction messageAction = new ClientAction("message")
-            .setAsync(true)
-            .addParameter("type", "error")
-            .addParameter("title", title)
-            .addParameter("message", message);
-
     // Broadcast error
-    broadcastService.broadcastMessageToUID(connectionKey, messageAction);
+    broadcastService.broadcastMessageToUID(connectionKey, new ClientAction("message")
+      .setAsync(true)
+      .addParameter("type", "error")
+      .addParameter("title", title)
+      .addParameter("message", message));
     return title;
   }
 }

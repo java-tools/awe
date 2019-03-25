@@ -8,14 +8,15 @@ import com.almis.awe.model.util.file.FileUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.service.FileService;
 import com.almis.awe.service.MaintainService;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADER;
 
 /**
  * Manage template request
@@ -28,10 +29,6 @@ public class FileController extends ServiceConfig {
   private FileService fileService;
   private FileUtil fileUtil;
   private MaintainService maintainService;
-
-  // Download identifier
-  @Value("${file.download.identifier:d}")
-  private String downloadIdentifier;
 
   /**
    * Autowired constructor
@@ -48,15 +45,16 @@ public class FileController extends ServiceConfig {
 
   /**
    * Retrieve text file
-   *
-   * @param request Request
+   * @param token Connection token
+   * @param parameters Parameters
    * @return File content
    * @throws AWException Error retrieving file
    */
   @PostMapping("/text")
-  public ResponseEntity<String> getFileAsText(HttpServletRequest request) throws AWException {
+  public ResponseEntity<String> getFileAsText(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                                              @RequestBody ObjectNode parameters) throws AWException {
     // Initialize parameters
-    getRequest().init(request);
+    getRequest().init(parameters, token);
 
     // Get path and content-type
     String path = EncodeUtil.decodeSymmetric(getRequest().getParameterAsString("path"));
@@ -68,15 +66,16 @@ public class FileController extends ServiceConfig {
 
   /**
    * Retrieve generic file stream
-   *
-   * @param request Request
+   * @param token Connection parameters
+   * @param parameters Parameters
    * @return File content
    * @throws AWException Error retrieving file
    */
   @PostMapping("/stream")
-  public ResponseEntity<FileSystemResource> getFileAsStream(HttpServletRequest request) throws AWException {
+  public ResponseEntity<FileSystemResource> getFileAsStream(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                                                            @RequestBody ObjectNode parameters) throws AWException {
     // Initialize parameters
-    getRequest().init(request);
+    getRequest().init(parameters, token);
 
     // Get path and content-type
     String path = EncodeUtil.decodeSymmetric(getRequest().getParameterAsString("path"));
@@ -89,16 +88,18 @@ public class FileController extends ServiceConfig {
   /**
    * Retrieve generic file stream
    *
-   * @param request Request
+   * @param parameters Parameters
    * @param targetId Maintain target id
    * @return File content
    * @throws AWException Error retrieving file
    */
   @GetMapping("/stream/maintain/{targetId}")
   @PostMapping("/stream/maintain/{targetId}")
-  public ResponseEntity<FileSystemResource> getFileAsStream(HttpServletRequest request, @PathVariable("targetId") String targetId) throws AWException {
+  public ResponseEntity<FileSystemResource> getFileAsStream(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                                                            @RequestBody ObjectNode parameters,
+                                                            @PathVariable("targetId") String targetId) throws AWException {
     // Initialize parameters
-    getRequest().init(request);
+    getRequest().init(parameters, token);
 
     // Launch maintain
     ServiceData serviceData = maintainService.launchMaintain(targetId);
@@ -109,58 +110,61 @@ public class FileController extends ServiceConfig {
 
   /**
    * Retrieve file for download
-   *
-   * @param request Request
+   * @param token Connection token
+   * @param fileData File data
+   * @param downloadId Download identifier
    * @return File content
    * @throws AWException Error retrieving file
    */
   @PostMapping("/download")
-  public ResponseEntity<InputStreamResource> downloadFile(HttpServletRequest request) throws AWException {
+  public ResponseEntity<InputStreamResource> downloadFile(@RequestParam("token") String token,
+                                                          @RequestParam("filename") String fileData,
+                                                          @RequestParam("d") Integer downloadId) throws AWException {
     // Initialize parameters
-    getRequest().init(request);
-
-    // Get path and content-type
-    String filedata = getRequest().getParameterAsString("filename");
-    Integer downloadIde = getRequest().getParameter(downloadIdentifier).asInt();
+    getRequest().init(JsonNodeFactory.instance.objectNode(), token);
 
     // Retrieve file
-    return fileService.downloadFile(fileUtil.stringToFileData(filedata), downloadIde);
+    return fileService.downloadFile(fileUtil.stringToFileData(fileData), downloadId);
   }
 
   /**
    * Retrieve file for download
-   * @param request Request
-   * @param targetId Maintain target identifier
+   * @param token Connection token
+   * @param fileData File data
+   * @param downloadId Download identifier
+   * @param targetId Maintain target
    * @return File content
    * @throws AWException Error retrieving file
    */
   @GetMapping("/download/maintain/{targetId}")
   @PostMapping("/download/maintain/{targetId}")
-  public ResponseEntity<InputStreamResource> downloadFileMaintainGet(HttpServletRequest request, @PathVariable("targetId") String targetId) throws AWException {
+  public ResponseEntity<InputStreamResource> downloadFileMaintainGet(@RequestParam("token") String token,
+                                                                     @RequestParam("filename") String fileData,
+                                                                     @RequestParam("d") Integer downloadId,
+                                                                     @PathVariable("targetId") String targetId) throws AWException {
     // Initialize parameters
-    getRequest().init(targetId, request);
+    getRequest().init(targetId, JsonNodeFactory.instance.objectNode(), token);
+    getRequest().setParameter("filename", fileData);
 
     // Launch maintain
     ServiceData serviceData = maintainService.launchMaintain(targetId);
 
-    // Get path and content-type
-    Integer downloadIde = getRequest().getParameter(downloadIdentifier).asInt();
-
     // Retrieve file
-    return fileService.downloadFile((FileData) serviceData.getData(), downloadIde);
+    return fileService.downloadFile((FileData) serviceData.getData(), downloadId);
   }
 
   /**
    * Retrieve file for download
    *
-   * @param request Request
+   * @param parameters Parameters
    * @return File content
    * @throws AWException Error retrieving file
    */
   @PostMapping("/delete")
-  public ServiceData deleteFile(HttpServletRequest request) throws AWException {
+  public ServiceData deleteFile(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                                @RequestBody ObjectNode parameters) throws AWException {
     // Initialize parameters
-    getRequest().init(request);
+    getRequest().init(parameters, token);
 
     // Get path and content-type
     String filedata = getRequest().getParameterAsString("filename");

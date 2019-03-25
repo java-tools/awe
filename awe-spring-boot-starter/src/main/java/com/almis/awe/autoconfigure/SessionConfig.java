@@ -6,9 +6,7 @@ import com.almis.awe.service.QueryService;
 import com.almis.awe.service.SessionService;
 import com.almis.awe.session.AweHttpSessionStrategy;
 import com.almis.awe.session.AweSessionDetails;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
@@ -25,9 +23,6 @@ import java.util.Set;
 @Configuration
 @EnableSpringHttpSession
 public class SessionConfig {
-
-  @Autowired
-  ApplicationContext context;
 
   /**
    * Session strategy

@@ -5,10 +5,9 @@ aweApplication.factory('Connection',
   ['AweSettings', 'Comet', 'Ajax',
     /**
      *
-     * @param {AweSettings} $settings Application $settings
-     * @param {Comet} comet Comet based connection
-     * @param {Ajax} ajax Ajax based connection
-     * @returns {_L10.Anonym$0}
+     * @param {object} $settings Application $settings
+     * @param {object} comet Comet based connection
+     * @param {object} ajax Ajax based connection
      */
     function ($settings, comet, ajax) {
       // Service variables;
@@ -62,26 +61,10 @@ aweApplication.factory('Connection',
         },
         /**
          * Retrieve message URL
-         * @param {Object} message
-         * @return {String} Message URL
-         */
-        getUrl: function (message) {
-          return ajax.getUrl(message);
-        },
-        /**
-         * Retrieve message URL
          * @return {String} Raw URL
          */
         getRawUrl: function () {
           return ajax.getRawUrl();
-        },
-        /**
-         * Retrieve encoded parameters
-         * @param {Object} message
-         * @return {String} Message URL
-         */
-        getEncodedParameters: function (message) {
-          return ajax.getEncodedParameters(message);
         },
         /**
          * Serialize the post parameters

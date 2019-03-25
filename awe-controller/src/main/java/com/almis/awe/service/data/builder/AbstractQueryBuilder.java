@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public abstract class AbstractQueryBuilder extends ServiceConfig implements QueryBuilder {
 
-  @Autowired
+  // Autowired services
   protected QueryUtil queryUtil;
 
   protected ObjectNode parameters;
@@ -31,6 +31,15 @@ public abstract class AbstractQueryBuilder extends ServiceConfig implements Quer
   private ComponentAddress address;
   protected Integer variableIndex;
   protected List<SortColumn> componentSortList;
+
+  /**
+   * Autowired constructor
+   * @param queryUtil Query utilities
+   */
+  @Autowired
+  public AbstractQueryBuilder(QueryUtil queryUtil) {
+    this.queryUtil = queryUtil;
+  }
 
   /**
    * Retrieve query

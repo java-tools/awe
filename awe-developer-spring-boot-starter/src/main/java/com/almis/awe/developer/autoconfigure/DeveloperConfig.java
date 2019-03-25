@@ -24,8 +24,17 @@ import javax.annotation.PostConstruct;
 @PropertySource(value = "classpath:config/developer.properties")
 public class DeveloperConfig {
 
-  @Autowired
+  // Autowired services
   Environment environment;
+
+  /**
+   * Autowired constructor
+   * @param environment Environment
+   */
+  @Autowired
+  public DeveloperConfig(Environment environment) {
+    this.environment = environment;
+  }
 
   /**
    * Path management service

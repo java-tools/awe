@@ -1,89 +1,62 @@
 package com.almis.awe.model.component;
 
 import com.almis.awe.model.dto.CellData;
-import com.almis.awe.model.type.AcceptedParameterType;
-import com.almis.awe.model.util.log.LogUtil;
-import com.almis.awe.model.util.security.EncodeUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADER;
 
 /**
  * @author pgarcia
  */
 public class AweRequest {
 
-  // Autowired services
-  private Environment environment;
-  private LogUtil logger;
-
   // Application encoding
   @Value("${application.encoding:UTF-8}")
   private String applicationEncoding;
 
-  // Json encryption active
-  @Value("${security.json.encryption:0}")
-  private String jsonEncryptionActive;
-
   // Target action
   private String targetAction = null;
+
+  // Connection token
+  private String token = null;
 
   // Parameters
   private ObjectNode parameters = null;
 
   /**
-   * Autowired constructor
-   * @param environment Environment
-   * @param logger Logger
-   */
-  @Autowired
-  public AweRequest(Environment environment, LogUtil logger) {
-    this.environment = environment;
-    this.logger = logger;
-  }
-
-  /**
-   * Initialize parameters
+   * Initialize parameters with targetId
    *
-   * @param request Servlet request
+   * @param request Request
    */
   public void init(HttpServletRequest request) {
-    // Read parameters
-    readRequestParameters(request);
+    // Set token
+    setToken(request.getHeader(SESSION_CONNECTION_HEADER));
   }
 
   /**
    * Initialize parameters with targetId
    *
    * @param targetId Action target
-   * @param request  Servlet request
+   * @param parameters Servlet request
    */
-  public void init(String targetId, HttpServletRequest request) {
+  public void init(String targetId, ObjectNode parameters, String token) {
     // Set target action
     setTargetAction(targetId);
 
     // Read parameters
-    readRequestParameters(request);
-  }
+    setParameterList(parameters);
 
-  /**
-   * Initialize without parameters
-   */
-  public void init() {
-    // Read parameters
-    setParameterList(JsonNodeFactory.instance.objectNode());
+    // Set token
+    setToken(token);
   }
 
   /**
@@ -91,95 +64,12 @@ public class AweRequest {
    *
    * @param parameters Request parameters
    */
-  public void init(String parameters) {
+  public void init(ObjectNode parameters, String token) {
     // Read parameters
     setParameterList(parameters);
-  }
 
-  /**
-   * Initialize parameters with targetId
-   *
-   * @param targetId   Action target
-   * @param parameters Request parameters
-   */
-  public void init(String targetId, String parameters) {
-    // Set target action
-    setTargetAction(targetId);
-
-    // Read parameters
-    setParameterList(parameters);
-  }
-
-  /**
-   * Initialize parameters
-   *
-   * @param parameters Request parameters
-   */
-  public void init(ObjectNode parameters) {
-    // Read parameters
-    setParameterList(parameters);
-  }
-
-  /**
-   * Read request parameters
-   *
-   * @param request Servlet request
-   */
-  private void readRequestParameters(HttpServletRequest request) {
-
-    // Set character encoding
-    try {
-      request.setCharacterEncoding(applicationEncoding);
-    } catch (UnsupportedEncodingException exc) {
-      logger.log(AweRequest.class, Level.ERROR, "[awe Parameters] Unsupported encoding - {0}", exc, applicationEncoding);
-    }
-
-    // Get request parameter map
-    Map<String, String[]> requestParameterMap = request.getParameterMap();
-    ObjectNode acceptedParameters = JsonNodeFactory.instance.objectNode();
-
-    // Read Accepted Parameter List
-    for (AcceptedParameterType par : AcceptedParameterType.values()) {
-      String strPar = environment.getProperty(par.toString());
-      if (requestParameterMap.containsKey(strPar)) {
-        acceptedParameters.put(strPar, request.getParameter(strPar));
-      }
-    }
-
-    // Read JSON parameter list
-    String parameterKey = environment.getProperty(AcceptedParameterType.PARAMETERS.toString());
-    if (requestParameterMap.containsKey(parameterKey)) {
-      // If communications are encoded, decode the parameterList
-      String parameterList = acceptedParameters.get(parameterKey).asText();
-      if (parameterList != null) {
-        setParameterList(parameterList);
-      }
-
-      // Remove from accepted parameters
-      acceptedParameters.remove(parameterKey);
-    }
-
-    // Put all decoded parameters
-    setParameterList(acceptedParameters);
-  }
-
-  /**
-   * Store the parameter list
-   *
-   * @param parameterList the parameterList to set
-   */
-  public void setParameterList(String parameterList) {
-    // Action call
-    ObjectMapper mapper = new ObjectMapper();
-    try {
-      // Decode the parameter list
-      String decodedParameters = EncodeUtil.decodeTransmission(parameterList, "1".equalsIgnoreCase(jsonEncryptionActive));
-
-      // Convert the parameter list string into a hashmap
-      setParameterList((ObjectNode) mapper.reader().readTree(decodedParameters));
-    } catch (Exception exc) {
-      logger.log(AweRequest.class, Level.ERROR, "[Parse Parameters] Error parsing parameter list - {0}", exc, parameterList);
-    }
+    // Read token
+    setToken(token);
   }
 
   /**
@@ -385,8 +275,28 @@ public class AweRequest {
 
   /**
    * @param targetAction the targetAction to set
+   * @return this
    */
-  public void setTargetAction(String targetAction) {
+  public AweRequest setTargetAction(String targetAction) {
     this.targetAction = targetAction;
+    return this;
+  }
+
+  /**
+   * Get connection token
+   * @return Connection token
+   */
+  public String getToken() {
+    return token;
+  }
+
+  /**
+   * Set connection token
+   * @param token Connection token
+   * @return this
+   */
+  public AweRequest setToken(String token) {
+    this.token = token;
+    return this;
   }
 }

@@ -108,7 +108,6 @@ require("./services/contextMenu");
 require("./directives/contextMenu");
 require("./directives/contextOption");
 
-require("jquery-file-download");
 require("./directives/downloader");
 
 require("./services/text");

@@ -445,6 +445,7 @@
   <locale name="ERROR_MESSAGE_INITIALIZING_JASPER" value="Ha habido un problema al lanzar la inicialización del motor de documentos"/>
   <locale name="ERROR_MESSAGE_INVALID_ARGUMENTS" value="Los argumentos introducidos son inválidos"/>
   <locale name="ERROR_MESSAGE_INVALID_CONNECTION" value="Ha habido un problema a la hora de realizar la conexión"/>
+  <locale name="ERROR_MESSAGE_INVALID_CREDENTIALS" value="Las credenciales introducidas para el usuario -{0}- no son válidas o el usuario es incorrecto"/>
   <locale name="ERROR_MESSAGE_INVALID_DATABASE_ARGUMENTS" value="Los siguientes argumentos de la conexión a base de datos no son correctos [Tipo:{0}, Alias:{1}, Url: {2}]"/>
   <locale name="ERROR_MESSAGE_INVALID_DATASOURCE" value="No existe el datasource seleccionado: {0}"/>
   <locale name="ERROR_MESSAGE_INVALID_PASSWORD" value="La clave introducida para el usuario {0} es incorrecta"/>
@@ -620,6 +621,7 @@
   <locale name="ERROR_TITLE_INITIALIZING_JASPER" value="Error inicializando Jasper"/>
   <locale name="ERROR_TITLE_INVALID_ARGUMENTS" value="Argumentos inválidos"/>
   <locale name="ERROR_TITLE_INVALID_CONNECTION" value="Conexión inválida"/>
+  <locale name="ERROR_TITLE_INVALID_CREDENTIALS" value="Credenciales inválidas"/>
   <locale name="ERROR_TITLE_INVALID_PASSWORD" value="Clave incorrecta"/>
   <locale name="ERROR_TITLE_INVALID_SESSION_TOKEN" value="Sesión no válida"/>
   <locale name="ERROR_TITLE_INVALID_USER" value="Usuario no válido"/>

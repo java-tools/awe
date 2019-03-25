@@ -22,7 +22,9 @@ import org.junit.runners.Suite;
   DataRestControllerTest.class,
   MaintainRestControllerTest.class,
   ScreenBuilderTest.class,
-  MenuTest.class
+  MenuServiceTest.class,
+  UploadControllerTest.class,
+  TagListTest.class
 })
 @RunWith(Suite.class)
 public class AllTestsSuite {

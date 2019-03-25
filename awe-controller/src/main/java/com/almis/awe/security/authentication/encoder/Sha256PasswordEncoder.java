@@ -12,8 +12,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 public class Sha256PasswordEncoder implements PasswordEncoder {
 
-  @Autowired
+  // Autowired services
   private LogUtil logger;
+
+  /**
+   * Autowired constructor
+   * @param logger Logger
+   */
+  @Autowired
+  public Sha256PasswordEncoder(LogUtil logger) {
+    this.logger = logger;
+  }
 
   @Override
   public String encode(CharSequence rawPassword) {

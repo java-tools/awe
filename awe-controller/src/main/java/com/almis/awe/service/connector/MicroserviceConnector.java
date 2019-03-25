@@ -6,6 +6,8 @@ import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.entities.services.ServiceMicroservice;
 import com.almis.awe.model.entities.services.ServiceType;
 import com.almis.awe.model.type.ParameterType;
+import com.almis.awe.model.util.log.LogUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestClientException;
 
@@ -20,6 +22,15 @@ public class MicroserviceConnector extends AbstractRestConnector {
 
   @Value("${awe.microservices.endpoint}")
   private String endpointBaseUrl;
+
+  /**
+   * Autowired constructor
+   * @param logger Logger
+   */
+  @Autowired
+  public MicroserviceConnector(LogUtil logger) {
+    super(logger);
+  }
 
   @Override
   public ServiceData launch(ServiceType service, Map<String, Object> paramsMapFromRequest) throws AWException {

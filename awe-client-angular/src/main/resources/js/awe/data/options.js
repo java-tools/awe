@@ -39,7 +39,6 @@ export const DefaultSettings = {
   connectionTransport: "websocket",
   connectionBackup: "streaming",
   connectionTimeout: 300000,
-  connectionId: "s",
   cometUID: getUID(),
   // Upload / Download
   uploadIdentifier: 'u',

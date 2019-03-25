@@ -41,7 +41,6 @@ public class WebSettings {
   private String connectionTransport;
   private String connectionBackup;
   private Integer connectionTimeout;
-  private String connectionId;
   private String cometUID;
   // Upload
   private String uploadIdentifier;
@@ -326,20 +325,6 @@ public class WebSettings {
    */
   public void setConnectionTimeout(Integer connectionTimeout) {
     this.connectionTimeout = connectionTimeout;
-  }
-
-  /**
-   * @return the connectionId
-   */
-  public String getConnectionId() {
-    return connectionId;
-  }
-
-  /**
-   * @param connectionId the connectionId to set
-   */
-  public void setConnectionId(String connectionId) {
-    this.connectionId = connectionId;
   }
 
   /**

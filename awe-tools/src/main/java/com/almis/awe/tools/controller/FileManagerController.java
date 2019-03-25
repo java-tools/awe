@@ -38,11 +38,20 @@ public class FileManagerController {
 
   private static final Logger LOGGER = LogManager.getLogger(FileManagerController.class);
 
-  @Autowired
+  // Autowired services
   FileManagerService service;
-
-  @Autowired
   ServletContext context;
+
+  /**
+   * Autowired constructor
+   * @param service File manager service
+   * @param context Servlet context
+   */
+  @Autowired
+  public FileManagerController(FileManagerService service, ServletContext context) {
+    this.service = service;
+    this.context = context;
+  }
 
   /**
    * Handler for home page

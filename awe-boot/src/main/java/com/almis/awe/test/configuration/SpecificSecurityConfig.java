@@ -2,7 +2,6 @@ package com.almis.awe.test.configuration;
 
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.model.util.log.LogUtil;
-import com.almis.awe.security.authentication.filter.JsonAuthenticationFilter;
 import com.almis.awe.session.AweSessionDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.servlet.Filter;
 
 /**
  * Spring security main configuration method
@@ -39,14 +36,14 @@ public class SpecificSecurityConfig extends ServiceConfig {
     this.aweSessionDetails = sessionDetails;
   }
 
+  @Autowired
+  private UsernamePasswordAuthenticationFilter authenticationFilter;
+
   @Value("${screen.parameter.username:cod_usr}")
   private String usernameParameter;
 
   @Value("${screen.parameter.password:pwd_usr}")
   private String passwordParameter;
-
-  @Value("${security.json.parameter:p}")
-  private String securityParameter;
 
   @Value ("${language.default}:en")
   private String defaultLocale;
@@ -105,50 +102,33 @@ public class SpecificSecurityConfig extends ServiceConfig {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      Filter jsonAuthenticationFilter = new JsonAuthenticationFilter(usernameParameter, passwordParameter, securityParameter);
-      http.authorizeRequests()
+      http
+        .csrf().disable()
+        .authorizeRequests()
         .and()
-        .addFilterAt(jsonAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) //Add a filter to parse login parameters
-        .formLogin()
-        .usernameParameter(usernameParameter)
-        .passwordParameter(passwordParameter)
-        //.loginPage("/")
-        .loginProcessingUrl("/action/login")
-        .permitAll()
-        .successHandler((request, response, authentication) -> {
-          // Initialize parameters
-          getRequest().init(request);
-          aweSessionDetails.onLoginSuccess(authentication);
-          request.getRequestDispatcher("/action/loginRedirect").forward(request, response);
-        })
-        .failureHandler((request, response, authenticationException) -> {
-          // Initialize parameters
-          getRequest().init(request);
-          aweSessionDetails.onLoginFailure(authenticationException);
-          request.getRequestDispatcher("/action/loginRedirect").forward(request, response);
-        })
+        // Add a filter to parse login parameters
+        .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+        .formLogin().permitAll()
         .and()
         .logout().logoutUrl("/action/logout").clearAuthentication(true)
-        .addLogoutHandler((request, response, authentication) -> {
+        .deleteCookies("SESSION").invalidateHttpSession(true)
+        .addLogoutHandler((request, response, authentication) ->  {
           getRequest().init(request);
           aweSessionDetails.onBeforeLogout();
         })
         .logoutSuccessHandler((request, response, authentication) -> {
+          getRequest().init(request);
           aweSessionDetails.onLogoutSuccess();
           request.getRequestDispatcher("/action/logoutRedirect").forward(request, response);
         })
-        .deleteCookies("SESSION").invalidateHttpSession(true)
         .and()
-        .sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry())
-        .and().and()
-        .csrf().disable();
+        .sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());
 
       if (sameOrigin) {
         http.headers().frameOptions().sameOrigin();
       }
     }
   }
-
 
   @Bean
   public SessionRegistry sessionRegistry() {

@@ -118,7 +118,7 @@ public class AweSession {
    */
   public boolean hasRole(String roleName) {
     String fullRoleName = roleName.startsWith(ROLE) ? roleName : ROLE + roleName;
-    return getAuthentication() != null ? getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority(fullRoleName)) : false;
+    return getAuthentication() != null && getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority(fullRoleName));
   }
 
   /**

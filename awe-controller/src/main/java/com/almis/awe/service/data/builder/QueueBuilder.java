@@ -4,7 +4,6 @@ import com.almis.awe.component.AweJmsDestination;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.listener.QueueListener;
 import com.almis.awe.model.component.AweClientTracker;
-import com.almis.awe.model.component.XStreamSerializer;
 import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ComponentAddress;
@@ -13,6 +12,7 @@ import com.almis.awe.model.entities.queues.JmsConnectionInfo;
 import com.almis.awe.model.entities.queues.MessageBuilder;
 import com.almis.awe.model.entities.queues.Queue;
 import com.almis.awe.model.entities.queues.RequestMessage;
+import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.service.data.processor.QueueProcessor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
@@ -42,7 +42,6 @@ public class QueueBuilder extends AbstractQueryBuilder {
   private Long timeToLive;
 
   // Autowired services
-  private XStreamSerializer serializer;
   private AweJmsDestination jmsDestination;
   private ConnectionFactory connectionFactory;
   private PlatformTransactionManager transactionManager;
@@ -51,15 +50,15 @@ public class QueueBuilder extends AbstractQueryBuilder {
 
   /**
    * Autowired constructor
-   * @param serializer Serializer
    * @param jmsDestination JMS Destination
    * @param connectionFactory Connection factory
    * @param transactionManager Transaction manager
+   * @param queryUtil Query utilities
    */
   @Autowired
-  public QueueBuilder(XStreamSerializer serializer, AweJmsDestination jmsDestination,
-                      ConnectionFactory connectionFactory, PlatformTransactionManager transactionManager) {
-    this.serializer = serializer;
+  public QueueBuilder(AweJmsDestination jmsDestination, ConnectionFactory connectionFactory,
+                      PlatformTransactionManager transactionManager, QueryUtil queryUtil) {
+    super(queryUtil);
     this.jmsDestination = jmsDestination;
     this.connectionFactory = connectionFactory;
     this.transactionManager = transactionManager;

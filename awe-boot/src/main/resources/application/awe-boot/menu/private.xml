@@ -56,9 +56,6 @@
     <option name="log" label="MENU_LOG" screen="Log" icon="file-text">
       <option name="view-log" screen="LogViw" invisible="true"/>
     </option>
-    <option name="reports" label="MENU_REPORT_LIST" screen="RepGenPdf" icon="file">
-      <option name="view-report" screen="RepGenPdfViw" invisible="true"/>
-    </option>
     <option name="sqlExtractor" label="MENU_SQL_EXTRACTOR" screen="sqlExtractor" icon="database"/>
   </option>
   <option name="settings" label="MENU_SETTINGS" icon="cog">
@@ -67,7 +64,6 @@
       <option name="encrypt-tools" label="MENU_TOOLS_SCREEN_ENCRYPT" screen="ScrEncTxt" icon="lock"/>
     </option>
     <option name="screen-configuration" label="MENU_TOOLS_SCR_CNF" screen="ScrCnf" icon="laptop"/>
-    <option name="report-configuration" label="MENU_TOOLS_STL_CNF" screen="StlCnf" icon="tint"/>
   </option>
   <option module="Test" name="test" label="MENU_TEST" icon="flask">
     <option name="criteria" label="MENU_TEST_CRITERIA" icon="object-group">
@@ -100,24 +96,7 @@
     <option name="pivot-test" label="MENU_TEST_PIVOT" screen="pivot-test" icon="table"/>
     <option name="filemanager-test" label="MENU_TEST_FILEMANAGER" screen="filemanager-test" icon="folder"/>
     <option name="file-manager" screen="file-manager" invisible="true"/>
-    <!--<option name="no-screen" label="MENU_TEST_NO_SCREEN" screen="no-screen" icon="meh-o" />-->
   </option>
-  <!--<option name="scheduler-separator" separator="true"/>
-  <option name="scheduler" label="MENU_SCHEDULER" icon="clock-o">
-    <option name="scheduler-tasks" label="MENU_SCHEDULER_TASKS" screen="scheduler-tasks" icon="tasks">
-      <option name="new-scheduler-task" screen="new-scheduler-task" invisible="true" />
-      <option name="update-scheduler-task" screen="update-scheduler-task" invisible="true" />
-    </option>
-    <option name="scheduler_servers" label="MENU_SCHEDULER_SERVERS" screen="scheduler-server" icon="server">
-      <option name="update-scheduler-server" screen="update-scheduler-server" invisible="true" />
-      <option name="new-scheduler-server" screen="new-scheduler-server" invisible="true" />
-      <option name="scheduler-server-configuration" screen="scheduler-server-configuration" invisible="true" />
-    </option>
-    <option name="scheduler_calendars" label="MENU_SCHEDULER_CALENDARS" screen="scheduler-calendars" icon="list">
-      <option name="new-scheduler-calendar" screen="new-scheduler-calendar" invisible="true" />
-      <option name="update-scheduler-calendar" screen="update-scheduler-calendar" invisible="true" />
-    </option>
-  </option>-->
   <option name="developer-separator" separator="true"/>
   <option name="developer" label="MENU_DEVELOPER" icon="paint-brush">
     <option name="path-manager" label="MENU_PATH" screen="path-manager" icon="italic"/>

@@ -42,9 +42,6 @@ public class FileService extends ServiceConfig {
   private LogUtil logger;
   private AweRequest request;
 
-  @Value ("${application.parameter.comet.id:s}")
-  private String sessionParameterName;
-
   // Upload identifier
   @Value("${file.upload.path:/}")
   private String uploadBaseFolder;
@@ -191,7 +188,7 @@ public class FileService extends ServiceConfig {
       // Publish file downloaded
       ClientAction fileDownloadedAction = new ClientAction(new StringBuilder("file-downloaded/").append(downloadIdentifier).toString());
       fileDownloadedAction.setAsync(true);
-      broadcastService.broadcastMessageToUID(request.getParameterAsString(sessionParameterName), fileDownloadedAction);
+      broadcastService.broadcastMessageToUID(request.getToken(), fileDownloadedAction);
 
       // Get file stream
       InputStream fileStream = fileData.getFileStream();

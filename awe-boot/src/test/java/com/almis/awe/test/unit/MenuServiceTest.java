@@ -33,7 +33,7 @@ import static org.mockito.BDDMockito.given;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class MenuTest extends TestUtil {
+public class MenuServiceTest extends TestUtil {
 
   @MockBean
   private AweSession aweSession;

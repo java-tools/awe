@@ -10,5 +10,5 @@
       xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/menu.xsd"
       context="screen" default-action="screen">
   <option name="signin" screen="signin" invisible="true" />
-  <option name="change_password" screen="change_password" invisible="true" />
+  <option name="change-password" screen="change-password" invisible="true" />
 </menu>

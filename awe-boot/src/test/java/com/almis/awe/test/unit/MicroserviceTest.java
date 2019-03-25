@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Class used for testing rest services through ActionController
  *
  * @author pgarcia
- *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -31,16 +31,17 @@ public class MicroserviceTest extends TestUtil {
   // Logger
   private static Logger logger = LogManager.getLogger(MicroserviceTest.class);
 
-	/*
-	 * Tables - Test schema Fields - Test functions with doubles (now is casted to Long always)
-	 */
+  /*
+   * Tables - Test schema Fields - Test functions with doubles (now is casted to Long always)
+   */
 
   /**
    * Initializes json mapper for tests
+   *
    * @throws Exception error updating user
    */
   @Before
-  public void setup() throws Exception{
+  public void setup() throws Exception {
     super.setup();
 
     // Update user
@@ -52,10 +53,11 @@ public class MicroserviceTest extends TestUtil {
 
   /**
    * Close and logout
+   *
    * @throws Exception error updating user
    */
   @After
-  public void clean() throws Exception{
+  public void clean() throws Exception {
     // Clean up
     cleanUp("CleanUpScreenConfiguration");
 
@@ -65,19 +67,22 @@ public class MicroserviceTest extends TestUtil {
 
   /**
    * Test a REST POST
-   * @param name Target action
-   * @param action Server action
+   *
+   * @param name       Target action
+   * @param action     Server action
    * @param parameters Extra parameters
-   * @param expected Expected result
+   * @param expected   Expected result
    * @throws Exception
    */
   private void doRestTest(String name, String action, String parameters, String expected) throws Exception {
     MvcResult mvcResult = mockMvc.perform(post("/action/" + action + "/" + name)
-            .param("p", "{\"serverAction\":\"" + action + "\",\"targetAction\":\"" + name + "\"," + parameters +"\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-            .session(session)
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andReturn();
+      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{" + parameters + "\"max\":30}")
+      .accept(MediaType.APPLICATION_JSON)
+      .session(session))
+      .andExpect(status().isOk())
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
     logger.debug(result);
 
