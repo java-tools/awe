@@ -62,7 +62,7 @@ public class MicroserviceConnector extends AbstractRestConnector {
 
   /**
    * Read defined parameters from properties and add them to the parameter map
-   * @param microserviceName Microservice name
+   * @param microservice Microservice
    * @param paramsMapFromRequest Parameter map
    */
   private void addDefinedParameters(ServiceMicroservice microservice, Map<String, Object> paramsMapFromRequest) {

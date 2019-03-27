@@ -71,7 +71,7 @@ public class DataRestControllerTest {
 
   @Test
   public void queryWithoutAuthentication() throws Exception {
-    ServiceData expected = new ObjectMapper().readValue("{\"valid\":true,\"type\":\"OK\",\"title\":\"\",\"message\":\"\",\"dataList\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"clientActionList\":[],\"variableMap\":{\"DATA\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"ROWS\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"resultDetails\":[]}",  ServiceData.class);
+    ServiceData expected = new ObjectMapper().readValue("{\"valid\":true,\"type\":\"OK\",\"title\":\"\",\"message\":\"\",\"dataList\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"clientActionList\":[],\"variableMap\":{\"MESSAGE_TITLE\":\"\",\"DATA\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"MESSAGE_TYPE\":\"ok\",\"MESSAGE_DESCRIPTION\":\"\",\"ROWS\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"resultDetails\":[]}",  ServiceData.class);
 
     HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
@@ -85,7 +85,7 @@ public class DataRestControllerTest {
 
   @Test
   public void queryWithAuthentication() throws Exception{
-    ServiceData expected = new ObjectMapper().readValue("{\"valid\":true,\"type\":\"OK\",\"title\":\"\",\"message\":\"\",\"dataList\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"clientActionList\":[],\"variableMap\":{\"DATA\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"ROWS\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"resultDetails\":[]}",  ServiceData.class);
+    ServiceData expected = new ObjectMapper().readValue("{\"valid\":true,\"type\":\"OK\",\"title\":\"\",\"message\":\"\",\"dataList\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"clientActionList\":[],\"variableMap\":{\"MESSAGE_TITLE\":\"\",\"DATA\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"MESSAGE_TYPE\":\"ok\",\"MESSAGE_DESCRIPTION\":\"\",\"ROWS\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]},\"resultDetails\":[]}",  ServiceData.class);
 
     HttpEntity<String> entity = new HttpEntity<>(null, headers);
 
@@ -99,7 +99,7 @@ public class DataRestControllerTest {
 
   @Test
   public void queryWithVariable() throws Exception {
-    ServiceData expected = new ObjectMapper().readValue("{\"valid\":true,\"type\":\"OK\",\"title\":\"\",\"message\":\"\",\"dataList\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"1\":1,\"IdeModPro\":62,\"id\":1},{\"1\":1,\"IdeModPro\":65,\"id\":2},{\"1\":1,\"IdeModPro\":74,\"id\":3},{\"1\":1,\"IdeModPro\":937,\"id\":4}]},\"clientActionList\":[],\"variableMap\":{\"DATA\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"1\":1,\"IdeModPro\":62,\"id\":1},{\"1\":1,\"IdeModPro\":65,\"id\":2},{\"1\":1,\"IdeModPro\":74,\"id\":3},{\"1\":1,\"IdeModPro\":937,\"id\":4}]},\"ROWS\":[{\"1\":1,\"IdeModPro\":62,\"id\":1},{\"1\":1,\"IdeModPro\":65,\"id\":2},{\"1\":1,\"IdeModPro\":74,\"id\":3},{\"1\":1,\"IdeModPro\":937,\"id\":4}]},\"resultDetails\":[]}",  ServiceData.class);
+    ServiceData expected = new ObjectMapper().readValue("{\"valid\":true,\"type\":\"OK\",\"title\":\"\",\"message\":\"\",\"dataList\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"1\":1,\"IdeModPro\":62,\"id\":1},{\"1\":1,\"IdeModPro\":65,\"id\":2},{\"1\":1,\"IdeModPro\":74,\"id\":3},{\"1\":1,\"IdeModPro\":937,\"id\":4}]},\"clientActionList\":[],\"variableMap\":{\"MESSAGE_TITLE\":\"\",\"DATA\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"1\":1,\"IdeModPro\":62,\"id\":1},{\"1\":1,\"IdeModPro\":65,\"id\":2},{\"1\":1,\"IdeModPro\":74,\"id\":3},{\"1\":1,\"IdeModPro\":937,\"id\":4}]},\"MESSAGE_TYPE\":\"ok\",\"MESSAGE_DESCRIPTION\":\"\",\"ROWS\":[{\"1\":1,\"IdeModPro\":62,\"id\":1},{\"1\":1,\"IdeModPro\":65,\"id\":2},{\"1\":1,\"IdeModPro\":74,\"id\":3},{\"1\":1,\"IdeModPro\":937,\"id\":4}]},\"resultDetails\":[]}",  ServiceData.class);
 
     ObjectNode node = JsonNodeFactory.instance.objectNode();
     node.set("variable", JsonNodeFactory.instance.textNode("1"));
