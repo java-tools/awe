@@ -364,8 +364,12 @@ public class QueryService extends ServiceConfig {
    */
   private void addVariables(ServiceData out) {
     DataList data = out.getDataList();
-    out.addVariable(AweConstants.ACTION_DATA, new CellData(data));
-    out.addVariable(AweConstants.ACTION_ROWS, new CellData(data.getRows()));
+    out
+      .addVariable(AweConstants.ACTION_DATA, new CellData(data))
+      .addVariable(AweConstants.ACTION_ROWS, new CellData(data.getRows()))
+      .addVariable(AweConstants.ACTION_MESSAGE_TYPE, new CellData(out.getType().toString()))
+      .addVariable(AweConstants.ACTION_MESSAGE_TITLE, new CellData(out.getTitle()))
+      .addVariable(AweConstants.ACTION_MESSAGE_DESCRIPTION, new CellData(out.getMessage()));
   }
 
   /**
