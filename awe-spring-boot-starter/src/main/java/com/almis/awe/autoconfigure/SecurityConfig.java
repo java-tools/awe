@@ -153,9 +153,6 @@ public class SecurityConfig extends ServiceConfig {
   @Value ("${security.headers.frameOptions.sameOrigin:true}")
   private boolean sameOrigin;
 
-  @Value ("${security.master.key:fdvsd4@sdsa08}")
-  private String masterKey;
-
   /**
    * Second configuration class for spring security
    */
@@ -338,12 +335,14 @@ public class SecurityConfig extends ServiceConfig {
 
   /**
    * Jasypt string encryptor to encrypt/decrypt properties
+   * @param masterKey Master key
    * @param encryptorConfig Encryptor configuration
    * @return String encryptor bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public StringEncryptor jasyptStringEncryptor(SimpleStringPBEConfig encryptorConfig) {
+  public StringEncryptor jasyptStringEncryptor(@Value("${security.master.key:fdvsd4@sdsa08}") String masterKey,
+                                               SimpleStringPBEConfig encryptorConfig) {
     PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
     SimpleStringPBEConfig config = encryptorConfig;
     config.setPassword(masterKey);

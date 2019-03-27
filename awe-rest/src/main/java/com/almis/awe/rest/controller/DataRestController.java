@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * Data endpoint
  */
 @RestController
-@RequestMapping (value = "/api/data", method = {RequestMethod.POST})
+@RequestMapping("/api/data")
 public class DataRestController extends ServiceConfig {
 
   // Autowired services
@@ -34,7 +34,7 @@ public class DataRestController extends ServiceConfig {
    * @param jsonbody JSON parameters
    * @return JSON response
    */
-  @RequestMapping ("/{queryId}")
+  @PostMapping ("/{queryId}")
   public ResponseEntity dataController(@PathVariable String queryId, @RequestBody (required = false) JsonNode jsonbody) {
     try {
       if (jsonbody != null) {

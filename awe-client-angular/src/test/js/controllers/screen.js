@@ -46,7 +46,7 @@ describe('awe-client-angular/src/test/js/controllers/screen.js', function() {
     // Check action information
     it('should log action information', function() {
       let action = {action: "miAccion", parameters: ["tutu", {lala: 1}]};
-      spyOn(console, 'info').and.callThrough();
+      spyOn(console, 'info');
       controller.showInfo(action);
       expect(console.info).toHaveBeenCalled();
     });
