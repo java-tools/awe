@@ -394,7 +394,7 @@
     </join>
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="Usr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="Usr" trim="true" ignorecase="true"/>
       </and>
     </where>
     <variable id="Usr" type="STRING" session="user" />

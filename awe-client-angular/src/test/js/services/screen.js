@@ -238,12 +238,9 @@ describe('awe-client-angular/src/test/js/services/screen.js', function() {
   // Launch close-window action
   it('should launch a close-window action', function(done) {
     spyOn($windowMock, "close").and.callFake(() => {
-      console.info("spy window closed");
       done();
     });
-    launchScreenAction($injector, "close-window", "closeWindow", {id: 2, parameters:{}}, () => {
-      console.info("window close action accepted");
-    });
+    launchScreenAction($injector, "close-window", "closeWindow", {id: 2, parameters:{}}, () => null);
   });
 
   // Launch end-dependency action

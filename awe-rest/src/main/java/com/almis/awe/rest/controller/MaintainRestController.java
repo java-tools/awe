@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * Maintain endpoint
  */
 @RestController
-@RequestMapping(value = "/api/maintain", method = {RequestMethod.POST})
+@RequestMapping("/api/maintain")
 public class MaintainRestController extends ServiceConfig{
 
   // Autowired services
@@ -35,7 +35,7 @@ public class MaintainRestController extends ServiceConfig{
    * @param jsonbody JSON parameters
    * @return JSON response
    */
-  @RequestMapping ("/{maintainId}")
+  @PostMapping("/{maintainId}")
   public ResponseEntity<ServiceData> maintainController(@PathVariable String maintainId, @RequestBody (required = false) JsonNode jsonbody) {
     try {
       if (jsonbody != null) {

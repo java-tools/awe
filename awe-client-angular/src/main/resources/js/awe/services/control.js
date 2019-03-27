@@ -20,7 +20,6 @@ aweApplication.factory('Control',
       // Model constants
       var SELECTED = "selected";
       var PREVIOUS = "previous";
-      var VALUES = "values";
 
       // Address constants
       var VIEW = "view";
@@ -56,28 +55,23 @@ aweApplication.factory('Control',
         getTarget: function (address, action) {
           var target = null;
           // Check if address, action, view and component exists in both checks
-          var view, component;
-          if (address && VIEW in address && COMPONENT in address) {
-            view = address[VIEW];
-            component = address[COMPONENT];
-          }
+          let view = address && VIEW in address ? address[VIEW] : null;
+          let component = address && COMPONENT in address ? address[COMPONENT] : null;
           switch (Control.getAddressType(address)) {
             case "cell":
               if (Storage.has(action)) {
-                var storedAction = Storage.get(action);
+                let storedAction = Storage.get(action);
                 // Retrieve cell id
-                var cellId = Utilities.getCellId(address);
-                var cells = storedAction[view][component].cells;
-                // Initialize attribute
-                if (cellId in cells) {
-                  target = cells[cellId];
+                let cellId = Utilities.getCellId(address);
+                if (view in storedAction && component in storedAction[view] && cellId in storedAction[view][component].cells) {
+                  target = storedAction[view][component].cells[cellId];
                 }
               }
               break;
             case "viewAndComponent":
               // Normal component
               if (Storage.has(action)) {
-                var storedAction = Storage.get(action);
+                let storedAction = Storage.get(action);
                 if (view in storedAction && component in storedAction[view]) {
                   target = storedAction[view][component];
                 }
@@ -85,7 +79,7 @@ aweApplication.factory('Control',
               break;
             case "component":
               if (Storage.has(action)) {
-                var storedAction = Storage.get(action);
+                let storedAction = Storage.get(action);
                 // Normal component (no view)
                 _.each(storedAction, function (actionView) {
                   if (component in actionView) {
@@ -117,17 +111,17 @@ aweApplication.factory('Control',
           switch (Control.getAddressType(address)) {
             case "cell":
               if (Storage.has(action)) {
-                var storedAction = Storage.get(action);
+                let storedAction = Storage.get(action);
                 // Retrieve cell id
-                var cellId = Utilities.getCellId(address);
-                var cells = storedAction[view][component].cells;
+                let cellId = Utilities.getCellId(address);
+                let cells = storedAction[view][component].cells;
                 cells[cellId] = value;
                 target = cells[cellId];
               }
               break;
             case "viewAndComponent":
               // Normal component
-              var storedAction = Storage.get(action);
+              let storedAction = Storage.get(action);
               storedAction[view][component] = value;
               target = storedAction[view][component];
               break;

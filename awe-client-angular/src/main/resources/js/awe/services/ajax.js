@@ -185,16 +185,19 @@ aweApplication.factory('Ajax',
           $actionController.closeAllActions();
 
           // Generate message title
-          var title = "Connection error";
+          let title = "Connection error";
 
           // Launch message
-          var endLoad = {type: 'end-load',
+          let endLoad = {
+            type: 'end-load',
             callbackTarget: target,
             parameters: {}
           };
-          var actions = [endLoad];
-          if (error.data !== null) {
-            var message = {type: 'message', parameters: {
+          let actions = [endLoad];
+          if (!$utilities.isEmpty(error.data)) {
+            let message = {
+              type: 'message',
+              parameters: {
                 type: "error",
                 title: title,
                 message: "[" + connectionType + "] " + error.data

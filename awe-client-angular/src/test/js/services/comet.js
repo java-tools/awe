@@ -1,5 +1,5 @@
 describe('awe-client-angular/src/test/js/services/comet.js', function() {
-  let $injector, $utilities, $settings, $actionController, $comet, $rootScope;
+  let $injector, $utilities, $actionController, $comet;
   let originalTimeout;
 
   // Mock module
@@ -8,9 +8,7 @@ describe('awe-client-angular/src/test/js/services/comet.js', function() {
 
     inject(["$injector", function(__$injector__) {
       $injector = __$injector__;
-      $rootScope = $injector.get('$rootScope');
       $utilities = $injector.get('AweUtilities');
-      $settings = $injector.get('AweSettings');
       $actionController = $injector.get('ActionController');
       $comet = $injector.get('Comet');
     }]);
