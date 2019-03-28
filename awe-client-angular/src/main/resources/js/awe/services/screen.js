@@ -50,9 +50,9 @@ aweApplication.factory("Screen",
           }
 
           // Location is not the same
-          if (target !== $location.url()) {
+          if (!$utilities.sameUrl(target,$location.url())) {
             // Redirect to the screen
-            var state = $utilities.getState(target);
+            let state = $utilities.getState(target);
             $state.go(state.to, state.parameters, {reload: false, inherit: true, notify: true, location: true});
 
             // Finish screen action
@@ -71,7 +71,7 @@ aweApplication.factory("Screen",
          */
         reload: function (action) {
           // Retrieve action parameters
-          $state.go($state.current, {r: Math.random()}, {reload: false, inherit: true, notify: true, location: false});
+          $state.go($state.current, {}, {reload: false, inherit: true, notify: true, location: false});
 
           // Finish screen action
           action.accept();

@@ -51,6 +51,7 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
 
         // Load current state
         let initialState = $utilities.getState(settings.reloadCurrentScreen ? settings.initialURL : location.href);
+        $settings.update({reloadCurrentScreen: false});
 
         // Go to initial state
         $state.go(initialState.to, initialState.parameters, {reload: false, inherit: true, notify: true, location: true});
