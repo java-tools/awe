@@ -413,6 +413,18 @@ public final class DateUtil {
   }
 
   /**
+   * Transforms a RDB String date into a java date
+   *
+   * @param date SQL String Date
+   * @return Web date formatted
+   * @throws ParseException Parse error
+   */
+  public static java.util.Date rdb2Date(String date) throws ParseException {
+    /* Return web date string */
+    return DATE_FORMAT_RDB.parse(date);
+  }
+
+  /**
    * Transforms a SQL String date into a web time
    *
    * @param date SQL String Date
