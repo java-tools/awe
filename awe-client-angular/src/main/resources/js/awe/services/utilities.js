@@ -880,6 +880,15 @@ aweApplication.factory('AweUtilities',
           return $location.absUrl().substr(0, $location.absUrl().lastIndexOf($location.path()));
         },
         /**
+         * Check if both url's are the same regardless the parameters
+         * @return Context path
+         */
+        sameUrl: function(url1, url2) {
+          let firstUrl = url1 || "";
+          let secondUrl = url2 || "";
+          return firstUrl.split("?")[0] === secondUrl.split("?")[0];
+        },
+        /**
          * Retrieve application context path
          * @return Context path
          */
