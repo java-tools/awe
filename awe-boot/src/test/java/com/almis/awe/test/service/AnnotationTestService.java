@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 
+import static com.almis.awe.annotation.entities.security.Crypto.ActionType.DECRYPT;
+import static com.almis.awe.annotation.entities.security.Crypto.ActionType.ENCRYPT;
+
 @Service
 @Audit (value = @AuditParams (
   privateMethods = true,
@@ -82,7 +85,7 @@ public class AnnotationTestService {
    *
    * @return
    */
-  public String encryptText(@Crypto (action = Crypto.ActionType.ENCRYPT, password = "1234") String text) {
+  public String encryptText(@Crypto (action = ENCRYPT, password = "1234") String text) {
     return text;
   }
 
@@ -93,7 +96,7 @@ public class AnnotationTestService {
    *
    * @return
    */
-  public String decryptText(@Crypto (action = Crypto.ActionType.DECRYPT, password = "1234") String text) {
+  public String decryptText(@Crypto (action = DECRYPT, password = "1234") String text) {
     return text;
   }
 
@@ -104,7 +107,7 @@ public class AnnotationTestService {
    *
    * @return
    */
-  @Crypto (action = Crypto.ActionType.ENCRYPT, password = "1234")
+  @Crypto (action = ENCRYPT, password = "1234")
   public String encryptReturnedText(String text) {
     return text;
   }
@@ -116,7 +119,7 @@ public class AnnotationTestService {
    *
    * @return
    */
-  @Crypto (action = Crypto.ActionType.DECRYPT, password = "1234")
+  @Crypto (action = DECRYPT, password = "1234")
   public String decryptReturnedText(String text) {
     return text;
   }

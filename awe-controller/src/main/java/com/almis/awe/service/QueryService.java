@@ -263,7 +263,7 @@ public class QueryService extends ServiceConfig {
    * @return Query output
    * @throws AWException Query failed
    */
-  @Cacheable(value = "queryEnum")
+  @Cacheable(value = "queryEnum", key = "#p0")
   public ServiceData launchEnumQuery(String enumId) throws AWException {
     return launchEnumQuery(enumId, null, null);
   }
@@ -302,7 +302,7 @@ public class QueryService extends ServiceConfig {
    * @return Query output
    * @throws AWException Query failed
    */
-  @Cacheable(value = "queryEnum")
+  @Cacheable(value = "queryEnum", key = "{ #p0, #p1, #p2 }")
   public ServiceData launchEnumQuery(String enumId, String forcedPage, String forcedMax) throws AWException {
     ServiceData out = getBean(EnumQueryConnector.class).launchEnum(enumId, queryUtil.getParameters(JsonNodeFactory.instance.objectNode(), null, forcedPage, forcedMax));
 

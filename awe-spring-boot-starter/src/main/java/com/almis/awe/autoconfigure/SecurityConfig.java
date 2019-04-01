@@ -21,6 +21,7 @@ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -40,6 +41,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Spring security main configuration method
@@ -124,8 +126,8 @@ public class SecurityConfig extends ServiceConfig {
   private String rolePrefix;
 
   // Custom authentication
-  @Value ("${security.auth.custom.providers:}")
-  private String[] authenticationProviders;
+  @Value("#{'${security.auth.custom.providers:}'.split(',')}")
+  private List<String> authenticationProviders;
 
   // BBDD authentication
   @Value ("${security.auth.jdbc.param.userPasswordQuery:}")
@@ -135,8 +137,8 @@ public class SecurityConfig extends ServiceConfig {
   private String userRolesQuery;
 
   // LDAP authentication
-  @Value ("${security.auth.ldap.url:}")
-  private String[] ldapUrl;
+  @Value("#{'${security.auth.ldap.url:}'.split(',')}")
+  private List<String> ldapUrl;
 
   @Value ("${security.auth.ldap.user:}")
   private String ldapUserFilter;
@@ -288,8 +290,8 @@ public class SecurityConfig extends ServiceConfig {
      * @return LdapAuthenticationProvider
      */
     @Bean
-    @ConditionalOnMissingBean
-    public LdapAuthenticationProvider ldapAuthenticationProvider() {
+    @ConditionalOnProperty(name = "security.auth.mode", havingValue = "ldap")
+    public AuthenticationProvider ldapAuthenticationProvider() {
 
       // Bind authenticator with search filter
       final BindAuthenticator bindAuthenticator = new BindAuthenticator(getBean(LdapContextSource.class));
@@ -312,7 +314,7 @@ public class SecurityConfig extends ServiceConfig {
     @ConditionalOnMissingBean
     public LdapContextSource contextSource() {
       LdapContextSource ldapContextSource = new LdapContextSource();
-      ldapContextSource.setUrls(ldapUrl);
+      ldapContextSource.setUrls(ldapUrl.toArray(new String[0]));
       ldapContextSource.setBase(ldapBaseDN);
       ldapContextSource.setUserDn(ldapUserDN);
       ldapContextSource.setPassword(ldapPassword);

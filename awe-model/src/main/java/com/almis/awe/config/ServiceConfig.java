@@ -7,24 +7,16 @@ import com.almis.awe.model.util.log.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Base class for all custom service
  *
  * @author Jorge BELLON
  */
-@Configuration
 public abstract class ServiceConfig implements ApplicationContextAware {
 
   // Injected services
   private ApplicationContext context;
-  private AweElements elements;
-  private Environment environment;
-  private LogUtil logger;
 
   /**
    * Autowired application context
@@ -36,22 +28,12 @@ public abstract class ServiceConfig implements ApplicationContextAware {
   }
 
   /**
-   * On initialize bean, inject elements
-   */
-  @PostConstruct
-  public void onInitialize() {
-    this.elements = getBean(AweElements.class);
-    this.environment = context.getEnvironment();
-    this.logger = getBean(LogUtil.class);
-  }
-
-  /**
    * Returns instantiated elements
    *
    * @return Awe Elements
    */
   public AweElements getElements() {
-    return elements;
+    return getBean(AweElements.class);
   }
 
   /**
@@ -131,7 +113,7 @@ public abstract class ServiceConfig implements ApplicationContextAware {
    * @return Property value
    */
   public String getProperty(String property) {
-    return environment.getProperty(property);
+    return context.getEnvironment().getProperty(property);
   }
 
   /**
@@ -142,7 +124,7 @@ public abstract class ServiceConfig implements ApplicationContextAware {
    * @return Property value
    */
   public <T> T getProperty(String property, Class<T> clazz) {
-    return environment.getProperty(property, clazz);
+    return context.getEnvironment().getProperty(property, clazz);
   }
 
   /**
@@ -150,6 +132,6 @@ public abstract class ServiceConfig implements ApplicationContextAware {
    * @return Logger
    */
   public LogUtil getLogger() {
-    return logger;
+    return getBean(LogUtil.class);
   }
 }

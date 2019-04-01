@@ -28,7 +28,7 @@ public class QueryLauncher extends ServiceConfig {
    * @return Query data
    * @throws AWException Query has failed
    */
-  @Cacheable(value = "queryData", condition = "#query.isCacheable()", key = "{ #query.getId(), #parameters.toString() }")
+  @Cacheable(value = "queryData", condition = "#p0.isCacheable()", key = "{ #p0.getId(), #p1.toString() }")
   public ServiceData launchQuery(@NotNull Query query, ObjectNode parameters) throws AWException {
     QueryConnector queryLauncher;
     try {

@@ -1,7 +1,6 @@
 package com.almis.awe.autoconfigure;
 
 import com.almis.ade.api.ADE;
-import com.almis.awe.component.AweDatabaseContextHolder;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.component.AweSession;
@@ -44,8 +43,6 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.annotation.RequestScope;
-
-import javax.sql.DataSource;
 
 /**
  * AWE Autoconfiguration
@@ -192,17 +189,14 @@ public class AweAutoConfiguration {
   /**
    * Maintain service
    * @param maintainLauncher Maintain launcher
-   * @param contextHolder Database context holder
    * @param accessService Access service
    * @param queryUtil Query utilities
-   * @param dataSource Data source
    * @return Maintain service bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public MaintainService maintainService(MaintainLauncher maintainLauncher, AweDatabaseContextHolder contextHolder,
-                                         AccessService accessService, QueryUtil queryUtil, DataSource dataSource) {
-    return new MaintainService(maintainLauncher, contextHolder, accessService, queryUtil, dataSource);
+  public MaintainService maintainService(MaintainLauncher maintainLauncher, AccessService accessService, QueryUtil queryUtil) {
+    return new MaintainService(maintainLauncher, accessService, queryUtil);
   }
 
   /**

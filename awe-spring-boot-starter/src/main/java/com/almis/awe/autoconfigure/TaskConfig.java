@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
@@ -14,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Configuration
 @ConfigurationProperties(prefix = "awe.task-pool")
 @EnableAsync
-public class TaskConfig extends AsyncConfigurerSupport {
+public class TaskConfig {
 
   private Integer size;
   private Integer maxSize;
@@ -26,8 +25,7 @@ public class TaskConfig extends AsyncConfigurerSupport {
    * Returns the asynchronous executor task
    * @return Thread pool executor bean
    */
-  @Override
-  @Bean(name = "threadPoolTaskExecutor")
+  @Bean("threadPoolTaskExecutor")
   @ConditionalOnMissingBean
   public ContextAwarePoolExecutor getAsyncExecutor() {
     ContextAwarePoolExecutor executor = new ContextAwarePoolExecutor();

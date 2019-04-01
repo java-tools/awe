@@ -1,6 +1,5 @@
 package com.almis.awe.service.report;
 
-
 import com.almis.ade.api.ADE;
 import com.almis.ade.api.bean.input.PrintBean;
 import com.almis.ade.api.fluid.engine.generic.TemplateExporterBuilderService;
@@ -144,7 +143,7 @@ public class ReportGenerator extends ServiceConfig {
     ServiceData serviceData = new ServiceData();
     List<Future<ClientAction>> resultList = new ArrayList<>();
     for (String format : formats) {
-      resultList.add(generateReportFormat(builderService, format, fileName, serviceData));
+      resultList.add(generateReportFormat(builderService, format, fileName));
     }
 
     // Retrieve results
@@ -173,12 +172,11 @@ public class ReportGenerator extends ServiceConfig {
    * @param builderService
    * @param format
    * @param fileName
-   * @param serviceData
    * @return 
    * @throws com.almis.awe.exception.AWException 
    */
   @Async("threadPoolTaskExecutor")
-  public Future<ClientAction> generateReportFormat(TemplateExporterBuilderService builderService, String format, String fileName, ServiceData serviceData) throws AWException {
+  public Future<ClientAction> generateReportFormat(TemplateExporterBuilderService builderService, String format, String fileName) throws AWException {
     String mimeType;
     String basePath = StringUtil.getAbsolutePath(reportsPath, applicationBasePath);
     String fullFileName = fileName;

@@ -63,6 +63,7 @@ public class TemplateService extends ServiceConfig {
    * @return Template
    * @throws AWException error generating template
    */
+  @Cacheable(value = "screenTemplates", key = "'default'")
   public String getTemplate() throws AWException {
 
     // Get screen from option
@@ -101,7 +102,7 @@ public class TemplateService extends ServiceConfig {
    * @return Screen template
    * @throws AWException Error generating breadcrumbs
    */
-  @Cacheable(value = "screenTemplates", key = "{ #view, #optionId }")
+  @Cacheable(value = "screenTemplates", key = "{ #p1, #p2 }")
   public String generateScreenTemplate(Screen screen, String view, String optionId) throws AWException {
     // Generate template from screen
     ST screenTemplate = screensTemplateGroup.createStringTemplate(screensTemplateGroup.rawGetTemplate(screen.getTemplate()));
