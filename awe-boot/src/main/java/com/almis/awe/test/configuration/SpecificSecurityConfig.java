@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import java.util.List;
 
 /**
  * Spring security main configuration method
@@ -39,53 +40,8 @@ public class SpecificSecurityConfig extends ServiceConfig {
   @Autowired
   private UsernamePasswordAuthenticationFilter authenticationFilter;
 
-  @Value("${screen.parameter.username:cod_usr}")
-  private String usernameParameter;
-
-  @Value("${screen.parameter.password:pwd_usr}")
-  private String passwordParameter;
-
-  @Value ("${language.default}:en")
-  private String defaultLocale;
-
-  @Value ("${security.auth.mode:bbdd}")
-  private String authenticationProviderSource;
-
-  @Value ("${security.role.prefix:ROLE_}")
-  private String rolePrefix;
-
-  // Custom authentication
-  @Value ("${security.auth.custom.providers:}")
-  private String[] authenticationProviders;
-
-  // BBDD authentication
-  @Value ("${security.auth.jdbc.param.userPasswordQuery:}")
-  private String userDetailsQuery;
-
-  @Value ("${security.auth.jdbc.param.rolesQuery:}")
-  private String userRolesQuery;
-
-  // LDAP authentication
-  @Value ("${security.auth.ldap.url:}")
-  private String[] ldapUrl;
-
-  @Value ("${security.auth.ldap.user:}")
-  private String ldapUserFilter;
-
-  @Value ("${security.auth.ldap.password.bind:}")
-  private String ldapPassword;
-
-  @Value ("${security.auth.ldap.user.bind:}")
-  private String ldapUserDN;
-
-  @Value ("${security.auth.ldap.basedn:}")
-  private String ldapBaseDN;
-
   @Value ("${security.headers.frameOptions.sameOrigin:true}")
   private boolean sameOrigin;
-
-  @Value ("${security.master.key:fdvsd4@sdsa08}")
-  private String masterKey;
 
   /**
    * Second configuration class for spring security

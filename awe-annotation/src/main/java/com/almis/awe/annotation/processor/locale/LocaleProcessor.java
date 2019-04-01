@@ -2,8 +2,11 @@ package com.almis.awe.annotation.processor.locale;
 
 import com.almis.awe.annotation.aspect.LocaleAnnotation;
 import com.almis.awe.annotation.entities.locale.Locale;
-import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.model.component.AweElements;
+import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.constant.AweConstants;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Locale annotation processor
@@ -12,8 +15,25 @@ import com.almis.awe.model.constant.AweConstants;
  * @see Locale
  * @see LocaleAnnotation
  */
-public class LocaleProcessor extends ServiceConfig {
+public class LocaleProcessor {
   private static final String EMPTY = "";
+
+  // Autowired objects
+  ObjectFactory<AweSession> aweSessionObjectFactory;
+  ObjectFactory<AweElements> aweElementsObjectFactory;
+
+  /**
+   * Autowired constructor
+   * @param aweSessionObjectFactory
+   * @param aweElementsObjectFactory
+   */
+  @Autowired
+  public LocaleProcessor(final ObjectFactory<AweSession> aweSessionObjectFactory,
+                         final ObjectFactory<AweElements> aweElementsObjectFactory) {
+    this.aweSessionObjectFactory = aweSessionObjectFactory;
+    this.aweElementsObjectFactory = aweElementsObjectFactory;
+  }
+
 
   /**
    * Process locale annotation
@@ -26,14 +46,14 @@ public class LocaleProcessor extends ServiceConfig {
     if (annotation.value().equalsIgnoreCase(EMPTY)) {
       if (s != null && !s.equalsIgnoreCase(EMPTY)) {
         if (annotation.language().equalsIgnoreCase(EMPTY)) {
-          return getTranslatedLocale(s, getSession().getParameter(String.class, AweConstants.SESSION_LANGUAGE), annotation.params());
+          return getTranslatedLocale(s, aweSessionObjectFactory.getObject().getParameter(String.class, AweConstants.SESSION_LANGUAGE), annotation.params());
         } else {
           return getTranslatedLocale(s, annotation.language(), annotation.params());
         }
       }
     } else {
       if (annotation.language().equalsIgnoreCase(EMPTY)) {
-        return getTranslatedLocale(annotation.value(), getSession().getParameter(String.class, AweConstants.SESSION_LANGUAGE), annotation.params());
+        return getTranslatedLocale(annotation.value(), aweSessionObjectFactory.getObject().getParameter(String.class, AweConstants.SESSION_LANGUAGE), annotation.params());
       } else {
         return getTranslatedLocale(annotation.value(), annotation.language(), annotation.params());
       }
@@ -52,9 +72,9 @@ public class LocaleProcessor extends ServiceConfig {
   private String getTranslatedLocale(String localeId, String lang, String[] params) {
     String parsed;
     if (params == null) {
-      parsed = getLocale(localeId, lang);
+      parsed = aweElementsObjectFactory.getObject().getLocale(localeId, lang);
     } else {
-      parsed = getLocale(localeId, params);
+      parsed = aweElementsObjectFactory.getObject().getLocale(localeId, params);
     }
     return parsed;
   }

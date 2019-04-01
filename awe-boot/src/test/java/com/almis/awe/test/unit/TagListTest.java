@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.almis.awe.test.unit;
 
 import com.almis.awe.exception.AWException;
@@ -74,7 +69,7 @@ public class TagListTest extends TestUtil {
   public void testTagList() throws Exception {
     String expected = "test";
     when(templateService.generateTaglistTemplate(anyString())).thenReturn(expected);
-    MvcResult result = templateTestPost("/template/taglist/taglist1", "text/plain;charset=UTF-8", "{}", status().isOk())
+    MvcResult result = templateTestPost("/taglist/taglist1", "text/plain;charset=UTF-8", "{}", status().isOk())
       .andExpect(content().encoding("UTF-8"))
       .andReturn();
 
@@ -90,7 +85,7 @@ public class TagListTest extends TestUtil {
   public void testTagListWithError() throws Exception {
     String expected = "test";
     when(templateService.generateTaglistTemplate(anyString())).thenThrow(new AWException("", ""));
-    MvcResult result = templateTestPost("/template/taglist/taglist1", "text/plain;charset=UTF-8", "{}", status().isOk())
+    MvcResult result = templateTestPost("/taglist/taglist1", "text/plain;charset=UTF-8", "{}", status().isOk())
       .andExpect(content().encoding("UTF-8"))
       .andReturn();
 
@@ -106,7 +101,7 @@ public class TagListTest extends TestUtil {
   public void testTagListOption() throws Exception {
     String expected = "test";
     when(templateService.generateTaglistTemplate(anyString(), anyString())).thenReturn(expected);
-    MvcResult result = templateTestPost("/template/taglist/option1/taglist1", "text/plain;charset=UTF-8", "{}", status().isOk())
+    MvcResult result = templateTestPost("/taglist/option1/taglist1", "text/plain;charset=UTF-8", "{}", status().isOk())
       .andExpect(content().encoding("UTF-8"))
       .andReturn();
 
@@ -122,7 +117,7 @@ public class TagListTest extends TestUtil {
   public void testTagListOptionWithError() throws Exception {
     String expected = "test";
     when(templateService.generateTaglistTemplate(anyString(), anyString())).thenThrow(new AWException("", ""));
-    MvcResult result = templateTestPost("/template/taglist/option1/taglist1", "text/plain;charset=UTF-8", "{}", status().isOk())
+    MvcResult result = templateTestPost("/taglist/option1/taglist1", "text/plain;charset=UTF-8", "{}", status().isOk())
       .andExpect(content().encoding("UTF-8"))
       .andReturn();
 

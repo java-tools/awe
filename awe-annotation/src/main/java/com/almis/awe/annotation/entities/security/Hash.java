@@ -1,7 +1,6 @@
 package com.almis.awe.annotation.entities.security;
 
 import com.almis.awe.annotation.aspect.HashAnnotation;
-import com.almis.awe.annotation.classload.SecurityAnnotationProcessor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +10,6 @@ import java.lang.annotation.Target;
 /**
  * Hashing annotation to hash fields and input parameters
  *
- * @see SecurityAnnotationProcessor
  * @see HashAnnotation
  * @author dfuentes
  * Created by dfuentes on 15/03/2017.

@@ -1,7 +1,7 @@
 package com.almis.awe.model.util.security;
 
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
-import com.thoughtworks.xstream.core.util.Base64Encoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,17 +9,15 @@ import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import javax.validation.constraints.NotNull;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.regex.Pattern;
+import java.util.*;
 
 /**
  * Cryptographic module Contains some basic encrypt utilities
@@ -33,6 +31,109 @@ public final class Crypto {
    * Private constructor to hide the implicit one
    */
   private Crypto() {}
+
+  /**
+   * Utils
+   */
+  public static class Utils {
+
+    private static final Logger logger = LogManager.getLogger(Utils.class);
+    private static Random random;
+
+    static {
+      try {
+        random = SecureRandom.getInstance("SHA1PRNG");
+      } catch (NoSuchAlgorithmException exc) {
+        logger.error("Error initializing secure random", exc);
+      }
+    }
+
+    /**
+     * Private constructor of Utils class
+     */
+    private Utils() {}
+
+    /**
+     * Encode with pbkdf
+     *
+     * @param password
+     * @param salt
+     * @param iterationCount
+     * @param dkLen
+     * @return
+     * @throws InvalidKeyException
+     * @throws NoSuchAlgorithmException
+     */
+    public static String pbkdf2(String password, String salt, int iterationCount, int dkLen) throws InvalidKeyException, NoSuchAlgorithmException {
+
+      int dkLenMod = dkLen;
+      int numIter = iterationCount;
+
+      if (dkLenMod != 16 && dkLenMod != 24 && dkLenMod != 32) {
+        dkLenMod = 16;
+      }
+      if (numIter < 0) {
+        numIter = 0;
+      }
+
+      byte[] arrPassword = password.getBytes();
+      byte[] arrSalt = salt.getBytes();
+      byte[] key = PBKDF2.deriveKey(arrPassword, arrSalt, numIter, dkLenMod);
+      return new String(key, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Retrieve random bytes
+     *
+     * @param len Length
+     * @return random bytes
+     */
+    public static byte[] getRandomBytes(int len) {
+      int lenMod = len;
+      byte[] aesKey;
+
+      if (lenMod < 0) {
+        lenMod = 8;
+      }
+
+      aesKey = new byte[lenMod];
+      random.nextBytes(aesKey);
+      return aesKey;
+    }
+
+    /**
+     * Get the recommended iteration number
+     *
+     * @return String
+     */
+    public static int getRecommendedIterationNumber() {
+
+      // Set base values
+      int baseIterations = 256000;
+      final int baseDate = 2016;
+
+      // Get the difference of years between 2016 and current year
+      int diffYears = Calendar.getInstance().get(Calendar.YEAR) - baseDate;
+
+      // Every 2 years from the base year (2016) the baseIterationNum has to
+      // double its value
+      int multiply = diffYears / 2;
+      if (multiply >= 1) {
+        baseIterations = baseIterations * multiply;
+      }
+      return baseIterations;
+    }
+
+    /**
+     * Returns an hexadecimal string from a byte array
+     *
+     * @param hash Hash
+     * @return String
+     */
+    public static String encodeHex(byte[] hash) {
+      return String.format("%064x", new java.math.BigInteger(1, hash));
+    }
+  }
 
   /**
    * AES encryption utilities
@@ -49,52 +150,27 @@ public final class Crypto {
     // Padding for symmetric algorithm - Removed PKCS5Padding
     private static final String PADDING = "NoPadding";
     private static final String CIPHER_TRANSFORMATION = ALGORITHM + "/" + MODE + "/" + PADDING;
-    private SecureRandom random;
-    private Base64Encoder base64Encoder;
+    private static final byte[] initialVector = Utils.getRandomBytes(GCM_IV_LENGTH);
 
     private static final Logger logger = LogManager.getLogger(AES.class);
 
     /**
      * Constructor
      */
-    AES() {
-      initializeAES();
-    }
-
-    /**
-     * Initialize AES showing errors if failed
-     */
-    private void initializeAES() {
-      try {
-        base64Encoder = new Base64Encoder();
-        random = SecureRandom.getInstanceStrong();
-      } catch (NoSuchAlgorithmException exc) {
-        logger.error("Error initializing secure random", exc);
-      }
-    }
+    private AES() {}
 
     /**
      * Generate IV
      * @return IV
      */
-    private byte[] generateIV() {
-      byte[] ivGen = new byte[GCM_IV_LENGTH];
-      random.nextBytes(ivGen);
-      return ivGen;
-    }
-
-    /**
-     * Generate IV
-     * @return IV
-     */
-    private Cipher generateCipher(byte[] iv, String passphrase, int mode) {
+    private static Cipher generateCipher(byte[] iv, String passphrase, int mode) {
       try {
         Cipher cipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
         GCMParameterSpec ivSpec = new GCMParameterSpec(GCM_TAG_LENGTH * Byte.SIZE, iv);
-        cipher.init(mode, getSecretKey(passphrase, iv), ivSpec);
+        cipher.init(mode, AES.getSecretKey(passphrase, iv), ivSpec);
         return cipher;
       } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException | InvalidKeyException exc) {
-        logger.error("Error initializing cipher: {0} - {1}", CIPHER_TRANSFORMATION, passphrase, exc);
+        logger.error("Error initializing cipher: {} - {}", CIPHER_TRANSFORMATION, passphrase, exc);
       }
       return null;
     }
@@ -104,11 +180,13 @@ public final class Crypto {
      * @param key Key
      * @return Secret key spec
      */
-    private SecretKeySpec getSecretKey(String key, byte[] iv) {
+    private static SecretKeySpec getSecretKey(String key, byte[] iv) {
       try {
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
-        SecretKey derivedKey = factory.generateSecret(new PBEKeySpec(key.toCharArray(), iv, 1000, AES_KEY_SIZE));
-        return new SecretKeySpec(derivedKey.getEncoded(), ALGORITHM);
+        if (key != null) {
+          SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+          SecretKey derivedKey = factory.generateSecret(new PBEKeySpec(key.toCharArray(), iv, Utils.getRecommendedIterationNumber(), AES_KEY_SIZE));
+          return new SecretKeySpec(derivedKey.getEncoded(), ALGORITHM);
+        }
       } catch (NoSuchAlgorithmException | InvalidKeySpecException exc) {
         logger.error("Error generating secret key spec", exc);
       }
@@ -123,24 +201,23 @@ public final class Crypto {
      * @param encoding Encoding
      * @return Encrypted text
      */
-    public String encrypt(String plaintext, String passphrase, String encoding) {
+    public static String encrypt(@NotNull String plaintext, String passphrase, String encoding) {
       if (plaintext.length() == 0) {
         return null;
       }
 
       try {
-        byte[] iv = generateIV();
-        Cipher cipher = generateCipher(iv, passphrase, Cipher.ENCRYPT_MODE);
+        Cipher cipher = generateCipher(initialVector, passphrase, Cipher.ENCRYPT_MODE);
 
         if (cipher != null) {
           byte[] ciphertext = cipher.doFinal(plaintext.getBytes(encoding));
-          byte[] encrypted = new byte[iv.length + ciphertext.length];
-          System.arraycopy(iv, 0, encrypted, 0, iv.length);
-          System.arraycopy(ciphertext, 0, encrypted, iv.length, ciphertext.length);
-          return base64Encoder.encode(encrypted);
+          byte[] encrypted = new byte[initialVector.length + ciphertext.length];
+          System.arraycopy(initialVector, 0, encrypted, 0, initialVector.length);
+          System.arraycopy(ciphertext, 0, encrypted, initialVector.length, ciphertext.length);
+          return Base64.getEncoder().encodeToString(encrypted);
         }
       } catch (IllegalBlockSizeException | BadPaddingException | UnsupportedEncodingException exc) {
-        logger.error("Error encoding string {0}", plaintext, exc);
+        logger.error("Error encoding string {}", plaintext, exc);
       }
       return null;
     }
@@ -153,13 +230,13 @@ public final class Crypto {
      * @param encoding Encoding
      * @return Decrypted text
      */
-    public String decrypt(String encrypted, String passphrase, String encoding) {
+    public static String decrypt(@NotNull String encrypted, String passphrase, String encoding) {
       if (encrypted.length() == 0) {
         return null;
       }
 
       try {
-        byte[] decoded = base64Encoder.decode(encrypted);
+        byte[] decoded = Base64.getDecoder().decode(encrypted);
         byte[] iv = Arrays.copyOfRange(decoded, 0, GCM_IV_LENGTH);
         Cipher cipher = generateCipher(iv, passphrase, Cipher.DECRYPT_MODE);
         if (cipher != null) {
@@ -167,7 +244,7 @@ public final class Crypto {
           return new String(ciphertext, encoding);
         }
       } catch (IllegalBlockSizeException | BadPaddingException | UnsupportedEncodingException exc) {
-        logger.error("Error decoding string {0}", encrypted, exc);
+        logger.error("Error decoding string {}", encrypted, exc);
       }
       return null;
     }
@@ -252,17 +329,47 @@ public final class Crypto {
    */
   public static class HASH {
 
+    private HASH(){}
+
+    /**
+     * Create a HASH with algorithm
+     *
+     * @param message Message to hash
+     * @param algorithm algorithm to use
+     * @return Hash
+     * @throws AWException No such algorithm
+     */
+    public static String hash(String message, String algorithm, String salt, String encoding) throws AWException {
+      try {
+        MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
+
+        // Add salt if defined
+        if (salt != null) {
+          messageDigest.digest(salt.getBytes(encoding));
+        }
+
+        // Put the text to hash
+        messageDigest.update(message.getBytes(encoding));
+
+        // Encode to hex
+        return Utils.encodeHex(messageDigest.digest());
+
+      } catch (NoSuchAlgorithmException exc) {
+        throw new AWException("Hash generation error", "The algorithm does not exist", exc);
+      } catch (UnsupportedEncodingException exc) {
+        throw new AWException("Hash generation error", "The encoding is not supported: " + encoding, exc);
+      }
+    }
+
     /**
      * Create a HASH with md2Hash
      *
      * @param message Message to hash
      * @return Hash
-     * @throws NoSuchAlgorithmException No such algorithm
+     * @throws AWException No such algorithm
      */
-    public String md2Hash(String message) throws NoSuchAlgorithmException {
-      MessageDigest md2 = MessageDigest.getInstance("MD2");
-      byte[] array = md2.digest(message.getBytes());
-      return arrayToString(array);
+    public static String md2Hash(String message) throws AWException {
+      return hash(message, "MD2", null, AweConstants.APPLICATION_ENCODING);
     }
 
     /**
@@ -270,12 +377,10 @@ public final class Crypto {
      *
      * @param message Message to hash
      * @return Hash
-     * @throws NoSuchAlgorithmException No such algorithm
+     * @throws AWException No such algorithm
      */
-    public String md5Hash(String message) throws NoSuchAlgorithmException {
-      MessageDigest md5 = MessageDigest.getInstance("MD5");
-      byte[] array = md5.digest(message.getBytes());
-      return arrayToString(array);
+    public static String md5Hash(String message) throws AWException {
+      return hash(message, "MD5", null, AweConstants.APPLICATION_ENCODING);
     }
 
     /**
@@ -283,12 +388,10 @@ public final class Crypto {
      *
      * @param message Message to hash
      * @return Hash
-     * @throws NoSuchAlgorithmException No such algorithm
+     * @throws AWException No such algorithm
      */
-    public String sha1Hash(String message) throws NoSuchAlgorithmException {
-      MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
-      byte[] array = sha1.digest(message.getBytes());
-      return arrayToString(array);
+    public static String sha1Hash(String message) throws AWException {
+      return hash(message, "SHA-1", null, AweConstants.APPLICATION_ENCODING);
     }
 
     /**
@@ -296,12 +399,10 @@ public final class Crypto {
      *
      * @param message Message to hash
      * @return Hash
-     * @throws NoSuchAlgorithmException No such algorithm
+     * @throws AWException No such algorithm
      */
-    public String sha256Hash(String message) throws NoSuchAlgorithmException {
-      MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-      byte[] array = sha256.digest(message.getBytes());
-      return arrayToString(array);
+    public static String sha256Hash(String message) throws AWException {
+      return hash(message, "SHA-256", null, AweConstants.APPLICATION_ENCODING);
     }
 
     /**
@@ -309,12 +410,10 @@ public final class Crypto {
      *
      * @param message Message to hash
      * @return Hash
-     * @throws NoSuchAlgorithmException No such algorithm
+     * @throws AWException No such algorithm
      */
-    public String sha384Hash(String message) throws NoSuchAlgorithmException {
-      MessageDigest sha384 = MessageDigest.getInstance("SHA-384");
-      byte[] array = sha384.digest(message.getBytes());
-      return arrayToString(array);
+    public static String sha384Hash(String message) throws AWException {
+      return hash(message, "SHA-348", null, AweConstants.APPLICATION_ENCODING);
     }
 
     /**
@@ -322,26 +421,10 @@ public final class Crypto {
      *
      * @param message Message to hash
      * @return Hash
-     * @throws NoSuchAlgorithmException No such algorithm
+     * @throws AWException No such algorithm
      */
-    public String sha512Hash(String message) throws NoSuchAlgorithmException {
-      MessageDigest sha512 = MessageDigest.getInstance("SHA-512");
-      byte[] array = sha512.digest(message.getBytes());
-      return arrayToString(array);
-    }
-
-    /**
-     * Copy byte array to a string
-     *
-     * @param array Array
-     * @return Array converted
-     */
-    private String arrayToString(byte[] array) {
-      StringBuilder sb = new StringBuilder();
-      for (int i : array) {
-        sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
-      }
-      return sb.toString();
+    public static String sha512Hash(String message) throws AWException {
+      return hash(message, "SHA-512", null, AweConstants.APPLICATION_ENCODING);
     }
   }
 
@@ -447,7 +530,7 @@ public final class Crypto {
       }
       cipher.init(Cipher.ENCRYPT_MODE, publicKey);
       byte[] encrypted = cipher.doFinal(plaintext.getBytes());
-      return Utils.byteArrayToBase64String(encrypted);
+      return Base64.getEncoder().encodeToString(encrypted);
     }
 
     /**
@@ -464,432 +547,11 @@ public final class Crypto {
       if (ciphertext.length() == 0) {
         return null;
       }
-      byte[] dec = Utils.base64StringToByteArray(ciphertext);
+      byte[] dec = Base64.getDecoder().decode(ciphertext);
       cipher.init(Cipher.DECRYPT_MODE, privateKey);
       byte[] decrypted = cipher.doFinal(dec);
       Charset charset = Charset.forName(encoding);
       return new String(decrypted, charset);
-    }
-  }
-
-  /**
-   * Utils
-   */
-  public static class Utils {
-
-    /**
-     * Private constuctor of Utils class
-     */
-    private Utils() {
-    }
-
-    /**
-     * Encode with pbkdf
-     *
-     * @param password
-     * @param salt
-     * @param iterationCount
-     * @param dkLen
-     * @return
-     * @throws InvalidKeyException
-     * @throws NoSuchAlgorithmException
-     */
-    public static String pbkdf2(String password, String salt, int iterationCount, int dkLen) throws InvalidKeyException, NoSuchAlgorithmException {
-
-      int dkLenMod = dkLen;
-      int numIter = iterationCount;
-
-      if (dkLenMod != 16 && dkLenMod != 24 && dkLenMod != 32) {
-        dkLenMod = 16;
-      }
-      if (numIter < 0) {
-        numIter = 0;
-      }
-
-      byte[] arrPassword = password.getBytes();
-      byte[] arrSalt = salt.getBytes();
-      byte[] key = PBKDF2.deriveKey(arrPassword, arrSalt, numIter, dkLenMod);
-      return new String(key);
-    }
-
-    /**
-     * Retrieve random bytes
-     *
-     * @param len Length
-     * @return random bytes
-     */
-    public static byte[] getRandomBytes(int len) throws NoSuchAlgorithmException {
-
-      int lenMod = len;
-      byte[] aesKey;
-
-      if (lenMod < 0) {
-        lenMod = 8;
-      }
-      Random random = SecureRandom.getInstance(AweConstants.RANDOM_ALGORITHM);
-
-      aesKey = new byte[lenMod];
-      random.nextBytes(aesKey);
-      return aesKey;
-    }
-
-    /**
-     * Copy byte array to hex string
-     *
-     * @param raw byte array
-     * @return Hex string
-     */
-    public static String byteArrayToHexString(byte[] raw) {
-      StringBuilder sb = new StringBuilder(2 + raw.length * 2);
-      sb.append("0x");
-      for (int i = 0; i < raw.length; i++) {
-        sb.append(String.format("%02X", Integer.valueOf(raw[i] & 0xFF)));
-      }
-      return sb.toString();
-    }
-
-    /**
-     * Copy hex string to byte array
-     *
-     * @param hex Hex string
-     * @return Byte array
-     */
-    public static byte[] hexStringToByteArray(String hex) {
-      Pattern replace = Pattern.compile("^0x");
-      String s = replace.matcher(hex).replaceAll("");
-
-      byte[] b = new byte[s.length() / 2];
-      for (int i = 0; i < b.length; i++) {
-        int index = i * 2;
-        int v = Integer.parseInt(s.substring(index, index + 2), 16);
-        b[i] = (byte) v;
-      }
-      return b;
-    }
-
-    /**
-     * Copy byte array to base64 string
-     *
-     * @param raw Byte array
-     * @return Base64 string
-     */
-    public static String byteArrayToBase64String(byte[] raw) {
-      return new String(Base64Coder.encode(raw));
-    }
-
-    /**
-     * Copy base64 string to byte array
-     *
-     * @param str Base64 string
-     * @return Byte array
-     */
-    public static byte[] base64StringToByteArray(String str) {
-      return Base64Coder.decode(str);
-    }
-
-    /**
-     * Encode with base64
-     *
-     * @param str String
-     * @return base64 string
-     */
-    public static String base64Encode(String str) {
-      return Base64Coder.encodeString(str);
-    }
-
-    /**
-     * Decode from base64
-     *
-     * @param str Base64 string
-     * @return String decoded
-     */
-    public static String base64Decode(String str) {
-      return Base64Coder.decodeString(str);
-    }
-  }
-
-  /**
-   * Base64Coder
-   */
-  private static final class Base64Coder {
-    // The line separator string of the operating system.
-
-    private static final String SYSTEM_LINE_SEPARATOR = System.getProperty("line.separator");
-    // Mapping table from 6-bit nibbles to Base64 characters.
-    static final char[] MAP1 = new char[64];
-
-    static {
-      int i = 0;
-      for (char c = 'A'; c <= 'Z'; c++) {
-        MAP1[i++] = c;
-      }
-      for (char c = 'a'; c <= 'z'; c++) {
-        MAP1[i++] = c;
-      }
-      for (char c = '0'; c <= '9'; c++) {
-        MAP1[i++] = c;
-      }
-      MAP1[i++] = '+';
-      MAP1[i++] = '/';
-    }
-
-    // Mapping table from Base64 characters to 6-bit nibbles.
-    static final byte[] MAP2 = new byte[128];
-
-    static {
-      for (int i = 0; i < MAP2.length; i++) {
-        MAP2[i] = -1;
-      }
-      for (int i = 0; i < 64; i++) {
-        MAP2[MAP1[i]] = (byte) i;
-      }
-    }
-
-    /**
-     * Encodes a string into Base64 format. No blanks or line breaks are inserted.
-     *
-     * @param s A String to be encoded.
-     * @return A String containing the Base64 encoded data.
-     */
-    private static String encodeString(String s) {
-      return new String(encode(s.getBytes()));
-    }
-
-    /**
-     * Encodes a byte array into Base 64 format and breaks the output into lines of 76 characters. This method is compatible with <code>sun.misc.BASE64Encoder.encodeBuffer(byte[])</code>.
-     *
-     * @param in An array containing the data bytes to be encoded.
-     * @return A String containing the Base64 encoded data, broken into lines.
-     */
-    public static String encodeLines(byte[] in) {
-      return encodeLines(in, 0, in.length, 76, SYSTEM_LINE_SEPARATOR);
-    }
-
-    /**
-     * Encodes a byte array into Base 64 format and breaks the output into lines.
-     *
-     * @param in            An array containing the data bytes to be encoded.
-     * @param iOff          Offset of the first byte in <code>in</code> to be processed.
-     * @param iLen          Number of bytes to be processed in <code>in</code>, starting at <code>iOff</code>.
-     * @param lineLen       Line length for the output data. Should be a multiple of 4.
-     * @param lineSeparator The line separator to be used to separate the output lines.
-     * @return A String containing the Base64 encoded data, broken into lines.
-     */
-    private static String encodeLines(byte[] in, int iOff, int iLen, int lineLen, String lineSeparator) {
-      int blockLen = (lineLen * 3) / 4;
-      if (blockLen <= 0) {
-        throw new IllegalArgumentException();
-      }
-      int lines = (iLen + blockLen - 1) / blockLen;
-      int bufLen = ((iLen + 2) / 3) * 4 + lines * lineSeparator.length();
-      StringBuilder buf = new StringBuilder(bufLen);
-      int ip = 0;
-      while (ip < iLen) {
-        int l = Math.min(iLen - ip, blockLen);
-        buf.append(encode(in, iOff + ip, l));
-        buf.append(lineSeparator);
-        ip += l;
-      }
-      return buf.toString();
-    }
-
-    /**
-     * Encodes a byte array into Base64 format. No blanks or line breaks are inserted in the output.
-     *
-     * @param in An array containing the data bytes to be encoded.
-     * @return A character array containing the Base64 encoded data.
-     */
-    public static char[] encode(byte[] in) {
-      return encode(in, 0, in.length);
-    }
-
-    /**
-     * Encodes a byte array into Base64 format. No blanks or line breaks are inserted in the output.
-     *
-     * @param in   An array containing the data bytes to be encoded.
-     * @param iLen Number of bytes to process in <code>in</code>.
-     * @return A character array containing the Base64 encoded data.
-     */
-    public static char[] encode(byte[] in, int iLen) {
-      return encode(in, 0, iLen);
-    }
-
-    /**
-     * Encodes a byte array into Base64 format. No blanks or line breaks are inserted in the output.
-     *
-     * @param in   An array containing the data bytes to be encoded.
-     * @param iOff Offset of the first byte in <code>in</code> to be processed.
-     * @param iLen Number of bytes to process in <code>in</code>, starting at <code>iOff</code>.
-     * @return A character array containing the Base64 encoded data.
-     */
-    public static char[] encode(byte[] in, int iOff, int iLen) {
-      // output length without padding
-      int oDataLen = (iLen * 4 + 2) / 3;
-      // output length including padding
-      int oLen = ((iLen + 2) / 3) * 4;
-      char[] out = new char[oLen];
-      int ip = iOff;
-      int iEnd = iOff + iLen;
-      int op = 0;
-      while (ip < iEnd) {
-        int i0 = in[ip++] & 0xff;
-        int i1 = ip < iEnd ? in[ip++] & 0xff : 0;
-        int i2 = ip < iEnd ? in[ip++] & 0xff : 0;
-        int o0 = i0 >>> 2;
-        int o1 = ((i0 & 3) << 4) | (i1 >>> 4);
-        int o2 = ((i1 & 0xf) << 2) | (i2 >>> 6);
-        int o3 = i2 & 0x3F;
-        out[op++] = MAP1[o0];
-        out[op++] = MAP1[o1];
-        out[op] = op < oDataLen ? MAP1[o2] : '=';
-        op++;
-        out[op] = op < oDataLen ? MAP1[o3] : '=';
-        op++;
-      }
-      return out;
-    }
-
-    /**
-     * Decodes a string from Base64 format. No blanks or line breaks are allowed within the Base64 encoded input data.
-     *
-     * @param s A Base64 String to be decoded.
-     * @return A String containing the decoded data.
-     * @throws IllegalArgumentException If the input is not valid Base64 encoded data.
-     */
-    private static String decodeString(String s) {
-      return new String(decode(s));
-    }
-
-    /**
-     * Decodes a byte array from Base64 format and ignores line separators, tabs and blanks. CR, LF, Tab and Space characters are ignored in the input data. This method is compatible with
-     * <code>sun.misc.BASE64Decoder.decodeBuffer(String)</code>.
-     *
-     * @param s A Base64 String to be decoded.
-     * @return An array containing the decoded data bytes.
-     * @throws IllegalArgumentException If the input is not valid Base64 encoded data.
-     */
-    public static byte[] decodeLines(String s) {
-      char[] buf = new char[s.length()];
-      int p = 0;
-      for (int ip = 0; ip < s.length(); ip++) {
-        char c = s.charAt(ip);
-        if (c != ' ' && c != '\r' && c != '\n' && c != '\t') {
-          buf[p++] = c;
-        }
-      }
-      return decode(buf, 0, p);
-    }
-
-    /**
-     * Decodes a byte array from Base64 format. No blanks or line breaks are allowed within the Base64 encoded input data.
-     *
-     * @param s A Base64 String to be decoded.
-     * @return An array containing the decoded data bytes.
-     * @throws IllegalArgumentException If the input is not valid Base64 encoded data.
-     */
-    public static byte[] decode(String s) {
-      return decode(s.toCharArray());
-    }
-
-    /**
-     * Decodes a byte array from Base64 format. No blanks or line breaks are allowed within the Base64 encoded input data.
-     *
-     * @param in A character array containing the Base64 encoded data.
-     * @return An array containing the decoded data bytes.
-     * @throws IllegalArgumentException If the input is not valid Base64 encoded data.
-     */
-    public static byte[] decode(char[] in) {
-      return decode(in, 0, in.length);
-    }
-
-    /**
-     * Decodes a byte array from Base64 format. No blanks or line breaks are allowed within the Base64 encoded input data.
-     *
-     * @param in   A character array containing the Base64 encoded data.
-     * @param iOff Offset of the first character in <code>in</code> to be processed.
-     * @param iLen Number of characters to process in <code>in</code>, starting at <code>iOff</code>.
-     * @return An array containing the decoded data bytes.
-     * @throws IllegalArgumentException If the input is not valid Base64 encoded data.
-     */
-    public static byte[] decode(char[] in, int iOff, int iLen) {
-
-      int numChar = iLen;
-      if (numChar % 4 != 0) {
-        throw new IllegalArgumentException("Length of Base64 encoded input string is not a multiple of 4.");
-      }
-      while (numChar > 0 && in[iOff + numChar - 1] == '=') {
-        numChar--;
-      }
-      int oLen = (numChar * 3) / 4;
-      byte[] out = new byte[oLen];
-      int ip = iOff;
-      int iEnd = iOff + numChar;
-      int op = 0;
-      List<Integer> output = new ArrayList<>();
-      while (ip < iEnd) {
-        ip = processInput(in, ip, iEnd, output);
-        op = processOutput(out, op, oLen, output);
-        output.clear();
-      }
-      return out;
-    }
-
-    /**
-     * Process decode input
-     * @param in Data
-     * @param ip Index
-     * @param iEnd Length
-     * @param output Output variables
-     * @return Input index
-     */
-    private static int processInput(char[] in, int ip, int iEnd, List<Integer> output) {
-      String errorText = "Illegal character in Base64 encoded data.";
-      int index = ip;
-      int i0 = in[index++];
-      int i1 = in[index++];
-      int i2 = index < iEnd ? in[index++] : 'A';
-      int i3 = index < iEnd ? in[index++] : 'A';
-      if (i0 > 127 || i1 > 127 || i2 > 127 || i3 > 127) {
-        throw new IllegalArgumentException(errorText);
-      }
-      int b0 = MAP2[i0];
-      int b1 = MAP2[i1];
-      int b2 = MAP2[i2];
-      int b3 = MAP2[i3];
-      if (b0 < 0 || b1 < 0 || b2 < 0 || b3 < 0) {
-        throw new IllegalArgumentException(errorText);
-      }
-      output.add((b0 << 2) | (b1 >>> 4));
-      output.add(((b1 & 0xf) << 4) | (b2 >>> 2));
-      output.add(((b2 & 3) << 6) | b3);
-      return index;
-    }
-
-    /**
-     * Process decode output
-     * @param out Data
-     * @param op Index
-     * @param oLen Length
-     * @param output Output variables
-     * @return Output index
-     */
-    private static int processOutput(byte[] out, int op, int oLen, List<Integer> output) {
-      int index = op;
-      int o0 = output.get(0);
-      int o1 = output.get(1);
-      int o2 = output.get(2);
-      out[index++] = (byte) o0;
-      if (index < oLen) {
-        out[index++] = (byte) o1;
-      }
-      if (index < oLen) {
-        out[index++] = (byte) o2;
-      }
-      return index;
-    }
-
-    // Dummy constructor.
-    private Base64Coder() {
     }
   }
 }

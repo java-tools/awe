@@ -51,12 +51,7 @@ public class HashAnnotation {
 
     // Process join point
     String result = AnnotationUtils.processJoinPoint(proceedingJoinPoint);
-
-    try {
-      return HashProcessor.processHashing(((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getAnnotation(Hash.class), result);
-    } catch (Exception exc) {
-      throw new AWException("Unable to process annotation", "Unable to process hash annotation", exc);
-    }
+    return HashProcessor.processHashing(((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getAnnotation(Hash.class), result);
   }
 
   /**
@@ -71,18 +66,18 @@ public class HashAnnotation {
     Object[] args = proceedingJoinPoint.getArgs();
     int paramIndex = 0;
 
-    for(Annotation[] annotations : signature.getMethod().getParameterAnnotations()) {
+    for (Annotation[] annotations : signature.getMethod().getParameterAnnotations()) {
       for (Annotation annotation : annotations) {
-        if(annotation!=null){
-          //Get current field object
+        if (annotation != null){
+          // Get current field object
           Object arg = proceedingJoinPoint.getArgs()[paramIndex];
 
-            /* Apply processors */
+          // Apply processors
           if (annotation instanceof Hash) {
             arg = HashProcessor.processHashing(((Hash) annotation), (String) arg);
           }
 
-          /* Save value */
+          // Save value
           args[paramIndex] = arg;
         }
       }

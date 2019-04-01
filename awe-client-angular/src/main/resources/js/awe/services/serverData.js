@@ -135,7 +135,7 @@ aweApplication.factory('ServerData',
           }
 
           // Retrieve url
-          return Connection.getRawUrl() + "/template/taglist" + template;
+          return Connection.getRawUrl() + "/taglist" + template;
         },
         /**
          * Retrieve the help url for a screen
