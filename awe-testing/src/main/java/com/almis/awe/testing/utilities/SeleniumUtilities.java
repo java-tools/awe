@@ -462,20 +462,6 @@ public class SeleniumUtilities {
   }
 
   /**
-   * Wait for css selector
-   * @param cssSelector
-   */
-  private By waitForCssSelector(String cssSelector) {
-    By selector = By.cssSelector(cssSelector);
-
-    // Wait for selector
-    waitForSelector(selector);
-
-    // Return selector
-    return selector;
-  }
-
-  /**
    * Move mouse to avoid help popovers
    */
   private void moveMouse() {
@@ -816,6 +802,20 @@ public class SeleniumUtilities {
 
     // Wait for loading bar
     waitForLoadingBar();
+  }
+
+  /**
+   * Wait for css selector
+   * @param cssSelector
+   */
+  protected By waitForCssSelector(String cssSelector) {
+    By selector = By.cssSelector(cssSelector);
+
+    // Wait for selector
+    waitForSelector(selector);
+
+    // Return selector
+    return selector;
   }
 
   /**

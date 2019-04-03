@@ -10,7 +10,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>awe-boot</artifactId>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <name>AWE Testing Application (V${project.version})</name>
 
   <properties>
@@ -32,6 +32,7 @@
     <plugin-archetype.version>3.0.1</plugin-archetype.version>
     <plugin-xml.maven.version>1.0</plugin-xml.maven.version>
     <plugin-jar.version>3.1.0</plugin-jar.version>
+    <plugin-war.version>2.6</plugin-war.version>
     <plugin-resources.version>3.1.0</plugin-resources.version>
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
     <plugin-site.version>3.5.1</plugin-site.version>
@@ -146,6 +147,12 @@
     <dependency>
       <groupId>com.almis.ade</groupId>
       <artifactId>ade-spring-boot-starter</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.python</groupId>
+          <artifactId>jython</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- JDBC Drivers -->
@@ -168,7 +175,19 @@
     <resources>
       <resource>
         <directory>src/main/resources</directory>
+        <includes>
+          <include>**/application/**</include>
+          <include>**/config/**</include>
+          <include>**/sql/**</include>
+          <include>**/static/**</include>
+          <include>*</include>
+        </includes>
         <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources/images</directory>
+        <targetPath>${project.build.directory}/classes/static/images</targetPath>
+        <filtering>false</filtering>
       </resource>
     </resources>
     <plugins>
@@ -179,8 +198,14 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
-          <debug>true</debug>
-          <debuglevel>lines,vars,source</debuglevel>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${plugin-war.version}</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
 
@@ -238,41 +263,6 @@
                     <include>images/**</include>
                     <include>css/**</include>
                     <include>js/**</include>
-                  </includes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-          <!-- Copy images -->
-          <execution>
-            <id>copy-images</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/classes/static/images/</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.basedir}/src/main/resources/images/</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>copy-resources</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>src/main/resources/</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.build.frontend}</directory>
-                  <includes>
-                    <include>less/awe/variables.less</include>
-                    <include>less/awe/mixins.less</include>
                   </includes>
                 </resource>
               </resources>

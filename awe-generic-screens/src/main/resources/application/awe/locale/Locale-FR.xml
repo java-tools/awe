@@ -530,6 +530,7 @@
   <locale name="ERROR_MESSAGE_SEQUENCE_NOT_UPDATED" value="La séquence {0} n&apos;a pas été mis à jour"/>
   <locale name="ERROR_MESSAGE_SERVER_NOT_SUPPORTED" value="The server is not compatible"/>
   <locale name="ERROR_MESSAGE_SERVICE_NOT_FOUND" value="Le service n&apos;a pas ete defini"/>
+  <locale name="ERROR_MESSAGE_SESSION_EXPIRED" value="Votre connexion a expiré. Vous connecter à nouveau s&apos;il vous plaît."/>
   <locale name="ERROR_MESSAGE_SET_SESSION_OBJECT" value="Il ya eu un problème en essayant de stocker l&apos;objet avec la touche - {0} - dans le cache de session"/>
   <locale name="ERROR_MESSAGE_SET_SESSION_VARIABLE" value="Il y a eu un problème en essayant de conserver la valeur - {0} - dans la variable de session - {1} -"/>
   <locale name="ERROR_MESSAGE_SINGLE_MAINTAIN" value="L&apos;operation de maintenance de l&apos;instruction simple n&apos;a pas fini correctement. [{0}]"/>
@@ -682,6 +683,7 @@
   <locale name="ERROR_TITLE_SCREEN_OPTION_NOT_DEFINED" value="Ecran option non defini"/>
   <locale name="ERROR_TITLE_SENDING_QUEUE_MESSAGE" value="Erreur d&apos;envoy du message"/>
   <locale name="ERROR_TITLE_SERVER_NOT_SUPPORTED" value="Erreur avec le serveur"/>
+  <locale name="ERROR_TITLE_SESSION_EXPIRED" value="Session expirée"/>
   <locale name="ERROR_TITLE_SET_SESSION_OBJECT" value="L&apos;enregistrement d&apos;une séance d&apos;objet erreur"/>
   <locale name="ERROR_TITLE_SET_SESSION_VARIABLE" value="L&apos;enregistrement d&apos;une séance d&apos;objet erreur"/>
   <locale name="ERROR_TITLE_SIZE_LIMIT" value="Vous avez dépassé la taille du fichier"/>

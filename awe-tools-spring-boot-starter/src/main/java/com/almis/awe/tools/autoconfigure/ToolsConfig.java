@@ -6,7 +6,6 @@ import com.almis.awe.tools.service.SqlExtractorService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import javax.sql.DataSource;
 
@@ -14,7 +13,6 @@ import javax.sql.DataSource;
  * Tool module configuration
  */
 @Configuration
-@PropertySource(value = "classpath:config/tools.properties")
 public class ToolsConfig {
 
   /**

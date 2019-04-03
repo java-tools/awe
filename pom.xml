@@ -62,7 +62,11 @@
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
     <skip.selenium>true</skip.selenium>
+    <skip.javadoc>true</skip.javadoc>
     <skip.main>false</skip.main>
+
+    <!-- Build environment -->
+    <build.environment>development</build.environment>
   </properties>
 
   <modules>
@@ -91,7 +95,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <skip>${skip.main}</skip>
+          <skip>${skip.javadoc}</skip>
         </configuration>
         <executions>
           <execution>

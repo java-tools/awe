@@ -9,7 +9,7 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
   JACOCO_OPTS: "-DgenerateIntegrationReport=true -Dskip.selenium=false -Dkarma.launch.gitlab=true -Djava.debug=true"
-  GENERAL_BROWSER_OPTS: "-f awe-boot/pom.xml -Dskip.main=true -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false"
+  GENERAL_BROWSER_OPTS: "-f awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false"
   CHROME_OPTS: "-Dbrowser=headless-chrome"
   FIREFOX_OPTS: "-Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
@@ -24,6 +24,8 @@ cache:
   policy: pull
   paths:
   - .m2/repository/
+  - awe-client-angular/node_modules/
+  - awe-tools/node_modules/
 
 stages:
 - build
@@ -33,6 +35,10 @@ stages:
 - package
 - deploy
 - release
+
+include:
+  - template: SAST.gitlab-ci.yml
+  - template: Dependency-Scanning.gitlab-ci.yml
 
 # Testing extension
 .testing:
@@ -57,18 +63,25 @@ stages:
       - awe-boot/target/surefire-reports/TEST-*.xml
     when: on_failure
 
+# Analysis extension
+.analyze:
+  tags:
+  - docker
+
 ##############################
 # Build stage
 ##############################
 
 maven-build:
-  image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   stage: build
   cache:
     key: $CACHE_KEY
     policy: push
     paths:
-    - .m2/repository/
+      - .m2/repository/
+      - awe-client-angular/node_modules/
+      - awe-tools/node_modules/
   tags:
   - shared
   script:
@@ -77,7 +90,7 @@ maven-build:
   retry: 2
   artifacts:
     paths:
-    - awe-boot/target/awe-boot.jar
+    - awe-boot/target/awe-boot.war
     - awe-boot/target/tests/
     - awe-boot/target/coverage-reports/
     - awe-boot/target/surefire-reports/
@@ -93,13 +106,13 @@ maven-build:
 
 test-chrome:
   extends: .testing
-  image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
    BROWSER_OPTS: $CHROME_OPTS
 
 test-firefox:
   extends: .testing
-  image: registry.gitlab.com/aweframework/docker-tools/firefox-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
     BROWSER_OPTS: $FIREFOX_OPTS
 
@@ -124,83 +137,13 @@ check-sonar:
   - develop
   - tags
 
-dependency-scanning:
+sast:
   stage: analysis
-  image: docker:stable
-  tags:
-  - docker
-  variables:
-    DOCKER_DRIVER: overlay2
-  allow_failure: true
-  services:
-  - docker:stable-dind
-  script:
-  - export DS_VERSION=${SP_VERSION:-$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')}
-  - |
-    docker run \
-      --env DS_ANALYZER_IMAGES \
-      --env DS_ANALYZER_IMAGE_PREFIX \
-      --env DS_ANALYZER_IMAGE_TAG \
-      --env DS_DEFAULT_ANALYZERS \
-      --env DEP_SCAN_DISABLE_REMOTE_CHECKS \
-      --env DS_DOCKER_CLIENT_NEGOTIATION_TIMEOUT \
-      --env DS_PULL_ANALYZER_IMAGE_TIMEOUT \
-      --env DS_RUN_ANALYZER_TIMEOUT \
-      --volume "$PWD:/code" \
-      --volume /var/run/docker.sock:/var/run/docker.sock \
-      "registry.gitlab.com/gitlab-org/security-products/dependency-scanning:$DS_VERSION" /code
-  artifacts:
-    reports:
-      dependency_scanning: gl-dependency-scanning-report.json
-  dependencies: []
-  only:
-    refs:
-    - branches
-    variables:
-    - $GITLAB_FEATURES =~ /\bdependency_scanning\b/
-  except:
-    variables:
-    - $DEPENDENCY_SCANNING_DISABLED
+  extends: .analyze
 
-check-sast:
+dependency_scanning:
   stage: analysis
-  image: docker:stable
-  services:
-  - docker:stable-dind
-  tags:
-  - docker
-  variables:
-    DOCKER_DRIVER: overlay2
-  allow_failure: true
-  script:
-  - export SAST_VERSION=${SP_VERSION:-$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')}
-  - |
-    docker run \
-      --env SAST_ANALYZER_IMAGES \
-      --env SAST_ANALYZER_IMAGE_PREFIX \
-      --env SAST_ANALYZER_IMAGE_TAG \
-      --env SAST_DEFAULT_ANALYZERS \
-      --env SAST_BRAKEMAN_LEVEL \
-      --env SAST_GOSEC_LEVEL \
-      --env SAST_FLAWFINDER_LEVEL \
-      --env SAST_DOCKER_CLIENT_NEGOTIATION_TIMEOUT \
-      --env SAST_PULL_ANALYZER_IMAGE_TIMEOUT \
-      --env SAST_RUN_ANALYZER_TIMEOUT \
-      --volume "$PWD:/code" \
-      --volume /var/run/docker.sock:/var/run/docker.sock \
-      "registry.gitlab.com/gitlab-org/security-products/sast:$SAST_VERSION" /app/bin/run /code
-  artifacts:
-    reports:
-      sast: gl-sast-report.json
-  dependencies: []
-  only:
-    refs:
-    - branches
-    variables:
-    - $GITLAB_FEATURES =~ /\bsast\b/
-  except:
-    variables:
-    - $SAST_DISABLED
+  extends: .analyze
 
 ##############################
 # Site stage
@@ -210,7 +153,7 @@ site:
   image: maven:3.5-jdk-8
   stage: site
   script:
-  - mvn $MAVEN_CLI_OPTS install site -DskipTests
+  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.karma=true -Dbuild.environment=production
   artifacts:
     paths:
     - target/site/apidocs
@@ -243,7 +186,7 @@ deploy:
   image: maven:3.5-jdk-8
   stage: deploy
   script:
-  - mvn $MAVEN_CLI_OPTS deploy -DskipTests
+  - mvn $MAVEN_CLI_OPTS deploy -DskipTests -Dskip.karma=true -Dskip.javadoc=false -Dbuild.environment=production
   only:
   - develop
 

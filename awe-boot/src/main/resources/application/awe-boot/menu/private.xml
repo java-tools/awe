@@ -95,7 +95,6 @@
     <option name="screen-test" label="MENU_TOOLS_SCREENS_ACCESS" screen="ScrAccResTst" icon="eye-slash"/>
     <option name="pivot-test" label="MENU_TEST_PIVOT" screen="pivot-test" icon="table"/>
     <option name="filemanager-test" label="MENU_TEST_FILEMANAGER" screen="filemanager-test" icon="folder"/>
-    <option name="file-manager" screen="file-manager" invisible="true"/>
   </option>
   <option name="developer-separator" separator="true"/>
   <option name="developer" label="MENU_DEVELOPER" icon="paint-brush">

@@ -530,6 +530,7 @@
   <locale name="ERROR_MESSAGE_SEQUENCE_NOT_UPDATED" value="The sequence {0} could not be updated"/>
   <locale name="ERROR_MESSAGE_SERVER_NOT_SUPPORTED" value="The server is not compatible"/>
   <locale name="ERROR_MESSAGE_SERVICE_NOT_FOUND" value="Service has not been defined"/>
+  <locale name="ERROR_MESSAGE_SESSION_EXPIRED" value="Your connection has expired. You must login again."/>
   <locale name="ERROR_MESSAGE_SET_SESSION_OBJECT" value="There has been a problem trying to store the object with key - {0} - in the session cache"/>
   <locale name="ERROR_MESSAGE_SET_SESSION_VARIABLE" value="There has been a problem trying to store the value -{0}- into the session variable -{1}-"/>
   <locale name="ERROR_MESSAGE_SINGLE_MAINTAIN" value="The maintain operation of single statement has failed. [{0}]"/>
@@ -682,6 +683,7 @@
   <locale name="ERROR_TITLE_SCREEN_OPTION_NOT_DEFINED" value="Screen option not defined"/>
   <locale name="ERROR_TITLE_SENDING_QUEUE_MESSAGE" value="Error sending message"/>
   <locale name="ERROR_TITLE_SERVER_NOT_SUPPORTED" value="Error with server"/>
+  <locale name="ERROR_TITLE_SESSION_EXPIRED" value="Session expired"/>
   <locale name="ERROR_TITLE_SET_SESSION_OBJECT" value="Error storing session object"/>
   <locale name="ERROR_TITLE_SET_SESSION_VARIABLE" value="Error storing session variable"/>
   <locale name="ERROR_TITLE_SIZE_LIMIT" value="You have exceeded the file size"/>

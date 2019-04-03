@@ -218,8 +218,6 @@
           <configuration>
             <source>${java.version}</source>
             <target>${java.version}</target>
-            <debug>${java.debug}</debug>
-            <debuglevel>lines,vars,source</debuglevel>
           </configuration>
         </plugin>
         <plugin>
@@ -239,6 +237,11 @@
           <groupId>com.github.eirslett</groupId>
           <artifactId>frontend-maven-plugin</artifactId>
           <version>${plugin-frontend.version}</version>
+          <configuration>
+            <environmentVariables>
+              <NODE_ENV>${build.environment}</NODE_ENV>
+            </environmentVariables>
+          </configuration>
           <executions>
             <execution>
               <phase>compile</phase>

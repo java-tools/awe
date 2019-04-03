@@ -98,7 +98,7 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
 
       // Check if AweSession is authenticathed, and if so, write cookie value
       AweSession aweSession = session.getAttribute("scopedTarget.aweSession");
-      if (aweSession.isAuthenticated()) {
+      if (aweSession != null && aweSession.isAuthenticated()) {
         String cookieValue = createSessionCookieValue(sessionIds);
         this.cookieSerializer.writeCookieValue(new CookieSerializer.CookieValue(request, response, cookieValue));
       }
