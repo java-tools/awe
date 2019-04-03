@@ -4,6 +4,8 @@ import com.almis.awe.testing.utilities.SeleniumUtilities;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IntegrationTestsIT extends SeleniumUtilities {
@@ -1040,6 +1042,32 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
     // Check visible
     checkRowContents("OpeKey");
+  }
+
+  /**
+   * File Manager test
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t130_fileManager() throws Exception {
+    // Title
+    setTestTitle("File Manager test");
+
+    // Go to screen
+    gotoScreen("test", "filemanager-test");
+
+    // Wait for iframe
+    waitForCssSelector("iframe");
+
+    // Switch driver
+    WebElement iframe = getDriver().findElement(By.cssSelector("iframe"));
+    getDriver().switchTo().frame(iframe);
+
+    // Check visible
+    checkText("ol.breadcrumb a", "angular-filemanager");
+
+    // Return driver
+    getDriver().switchTo().defaultContent();
   }
 
   /**

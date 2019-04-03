@@ -92,7 +92,19 @@
     <resources>
       <resource>
         <directory>src/main/resources</directory>
+        <includes>
+          <include>**/application/**</include>
+          <include>**/config/**</include>
+          <include>**/sql/**</include>
+          <include>**/static/**</include>
+          <include>*</include>
+        </includes>
         <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources/images</directory>
+        <targetPath>${project.build.directory}/classes/static/images</targetPath>
+        <filtering>false</filtering>
       </resource>
     </resources>
     <plugins>
@@ -165,31 +177,6 @@
                   <includes>images/**,css/**</includes>
                 </artifactItem>
               </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>\${plugin-resources.version}</version>
-        <executions>
-          <execution>
-            <id>copy-resources</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>src/main/resources/</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>\${project.build.frontend}</directory>
-                  <includes>
-                    <include>less/awe/variables.less</include>
-                    <include>less/awe/mixins.less</include>
-                  </includes>
-                </resource>
-              </resources>
             </configuration>
           </execution>
         </executions>

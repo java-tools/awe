@@ -88,7 +88,7 @@ public class SQLConfig {
    */
   @Bean
   @Scope("prototype")
-  public Configuration sybaseDatabaseConfiguration (LogUtil logger) {return getConfiguration(new SQLServer2005Templates(), logger);
+  public Configuration sybaseDatabaseConfiguration (LogUtil logger) {return getConfiguration(SQLTemplates.DEFAULT, logger);
   }
 
   /**

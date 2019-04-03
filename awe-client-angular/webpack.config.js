@@ -99,8 +99,8 @@ module.exports = {
     name : 'commons',
     filename : 'js/commons.js',
     minChunks : 2
-  })
-  // new webpack.optimize.UglifyJsPlugin({ uglifyOptions: {compress: { warnings: true, drop_console: false}}, cache: true, parallel:true, sourceMap: true}),
+  }),
+  new webpack.optimize.UglifyJsPlugin({ uglifyOptions: {compress: { warnings: true, drop_console: false}}, cache: true, parallel:true, sourceMap: true})
   //new BundleAnalyzerPlugin()
   ]
 };
