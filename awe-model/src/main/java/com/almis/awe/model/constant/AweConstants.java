@@ -146,6 +146,7 @@ public class AweConstants {
   public static final String SESSION_LANGUAGE = "language";
   public static final String SESSION_INITIAL_SCREEN = "initialScreen";
   public static final String SESSION_LAST_SCREEN = "lastScreen";
+  public static final String SESSION_STORE_SCREEN_CRITERIA = "storeScreenCriteria";
   public static final String SESSION_CURRENT_SCREEN = "currentScreen";
   public static final String SESSION_KEEP_CRITERIA_HEADER = "keepCriteria-";
   public static final String SESSION_INITIAL_URL = "initialURL";

@@ -5,18 +5,20 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.*;
 import com.almis.awe.model.util.data.DateUtil;
-import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.model.util.data.QueryUtil;
+import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.service.data.builder.DataListBuilder;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Manage logs
@@ -31,7 +33,7 @@ public class LogService extends ServiceConfig {
   @Value("${application.log.base.path}")
   private String logBasePath;
 
-  @Value("${application.log.user.home:false}")
+  @Value("${application.log.users.home:false}")
   private String logUserHome;
 
   // System user home
@@ -204,8 +206,7 @@ public class LogService extends ServiceConfig {
     String path = EncodeUtil.encodeSymmetric(file.getAbsolutePath());
     fileRow.put("path", new CellData(path));
     fileRow.put("name", new CellData(file.getName()));
-    FastDateFormat formatter = FastDateFormat.getInstance("dd/MM/yyyy HH:mm:ss");
-    fileRow.put("date", new CellData(formatter.format(file.lastModified())));
+    fileRow.put("date", new CellData(new Date(file.lastModified())));
     return fileRow;
   }
 

@@ -14,7 +14,7 @@ AWE is a light-weight Java web framework. Allows you build web applications in t
 
 ## AWE Project main page
 
-Please visit us at https://www.aweframework.com
+Please visit us at [https://www.aweframework.com](https://www.aweframework.com)
 
 ## Getting Started
 
@@ -40,7 +40,7 @@ You must have Maven 3.x installed on your computer as well as a JDK 8 or higher
 * [Bootstrap](https://getbootstrap.com/) - Bootstrap web toolkit
 * [Highcharts](https://www.highcharts.com/) - Interactive charts library
 
-Check full stack libraries in [stackshare.io](https://stackshare.io/almis-informatica-financiera/awe)
+[![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/almis-informatica-financiera/aweframework)
 
 ## Main guides
 

@@ -149,6 +149,14 @@ dependency_scanning:
 # Site stage
 ##############################
 
+publish-docs:
+  stage: site
+  image: cfmanteiga/alpine-bash-curl-jq:latest
+  script:
+  - curl -H "$DINAMIQ_HEADERS" $DINAMIQ_URL
+  only:
+  - develop
+
 site:
   image: maven:3.5-jdk-8
   stage: site

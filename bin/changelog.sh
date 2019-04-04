@@ -6,8 +6,8 @@ echo "Generating changelog for version $version"
 
 # Get merge requests and transforms into changelog
 currentDate=`date +%d/%m/%Y`
-changelog=`curl -s "https://gitlab.com/api/v4/projects/9781451/merge_requests" | jq --raw-output 'map(select(.milestone.title == "4.0.5" and .state == "merged")) | map("- " + (.title | gsub("Resolve ";"") | gsub("\"";"")) + ". !" + (.iid | tostring) + " (" + .merged_by.name + ")") | join("\n")'`
-changelogText=`echo "# Changelog for AWE $version ($currentDate)\n\n$changelog\n\n"`
+changelog=`curl -s "https://gitlab.com/api/v4/projects/9781451/merge_requests" | jq --raw-output 'map(select(.milestone.title == "4.0.5" and .state == "merged")) | map("- " + (.title | gsub("Resolve ";"") | gsub("\"";"")) + ". [MR #" + (.iid | tostring) + "](https://gitlab.com/aweframework/awe/merge_requests/" + (.iid | tostring) + ") (" + .merged_by.name + ")") | join("\n")'`
+changelogText=`echo "# Changelog for AWE $version\n*$currentDate*\n\n$changelog\n\n"`
 echo "$changelogText"
 
 # Generate changelog
