@@ -1,4 +1,4 @@
-### Almis Web Engine - [Basic Development Guide](basic-developer-guide.md) - **[Screen development](basic-screen-development.md)**
+Almis Web Engine > [Basic Development Guide](basic-developer-guide.md) > **[Screen development](basic-screen-development.md)**
 
 ---
 
@@ -60,6 +60,7 @@ A window is a a container with a title bar. It also can be maximized or restored
 | expandible  | Optional | String    | How to [expand](layout.md) the window children | `vertical`, `horizontal` |
 | maximize    | Optional | Boolean   | Whether to show the maximize icon or not |                                  |
 | report-title | Optional | String    | Is the title of the report that is generated when printing the screen. If we do not define a value for this attribute report title will be taken from label attribute | **Note:** You can use [i18n](i18n-internationalization.md) files (locales)          |
+
 ## Examples
 
 ### Expandible window with grid (maximizable)

@@ -1,4 +1,4 @@
-### Almis Web Engine - **[Home](../readme.md)**
+Almis Web Engine > **[Home](../README.md)**
 
 ---
 
@@ -39,6 +39,7 @@ To activate this setting (in tomcat) use the following attributes on **server.xm
 A datasource is a server-managed connection pool which speeds the database access. Connection in Apache Tomcat has two steps:
 
 **server.xml**: Define the database connection
+
 ```xml
 <Resource name="[resourceName]" auth="Container"
   type="javax.sql.DataSource" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
@@ -48,6 +49,7 @@ A datasource is a server-managed connection pool which speeds the database acces
 ```
 
 **context.xml**: Define the server endpoint to allow access to the datasource
+
 ```xml
 <ResourceLink global="[resourceName]" name="[datasourceName]" type="javax.sql.DataSource"/>
 ```
@@ -57,10 +59,12 @@ A datasource is a server-managed connection pool which speeds the database acces
 ### Application server hardening
 
 #### Apache Tomcat
+
 We recommend to perform the following steps to enhance application server security.
 *  Follow OWASP security recommendations for Apache Tomcat https://www.owasp.org/index.php/Securing_tomcat
 *  Configure HTTPS connection in Tomcat https://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html. You may need paid SSL certificates (or certificates issued by your CA).
 *  Enable extended access logs. Edit server.xml file and add check if the following code is enabled inside host tag:
+
 ```xml
 <Valve className="org.apache.catalina.valves.AccessLogValve"
     directory="logs" prefix="localhost_access_log." suffix=".txt"
@@ -69,6 +73,7 @@ We recommend to perform the following steps to enhance application server securi
 
 *  Enable clickjacking protection (only for Tomcat version 8 or greater). :
 **web.xml**: Uncomment the following code
+
 ```xml
 <filter>
   <filter-name>httpHeaderSecurity</filter-name>
@@ -76,25 +81,28 @@ We recommend to perform the following steps to enhance application server securi
   <async-supported>true</async-supported>
 </filter>
 ```
- And add the following code just after the uncommented section:  
+
+ And add the following code just after the uncommented section:
+
  ```xml
 <filter-mapping>
-    <filter-name>httpHeaderSecurity</filter-name>
-    <url-pattern>/*</url-pattern>
+  <filter-name>httpHeaderSecurity</filter-name>
+  <url-pattern>/*</url-pattern>
 </filter-mapping>
 ```
 
 *  If HTTPS is enable, add a rule to redirect HTTP requests to HTTPS. On web.xml file add the following code at the end of web-app tag (add it inside web-app tag):
-  ```xml
+
+```xml
 <security-constraint>
  <web-resource-collection>
- <web-resource-name>Secure SSL</web-resource-name>
- <url-pattern>/*</url-pattern>
+   <web-resource-name>Secure SSL</web-resource-name>
+   <url-pattern>/*</url-pattern>
  </web-resource-collection>
  <user-data-constraint>
- <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+   <transport-guarantee>CONFIDENTIAL</transport-guarantee>
  </user-data-constraint>
- </security-constraint>
+</security-constraint>
 ```
 
 

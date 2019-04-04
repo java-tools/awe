@@ -1,4 +1,4 @@
-### Almis Web Engine - **[Configuration guide](configuration-guide.md)**
+Almis Web Engine > **[Configuration guide](configuration-guide.md)**
 
 ---
 

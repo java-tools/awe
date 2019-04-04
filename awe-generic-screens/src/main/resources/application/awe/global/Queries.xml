@@ -64,7 +64,13 @@
     <field id="action" alias="SrvAct" />
     <field id="path" alias="Fil" />
     <field id="name" alias="Nam" />
-    <field id="date" alias="Dat" />
+    <field id="date" alias="dateMs" transform="DATE_MS"/>
+    <field id="date" alias="dateTimestamp" transform="TIMESTAMP"/>
+    <compound alias="Dat">
+      <computed alias="value" format="[dateMs]"/>
+      <computed alias="label" format="[dateTimestamp]"/>
+    </compound>
+    <order-by field="dateMs" type="DESC"/>
     <variable id="file" type="STRINGN" name="CrtFil" />
     <variable id="date" type="STRINGN" name="CrtDat" />
     <variable id="startTime" type="STRINGN" name="HouIni" />
