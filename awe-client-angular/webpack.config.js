@@ -51,7 +51,9 @@ module.exports = {
           options: {
             lessPlugins: [
               new LessPluginAutoPrefix({ browsers: autoprefixerBrowsers })
-            ]
+            ],
+            minimize: true,
+            sourceMap: true
           }
         }]
       })
@@ -79,7 +81,8 @@ module.exports = {
       "HighchartsLocale" : path.resolve(__dirname, "src", "main", "resources", "js", "lib", "highcharts", "i18n", "highcharts-lang")
     }
   },
-  plugins : [ new ExtractTextPlugin("css/styles.css"),
+  plugins : [
+  new ExtractTextPlugin("css/styles.css"),
   new webpack.ProvidePlugin({
     "jQuery": "jquery",
     "$": "jquery",

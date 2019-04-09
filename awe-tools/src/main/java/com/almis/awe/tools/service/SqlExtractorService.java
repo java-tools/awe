@@ -17,14 +17,12 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.io.*;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.almis.awe.model.constant.AweConstants.APPLICATION_ENCODING;
 
 /**
  * Sql Extractor Engine service
@@ -205,7 +203,7 @@ public class SqlExtractorService extends ServiceConfig {
     String filePath = selectsPath + AweConstants.FILE_SEPARATOR + fileName;
 
     try (FileInputStream file = new FileInputStream(filePath);
-         BufferedReader reader = new BufferedReader(new InputStreamReader(file, Charset.forName(APPLICATION_ENCODING)))) {
+         BufferedReader reader = new BufferedReader(new InputStreamReader(file, StandardCharsets.UTF_8))) {
 
       StringBuilder stringBuilder = new StringBuilder();
       String aux = "";

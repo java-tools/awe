@@ -36,11 +36,6 @@ public class Message extends Element {
   @XStreamAsAttribute
   private String message = null;
 
-  // Component title
-  @XStreamAlias("title")
-  @XStreamAsAttribute
-  private String title = null;
-
   /**
    * Default constructor
    */
@@ -55,7 +50,6 @@ public class Message extends Element {
   public Message(Message other) throws AWException {
     super(other);
     this.message = other.message;
-    this.title = other.title;
   }
 
   @Override
@@ -80,25 +74,6 @@ public class Message extends Element {
    */
   public void setMessage(String message) {
     this.message = message;
-  }
-
-  /**
-   * Returns the title
-   *
-   * @return the title
-   */
-  @JsonGetter("title")
-  public String getTitle() {
-    return title;
-  }
-
-  /**
-   * Stores the title
-   *
-   * @param title the icon to set
-   */
-  public void setTitle(String title) {
-    this.title = title;
   }
 
   /**

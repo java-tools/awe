@@ -90,7 +90,7 @@ public class TagListController {
   public @ResponseBody
   String handleAWException(AWException exc) {
     // Retrieve exception
-    logger.log(TemplateService.class, Level.ERROR, "Error generating taglist template", exc);
+    logger.log(TagListController.class, Level.ERROR, "Error generating taglist template", exc);
     return "";
   }
 }

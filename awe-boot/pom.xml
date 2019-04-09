@@ -253,7 +253,6 @@
                   <directory>../awe-client-angular/src/main/resources</directory>
                   <includes>
                     <include>images/**</include>
-                    <include>css/**</include>
                   </includes>
                 </resource>
                 <!-- Awe tools -->

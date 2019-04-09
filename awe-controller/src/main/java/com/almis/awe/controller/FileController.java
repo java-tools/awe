@@ -5,14 +5,15 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.FileData;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.util.file.FileUtil;
+import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.service.FileService;
 import com.almis.awe.service.MaintainService;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class FileController extends ServiceConfig {
   // Autowired services
   private FileService fileService;
   private FileUtil fileUtil;
+  private LogUtil logger;
   private MaintainService maintainService;
 
   /**
@@ -37,10 +39,11 @@ public class FileController extends ServiceConfig {
    * @param maintainService Maintain service
    */
   @Autowired
-  public FileController(FileService fileService, FileUtil fileUtil, MaintainService maintainService) {
+  public FileController(FileService fileService, FileUtil fileUtil, MaintainService maintainService, LogUtil logger) {
     this.fileService = fileService;
     this.fileUtil = fileUtil;
     this.maintainService = maintainService;
+    this.logger = logger;
   }
 
   /**
@@ -111,46 +114,40 @@ public class FileController extends ServiceConfig {
   /**
    * Retrieve file for download
    * @param token Connection token
-   * @param fileData File data
-   * @param downloadId Download identifier
+   * @param parameters Parameters
    * @return File content
    * @throws AWException Error retrieving file
    */
   @PostMapping("/download")
-  public ResponseEntity<InputStreamResource> downloadFile(@RequestParam("token") String token,
-                                                          @RequestParam("filename") String fileData,
-                                                          @RequestParam("d") Integer downloadId) throws AWException {
+  public ResponseEntity<byte[]> downloadFile(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                                                          @RequestBody ObjectNode parameters) throws AWException {
     // Initialize parameters
-    getRequest().init(JsonNodeFactory.instance.objectNode(), token);
+    getRequest().init(parameters, token);
 
     // Retrieve file
-    return fileService.downloadFile(fileUtil.stringToFileData(fileData), downloadId);
+    return fileService.downloadFile(fileUtil.stringToFileData(getRequest().getParameterAsString("filename")), getRequest().getParameter("d").asInt());
   }
 
   /**
    * Retrieve file for download
    * @param token Connection token
-   * @param fileData File data
-   * @param downloadId Download identifier
+   * @param parameters Parameters
    * @param targetId Maintain target
    * @return File content
    * @throws AWException Error retrieving file
    */
-  @GetMapping("/download/maintain/{targetId}")
   @PostMapping("/download/maintain/{targetId}")
-  public ResponseEntity<InputStreamResource> downloadFileMaintainGet(@RequestParam("token") String token,
-                                                                     @RequestParam("filename") String fileData,
-                                                                     @RequestParam("d") Integer downloadId,
-                                                                     @PathVariable("targetId") String targetId) throws AWException {
+  public ResponseEntity<byte[]> downloadFileMaintain(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                                                                  @RequestBody ObjectNode parameters,
+                                                                  @PathVariable("targetId") String targetId) throws AWException {
     // Initialize parameters
-    getRequest().init(targetId, JsonNodeFactory.instance.objectNode(), token);
-    getRequest().setParameter("filename", fileData);
+    getRequest().init(targetId, parameters, token);
 
     // Launch maintain
     ServiceData serviceData = maintainService.launchMaintain(targetId);
 
     // Retrieve file
-    return fileService.downloadFile((FileData) serviceData.getData(), downloadId);
+    return fileService.downloadFile((FileData) serviceData.getData(), getRequest().getParameter("d").asInt());
   }
 
   /**
@@ -171,5 +168,16 @@ public class FileController extends ServiceConfig {
 
     // Retrieve file
     return fileService.deleteFile(fileUtil.stringToFileData(filedata));
+  }
+
+  /**
+   * Handle error
+   * @param exc Exception to handle
+   * @return Response error
+   */
+  @ExceptionHandler(AWException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public void handleAWException(AWException exc) {
+    logger.log(FileController.class, Level.ERROR, exc.getTitle() + "\n" + exc.getMessage(), exc);
   }
 }

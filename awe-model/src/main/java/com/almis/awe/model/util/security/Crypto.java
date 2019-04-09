@@ -1,7 +1,6 @@
 package com.almis.awe.model.util.security;
 
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.constant.AweConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +16,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Calendar;
+import java.util.Random;
 
 /**
  * Cryptographic module Contains some basic encrypt utilities
@@ -339,7 +341,7 @@ public final class Crypto {
      * @return Hash
      * @throws AWException No such algorithm
      */
-    public static String hash(String message, String algorithm, String salt, String encoding) throws AWException {
+    public static String hash(String message, String algorithm, String salt, Charset encoding) throws AWException {
       try {
         MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
 
@@ -356,8 +358,6 @@ public final class Crypto {
 
       } catch (NoSuchAlgorithmException exc) {
         throw new AWException("Hash generation error", "The algorithm does not exist", exc);
-      } catch (UnsupportedEncodingException exc) {
-        throw new AWException("Hash generation error", "The encoding is not supported: " + encoding, exc);
       }
     }
 
@@ -369,7 +369,7 @@ public final class Crypto {
      * @throws AWException No such algorithm
      */
     public static String md2Hash(String message) throws AWException {
-      return hash(message, "MD2", null, AweConstants.APPLICATION_ENCODING);
+      return hash(message, "MD2", null, StandardCharsets.UTF_8);
     }
 
     /**
@@ -380,7 +380,7 @@ public final class Crypto {
      * @throws AWException No such algorithm
      */
     public static String md5Hash(String message) throws AWException {
-      return hash(message, "MD5", null, AweConstants.APPLICATION_ENCODING);
+      return hash(message, "MD5", null, StandardCharsets.UTF_8);
     }
 
     /**
@@ -391,7 +391,7 @@ public final class Crypto {
      * @throws AWException No such algorithm
      */
     public static String sha1Hash(String message) throws AWException {
-      return hash(message, "SHA-1", null, AweConstants.APPLICATION_ENCODING);
+      return hash(message, "SHA-1", null, StandardCharsets.UTF_8);
     }
 
     /**
@@ -402,7 +402,7 @@ public final class Crypto {
      * @throws AWException No such algorithm
      */
     public static String sha256Hash(String message) throws AWException {
-      return hash(message, "SHA-256", null, AweConstants.APPLICATION_ENCODING);
+      return hash(message, "SHA-256", null, StandardCharsets.UTF_8);
     }
 
     /**
@@ -413,7 +413,7 @@ public final class Crypto {
      * @throws AWException No such algorithm
      */
     public static String sha384Hash(String message) throws AWException {
-      return hash(message, "SHA-348", null, AweConstants.APPLICATION_ENCODING);
+      return hash(message, "SHA-348", null, StandardCharsets.UTF_8);
     }
 
     /**
@@ -424,7 +424,7 @@ public final class Crypto {
      * @throws AWException No such algorithm
      */
     public static String sha512Hash(String message) throws AWException {
-      return hash(message, "SHA-512", null, AweConstants.APPLICATION_ENCODING);
+      return hash(message, "SHA-512", null, StandardCharsets.UTF_8);
     }
   }
 

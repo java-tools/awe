@@ -16,7 +16,7 @@ public class IntegrationTestsIT extends SeleniumUtilities {
    */
   @Test
   public void t000_loginTest() throws Exception {
-    checkLogin("test", "test", "span.info-text", "Manager (test)");
+    checkLogin("test", "test", "#ButUsrAct span.info-text", "Manager (test)");
   }
 
   /**

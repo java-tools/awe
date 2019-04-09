@@ -1,12 +1,14 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en" data-ng-app="FileManagerApp">
-  <head><style>[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display: none !important;}#splash{width: 100%; height: 100%; z-index: 100000;}#splashBackground{background-color:#fff;width: 100%; height: 100%;} #splash>.spinner { position:relative;top:-50%;left:50%;margin: -50px; width: 100px; height: 100px; -webkit-animation: sk-rotate 2.0s infinite linear; animation: sk-rotate 2.0s infinite linear;}#splash>.spinner>.dot1,#splash>.spinner>.dot2 { width: 60%; height: 60%; display: inline-block; top: 0; background-color: #CCC; border-radius: 100%; -webkit-animation: sk-bounce 2.0s infinite ease-in-out; animation: sk-bounce 2.0s infinite ease-in-out;}#splash>.spinner>.dot2 { top: auto; bottom: 0; -webkit-animation-delay: -1.0s; animation-delay: -1.0s;}@-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg) }}@keyframes sk-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}@-webkit-keyframes sk-bounce { 0%, 100% { -webkit-transform: scale(0.0) } 50% { -webkit-transform: scale(1.0) }}@keyframes sk-bounce { 0%, 100% { transform: scale(0.0); -webkit-transform: scale(0.0); } 50% { transform: scale(1.0); -webkit-transform: scale(1.0); }}</style>
+  <head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/splash.css}"/>
     <!--
       * Angular FileManager v1.5.1 (https://github.com/joni2back/angular-filemanager)
       * Jonas Sciangula Street <joni2back@gmail.com>
       * Licensed under MIT (https://github.com/joni2back/angular-filemanager/blob/master/LICENSE)
     -->
     <title>angular-filemanager</title>
+    <base th:href="@{/}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="Cache-control" content="public"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -15,15 +17,15 @@
     <meta name="HandheldFriendly" content="true"/>
     <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <base th:href="@{/}"/>
+    <link rel="stylesheet" href="css/file-manager-styles.css?v=@awe.build.timestamp@" th:href="@{/css/file-manager-styles.css}"/>
     <script th:inline="javascript">
       var contextPath = /*[[@{/}]]*/ '';
       var lastPosition = Math.max(contextPath.length - 1, 0);
       contextPath = contextPath.lastIndexOf("/") === lastPosition ? contextPath.substr(0, lastPosition) : contextPath;
     </script>
-    <script type="text/javascript" src="js/bundle-tools.js"></script>
   </head>
   <body class="angular-filemanager" ng-cloak>
     <angular-filemanager></angular-filemanager>
+    <script type="text/javascript" src="js/bundle-tools.js?v=@awe.build.timestamp@" th:src="@{/js/bundle-tools.js}"></script>
   </body>
 </html>

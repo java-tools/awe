@@ -118,7 +118,7 @@ public class TemplateController {
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   public @ResponseBody
   String handleAWException(AWException exc) {
-    logger.log(TemplateService.class, Level.ERROR, exc.getTitle(), exc.getMessage());
+    logger.log(TemplateController.class, Level.ERROR, exc.getTitle() + "\n" + exc.getMessage(), exc);
     return templateService.generateErrorTemplate(exc);
   }
 }

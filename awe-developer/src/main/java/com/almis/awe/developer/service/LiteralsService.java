@@ -30,13 +30,12 @@ import com.thoughtworks.xstream.io.xml.XppDriver;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -738,7 +737,7 @@ public class LiteralsService extends ServiceConfig {
   private String getUrlString(String literal, String fromLang, String toLang) throws IOException {
 
     /* GLOSBE */
-    String encodedText = URLEncoder.encode(literal, AweConstants.APPLICATION_ENCODING);
+    String encodedText = URLEncoder.encode(literal, StandardCharsets.UTF_8.toString());
     String url = new StringBuilder().append(translationApiUrl)
             .append("?").append(keyParameter).append("=").append(translationApiKey)
             .append("&").append(languageParameter).append("=").append(fromLang.toLowerCase()).append("-").append(toLang.toLowerCase())
@@ -746,7 +745,7 @@ public class LiteralsService extends ServiceConfig {
 
     URLConnection connection = new URL(url).openConnection();
 
-    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.forName(AweConstants.APPLICATION_ENCODING)));
+    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
     StringBuilder stringBuilder = new StringBuilder();
     String current;
     while ((current = in.readLine()) != null) {

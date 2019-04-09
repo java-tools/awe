@@ -24,6 +24,7 @@ import org.junit.runners.Suite;
   MaintainRestControllerTest.class,
   ScreenBuilderTest.class,
   MenuServiceTest.class,
+  FileServiceTest.class,
   UploadControllerTest.class,
   TagListTest.class,
   DateUtilTest.class
