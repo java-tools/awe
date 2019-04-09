@@ -1,6 +1,8 @@
 package com.almis.awe.autoconfigure;
 
+import com.almis.awe.listener.TemplateErrorListener;
 import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.HelpService;
 import com.almis.awe.service.MenuService;
 import com.almis.awe.service.QueryService;
@@ -14,7 +16,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.stringtemplate.v4.STErrorListener;
 import org.stringtemplate.v4.STGroup;
+import org.stringtemplate.v4.STGroupFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,15 +70,15 @@ public class TemplateConfig {
    * @param filePath suffix of file
    * @return Path list
    */
-  private List<String> getPaths(String filePath) {
-    List<String> paths = new ArrayList<>();
+  private List<STGroupFile> getPaths(String filePath) {
+    List<STGroupFile> paths = new ArrayList<>();
 
     for (String module : modules) {
       String modulePath = environment.getProperty(modulePrefix + module) + AweConstants.FILE_SEPARATOR;
       String path = applicationPath + modulePath + templatePath + filePath;
       ClassPathResource resource = new ClassPathResource(path);
       if (resource.exists()) {
-        paths.add("classpath:" + resource.getPath());
+        paths.add(new STGroupFile(resource.getPath()));
       }
     }
 
@@ -82,18 +86,44 @@ public class TemplateConfig {
   }
 
   /**
-   * Retrieve elements template group
-   * 
-   * @return Partials template group
+   * Define String Template group
+   * @param errorListener Error listener to attach
+   * @return Template group
    */
-  @Bean("elementsTemplateGroup")
-  public STGroup elementsTemplateGroup() {
+  private STGroup defineGroup(STErrorListener errorListener, String filePath) {
     STGroup group = new STGroup('$', '$');
-    for (String path : getPaths("screen/elements.stg")) {
-      group.loadGroupFile("", path);
+
+    // Attach listener
+    group.setListener(errorListener);
+
+    // Retrieve group files
+    for (STGroupFile file : getPaths(filePath)) {
+      group.loadGroupFile("", file.url.toExternalForm());
     }
 
     return group;
+  }
+
+  /**
+   * Retrieve template error listener
+   *
+   * @param logger Logger
+   * @return Error listener
+   */
+  @Bean
+  public STErrorListener templateErrorListener(LogUtil logger) {
+    return new TemplateErrorListener(logger);
+  }
+
+  /**
+   * Retrieve elements template group
+   *
+   * @param errorListener Error listener
+   * @return Partials template group
+   */
+  @Bean("elementsTemplateGroup")
+  public STGroup elementsTemplateGroup(STErrorListener errorListener) {
+    return defineGroup(errorListener, "screen/elements.stg");
   }
 
   /**
@@ -102,13 +132,8 @@ public class TemplateConfig {
    * @return Partials template group
    */
   @Bean("helpTemplateGroup")
-  public STGroup helpTemplateGroup() {
-    STGroup group = new STGroup('$', '$');
-    for (String path : getPaths("screen/help.stg")) {
-      group.loadGroupFile("", path);
-    }
-
-    return group;
+  public STGroup helpTemplateGroup(STErrorListener errorListener) {
+    return defineGroup(errorListener, "screen/help.stg");
   }
 
   /**
@@ -117,13 +142,8 @@ public class TemplateConfig {
    * @return Partials template group
    */
   @Bean("screensTemplateGroup")
-  public STGroup screensTemplateGroup() {
-    STGroup group = new STGroup('$', '$');
-    for (String path : getPaths("screen/templates.stg")) {
-      group.loadGroupFile("", path);
-    }
-
-    return group;
+  public STGroup screensTemplateGroup(STErrorListener errorListener) {
+    return defineGroup(errorListener, "screen/templates.stg");
   }
 
   /////////////////////////////////////////////

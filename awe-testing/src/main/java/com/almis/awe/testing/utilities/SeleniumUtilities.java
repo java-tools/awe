@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -75,13 +76,15 @@ public class SeleniumUtilities {
   @Value("${screenshot.path}")
   private String screenshotPath;
 
-  // Browser
+  @Value("${failsafe.browser:headless-chrome}")
   private String browser;
 
-  @Value("${failsafe.browser:headless-chrome}")
-  public void setBrowser(String browser) {
+  /**
+   * Set up test
+   */
+  @Before
+  public void setUpTest() {
     if (getDriver() == null) {
-      this.browser = browser;
       switch (browser) {
         case "firefox":
           WebDriverManager.firefoxdriver().setup();
@@ -125,11 +128,11 @@ public class SeleniumUtilities {
           setDriver(new ChromeDriver());
           break;
       }
-    }
 
-    // Set dimension if defined
-    if (browserWidth != null && browserHeight != null) {
-      driver.manage().window().setSize(new Dimension(browserWidth, browserHeight));
+      // Set dimension if defined
+      if (browserWidth != null && browserHeight != null) {
+        driver.manage().window().setSize(new Dimension(browserWidth, browserHeight));
+      }
     }
   }
 

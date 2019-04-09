@@ -40,10 +40,6 @@
         <targetPath>${project.build.directory}/classes/images</targetPath>
       </resource>
       <resource>
-        <directory>${project.basedir}/src/main/resources/fonts</directory>
-        <targetPath>${project.build.directory}/classes/fonts</targetPath>
-      </resource>
-      <resource>
         <directory>${project.basedir}/src/main/resources/less</directory>
         <includes>
           <include>awe/variables.less</include>

@@ -17,6 +17,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
@@ -397,7 +398,7 @@ public final class EncodeUtil {
    * @throws AWException Error hashing
    */
   public static String hash(String algorithm, String text, String salt) throws AWException {
-    return Crypto.HASH.hash(text, algorithm, salt, encoding);
+    return Crypto.HASH.hash(text, algorithm, salt, Charset.forName(encoding));
   }
 
   /**

@@ -3,7 +3,7 @@
 <!--[if !IE]><!--><html xmlns:th="http://www.thymeleaf.org" class="{{::$app.isIE()}} gt-ie8 gt-ie9 pxajs" lang="{{settings.language}}" ng-app="aweApplication" ng-controller="AppController as $app"><!--<![endif]-->
   <head>
     <base th:href="@{/}"/>
-    <link rel="stylesheet" type="text/css" href="css/splash.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/splash.css}"/>
     <title ng-bind-template="{{screen.title| translate}} | {{'APP_NAME'| translate}}" translate="APP_NAME">Loading...</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="Cache-control" content="public"/>

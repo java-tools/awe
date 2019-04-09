@@ -103,11 +103,6 @@ public abstract class Component extends Element {
   @XStreamAsAttribute
   private String icon = null;
 
-  // Component title
-  @XStreamAlias("title")
-  @XStreamAsAttribute
-  private String title = null;
-
   // Component size
   @XStreamAlias("size")
   @XStreamAsAttribute
@@ -151,7 +146,6 @@ public abstract class Component extends Element {
     this.autorefresh = other.autorefresh;
     this.autoload = other.autoload;
     this.icon = other.icon;
-    this.title = other.title;
     this.size = other.size;
     this.iconLoading = other.iconLoading;
     this.visible = other.visible;
@@ -347,25 +341,6 @@ public abstract class Component extends Element {
   }
 
   /**
-   * Returns the title
-   *
-   * @return the title
-   */
-  @JsonGetter("title")
-  public String getTitle() {
-    return title;
-  }
-
-  /**
-   * Stores the title
-   *
-   * @param title the icon to set
-   */
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  /**
    * Retrieve the size
    *
    * @return the size
@@ -415,15 +390,8 @@ public abstract class Component extends Element {
   /**
    * @return the iconLoading
    */
-  public String getIconLoading() {
-    return iconLoading;
-  }
-
-  /**
-   * @return the iconLoading for JSON serialization
-   */
   @JsonGetter("iconLoading")
-  public String getIconLoadingConverter() {
+  public String getIconLoading() {
     return iconLoading;
   }
 

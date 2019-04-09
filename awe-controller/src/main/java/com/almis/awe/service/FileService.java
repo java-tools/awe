@@ -13,11 +13,11 @@ import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.util.file.FileUtil;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public class FileService extends ServiceConfig {
       // Read file
       Integer line = 0;
       String lineString;
-      InputStreamReader fileReader = new InputStreamReader(file, Charset.forName(AweConstants.APPLICATION_ENCODING));
+      InputStreamReader fileReader = new InputStreamReader(file, StandardCharsets.UTF_8);
       BufferedReader bufferedReader = new BufferedReader(fileReader);
       while ((lineString = bufferedReader.readLine()) != null) {
         if (offset <= line) {
@@ -173,31 +173,31 @@ public class FileService extends ServiceConfig {
    * @return File to download
    * @throws AWException Error retrieving text file
    */
-  public ResponseEntity<InputStreamResource> downloadFile(FileData fileData, Integer downloadIdentifier) throws AWException {
+  public ResponseEntity<byte[]> downloadFile(FileData fileData, Integer downloadIdentifier) throws AWException {
     // convert JSON to Employee
     HttpHeaders headers = new HttpHeaders();
     String filePath = fileUtil.getFullPath(fileData, false) + fileData.getFileName();
 
-    try {
+    try (InputStream fileStream = fileData.getFileStream() != null ? fileData.getFileStream() : new FileInputStream(new File(filePath));
+         ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
       // Generate text file headers
       headers.setContentType(MediaType.parseMediaType(fileData.getMimeType()));
       headers.setContentLength(fileData.getFileSize());
       StringBuilder builder = new StringBuilder("attachment;filename=\"").append(fileData.getFileName()).append("\"");
       headers.add(HttpHeaders.CONTENT_DISPOSITION, builder.toString());
+      headers.add("Content-Transfer-Encoding", "binary");
+      headers.add("Filename", fileData.getFileName());
 
       // Publish file downloaded
       ClientAction fileDownloadedAction = new ClientAction(new StringBuilder("file-downloaded/").append(downloadIdentifier).toString());
       fileDownloadedAction.setAsync(true);
       broadcastService.broadcastMessageToUID(request.getToken(), fileDownloadedAction);
 
-      // Get file stream
-      InputStream fileStream = fileData.getFileStream();
-      if (fileStream == null) {
-        fileStream = new FileInputStream(new File(filePath));
-      }
+      // Generate the file stream
+      IOUtils.copy(fileStream, outputStream);
 
       // Return the file stream
-      return new ResponseEntity<>(new InputStreamResource(fileStream), headers, HttpStatus.OK);
+      return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
     } catch (Exception exc) {
       throw new AWException(errorTitleFileReading, getLocale(ERROR_MESSAGE_FILE_READING_ERROR, filePath), exc);
     }
