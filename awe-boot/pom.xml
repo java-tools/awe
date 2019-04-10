@@ -2,13 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
-    <artifactId>awe-parent</artifactId>
     <groupId>com.almis.awe</groupId>
+    <artifactId>awe-starter-parent</artifactId>
     <version>4.0.6-SNAPSHOT</version>
+    <relativePath>../awe-starter-parent/pom.xml</relativePath>
   </parent>
 
-  <modelVersion>4.0.0</modelVersion>
   <artifactId>awe-boot</artifactId>
   <packaging>war</packaging>
   <name>AWE Testing Application (V${project.version})</name>
@@ -56,18 +58,6 @@
     <skip.selenium>true</skip.selenium>
     <skip.junit>false</skip.junit>
   </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.almis.awe</groupId>
-        <artifactId>awe-dependencies</artifactId>
-        <version>${awe.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <dependencies>
     <!-- AWE -->
@@ -315,38 +305,13 @@
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.6</version>
         <configuration>
           <skip>${skip.main}</skip>
         </configuration>
         <executions>
           <execution>
-            <phase>compile</phase>
-            <id>install node and yarn</id>
-            <goals>
-              <goal>install-node-and-yarn</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v8.12.0</nodeVersion>
-              <yarnVersion>v1.10.1</yarnVersion>
-            </configuration>
-          </execution>
-          <execution>
-            <phase>compile</phase>
-            <id>yarn install</id>
-            <goals>
-              <goal>yarn</goal>
-            </goals>
-            <configuration>
-              <arguments>install</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <phase>compile</phase>
-            <id>webpack</id>
-            <goals>
-              <goal>webpack</goal>
-            </goals>
+            <id>karma</id>
+            <phase>none</phase>
           </execution>
         </executions>
       </plugin>
@@ -415,16 +380,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <!-- Jacoco coverage -->
-      <!--<plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.version}</version>
-        <configuration>
-          <skip>${skip.main}</skip>
-        </configuration>
-      </plugin>-->
     </plugins>
   </build>
 
