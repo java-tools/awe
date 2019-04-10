@@ -2,12 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <parent>
     <groupId>com.almis.awe</groupId>
-    <artifactId>awe-framework</artifactId>
+    <artifactId>awe-dependencies</artifactId>
     <version>4.0.6-SNAPSHOT</version>
-    <relativePath>../awe-framework/pom.xml</relativePath>
+    <relativePath>../awe-dependencies/pom.xml</relativePath>
   </parent>
+
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>awe-testing</artifactId>
@@ -17,7 +19,6 @@
     <!-- Application maven properties -->
     <awe.version>${project.parent.version}</awe.version>
     <java.version>1.8</java.version>
-    <selenium.version>3.141.59</selenium.version>
     <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
     <webdrivermanager.version>3.2.0</webdrivermanager.version>
     <testng.version>6.14.3</testng.version>
@@ -61,7 +62,6 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-server</artifactId>
-      <version>${selenium.version}</version>
     </dependency>
   </dependencies>
 

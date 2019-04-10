@@ -3,11 +3,11 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>    
+  <parent>
     <groupId>com.almis.awe</groupId>
-    <artifactId>awe-framework</artifactId>
+    <artifactId>awe-dependencies</artifactId>
     <version>4.0.6-SNAPSHOT</version>
-    <relativePath>../awe-framework/pom.xml</relativePath>
+    <relativePath>../awe-dependencies/pom.xml</relativePath>
   </parent>
 
   <artifactId>awe-model</artifactId>
