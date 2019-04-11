@@ -3,6 +3,7 @@ package com.almis.awe.service.data.builder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.queries.Query;
+import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.service.LauncherService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,9 +24,11 @@ public class ServiceBuilder extends AbstractQueryBuilder {
   /**
    * Autowired constructor
    * @param launcherService Launcher service
+   * @param queryUtil Query utilities
    */
   @Autowired
-  public ServiceBuilder(LauncherService launcherService) {
+  public ServiceBuilder(LauncherService launcherService, QueryUtil queryUtil) {
+    super(queryUtil);
     this.launcherService = launcherService;
   }
 

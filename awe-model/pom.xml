@@ -3,11 +3,11 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>    
+  <parent>
     <groupId>com.almis.awe</groupId>
-    <artifactId>awe-framework</artifactId>
-    <version>4.0.5</version>
-    <relativePath>../awe-framework/pom.xml</relativePath>
+    <artifactId>awe-dependencies</artifactId>
+    <version>4.0.6</version>
+    <relativePath>../awe-dependencies/pom.xml</relativePath>
   </parent>
 
   <artifactId>awe-model</artifactId>
@@ -38,6 +38,12 @@
           <artifactId>spring-boot-starter-logging</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <!-- Lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.20</version>
     </dependency>
     <!-- ehcache and JSR dependencies-->
     <dependency>

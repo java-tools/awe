@@ -42,6 +42,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -71,6 +72,8 @@ public class AweElements {
   private Map<String, Service> serviceList;
   private Map<String, Action> actionList;
   private Map<String, Profile> profileList;
+  private Map<String, Menu> menuList;
+  private Map<String, Screen> screenMap;
 
   // Application modules
   @Value("#{'${modules.list:awe}'.split(',')}")
@@ -239,6 +242,9 @@ public class AweElements {
     // Init profiles
     profileList = new ConcurrentHashMap<>();
     readFolderXmlFiles(Profile.class, profilePath, profileList);
+
+    // Init screen map
+    screenMap = new ConcurrentHashMap<>();
   }
 
   /**
@@ -247,8 +253,9 @@ public class AweElements {
   private void initMenuFiles() {
     // Init menus in cache
     try {
-      getMenu(publicMenuFileName);
-      getMenu(privateMenuFileName);
+      menuList = new ConcurrentHashMap<>();
+      menuList.put(publicMenuFileName, readMenuFile(publicMenuFileName));
+      menuList.put(privateMenuFileName, readMenuFile(privateMenuFileName));
     } catch (AWException exc) {
       logger.log(AweElements.class, Level.ERROR, "Error initializing menus", exc);
       exc.log();
@@ -452,7 +459,7 @@ public class AweElements {
    * @return The ENUMERATED group corresponding the groupId
    * @throws AWException Clone not supported
    */
-  @Cacheable("enumerated")
+  @Cacheable(value = "enumerated", key = "#p0")
   public EnumeratedGroup getEnumerated(String groupId) throws AWException {
     try {
       // Clone from list
@@ -469,7 +476,7 @@ public class AweElements {
    * @return The query corresponding the queryId
    * @throws AWException Clone not supported
    */
-  @Cacheable("query")
+  @Cacheable(value = "query", key = "#p0")
   public Query getQuery(String queryId) throws AWException {
     try {
       // Clone from list
@@ -486,7 +493,7 @@ public class AweElements {
    * @return The query corresponding the queryId
    * @throws AWException Clone not supported
    */
-  @Cacheable("queue")
+  @Cacheable(value = "queue", key = "#p0")
   public Queue getQueue(String queueId) throws AWException {
     try {
       // Clone from list
@@ -503,7 +510,7 @@ public class AweElements {
    * @return The MAINTAIN operation corresponding the maintainId
    * @throws AWException Clone not supported
    */
-  @Cacheable("maintain")
+  @Cacheable(value = "maintain", key = "#p0")
   public Target getMaintain(String maintainId) throws AWException {
     try {
       // Clone from list
@@ -520,7 +527,7 @@ public class AweElements {
    * @return The email operation corresponding the mntId
    * @throws AWException Clone not supported
    */
-  @Cacheable("email")
+  @Cacheable(value = "email", key = "#p0")
   public Email getEmail(String emailId) throws AWException {
     try {
       // Clone from list
@@ -537,7 +544,7 @@ public class AweElements {
    * @return The service corresponding the serviceId
    * @throws AWException Clone not supported
    */
-  @Cacheable("service")
+  @Cacheable(value = "service", key = "#p0")
   public Service getService(String serviceId) throws AWException {
     try {
       // Clone from list
@@ -554,7 +561,7 @@ public class AweElements {
    * @return The action corresponding the actionId
    * @throws AWException Clone not supported
    */
-  @Cacheable("action")
+  @Cacheable(value = "action", key = "#p0")
   public Action getAction(String actionId) throws AWException {
     try {
       // Clone from list
@@ -571,13 +578,21 @@ public class AweElements {
    * @return The screen corresponding the screenId
    * @throws AWException Clone not supported
    */
-  @Cacheable("screen")
-  public synchronized Screen getScreen(String screenId) throws AWException {
-    // Get Action
-    Screen screen = readScreen(screenId, new HashSet());
+  @Cacheable(value = "screen", key = "#p0")
+  public Screen getScreen(String screenId) throws AWException {
+    Screen screen;
+    if (screenMap.containsKey(screenId)) {
+      screen = screenMap.get(screenId);
+    } else {
+      // Get Action
+      screen = readScreen(screenId, new HashSet());
 
-    // Set screen identifier
-    screen.setId(screenId);
+      // Set screen identifier
+      screen.setId(screenId);
+
+      // Store screen
+      setScreen(screen);
+    }
 
     // Retrieve screen
     return screen;
@@ -589,8 +604,12 @@ public class AweElements {
    * @param screen Screen
    * @return Screen
    */
-  @CachePut(value = "screen", key = "#screen.getId()")
-  public Screen setScreen(Screen screen) {
+  @CachePut(value = "screen", key = "#p0.getId()")
+  public Screen setScreen(@NotNull Screen screen) {
+    // Store screen
+    screenMap.put(screen.getId(), screen);
+
+    // Retrieve screen
     return screen;
   }
 
@@ -627,7 +646,7 @@ public class AweElements {
 
       // If component is an include, retrieve included screen and add it
       if (element instanceof Include) {
-        includeScreen(screenId, (Include) element, includedScreens);
+        includeScreen(screenId, (Include) element, new HashSet(includedScreens));
       }
     }
 
@@ -651,7 +670,7 @@ public class AweElements {
         includedScreens.add(includeKey);
 
         // Retrieve include screen
-        Screen includeScreen = readScreen(include.getTargetScreen(), includedScreens);
+        Screen includeScreen = readScreen(include.getTargetScreen(), new HashSet(includedScreens));
 
         // Retrieve include screen source
         Tag source = getScreenSource(includeScreen, include.getTargetSource());
@@ -698,8 +717,40 @@ public class AweElements {
    * @return Menu object
    * @throws AWException Clone not supported
    */
-  @Cacheable(value = "menu", key = "#menuId")
-  public synchronized Menu getMenu(String menuId) throws AWException {
+  @Cacheable(value = "menu", key = "#p0")
+  public Menu getMenu(String menuId) throws AWException {
+    try {
+      // Clone from list
+      return menuList.get(menuId);
+    } catch (Exception exc) {
+      throw new AWException("Menu" + NOT_FOUND + menuId, exc);
+    }
+  }
+
+  /**
+   * Inserts or updates given menu
+   *
+   * @param menuId menu id
+   * @param menu Menu
+   * @return Menu
+   */
+  @CachePut(value = "menu", key = "#p0")
+  public Menu setMenu(String menuId, Menu menu) {
+    // Store menu in list
+    menuList.put(menuId, menu);
+
+    // Retrieve added menu
+    return menu;
+  }
+
+  /**
+   * Get menu object
+   *
+   * @param menuId Menu name
+   * @return Menu object
+   * @throws AWException Clone not supported
+   */
+  private Menu readMenuFile(String menuId) throws AWException {
     Menu menu;
     String path = menuPath + menuId + xmlExtension;
     try {
@@ -718,25 +769,13 @@ public class AweElements {
   }
 
   /**
-   * Inserts or updates given menu
-   *
-   * @param menuId menu id
-   * @param menu Menu
-   * @return Menu
-   */
-  @CachePut(value = "menu", key = "#menuId")
-  public Menu setMenu(String menuId, Menu menu) {
-    return menu;
-  }
-
-  /**
    * Get profile object
    *
    * @param profile Profile name
    * @return Profile object
    * @throws AWException Clone not supported
    */
-  @Cacheable(value = "profile", key = "#profile")
+  @Cacheable(value = "profile", key = "#p0")
   public Profile getProfile(String profile) throws AWException {
     try {
       // Clone from list
@@ -787,7 +826,7 @@ public class AweElements {
    * @param localeIdentifier Local identifier
    * @return Selected locale
    */
-  @Cacheable(value = "locale", key = "#localeIdentifier")
+  @Cacheable(value = "locale", key = "#p0")
   public String getLocale(String localeIdentifier) {
     String language = getLanguage();
     String locale = localeIdentifier;
@@ -809,7 +848,7 @@ public class AweElements {
    * @param tokenList        Token list to replace
    * @return Selected locale
    */
-  @Cacheable(value = "locale", key = "{ #localeIdentifier, #tokenList.toString() }")
+  @Cacheable(value = "locale", key = "{ #p0, #p1.toString() }")
   public String getLocale(String localeIdentifier, Object... tokenList) {
     String locale = getLocale(localeIdentifier);
     Integer index = 0;
@@ -836,8 +875,20 @@ public class AweElements {
   }
 
   /**
+   * Retrieve a property value reading as a class
+   *
+   * @param propertyIdentifier Property identifier
+   * @param tClass Class to read the property value
+   * @return Selected locale
+   */
+  public<T> T getProperty(String propertyIdentifier, Class<T> tClass) {
+    return environment.getProperty(propertyIdentifier, tClass);
+  }
+
+  /**
    * Retrieve a property value
    *
+   * @param <T> Return value class
    * @param propertyIdentifier Property identifier
    * @param defaultValue       Default value
    * @return Selected locale

@@ -2,11 +2,11 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>    
+  <parent>
     <groupId>com.almis.awe</groupId>
-    <artifactId>awe-framework</artifactId>
-    <version>4.0.5</version>
-    <relativePath>../awe-framework/pom.xml</relativePath>
+    <artifactId>awe-dependencies</artifactId>
+    <version>4.0.6</version>
+    <relativePath>../awe-dependencies/pom.xml</relativePath>
   </parent>
   
   <artifactId>awe-tools</artifactId>
@@ -28,16 +28,12 @@
 
   <properties>
     <application.acronym>awe-tools</application.acronym>
-    <awe.schemas>../../../static/schemas/awe</awe.schemas>
+    <skip.karma>true</skip.karma>
   </properties>
 
   <build>
     <finalName>awe-tools</finalName>
     <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
       <resource>
         <directory>${project.basedir}/src/main/resources/js/awe-tools</directory>
         <targetPath>${project.build.directory}/classes/js/awe-tools</targetPath>
@@ -53,31 +49,6 @@
     </resources>
 
     <plugins>
-      <!-- Copy AWE schemas -->
-      <plugin>
-      	<artifactId>maven-resources-plugin</artifactId>
-      	<executions>
-          <execution>
-            <id>copy schemas awe-generic-screens</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <resources>
-                <resource>
-                  <directory>../awe-generic-screens/src/main/resources</directory>
-                  <includes>
-                    <include>schemas/**</include>
-                  </includes>
-                </resource>
-              </resources>
-              <outputDirectory>${project.build.directory}/</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- Frontend generation -->
       <plugin>
         <groupId>com.github.eirslett</groupId>
@@ -106,9 +77,6 @@
               <validating>true</validating>
             </validationSet>
           </validationSets>
-          <catalogs>
-            <catalog>${project.build.directory}/schemas/awe/catalog.xml</catalog>
-          </catalogs>
         </configuration>
       </plugin>
 

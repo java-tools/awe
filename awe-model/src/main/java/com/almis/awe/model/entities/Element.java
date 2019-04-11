@@ -65,6 +65,11 @@ public abstract class Element extends XMLWrapper implements Copyable {
   @XStreamAsAttribute
   private String label = null;
 
+  // Title
+  @XStreamAlias("title")
+  @XStreamAsAttribute
+  private String title = null;
+
   // Expandible
   @XStreamAlias("expandible")
   @XStreamAsAttribute
@@ -102,6 +107,7 @@ public abstract class Element extends XMLWrapper implements Copyable {
     this.type = other.type;
     this.style = other.style;
     this.label = other.label;
+    this.title = other.title;
     this.expand = other.expand;
     this.help = other.help;
     this.helpImage = other.helpImage;
@@ -215,6 +221,25 @@ public abstract class Element extends XMLWrapper implements Copyable {
    */
   public void setLabel(String label) {
     this.label = label;
+  }
+
+  /**
+   * Returns the element's TITLE. (element description) Should be translated with Context.getLocal
+   *
+   * @return Element Title
+   */
+  @JsonGetter("title")
+  public String getTitle() {
+    return title;
+  }
+
+  /**
+   * Stores the element's TITLE.
+   *
+   * @param title Element title
+   */
+  public void setTitle(String title) {
+    this.title = title;
   }
 
   /**

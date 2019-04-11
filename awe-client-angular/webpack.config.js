@@ -51,7 +51,9 @@ module.exports = {
           options: {
             lessPlugins: [
               new LessPluginAutoPrefix({ browsers: autoprefixerBrowsers })
-            ]
+            ],
+            minimize: true,
+            sourceMap: true
           }
         }]
       })
@@ -76,11 +78,11 @@ module.exports = {
       "numeral" : path.resolve(__dirname, "node_modules", "numeral"),
       "ng-caps-lock" : path.resolve(__dirname, "src", "main", "resources", "js", "lib", "ngCapsLock", "ng-caps-lock"),
       "bootstrap-tabdrop" : path.resolve(__dirname, "src", "main", "resources", "js", "lib", "bootstrap-tabdrop", "src", "js", "bootstrap-tabdrop"),
-      "bootstrap-tabdrop-less" : path.resolve(__dirname, "src", "main", "resources", "less", "libs", "bootstrap-tabdrop", "src", "less", "tabdrop"),
       "HighchartsLocale" : path.resolve(__dirname, "src", "main", "resources", "js", "lib", "highcharts", "i18n", "highcharts-lang")
     }
   },
-  plugins : [ new ExtractTextPlugin("css/styles.css"),
+  plugins : [
+  new ExtractTextPlugin("css/styles.css"),
   new webpack.ProvidePlugin({
     "jQuery": "jquery",
     "$": "jquery",
@@ -100,8 +102,8 @@ module.exports = {
     name : 'commons',
     filename : 'js/commons.js',
     minChunks : 2
-  })
-  // new webpack.optimize.UglifyJsPlugin({ uglifyOptions: {compress: { warnings: true, drop_console: false}}, cache: true, parallel:true, sourceMap: true}),
+  }),
+  new webpack.optimize.UglifyJsPlugin({ uglifyOptions: {compress: { warnings: true, drop_console: false}}, cache: true, parallel:true, sourceMap: true})
   //new BundleAnalyzerPlugin()
   ]
 };

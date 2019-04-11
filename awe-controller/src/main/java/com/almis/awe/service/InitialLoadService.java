@@ -1,6 +1,3 @@
-/*
- * Package definition
- */
 package com.almis.awe.service;
 
 import com.almis.awe.exception.AWException;

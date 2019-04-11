@@ -1,32 +1,29 @@
 import { aweApplication } from "./../awe";
+import { DefaultSettings } from "../data/options";
 
 // $settings service
-aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtilities', '$http', '$location', '$rootScope', '$state', 'Options', '$httpParamSerializerJQLike',
-  function ($storage, $translate, $log, $utilities, $http, $location, $scope, $state, $options, $httpParamSerializer ) {
-    var tokenKey = "token";
-    var initialize = $utilities.q.defer();
-    var AweSettings = {
+aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtilities', '$http', '$location', '$rootScope', '$state', '$injector',
+  function ($storage, $translate, $log, $utilities, $http, $location, $scope, $state, $injector ) {
+    let tokenKey = "token";
+    let initialize = $utilities.q.defer();
+    const $settings = {
       /**
        * Initialize $settings from server
        */
       init: function () {
         // Define default application $settings
-        var settings = $options.settings.values;
+        let settings = DefaultSettings;
         $storage.init();
-        AweSettings.update(settings);
-        var data = this.getTokenObject();
-        var url = settings.pathServer + "settings";
+        $settings.update(settings);
+        let url = settings.pathServer + "settings";
+        $http.defaults.headers.common = {...$http.defaults.headers.common, ...$settings.getAuthenticationHeaders()};
         $http({
           method: 'POST',
-          url: url,
-          data: $httpParamSerializer(data),
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
+          url: url
         }).then(function (response) {
           let newSettings = angular.fromJson(response.data);
-          AweSettings.update(newSettings);
-          AweSettings.settingsLoaded(newSettings);
+          $settings.update(newSettings);
+          $settings.settingsLoaded(newSettings);
         }).catch(function (error) {
           $log.error("FATAL ERROR: Application settings retrieval failure", error);
         });
@@ -38,31 +35,26 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
        */
       settingsLoaded: function (settings) {
         // Retrieve $settings and set initial language
-        let language = AweSettings.getLanguage();
+        let language = $settings.getLanguage();
 
+        // Define session type
         $storage.setSharedSession(settings.shareSessionInTabs);
-        AweSettings.setToken(AweSettings.getToken());
+
+        // Store token
+        $settings.setToken($settings.getToken());
 
         // Store updated and language
         $storage.putRoot("language", language);
 
-        // Start server connection
-        $storage.putRoot("connection", angular.element(document).injector().get('Connection').init());
-
         // Set language
-        AweSettings.changeLanguage(language, true);
+        $settings.changeLanguage(language, true);
 
         // Load current state
         let initialState = $utilities.getState(settings.reloadCurrentScreen ? settings.initialURL : location.href);
+        $settings.update({reloadCurrentScreen: false});
 
         // Go to initial state
         $state.go(initialState.to, initialState.parameters, {reload: false, inherit: true, notify: true, location: true});
-
-        // Activate cache when redirected
-        let removeEvent = $scope.$on('$viewContentLoaded', function () {
-          angular.element(document).injector().get('ServerData').toggleCache(true);
-          removeEvent();
-        });
 
         // Resolve initialization
         initialize.resolve();
@@ -90,6 +82,10 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
        */
       setToken: function (token) {
         $storage.putSession(tokenKey, token);
+        $http.defaults.headers.common = {...$http.defaults.headers.common, ...$settings.getAuthenticationHeaders()};
+
+        // Start (or reconnect) server connection
+        $storage.putRoot("connection", $injector.get('Connection').init());
       },
       /**
        * Store session token
@@ -99,7 +95,7 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
         if ($storage.hasSession(tokenKey)) {
           return $storage.getSession(tokenKey);
         }
-        return AweSettings.get("cometUID");
+        return $settings.get("cometUID");
       },
       /**
        * Clear session token
@@ -109,28 +105,21 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
         $storage.removeSession(tokenKey);
       },
       /**
-       * Retrieve session token as object
-       * @returns {Object} Session token
+       * Retrieve authentication headers
+       * @returns {{Authorization: (*|token)}}
        */
-      getTokenObject: function () {
-        var tokenObject = {};
-        var token = AweSettings.getToken();
-        tokenObject[AweSettings.get("connectionId")] = token;
-        return tokenObject;
-      },
-      /**
-       * Retrieve session token as stringº
-       * @returns {Object} Session token as string
-       */
-      getTokenString: function () {
-        return AweSettings.get("connectionId") + "=" + AweSettings.getToken();
+      getAuthenticationHeaders: function() {
+        return {
+          'Authorization': $settings.getToken(),
+          'Content-Type': 'application/json'
+        };
       },
       /**
        * Retrieve session token
        * @returns {Object} Session token
        */
       getLanguage: function () {
-        let language = AweSettings.get("language");
+        let language = $settings.get("language");
         return language === null ? null : language.toLowerCase();
       },
       /**
@@ -141,9 +130,9 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
       changeLanguage: function (language, forceChange) {
         if (language !== null) {
           var newLanguage = language.toLowerCase();
-          if (newLanguage !== AweSettings.getLanguage() || forceChange) {
+          if (newLanguage !== $settings.getLanguage() || forceChange) {
             // Change language $settings
-            AweSettings.update({language: newLanguage});
+            $settings.update({language: newLanguage});
 
             // Change locals
             $translate.use(newLanguage).then(function () {
@@ -164,7 +153,7 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
        */
       preloadTemplates: function () {
         // Preload templates
-        var $serverData = angular.element(document).injector().get('ServerData');
+        var $serverData = $injector.get('ServerData');
         var templateList = [
           {path: 'grid/header'},
           {path: 'grid/cell'},
@@ -186,5 +175,5 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
         });
       }
     };
-    return AweSettings;
+    return $settings;
   }]);

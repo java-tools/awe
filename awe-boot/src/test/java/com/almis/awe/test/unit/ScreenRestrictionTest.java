@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Class used for testing queries through ActionController
  *
  * @author jbellon
- *
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -37,12 +37,13 @@ public class ScreenRestrictionTest extends TestUtil {
   private static Logger logger = LogManager.getLogger(ScreenRestrictionTest.class);
   private String sessionToken = "e6144dad-6e67-499e-b74a-d1e600732e11";
 
-	/*
-	 * Tables - Test schema Fields - Test functions with doubles (now is casted to Long always)
-	 */
+  /*
+   * Tables - Test schema Fields - Test functions with doubles (now is casted to Long always)
+   */
 
   /**
    * Initializes json mapper for tests
+   *
    * @throws Exception error updating user
    */
   @Before
@@ -55,10 +56,11 @@ public class ScreenRestrictionTest extends TestUtil {
 
   /**
    * Close and logout
+   *
    * @throws Exception error updating user
    */
   @After
-  public void clean() throws Exception{
+  public void clean() throws Exception {
     // Clean up
     cleanUp("CleanUpScreenRestriction");
   }
@@ -71,7 +73,7 @@ public class ScreenRestrictionTest extends TestUtil {
   private void restrictOption(ObjectNode option, String optionName, boolean restrict) {
     String searchFor = optionName;
     if (option.has("name") && optionName.equalsIgnoreCase(option.get("name").textValue()) ||
-            "*".equalsIgnoreCase(optionName)) {
+      "*".equalsIgnoreCase(optionName)) {
       option.put("restricted", restrict);
       searchFor = "*";
     }
@@ -94,16 +96,18 @@ public class ScreenRestrictionTest extends TestUtil {
     String maintainName = "updateScreenRestriction";
     String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1}]}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-            .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"updateScreenRestriction\",\"module\":\"Test\",\"language\":\"en\",\"RefreshTime\":null,\"site\":\"Madrid\",\"database\":\"awemadora01\",\"theme\":\"sunset\",\"SetAutoload\":\"0\",\"GrdScrAccLst\":1,\"GrdScrAccLst.data\":{\"max\":30,\"page\":1,\"sort\":[]},\"IdeAweScrRes\":[\"\"],\"IdeAweScrRes.selected\":null,\"Opt\":[\"" + option + "\"],\"Opt.selected\":null,\"IdeOpe\":[" + user + "],\"IdeOpe.selected\":null,\"IdePro\":[" + profile + "],\"IdePro.selected\":null,\"AccMod\":[\"" + value + "\"],\"AccMod.selected\":null,\"Act\":[\"1\"],\"Act.selected\":null,\"GrdScrAccLst-id\":[\"new-row-1\"],\"GrdScrAccLst-RowTyp\":[\"" + operation + "\"],\"PrnScr\":\"ScrCnf\",\"CrtScr\":null,\"UsrPrn\":null,\"ActPrn\":\"2\",\"FmtPrn\":\"PDF\",\"CrtAct\":null,\"CrtUsr\":null,\"DblFmtPrn\":\"0\",\"TypPrn\":\"1\",\"CrtPro\":null,\"s\":\"" + sessionToken + "\",\"max\":30}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andExpect(content().json(expected))
-            .andReturn();
+      .header("Authorization", sessionToken)
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"module\":\"Test\",\"language\":\"en\",\"RefreshTime\":null,\"site\":\"Madrid\",\"database\":\"awemadora01\",\"theme\":\"sunset\",\"SetAutoload\":\"0\",\"GrdScrAccLst\":1,\"GrdScrAccLst.data\":{\"max\":30,\"page\":1,\"sort\":[]},\"IdeAweScrRes\":[\"\"],\"IdeAweScrRes.selected\":null,\"Opt\":[\"" + option + "\"],\"Opt.selected\":null,\"IdeOpe\":[" + user + "],\"IdeOpe.selected\":null,\"IdePro\":[" + profile + "],\"IdePro.selected\":null,\"AccMod\":[\"" + value + "\"],\"AccMod.selected\":null,\"Act\":[\"1\"],\"Act.selected\":null,\"GrdScrAccLst-id\":[\"new-row-1\"],\"GrdScrAccLst-RowTyp\":[\"" + operation + "\"],\"PrnScr\":\"ScrCnf\",\"CrtScr\":null,\"UsrPrn\":null,\"ActPrn\":\"2\",\"FmtPrn\":\"PDF\",\"CrtAct\":null,\"CrtUsr\":null,\"DblFmtPrn\":\"0\",\"TypPrn\":\"1\",\"CrtPro\":null,\"max\":30}")
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(content().json(expected))
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
     //logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[] {
-            new MaintainResultDetails(MaintainType.valueOf(operation), 1l),
-            new MaintainResultDetails(MaintainType.AUDIT, 1l)
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.valueOf(operation), 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
   }
 
@@ -115,7 +119,7 @@ public class ScreenRestrictionTest extends TestUtil {
    */
   private String prepareOptions(String optionName, String value, String previousOptions) throws Exception {
     // Define button controller
-		String options = previousOptions != null ? previousOptions : readFileAsText("menu/menu.json");
+    String options = previousOptions != null ? previousOptions : readFileAsText("menu/menu.json");
 
     // Filter options
     if (optionName != null) {
@@ -142,11 +146,13 @@ public class ScreenRestrictionTest extends TestUtil {
     // Check screen
     String expected = "[{\"type\":\"change-menu\",\"parameters\":" + parameters + "},{\"type\":\"end-load\",\"parameters\":{}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/refresh-menu")
-            .session(session)
-            .param("p", "{\"s\":\"" + sessionToken + "\",\"view\":\"report\"}")
-            .accept("application/json"))
-            .andExpect(status().isOk())
-            .andReturn();
+      .header("Authorization", sessionToken)
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"view\":\"report\"}")
+      .accept(MediaType.APPLICATION_JSON)
+      .session(session))
+      .andExpect(status().isOk())
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
     logger.debug(result);
     logger.debug(expected);
@@ -154,10 +160,11 @@ public class ScreenRestrictionTest extends TestUtil {
 
   /**
    * Test of option restriction
+   *
    * @throws Exception Test error
    */
   private void testOptionRestriction(String user, String profile, String optionName, String value, String parameters) throws Exception {
-    testOptionRestriction(user, profile, optionName, value, parameters,"test","administrator", "ADM");
+    testOptionRestriction(user, profile, optionName, value, parameters, "test", "administrator", "ADM");
   }
 
   /**

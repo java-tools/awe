@@ -13,7 +13,6 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
    * @param {service} $settings AWE $settings
    * @param {service} Control Control service
    * @param {service} Utilities AWE Utilities
-   * @param {service} $sce Sce
    */
   function (GridComponents, GridEditable, GridMultioperation, GridEvents, $translate, $settings, Control, Utilities) {
     // Retrieve $settings
@@ -1238,6 +1237,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           column.headerClass = column.style || "";
           column.name = column.name || column.id;
           column.id = column.name;
+          column.enableSorting = component.enableSorting && column.sortable;
           column.sortField = column.sortField || column.name;
           column.field = column.name;
 

@@ -54,9 +54,6 @@
     <option name="log" label="MENU_LOG" screen="Log" icon="file-text">
       <option name="view-log" screen="LogViw" invisible="true" />
     </option>
-    <option name="reports" label="MENU_REPORT_LIST" screen="RepGenPdf" icon="file">
-      <option name="view-report" screen="RepGenPdfViw" invisible="true" />
-    </option>
   </option>
   <option name="settings" label="MENU_SETTINGS" icon="cog">
     <option name="security" label="MENU_TOOLS_SECURITY" icon="unlock-alt">
@@ -64,7 +61,6 @@
       <option name="encrypt-tools" label="MENU_TOOLS_SCREEN_ENCRYPT" screen="ScrEncTxt" icon="lock" />
     </option>
     <option name="screen-configuration" label="MENU_TOOLS_SCR_CNF" screen="ScrCnf" icon="laptop" />
-    <option name="report-configuration" label="MENU_TOOLS_STL_CNF" screen="StlCnf" icon="tint" />
   </option>
   <option name="help-separator" separator="true" />
   <option name="help" label="MENU_HELP" icon="question-circle">

@@ -8,11 +8,14 @@ import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
+import com.almis.awe.model.dto.User;
 import com.almis.awe.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.*;
 
@@ -29,7 +32,7 @@ public class AweSessionDetails extends ServiceConfig {
   private Map<String, Set<String>> connectedUsers;
 
   // Change password screen
-  @Value("${session.parameters:}")
+  @Value("#{'${session.parameters:}'.split(',')}")
   private List<String> sessionParameters;
 
   @Value("${language.default:en}")
@@ -44,8 +47,8 @@ public class AweSessionDetails extends ServiceConfig {
   @Value("${security.default.restriction:general}")
   private String defaultRestriction;
 
-  @Value("${application.parameter.comet.id:s}")
-  private String sessionKey;
+  @Value("${screen.parameter.username:cod_usr}")
+  private String usernameParameter;
 
   /**
    * Autowired constructor
@@ -66,7 +69,11 @@ public class AweSessionDetails extends ServiceConfig {
    */
   public void onLoginSuccess(Authentication authentication) {
     AweSession session = getSession().setAuthentication(authentication);
+    String token = session.getSessionId();
     try {
+      // Set session new token
+      getRequest().setToken(token);
+
       // Store user in session
       session.setParameter(SESSION_USER, session.getUser());
 
@@ -74,7 +81,7 @@ public class AweSessionDetails extends ServiceConfig {
       storeUserDetails();
 
       // Get user session list
-      Set<String> sessionList = null;
+      Set<String> sessionList;
       if (connectedUsers.containsKey(session.getUser())) {
         sessionList = connectedUsers.get(session.getUser());
       } else {
@@ -83,8 +90,8 @@ public class AweSessionDetails extends ServiceConfig {
       }
 
       // Add cometUID to user session
-      if (!sessionList.contains(sessionKey)) {
-        sessionList.add(getRequest().getParameterAsString(sessionKey));
+      if (!sessionList.contains(token)) {
+        sessionList.add(token);
       }
 
       // Initialize session variables
@@ -96,10 +103,17 @@ public class AweSessionDetails extends ServiceConfig {
 
   /**
    * Manage login failure
-   * @param authenticationException Authentication error
+   * @param exc Authentication exception
    */
-  public void onLoginFailure(AuthenticationException authenticationException) {
-    getSession().setParameter(SESSION_FAILURE, new AWException(authenticationException.getMessage(), authenticationException));
+  public void onLoginFailure(AuthenticationException exc) {
+    String username = getRequest().getParameterAsString(usernameParameter);
+    if (exc instanceof UsernameNotFoundException) {
+      getSession().setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_USER"), getLocale("ERROR_MESSAGE_INVALID_USER", username), exc));
+    } else if (exc instanceof BadCredentialsException) {
+      getSession().setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_CREDENTIALS"), getLocale("ERROR_MESSAGE_INVALID_CREDENTIALS", username), exc));
+    } else {
+      getSession().setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_CREDENTIALS"), exc.getMessage(), exc));
+    }
   }
 
   /**
@@ -115,7 +129,7 @@ public class AweSessionDetails extends ServiceConfig {
     // Remove cometUID from user session
     if (connectedUsers.containsKey(user)) {
       Set<String> sessionList = connectedUsers.get(user);
-      sessionList.remove(getRequest().getParameterAsString(sessionKey));
+      sessionList.remove(getRequest().getToken());
     }
   }
 
@@ -126,6 +140,7 @@ public class AweSessionDetails extends ServiceConfig {
     AweSession session = getSession();
 
     // Remove from session
+    session.removeParameter(SESSION_USER_DETAILS);
     session.removeParameter(SESSION_LAST_LOGIN);
     session.removeParameter(SESSION_FULLNAME);
     session.removeParameter(SESSION_LANGUAGE);
@@ -160,31 +175,25 @@ public class AweSessionDetails extends ServiceConfig {
 
   /**
    * Store user details
-   * @throws AWException User storage failed
    */
-  private void storeUserDetails() throws AWException {
-    // Launch query to retrieve user data
-    ServiceData userDetailOutput = queryService.launchQuery(USER_DETAIL_QUERY, "1", "0");
-    DataList userDetail = userDetailOutput.getDataList();
+  private void storeUserDetails() {
+    AweSession session = getSession();
+    User userDetails = session.getParameter(User.class, AweConstants.SESSION_USER_DETAILS);
 
     // Get user data
-    Map<String, CellData> userData = userDetail.getRows().get(0);
-    String fullName = userData.get(USER_FULLNAME).getStringValue();
-    String userLanguage = userData.get(USER_LANGUAGE).getStringValue();
-    String userTheme = userData.get(USER_THEME).getStringValue();
-    String userInitialScreen = userData.get(USER_INITIAL_SCREEN).getStringValue();
-    String profileTheme = userData.get(PROFILE_THEME).getStringValue();
-    String profileInitialScreen = userData.get(PROFILE_INITIAL_SCREEN).getStringValue();
-    String profile = userData.get(USER_PROFILE).getStringValue();
-    String userRestriction = userData.get(USER_RESTRICTION).getStringValue();
-    String profileRestriction = userData.get(PROFILE_RESTRICTION).getStringValue();
     String theme = defaultTheme;
     String initialScreen = defaultInitialScreen;
     String language = defaultLanguage;
     String restriction = defaultRestriction;
+    String userTheme = userDetails.getUserTheme();
+    String profileTheme = userDetails.getProfileTheme();
+    String userRestriction = userDetails.getUserFileRestriction();
+    String profileRestriction = userDetails.getProfileFileRestriction();
+    String userInitialScreen = userDetails.getUserInitialScreen();
+    String profileInitialScreen = userDetails.getProfileInitialScreen();
 
     // Specific language (from less to more specific)
-    language = userLanguage.isEmpty() ? language : userLanguage.substring(0,2).toLowerCase();
+    language = userDetails.getLanguage().isEmpty() ? language : userDetails.getLanguage().substring(0,2).toLowerCase();
 
     // Specific restriction (from less to more specific)
     theme = profileTheme.isEmpty() ? theme : profileTheme;
@@ -199,14 +208,13 @@ public class AweSessionDetails extends ServiceConfig {
     initialScreen = userInitialScreen.isEmpty() ? initialScreen : userInitialScreen;
 
     // Store user data in session
-    AweSession session = getSession();
     session.setParameter(SESSION_LAST_LOGIN, new Date());
-    session.setParameter(SESSION_FULLNAME, fullName);
+    session.setParameter(SESSION_FULLNAME, userDetails.getUserFullName());
     session.setParameter(SESSION_LANGUAGE, language);
     session.setParameter(SESSION_THEME, theme);
-    session.setParameter(SESSION_PROFILE, profile);
+    session.setParameter(SESSION_PROFILE, userDetails.getProfile());
     session.setParameter(SESSION_RESTRICTION, restriction);
     session.setParameter(SESSION_INITIAL_SCREEN, initialScreen);
-    session.setParameter(SESSION_TOKEN, getRequest().getParameterAsString(sessionKey));
+    session.setParameter(SESSION_TOKEN, getRequest().getToken());
   }
 }

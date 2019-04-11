@@ -1,7 +1,6 @@
 package com.almis.awe.service.connector;
 
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.ResponseWrapper;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.dto.ServiceDataWrapper;
@@ -11,7 +10,9 @@ import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.type.RestContentType;
 import com.almis.awe.model.util.log.LogUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
@@ -36,11 +37,17 @@ import java.util.regex.Pattern;
  */
 public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
-  @Autowired
-  private AweElements elements;
-
-  @Autowired
+  // Autowired services
   private LogUtil logger;
+
+  /**
+   * Autowired constructor
+   * @param logger Logger
+   */
+  @Autowired
+  public AbstractRestConnector(LogUtil logger) {
+    this.logger = logger;
+  }
 
   /**
    * Generates the request and launches it
@@ -161,19 +168,41 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
    */
   private MultiValueMap<String, String> getParameterMap(AbstractServiceRest rest, UriComponentsBuilder uriBuilder, Map<String, Object> urlParameters, Map<String, Object> paramsMapFromRequest) {
     MultiValueMap<String, String> requestParametersMap = new LinkedMultiValueMap<>();
+
     if (rest.getParameterList() != null) {
       for (ServiceInputParameter param : rest.getParameterList()) {
-        // If it has parameters, expand the url avoiding parameters already used
         String paramName = param.getName();
         if (!urlParameters.containsKey(paramName)) {
           setParametersInURI(rest, uriBuilder, paramName, paramsMapFromRequest);
-          requestParametersMap.set(paramName, String.valueOf(paramsMapFromRequest.get(paramName)));
+          readParameterMap(requestParametersMap, param, paramsMapFromRequest);
         }
       }
     }
 
     // Create request using headers and parameters defined previously
     return requestParametersMap;
+  }
+
+  /**
+   * Read parameter map
+   * @param requestParametersMap Request parameters
+   * @param param Parameter to read
+   * @param paramsMapFromRequest Parameters from request
+   */
+  private void readParameterMap(MultiValueMap<String, String> requestParametersMap, ServiceInputParameter param, Map<String, Object> paramsMapFromRequest) {
+    // If it has parameters, expand the url avoiding parameters already used
+    ObjectMapper mapper = new ObjectMapper();
+    String paramName = param.getName();
+    JsonNode nodeValue = mapper.valueToTree(paramsMapFromRequest.get(paramName));
+    if (param.isList()) {
+      for (JsonNode value : nodeValue) {
+        requestParametersMap.add(paramName, value.asText());
+      }
+    } else if (nodeValue == null){
+      requestParametersMap.set(paramName, null);
+    } else {
+      requestParametersMap.set(paramName, nodeValue.asText());
+    }
   }
 
   /**
@@ -194,13 +223,39 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
         String paramName = param.getName();
         if (!urlParameters.containsKey(paramName)) {
           setParametersInURI(rest, uriBuilder, paramName, paramsMapFromRequest);
-          requestParametersJson.set(paramName, mapper.valueToTree(paramsMapFromRequest.get(paramName)));
+          readParameterJson(requestParametersJson, param, paramsMapFromRequest);
         }
       }
     }
 
     // Create request using headers and parameters defined previously
     return mapper.writeValueAsString(requestParametersJson);
+  }
+
+  /**
+   * Read parameter json
+   * @param requestParametersJson Request parameters
+   * @param param Parameter to read
+   * @param paramsMapFromRequest Parameters from request
+   */
+  private void readParameterJson(ObjectNode requestParametersJson, ServiceInputParameter param, Map<String, Object> paramsMapFromRequest) {
+    // If it has parameters, expand the url avoiding parameters already used
+    ObjectMapper mapper = new ObjectMapper();
+    String paramName = param.getName();
+    JsonNode nodeValue = mapper.valueToTree(paramsMapFromRequest.get(paramName));
+    nodeValue = nodeValue == null ? JsonNodeFactory.instance.nullNode() : nodeValue;
+    if (param.isList()) {
+      ArrayNode list = JsonNodeFactory.instance.arrayNode();
+      if (nodeValue.isArray()) {
+        for (JsonNode value : nodeValue) {
+          list.add(value);
+        }
+      } else if (!nodeValue.isNull() && !nodeValue.asText().isEmpty()){
+        list.add(nodeValue);
+      }
+      nodeValue = list;
+    }
+    requestParametersJson.set(paramName, nodeValue);
   }
 
   /**

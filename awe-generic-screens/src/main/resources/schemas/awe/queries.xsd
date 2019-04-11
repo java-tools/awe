@@ -33,6 +33,12 @@
   <!-- Concat Element -->
   <xs:element name="concat" type="concatType" />
 
+  <!-- Case When Element -->
+  <xs:element name="case-when" type="caseWhenType" />
+
+  <!-- Case Else Element -->
+  <xs:element name="case-else" type="caseElseType" />
+
   <!-- Query Element -->
   <xs:element name="query" type="queryType" />
 
@@ -120,9 +126,11 @@
 
   <!-- Field Type -->
   <xs:complexType name="fieldType">
-    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element ref="concat" />
-    </xs:sequence>
+      <xs:element ref="case-when" />
+      <xs:element ref="case-else" />
+    </xs:choice>
     <xs:attributeGroup ref="fieldQueryAttr" />
   </xs:complexType>
 
@@ -131,6 +139,17 @@
     <xs:attribute name="id" type="xs:string" />
     <xs:attribute name="table" type="xs:string" />
     <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Case Else type -->
+  <xs:complexType name="caseElseType">
+    <xs:attributeGroup ref="caseAttr"/>
+  </xs:complexType>
+
+  <!-- Case When type -->
+  <xs:complexType name="caseWhenType">
+    <xs:attributeGroup ref="caseAttr" />
+    <xs:attributeGroup ref="filterAttr"/>
   </xs:complexType>
 
   <!-- Compound type -->

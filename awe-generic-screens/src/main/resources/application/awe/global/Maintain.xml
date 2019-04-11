@@ -79,6 +79,7 @@
       <field id="ScrIni" variable="ScrIni" />
       <field id="Res" variable="Res" />
       <field id="PwdLck" variable="PwdLck" />
+      <field id="dat_mod" variable="UpdateDate"/>
       <where>
         <and>
           <filter left-field="IdeOpe" condition="eq" right-variable="IdeOpe" />
@@ -97,6 +98,7 @@
       <variable id="ScrIni" type="STRING" name="ScrIni" />
       <variable id="Res" type="STRING" name="Res" />
       <variable id="PwdLck" type="INTEGER" name="PwdLck" />
+      <variable id="UpdateDate" type="SYSTEM_DATE"/>
     </update>
     <update>
       <table id="ope" />

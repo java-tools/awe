@@ -1,38 +1,30 @@
 package com.almis.awe.config;
 
-import com.almis.awe.model.util.log.LogUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.component.AweSession;
-import org.springframework.core.env.Environment;
-import org.springframework.web.context.WebApplicationContext;
-
-import javax.annotation.PostConstruct;
+import com.almis.awe.model.util.log.LogUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * Base class for all custom service
  *
  * @author Jorge BELLON
  */
-@Configuration
-public abstract class ServiceConfig {
-
-  @Autowired
-  private WebApplicationContext context;
+public abstract class ServiceConfig implements ApplicationContextAware {
 
   // Injected services
-  private AweElements elements;
-  private Environment environment;
-  private LogUtil logger;
+  private ApplicationContext context;
 
-  @PostConstruct
-  public void onInitialize() {
-    this.elements = getBean(AweElements.class);
-    this.environment = context.getEnvironment();
-    this.logger = getBean(LogUtil.class);
+  /**
+   * Autowired application context
+   * @param context application context
+   */
+  @Autowired
+  public void setApplicationContext(ApplicationContext context) {
+    this.context = context;
   }
 
   /**
@@ -41,7 +33,7 @@ public abstract class ServiceConfig {
    * @return Awe Elements
    */
   public AweElements getElements() {
-    return elements;
+    return getBean(AweElements.class);
   }
 
   /**
@@ -116,23 +108,23 @@ public abstract class ServiceConfig {
   }
 
   /**
-   * Retrieve propertu
+   * Retrieve property
    * @param property Property identifier
    * @return Property value
    */
   public String getProperty(String property) {
-    return environment.getProperty(property);
+    return getElements().getProperty(property);
   }
 
   /**
-   * Retrieve propertu
+   * Retrieve property of a determined class
    * @param <T> Return value class
    * @param property Property identifier
    * @param clazz Property class
    * @return Property value
    */
   public <T> T getProperty(String property, Class<T> clazz) {
-    return environment.getProperty(property, clazz);
+    return getElements().getProperty(property, clazz);
   }
 
   /**
@@ -140,6 +132,6 @@ public abstract class ServiceConfig {
    * @return Logger
    */
   public LogUtil getLogger() {
-    return logger;
+    return getBean(LogUtil.class);
   }
 }

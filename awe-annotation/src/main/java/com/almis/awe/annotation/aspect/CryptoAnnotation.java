@@ -9,7 +9,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.annotation.Annotation;
 
@@ -23,18 +22,6 @@ import java.lang.annotation.Annotation;
  */
 @Aspect
 public class CryptoAnnotation {
-
-  // Autowired services
-  private CryptoProcessor cryptoProcessor;
-
-  /**
-   * Autowired constructor
-   * @param cryptoProcessor Crypto processor
-   */
-  @Autowired
-  public CryptoAnnotation(CryptoProcessor cryptoProcessor) {
-    this.cryptoProcessor = cryptoProcessor;
-  }
 
   /**
    * Crypto method pointcut
@@ -63,7 +50,7 @@ public class CryptoAnnotation {
   public String cryptoMethodProcessor(ProceedingJoinPoint proceedingJoinPoint) throws AWException {
     // Process join point
     String result = AnnotationUtils.processJoinPoint(proceedingJoinPoint);
-    return cryptoProcessor.processCrypto(((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getAnnotation(Crypto.class), result);
+    return CryptoProcessor.processCrypto(((MethodSignature) proceedingJoinPoint.getSignature()).getMethod().getAnnotation(Crypto.class), result);
   }
 
   /**
@@ -86,7 +73,7 @@ public class CryptoAnnotation {
 
           // Apply processors
           if (annotation instanceof Crypto) {
-            arg = cryptoProcessor.processCrypto((Crypto) annotation, (String) arg);
+            arg = CryptoProcessor.processCrypto((Crypto) annotation, (String) arg);
           }
 
           // Save value

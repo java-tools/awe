@@ -1,17 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>com.almis.awe</groupId>
-    <artifactId>awe-dependencies</artifactId>
-    <version>4.0.5</version>
-    <relativePath>../awe-dependencies/pom.xml</relativePath>
+    <artifactId>awe-parent</artifactId>
+    <version>4.0.6</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
+
   <artifactId>awe-framework</artifactId>
   <packaging>pom</packaging>
   <name>AWE Framework (V${project.version})</name>
   <description>AWE Framework Build</description>  
   
   <modules>
+    <module>../awe-dependencies</module>
     <module>../awe-model</module>
     <module>../awe-generic-screens</module>
     <module>../awe-client-angular</module>    
@@ -28,6 +31,7 @@
     <module>../awe-rest-spring-boot-starter</module>
     <module>../awe-testing</module>
     <module>../awe-spring-boot-starter</module>
+    <module>../awe-starter-parent</module>
     <module>../awe-boot-archetype</module>
   </modules>
   

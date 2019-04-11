@@ -1,13 +1,15 @@
 import { aweApplication } from "./../awe";
+import { DefaultGridOptions, DefaultSpin } from "../data/options";
 
 // Treegrid directive
 aweApplication.directive('aweTreeGrid',
-  ['ServerData', 'GridTree', 'Options', 'AweSettings',
-    function (serverData, GridTree, Options, $settings) {
+  ['ServerData', 'GridTree', 'AweSettings',
+    function (serverData, GridTree, $settings) {
       // Retrieve default $settings
 
       // Set default options
       var options = {
+        ...DefaultGridOptions,
         // Elements per page
         rowNum: $settings.get("recordsPerPage"),
         // Total width
@@ -51,7 +53,7 @@ aweApplication.directive('aweTreeGrid',
                 component.bigGrid = true;
 
                 // Set spin options
-                scope.spinOptions = Options.spin.big;
+                scope.spinOptions = DefaultSpin.big;
 
                 // Define default values
                 component.controller.treeId = component.controller.treeId || "id";
@@ -61,6 +63,7 @@ aweApplication.directive('aweTreeGrid',
                 // Update grid styles
                 component.gridStyle = "grid-" + scope.size + " " + (component.controller.style || "");
                 component.gridButtonClass = "btn btn-" + scope.size;
+                component.enableSorting = false;
 
                 // Fix column model
                 component.fixColumnModel(true);
@@ -74,7 +77,7 @@ aweApplication.directive('aweTreeGrid',
                   noUnselect: component.controller.editable && !component.controller.multiselect,
                   enableColumnResizing: true,
                   enableFiltering: component.controller.enableFilters,
-                  enableSorting: true,
+                  enableSorting: component.enableSorting,
                   useExternalSorting: !component.controller.loadAll,
                   useExternalPagination: !component.controller.loadAll,
                   fastWatch: true,

@@ -6,8 +6,7 @@
 
 <!--$Id$-->
 
-<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
   <locale name="APP_CLIENT" value="Almis I.F."/>
   <locale name="APP_NAME" value="Almis Web Engine"/>
   <locale name="BUTTON_ACCEPT" value="Accept"/>
@@ -200,12 +199,18 @@
   <locale name="ENUM_CATEGORY_SECURITY" value="Security"/>
   <locale name="ENUM_CHART" value="Chart"/>
   <locale name="ENUM_CRT_STL" value="Criteria style"/>
+  <locale name="ENUM_DBM_H2" value="H2"/>
+  <locale name="ENUM_DBM_HSQL" value="HSQL"/>
+  <locale name="ENUM_DBM_MYSQL" value="MYSQL"/>
   <locale name="ENUM_DBM_ORACLE" value="ORACLE"/>
   <locale name="ENUM_DBM_SQLSERVER" value="SQLSERVER"/>
   <locale name="ENUM_DBM_SYBASE" value="SYBASE"/>
   <locale name="ENUM_DBS_TYP_DATASOURCE" value="Datasource"/>
   <locale name="ENUM_DBS_TYP_JDBC" value="Jdbc"/>
   <locale name="ENUM_DJR" value="Jasper reports"/>
+  <locale name="ENUM_DRV_H2" value="H2"/>
+  <locale name="ENUM_DRV_HSQL" value="HSQL"/>
+  <locale name="ENUM_DRV_MYSQL" value="MYSQL"/>
   <locale name="ENUM_DRV_ORACLE" value="ORACLE"/>
   <locale name="ENUM_DRV_SQLSERVER" value="SQLSERVER"/>
   <locale name="ENUM_DRV_SYBASE" value="SYBASE"/>
@@ -440,6 +445,7 @@
   <locale name="ERROR_MESSAGE_INITIALIZING_JASPER" value="There has been a problem launching document engine initialization"/>
   <locale name="ERROR_MESSAGE_INVALID_ARGUMENTS" value="The selected arguments are not valid"/>
   <locale name="ERROR_MESSAGE_INVALID_CONNECTION" value="There was a problem trying to make the connection"/>
+  <locale name="ERROR_MESSAGE_INVALID_CREDENTIALS" value="The credentials entered for the user -{0}- are not valid"/>
   <locale name="ERROR_MESSAGE_INVALID_DATABASE_ARGUMENTS" value="The selected arguments of database connections are no valid. [Type:{0}, Alias:{1}, Url: {2}]"/>
   <locale name="ERROR_MESSAGE_INVALID_DATASOURCE" value="The selected datasource doesn&apos;t exist: {0}"/>
   <locale name="ERROR_MESSAGE_INVALID_PASSWORD" value="Password is wrong for user {0}. Check caps."/>
@@ -524,6 +530,7 @@
   <locale name="ERROR_MESSAGE_SEQUENCE_NOT_UPDATED" value="The sequence {0} could not be updated"/>
   <locale name="ERROR_MESSAGE_SERVER_NOT_SUPPORTED" value="The server is not compatible"/>
   <locale name="ERROR_MESSAGE_SERVICE_NOT_FOUND" value="Service has not been defined"/>
+  <locale name="ERROR_MESSAGE_SESSION_EXPIRED" value="Your connection has expired. You must login again."/>
   <locale name="ERROR_MESSAGE_SET_SESSION_OBJECT" value="There has been a problem trying to store the object with key - {0} - in the session cache"/>
   <locale name="ERROR_MESSAGE_SET_SESSION_VARIABLE" value="There has been a problem trying to store the value -{0}- into the session variable -{1}-"/>
   <locale name="ERROR_MESSAGE_SINGLE_MAINTAIN" value="The maintain operation of single statement has failed. [{0}]"/>
@@ -615,6 +622,7 @@
   <locale name="ERROR_TITLE_INITIALIZING_JASPER" value="Error initilizing Jasper"/>
   <locale name="ERROR_TITLE_INVALID_ARGUMENTS" value="Invalid arguments"/>
   <locale name="ERROR_TITLE_INVALID_CONNECTION" value="Invalid connection"/>
+  <locale name="ERROR_TITLE_INVALID_CREDENTIALS" value="Invalid credentials"/>
   <locale name="ERROR_TITLE_INVALID_PASSWORD" value="Wrong password"/>
   <locale name="ERROR_TITLE_INVALID_SESSION_TOKEN" value="Session is not valid"/>
   <locale name="ERROR_TITLE_INVALID_USER" value="Wrong username"/>
@@ -675,6 +683,7 @@
   <locale name="ERROR_TITLE_SCREEN_OPTION_NOT_DEFINED" value="Screen option not defined"/>
   <locale name="ERROR_TITLE_SENDING_QUEUE_MESSAGE" value="Error sending message"/>
   <locale name="ERROR_TITLE_SERVER_NOT_SUPPORTED" value="Error with server"/>
+  <locale name="ERROR_TITLE_SESSION_EXPIRED" value="Session expired"/>
   <locale name="ERROR_TITLE_SET_SESSION_OBJECT" value="Error storing session object"/>
   <locale name="ERROR_TITLE_SET_SESSION_VARIABLE" value="Error storing session variable"/>
   <locale name="ERROR_TITLE_SIZE_LIMIT" value="You have exceeded the file size"/>

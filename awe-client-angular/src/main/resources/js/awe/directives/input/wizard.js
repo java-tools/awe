@@ -1,9 +1,10 @@
 import { aweApplication } from "./../../awe";
+import { ClientActions } from "../../data/actions";
 
 // Wizard directive
 aweApplication.directive('aweInputWizard',
-  ['ServerData', 'Criterion', 'AweUtilities', 'Storage', 'Actions', '$translate', 'AweSettings',
-    function (serverData, Criterion, Utilities, Storage, Actions, $translate, $settings) {
+  ['ServerData', 'Criterion', 'AweUtilities', 'Storage', '$translate', 'AweSettings',
+    function (serverData, Criterion, Utilities, Storage, $translate, $settings) {
 
       return {
         restrict: 'E',
@@ -255,7 +256,7 @@ aweApplication.directive('aweInputWizard',
             component.listeners['resize'] = $scope.$on("resize", resize);
             component.listeners['resize-action'] = $scope.$on("resize-action", resize);
             // Action listener definition
-            Utilities.defineActionListeners(component.listeners, Actions.wizard, $scope, component);
+            Utilities.defineActionListeners(component.listeners, ClientActions.wizard, $scope, component);
           }],
         link: function (scope, elem) {
           scope.element = elem;

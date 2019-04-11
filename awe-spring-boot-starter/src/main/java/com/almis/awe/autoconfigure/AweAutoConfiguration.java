@@ -1,7 +1,6 @@
 package com.almis.awe.autoconfigure;
 
 import com.almis.ade.api.ADE;
-import com.almis.awe.component.AweDatabaseContextHolder;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.component.AweSession;
@@ -45,8 +44,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.annotation.RequestScope;
 
-import javax.sql.DataSource;
-
 /**
  * AWE Autoconfiguration
  */
@@ -56,7 +53,6 @@ public class AweAutoConfiguration {
 
   // Autowired beans
   private WebApplicationContext context;
-  private Environment environment;
 
   /**
    * Autowired constructor
@@ -66,7 +62,6 @@ public class AweAutoConfiguration {
   @Autowired
   public AweAutoConfiguration(WebApplicationContext context, Environment environment) {
     this.context = context;
-    this.environment = environment;
 
     // Initialize static utilities
     NumericUtil.init(environment);
@@ -80,8 +75,8 @@ public class AweAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   @RequestScope
-  public AweRequest aweRequest(LogUtil logger) {
-    return new AweRequest(environment, logger);
+  public AweRequest aweRequest() {
+    return new AweRequest();
   }
 
   /**
@@ -194,17 +189,14 @@ public class AweAutoConfiguration {
   /**
    * Maintain service
    * @param maintainLauncher Maintain launcher
-   * @param contextHolder Database context holder
    * @param accessService Access service
    * @param queryUtil Query utilities
-   * @param dataSource Data source
    * @return Maintain service bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public MaintainService maintainService(MaintainLauncher maintainLauncher, AweDatabaseContextHolder contextHolder,
-                                         AccessService accessService, QueryUtil queryUtil, DataSource dataSource) {
-    return new MaintainService(maintainLauncher, contextHolder, accessService, queryUtil, dataSource);
+  public MaintainService maintainService(MaintainLauncher maintainLauncher, AccessService accessService, QueryUtil queryUtil) {
+    return new MaintainService(maintainLauncher, accessService, queryUtil);
   }
 
   /**
@@ -438,22 +430,24 @@ public class AweAutoConfiguration {
 
   /**
    * Microservice connector
+   * @param logUtil logger
    * @return Microservice connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public MicroserviceConnector microserviceConnector() {
-    return new MicroserviceConnector();
+  public MicroserviceConnector microserviceConnector(LogUtil logUtil) {
+    return new MicroserviceConnector(logUtil);
   }
 
   /**
    * REST connector
+   * @param logUtil logger
    * @return REST connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public RestConnector restConnector() {
-    return new RestConnector();
+  public RestConnector restConnector(LogUtil logUtil) {
+    return new RestConnector(logUtil);
   }
 
   /**
@@ -519,28 +513,7 @@ public class AweAutoConfiguration {
    */
   @Bean
   @Scope("prototype")
-  public ServiceBuilder serviceBuilder(LauncherService launcherService) {
-    return new ServiceBuilder(launcherService);
-  }
-
-  /////////////////////////////////////////////
-  // TOMCAT CONFIGURATION
-  /////////////////////////////////////////////
-
-  /**
-   * Append custom cookie processor for embedded tomcat, the new version doesn't support spaces on cookies.
-   * @return Container customizer
-   */
-  @Bean
-  @ConditionalOnWebApplication
-  @ConditionalOnMissingBean
-  public EmbeddedServletContainerCustomizer customizer() {
-    return container -> {
-      if (container instanceof TomcatEmbeddedServletContainerFactory) {
-        TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
-        TomcatContextCustomizer customizer = tomcatContext -> tomcatContext.setCookieProcessor(new LegacyCookieProcessor());
-        tomcat.addContextCustomizers(customizer);
-      }
-    };
+  public ServiceBuilder serviceBuilder(LauncherService launcherService, QueryUtil queryUtil) {
+    return new ServiceBuilder(launcherService, queryUtil);
   }
 }

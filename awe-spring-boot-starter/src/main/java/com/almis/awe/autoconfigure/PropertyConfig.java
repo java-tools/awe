@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.DefaultConversionService;
 
 /**
  * Initialize properties
@@ -28,25 +26,6 @@ import org.springframework.core.convert.support.DefaultConversionService;
 @PropertySource("classpath:config/cache.properties")
 @PropertySource(value = "${properties.specific}", ignoreResourceNotFound = true)
 public class PropertyConfig {
-
-  /**
-   * Allow reading property comma separated
-   * @return conversion service
-   */
-  @Bean
-  public ConversionService conversionService() {
-    return new DefaultConversionService();
-  }
-
-  /**
-   * Web settings
-   * @return Web settings bean
-   */
-  @Bean
-  @ConditionalOnMissingBean
-  public WebSettings webSettings() {
-    return new WebSettings();
-  }
 
   /**
    * Web number options
@@ -87,5 +66,15 @@ public class PropertyConfig {
   @ConditionalOnMissingBean
   public WebTooltip webTooltip() {
     return new WebTooltip();
+  }
+
+  /**
+   * Web settings
+   * @return Web settings bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public WebSettings webSettings() {
+    return new WebSettings();
   }
 }

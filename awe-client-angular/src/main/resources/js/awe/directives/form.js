@@ -1,19 +1,20 @@
 import { aweApplication } from "./../awe";
+import { ClientActions } from "../data/actions";
 
 // Form directive
 aweApplication.directive('aweForm',
-  ['ServerData', 'Control', 'ActionController', 'AweSettings', 'AweUtilities', 'Actions', 'Validator',
+  ['ServerData', 'Control', 'ActionController', 'AweSettings', 'AweUtilities', 'Validator',
     /**
      * Form directive
      * @param {Service} ServerData Server data
      * @param {Service} Control Control service
+     * @param {Service} Control Control service
      * @param {Service} ActionController ActionController service
      * @param {Service} $settings AWE $settings
      * @param {Service} Utilities AWE Utilities
-     * @param {Service} Actions Actions
      * @param {Service} Validator Validator service
      */
-    function (ServerData, Control, ActionController, $settings, Utilities, Actions, Validator) {
+    function (ServerData, Control, ActionController, $settings, Utilities, Validator) {
 
 
       /**
@@ -446,7 +447,7 @@ aweApplication.directive('aweForm',
 
           // Define listeners
           var listeners = {};
-          _.each(Actions.form, function (actionOptions, actionId) {
+          _.each(ClientActions.form, function (actionOptions, actionId) {
             listeners[actionId] = scope.$on("/action/" + actionId, function (event, action) {
               return FormActions[actionOptions.method](action, scope);
             });

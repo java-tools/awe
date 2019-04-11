@@ -8,10 +8,15 @@ import com.almis.awe.service.QueryService;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
+
+import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADER;
 
 
 /**
@@ -76,9 +81,9 @@ public class TestRestController {
    */
   @GetMapping("/complex/{name}/{value}")
   @ResponseBody
-  public ServiceData testGetQueryParameters(@PathVariable String name, @PathVariable Integer value, HttpServletRequest request) throws AWException {
+  public ServiceData testGetQueryParameters(@PathVariable String name, @PathVariable Integer value) throws AWException {
     // Initialize parameters
-    aweRequest.init(request);
+    aweRequest.init(JsonNodeFactory.instance.objectNode(), "sdsf");
     aweRequest.setParameter("value", JsonNodeFactory.instance.numberNode(value));
 
     return queryService.launchPrivateQuery(name);
@@ -90,12 +95,49 @@ public class TestRestController {
    */
   @PostMapping(value = "/complex/parameters/{name}")
   @ResponseBody
-  public ServiceData testLaunchMaintainParameters(@PathVariable String name, @RequestParam(name = "value", required = true) Integer value, HttpServletRequest request) throws AWException {
+  public ServiceData testLaunchMaintainParameters(@PathVariable String name, @RequestParam(name = "value", required = true) Integer value) throws AWException {
     // Initialize parameters
-    aweRequest.init(request);
+    aweRequest.init(JsonNodeFactory.instance.objectNode(), "asada");
     aweRequest.setParameter("value", JsonNodeFactory.instance.numberNode(value));
 
     return maintainService.launchPrivateMaintain(name);
+  }
+
+  /**
+   * Test post parameter list
+   * @return Empty service data
+   */
+  @PostMapping(value = "/complex/parameterList")
+  @ResponseBody
+  public ServiceData testPostParameterList(@RequestParam(name = "integerList", required = true) List<Integer> integerList,
+                                           @RequestParam(name = "stringList", required = true) List<String> stringList,
+                                           @RequestParam(name = "dateList", required = true) @DateTimeFormat(pattern="dd/MM/yyyy") List<Date> dateList) throws AWException {
+    // Initialize parameters
+    return new ServiceData();
+  }
+
+  /**
+   * Test post parameter list
+   * @return Empty service data
+   */
+  @PostMapping(value = "/complex/parameterListGetParameters")
+  @ResponseBody
+  public ServiceData testPostParameterListGetParametersFromRequest(HttpServletRequest request) throws AWException {
+    // Initialize parameters
+    return new ServiceData();
+  }
+
+  /**
+   * Test post parameter list
+   * @return Empty service data
+   */
+  @PostMapping(value = "/complex/parameterListJson")
+  @ResponseBody
+  public ServiceData testPostParameterListJson(@RequestBody ObjectNode result) throws AWException {
+    // Initialize parameters
+    aweRequest.init(JsonNodeFactory.instance.objectNode(), "asasd");
+    aweRequest.setParameterList(result);
+    return new ServiceData();
   }
 
   /**
@@ -104,9 +146,10 @@ public class TestRestController {
    */
   @PostMapping(value = "/complex/parameters/json/{name}")
   @ResponseBody
-  public ServiceData testLaunchMaintainParametersJson(@PathVariable String name, @RequestBody ObjectNode result, HttpServletRequest request) throws AWException {
+  public ServiceData testLaunchMaintainParametersJson(@PathVariable String name,
+                                                      @RequestBody ObjectNode result) throws AWException {
     // Initialize parameters
-    aweRequest.init(request);
+    aweRequest.init(JsonNodeFactory.instance.objectNode(), "asasdas");
     aweRequest.setParameter("value", result.get("value"));
 
     return maintainService.launchPrivateMaintain(name);

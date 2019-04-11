@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.almis.awe.model.util.data.QueryUtil;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import com.almis.awe.model.dto.QueryParameter;
@@ -32,6 +33,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Generates sql codes
@@ -40,6 +42,15 @@ public class SQLQueryBuilder extends SQLBuilder {
 
   // Query is for count only
   boolean queryIsForCount = false;
+
+  /**
+   * Autowired constructor
+   * @param queryUtil Query utilities
+   */
+  @Autowired
+  public SQLQueryBuilder(QueryUtil queryUtil) {
+    super(queryUtil);
+  }
 
   /**
    * Generate the sortlist from component sort

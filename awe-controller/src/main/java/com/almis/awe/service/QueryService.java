@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
@@ -37,10 +36,6 @@ public class QueryService extends ServiceConfig {
   // Autowired services
   private QueryLauncher queryLauncher;
   private QueryUtil queryUtil;
-  
-  // Connection identifier
-  @Value("${application.parameter.comet.id:s}")
-  private String connectionIdentifierKey;
 
   /**
    * Autowired constructor
@@ -98,7 +93,7 @@ public class QueryService extends ServiceConfig {
     ComponentAddress componentAddress = new ComponentAddress(address);
 
     // Store session token into the address
-    componentAddress.setSession(getRequest().getParameterAsString(connectionIdentifierKey));
+    componentAddress.setSession(getRequest().getToken());
 
     // Subscribe to query
     return subscribe(query, componentAddress);
@@ -268,7 +263,7 @@ public class QueryService extends ServiceConfig {
    * @return Query output
    * @throws AWException Query failed
    */
-  @Cacheable(value = "queryEnum")
+  @Cacheable(value = "queryEnum", key = "#p0")
   public ServiceData launchEnumQuery(String enumId) throws AWException {
     return launchEnumQuery(enumId, null, null);
   }
@@ -307,7 +302,7 @@ public class QueryService extends ServiceConfig {
    * @return Query output
    * @throws AWException Query failed
    */
-  @Cacheable(value = "queryEnum")
+  @Cacheable(value = "queryEnum", key = "{ #p0, #p1, #p2 }")
   public ServiceData launchEnumQuery(String enumId, String forcedPage, String forcedMax) throws AWException {
     ServiceData out = getBean(EnumQueryConnector.class).launchEnum(enumId, queryUtil.getParameters(JsonNodeFactory.instance.objectNode(), null, forcedPage, forcedMax));
 
@@ -369,8 +364,12 @@ public class QueryService extends ServiceConfig {
    */
   private void addVariables(ServiceData out) {
     DataList data = out.getDataList();
-    out.addVariable(AweConstants.ACTION_DATA, new CellData(data));
-    out.addVariable(AweConstants.ACTION_ROWS, new CellData(data.getRows()));
+    out
+      .addVariable(AweConstants.ACTION_DATA, new CellData(data))
+      .addVariable(AweConstants.ACTION_ROWS, new CellData(data.getRows()))
+      .addVariable(AweConstants.ACTION_MESSAGE_TYPE, new CellData(out.getType().toString()))
+      .addVariable(AweConstants.ACTION_MESSAGE_TITLE, new CellData(out.getTitle()))
+      .addVariable(AweConstants.ACTION_MESSAGE_DESCRIPTION, new CellData(out.getMessage()));
   }
 
   /**

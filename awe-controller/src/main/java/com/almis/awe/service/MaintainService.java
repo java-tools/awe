@@ -34,29 +34,22 @@ public class MaintainService extends ServiceConfig {
 
   // Autowired services
   private MaintainLauncher maintainLauncher;
-  private AweDatabaseContextHolder contextHolder;
   private AccessService accessService;
   private QueryUtil queryUtil;
-  private DataSource dataSource;
 
   private static final String ERROR_TITLE_LAUNCHING_MAINTAIN = "ERROR_TITLE_LAUNCHING_MAINTAIN";
 
   /**
    * Autowired constructor
    * @param maintainLauncher Maintain launcher
-   * @param contextHolder Context holder
    * @param accessService Access service
    * @param queryUtil Query utilities
-   * @param dataSource Datasource
    */
   @Autowired
-  public MaintainService(MaintainLauncher maintainLauncher, AweDatabaseContextHolder contextHolder,
-                         AccessService accessService, QueryUtil queryUtil, DataSource dataSource) {
+  public MaintainService(MaintainLauncher maintainLauncher, AccessService accessService, QueryUtil queryUtil) {
     this.maintainLauncher = maintainLauncher;
-    this.contextHolder = contextHolder;
     this.accessService = accessService;
     this.queryUtil = queryUtil;
-    this.dataSource = dataSource;
   }
 
   /**
@@ -76,7 +69,7 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchMaintain(String maintainId) throws AWException {
-    return launchMaintain(maintainId, contextHolder.getDatabaseConnection(dataSource), false);
+    return launchMaintain(maintainId, getCurrentDatabaseConnection(), false);
   }
 
   /**
@@ -88,7 +81,7 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchMaintain(String maintainId, String alias) throws AWException {
-    return launchMaintain(maintainId, contextHolder.getDatabaseConnection(alias), false);
+    return launchMaintain(maintainId, getDatabaseConnection(alias), false);
   }
 
   /**
@@ -117,7 +110,7 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchPrivateMaintain(String maintainId) throws AWException {
-    return launchPrivateMaintain(maintainId, contextHolder.getDatabaseConnection(dataSource), false);
+    return launchPrivateMaintain(maintainId, getCurrentDatabaseConnection(), false);
   }
 
   /**
@@ -129,7 +122,7 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchPrivateMaintain(String maintainId, String alias) throws AWException {
-    return launchPrivateMaintain(maintainId, contextHolder.getDatabaseConnection(alias), false);
+    return launchPrivateMaintain(maintainId, getDatabaseConnection(alias), false);
   }
 
   /**
@@ -156,7 +149,32 @@ public class MaintainService extends ServiceConfig {
    * @return Database connection
    */
   public DatabaseConnection getDatabaseConnection(String alias) throws AWException {
-    return contextHolder.getDatabaseConnection(alias);
+    return getBean(AweDatabaseContextHolder.class).getDatabaseConnection(alias);
+  }
+
+  /**
+   * Get database connection
+   * @param dataSource Datasource
+   * @return Database connection
+   */
+  public DatabaseConnection getDatabaseConnection(DataSource dataSource) throws AWException {
+    return getBean(AweDatabaseContextHolder.class).getDatabaseConnection(dataSource);
+  }
+
+  /**
+   * Get current database connection
+   * @return Database connection
+   */
+  public DatabaseConnection getCurrentDatabaseConnection() throws AWException {
+    return getBean(AweDatabaseContextHolder.class).getDatabaseConnection(getCurrentDataSource());
+  }
+
+  /**
+   * Get datasource
+   * @return Datasource
+   */
+  public DataSource getCurrentDataSource() {
+    return getBean(DataSource.class);
   }
 
   /**

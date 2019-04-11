@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import { templateNumeric } from "../../services/numeric";
 
 // Numeric directive
 aweApplication.directive('aweInputNumeric',
@@ -7,9 +8,7 @@ aweApplication.directive('aweInputNumeric',
       return {
         restrict: 'E',
         replace: true,
-        templateUrl: function () {
-          return serverData.getAngularTemplateUrl('input/numeric');
-        },
+        template: templateNumeric,
         scope: {
           'criterionId': '@inputNumericId'
         },

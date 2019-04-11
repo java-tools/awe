@@ -1,6 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.almis.awe.autoconfigure.AweAutoConfiguration,\
 com.almis.awe.autoconfigure.PropertyConfig,\
+com.almis.awe.autoconfigure.AweAutoConfiguration,\
 com.almis.awe.autoconfigure.TaskConfig,\
 com.almis.awe.autoconfigure.EmailConfig,\
 com.almis.awe.autoconfigure.JmsConfig,\
@@ -16,4 +16,5 @@ com.almis.awe.controller.FileController,\
 com.almis.awe.controller.InitController,\
 com.almis.awe.controller.SettingsController,\
 com.almis.awe.controller.TemplateController,\
+com.almis.awe.controller.TagListController,\
 com.almis.awe.controller.UploadController

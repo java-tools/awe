@@ -1,16 +1,16 @@
 import { aweApplication } from "./../awe";
+import { DefaultSpin } from "./../data/options";
 
 // Checkbox Radio service
 aweApplication.factory('CheckboxRadio',
-  ['Criterion', 'Control', 'AweUtilities', 'Options',
+  ['Criterion', 'Control', 'AweUtilities',
     /**
      * Criterion generic methods
      * @param {Service} Criterion
      * @param {Service} Control
      * @param {Service} Utilities
-     * @param {Service} Options
      */
-    function (Criterion, Control, Utilities, Options) {
+    function (Criterion, Control, Utilities) {
 
       /**
        * Button constructor
@@ -48,7 +48,7 @@ aweApplication.factory('CheckboxRadio',
           }
 
           // Define spin options
-          component.scope.spinOptions = component.scope.spinOptions || Options.spin.small;
+          component.scope.spinOptions = component.scope.spinOptions || DefaultSpin.small;
 
           // Add a default value if values has no data
           var checkedValue = component.model.defaultValues || 1;
@@ -102,7 +102,7 @@ aweApplication.factory('CheckboxRadio',
           var component = this.component;
 
           // Define spin options
-          component.scope.spinOptions = component.scope.spinOptions || Options.spin.small;
+          component.scope.spinOptions = component.scope.spinOptions || DefaultSpin.small;
 
           // Initialize component as criterion
           if (!component.asCriterion()) {

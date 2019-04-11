@@ -1,13 +1,15 @@
 import { aweApplication } from "./../awe";
+import { DefaultGridOptions, DefaultSpin } from "../data/options";
 
 // Grid directive
 aweApplication.directive('aweGrid',
-  ['ServerData', 'AweSettings', 'GridBase', 'Options',
-    function (serverData, $settings, GridBase, Options) {
+  ['ServerData', 'AweSettings', 'GridBase', 'AweUtilities',
+    function (serverData, $settings, GridBase, $utilities) {
       // Retrieve default $settings
 
       // Set default options
-      var options = {
+      let options = {
+        ...DefaultGridOptions,
         // Elements per page
         rowNum: $settings.get("recordsPerPage"),
         // Total width
@@ -50,12 +52,13 @@ aweApplication.directive('aweGrid',
                 component.bigGrid = true;
 
                 // Set spin options
-                scope.spinOptions = Options.spin.big;
+                scope.spinOptions = DefaultSpin.big;
 
                 // Update grid styles
                 component.gridStyle = "grid-" + scope.size + " " + (component.controller.style || "");
                 component.gridButtonClass = "btn btn-" + scope.size;
                 component.gridPaginationClass = "pagination pagination-" + scope.size;
+                component.enableSorting = !$utilities.isEmpty(component.controller.targetAction) || component.controller.loadAll;
 
                 // Fix column model
                 component.fixColumnModel(true);
@@ -72,7 +75,7 @@ aweApplication.directive('aweGrid',
                   noUnselect: component.controller.editable && !component.controller.multiselect,
                   enableColumnResizing: true,
                   enableFiltering: component.controller.enableFilters,
-                  enableSorting: true,
+                  enableSorting: component.enableSorting,
                   enableColumnMoving: true,
                   useExternalSorting: !component.controller.loadAll,
                   useExternalPagination: !component.controller.loadAll,

@@ -1,9 +1,10 @@
-import {aweApplication} from "./../../awe";
+import { aweApplication } from "./../../awe";
+import { ClientActions } from "../../data/actions";
 
 // Pivot table plugin
 aweApplication.directive('uiPivotTable',
-  ['AweSettings', 'AweUtilities', 'Actions',
-    function ($settings, Utilities, Actions) {
+  ['AweSettings', 'AweUtilities',
+    function ($settings, Utilities) {
 
       return {
         restrict: 'A',
@@ -183,7 +184,7 @@ aweApplication.directive('uiPivotTable',
           let listeners = {};
 
           // Action listener definition
-          Utilities.defineActionListeners(listeners, Actions.pivot, scope, scope);
+          Utilities.defineActionListeners(listeners, ClientActions.pivot, scope, scope);
 
           // Action listener definition
           Utilities.defineModelChangeListeners(listeners, {

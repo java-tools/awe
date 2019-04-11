@@ -17,12 +17,11 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
+import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.Calendar;
 
 /*
  * File Imports
@@ -58,7 +57,6 @@ public final class EncodeUtil {
   // Static variables
   private static String encoding;
   private static String masterKey;
-  private static Crypto.AES aes;
   private static StringKeyGenerator keyGenerator;
 
   /**
@@ -67,9 +65,8 @@ public final class EncodeUtil {
    */
   public static void init(Environment springEnvironment)  {
     Environment environment = springEnvironment;
-    encoding = environment.getProperty(AweConstants.PROPERTY_APPLICATION_ENCODING, "UTF-8");
+    encoding = environment.getProperty(AweConstants.PROPERTY_APPLICATION_ENCODING, AweConstants.APPLICATION_ENCODING);
     masterKey = environment.getProperty(AweConstants.PROPERTY_SECURITY_MASTER_KEY, "4W3M42T3RK3Y%$ED");
-    aes = new Crypto.AES();
     keyGenerator = KeyGenerators.string();
   }
 
@@ -173,7 +170,7 @@ public final class EncodeUtil {
    */
   public static String decryptAes(String text) throws AWException {
     try {
-      return aes.decrypt(text, masterKey, encoding);
+      return Crypto.AES.decrypt(text, masterKey, encoding);
     } catch (Exception exc) {
       throw new AWException(exc.getClass().getSimpleName(), exc.toString(), exc);
     }
@@ -189,7 +186,7 @@ public final class EncodeUtil {
    */
   public static String decryptAes(String text, String password) throws AWException {
     try {
-      return aes.decrypt(text, password, encoding);
+      return Crypto.AES.decrypt(text, password, encoding);
     } catch (Exception exc) {
       throw new AWException(exc.getClass().getSimpleName(), exc.toString(), exc);
     }
@@ -204,7 +201,7 @@ public final class EncodeUtil {
    */
   public static String encryptAes(String text) throws AWException {
     try {
-      return aes.encrypt(text, masterKey, encoding);
+      return Crypto.AES.encrypt(text, masterKey, encoding);
     } catch (Exception exc) {
       throw new AWException(exc.getClass().getSimpleName(), exc.toString(), exc);
     }
@@ -220,7 +217,7 @@ public final class EncodeUtil {
    */
   public static String encryptAes(String text, String password) throws AWException {
     try {
-      return aes.encrypt(text, password, encoding);
+      return Crypto.AES.encrypt(text, password, encoding);
     } catch (Exception exc) {
       throw new AWException(exc.getClass().getSimpleName(), exc.toString(), exc);
     }
@@ -401,27 +398,7 @@ public final class EncodeUtil {
    * @throws AWException Error hashing
    */
   public static String hash(String algorithm, String text, String salt) throws AWException {
-    String hashVal = null;
-    try {
-      // Get encoder instance
-      MessageDigest md = MessageDigest.getInstance(algorithm);
-
-      // Apply salt if not null
-      if (salt != null) {
-        md.update(salt.getBytes(encoding));
-      }
-
-      // Put the text to hash
-      md.update(text.getBytes(encoding));
-
-      // hash value and get it as hexadecimal String
-      hashVal = encodeHex(md.digest());
-    } catch (NoSuchAlgorithmException exc) {
-      throw new AWException("Hash generation error", "The algorithm does not exist", exc);
-    } catch (UnsupportedEncodingException exc) {
-      throw new AWException("Hash generation error", "The encoding is not supported: " + encoding, exc);
-    }
-    return hashVal;
+    return Crypto.HASH.hash(text, algorithm, salt, Charset.forName(encoding));
   }
 
   /**
@@ -433,7 +410,7 @@ public final class EncodeUtil {
    */
   public static String encodePBKDF2WithHmacSHA1(String text) throws AWException {
     final int keyLength = 256;
-    return encodePBKDF2WithHmacSHA1(text, masterKey, getRecommendedIterationNumber(), keyLength);
+    return encodePBKDF2WithHmacSHA1(text, masterKey, Crypto.Utils.getRecommendedIterationNumber(), keyLength);
   }
 
   /**
@@ -446,7 +423,7 @@ public final class EncodeUtil {
    */
   public static String encodePBKDF2WithHmacSHA1(String text, String salt) throws AWException {
     final int keyLength = 256;
-    return encodePBKDF2WithHmacSHA1(text, salt, getRecommendedIterationNumber(), keyLength);
+    return encodePBKDF2WithHmacSHA1(text, salt, Crypto.Utils.getRecommendedIterationNumber(), keyLength);
   }
 
   /**
@@ -490,7 +467,7 @@ public final class EncodeUtil {
       byte[] res = key.getEncoded();
 
       // Get the hashed value as hexadecimal string
-      hashVal = encodeHex(res);
+      hashVal = Crypto.Utils.encodeHex(res);
     } catch (NoSuchAlgorithmException exc) {
       throw new AWException(STRING_ENCODE_ERROR, "The algorithm does not exist.", exc);
     } catch (InvalidKeySpecException exc) {
@@ -499,39 +476,6 @@ public final class EncodeUtil {
       throw new AWException(STRING_ENCODE_ERROR, "The specified encoding is not valid.", exc);
     }
     return hashVal;
-  }
-
-  /**
-   * Get the recommended iteration number
-   *
-   * @return String
-   */
-  private static int getRecommendedIterationNumber() {
-
-    // Set base values
-    int baseIterations = 256000;
-    final int baseDate = 2016;
-
-    // Get the difference of years between 2016 and current year
-    int diffYears = Calendar.getInstance().get(Calendar.YEAR) - baseDate;
-
-    // Every 2 years from the base year (2016) the baseIterationNum has to
-    // double its value
-    int multiply = diffYears / 2;
-    if (multiply >= 1) {
-      baseIterations = baseIterations * multiply;
-    }
-    return baseIterations;
-  }
-
-  /**
-   * Returns an hexadecimal string from a byte array
-   *
-   * @param hash Hash
-   * @return String
-   */
-  public static String encodeHex(byte[] hash) {
-    return String.format("%064x", new java.math.BigInteger(1, hash));
   }
 
   /*****************************************************/
@@ -562,7 +506,7 @@ public final class EncodeUtil {
   /**
    * Encode given text to the given encoding
    *
-   * @param text     Text to encode
+   * @param text Text to encode
    * @param encoding Encoding
    * @return Text encoded
    * @throws UnsupportedEncodingException Error encoding

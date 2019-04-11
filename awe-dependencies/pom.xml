@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-parent</artifactId>
-    <version>4.0.5</version>
+    <version>4.0.6</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -18,12 +18,14 @@
   <properties>
     <!-- dependency versions -->
     <ade.version>2.0.7</ade.version>
+    <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
     <spring-cloud.version>Edgware.SR2</spring-cloud.version>
     <spring-boot-admin.version>1.5.7</spring-boot-admin.version>
     <ehcache.version>3.6.1</ehcache.version>
     <node.version>v11.10.0</node.version>
     <yarn.version>v1.13.0</yarn.version>
     <guava.version>27.0.1-jre</guava.version>
+    <selenium.version>3.141.59</selenium.version>
     <!-- plugin versions -->
     <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
     <plugin-frontend.version>1.6</plugin-frontend.version>
@@ -40,6 +42,10 @@
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
     <plugin-site.version>3.5.1</plugin-site.version>
     <plugin-info-reports.version>2.9</plugin-info-reports.version>
+    <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+    <!-- Karma configuration -->
+    <karma.launch.edge>true</karma.launch.edge>
+    <karma.launch.gitlab>false</karma.launch.gitlab>
   </properties>
 
   <dependencies>
@@ -53,6 +59,15 @@
 
   <dependencyManagement>
     <dependencies>
+
+      <!-- spring boot -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 
       <!-- spring cloud -->
       <dependency>
@@ -168,37 +183,57 @@
         <version>${guava.version}</version>
       </dependency>
 
-      <!-- Plugin versions -->
       <dependency>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${plugin-compiler.version}</version>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-server</artifactId>
+        <version>${selenium.version}</version>
       </dependency>
-      <!-- JUnit -->
       <dependency>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${plugin-surefire.version}</version>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-api</artifactId>
+        <version>${selenium.version}</version>
       </dependency>
-      <!-- Sonar -->
       <dependency>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>${plugin-sonar.version}</version>
-        <optional>true</optional>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-chrome-driver</artifactId>
+        <version>${selenium.version}</version>
       </dependency>
-      <!-- Frontend maven plugin -->
       <dependency>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <version>${plugin-frontend.version}</version>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-edge-driver</artifactId>
+        <version>${selenium.version}</version>
       </dependency>
-      <!-- Flatten maven plugin -->
       <dependency>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>flatten-maven-plugin</artifactId>
-        <version>${plugin-flatten-maven.version}</version>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-firefox-driver</artifactId>
+        <version>${selenium.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-ie-driver</artifactId>
+        <version>${selenium.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>${selenium.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-remote-driver</artifactId>
+        <version>${selenium.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-safari-driver</artifactId>
+        <version>${selenium.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-support</artifactId>
+        <version>${selenium.version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
 
@@ -234,8 +269,14 @@
           <groupId>com.github.eirslett</groupId>
           <artifactId>frontend-maven-plugin</artifactId>
           <version>${plugin-frontend.version}</version>
+          <configuration>
+            <environmentVariables>
+              <NODE_ENV>${build.environment}</NODE_ENV>
+            </environmentVariables>
+          </configuration>
           <executions>
             <execution>
+              <phase>compile</phase>
               <id>install node and yarn</id>
               <goals>
                 <goal>install-node-and-yarn</goal>
@@ -246,6 +287,7 @@
               </configuration>
             </execution>
             <execution>
+              <phase>compile</phase>
               <id>yarn install</id>
               <goals>
                 <goal>yarn</goal>
@@ -255,10 +297,24 @@
               </configuration>
             </execution>
             <execution>
+              <phase>compile</phase>
               <id>webpack</id>
               <goals>
                 <goal>webpack</goal>
               </goals>
+            </execution>
+            <execution>
+              <id>karma</id>
+              <goals>
+                <goal>karma</goal>
+              </goals>
+              <phase>test</phase>
+              <configuration>
+                <environmentVariables>
+                  <launch.edge>${karma.launch.edge}</launch.edge>
+                  <launch.gitlab>${karma.launch.gitlab}</launch.gitlab>
+                </environmentVariables>
+              </configuration>
             </execution>
           </executions>
         </plugin>
@@ -280,6 +336,11 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
           <version>${plugin-resources.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
         </plugin>
         <!-- Dependency plugin -->
         <plugin>

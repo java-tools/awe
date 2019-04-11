@@ -1,23 +1,47 @@
 // ### Import bootstrap
 @import "./libs/bootstrap-3.3.2/bootstrap.less";
+//@import "~bootstrap/less/bootstrap";
 
 // ### Libraries
-//@import (less) "./libs/jquery-grid/ui.jqgrid.css";
-@import (less) "./libs/animate.css";
+// Animate css
+@import (less) "~animate.css";
+
+// Tocify
 @import (less) "./libs/tocify/jquery.tocify.css";
-@import "./libs/pivotTable/pivot.less";
-@import "./libs/loadingBar/loading-bar.less";
+
+// Pivot table
+@import "./libs/pivotTable/pivot";
+
+// Angular loading bar
+// @import "./libs/loadingBar/loading-bar.less";
+@import (less) "~angular-loading-bar/src/loading-bar.css";
+
+// Bootstrap slider
+//@import (less) "~bootstrap-slider/dist/css/bootstrap-slider.css";
 @import "./libs/slider/bootstrap-slider.less";
+
+// Treegrid animations
 @import "./libs/treegrid/treeGrid.less";
-@import "./libs/color-picker/colorpicker.less";
-@import "./libs/markdown/bootstrap-markdown.less";
+
+// Colorpicker
+@import "./libs/color-picker/colorpicker";
+
+// Bootstrap markdown
+//@import "./libs/markdown/bootstrap-markdown.less";
+@import "~bootstrap-markdown/less/bootstrap-markdown";
+
+// UI Grid
 @import "./libs/ui-grid/ui-grid-3.2.9.less";
+//@import (less) "~angular-ui-grid/ui-grid.css";
 
-// ### Pixel Admin"s stylesheets
-@import "./libs/pixel-admin-less/pixel-admin.less";
+// Boostrap tabdrop
+@import "./libs/bootstrap-tabdrop/src/less/tabdrop";
 
-// ### Font Awesome"s stylesheets
-@import "./libs/font-awesome-4.4.0/less/font-awesome.less";
+// ### Pixel Admin stylesheets
+@import "./libs/pixel-admin-less/pixel-admin";
+
+// ### Font Awesome stylesheets
+@import "~font-awesome/less/font-awesome";
 
 // ### awe variables
 @import "./awe/variables.less";

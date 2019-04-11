@@ -199,12 +199,18 @@
   <locale name="ENUM_CATEGORY_SECURITY" value="Sécurité"/>
   <locale name="ENUM_CHART" value="Graphique"/>
   <locale name="ENUM_CRT_STL" value="Criteria style"/>
+  <locale name="ENUM_DBM_H2" value="H2"/>
+  <locale name="ENUM_DBM_HSQL" value="HSQL"/>
+  <locale name="ENUM_DBM_MYSQL" value="MYSQL"/>
   <locale name="ENUM_DBM_ORACLE" value="ORACLE"/>
   <locale name="ENUM_DBM_SQLSERVER" value="SQLSERVER"/>
   <locale name="ENUM_DBM_SYBASE" value="SYBASE"/>
   <locale name="ENUM_DBS_TYP_DATASOURCE" value="Datasource"/>
   <locale name="ENUM_DBS_TYP_JDBC" value="Jdbc"/>
   <locale name="ENUM_DJR" value="Jasper reports"/>
+  <locale name="ENUM_DRV_H2" value="H2"/>
+  <locale name="ENUM_DRV_HSQL" value="HSQL"/>
+  <locale name="ENUM_DRV_MYSQL" value="MYSQL"/>
   <locale name="ENUM_DRV_ORACLE" value="ORACLE"/>
   <locale name="ENUM_DRV_SQLSERVER" value="SQLSERVER"/>
   <locale name="ENUM_DRV_SYBASE" value="SYBASE"/>
@@ -439,6 +445,7 @@
   <locale name="ERROR_MESSAGE_INITIALIZING_JASPER" value="There has been a problem launching document engine initialization"/>
   <locale name="ERROR_MESSAGE_INVALID_ARGUMENTS" value="Les arguments introduits sont invalides"/>
   <locale name="ERROR_MESSAGE_INVALID_CONNECTION" value="Probleme a la connexion"/>
+  <locale name="ERROR_MESSAGE_INVALID_CREDENTIALS" value="Les informations d&apos;identification saisies par l&apos;utilisateur -{0}- ne sont pas valides"/>
   <locale name="ERROR_MESSAGE_INVALID_DATABASE_ARGUMENTS" value="The selected arguments of database connections are no valid. [Type:{0}, Alias:{1}, Url: {2}]"/>
   <locale name="ERROR_MESSAGE_INVALID_DATASOURCE" value="La source de données sélectionnée n&apos;existe pas: {0}"/>
   <locale name="ERROR_MESSAGE_INVALID_PASSWORD" value="Mot de passe incorrect pour l&apos;utilissateur {0}"/>
@@ -523,6 +530,7 @@
   <locale name="ERROR_MESSAGE_SEQUENCE_NOT_UPDATED" value="La séquence {0} n&apos;a pas été mis à jour"/>
   <locale name="ERROR_MESSAGE_SERVER_NOT_SUPPORTED" value="The server is not compatible"/>
   <locale name="ERROR_MESSAGE_SERVICE_NOT_FOUND" value="Le service n&apos;a pas ete defini"/>
+  <locale name="ERROR_MESSAGE_SESSION_EXPIRED" value="Votre connexion a expiré. Vous connecter à nouveau s&apos;il vous plaît."/>
   <locale name="ERROR_MESSAGE_SET_SESSION_OBJECT" value="Il ya eu un problème en essayant de stocker l&apos;objet avec la touche - {0} - dans le cache de session"/>
   <locale name="ERROR_MESSAGE_SET_SESSION_VARIABLE" value="Il y a eu un problème en essayant de conserver la valeur - {0} - dans la variable de session - {1} -"/>
   <locale name="ERROR_MESSAGE_SINGLE_MAINTAIN" value="L&apos;operation de maintenance de l&apos;instruction simple n&apos;a pas fini correctement. [{0}]"/>
@@ -614,6 +622,7 @@
   <locale name="ERROR_TITLE_INITIALIZING_JASPER" value="Error initilizing Jasper"/>
   <locale name="ERROR_TITLE_INVALID_ARGUMENTS" value="Arguments invalides"/>
   <locale name="ERROR_TITLE_INVALID_CONNECTION" value="Conexion invalide"/>
+  <locale name="ERROR_TITLE_INVALID_CREDENTIALS" value="Informations d&apos;identification non valides"/>
   <locale name="ERROR_TITLE_INVALID_PASSWORD" value="Mot de passe incorrect"/>
   <locale name="ERROR_TITLE_INVALID_SESSION_TOKEN" value="La session n&apos;est pas valide"/>
   <locale name="ERROR_TITLE_INVALID_USER" value="Utilisateur non valide"/>
@@ -674,6 +683,7 @@
   <locale name="ERROR_TITLE_SCREEN_OPTION_NOT_DEFINED" value="Ecran option non defini"/>
   <locale name="ERROR_TITLE_SENDING_QUEUE_MESSAGE" value="Erreur d&apos;envoy du message"/>
   <locale name="ERROR_TITLE_SERVER_NOT_SUPPORTED" value="Erreur avec le serveur"/>
+  <locale name="ERROR_TITLE_SESSION_EXPIRED" value="Session expirée"/>
   <locale name="ERROR_TITLE_SET_SESSION_OBJECT" value="L&apos;enregistrement d&apos;une séance d&apos;objet erreur"/>
   <locale name="ERROR_TITLE_SET_SESSION_VARIABLE" value="L&apos;enregistrement d&apos;une séance d&apos;objet erreur"/>
   <locale name="ERROR_TITLE_SIZE_LIMIT" value="Vous avez dépassé la taille du fichier"/>

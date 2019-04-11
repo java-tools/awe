@@ -43,5 +43,8 @@ module.exports = {
   resolve : {
     extensions : [ ".js", ".css", ".less", "*" ]
   },
-  plugins : [ new ExtractTextPlugin("css/specific.css") ]
+  plugins : [
+    new ExtractTextPlugin("css/specific.css"),
+    new webpack.optimize.UglifyJsPlugin({ uglifyOptions: {compress: { warnings: true, drop_console: false}}, cache: true, parallel:true, sourceMap: true})
+  ]
 };

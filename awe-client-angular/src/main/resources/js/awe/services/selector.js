@@ -1,5 +1,38 @@
 import { aweApplication } from "./../awe";
 
+// Selector template
+export const templateSelector =
+`<div ng-show="controller.visible" class="criterion {{criterionClass}}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <div ng-class="::groupClass" ng-cloak>
+    <label ng-attr-for="{{::controller.id}}" ng-class="::labelClass" ng-style="::labelStyle" ng-cloak>
+      <i ng-if="::controller.help" class="help-target fa fa-fw fa-question-circle"></i>
+      {{controller.label| translateMultiple}}
+    </label>
+    <div class="validator input {{::validatorGroup}} focus-target" ng-class="{'input-group': controller.unit}">
+      <span ng-if="::controller.icon" ng-class="::iconClass" ng-cloak></span>
+      <input type="hidden" ui-select2="aweSelectOptions" class="form-control {{classes}}" initialized="initialized" autocomplete="off" ng-click="click($event)"
+             ng-attr-id="{{::controller.id}}" ng-attr-name="{{::controller.id}}" ng-disabled="controller.readonly"/>
+      <awe-loader class="loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak/>
+      <span ng-if="controller.unit" class="input-group-addon add-on unit" translate-multiple="{{controller.unit}}" ng-cloak></span>
+    </div>
+  </div>
+</div>`;
+
+// Selector template for columns
+export const templateSelectorColumn =
+`<div ng-show="component.controller.visible" class="validator column-input criterion text-{{::component.controller.align}} no-animate {{component.model.values[0].style}}" ui-dependency="dependencies" ng-cloak>
+  <span class="visible-value" ng-cloak>{{component.visibleValue}}</span>
+  <span class="edition">
+    <div class="input input-group-{{::size}} focus-target">
+      <input type="hidden" ui-select2="aweSelectOptions" class="form-control col-xs-12 {{classes}}" value="{{component.model.selected}}"
+             ng-disabled="component.controller.readonly" initialized="initialized" autocomplete="off"/>
+    </div>
+    <span ng-if="::component.controller.icon" ng-class="::iconClass" ng-cloak></span>
+  </span>
+  <awe-loader class="loader no-animate" ng-if="component.controller.loading" icon-loader="{{::iconLoader}}" ng-cloak/>
+</div>`;
+
 // Selector service
 aweApplication.factory('Selector',
   ['Control', 'Criterion', '$translate', 'AweUtilities', 'AweSettings',

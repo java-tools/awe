@@ -5,7 +5,7 @@ The javascript library of Highcharts and Highstock are licensed depending on whe
 - Highcharts (https://shop.highsoft.com/highcharts)
 - Highstock (https://shop.highsoft.com/highstock)
 
------------------------------------------------------------------------------
+---
 
                                 Apache License
                            Version 2.0, January 2004
@@ -208,3 +208,5 @@ The javascript library of Highcharts and Highstock are licensed depending on whe
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+---

@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>    
+  <parent>
     <groupId>com.almis.awe</groupId>
-    <artifactId>awe-framework</artifactId>
-    <version>4.0.5</version>
-    <relativePath>../awe-framework/pom.xml</relativePath>
+    <artifactId>awe-dependencies</artifactId>
+    <version>4.0.6</version>
+    <relativePath>../awe-dependencies/pom.xml</relativePath>
   </parent>
 
   <packaging>jar</packaging>
@@ -19,8 +19,11 @@
     <jetspeed.version>2.3.1</jetspeed.version>
     <!-- Sonar properties -->
     <application.folder>.</application.folder>
-    <sonar.sources>src</sonar.sources>
+    <sonar.sources>src/main/resources/js/awe</sonar.sources>
+    <sonar.tests>src/test/js</sonar.tests>
     <sonar.inclusions>src/main/resources/js/awe/**,src/main/resources/less/awe/**</sonar.inclusions>
+    <sonar.testExecutionReportPaths>target/reports/karma/junit/javascriptUnitTests.xml</sonar.testExecutionReportPaths>
+    <sonar.javascript.lcov.reportPaths>target/reports/karma/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
     <performancetest.host>localhost</performancetest.host>
     <performancetest.port>18080</performancetest.port>
     <performancetest.path />
@@ -35,10 +38,6 @@
       <resource>
         <directory>${project.basedir}/src/main/resources/images</directory>
         <targetPath>${project.build.directory}/classes/images</targetPath>
-      </resource>
-      <resource>
-        <directory>${project.basedir}/src/main/resources/fonts</directory>
-        <targetPath>${project.build.directory}/classes/fonts</targetPath>
       </resource>
       <resource>
         <directory>${project.basedir}/src/main/resources/less</directory>

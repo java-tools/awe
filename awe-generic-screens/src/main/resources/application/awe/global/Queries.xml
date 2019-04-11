@@ -64,7 +64,13 @@
     <field id="action" alias="SrvAct" />
     <field id="path" alias="Fil" />
     <field id="name" alias="Nam" />
-    <field id="date" alias="Dat" />
+    <field id="date" alias="dateMs" transform="DATE_MS"/>
+    <field id="date" alias="dateTimestamp" transform="TIMESTAMP"/>
+    <compound alias="Dat">
+      <computed alias="value" format="[dateMs]"/>
+      <computed alias="label" format="[dateTimestamp]"/>
+    </compound>
+    <order-by field="dateMs" type="DESC"/>
     <variable id="file" type="STRINGN" name="CrtFil" />
     <variable id="date" type="STRINGN" name="CrtDat" />
     <variable id="startTime" type="STRINGN" name="HouIni" />
@@ -359,8 +365,10 @@
     <table id="ope" alias="Usr" />
     <field id="IdeOpe" table="Usr" alias="userId" />
     <field id="l1_nom" table="Usr" alias="user" />
+    <field id="IdePro" table="Usr" alias="profileId" />
     <field id="Acr" table="Pro" alias="profile" />
     <field id="Nam" table="Pro" alias="profileName" />
+    <field id="IdeThm" table="Usr" alias="themeId" />
     <field id="Nam" table="UsrThm" alias="userTheme" />
     <field id="Nam" table="ProThm" alias="profileTheme" />
     <field id="ScrIni" table="Usr" alias="userInitialScreen" />
@@ -368,12 +376,19 @@
     <field id="Res" table="Usr" alias="userRestriction" />
     <field id="Res" table="Pro" alias="profileRestriction" />
     <field id="l1_act" table="Usr" alias="active" />
+    <field id="PwdLck" table="Usr" alias="locked" />
+    <field id="l1_psd" table="Usr" alias="lastChangedPasswordDate" />
+    <field id="l1_con" table="Usr" alias="connected" />
+    <field id="l1_dat" table="Usr" alias="lastLogin" />
+    <field id="dat_mod" table="Usr" alias="updateDate" />
     <field id="PcPrn" table="Usr" alias="printer" />
     <field id="WebPrn" table="Usr" alias="webPrinter" />
     <field id="EmlAdr" table="Usr" alias="email" />
     <field id="EmlSrv" table="Usr" alias="emailServer" />
     <field id="l1_lan" table="Usr" alias="language" />
-    <field id="OpeNam" table="Usr" alias="fullname" />
+    <field id="OpeNam" table="Usr" alias="fullName" />
+    <field id="l1_pas" table="Usr" alias="password" />
+    <field id="numLog" table="Usr" alias="loginAttempts" />
     <join>
       <table id="AwePro" alias="Pro" />
       <and>
@@ -394,10 +409,10 @@
     </join>
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="Usr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="Usr" trim="true" ignorecase="true"/>
       </and>
     </where>
-    <variable id="Usr" type="STRING" session="user" />
+    <variable id="Usr" type="STRING" name="user" />
   </query>
 
   <!-- USER NAME -->
@@ -406,7 +421,7 @@
     <field id="OpeNam" alias="Nam" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="Usr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="Usr" ignorecase="true"/>
       </and>
     </where>
     <variable id="Usr" type="STRING" session="user" />
@@ -520,7 +535,7 @@
       <and>
         <filter left-field="Act" left-table="scrRes" condition="eq" right-variable="active" />
         <or>
-          <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="user" trim="true" optional="true"/>
+          <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="user" ignorecase="true" optional="true"/>
           <filter left-field="IdeOpe" left-table="scrRes" condition="is null"/>
         </or>
         <or>
@@ -671,7 +686,7 @@
       <table id="ope" alias="ope" />
       <and>
         <filter left-field="IdeOpe" left-table="ope" condition="eq" right-field="IdeOpe" right-table="modOpe" />
-        <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="Usr" trim="true" />
+        <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="Usr" ignorecase="true" />
         <filter left-field="l1_act" left-table="ope" condition="eq" right-variable="active" />
       </and>
     </join>
@@ -730,7 +745,7 @@
       <table id="ope" alias="ope" />
       <and>
         <filter left-field="IdeOpe" left-table="ope" condition="eq" right-field="IdeOpe" right-table="modOpe" />
-        <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="Usr" trim="true" />
+        <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="Usr" ignorecase="true" />
         <filter left-field="l1_act" left-table="ope" condition="eq" right-variable="active" />
       </and>
     </join>
@@ -1042,7 +1057,7 @@
           <filter left-field="Scr" left-table="ScrCnf" condition="is null"/>
         </or>
         <or>
-          <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="user" trim="true" optional="true"/>
+          <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="user" ignorecase="true" optional="true"/>
           <filter left-field="IdeOpe" left-table="ScrCnf" condition="is null"/>
         </or>
         <or>
@@ -1522,7 +1537,7 @@
     <field id="EmlAdr" alias="SesEma" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="Usr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="Usr" ignorecase="true" />
       </and>
     </where>
     <variable id="Usr" type="STRING" session="user" />
@@ -1536,7 +1551,7 @@
     <computed format="[name] ([value])" alias="label" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="Usr" trim="true" />
+        <filter left-field="l1_nom" condition="eq" right-variable="Usr" ignorecase="true" />
       </and>
     </where>
     <variable id="Usr" type="STRING" session="user" />
@@ -1568,7 +1583,7 @@
     <field id="WebPrn" alias="WebPrn" />
     <where>
       <and>
-        <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="Usr" trim="true" />
+        <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="Usr" ignorecase="true" />
       </and>
     </where>
     <variable id="Usr" type="STRING" session="user" />
@@ -1664,7 +1679,7 @@
     <where>
       <and>
         <filter left-field="type" condition="eq" right-variable="Typ" />
-        <filter left-field="usr" condition="eq" right-variable="Usr" />
+        <filter left-field="usr" condition="eq" right-variable="Usr" ignorecase="true"/>
       </and>
     </where>
     <variable id="Typ" type="STRING" value="PrnTxtTot" />
@@ -1680,7 +1695,7 @@
     <where>
       <and>
         <filter left-field="type" condition="eq" right-variable="Typ" />
-        <filter left-field="usr" condition="eq" right-variable="Usr" />
+        <filter left-field="usr" condition="eq" right-variable="Usr" ignorecase="true"/>
       </and>
     </where>
     <variable id="Typ" type="STRING" value="PrnBkgTot" />
@@ -1696,7 +1711,7 @@
     <where>
       <and>
         <filter left-field="type" condition="eq" right-variable="Typ" />
-        <filter left-field="usr" condition="eq" right-variable="Usr" />
+        <filter left-field="usr" condition="eq" right-variable="Usr" ignorecase="true"/>
       </and>
     </where>
     <variable id="Typ" type="STRING" value="PrnTxt4" />
@@ -1712,7 +1727,7 @@
     <where>
       <and>
         <filter left-field="type" condition="eq" right-variable="Typ" />
-        <filter left-field="usr" condition="eq" right-variable="Usr" />
+        <filter left-field="usr" condition="eq" right-variable="Usr" ignorecase="true"/>
       </and>
     </where>
     <variable id="Typ" type="STRING" value="PrnBkg4" />
@@ -1781,11 +1796,11 @@
     </join>
     <where>
       <and>
-        <filter left-field="Stl" left-table="stlCnf" condition="eq" right-variable="Stl" ignorecase="false" trim="false" optional="true" />
-        <filter left-field="Act" left-table="stlCnf" condition="eq" right-variable="active" ignorecase="false" trim="false" optional="true" />
+        <filter left-field="Stl" left-table="stlCnf" condition="eq" right-variable="Stl" optional="true" />
+        <filter left-field="Act" left-table="stlCnf" condition="eq" right-variable="active" optional="true" />
         <or>
-          <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="OpeNam" ignorecase="true" trim="false" />
-          <filter left-field="Nam" left-table="pro" condition="eq" right-variable="ProNam" ignorecase="true" trim="false" />
+          <filter left-field="l1_nom" left-table="ope" condition="eq" right-variable="OpeNam" ignorecase="true"/>
+          <filter left-field="Nam" left-table="pro" condition="eq" right-variable="ProNam" ignorecase="true"/>
         </or>
       </and>
     </where>

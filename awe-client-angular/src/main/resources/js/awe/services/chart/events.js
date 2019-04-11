@@ -1,13 +1,13 @@
 import { aweApplication } from "./../../awe";
+import { ClientActions } from "../../data/actions";
 
 // Chart events service
-aweApplication.factory('ChartEvents', ['AweUtilities', 'Actions',
+aweApplication.factory('ChartEvents', ['AweUtilities',
   /**
    * Chart generic methods
    * @param {Service} Utilities
-   * @param {Service} Actions
    */
-  function (Utilities, Actions) {
+  function (Utilities) {
 
     /*********
      * EVENTS
@@ -17,7 +17,7 @@ aweApplication.factory('ChartEvents', ['AweUtilities', 'Actions',
         /**
          * Event listeners
          */
-        Utilities.defineActionListeners(component.listeners, Actions.chart, component.scope, ChartEvents);
+        Utilities.defineActionListeners(component.listeners, ClientActions.chart, component.scope, ChartEvents);
 
         // Capture reset scope action
         component.listeners['resetScope'] = component.scope.$on('reset-scope', function (event, view) {

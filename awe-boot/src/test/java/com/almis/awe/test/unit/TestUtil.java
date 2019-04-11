@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.web.servlet.MockMvc;
@@ -57,7 +58,8 @@ public class TestUtil {
    * @return Parameter set
    */
   String setParameter(String name, String value) throws Exception {
-    MvcResult mvcResult = mockMvc.perform(get("/session/set/" + name + "/" + value)
+    MvcResult mvcResult = mockMvc.perform(post("/session/set/" + name)
+            .param("value", value)
             .session(session))
             .andReturn();
     return mvcResult.getResponse().getContentAsString();
@@ -146,8 +148,10 @@ public class TestUtil {
 
     String maintainName = method;
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-      .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\",\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
-      .accept("application/json"))
+      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"max\":30}")
+      .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
       .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
@@ -171,7 +175,9 @@ public class TestUtil {
     String maintainName = "loginUser";
 
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-      .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\",\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
+      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"max\":30}")
       .session(session)
       .accept("application/json"))
       .andExpect(status().isOk())
@@ -197,9 +203,11 @@ public class TestUtil {
 
     String maintainName = "logoutUser";
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-      .param("p", "{\"serverAction\":\"maintain\",\"targetAction\":\"" + maintainName + "\",\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"s\":\"16617f0d-97ee-4f6b-ad54-905d6ce3c328\",\"max\":30}")
+      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"max\":30}")
       .session(session)
-      .accept("application/json"))
+      .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
       .andReturn();
     String result = mvcResult.getResponse().getContentAsString();

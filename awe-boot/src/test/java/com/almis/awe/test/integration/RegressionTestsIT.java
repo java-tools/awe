@@ -15,7 +15,7 @@ public class RegressionTestsIT extends SeleniumUtilities {
    */
   @Test
   public void t000_loginTest() throws Exception {
-    checkLogin("test", "test", "span.info-text", "Manager (test)");
+    checkLogin("test", "test", "#ButUsrAct span.info-text", "Manager (test)");
   }
 
   /**
@@ -221,6 +221,29 @@ public class RegressionTestsIT extends SeleniumUtilities {
     // Check selector
     checkMultipleSelectorContents("SugMulReq", "test (test@test.com)");
   }
+
+  /**
+   * Wrong login
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t009_wrongLogin() throws Exception {
+    // Title
+    setTestTitle("Wrong login");
+
+    // Do logout
+    checkLogout(".slogan", "Almis Web Engine");
+
+    // Check wrong login
+    checkLogin("test", "lala", ".alert.alert-warning div", "Invalid credentials  The credentials entered for the user -test- are not valid");
+
+    // Check wrong login
+    checkLogin("tutu", "lala", ".alert.alert-warning div", "Wrong username  Username -tutu- is wrong or inactive");
+
+    // Do right login
+    checkLogin("test", "test", "span.info-text", "Manager (test)");
+  }
+
 
   /**
    * Suggest delayed

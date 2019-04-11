@@ -5,9 +5,9 @@
 
   <parent>
     <groupId>com.almis.awe</groupId>
-    <artifactId>awe-framework</artifactId>
-    <version>4.0.5</version>
-    <relativePath>../awe-framework/pom.xml</relativePath>
+    <artifactId>awe-dependencies</artifactId>
+    <version>4.0.6</version>
+    <relativePath>../awe-dependencies/pom.xml</relativePath>
   </parent>
 
   <artifactId>awe-developer</artifactId>

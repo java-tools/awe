@@ -34,10 +34,10 @@ public class LogUtil {
   private Logger loggerUtil;
   private AweSession session;
 
-  @Value("${log.default.level:info}")
+  @Value("${application.log.users.level:info}")
   private String defaultLogLevel;
 
-  @Value("${log.users.enabled:false}")
+  @Value("${application.log.users.enabled:false}")
   private Boolean logUsersEnabled;
 
   @Value("${spring.datasource.jndi-name:}")
@@ -241,7 +241,7 @@ public class LogUtil {
         aweMessage.setUser(session.getUser());
       }
     } catch (Exception exc) {
-      // TODO: ¿Que hacemos aqui?
+      // Do nothing
     }
     return aweMessage;
   }
@@ -262,7 +262,7 @@ public class LogUtil {
         userName = session.getUser();
       }
     } catch (Exception exc) {
-      userName = null;
+      // Do nothing
     }
 
     // User logger

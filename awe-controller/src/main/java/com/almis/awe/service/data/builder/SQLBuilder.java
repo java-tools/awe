@@ -6,6 +6,7 @@ import com.almis.awe.model.type.FilterValueType;
 import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.type.UnionType;
 import com.almis.awe.model.util.data.DateUtil;
+import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,6 +17,7 @@ import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -34,6 +36,15 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   private static final String ERROR_TITLE_GENERATING_FILTER = "ERROR_TITLE_GENERATING_FILTER";
   private static final List<String> NULL_CONDITIONS = Arrays.asList((String[]) new String[] { IS_NULL, IS_NOT_NULL });
   private static final List<String> IN_CONDITIONS = Arrays.asList((String[]) new String[] { IN, NOT_IN });
+
+  /**
+   * Autowired constructor
+   * @param queryUtil Query utilities
+   */
+  @Autowired
+  public SQLBuilder(QueryUtil queryUtil) {
+    super(queryUtil);
+  }
 
   /**
    * Sets the SQLQueryFactory used by QueryDSL to create the SQLQuery
@@ -88,8 +99,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     } else if (field.getVariable() != null) {
       fieldExpression = getVariableExpression(field.getVariable());
       // Field as caseWhen
-    } else if (field.getCaseWhenList() != null) {
-      fieldExpression = getCaseWhenExpression(field);
+    } else if (field.getCaseElse() != null) {
+      fieldExpression = getCaseExpression(field);
       // Field as concat
     } else if (field.getConcatList() != null) {
       fieldExpression = getConcatExpression(field);
@@ -214,20 +225,29 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   }
 
   /**
-   * Retrieve caseWhen expression
+   * Retrieve case expression
    *
    * @param field Field to apply the case when condition
    * @return Expression caseWhen expression
    */
-  protected Expression getCaseWhenExpression(Field field) throws AWException {
-    CaseBuilder caseWhenExpression = new CaseBuilder();
+  protected Expression getCaseExpression(Field field) throws AWException {
+    CaseBuilder initialCase = new CaseBuilder();
     CaseBuilder.Cases caseList = null;
+    Expression caseElse = getCaseThenExpression(field.getCaseElse());
 
-    for (CaseWhen caseWhen: field.getCaseWhenList()) {
-      caseList = caseWhenExpression.when(getFilters(caseWhen)).then(getCaseThenExpression(caseWhen));
+    if (field.getCaseWhenList() != null) {
+      for (CaseWhen caseWhen : field.getCaseWhenList()) {
+        BooleanExpression filter = getFilters(caseWhen);
+        Expression caseThen = getCaseThenExpression(caseWhen);
+        if (caseList == null) {
+          caseList = initialCase.when(filter).then(caseThen);
+        } else {
+          caseList.when(filter).then(caseThen);
+        }
+      }
     }
 
-    return caseList == null ? Expressions.nullExpression() : caseList.otherwise(getCaseThenExpression(field.getCaseElse()));
+    return caseList == null ? caseElse : caseList.otherwise(caseElse);
   }
 
   /**

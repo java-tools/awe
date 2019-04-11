@@ -3,7 +3,9 @@ package com.almis.awe.annotation.processor.session;
 import com.almis.awe.annotation.aspect.SessionAnnotation;
 import com.almis.awe.annotation.entities.session.FromSession;
 import com.almis.awe.annotation.entities.session.ToSession;
-import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.model.component.AweSession;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Session annotation processor
@@ -14,7 +16,19 @@ import com.almis.awe.config.ServiceConfig;
  * @see ToSession
  * @see SessionAnnotation
  */
-public class SessionProcessor extends ServiceConfig {
+public class SessionProcessor {
+
+  // Autowired objects
+  ObjectFactory<AweSession> aweSessionObjectFactory;
+
+  /**
+   * Autowired constructor
+   * @param aweSessionObjectFactory
+   */
+  @Autowired
+  public SessionProcessor(final ObjectFactory<AweSession> aweSessionObjectFactory) {
+    this.aweSessionObjectFactory = aweSessionObjectFactory;
+  }
 
   /**
    * Get parameter from session
@@ -25,7 +39,7 @@ public class SessionProcessor extends ServiceConfig {
    * @return
    */
   public <T> T getFromSession(FromSession fromSession, Class<T> clazz) {
-    return getSession().getParameter(clazz, fromSession.name());
+    return aweSessionObjectFactory.getObject().getParameter(clazz, fromSession.name());
   }
 
   /**
@@ -35,12 +49,8 @@ public class SessionProcessor extends ServiceConfig {
    * @param o
    */
   public void setToSession(ToSession toSession, Object o) {
-    if (getSession().hasParameter(toSession.name())) {
-      if (toSession.overrideIfExist()) {
-        getSession().setParameter(toSession.name(), o);
-      }
-    } else {
-      getSession().setParameter(toSession.name(), o);
+    if (!aweSessionObjectFactory.getObject().hasParameter(toSession.name()) || toSession.overrideIfExist()) {
+      aweSessionObjectFactory.getObject().setParameter(toSession.name(), o);
     }
   }
 }

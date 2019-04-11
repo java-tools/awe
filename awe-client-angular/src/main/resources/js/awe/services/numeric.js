@@ -1,14 +1,48 @@
 import { aweApplication } from "./../awe";
 
+// Numeric template
+export const templateNumeric =
+`<div ng-show="controller.visible" class="criterion {{criterionClass}}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <div ng-class="::groupClass" ng-cloak>
+    <label ng-attr-for="{{::controller.id}}" ng-class="::labelClass" ng-style="::labelStyle" ng-cloak>
+      <i ng-if="::controller.help" class="help-target fa fa-fw fa-question-circle"></i>
+      {{controller.label| translateMultiple}}
+    </label>
+    <div class="validator input  {{::validatorGroup}} focus-target" ng-class="{'input-group': controller.unit}">
+      <span ng-if="::controller.icon" ng-class="::iconClass" ng-cloak></span>
+      <input ui-numeric="aweNumericOptions" class="form-control text-right {{classes}}" autocomplete="off" ng-click="click($event)"
+             ng-attr-id="{{::controller.id}}" ng-attr-name="{{::controller.id}}" ng-disabled="controller.readonly" ng-press-enter="submit($event)"
+             placeholder="{{controller.placeholder| translateMultiple}}" ng-focus="focus()" ng-blur="blur()"/>
+      <awe-loader class="loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+      <span ng-if="controller.unit" class="input-group-addon unit" translate-multiple="{{controller.unit}}" ng-cloak></span>
+    </div>
+  </div>
+  <input ng-if="::controller.showSlider" ui-slider="aweNumericOptions" ng-cloak/>
+</div>`;
+
+// Numeric template for columns
+export const templateNumericColumn =
+`<div ng-show="component.controller.visible" class="validator column-input criterion text-{{::component.controller.align}} no-animate" ui-dependency="dependencies" ng-cloak>
+  <span class="visible-value text-right" ng-cloak>{{component.visibleValue}}</span>
+  <div class="edition input input-group-{{::size}} focus-target">
+    <input ui-numeric="aweNumericOptions" class="form-control text-right col-xs-12 {{classes}} {{component.model.values[0].style}}" autocomplete="off"
+           ng-disabled="component.controller.readonly" ng-focus="focus()" ng-blur="blur()"
+           placeholder="{{::component.controller.placeholder| translateMultiple}}" ng-click="click($event)" ng-press-enter="saveRow($event)"/>
+    <span ng-if="::component.controller.icon" ng-class="::iconClass" ng-cloak></span>
+  </div>
+  <awe-loader class="loader no-animate" ng-if="component.controller.loading" icon-loader="{{::iconLoader}}" ng-cloak/>
+</div>`;
+
 // Numeric service
 aweApplication.factory('Numeric',
   ['Criterion', 'AweUtilities', 'AweSettings', 'Control',
     /**
      * Numeric generic methods
-     * @param {Service} Criterion
-     * @param {Service} Utilities
-     * @param {Service} $settings
-     * @param {Service} Control
+     * @param {object} Criterion
+     * @param {object} Utilities
+     * @param {object} $settings
+     * @param {object} Control
      */
     function (Criterion, Utilities, $settings, Control) {
       /**
@@ -84,7 +118,7 @@ aweApplication.factory('Numeric',
 
             // Check object
             return sanitizedValue;
-          }
+          };
 
           /**********************************************************************/
           /* COMPONENT METHODS                                                  */

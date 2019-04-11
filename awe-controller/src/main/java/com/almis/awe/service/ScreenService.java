@@ -333,10 +333,13 @@ public class ScreenService extends ServiceConfig {
     AweSession session = getSession();
 
     // Store last screen in session
-    session.setParameter(AweConstants.SESSION_LAST_SCREEN, session.getParameter(AweConstants.SESSION_CURRENT_SCREEN));
+    session.setParameter(AweConstants.SESSION_LAST_SCREEN, session.getParameter(AweConstants.SESSION_STORE_SCREEN_CRITERIA));
 
     // Store option name in session
-    session.setParameter(AweConstants.SESSION_CURRENT_SCREEN, screen.keepCriteria() ? option : null);
+    session.setParameter(AweConstants.SESSION_CURRENT_SCREEN, option);
+
+    // Store screen option if keep criteria
+    session.setParameter(AweConstants.SESSION_STORE_SCREEN_CRITERIA, screen.keepCriteria() ? option : null);
   }
 
   /**

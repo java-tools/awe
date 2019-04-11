@@ -8,14 +8,15 @@ variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
-  GENERAL_BROWSER_OPTS: "-f awe-boot/pom.xml -Dskip.main=true -Dskip.junit=true -Dskip.selenium=false"
+  JACOCO_OPTS: "-DgenerateIntegrationReport=true -Dskip.selenium=false -Dkarma.launch.gitlab=true -Djava.debug=true"
+  GENERAL_BROWSER_OPTS: "-f awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false"
   CHROME_OPTS: "-Dbrowser=headless-chrome"
   FIREFOX_OPTS: "-Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
   KUBERNETES_PROJECT_ID: wired-armor-229610
-  KUNERNETES_CLUSTER_NAME: awe-selenium-testing
+  KUBERNETES_CLUSTER_NAME: awe-selenium-testing
   CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
 
 cache:
@@ -23,6 +24,8 @@ cache:
   policy: pull
   paths:
   - .m2/repository/
+  - awe-client-angular/node_modules/
+  - awe-tools/node_modules/
 
 stages:
 - build
@@ -32,6 +35,10 @@ stages:
 - package
 - deploy
 - release
+
+include:
+  - template: SAST.gitlab-ci.yml
+  - template: Dependency-Scanning.gitlab-ci.yml
 
 # Testing extension
 .testing:
@@ -56,33 +63,42 @@ stages:
       - awe-boot/target/surefire-reports/TEST-*.xml
     when: on_failure
 
+# Analysis extension
+.analyze:
+  tags:
+  - docker
+
 ##############################
 # Build stage
 ##############################
 
 maven-build:
-  image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   stage: build
   cache:
     key: $CACHE_KEY
     policy: push
     paths:
-    - .m2/repository/
+      - .m2/repository/
+      - awe-client-angular/node_modules/
+      - awe-tools/node_modules/
   tags:
   - shared
   script:
-  - mvn $MAVEN_CLI_OPTS clean install sonar:sonar -DgenerateIntegrationReport=true -Dskip.selenium=false $SONAR_OPTS
+  - mvn $MAVEN_CLI_OPTS clean install sonar:sonar $JACOCO_OPTS $SONAR_OPTS
   - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
   retry: 2
   artifacts:
     paths:
-    - awe-boot/target/awe-boot.jar
+    - awe-boot/target/awe-boot.war
     - awe-boot/target/tests/
     - awe-boot/target/coverage-reports/
     - awe-boot/target/surefire-reports/
+    - awe-client-angular/target/reports/karma/
     reports:
       junit:
       - awe-boot/target/surefire-reports/TEST-*.xml
+      - awe-client-angular/target/reports/karma/junit/*.xml
 
 ##############################
 # Testing stage
@@ -90,13 +106,13 @@ maven-build:
 
 test-chrome:
   extends: .testing
-  image: registry.gitlab.com/aweframework/docker-tools/chrome-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
    BROWSER_OPTS: $CHROME_OPTS
 
 test-firefox:
   extends: .testing
-  image: registry.gitlab.com/aweframework/docker-tools/firefox-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
     BROWSER_OPTS: $FIREFOX_OPTS
 
@@ -121,35 +137,31 @@ check-sonar:
   - develop
   - tags
 
-dependency-scanning:
+sast:
   stage: analysis
-  services:
-  - docker:dind
-  tags:
-  - docker
-  variables:
-    DOCKER_DRIVER: overlay2
-  allow_failure: true
-  script:
-  - export SP_VERSION=$(echo "$CI_SERVER_VERSION" | sed 's/^\([0-9]*\)\.\([0-9]*\).*/\1-\2-stable/')
-  - docker run
-      --env DEP_SCAN_DISABLE_REMOTE_CHECKS="${DEP_SCAN_DISABLE_REMOTE_CHECKS:-false}"
-      --volume "$PWD:/code"
-      --volume /var/run/docker.sock:/var/run/docker.sock
-      "registry.gitlab.com/gitlab-org/security-products/dependency-scanning:$SP_VERSION" /code
-  artifacts:
-    reports:
-      dependency_scanning: gl-dependency-scanning-report.json
+  extends: .analyze
+
+dependency_scanning:
+  stage: analysis
+  extends: .analyze
 
 ##############################
 # Site stage
 ##############################
 
+publish-docs:
+  stage: site
+  image: cfmanteiga/alpine-bash-curl-jq:latest
+  script:
+  - curl -H "$DINAMIQ_HEADERS" $DINAMIQ_URL
+  only:
+  - develop
+
 site:
   image: maven:3.5-jdk-8
   stage: site
   script:
-  - mvn $MAVEN_CLI_OPTS install site -DskipTests
+  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.karma=true -Dbuild.environment=production
   artifacts:
     paths:
     - target/site/apidocs
@@ -182,7 +194,7 @@ deploy:
   image: maven:3.5-jdk-8
   stage: deploy
   script:
-  - mvn $MAVEN_CLI_OPTS deploy -DskipTests
+  - mvn $MAVEN_CLI_OPTS deploy -DskipTests -Dskip.karma=true -Dskip.javadoc=false -Dbuild.environment=production
   only:
   - develop
 
@@ -195,18 +207,19 @@ k8s-deploy-staging:
   - gcloud config set compute/zone us-central1-a
   - gcloud config set project $KUBERNETES_PROJECT_ID
   - gcloud config set container/use_client_certificate True
-  - gcloud container clusters get-credentials $KUNERNETES_CLUSTER_NAME
-  - kubectl config set-cluster $KUNERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
+  - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
+  - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
   - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-  - kubectl config set-context default-system --cluster=$KUNERNETES_CLUSTER_NAME --user=admin
+  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin
   - kubectl config use-context default-system
   - kubectl delete secret registry.gitlab.com
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
   - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-boot/deployment.yaml
+  - kubectl delete --all pods --namespace=staging
   - kubectl apply -f awe-boot/deployment.yaml --namespace=staging
   environment:
     name: staging
-    url: http://staging.aweframework.com/awe-boot
+    url: http://staging.aweframework.com
   only:
   - develop
 
@@ -227,10 +240,11 @@ k8s-deploy-production:
   - kubectl delete secret registry.gitlab.com
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
   - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-boot/deployment.yaml
+  - kubectl delete --all pods --namespace=production
   - kubectl apply -f awe-boot/deployment.yaml --namespace=production
   environment:
     name: production
-    url: http://demo.aweframework.com/awe-boot
+    url: http://demo.aweframework.com
   when: manual
   only:
   - master

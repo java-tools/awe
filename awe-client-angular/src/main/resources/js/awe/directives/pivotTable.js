@@ -1,9 +1,10 @@
 import { aweApplication } from "./../awe";
+import { DefaultSpin } from "./../data/options";
 
 // Pivot table directive
 aweApplication.directive('awePivotTable',
-  ['ServerData', 'Component', 'Options',
-    function (serverData, Component, Options) {
+  ['ServerData', 'Component',
+    function (serverData, Component) {
 
       return {
         restrict: 'E',
@@ -23,7 +24,7 @@ aweApplication.directive('awePivotTable',
              */
             pre: function (scope) {
               // Set spin options
-              scope.spinOptions = Options.spin.big;
+              scope.spinOptions = DefaultSpin.big;
 
               // Init as component
               var component = new Component(scope, scope.pivotTableId);

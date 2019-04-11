@@ -656,4 +656,28 @@
     </serve>
   </target>
 
+  <target name="TestComplexRestPostParametersList">
+    <serve service="testComplexRestPostParametersList">
+      <variable id="integerList" type="INTEGER" name="integerList"/>
+      <variable id="stringList" type="STRING" name="stringList"/>
+      <variable id="dateList" type="DATE" name="dateList"/>
+    </serve>
+  </target>
+
+  <target name="TestComplexRestPostParametersListGetParameters">
+    <serve service="testComplexRestPostParametersListGetParameters">
+      <variable id="integerList" type="INTEGER" name="integerList"/>
+      <variable id="stringList" type="STRING" name="stringList"/>
+      <variable id="dateList" type="DATE" name="dateList"/>
+    </serve>
+  </target>
+
+  <target name="TestComplexRestPostParametersListJson">
+    <serve service="testComplexRestPostParametersListJson">
+      <variable id="integerList" type="INTEGER" name="integerList"/>
+      <variable id="stringList" type="STRING" name="stringList"/>
+      <variable id="dateList" type="DATE" name="dateList"/>
+    </serve>
+  </target>
+
 </maintain>

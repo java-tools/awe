@@ -92,6 +92,13 @@
     <xs:attribute name="format-to" type="xs:string" />
   </xs:attributeGroup>
 
+  <!-- Case Attributes -->
+  <xs:attributeGroup name="caseAttr">
+    <xs:attribute name="then-field" type="xs:string" />
+    <xs:attribute name="then-table" type="xs:string" />
+    <xs:attribute name="then-variable" type="xs:string" />
+  </xs:attributeGroup>
+
   <!-- Filter Attributes -->
   <xs:attributeGroup name="filterAttr">
     <xs:attribute name="condition" use="required" type="conditionEnum"/>

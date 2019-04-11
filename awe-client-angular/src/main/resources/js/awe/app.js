@@ -108,7 +108,6 @@ require("./services/contextMenu");
 require("./directives/contextMenu");
 require("./directives/contextOption");
 
-require("jquery-file-download");
 require("./directives/downloader");
 
 require("./services/text");
@@ -191,7 +190,6 @@ require("./directives/dialog");
 require("./directives/column/dialog");
 
 require("bootstrap-tabdrop");
-require("bootstrap-tabdrop-less");
 require("./directives/plugins/uiTabdrop");
 require("./directives/input/tab");
 require("./directives/tabcontainer");

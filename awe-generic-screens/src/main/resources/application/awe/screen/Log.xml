@@ -48,7 +48,7 @@
       </tag>
     </window>
     <window style="expand" label="SCREEN_TEXT_DATA" icon="list" maximize="true">
-      <grid id="GrdLogLst" style="expand" initial-load="query" server-action="data" target-action="getLogList" multiselect="true" max="50">
+      <grid id="GrdLogLst" style="expand" initial-load="query" server-action="data" target-action="getLogList" multiselect="true" max="50" load-all="true">
         <column name="Fil" hidden="true" />
         <column label="PARAMETER_LOG" name="Nam" sort-field="Nam" align="left" charlength="80" />
         <column label="PARAMETER_DATE" name="Dat" sort-field="Dat" align="center" charlength="20" />

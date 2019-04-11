@@ -2,15 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
   <parent>
-    <artifactId>awe-parent</artifactId>
     <groupId>com.almis.awe</groupId>
-    <version>4.0.5</version>
+    <artifactId>awe-starter-parent</artifactId>
+    <version>4.0.6</version>
+    <relativePath>../awe-starter-parent/pom.xml</relativePath>
   </parent>
 
-  <modelVersion>4.0.0</modelVersion>
   <artifactId>awe-boot</artifactId>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <name>AWE Testing Application (V${project.version})</name>
 
   <properties>
@@ -32,6 +34,7 @@
     <plugin-archetype.version>3.0.1</plugin-archetype.version>
     <plugin-xml.maven.version>1.0</plugin-xml.maven.version>
     <plugin-jar.version>3.1.0</plugin-jar.version>
+    <plugin-war.version>2.6</plugin-war.version>
     <plugin-resources.version>3.1.0</plugin-resources.version>
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
     <plugin-site.version>3.5.1</plugin-site.version>
@@ -41,11 +44,13 @@
     <webdrivermanager.version>3.2.0</webdrivermanager.version>
     <testng.version>6.14.3</testng.version>
 
-    <jacoco.base.reports>${project.basedir}/../awe-boot/target</jacoco.base.reports>
+    <jacoco.base.reports>${project.build.directory}</jacoco.base.reports>
     <jacoco.reportPaths>${jacoco.base.reports}/coverage-reports</jacoco.reportPaths>
-    <sonar.exclusions>src/main/java/com/almis/awe/test/**/*</sonar.exclusions>
+    <aggregated.reportPaths>${jacoco.base.reports}/aggregated-reports</aggregated.reportPaths>
+    <sonar.exclusions>src/**</sonar.exclusions>
     <sonar.junit.reportPath>${jacoco.base.reports}/surefire-reports</sonar.junit.reportPath>
     <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
+    <sonar.tests>${project.basedir}/src/test</sonar.tests>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
     <failsafe.suite>**/AllTestsSuiteIT.class</failsafe.suite>
     <browser>headless-chrome</browser>
@@ -53,18 +58,6 @@
     <skip.selenium>true</skip.selenium>
     <skip.junit>false</skip.junit>
   </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.almis.awe</groupId>
-        <artifactId>awe-dependencies</artifactId>
-        <version>${awe.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <dependencies>
     <!-- AWE -->
@@ -144,6 +137,12 @@
     <dependency>
       <groupId>com.almis.ade</groupId>
       <artifactId>ade-spring-boot-starter</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.python</groupId>
+          <artifactId>jython</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- JDBC Drivers -->
@@ -166,7 +165,19 @@
     <resources>
       <resource>
         <directory>src/main/resources</directory>
+        <includes>
+          <include>**/application/**</include>
+          <include>**/config/**</include>
+          <include>**/sql/**</include>
+          <include>**/static/**</include>
+          <include>*</include>
+        </includes>
         <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources/images</directory>
+        <targetPath>${project.build.directory}/classes/static/images</targetPath>
+        <filtering>false</filtering>
       </resource>
     </resources>
     <plugins>
@@ -177,6 +188,14 @@
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${plugin-war.version}</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
 
@@ -224,7 +243,6 @@
                   <directory>../awe-client-angular/src/main/resources</directory>
                   <includes>
                     <include>images/**</include>
-                    <include>css/**</include>
                   </includes>
                 </resource>
                 <!-- Awe tools -->
@@ -234,41 +252,6 @@
                     <include>images/**</include>
                     <include>css/**</include>
                     <include>js/**</include>
-                  </includes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-          <!-- Copy images -->
-          <execution>
-            <id>copy-images</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/classes/static/images/</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.basedir}/src/main/resources/images/</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>copy-resources</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>src/main/resources/</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.build.frontend}</directory>
-                  <includes>
-                    <include>less/awe/variables.less</include>
-                    <include>less/awe/mixins.less</include>
                   </includes>
                 </resource>
               </resources>
@@ -294,7 +277,8 @@
             </goals>
           </execution>
           <execution>
-            <id>pre-integration-test</id>
+            <id>start-application</id>
+            <phase>integration-test</phase>
             <configuration>
               <skip>${skip.selenium}</skip>
               <wait>1000</wait>
@@ -305,13 +289,14 @@
             </goals>
           </execution>
           <execution>
-            <id>post-integration-test</id>
-            <configuration>
-              <skip>${skip.selenium}</skip>
-            </configuration>
+            <id>stop-application</id>
+            <phase>post-integration-test</phase>
             <goals>
               <goal>stop</goal>
             </goals>
+            <configuration>
+              <skip>${skip.selenium}</skip>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -320,35 +305,13 @@
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.6</version>
         <configuration>
           <skip>${skip.main}</skip>
         </configuration>
         <executions>
           <execution>
-            <id>install node and yarn</id>
-            <goals>
-              <goal>install-node-and-yarn</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v8.12.0</nodeVersion>
-              <yarnVersion>v1.10.1</yarnVersion>
-            </configuration>
-          </execution>
-          <execution>
-            <id>yarn install</id>
-            <goals>
-              <goal>yarn</goal>
-            </goals>
-            <configuration>
-              <arguments>install</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>webpack</id>
-            <goals>
-              <goal>webpack</goal>
-            </goals>
+            <id>karma</id>
+            <phase>none</phase>
           </execution>
         </executions>
       </plugin>
@@ -400,6 +363,7 @@
         <executions>
           <execution>
             <id>integration-test</id>
+            <phase>integration-test</phase>
             <goals>
               <goal>integration-test</goal>
             </goals>
@@ -416,83 +380,11 @@
           </execution>
         </executions>
       </plugin>
-
-      <!-- Ant Plugin for launch selenium test -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <!-- your Selenium tests should run in integration phase -->
-            <phase>integration-test</phase>
-            <configuration>
-              <skip>true</skip>
-              <target>
-                <ant antfile="build.xml" usenativebasedir="true" target="test-selenium" inheritall="true" inheritrefs="true"/>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Jacoco coverage -->
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>${jacoco.version}</version>
-        <configuration>
-          <skip>${skip.main}</skip>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
   <profiles>
-    <profile>
-      <id>generate-aggregation-report</id>
-      <activation>
-        <property>
-          <name>generateAggregationReport</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco.version}</version>
-            <executions>
-              <execution>
-                <id>prepare-agent</id>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-                <configuration>
-                  <append>true</append>
-                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
-                </configuration>
-              </execution>
-              <execution>
-                <id>report-aggregate</id>
-                <phase>test</phase>
-                <goals>
-                  <goal>report-aggregate</goal>
-                </goals>
-                <configuration>
-                  <dataFileIncludes>
-                    <dataFileInclude>target/jacoco.exec</dataFileInclude></dataFileIncludes>
-                  <outputDirectory>${jacoco.reportPaths}</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
+    <!-- Integration report profile -->
     <profile>
       <id>generate-integration-report</id>
       <activation>
@@ -510,6 +402,7 @@
             <executions>
               <execution>
                 <id>integration-test</id>
+                <phase>integration-test</phase>
                 <goals>
                   <goal>integration-test</goal>
                   <goal>verify</goal>
@@ -522,23 +415,6 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>${jacoco.version}</version>
             <executions>
-              <execution>
-                <id>prepare-agent</id>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-                <configuration>
-                  <append>true</append>
-                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
-                </configuration>
-              </execution>
-              <execution>
-                <id>prepare-integration-agent</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>prepare-agent-integration</goal>
-                </goals>
-              </execution>
               <execution>
                 <id>report-integration</id>
                 <phase>post-integration-test</phase>
@@ -560,13 +436,8 @@
             <artifactId>spring-boot-maven-plugin</artifactId>
             <executions>
               <execution>
-                <id>repackage</id>
-                <goals>
-                  <goal>repackage</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>pre-integration-test</id>
+                <id>start-application</id>
+                <phase>integration-test</phase>
                 <configuration>
                   <arguments>
                     <argument>--integration-test</argument>
@@ -574,14 +445,15 @@
                   <wait>1000</wait>
                   <maxAttempts>180</maxAttempts>
                   <fork>true</fork>
-                  <jvmArguments>${argLine}</jvmArguments>
+                  <jvmArguments>${failsafe.argLine}</jvmArguments>
                 </configuration>
                 <goals>
                   <goal>start</goal>
                 </goals>
               </execution>
               <execution>
-                <id>post-integration-test</id>
+                <id>stop-application</id>
+                <phase>post-integration-test</phase>
                 <goals>
                   <goal>stop</goal>
                 </goals>

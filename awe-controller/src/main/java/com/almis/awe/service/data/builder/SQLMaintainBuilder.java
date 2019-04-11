@@ -11,6 +11,7 @@ import com.almis.awe.model.entities.queries.Variable;
 import com.almis.awe.model.type.MaintainBuildOperation;
 import com.almis.awe.model.type.MaintainType;
 import com.almis.awe.model.type.ParameterType;
+import com.almis.awe.model.util.data.QueryUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -72,9 +73,11 @@ public class SQLMaintainBuilder extends SQLBuilder {
   /**
    * Autowired constructor
    * @param session Session
+   * @param queryUtil Query utilities
    */
   @Autowired
-  public SQLMaintainBuilder(AweSession session) {
+  public SQLMaintainBuilder(AweSession session, QueryUtil queryUtil) {
+    super(queryUtil);
     this.session = session;
   }
 

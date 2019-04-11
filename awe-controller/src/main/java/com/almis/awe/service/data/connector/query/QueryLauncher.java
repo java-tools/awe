@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.springframework.cache.annotation.Cacheable;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * QueryLauncher Class
  * Factory class of interface QueryConnector
@@ -26,8 +28,8 @@ public class QueryLauncher extends ServiceConfig {
    * @return Query data
    * @throws AWException Query has failed
    */
-  @Cacheable(value = "queryData", condition = "#query.isCacheable()", key = "{ #query.getId(), #parameters.toString() }")
-  public ServiceData launchQuery(Query query, ObjectNode parameters) throws AWException {
+  @Cacheable(value = "queryData", condition = "#p0.isCacheable()", key = "{ #p0.getId(), #p1.toString() }")
+  public ServiceData launchQuery(@NotNull Query query, ObjectNode parameters) throws AWException {
     QueryConnector queryLauncher;
     try {
       queryLauncher = getQueryConnector(query);

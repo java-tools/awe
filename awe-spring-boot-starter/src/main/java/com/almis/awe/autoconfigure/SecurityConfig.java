@@ -1,13 +1,23 @@
 package com.almis.awe.autoconfigure;
 
+import com.almis.awe.component.AweHttpServletRequestWrapper;
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.dao.UserDAO;
+import com.almis.awe.dao.UserDAOImpl;
+import com.almis.awe.model.component.AweElements;
+import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.security.accessbean.LoginAccessControl;
 import com.almis.awe.security.authentication.encoder.Ripemd160PasswordEncoder;
 import com.almis.awe.security.authentication.filter.JsonAuthenticationFilter;
 import com.almis.awe.service.AccessService;
 import com.almis.awe.service.MenuService;
+import com.almis.awe.service.QueryService;
+import com.almis.awe.service.user.AweUserDetailService;
 import com.almis.awe.session.AweSessionDetails;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
@@ -15,23 +25,31 @@ import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.ldap.authentication.BindAuthenticator;
 import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
 import org.springframework.security.ldap.search.FilterBasedLdapUserSearch;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import javax.servlet.Filter;
-import javax.sql.DataSource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Spring security main configuration method
@@ -44,6 +62,7 @@ public class SecurityConfig extends ServiceConfig {
   // Autowired services
   private AweSessionDetails aweSessionDetails;
   private LogUtil logger;
+  private AweElements elements;
 
   /**
    * Autowired constructor
@@ -51,9 +70,10 @@ public class SecurityConfig extends ServiceConfig {
    * @param logger Logger
    */
   @Autowired
-  public SecurityConfig(AweSessionDetails sessionDetails, LogUtil logger) {
+  public SecurityConfig(AweSessionDetails sessionDetails, LogUtil logger, AweElements elements) {
     this.aweSessionDetails = sessionDetails;
     this.logger = logger;
+    this.elements = elements;
   }
 
   private enum AUTHENTICATION_MODE {
@@ -104,9 +124,6 @@ public class SecurityConfig extends ServiceConfig {
   @Value("${screen.parameter.password:pwd_usr}")
   private String passwordParameter;
 
-  @Value("${security.json.parameter:p}")
-  private String securityParameter;
-
   @Value ("${language.default}:en")
   private String defaultLocale;
 
@@ -117,8 +134,8 @@ public class SecurityConfig extends ServiceConfig {
   private String rolePrefix;
 
   // Custom authentication
-  @Value ("${security.auth.custom.providers:}")
-  private String[] authenticationProviders;
+  @Value("#{'${security.auth.custom.providers:}'.split(',')}")
+  private List<String> authenticationProviders;
 
   // BBDD authentication
   @Value ("${security.auth.jdbc.param.userPasswordQuery:}")
@@ -128,8 +145,8 @@ public class SecurityConfig extends ServiceConfig {
   private String userRolesQuery;
 
   // LDAP authentication
-  @Value ("${security.auth.ldap.url:}")
-  private String[] ldapUrl;
+  @Value("#{'${security.auth.ldap.url:}'.split(',')}")
+  private List<String> ldapUrl;
 
   @Value ("${security.auth.ldap.user:}")
   private String ldapUserFilter;
@@ -143,11 +160,11 @@ public class SecurityConfig extends ServiceConfig {
   @Value ("${security.auth.ldap.basedn:}")
   private String ldapBaseDN;
 
+  @Value ("${security.auth.ldap.timeout:}")
+  private String ldapConnectTimeout;
+
   @Value ("${security.headers.frameOptions.sameOrigin:true}")
   private boolean sameOrigin;
-
-  @Value ("${security.master.key:fdvsd4@sdsa08}")
-  private String masterKey;
 
   /**
    * Second configuration class for spring security
@@ -164,45 +181,25 @@ public class SecurityConfig extends ServiceConfig {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      Filter jsonAuthenticationFilter = new JsonAuthenticationFilter(usernameParameter, passwordParameter, securityParameter);
-      http.authorizeRequests()
-        //.anyRequest().access("@loginAccessControl.checkAccess(authentication, request)")
-        //.anyRequest().authenticated().accessDecisionManager(accessDecisionManager())
-//              .antMatchers("/beans").hasRole("ACTUATOR")
-//              .anyRequest().permitAll()
+      http
+        .csrf().disable()
+        .authorizeRequests()
         .and()
-        .addFilterAt(jsonAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) //Add a filter to parse login parameters
-        .formLogin()
-        .usernameParameter(usernameParameter)
-        .passwordParameter(passwordParameter)
-        //.loginPage("/")
-        .loginProcessingUrl("/action/login")
-        .permitAll()
-        .successHandler((request, response, authentication) -> {
-          // Initialize parameters
-          getRequest().init(request);
-          aweSessionDetails.onLoginSuccess(authentication);
-          request.getRequestDispatcher("/action/loginRedirect").forward(request, response);
-        })
-        .failureHandler((request, response, authenticationException) -> {
-          // Initialize parameters
-          getRequest().init(request);
-          aweSessionDetails.onLoginFailure(authenticationException);
-          request.getRequestDispatcher("/action/loginRedirect").forward(request, response);
-        })
+        // Add a filter to parse login parameters
+        .addFilterAt(getBean(JsonAuthenticationFilter.class), UsernamePasswordAuthenticationFilter.class)
+        .formLogin().permitAll()
         .and()
         .logout().logoutUrl("/action/logout").clearAuthentication(true)
-        .addLogoutHandler((request, response, authentication) -> {
-          getRequest().init(request);
+        .addLogoutHandler((request, response, authentication) ->  {
+          initRequest(request);
           aweSessionDetails.onBeforeLogout();
         })
         .logoutSuccessHandler((request, response, authentication) -> {
+          initRequest(request);
           aweSessionDetails.onLogoutSuccess();
           request.getRequestDispatcher("/action/logoutRedirect").forward(request, response);
         })
-        .deleteCookies("SESSION").invalidateHttpSession(true)
-        .and()
-        .csrf().disable();
+        .deleteCookies("SESSION").invalidateHttpSession(true);
 
       if (sameOrigin) {
         http.headers().frameOptions().sameOrigin();
@@ -217,17 +214,13 @@ public class SecurityConfig extends ServiceConfig {
      *
      * @throws Exception Global configuration error
      */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) {
 
       AUTHENTICATION_MODE mode = AUTHENTICATION_MODE.fromValue(authenticationProviderSource);
       mode = mode == null ? AUTHENTICATION_MODE.BBDD : mode;
 
       switch (mode) {
-        case LDAP:
-          auth.authenticationProvider(ldapAuthenticationProvider());
-          break;
-
         case CUSTOM:
           // Custom authentication bean
           for (String provider : authenticationProviders) {
@@ -242,16 +235,56 @@ public class SecurityConfig extends ServiceConfig {
           }
           break;
 
+        case LDAP:
         case BBDD:
         default:
-          auth.jdbcAuthentication()
-            .dataSource(getBean(DataSource.class))
-            .usersByUsernameQuery(userDetailsQuery)
-            .passwordEncoder(new Ripemd160PasswordEncoder())
-            .authoritiesByUsernameQuery(userRolesQuery)
-            .rolePrefix(rolePrefix);
+          auth.authenticationProvider(getBean(AuthenticationProvider.class));
           break;
       }
+    }
+
+    /**
+     * Initialize request
+     * @param request Request
+     */
+    private void initRequest(HttpServletRequest request)  {
+      String body = "{}";
+      if (request instanceof AweHttpServletRequestWrapper) {
+        body = ((AweHttpServletRequestWrapper) request).getBody();
+      }
+      String token = request.getHeader(AweConstants.SESSION_CONNECTION_HEADER);
+      try {
+        // Read the parameters
+        ObjectNode parameters = (ObjectNode) new ObjectMapper().readTree(body);
+        getRequest().init(parameters, token);
+      } catch (IOException exc) {
+        getRequest().init(JsonNodeFactory.instance.objectNode(), token);
+      }
+    }
+
+    /**
+     * Username and password authentication filter
+     * @return Json Authentication filter
+     */
+    @Bean
+    public JsonAuthenticationFilter authenticationFilter() {
+      JsonAuthenticationFilter authenticationFilter = new JsonAuthenticationFilter(elements);
+      authenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/action/login","POST"));
+      authenticationFilter.setUsernameParameter(usernameParameter);
+      authenticationFilter.setPasswordParameter(passwordParameter);
+      authenticationFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
+        // Initialize parameters
+        initRequest(request);
+        aweSessionDetails.onLoginSuccess(authentication);
+        request.getRequestDispatcher("/action/loginRedirect").forward(request, response);
+      });
+      authenticationFilter.setAuthenticationFailureHandler((request, response, authenticationException) -> {
+        // Initialize parameters
+        initRequest(request);
+        aweSessionDetails.onLoginFailure(authenticationException);
+        request.getRequestDispatcher("/action/loginRedirect").forward(request, response);
+      });
+      return authenticationFilter;
     }
 
     /**
@@ -260,12 +293,12 @@ public class SecurityConfig extends ServiceConfig {
      * @return LdapAuthenticationProvider
      */
     @Bean
-    @ConditionalOnMissingBean
-    public LdapAuthenticationProvider ldapAuthenticationProvider() {
+    @ConditionalOnProperty(name = "security.auth.mode", havingValue = "ldap")
+    public AuthenticationProvider ldapAuthenticationProvider() {
 
       // Bind authenticator with search filter
       final BindAuthenticator bindAuthenticator = new BindAuthenticator(getBean(LdapContextSource.class));
-      bindAuthenticator.setUserSearch(new FilterBasedLdapUserSearch("", "(" + ldapUserFilter + ")", contextSource()));
+      bindAuthenticator.setUserSearch(new FilterBasedLdapUserSearch("", "(" + ldapUserFilter + ")", getBean(LdapContextSource.class)));
 
       // Ldap provider
       final LdapAuthenticationProvider ldapAuthenticationProvider = new LdapAuthenticationProvider(bindAuthenticator);
@@ -276,6 +309,45 @@ public class SecurityConfig extends ServiceConfig {
     }
 
     /**
+     * Configure DAO authentication provider
+     *
+     * @param userDetailsService
+     * @return DaoAuthenticationProvider
+     */
+    @Bean
+    @ConditionalOnProperty(name = "security.auth.mode", havingValue = "bbdd")
+    public AuthenticationProvider daoAuthenticationProvider(UserDetailsService userDetailsService) {
+      DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+      daoAuthenticationProvider.setPasswordEncoder(new Ripemd160PasswordEncoder());
+      daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+      daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
+      return daoAuthenticationProvider;
+    }
+
+    /**
+     * Configure User detail service
+     * @param userDAO User DAO
+     * @return User detail service
+     */
+    @Bean
+    @ConditionalOnProperty(name = "security.auth.mode", havingValue = "bbdd")
+    public UserDetailsService aweUserDetailsService(UserDAO userDAO) {
+      return new AweUserDetailService(userDAO);
+    }
+
+    /**
+     * Configure User detail service
+     *
+     * @param queryService Query service
+     * @return UserDetailService
+     */
+    @Bean
+    @ConditionalOnProperty(name = "security.auth.mode", havingValue = "bbdd")
+    public UserDAO userDAO(QueryService queryService) {
+      return new UserDAOImpl(queryService);
+    }
+
+    /**
      * Spring context source for ldap connection
      *
      * @return Ldap context
@@ -283,8 +355,13 @@ public class SecurityConfig extends ServiceConfig {
     @Bean
     @ConditionalOnMissingBean
     public LdapContextSource contextSource() {
+      // Environment properties
+      Map<String,Object> environmentProperties = Collections.synchronizedMap(new HashMap<>());
+      environmentProperties.put("com.sun.jndi.ldap.connect.timeout", ldapConnectTimeout);
+
       LdapContextSource ldapContextSource = new LdapContextSource();
-      ldapContextSource.setUrls(ldapUrl);
+      ldapContextSource.setBaseEnvironmentProperties(environmentProperties);
+      ldapContextSource.setUrls(ldapUrl.toArray(new String[0]));
       ldapContextSource.setBase(ldapBaseDN);
       ldapContextSource.setUserDn(ldapUserDN);
       ldapContextSource.setPassword(ldapPassword);
@@ -307,12 +384,14 @@ public class SecurityConfig extends ServiceConfig {
 
   /**
    * Jasypt string encryptor to encrypt/decrypt properties
+   * @param masterKey Master key
    * @param encryptorConfig Encryptor configuration
    * @return String encryptor bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public StringEncryptor jasyptStringEncryptor(SimpleStringPBEConfig encryptorConfig) {
+  public StringEncryptor jasyptStringEncryptor(@Value("${security.master.key:fdvsd4@sdsa08}") String masterKey,
+                                               SimpleStringPBEConfig encryptorConfig) {
     PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
     SimpleStringPBEConfig config = encryptorConfig;
     config.setPassword(masterKey);

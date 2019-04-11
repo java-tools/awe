@@ -5,7 +5,7 @@ FROM openjdk:8-jdk-alpine
 LABEL maintainer="pablo.vidal@almis.com"
 
 # Copy the current directory contents into the container at /app
-ADD target/awe-boot.jar awe-boot.jar
+ADD target/awe-boot.war awe-boot.war
 
 # Volume of app logs
 VOLUME /logs
@@ -14,6 +14,6 @@ VOLUME /logs
 VOLUME /tmp
 
 # Execute jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-jar","/awe-boot.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-jar","/awe-boot.war"]
 
 

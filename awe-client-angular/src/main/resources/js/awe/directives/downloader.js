@@ -1,10 +1,10 @@
 import { aweApplication } from "./../awe";
+import download from "downloadjs";
 
 // Downloader directive
 aweApplication.directive('downloader',
-  ['AweUtilities', 'LoadingBar', 'AweSettings', 'Connection',
-    function (Utilities, LoadingBar, $settings, $connection) {
-
+  ['AweUtilities', 'LoadingBar', 'AweSettings', '$http',
+    function ($utilities, LoadingBar, $settings, $http) {
       return {
         scope: {
           file: '=',
@@ -19,12 +19,12 @@ aweApplication.directive('downloader',
            * On file downloaded
            * @returns {undefined}
            */
-          var onSuccess = function () {
+          let onSuccess = function () {
             // End loading bar task
             LoadingBar.endTask();
 
             if (scope.onLoad) {
-              Utilities.timeout(function () {
+              $utilities.timeout(function () {
                 scope.onLoad(scope.file);
               });
             }
@@ -34,28 +34,35 @@ aweApplication.directive('downloader',
            * On file download failed
            * @returns {undefined}
            */
-          var onFail = function () {
+          let onFail = function () {
             // End loading bar task
             LoadingBar.endTask();
 
             if (scope.onFail) {
-              Utilities.timeout(function () {
+              $utilities.timeout(function () {
                 scope.onFail(scope.file);
               });
             }
           };
 
           // Download the file
-          var data = scope.file.data || {};
-          data[$settings.get("downloadIdentifier")] = scope.file.index;
+          let data = {
+            ...scope.file.data,
+            d: scope.file.index,
+            token: $settings.getToken()
+          };
+
           scope.file.data = data;
-          var deferred = $.fileDownload(scope.file.url, {
-            httpMethod: "POST",
-            data: $connection.serializeParameters(data),
-            container: element,
-            abortCallback: onSuccess,
-            failCallback: onFail
-          });
+
+          $http({
+            method: 'POST',
+            url: scope.file.url,
+            data: data,
+            responseType: 'arraybuffer'
+          }).success((data, status, headers)  => {
+            download(new Blob([data], {type:headers("Content-Type")}), headers("Filename"), headers("Content-Type"));
+            onSuccess();
+          }).error(onFail);
 
           // On file downloaded, abort the promise
           scope.$on("/action/file-downloaded/" + scope.file.index, function (event, action) {

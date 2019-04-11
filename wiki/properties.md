@@ -1,4 +1,4 @@
-### Almis Web Engine - **[Configuration](configuration-guide.md)**
+Almis Web Engine > **[Configuration](configuration-guide.md)**
 
 ---
 
@@ -256,6 +256,18 @@ awe.jms.enable=false
 awe.jms.service.timeout=10000
 # Default Jms Service timeToLive
 awe.jms.message.time.to.live=0
+
+################################################
+# Logger properties
+################################################
+# Base paths where logs will be defined
+application.log.base.path=/logs
+# Default level for custom user file logs
+application.log.users.level=info
+# Flag to activate custom user file logs (true | false)
+application.log.users.enabled=true
+# Flag to build log path within system user home directory (true | false)
+application.log.users.home=false
 ```
 
 ## Library properties
@@ -637,16 +649,6 @@ Defined on `log4j2-app.properties` file.
 Here you can define the log properties
 
 ```properties
-###############################################
-# User log
-###############################################
-# Flag to activate custom user file logs (true | false)
-log.users.enabled=true
-# Flag to build log path with system user home directory (true | false)
-application.log.user.home=false
-# Default level for custom user file logs
-log.default.level=info
-
 ###############################################
 # Log4j2 properties
 ###############################################

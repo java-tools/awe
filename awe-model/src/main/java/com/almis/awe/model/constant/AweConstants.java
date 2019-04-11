@@ -146,6 +146,7 @@ public class AweConstants {
   public static final String SESSION_LANGUAGE = "language";
   public static final String SESSION_INITIAL_SCREEN = "initialScreen";
   public static final String SESSION_LAST_SCREEN = "lastScreen";
+  public static final String SESSION_STORE_SCREEN_CRITERIA = "storeScreenCriteria";
   public static final String SESSION_CURRENT_SCREEN = "currentScreen";
   public static final String SESSION_KEEP_CRITERIA_HEADER = "keepCriteria-";
   public static final String SESSION_INITIAL_URL = "initialURL";
@@ -155,7 +156,10 @@ public class AweConstants {
   public static final String SESSION_PROFILE = "profile";
   public static final String SESSION_RESTRICTION = "restriction";
   public static final String SESSION_FAILURE = "sessionFailure";
+  public static final String SESSION_CONNECTION_TOKEN = "token";
   public static final String SESSION_TOKEN = "sessionToken";
+  public static final String SESSION_CONNECTION_HEADER = "Authorization";
+  public static final String SESSION_USER_DETAILS = "userDetails";
 
   // Action variables
   public static final String ACTION_MESSAGE_TYPE = "MESSAGE_TYPE";
@@ -177,15 +181,7 @@ public class AweConstants {
   public static final String ACTION_FILE_TYPE = "FILE_TYPE";
 
   // User parameters
-  public static final String USER_FULLNAME = "fullname";
-  public static final String USER_LANGUAGE = "language";
   public static final String USER_PROFILE = "profile";
-  public static final String USER_THEME = "userTheme";
-  public static final String PROFILE_THEME = "profileTheme";
-  public static final String USER_INITIAL_SCREEN = "userInitialScreen";
-  public static final String PROFILE_INITIAL_SCREEN = "profileInitialScreen";
-  public static final String USER_RESTRICTION = "userRestriction";
-  public static final String PROFILE_RESTRICTION = "profileRestriction";
 
   // Application parameters
   public static final String AWE_DATABASE_PROPERTIES = "aweDatabaseProperties";

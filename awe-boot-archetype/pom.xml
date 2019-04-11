@@ -6,9 +6,9 @@
 
   <parent>
     <groupId>com.almis.awe</groupId>
-    <artifactId>awe-framework</artifactId>
-    <version>4.0.5</version>
-    <relativePath>../awe-framework/pom.xml</relativePath>
+    <artifactId>awe-parent</artifactId>
+    <version>4.0.6</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>awe-boot-archetype</artifactId>
@@ -35,6 +35,10 @@
     </developer>
   </developers>
 
+  <properties>
+    <sonar.exclusions>src/**</sonar.exclusions>
+  </properties>
+
   <build>
     <extensions>
       <extension>
@@ -44,26 +48,6 @@
       </extension>
     </extensions>
 
-    <!-- Plugins -->
-    <plugins>
-      <!-- Filter root POM to replace project version -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <configuration>
-          <encoding>UTF-8</encoding>
-          <escapeString>\</escapeString>
-        </configuration>
-      </plugin>
-      <!-- Skip deploy -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-    </plugins>
     <resources>
       <resource>
         <directory>src/main/resources</directory>

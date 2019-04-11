@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -75,13 +76,15 @@ public class SeleniumUtilities {
   @Value("${screenshot.path}")
   private String screenshotPath;
 
-  // Browser
+  @Value("${failsafe.browser:headless-chrome}")
   private String browser;
 
-  @Value("${failsafe.browser:headless-chrome}")
-  public void setBrowser(String browser) {
+  /**
+   * Set up test
+   */
+  @Before
+  public void setUpTest() {
     if (getDriver() == null) {
-      this.browser = browser;
       switch (browser) {
         case "firefox":
           WebDriverManager.firefoxdriver().setup();
@@ -125,11 +128,11 @@ public class SeleniumUtilities {
           setDriver(new ChromeDriver());
           break;
       }
-    }
 
-    // Set dimension if defined
-    if (browserWidth != null && browserHeight != null) {
-      driver.manage().window().setSize(new Dimension(browserWidth, browserHeight));
+      // Set dimension if defined
+      if (browserWidth != null && browserHeight != null) {
+        driver.manage().window().setSize(new Dimension(browserWidth, browserHeight));
+      }
     }
   }
 
@@ -802,6 +805,20 @@ public class SeleniumUtilities {
 
     // Wait for loading bar
     waitForLoadingBar();
+  }
+
+  /**
+   * Wait for css selector
+   * @param cssSelector
+   */
+  protected By waitForCssSelector(String cssSelector) {
+    By selector = By.cssSelector(cssSelector);
+
+    // Wait for selector
+    waitForSelector(selector);
+
+    // Return selector
+    return selector;
   }
 
   /**
@@ -1619,7 +1636,8 @@ public class SeleniumUtilities {
    * @param text Text to compare
    */
   protected void checkText(String cssSelector, String text) {
-    checkText(By.cssSelector(cssSelector), text);
+    // Check selector text
+    checkText(waitForCssSelector(cssSelector), text);
   }
 
   /**
@@ -1628,7 +1646,8 @@ public class SeleniumUtilities {
    * @param text Text to compare
    */
   protected void checkTextContains(String cssSelector, String text) {
-    checkTextContains(By.cssSelector(cssSelector), text);
+    // Check selector text
+    checkTextContains(waitForCssSelector(cssSelector), text);
   }
 
   /**
@@ -1637,7 +1656,7 @@ public class SeleniumUtilities {
    * @param text Text to compare
    */
   protected void checkTextNotContains(String cssSelector, String text) {
-    checkTextNotContains(By.cssSelector(cssSelector), text);
+    checkTextNotContains(waitForCssSelector(cssSelector), text);
   }
 
   /**
@@ -1830,7 +1849,7 @@ public class SeleniumUtilities {
   protected void checkLogin(String username, String password, String cssSelector, String checkText) {
     assertNotNull(driver);
 
-    logger.log(Level.INFO, "Launching tests with '" + browser + "' browser");
+    logger.log(Level.INFO, "Launching tests with '" + browser + "' browser: " + startURL);
 
     // Set driver timeout
     driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);

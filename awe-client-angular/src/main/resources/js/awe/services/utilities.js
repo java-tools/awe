@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import { getUID } from "../data/options";
 import _ from 'lodash';
 
 // Utilities service
@@ -151,14 +152,7 @@ aweApplication.factory('AweUtilities',
          * @param {Integer} char_numbers Number of characters of the new UID
          * @return {String} UID generated
          */
-        getUID: function () {
-          function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-              .toString(16)
-              .substring(1);
-          }
-          return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-        },
+        getUID: getUID,
         /**
          * Capitalizes a string
          * @public
@@ -380,16 +374,6 @@ aweApplication.factory('AweUtilities',
             booleanValue = true;
           }
           return booleanValue;
-        },
-        /**
-         * Encode parameters
-         * @param {Object} parameters Parameter map
-         * @param {boolean} encode Encode parameters
-         * @returns {String} Parameter list
-         */
-        encodeParameters: function (parameters, encode) {
-          var parameterString = Utilities.stringifyJSON(parameters);
-          return encode ? Utilities.encodeSymetric(parameterString) : parameterString;
         },
         /**
          * Decode data
@@ -894,6 +878,15 @@ aweApplication.factory('AweUtilities',
          */
         getContextPath: function() {
           return $location.absUrl().substr(0, $location.absUrl().lastIndexOf($location.path()));
+        },
+        /**
+         * Check if both url's are the same regardless the parameters
+         * @return Context path
+         */
+        sameUrl: function(url1, url2) {
+          let firstUrl = url1 || "";
+          let secondUrl = url2 || "";
+          return firstUrl.split("?")[0] === secondUrl.split("?")[0];
         },
         /**
          * Retrieve application context path
