@@ -516,25 +516,4 @@ public class AweAutoConfiguration {
   public ServiceBuilder serviceBuilder(LauncherService launcherService, QueryUtil queryUtil) {
     return new ServiceBuilder(launcherService, queryUtil);
   }
-
-  /////////////////////////////////////////////
-  // TOMCAT CONFIGURATION
-  /////////////////////////////////////////////
-
-  /**
-   * Append custom cookie processor for embedded tomcat, the new version doesn't support spaces on cookies.
-   * @return Container customizer
-   */
-  @Bean
-  @ConditionalOnWebApplication
-  @ConditionalOnMissingBean
-  public EmbeddedServletContainerCustomizer customizer() {
-    return container -> {
-      if (container instanceof TomcatEmbeddedServletContainerFactory) {
-        TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
-        TomcatContextCustomizer customizer = tomcatContext -> tomcatContext.setCookieProcessor(new LegacyCookieProcessor());
-        tomcat.addContextCustomizers(customizer);
-      }
-    };
-  }
 }
