@@ -27,7 +27,8 @@ import org.junit.runners.Suite;
   FileServiceTest.class,
   UploadControllerTest.class,
   TagListTest.class,
-  DateUtilTest.class
+  DateUtilTest.class,
+  UserServiceTest.class
 })
 @RunWith(Suite.class)
 public class AllTestsSuite {
