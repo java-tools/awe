@@ -15,6 +15,7 @@
 
   <properties>
     <!-- Project versions -->
+    <revision>4.0.6-SNAPSHOT</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
@@ -58,7 +59,7 @@
     <maven-failsafe-plugin.version>2.18.1</maven-failsafe-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-    <gitflow-maven-plugin.version>1.11.0</gitflow-maven-plugin.version>
+    <gitflow-maven-plugin.version>1.12.1-SNAPSHOT</gitflow-maven-plugin.version>
     <skip.selenium>true</skip.selenium>
     <skip.javadoc>true</skip.javadoc>
     <skip.main>false</skip.main>
@@ -134,6 +135,7 @@
         <artifactId>gitflow-maven-plugin</artifactId>
         <version>${gitflow-maven-plugin.version}</version>
         <configuration>
+          <propertyUpdate>revision</propertyUpdate>
           <gitFlowConfig>
             <productionBranch>master</productionBranch>
             <developmentBranch>develop</developmentBranch>
