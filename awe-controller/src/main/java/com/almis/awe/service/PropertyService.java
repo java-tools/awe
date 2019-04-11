@@ -45,7 +45,7 @@ public class PropertyService extends ServiceConfig {
    * Generate application properties
    * @return Service data
    */
-  ServiceData refreshDatabaseProperties() {
+  public ServiceData refreshDatabaseProperties() {
     ServiceData serviceData = new ServiceData();
 
     // Retrieve properties from database if database is enabled

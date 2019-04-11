@@ -2,6 +2,8 @@ package com.almis.awe.autoconfigure;
 
 import com.almis.awe.component.AweHttpServletRequestWrapper;
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.dao.UserDAO;
+import com.almis.awe.dao.UserDAOImpl;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.util.log.LogUtil;
@@ -10,6 +12,8 @@ import com.almis.awe.security.authentication.encoder.Ripemd160PasswordEncoder;
 import com.almis.awe.security.authentication.filter.JsonAuthenticationFilter;
 import com.almis.awe.service.AccessService;
 import com.almis.awe.service.MenuService;
+import com.almis.awe.service.QueryService;
+import com.almis.awe.service.user.AweUserDetailService;
 import com.almis.awe.session.AweSessionDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -27,11 +31,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.ldap.authentication.BindAuthenticator;
 import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
 import org.springframework.security.ldap.search.FilterBasedLdapUserSearch;
@@ -39,9 +45,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Spring security main configuration method
@@ -152,6 +160,9 @@ public class SecurityConfig extends ServiceConfig {
   @Value ("${security.auth.ldap.basedn:}")
   private String ldapBaseDN;
 
+  @Value ("${security.auth.ldap.timeout:}")
+  private String ldapConnectTimeout;
+
   @Value ("${security.headers.frameOptions.sameOrigin:true}")
   private boolean sameOrigin;
 
@@ -204,16 +215,12 @@ public class SecurityConfig extends ServiceConfig {
      * @throws Exception Global configuration error
      */
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
 
       AUTHENTICATION_MODE mode = AUTHENTICATION_MODE.fromValue(authenticationProviderSource);
       mode = mode == null ? AUTHENTICATION_MODE.BBDD : mode;
 
       switch (mode) {
-        case LDAP:
-          auth.authenticationProvider(getBean(LdapAuthenticationProvider.class));
-          break;
-
         case CUSTOM:
           // Custom authentication bean
           for (String provider : authenticationProviders) {
@@ -228,14 +235,10 @@ public class SecurityConfig extends ServiceConfig {
           }
           break;
 
+        case LDAP:
         case BBDD:
         default:
-          auth.jdbcAuthentication()
-            .dataSource(getBean(DataSource.class))
-            .usersByUsernameQuery(userDetailsQuery)
-            .passwordEncoder(new Ripemd160PasswordEncoder())
-            .authoritiesByUsernameQuery(userRolesQuery)
-            .rolePrefix(rolePrefix);
+          auth.authenticationProvider(getBean(AuthenticationProvider.class));
           break;
       }
     }
@@ -306,6 +309,45 @@ public class SecurityConfig extends ServiceConfig {
     }
 
     /**
+     * Configure DAO authentication provider
+     *
+     * @param userDetailsService
+     * @return DaoAuthenticationProvider
+     */
+    @Bean
+    @ConditionalOnProperty(name = "security.auth.mode", havingValue = "bbdd")
+    public AuthenticationProvider daoAuthenticationProvider(UserDetailsService userDetailsService) {
+      DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+      daoAuthenticationProvider.setPasswordEncoder(new Ripemd160PasswordEncoder());
+      daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+      daoAuthenticationProvider.setHideUserNotFoundExceptions(false);
+      return daoAuthenticationProvider;
+    }
+
+    /**
+     * Configure User detail service
+     * @param userDAO User DAO
+     * @return User detail service
+     */
+    @Bean
+    @ConditionalOnProperty(name = "security.auth.mode", havingValue = "bbdd")
+    public UserDetailsService aweUserDetailsService(UserDAO userDAO) {
+      return new AweUserDetailService(userDAO);
+    }
+
+    /**
+     * Configure User detail service
+     *
+     * @param queryService Query service
+     * @return UserDetailService
+     */
+    @Bean
+    @ConditionalOnProperty(name = "security.auth.mode", havingValue = "bbdd")
+    public UserDAO userDAO(QueryService queryService) {
+      return new UserDAOImpl(queryService);
+    }
+
+    /**
      * Spring context source for ldap connection
      *
      * @return Ldap context
@@ -313,7 +355,12 @@ public class SecurityConfig extends ServiceConfig {
     @Bean
     @ConditionalOnMissingBean
     public LdapContextSource contextSource() {
+      // Environment properties
+      Map<String,Object> environmentProperties = Collections.synchronizedMap(new HashMap<>());
+      environmentProperties.put("com.sun.jndi.ldap.connect.timeout", ldapConnectTimeout);
+
       LdapContextSource ldapContextSource = new LdapContextSource();
+      ldapContextSource.setBaseEnvironmentProperties(environmentProperties);
       ldapContextSource.setUrls(ldapUrl.toArray(new String[0]));
       ldapContextSource.setBase(ldapBaseDN);
       ldapContextSource.setUserDn(ldapUserDN);

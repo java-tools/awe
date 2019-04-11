@@ -875,8 +875,20 @@ public class AweElements {
   }
 
   /**
+   * Retrieve a property value reading as a class
+   *
+   * @param propertyIdentifier Property identifier
+   * @param tClass Class to read the property value
+   * @return Selected locale
+   */
+  public<T> T getProperty(String propertyIdentifier, Class<T> tClass) {
+    return environment.getProperty(propertyIdentifier, tClass);
+  }
+
+  /**
    * Retrieve a property value
    *
+   * @param <T> Return value class
    * @param propertyIdentifier Property identifier
    * @param defaultValue       Default value
    * @return Selected locale

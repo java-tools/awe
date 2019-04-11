@@ -1849,7 +1849,7 @@ public class SeleniumUtilities {
   protected void checkLogin(String username, String password, String cssSelector, String checkText) {
     assertNotNull(driver);
 
-    logger.log(Level.INFO, "Launching tests with '" + browser + "' browser");
+    logger.log(Level.INFO, "Launching tests with '" + browser + "' browser: " + startURL);
 
     // Set driver timeout
     driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);

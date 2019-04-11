@@ -445,7 +445,7 @@
   <locale name="ERROR_MESSAGE_INITIALIZING_JASPER" value="There has been a problem launching document engine initialization"/>
   <locale name="ERROR_MESSAGE_INVALID_ARGUMENTS" value="Les arguments introduits sont invalides"/>
   <locale name="ERROR_MESSAGE_INVALID_CONNECTION" value="Probleme a la connexion"/>
-  <locale name="ERROR_MESSAGE_INVALID_CREDENTIALS" value="Les informations d&apos;identification saisies par l&apos;utilisateur -{0}- ne sont pas valides ou l&apos;utilisateur est incorrect"/>
+  <locale name="ERROR_MESSAGE_INVALID_CREDENTIALS" value="Les informations d&apos;identification saisies par l&apos;utilisateur -{0}- ne sont pas valides"/>
   <locale name="ERROR_MESSAGE_INVALID_DATABASE_ARGUMENTS" value="The selected arguments of database connections are no valid. [Type:{0}, Alias:{1}, Url: {2}]"/>
   <locale name="ERROR_MESSAGE_INVALID_DATASOURCE" value="La source de données sélectionnée n&apos;existe pas: {0}"/>
   <locale name="ERROR_MESSAGE_INVALID_PASSWORD" value="Mot de passe incorrect pour l&apos;utilissateur {0}"/>

@@ -235,7 +235,10 @@ public class RegressionTestsIT extends SeleniumUtilities {
     checkLogout(".slogan", "Almis Web Engine");
 
     // Check wrong login
-    checkLogin("test", "lala", ".alert.alert-warning div", "Invalid credentials  The credentials entered for the user -test- are not valid or the user is incorrect");
+    checkLogin("test", "lala", ".alert.alert-warning div", "Invalid credentials  The credentials entered for the user -test- are not valid");
+
+    // Check wrong login
+    checkLogin("tutu", "lala", ".alert.alert-warning div", "Wrong username  Username -tutu- is wrong or inactive");
 
     // Do right login
     checkLogin("test", "test", "span.info-text", "Manager (test)");

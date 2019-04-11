@@ -66,7 +66,6 @@ public class AccessService extends ServiceConfig {
 
     // Something failed
     if (exc != null) {
-      // TODO: Chequear password caducado
       session.setParameter(SESSION_FAILURE, null);
       exc.setType(AnswerType.WARNING);
       throw exc;

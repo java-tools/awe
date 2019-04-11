@@ -108,23 +108,23 @@ public abstract class ServiceConfig implements ApplicationContextAware {
   }
 
   /**
-   * Retrieve propertu
+   * Retrieve property
    * @param property Property identifier
    * @return Property value
    */
   public String getProperty(String property) {
-    return context.getEnvironment().getProperty(property);
+    return getElements().getProperty(property);
   }
 
   /**
-   * Retrieve propertu
+   * Retrieve property of a determined class
    * @param <T> Return value class
    * @param property Property identifier
    * @param clazz Property class
    * @return Property value
    */
   public <T> T getProperty(String property, Class<T> clazz) {
-    return context.getEnvironment().getProperty(property, clazz);
+    return getElements().getProperty(property, clazz);
   }
 
   /**
