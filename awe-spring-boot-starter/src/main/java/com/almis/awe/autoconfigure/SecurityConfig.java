@@ -214,8 +214,8 @@ public class SecurityConfig extends ServiceConfig {
      *
      * @throws Exception Global configuration error
      */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) {
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) {
 
       AUTHENTICATION_MODE mode = AUTHENTICATION_MODE.fromValue(authenticationProviderSource);
       mode = mode == null ? AUTHENTICATION_MODE.BBDD : mode;
