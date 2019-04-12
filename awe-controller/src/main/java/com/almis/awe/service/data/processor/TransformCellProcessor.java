@@ -259,15 +259,15 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
   }
 
   /**
-   * Process cell as javascript date
+   * Process cell as rdb date
    * @param cell Cell
    * @return Transformation
    */
   private String processRDBDate(@NotNull CellData cell) {
     String transformed = cell.getStringValue();
-    String date = cell.getStringValue();
+    Date date = cell.getDateValue();
     if (date != null) {
-      transformed = DateUtil.rdbDate2Web(date);
+      transformed = DateUtil.rdbDate2String(date);
       cell.setValue(transformed);      
     }
     return transformed;

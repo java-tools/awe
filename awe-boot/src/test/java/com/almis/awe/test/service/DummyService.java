@@ -279,4 +279,35 @@ public class DummyService extends ServiceConfig {
 
     return serviceData;
   }
+
+  /**
+   * Returns the system date
+   *
+   * @return Service Data
+   */
+  public ServiceData getDateList() {
+
+    ServiceData serviceData = new ServiceData();
+    try {
+      // Generate date
+      List<Date> dates = new ArrayList<>();
+      DateFormat df = new SimpleDateFormat("mm/dd/yyyy HH:mm:ss.S");
+      dates.add(df.parse("23/10/1978 15:06:23.232"));
+      dates.add(df.parse("11/02/2015 03:30:12.123"));
+      dates.add(df.parse("01/08/2020 13:26:55.111"));
+
+      // Get system version
+      serviceData.setDataList(new DataList());
+      DataListUtil.addColumn(serviceData.getDataList(), "date1", dates, "DATE");
+      DataListUtil.addColumn(serviceData.getDataList(), "date2", dates, "DATE");
+      DataListUtil.addColumn(serviceData.getDataList(), "date3", dates, "DATE");
+      DataListUtil.addColumn(serviceData.getDataList(), "date4", dates, "DATE");
+      DataListUtil.addColumn(serviceData.getDataList(), "date5", dates, "DATE");
+      DataListUtil.addColumn(serviceData.getDataList(), "date6", dates, "DATE");
+      DataListUtil.addColumn(serviceData.getDataList(), "date7", dates, "DATE");
+    } catch (Exception exc) {
+    }
+
+    return serviceData;
+  }
 }

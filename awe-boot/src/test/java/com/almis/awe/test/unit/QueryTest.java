@@ -1397,6 +1397,21 @@ public class QueryTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
+  public void testDatabaseTransformDateService() throws Exception {
+    String queryName = "TransformDateService";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"date7\":\"15:06:23\",\"date6\":\"10/01/1978 15:06:23\",\"date5\":\"01/10/1978\",\"date4\":\"01/10/1978 15:06:23\",\"date3\":\"10-JAN-1978\",\"id\":1,\"date1\":\"10/01/1978\"},{\"date7\":\"03:30:12\",\"date6\":\"02/01/2015 03:30:12\",\"date5\":\"01/02/2015\",\"date4\":\"01/02/2015 03:30:12\",\"date3\":\"02-JAN-2015\",\"id\":2,\"date1\":\"02/01/2015\"},{\"date7\":\"13:26:55\",\"date6\":\"08/01/2020 13:26:55\",\"date5\":\"01/08/2020\",\"date4\":\"01/08/2020 13:26:55\",\"date3\":\"08-JAN-2020\",\"id\":3,\"date1\":\"08/01/2020\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertQueryResultJson(queryName, result, 3);
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
   public void testDatabaseTransformDateJavascript() throws Exception {
     String queryName = "TransformJavascriptDate";
     String variables = "";
@@ -1464,9 +1479,10 @@ public class QueryTest extends TestUtil {
   public void testDatabaseTransformDateRDB() throws Exception {
     String queryName = "TransformDateRDB";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"RDB\":null,\"fecha\":\"\",\"id\":3},{\"RDB\":null,\"fecha\":\"\",\"id\":2},{\"RDB\":\"04-Nov-2013\",\"fecha\":\"04/11/2013\",\"id\":5},{\"RDB\":null,\"fecha\":\"\",\"id\":4},{\"RDB\":\"23-Oct-2013\",\"fecha\":\"23/10/2013\",\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"fecha\":\"23-OCT-2013\",\"id\":1},{\"fecha\":null,\"id\":2},{\"fecha\":null,\"id\":3},{\"fecha\":null,\"id\":4},{\"fecha\":\"04-NOV-2013\",\"id\":5}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequestWithoutCheckExpected(queryName, variables, DATABASE);
+    logger.warn(result);
     assertQueryResultJson(queryName, result, 5);
 
     ArrayNode expectedList = (ArrayNode) objectMapper.readTree(expected);
@@ -1480,13 +1496,13 @@ public class QueryTest extends TestUtil {
     ObjectNode resultDatalist = (ObjectNode) resultParameters.get("datalist");
     ArrayNode expectedRows = (ArrayNode) expectedDatalist.get("rows");
     ArrayNode resultRows = (ArrayNode) resultDatalist.get("rows");
-    ObjectNode expectedRow1 = (ObjectNode) expectedRows.get(2);
-    ObjectNode resultRow1 = (ObjectNode) resultRows.get(4);
+    ObjectNode expectedRow1 = (ObjectNode) expectedRows.get(0);
+    ObjectNode resultRow1 = (ObjectNode) resultRows.get(0);
     ObjectNode expectedRow2 = (ObjectNode) expectedRows.get(4);
-    ObjectNode resultRow2 = (ObjectNode) resultRows.get(0);
+    ObjectNode resultRow2 = (ObjectNode) resultRows.get(4);
 
-    assertEquals(expectedRow1.get("RDB").textValue().toUpperCase(), resultRow1.get("RDB").textValue().toUpperCase());
-    assertEquals(expectedRow2.get("RDB").textValue().toUpperCase(), resultRow2.get("RDB").textValue().toUpperCase());
+    assertEquals(expectedRow1.get("fecha").textValue().toUpperCase(), resultRow1.get("fecha").textValue().toUpperCase());
+    assertEquals(expectedRow2.get("fecha").textValue().toUpperCase(), resultRow2.get("fecha").textValue().toUpperCase());
   }
 
   /**

@@ -20,6 +20,10 @@
     <java classname="com.almis.awe.test.service.DummyService" method="getDate" />
   </service>
 
+  <service id="getDateList">
+    <java classname="com.almis.awe.test.service.DummyService" method="getDateList" />
+  </service>
+
   <service id="returnDatalistNoParams">
     <java classname="com.almis.awe.test.service.DummyService" method="returnDatalistNoParams">
     </java>
