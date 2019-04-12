@@ -28,6 +28,9 @@
         </div>
         <div class="hidden-xs col-sm-4 text-right pagination-content">
           {{component.paginationText}}
+          <div ng-if="::controller.pagerValues.length" class="pagination-pager">
+            <select class="grid-pager input input-group-{{::size}}" ng-options="value as value for value in controller.pagerValues" ng-model="controller.max" ng-change="component.updateRowsByPage()"></select>
+          </div>
         </div>
       </div>
       <div class="col-xs-12 pagination-content text-right" ng-if="model.records > 0 && !component.bigGrid">

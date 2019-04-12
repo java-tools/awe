@@ -1,6 +1,3 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.util.data;
 
 /*

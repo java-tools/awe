@@ -495,6 +495,17 @@
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
+  <query id="TransformDateService" service="getDateList">
+    <field id="date1" alias="date1" transform="DATE" />
+    <field id="date2" alias="date2" transform="DATE_MS" />
+    <field id="date3" alias="date3" transform="DATE_RDB" />
+    <field id="date4" alias="date4" transform="JS_TIMESTAMP" />
+    <field id="date5" alias="date5" transform="JS_DATE" />
+    <field id="date6" alias="date6" transform="TIMESTAMP" />
+    <field id="date7" alias="date7" transform="TIME" />
+    <order-by field="date2" type="DESC"/>
+  </query>
+
   <query id="TransformJavascriptDate">
     <table id="ope" />
     <field id="l1_psd" alias="fecha" transform="JS_DATE" />
@@ -515,8 +526,7 @@
 
   <query id="TransformDateRDB">
     <table id="ope" />
-    <field id="l1_psd" alias="RDB" transform="GENERIC_DATE" format-from="dd/MM/yyyy HH:mm:ss" format-to="dd-MMM-yyyy" />
-    <computed alias="fecha" format="[RDB]" transform="DATE_RDB" />
+    <field id="l1_psd" alias="fecha" transform="DATE_RDB"/>
     <order-by field="l1_nom" type="ASC"/>
   </query>
 

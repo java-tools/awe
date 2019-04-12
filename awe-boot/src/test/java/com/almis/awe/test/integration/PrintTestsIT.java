@@ -4,6 +4,11 @@ import com.almis.awe.testing.utilities.SeleniumUtilities;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+
+import static org.junit.Assert.assertEquals;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PrintTestsIT extends SeleniumUtilities {
@@ -121,6 +126,11 @@ public class PrintTestsIT extends SeleniumUtilities {
 
     // Print screen
     verifyPrintScreen(false,"test", "chart", "grid-and-chart");
+
+    // Check for pager values selector
+    Select select = new Select(getDriver().findElement(By.cssSelector(".grid-pager")));
+    WebElement option = select.getFirstSelectedOption();
+    assertEquals(option.getText(), "25");
   }
 
   /**

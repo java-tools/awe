@@ -16,6 +16,7 @@ public enum AttributeRestrictionType {
   // TAG ATTRIBUTES
   STYLE("style"),
   LABEL("label"),
+  TITLE("title"),
   TYPE("type"),
   EXPAND("expand"),
   HELP("help"),
