@@ -35,7 +35,7 @@ public class UserDAOImpl extends ServiceConfig implements UserDAO {
     try {
       // Get user details from database
       getRequest().setParameter("user", userName);
-      ServiceData userData = queryService.launchQuery(AweConstants.USER_DETAIL_QUERY);
+      ServiceData userData = queryService.launchPrivateQuery(AweConstants.USER_DETAIL_QUERY);
       Map<String, CellData> userDataListMap = userData.getDataList().getRows().get(0);
       return User.
         builder().
