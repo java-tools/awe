@@ -175,7 +175,7 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
     connectionInfoMap = new HashMap<>();
     ServiceData serviceData = null;
     try {
-      serviceData = queryService.launchPrivateQuery(AweConstants.DATABASE_CONNECTIONS_QUERY);
+      serviceData = queryService.launchPrivateQuery(AweConstants.DATABASE_CONNECTIONS_QUERY, "1", "0");
     } catch (AWException exc) {
       logger.log(AweDatabaseContextHolder.class, Level.ERROR, "Error retrieving datasources from default connection", exc);
     }
