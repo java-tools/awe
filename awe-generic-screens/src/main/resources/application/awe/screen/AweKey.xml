@@ -48,7 +48,7 @@
           </dependency>
         </column>
         <column label="COLUMN_VALUE" name="KeyVal" sort-field="KeyVal" align="center" charlength="20" component="text" validation="required" />
-        <column label="PARAMETER_ACTIVE" name="Act" sort-field="Act" align="center" charlength="10" initial-load="query" component="select" validation="required" server-action="data"
+        <column label="PARAMETER_ACTIVE" name="Act" sort-field="Act" align="center" charlength="10" initial-load="enum" component="select" validation="required"
                 target-action="Es1Es0" />
         <button label="BUTTON_NEW" icon="plus-circle" id="ButGrdKeyLstAdd">
           <button-action type="add-row" target="GrdKeyLst" silent="true" />

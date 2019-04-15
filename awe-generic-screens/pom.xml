@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
     <groupId>com.almis.awe</groupId>
@@ -25,7 +26,7 @@
     <sonar.inclusions>src/main/resources/application/**</sonar.inclusions>
     <performancetest.host>localhost</performancetest.host>
     <performancetest.port>18080</performancetest.port>
-    <performancetest.path />
+    <performancetest.path/>
   </properties>
 
   <build>
@@ -49,7 +50,11 @@
     </resources>
 
     <plugins>
-
+      <!-- Xml validation -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+      </plugin>
       <!-- Copy AWE schemas -->
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
@@ -73,33 +78,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <!-- Validate XML files -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>xml-maven-plugin</artifactId>
-        <version>${plugin-xml-maven.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>validate</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <validationSets>
-            <validationSet>
-              <dir>${check.xml.directory}/${application.acronym}/</dir>
-              <excludes>
-                <exclude>templates/**</exclude>
-              </excludes>
-              <validating>true</validating>
-            </validationSet>
-          </validationSets>
-          <catalogs>
-            <catalog>${project.build.directory}/schemas/awe/catalog.xml</catalog>
-          </catalogs>
-        </configuration>
       </plugin>
     </plugins>
   </build>

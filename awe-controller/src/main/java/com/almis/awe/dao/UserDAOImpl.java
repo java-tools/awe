@@ -64,8 +64,7 @@ public class UserDAOImpl extends ServiceConfig implements UserDAO {
         loginAttempts(userDataListMap.get("loginAttempts").getIntegerValue()).
         build();
     } catch (Exception exc) {
-      throw new UsernameNotFoundException(userName);
+      throw new UsernameNotFoundException(userName, exc);
     }
   }
-
 }

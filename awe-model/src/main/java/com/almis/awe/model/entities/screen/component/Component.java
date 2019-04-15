@@ -55,7 +55,7 @@ public abstract class Component extends Element {
 
   private static final long serialVersionUID = 7408027548839969343L;
 
-  @Value("application.data.rowsPerPage:30")
+  @Value("${application.data.rowsPerPage:30}")
   String rowsPerPage;
 
   // Component name (identifier)

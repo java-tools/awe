@@ -277,6 +277,7 @@
           <artifactId>frontend-maven-plugin</artifactId>
           <version>${plugin-frontend.version}</version>
           <configuration>
+            <skip>${skip.main}</skip>
             <environmentVariables>
               <NODE_ENV>${build.environment}</NODE_ENV>
             </environmentVariables>
@@ -310,28 +311,37 @@
                 <goal>webpack</goal>
               </goals>
             </execution>
-            <execution>
-              <id>karma</id>
-              <goals>
-                <goal>karma</goal>
-              </goals>
-              <phase>test</phase>
-              <configuration>
-                <environmentVariables>
-                  <launch.edge>${karma.launch.edge}</launch.edge>
-                  <launch.gitlab>${karma.launch.gitlab}</launch.gitlab>
-                </environmentVariables>
-              </configuration>
-            </execution>
           </executions>
         </plugin>
         <!-- Xml validation -->
-        <!-- Validate XML files -->
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>xml-maven-plugin</artifactId>
           <version>${plugin-xml-maven.version}</version>
+          <executions>
+            <execution>
+              <phase>compile</phase>
+              <goals>
+                <goal>validate</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <validationSets>
+              <validationSet>
+                <dir>${check.xml.directory}/${application.acronym}/</dir>
+                <excludes>
+                  <exclude>templates/**</exclude>
+                </excludes>
+                <validating>true</validating>
+              </validationSet>
+            </validationSets>
+            <catalogs>
+              <catalog>${project.build.directory}/schemas/awe/catalog.xml</catalog>
+            </catalogs>
+          </configuration>
         </plugin>
+
         <!-- JUnit -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
