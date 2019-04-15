@@ -26,24 +26,6 @@
     <!-- Build properties -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <project.build.frontend>\${project.build.directory}/classes/static/</project.build.frontend>
-    <check.xml.directory>\${project.basedir}/src/main/resources/application/</check.xml.directory>
-    <node.version>v11.10.0</node.version>
-    <yarn.version>v1.13.0</yarn.version>
-
-    <!-- Plugin versions -->
-    <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
-    <plugin-frontend.version>1.6</plugin-frontend.version>
-    <plugin-dependency.version>3.0.2</plugin-dependency.version>
-    <plugin-compiler.version>3.5.1</plugin-compiler.version>
-    <plugin-surefire.version>2.20</plugin-surefire.version>
-    <plugin-archetype.version>3.0.1</plugin-archetype.version>
-    <plugin-xml-maven.version>1.0</plugin-xml-maven.version>
-    <plugin-jar.version>3.1.0</plugin-jar.version>
-    <plugin-resources.version>3.1.0</plugin-resources.version>
-    <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
-    <plugin-site.version>3.5.1</plugin-site.version>
-    <plugin-info-reports.version>2.9</plugin-info-reports.version>
   </properties>
 
   <dependencies>
@@ -103,22 +85,10 @@
       </resource>
     </resources>
     <plugins>
-        
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <version>\${plugin-compiler.version}</version>
-      <configuration>
-        <source>\${java.version}</source>
-        <target>\${java.version}</target>
-      </configuration>
-    </plugin>
-
       <!-- AWE static resources -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>\${plugin-dependency.version}</version>
         <executions>
           <execution>
             <phase>generate-sources</phase>
@@ -181,7 +151,6 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>\${plugin-spring-boot.version}</version>
         <executions>
           <execution>
             <goals>
@@ -191,32 +160,16 @@
         </executions>
       </plugin>
 
-      <!-- Validate XML files -->
+      <!-- Frontend generation -->
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- Xml validation -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
-        <version>\${plugin-xml-maven.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>validate</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <validationSets>
-            <validationSet>
-              <dir>\${check.xml.directory}/\${project.artifactId}/</dir>
-              <excludes>
-                <exclude>templates/**</exclude>
-              </excludes>
-              <validating>true</validating>
-            </validationSet>
-          </validationSets>
-          <catalogs>
-            <catalog>\${project.build.directory}/schemas/awe/catalog.xml</catalog>
-          </catalogs>
-        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -227,7 +180,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>\${plugin-javadoc.version}</version>
         <configuration>
           <show>public</show>
           <outputDirectory>\${project.build.directory}/apidocs</outputDirectory>
@@ -236,12 +188,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>\${plugin-site.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>\${plugin-info-reports.version}</version>
       </plugin>
     </plugins>
   </reporting>

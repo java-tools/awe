@@ -388,7 +388,7 @@
     <field id="l1_lan" table="Usr" alias="language" />
     <field id="OpeNam" table="Usr" alias="fullName" />
     <field id="l1_pas" table="Usr" alias="password" />
-    <field id="numLog" table="Usr" alias="loginAttempts" />
+    <field id="NumLog" table="Usr" alias="loginAttempts" />
     <join>
       <table id="AwePro" alias="Pro" />
       <and>

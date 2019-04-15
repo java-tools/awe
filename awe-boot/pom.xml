@@ -22,23 +22,8 @@
     <application.name>awe-boot</application.name>
     <application.acronym>awe-boot</application.acronym>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.build.frontend>${project.build.directory}/classes/static</project.build.frontend>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <node.version>v11.10.0</node.version>
-    <yarn.version>v1.13.0</yarn.version>
-    <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
-    <plugin-frontend.version>1.6</plugin-frontend.version>
-    <plugin-dependency.version>3.0.2</plugin-dependency.version>
-    <plugin-compiler.version>3.5.1</plugin-compiler.version>
-    <plugin-surefire.version>2.20</plugin-surefire.version>
-    <plugin-archetype.version>3.0.1</plugin-archetype.version>
-    <plugin-xml.maven.version>1.0</plugin-xml.maven.version>
-    <plugin-jar.version>3.1.0</plugin-jar.version>
     <plugin-war.version>2.6</plugin-war.version>
-    <plugin-resources.version>3.1.0</plugin-resources.version>
-    <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
-    <plugin-site.version>3.5.1</plugin-site.version>
-    <plugin-info-reports.version>2.9</plugin-info-reports.version>
     <selenium.version>3.141.59</selenium.version>
     <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
     <webdrivermanager.version>3.2.0</webdrivermanager.version>
@@ -53,6 +38,7 @@
     <sonar.tests>${project.basedir}/src/test</sonar.tests>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
     <failsafe.suite>**/AllTestsSuiteIT.class</failsafe.suite>
+    <failsafe.argLine></failsafe.argLine>
     <browser>headless-chrome</browser>
     <skip.main>false</skip.main>
     <skip.selenium>true</skip.selenium>
@@ -183,15 +169,6 @@
     <plugins>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <version>${plugin-war.version}</version>
         <configuration>
@@ -301,47 +278,16 @@
         </executions>
       </plugin>
 
-      <!-- Application Javascript and CSS management -->
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <configuration>
-          <skip>${skip.main}</skip>
-        </configuration>
-        <executions>
-          <execution>
-            <id>karma</id>
-            <phase>none</phase>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- Validate XML files -->
+      <!-- Xml validation -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
-        <version>${plugin-xml.maven.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>validate</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <validationSets>
-            <validationSet>
-              <dir>${check.xml.directory}/${application.acronym}/</dir>
-              <excludes>
-                <exclude>templates/**</exclude>
-              </excludes>
-              <validating>true</validating>
-            </validationSet>
-          </validationSets>
-          <catalogs>
-            <catalog>${project.build.directory}/schemas/awe/catalog.xml</catalog>
-          </catalogs>
-        </configuration>
+      </plugin>
+
+      <!-- Frontend generation -->
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
       </plugin>
 
       <!-- JUnit -->

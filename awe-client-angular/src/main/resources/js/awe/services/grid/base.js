@@ -366,7 +366,7 @@ aweApplication.factory('GridBase',
           component.getSpecificFields = function () {
             // Retrieve specific query data
             return {
-              max: component.controller.loadAll && !component.controller.pagerValues ? 0 : component.getMax(),
+              max: component.controller.loadAll ? 0 : component.getMax(),
               page: component.currentPage,
               sort: grid.sorting
             };
