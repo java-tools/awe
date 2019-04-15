@@ -137,13 +137,6 @@ public class SecurityConfig extends ServiceConfig {
   @Value("#{'${security.auth.custom.providers:}'.split(',')}")
   private List<String> authenticationProviders;
 
-  // BBDD authentication
-  @Value ("${security.auth.jdbc.param.userPasswordQuery:}")
-  private String userDetailsQuery;
-
-  @Value ("${security.auth.jdbc.param.rolesQuery:}")
-  private String userRolesQuery;
-
   // LDAP authentication
   @Value("#{'${security.auth.ldap.url:}'.split(',')}")
   private List<String> ldapUrl;
@@ -211,14 +204,13 @@ public class SecurityConfig extends ServiceConfig {
      * Configure current users datasource
      *
      * @param auth Authentication manager
-     *
-     * @throws Exception Global configuration error
      */
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) {
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
 
       AUTHENTICATION_MODE mode = AUTHENTICATION_MODE.fromValue(authenticationProviderSource);
       mode = mode == null ? AUTHENTICATION_MODE.BBDD : mode;
+      logger.log(getClass(),Level.INFO, "Using authentication mode: " + mode);
 
       switch (mode) {
         case CUSTOM:
@@ -311,7 +303,7 @@ public class SecurityConfig extends ServiceConfig {
     /**
      * Configure DAO authentication provider
      *
-     * @param userDetailsService
+     * @param userDetailsService User detail service
      * @return DaoAuthenticationProvider
      */
     @Bean
@@ -330,7 +322,6 @@ public class SecurityConfig extends ServiceConfig {
      * @return User detail service
      */
     @Bean
-    @ConditionalOnProperty(name = "security.auth.mode", havingValue = "bbdd")
     public UserDetailsService aweUserDetailsService(UserDAO userDAO) {
       return new AweUserDetailService(userDAO);
     }
@@ -342,7 +333,6 @@ public class SecurityConfig extends ServiceConfig {
      * @return UserDetailService
      */
     @Bean
-    @ConditionalOnProperty(name = "security.auth.mode", havingValue = "bbdd")
     public UserDAO userDAO(QueryService queryService) {
       return new UserDAOImpl(queryService);
     }
@@ -393,9 +383,8 @@ public class SecurityConfig extends ServiceConfig {
   public StringEncryptor jasyptStringEncryptor(@Value("${security.master.key:fdvsd4@sdsa08}") String masterKey,
                                                SimpleStringPBEConfig encryptorConfig) {
     PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
-    SimpleStringPBEConfig config = encryptorConfig;
-    config.setPassword(masterKey);
-    encryptor.setConfig(config);
+    encryptorConfig.setPassword(masterKey);
+    encryptor.setConfig(encryptorConfig);
     return encryptor;
   }
 
