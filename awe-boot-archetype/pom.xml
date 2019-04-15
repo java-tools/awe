@@ -48,6 +48,29 @@
       </extension>
     </extensions>
 
+    <!-- Plugins -->
+    <plugins>
+      <!-- Filter root POM to replace project version -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+				<version>${plugin-resources.version}</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <escapeString>\</escapeString>
+        </configuration>
+      </plugin>
+      <!-- Skip deploy -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven-deploy-plugin.version}</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+
     <resources>
       <resource>
         <directory>src/main/resources</directory>

@@ -20,7 +20,7 @@
     <awe.version>${project.parent.version}</awe.version>
     <java.version>1.8</java.version>
     <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
-    <webdrivermanager.version>3.2.0</webdrivermanager.version>
+    <webdrivermanager.version>3.4.0</webdrivermanager.version>
     <testng.version>6.14.3</testng.version>
     <sonar.exclusions>src/**</sonar.exclusions>
   </properties>

@@ -32,6 +32,11 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
   @Value("application.acronym")
   private String applicationAcronym;
+
+  @Value("security.headers.allowedOrigins:*")
+  private String allowedOrigins;
+
+  // Connected users
   private Map<String, Set<String>> connectedUsers = Collections.synchronizedMap(new HashMap<>());
 
   /**
@@ -50,7 +55,7 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
    */
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
-    registry.addEndpoint("/websocket").withSockJS();
+    registry.addEndpoint("/websocket").setAllowedOrigins(allowedOrigins).withSockJS();
   }
 
   /**
