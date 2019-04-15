@@ -18,7 +18,10 @@ import org.springframework.web.socket.config.annotation.AbstractWebSocketMessage
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Awe Web Socket configuration.
@@ -30,10 +33,10 @@ import java.util.*;
 @EnableWebSocketMessageBroker
 public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
-  @Value("application.acronym")
+  @Value("${application.acronym}")
   private String applicationAcronym;
 
-  @Value("security.headers.allowedOrigins:*")
+  @Value("${security.headers.allowedOrigins:*}")
   private String allowedOrigins;
 
   // Connected users
@@ -41,7 +44,7 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
   /**
    * Configures the message broker.
-   * @param config
+   * @param config Message broker registry
    */
   @Override
   public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -50,8 +53,8 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
   }
 
   /**
-   * Registers the "/chat" end point.
-   * @param registry
+   * Registers the end points.
+   * @param registry Stomp end point registry
    */
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -60,7 +63,7 @@ public class WebsocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
   /**
    * Awe Client Tracker
-   * @return
+   * @return Awe client tracker
    */
   @Bean
   @ConditionalOnMissingBean
