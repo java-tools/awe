@@ -2124,6 +2124,21 @@ public class QueryTest extends TestUtil {
     assertResultVariablesJson(queryName, result, 2);
   }
 
+  /**
+   * Test of filter in subquery
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testFilterInSubQuery() throws Exception {
+    String queryName = "FilterInSubQuery";
+    String variables = "\"test\":[\"test\",\"jaimito\",\"juanito\",\"jorgito\"]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"l1_nom\":\"test\"},{\"l1_nom\":\"jorgito\"},{\"l1_nom\":\"jaimito\"},{\"l1_nom\":\"juanito\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertResultVariablesJson(queryName, result, 4);
+  }
+
   // *****************************************************************************************************************//
   // SERVICE TESTS
   // **************************************************************************************************************** //
