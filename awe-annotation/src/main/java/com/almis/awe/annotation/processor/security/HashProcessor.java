@@ -16,6 +16,11 @@ import com.almis.awe.model.util.security.EncodeUtil;
 public class HashProcessor {
 
   /**
+   * Private constructor
+   */
+  private HashProcessor() {}
+
+  /**
    * Process current annotation
    *
    * @param hash  Hash

@@ -7,7 +7,6 @@ import com.almis.awe.builder.screen.button.ButtonBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
-import com.almis.awe.model.entities.screen.component.button.Button;
 import com.almis.awe.model.entities.screen.component.button.ContextButton;
 
 import java.util.ArrayList;
@@ -99,6 +98,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    *
    * @return
    */
+  @Override
   public ButtonType getButtonType() {
     return buttonType;
   }
@@ -109,6 +109,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    * @param buttonType
    * @return
    */
+  @Override
   public ContextButtonBuilder setButtonType(ButtonType buttonType) {
     this.buttonType = buttonType;
     return this;
@@ -119,6 +120,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    *
    * @return
    */
+  @Override
   public String getLabel() {
     return label;
   }
@@ -129,6 +131,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    * @param label
    * @return
    */
+  @Override
   public ContextButtonBuilder setLabel(String label) {
     this.label = label;
     return this;
@@ -139,6 +142,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    *
    * @return
    */
+  @Override
   public String getIcon() {
     return icon;
   }
@@ -149,6 +153,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    * @param icon
    * @return
    */
+  @Override
   public ContextButtonBuilder setIcon(String icon) {
     this.icon = icon;
     return this;
@@ -159,6 +164,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    *
    * @return
    */
+  @Override
   public String getSize() {
     return size;
   }
@@ -169,6 +175,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    * @param size
    * @return
    */
+  @Override
   public ContextButtonBuilder setSize(String size) {
     this.size = size;
     return this;
@@ -179,6 +186,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    *
    * @return
    */
+  @Override
   public String getStyle() {
     return style;
   }
@@ -189,6 +197,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    * @param style
    * @return
    */
+  @Override
   public ContextButtonBuilder setStyle(String style) {
     this.style = style;
     return this;
@@ -199,6 +208,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    *
    * @return
    */
+  @Override
   public String getValue() {
     return value;
   }
@@ -209,6 +219,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    * @param value
    * @return
    */
+  @Override
   public ContextButtonBuilder setValue(String value) {
     this.value = value;
     return this;
@@ -219,6 +230,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    *
    * @return
    */
+  @Override
   public String getHelp() {
     return help;
   }
@@ -229,6 +241,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    * @param help
    * @return
    */
+  @Override
   public ContextButtonBuilder setHelp(String help) {
     this.help = help;
     return this;
@@ -239,6 +252,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    *
    * @return
    */
+  @Override
   public String getHelpImage() {
     return helpImage;
   }
@@ -249,6 +263,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    * @param helpImage
    * @return
    */
+  @Override
   public ContextButtonBuilder setHelpImage(String helpImage) {
     this.helpImage = helpImage;
     return this;
@@ -260,6 +275,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    * @param buttonActionBuilder
    * @return
    */
+  @Override
   public ContextButtonBuilder addButtonAction(ButtonActionBuilder... buttonActionBuilder) {
     if (buttonActionBuilder != null) {
       this.elements.addAll(Arrays.asList(buttonActionBuilder));
@@ -273,6 +289,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    * @param dependencyBuilder
    * @return
    */
+  @Override
   public ContextButtonBuilder addDependency(DependencyBuilder... dependencyBuilder) {
     if (dependencyBuilder != null) {
       this.elements.addAll(Arrays.asList(dependencyBuilder));
@@ -311,6 +328,7 @@ public class ContextButtonBuilder extends ButtonBuilder {
    *
    * @return
    */
+  @Override
   public List<AweBuilder> getElementList() {
     return this.elements;
   }
