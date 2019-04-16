@@ -27,7 +27,7 @@ public enum TotalRowPlacement{
    * @return
    */
   public boolean equalsStr(String value) {
-    return this.value.equals(this.value);
+    return this.value.equals(value);
   }
 
   @Override

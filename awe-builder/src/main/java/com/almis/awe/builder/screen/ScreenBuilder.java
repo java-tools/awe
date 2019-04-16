@@ -19,8 +19,6 @@ import java.util.List;
  */
 public class ScreenBuilder extends AweBuilder<ScreenBuilder> {
 
-  private AweElements aweElements;
-
   private List<AweBuilder> elements;
   private Boolean keepCriteria;
   private String help;

@@ -38,7 +38,6 @@
     <sonar.tests>${project.basedir}/src/test</sonar.tests>
     <surefire.suite>**/AllTestsSuite.class</surefire.suite>
     <failsafe.suite>**/AllTestsSuiteIT.class</failsafe.suite>
-    <failsafe.argLine></failsafe.argLine>
     <browser>headless-chrome</browser>
     <skip.main>false</skip.main>
     <skip.selenium>true</skip.selenium>

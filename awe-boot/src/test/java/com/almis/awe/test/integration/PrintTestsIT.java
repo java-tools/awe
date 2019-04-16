@@ -130,7 +130,7 @@ public class PrintTestsIT extends SeleniumUtilities {
     // Check for pager values selector
     Select select = new Select(getDriver().findElement(By.cssSelector(".grid-pager")));
     WebElement option = select.getFirstSelectedOption();
-    assertEquals(option.getText(), "25");
+    assertEquals("25", option.getText());
   }
 
   /**

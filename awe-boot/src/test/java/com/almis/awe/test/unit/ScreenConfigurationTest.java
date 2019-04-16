@@ -361,15 +361,15 @@ public class ScreenConfigurationTest extends TestUtil {
   //@Test
   public void testSessionAnnotations() throws Exception {
     toSessionMethodAnnotation();
-    Assert.assertEquals(getParameter("param"), "toSessionMethod");
+    Assert.assertEquals("toSessionMethod", getParameter("param"));
 
     toSessionParameterAnnotation("toSessionParameter");
-    Assert.assertEquals(getParameter("param"), "toSessionParameter");
+    Assert.assertEquals("toSessionParameter", getParameter("param"));
 
     setParameter("param", "fromSessionValue");
 
-    Assert.assertEquals(fromSessionMethodAnnotation(), "fromSessionValue");
-    Assert.assertEquals(fromSessionParameterAnnotation("session"), "fromSessionValue");
+    Assert.assertEquals("fromSessionValue", fromSessionMethodAnnotation());
+    Assert.assertEquals("fromSessionValue", fromSessionParameterAnnotation("session"));
   }
 
   /**
