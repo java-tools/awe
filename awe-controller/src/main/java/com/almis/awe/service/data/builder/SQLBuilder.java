@@ -14,6 +14,7 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
@@ -564,6 +565,9 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       if (NULL_CONDITIONS.contains(conditionMethod)) {
         Method expressionCondition = firstOperand.getClass().getMethod(conditionMethod);
         result = (BooleanExpression) (expressionCondition.invoke(firstOperand));
+      } else if (IN_CONDITIONS.contains(conditionMethod) && secondOperand instanceof SQLQuery) {
+        Method expressionCondition = firstOperand.getClass().getMethod(conditionMethod, SubQueryExpression.class);
+        result = (BooleanExpression) (expressionCondition.invoke(firstOperand, secondOperand));
       } else if (IN_CONDITIONS.contains(conditionMethod)) {
         Method expressionCondition = firstOperand.getClass().getMethod(conditionMethod, Collection.class);
         result = (BooleanExpression) (expressionCondition.invoke(firstOperand, ((SimpleOperation) secondOperand).getArgs()));
@@ -612,6 +616,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   private String getFilterConditionMethod(String filterCondition, boolean ignoreCase, Expression secondOperand) {
     String conditionMethod = null;
+    boolean inCondition = secondOperand instanceof SimpleOperation || secondOperand instanceof SQLQuery;
     switch (filterCondition) {
       case "ge":
         conditionMethod = "goe";
@@ -620,14 +625,14 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         conditionMethod = "loe";
         break;
       case "in":
-        if (secondOperand instanceof SimpleOperation) {
+        if (inCondition) {
           conditionMethod = "in";
         } else {
           conditionMethod = getFilterConditionMethod("eq", ignoreCase, secondOperand);
         }
         break;
       case "not in":
-        if (secondOperand instanceof SimpleOperation) {
+        if (inCondition) {
           conditionMethod = NOT_IN;
         } else {
           conditionMethod = getFilterConditionMethod("ne", ignoreCase, secondOperand);

@@ -861,6 +861,26 @@
     <variable id="var4" type="INTEGER" name="list4" />
   </query>
 
+  <query id="FilterInSubQuery">
+    <table id="ope" />
+    <field id="l1_nom" />
+    <where>
+      <and>
+        <filter left-field="IdeOpe" condition="in" query="FilterSubQuery"/>
+      </and>
+    </where>
+  </query>
+
+  <query id="FilterSubQuery">
+    <table id="ope" />
+    <field id="IdeOpe" />
+    <where>
+      <and>
+        <filter left-field="l1_nom" condition="in" right-variable="var4"/>
+      </and>
+    </where>
+    <variable id="var4" type="STRING" name="test" />
+  </query>
 
   <query id="SimpleEnum" enumerated="Es1Es0">
     <field id="value" />
