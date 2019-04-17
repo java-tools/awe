@@ -213,12 +213,11 @@ aweApplication.factory('GridBase',
            * Update the model (specific)
            */
           component.updateModelSpecific = function () {
-            var deferred = Utilities.q.defer();
             // Update model
             component.scope.gridOptions.data = component.model.values;
             component.currentPage = component.model.page;
             // On rows rendered, publish
-            deferRowsRendered().then(function () {
+            return deferRowsRendered(deferred => {
               // Update pagination text
               updatePaginationText();
               // Update row number column size
@@ -231,7 +230,6 @@ aweApplication.factory('GridBase',
               // Resolve promise
               deferred.resolve();
             });
-            return deferred.promise;
           };
           /**
            * Select the rows
@@ -495,8 +493,11 @@ aweApplication.factory('GridBase',
            * Change number of rows by page (pager)
            */
           component.updateRowsByPage = function () {
+            // Set pagination size
+            component.scope.gridOptions.paginationPageSize = component.getMax();
+
             // Reload grid
-            component.reload();
+            pageUpdated();
           };
           /**
            * Check if grid is visible
