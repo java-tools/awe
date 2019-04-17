@@ -63,26 +63,10 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
 
     // Map the roles
     if (roleAttributes != null) {
-      for (String roleAttribute : roleAttributes) {
-        String[] rolesForAttribute = ctx.getStringAttributes(roleAttribute);
-
-        if (rolesForAttribute == null) {
-          log.debug("Couldn't read role attribute ''{0}'' for user {1}", new Object[]{roleAttribute, dn});
-          continue;
-        }
-
-        for (String role : rolesForAttribute) {
-          GrantedAuthority authority = createAuthority(role);
-
-          if (authority != null) {
-            essence.addAuthority(authority);
-          }
-        }
-      }
+      mapRoleAttributes(ctx, essence, dn);
     }
 
     // Add the supplied authorities
-
     for (GrantedAuthority authority : authorities) {
       essence.addAuthority(authority);
     }
@@ -111,6 +95,30 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
     throw new UnsupportedOperationException(
             "LdapUserDetailsMapper only supports reading from a context. Please"
                     + "use a subclass if mapUserToContext() is required.");
+  }
+
+  /**
+   * Map role attributes
+   * @param ctx Dir context operations
+   * @param essence Essence
+   * @param dn DN
+   */
+  private void mapRoleAttributes(DirContextOperations ctx, LdapUserDetailsImpl.Essence essence, String dn) {
+    for (String roleAttribute : roleAttributes) {
+      String[] rolesForAttribute = ctx.getStringAttributes(roleAttribute);
+
+      if (rolesForAttribute != null) {
+        for (String role : rolesForAttribute) {
+          GrantedAuthority authority = createAuthority(role);
+
+          if (authority != null) {
+            essence.addAuthority(authority);
+          }
+        }
+      } else {
+        log.debug("Couldn't read role attribute ''{0}'' for user {1}", new Object[]{roleAttribute, dn});
+      }
+    }
   }
 
   /**
