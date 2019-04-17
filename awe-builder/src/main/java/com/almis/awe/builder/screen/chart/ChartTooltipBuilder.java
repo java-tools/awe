@@ -20,8 +20,12 @@ import java.util.List;
 public class ChartTooltipBuilder extends AweBuilder<ChartTooltipBuilder> {
 
   private ChartAxis crosshairs;
-  private String dateFormat, pointFormat, prefix, suffix;
-  private Boolean enabled, shared;
+  private String dateFormat;
+  private String pointFormat;
+  private String prefix;
+  private String suffix;
+  private Boolean enabled;
+  private Boolean shared;
   private Integer numberDecimals;
   private List<ChartParameterBuilder> chartParameterList;
 

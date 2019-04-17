@@ -17,6 +17,7 @@ aweApplication.directive('aweColumnSparkLine',
 
           // Initialize criterion and column
           if (column.init(component).asSparkLine()) {
+            // Initialize sparkline
           }
         }
       };

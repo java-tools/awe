@@ -1,6 +1,3 @@
-/*
- * Package definition
- */
 package com.almis.awe.service.data.processor;
 
 import java.util.ArrayList;
@@ -33,15 +30,12 @@ public class FilterRowProcessor implements RowProcessor {
    * @throws AWException
    */
   public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) throws AWException {
-    List<Map<String, CellData>> newRows = new ArrayList<Map<String, CellData>>();
+    List<Map<String, CellData>> newRows = new ArrayList<>();
     for (Map<String, CellData> row : rowList) {
-      boolean filterPassed = true;
-      for (String key: this.filterMap.keySet()) {
-        if (row.containsKey(key)) {
-          CellData cell = row.get(key);
-          if (!cell.getStringValue().equalsIgnoreCase(this.filterMap.get(key))) {
-            filterPassed = false;
-          }
+      boolean filterPassed = false;
+      for (Map.Entry<String, String> entry: this.filterMap.entrySet()) {
+        if (row.containsKey(entry.getKey()) && row.get(entry.getKey()).getStringValue().toLowerCase().contains(entry.getValue().toLowerCase())) {
+          filterPassed = true;
         }
       }
       // If filter has been passed, add the row

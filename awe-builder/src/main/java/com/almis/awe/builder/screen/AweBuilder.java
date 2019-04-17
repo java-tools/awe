@@ -6,7 +6,6 @@ import com.almis.awe.builder.interfaces.IBuilderInitializer;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

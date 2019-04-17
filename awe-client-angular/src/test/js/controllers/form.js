@@ -1,5 +1,7 @@
+import {DefaultSettings} from "../../../main/resources/js/awe/data/options";
+
 describe('awe-client-angular/src/test/js/controllers/form.js', function() {
-  let scope, controller, $utilities, $ngRedux, $settings, $actionController, $control, $serverData, $validator;
+  let $scope, $compile, $utilities, $settings, $actionController, $control, $serverData, $validator, $httpBackend;
   let originalTimeout;
 
   // Mock module
@@ -7,26 +9,22 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
     angular.mock.module('aweApplication');
 
     // Inject controller
-    inject(["$rootScope", "$controller", "ServerData", "Validator", "AweUtilities", "AweSettings", "ActionController", "Control", "$ngRedux",
-      function($rootScope, $controller, _ServerData_, _Validator_, _AweUtilities_, _AweSettings_, _ActionController_, _Control_, _$ngRedux_){
-      scope = $rootScope.$new();
+    inject(["$rootScope", "$compile", "ServerData", "Validator", "AweUtilities", "AweSettings", "ActionController", "Control", "$httpBackend",
+      function($rootScope, _$compile_, _ServerData_, _Validator_, _AweUtilities_, _AweSettings_, _ActionController_, _Control_, _$httpBackend_){
+      $scope = $rootScope;
       $utilities = _AweUtilities_;
-      $ngRedux = _$ngRedux_;
       $settings = _AweSettings_;
       $actionController = _ActionController_;
       $control = _Control_;
       $serverData = _ServerData_;
       $validator = _Validator_;
-      controller = $controller('FormController', {
-        '$scope': scope,
-        'ServerData': $serverData,
-        'ActionController': $actionController,
-        'AweSettings': $settings,
-        'AweUtilities': $utilities,
-        'Validator': $validator,
-        'Control': $control
-        });
+      $compile = _$compile_;
+      $httpBackend = _$httpBackend_;
     }]);
+
+    // backend definition common for all tests
+    $httpBackend.when('POST', 'settings').respond(DefaultSettings);
+    $httpBackend.when('POST', 'http://server/action/screen-data').respond({});
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -36,36 +34,112 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
-  // A simple test to verify the controller exists
-  it('should exist', function() {
-    expect(controller).toBeDefined();
+  /**
+   * Define form element for tests
+   */
+  function defineForm() {
+    // Compile a piece of HTML containing the directive
+    let element = $compile("<form awe-form=''></form>")($scope);
+
+    // fire all the watches, so the scope expression {{1 + 1}} will be evaluated
+    $scope.$digest();
+
+    // Retrieve element
+    return element;
+  }
+
+  it('replaces the element with the appropriate content', function() {
+    // Define form
+    let element = defineForm();
+
+    // Expect element is defined and directive is active
+    expect(element[0].tagName).toBe("FORM");
   });
 
   // Once initialized, launch tests
   describe('once initialized', function() {
 
     /**
-     * Call a message action
+     * Launch a form action
      * @param {String} actionName Action name
      * @param {String} actionMethod Action method
      * @param {Object} parameters Parameters
-     * @param {Boolean} async Async execution
-     * @param {Boolean} silent Silent execution
-     * @param {Boolean} top Add on top action
      * @param {Function} done Launch when done
      */
-    function callFormAction(actionName, actionMethod, parameters, async, silent, top, done) {
-      // Spy screen action
-      spyOn(controller.FormActions, actionMethod).and.callFake(done);
-
+    function launchFormAction(actionName, actionMethod, parameters, done = () => null) {
       // Launch action
       $actionController.closeAllActions();
-      let action = $actionController.generateAction({type: actionName, ...parameters}, {view: "base"}, async, silent);
-      $actionController.addActionList([action], top, {});
+      let action = $actionController.generateAction({type: actionName, ...parameters}, {}, true, true);
+
+      // Spy screen action
+      spyOn(action, "accept").and.callFake(done);
+      spyOn(action, "launchAction").and.callThrough();
+
+      // Call action
+      action.run();
+
+      // Flush timeout
+      $utilities.timeout.flush();
+
+      // Expect launch action to be called
+      expect(action.launchAction).toHaveBeenCalled();
     }
 
+    // Launch server-download action
+    it('should launch a server-download action', function(done) {
+      // Prepare
+      defineForm();
+      spyOn($serverData, "getFormValues");
+      spyOn($serverData, "getFileData").and.returnValue({});
+      spyOn($control, "getAddressApi").and.returnValue({getSpecificFields: done});
+
+      // Run
+      launchFormAction("server-download", "serverDownload", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{message:{message: "This field is required", id: "cod_usr", uid: "6a2bda7a-03dd-8106-d906-ecd029f5c6fa"}}});
+
+      // Assert
+      expect($serverData.getFormValues).toHaveBeenCalled();
+      expect($serverData.getFileData).toHaveBeenCalled();
+      expect($control.getAddressApi).toHaveBeenCalled();
+    });
+
+    // Launch server-download action
+    it('should launch a server-download action without target', function() {
+      // Prepare
+      defineForm();
+      spyOn($serverData, "getFormValues");
+      spyOn($serverData, "getFileData").and.returnValue({});
+      spyOn($utilities, "downloadFile");
+      spyOn($control, "getAddressApi")
+
+      // Run
+      launchFormAction("server-download", "serverDownload", {parameters:{message:{message: "This field is required", id: "cod_usr", uid: "6a2bda7a-03dd-8106-d906-ecd029f5c6fa"}}});
+
+      // Assert
+      expect($serverData.getFormValues).toHaveBeenCalled();
+      expect($serverData.getFileData).toHaveBeenCalled();
+      expect($utilities.downloadFile).toHaveBeenCalled();
+      expect($control.getAddressApi).not.toHaveBeenCalled();
+    });
+
+    // Launch server-download action
+    it('should launch a server-download action without specific fields', function() {
+      // Prepare
+      defineForm();
+      spyOn($serverData, "getFormValues");
+      spyOn($serverData, "getFileData").and.returnValue({});
+      spyOn($control, "getAddressApi").and.returnValue({});
+
+      // Run
+      launchFormAction("server-download", "serverDownload", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{message:{message: "This field is required", id: "cod_usr", uid: "6a2bda7a-03dd-8106-d906-ecd029f5c6fa"}}});
+
+      // Assert
+      expect($serverData.getFormValues).toHaveBeenCalled();
+      expect($serverData.getFileData).toHaveBeenCalled();
+      expect($control.getAddressApi).toHaveBeenCalled();
+    });
+
     // Call validate action
-    it('should call a validate action', function(done) {
+    /*it('should call a validate action', function(done) {
       return callFormAction("validate", "validate", {parameters:{}}, true, true, true, done);
     });
 
@@ -162,7 +236,7 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
     // Call end-load action
     it('should call a end-load action', function(done) {
       return callFormAction("end-load", "endLoad", {parameters:{}}, true, true, false, done);
-    });
+    });*/
 
     /**
      * Launch a message action
@@ -171,7 +245,7 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
      * @param {Object} parameters Parameters
      * @param {Function} done Launch when done
      */
-    function launchFormAction(actionName, actionMethod, parameters, done = () => null) {
+    /*function launchFormAction(actionName, actionMethod, parameters, done = () => null) {
       // Spy screen action
       let acceptAction = $actionController.acceptAction.bind($actionController);
       spyOn($actionController, "acceptAction").and.callFake((action) => {
@@ -184,7 +258,7 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
       let action = $actionController.generateAction({type: actionName, ...parameters}, {address: {view: "base"}}, true, true);
       controller.FormActions[actionMethod].call(this, action);
       return action;
-    }
+    }*/
 
     // Launch message action
     /*it('should launch a message action', function(done) {
@@ -326,46 +400,46 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
     });*/
 
     // Launch validate
-    it('should launch a validate action', function() {
+    /*it('should launch a validate action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, validationRules: {required: true}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("validate", "validate", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{values:["tutu"]}});
+      launchFormAction("validate", "validate", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{values:["tutu"]}});
     });
 
     // Launch set-valid
     it('should launch a set-valid action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, validationRules: {required: true}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("set-valid", "setValid", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{values:["tutu"]}});
+      launchFormAction("set-valid", "setValid", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{values:["tutu"]}});
     });
 
     // Launch set-invalid
     it('should launch a set-invalid action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, validationRules: {required: true}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("set-invalid", "setInvalid", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{message:{message: "This field is required", id: "cod_usr", uid: "6a2bda7a-03dd-8106-d906-ecd029f5c6fa"}}});
+      launchFormAction("set-invalid", "setInvalid", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{message:{message: "This field is required", id: "cod_usr", uid: "6a2bda7a-03dd-8106-d906-ecd029f5c6fa"}}});
     });
 
     // Launch server-print action
     it('should launch a server-print action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, validationRules: {required: true}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("server-print", "serverPrint", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{message:{message: "This field is required", id: "cod_usr", uid: "6a2bda7a-03dd-8106-d906-ecd029f5c6fa"}}});
+      launchFormAction("server-print", "serverPrint", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{message:{message: "This field is required", id: "cod_usr", uid: "6a2bda7a-03dd-8106-d906-ecd029f5c6fa"}}});
     });
 
     // Launch server-download action
     it('should launch a server-download action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, validationRules: {required: true}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("server-download", "serverDownload", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{message:{message: "This field is required", id: "cod_usr", uid: "6a2bda7a-03dd-8106-d906-ecd029f5c6fa"}}});
+      launchFormAction("server-download", "serverDownload", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{message:{message: "This field is required", id: "cod_usr", uid: "6a2bda7a-03dd-8106-d906-ecd029f5c6fa"}}});
     });
 
     // Launch fill
     it('should launch a fill action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("fill", "fill", {address:{view: "base", component:"tutu"}, parameters:{datalist:{records:1, total: 1, page: 1, rows:[{value: "en", label: "English"}]}}});
+      launchFormAction("fill", "fill", {address:{view: "base", component:"tutu"}, parameters:{datalist:{records:1, total: 1, page: 1, rows:[{value: "en", label: "English"}]}}});
       expect($ngRedux.getState().components["tutu"].model.values[0].label).toBe("English");
     });
 
     // Launch update-controller
     it('should launch an update-controller action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("update-controller", "updateController", {address:{view: "base", component:"tutu"}, parameters:{attribute: "language", datalist:{records:1, total: 1, page: 1, rows:[{value: "en", label: "English"}]}}});
+      launchFormAction("update-controller", "updateController", {address:{view: "base", component:"tutu"}, parameters:{attribute: "language", datalist:{records:1, total: 1, page: 1, rows:[{value: "en", label: "English"}]}}});
       expect($ngRedux.getState().components["tutu"].attributes.language).toBeDefined();
       expect($ngRedux.getState().components["tutu"].attributes.language).toBe("en");
     });
@@ -373,7 +447,7 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
     // Launch select
     it('should launch a select action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("select", "select", {address:{view: "base", component:"tutu"}, parameters:{values:["tutu"]}});
+      launchFormAction("select", "select", {address:{view: "base", component:"tutu"}, parameters:{values:["tutu"]}});
       expect($ngRedux.getState().components["tutu"].model.values.length).toBe(1);
       expect($ngRedux.getState().components["tutu"].model.values[0].selected).toBe(true);
       expect($ngRedux.getState().components["tutu"].model.values[0].value).toBe("tutu");
@@ -382,7 +456,7 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
     // Launch reset
     it('should launch a reset action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, model: {defaultValues: [], values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("reset", "reset", {address:{view: "base", component:"tutu"}, parameters:{}});
+      launchFormAction("reset", "reset", {address:{view: "base", component:"tutu"}, parameters:{}});
       $control.resetModel({view: "base", component:"tutu"});
       expect($ngRedux.getState().components["tutu"].model.values.length).toBe(0);
     });
@@ -390,7 +464,7 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
     // Launch restore
     it('should launch a restore action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, storedModel: { values: [{selected: false, value: "es", label: "Español"}]}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("restore", "restore", {address:{view: "base", component:"tutu"}, parameters:{}});
+      launchFormAction("restore", "restore", {address:{view: "base", component:"tutu"}, parameters:{}});
       $control.restoreModel({view: "base", component:"tutu"});
       expect($ngRedux.getState().components["tutu"].model.values[0].value).toBe("es");
     });
@@ -398,7 +472,7 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
     // Launch restore-target
     it('should launch a restore-target action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, storedModel: { values: [{selected: false, value: "es", label: "Español"}]}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("restore-target", "restoreTarget", {address:{view: "base", component:"tutu"}, parameters:{}});
+      launchFormAction("restore-target", "restoreTarget", {address:{view: "base", component:"tutu"}, parameters:{}});
       $control.restoreModel({view: "base", component:"tutu"});
       expect($ngRedux.getState().components["tutu"].model.values[0].value).toBe("es");
     });
@@ -449,7 +523,7 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
     // Launch value
     it('should launch a value action', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("value", "value", {value: "tutu", address:{view: "base", component:"tutu"}, parameters:{}});
+      launchFormAction("value", "value", {value: "tutu", address:{view: "base", component:"tutu"}, parameters:{}});
       expect($ngRedux.getState().components["tutu"].model.values.length).toBe(1);
       expect($ngRedux.getState().components["tutu"].model.values[0].selected).toBe(true);
       expect($ngRedux.getState().components["tutu"].model.values[0].value).toBe("tutu");
@@ -457,13 +531,13 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
 
     // Launch cancel stack
     it('should cancel the stack', function() {
-      let action = launchFormAction("cancel", "cancel", {parameters:{}});
+      launchFormAction("cancel", "cancel", {parameters:{}});
     });
 
     // Launch filter
     it('should filter a component', function() {
       $control.changeComponent({component: "tutu", view: "base"}, {address:{view: "base", component:"tutu"}, attributes:{loading: false}, model: {values: [{selected: true, value: "fr", label: "Français"}]}});
-      let action = launchFormAction("filter", "filter", {address:{view: "base", component:"tutu"}, parameters:{}});
+      launchFormAction("filter", "filter", {address:{view: "base", component:"tutu"}, parameters:{}});
     });
 
     // Launch start-load
@@ -480,6 +554,6 @@ describe('awe-client-angular/src/test/js/controllers/form.js', function() {
       launchFormAction("end-load", "endLoad", {address:{view: "base", component:"tutu"}, parameters:{}}, data);
       $control.flushDebouncedAttributes();
       expect($ngRedux.getState().components.tutu.attributes.loading).toBe(false);
-    });
+    });*/
   });
 });

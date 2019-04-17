@@ -24,7 +24,8 @@ public class TabBuilder extends AweBuilder<TabBuilder> {
 
   private InitialLoad initialLoad;
   private Boolean maximize;
-  private String style, targetAction;
+  private String style;
+  private String targetAction;
   private List<TabContainerBuilder> tabContainerList;
   private List<DependencyBuilder> dependencyList;
 

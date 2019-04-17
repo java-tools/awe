@@ -9,7 +9,6 @@ import com.almis.awe.builder.screen.AweBuilder;
 import com.almis.awe.builder.screen.criteria.CriteriaBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
-import com.almis.awe.model.entities.screen.component.criteria.Criteria;
 import com.almis.awe.model.entities.screen.component.criteria.InfoCriteria;
 
 /**
@@ -18,7 +17,9 @@ import com.almis.awe.model.entities.screen.component.criteria.InfoCriteria;
  */
 public class InfoCriteriaBuilder extends CriteriaBuilder {
 
-  private String infoStyle, title, type;
+  private String infoStyle;
+  private String title;
+  private String type;
 
   /**
    * Constructor
@@ -32,11 +33,6 @@ public class InfoCriteriaBuilder extends CriteriaBuilder {
   @Override
   public InfoCriteriaBuilder setParent() {
     return this;
-  }
-
-  @Override
-  public void initializeElements() {
-    super.initializeElements();
   }
 
   @Override

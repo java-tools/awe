@@ -225,6 +225,22 @@ public class QueryTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
+  public void testDatabaseQuerySubqueryInJoin() throws Exception {
+    String queryName = "SubqueryInJoin";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"nameAll\":\"test\",\"name\":\"test\",\"id\":1},{\"nameAll\":\"donald\",\"name\":\"donald\",\"id\":2},{\"nameAll\":\"jorgito\",\"name\":\"jorgito\",\"id\":3},{\"nameAll\":\"juanito\",\"name\":\"juanito\",\"id\":4},{\"nameAll\":\"jaimito\",\"name\":\"jaimito\",\"id\":5}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE);
+    logger.warn(result);
+    assertResultJson(queryName, result, 5);
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
   public void testDatabaseQueryTwoTables() throws Exception {
     String queryName = "QueryTwoTables";
     String variables = "";

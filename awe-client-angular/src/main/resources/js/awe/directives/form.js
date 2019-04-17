@@ -170,10 +170,10 @@ aweApplication.directive('aweForm',
 
           // Retrieve target specific attributes for the server call
           if (target) {
-            var target = Control.getAddressApi(target);
-            if (target && target.getSpecificFields) {
+            let api = Control.getAddressApi(target);
+            if (api && api.getSpecificFields) {
               // Add form values
-              _.merge(parameters, target.getSpecificFields());
+              _.merge(parameters, api.getSpecificFields());
             }
           }
 

@@ -10,7 +10,6 @@ import com.almis.awe.builder.screen.AweBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
-import com.almis.awe.model.entities.screen.component.container.WizardPanel;
 import com.almis.awe.model.entities.screen.component.panelable.Wizard;
 
 import java.util.ArrayList;
@@ -24,7 +23,8 @@ import java.util.List;
 public class WizardBuilder extends AweBuilder<WizardBuilder> {
 
   private InitialLoad initialLoad;
-  private String targetAction, label;
+  private String targetAction;
+  private String label;
   private List<WizardPanelBuilder> wizardPanelList;
   private List<DependencyBuilder> dependencyList;
 

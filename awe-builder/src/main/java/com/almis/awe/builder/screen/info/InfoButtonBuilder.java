@@ -17,7 +17,10 @@ import com.almis.awe.model.entities.screen.component.button.InfoButton;
  */
 public class InfoButtonBuilder extends ButtonBuilder {
 
-  private String infoStyle, title, type, unit;
+  private String infoStyle;
+  private String title;
+  private String type;
+  private String unit;
 
   /**
    * Constructor
@@ -32,12 +35,6 @@ public class InfoButtonBuilder extends ButtonBuilder {
   public InfoButtonBuilder setParent() {
     return this;
   }
-
-  @Override
-  public void initializeElements() {
-    super.initializeElements();
-  }
-
 
   @Override
   public Element build(Element element) {

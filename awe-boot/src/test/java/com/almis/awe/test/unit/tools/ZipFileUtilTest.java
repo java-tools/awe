@@ -30,10 +30,10 @@ public class ZipFileUtilTest extends TestUtil {
   @Test
   public void test1ZipFile() throws Exception {
     // Prepare
-    zipFileTest(FULL_PATH + "/testZip.zip");
+    zipFileTest(TEMP_PATH + "/testZip.zip");
 
     // Run
-    File f = new File(FULL_PATH + "/testZip.zip");
+    File f = new File(TEMP_PATH + "/testZip.zip");
 
     // Assert
     assertTrue(f.exists());
@@ -45,8 +45,8 @@ public class ZipFileUtilTest extends TestUtil {
    */
   private void zipFileTest(String path) throws IOException {
     List<String> files = new ArrayList<>();
-    files.add(FULL_PATH + "/db/awe-test.log");
-    files.add(FULL_PATH + "/upload");
+    files.add(TEMP_PATH + "/db/awe-test.log");
+    files.add(TEMP_PATH + "/upload");
     ZipFileUtil.create(path, files);
   }
 
@@ -58,7 +58,7 @@ public class ZipFileUtilTest extends TestUtil {
   public void test2UnzipFile() throws Exception {
     // Run
     ZipFileUtil.unzip(TEMP_PATH + "/testZip.zip", TEMP_PATH + "/unzip");
-    File f = new File(FULL_PATH + "/unzip");
+    File f = new File(TEMP_PATH + "/unzip");
 
     // Assert
     assertTrue(f.exists());

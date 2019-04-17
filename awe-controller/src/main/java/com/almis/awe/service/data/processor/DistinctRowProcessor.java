@@ -37,7 +37,7 @@ public class DistinctRowProcessor implements RowProcessor {
    */
   public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) throws AWException {
     CompareRow comparator = new CompareRow(this.distinctList);
-    List<Map<String, CellData>> newRows = new ArrayList<Map<String, CellData>>();
+    List<Map<String, CellData>> newRows = new ArrayList<>();
     for (Map<String, CellData> row: rowList) {
       if (!in(newRows, row, comparator)) {
         newRows.add((Map<String, CellData>) ((HashMap<String, CellData>) row).clone());

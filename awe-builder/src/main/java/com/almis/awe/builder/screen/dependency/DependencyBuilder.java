@@ -25,8 +25,12 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
   private SourceType sourceType;
   private TargetType targetType;
   private DependencyType type;
-  private Boolean invert, initial;
-  private String formule, label, targetAction, value;
+  private Boolean invert;
+  private Boolean initial;
+  private String formule;
+  private String label;
+  private String targetAction;
+  private String value;
   private List<AweBuilder> elements;
 
   /**

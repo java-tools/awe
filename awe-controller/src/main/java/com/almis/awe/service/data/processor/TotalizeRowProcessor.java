@@ -34,7 +34,7 @@ public class TotalizeRowProcessor implements RowProcessor {
    * @throws AWException
    */
   public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) throws AWException {
-    List<Map<String, CellData>> totalizedList = new ArrayList<Map<String, CellData>>();
+    List<Map<String, CellData>> totalizedList = new ArrayList<>();
 
     // Fill final list with subtotals
     for (Map<String, CellData> row : rowList) {
@@ -61,11 +61,6 @@ public class TotalizeRowProcessor implements RowProcessor {
    * @throws AWException
    */
   private void addSubtotals(Map<String, CellData> row, List<Map<String, CellData>> processedList) throws AWException {
-    Map<String, CellData> totalRow;
-    Map<String, CellData> totalizeValues;
-    Map<String, CellData> emptyRow = null;
-    Map<String, String> totalizeKeys;
-
     // For each total processor
     for (TotalizeColumnProcessor totalizeProcessor : totalizeList) {
       // Check if add a new line
