@@ -21,7 +21,10 @@ public class ButtonActionBuilder extends AweBuilder<ButtonActionBuilder>{
   private Action type;
   private ServerAction serverAction;
   private Boolean asynchronous, silent;
-  private String targetAction, target, context, value;
+  private String targetAction;
+  private String target;
+  private String context;
+  private String value;
 
   /**
    * Constructor

@@ -5,7 +5,6 @@
  */
 package com.almis.awe.builder.screen;
 
-import com.almis.awe.builder.enumerates.Expandible;
 import com.almis.awe.builder.enumerates.OnClose;
 import com.almis.awe.builder.screen.accordion.AccordionBuilder;
 import com.almis.awe.builder.screen.button.ButtonBuilder;

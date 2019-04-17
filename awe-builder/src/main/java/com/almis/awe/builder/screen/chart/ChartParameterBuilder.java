@@ -21,7 +21,8 @@ import java.util.List;
 public class ChartParameterBuilder extends AweBuilder<ChartParameterBuilder> {
 
   private DataType dataType;
-  private String name, value;
+  private String name;
+  private String value;
   private List<ChartParameterBuilder> chartParameterList;
 
   /**

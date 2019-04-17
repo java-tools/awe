@@ -5,22 +5,22 @@
  */
 package com.almis.awe.builder.screen;
 
-import com.almis.awe.builder.screen.criteria.CriteriaBuilder;
-import com.almis.awe.builder.enumerates.Expandible;
 import com.almis.awe.builder.enumerates.Source;
-import com.almis.awe.builder.screen.info.InfoBuilder;
-import com.almis.awe.builder.screen.info.InfoButtonBuilder;
-import com.almis.awe.builder.screen.info.InfoCriteriaBuilder;
 import com.almis.awe.builder.screen.accordion.AccordionBuilder;
 import com.almis.awe.builder.screen.button.ButtonBuilder;
 import com.almis.awe.builder.screen.chart.ChartBuilder;
+import com.almis.awe.builder.screen.criteria.CriteriaBuilder;
 import com.almis.awe.builder.screen.grid.GridBuilder;
+import com.almis.awe.builder.screen.info.InfoBuilder;
+import com.almis.awe.builder.screen.info.InfoButtonBuilder;
+import com.almis.awe.builder.screen.info.InfoCriteriaBuilder;
 import com.almis.awe.builder.screen.tab.TabBuilder;
 import com.almis.awe.builder.screen.widget.WidgetBuilder;
 import com.almis.awe.builder.screen.wizard.WizardBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.Tag;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

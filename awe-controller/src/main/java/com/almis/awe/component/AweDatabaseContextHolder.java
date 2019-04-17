@@ -94,10 +94,10 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
    */
   public Map<Object, Object> getDataSources() {
     Map<Object, Object> dataSourceMap = new HashMap<>();
-    Map<String, DatabaseConnectionInfo> connectionInfoMap = loadDataSources();
+    Map<String, DatabaseConnectionInfo> currentConnectionInfoMap = loadDataSources();
 
     // Retrieve datasources
-    for (DatabaseConnectionInfo connectionInfo : connectionInfoMap.values()) {
+    for (DatabaseConnectionInfo connectionInfo : currentConnectionInfoMap.values()) {
       try {
         dataSourceMap.put(connectionInfo.getAlias(), getDataSource(connectionInfo.getJndi(), connectionInfo.getUrl(),
           connectionInfo.getUser(), connectionInfo.getPassword(), connectionInfo.getDriver(), validationQuery));

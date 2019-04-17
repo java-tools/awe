@@ -20,7 +20,14 @@ import java.util.List;
 public class ChartSerieBuilder extends AweBuilder<ChartSerieBuilder>{
 
   private ChartType type;
-  private String xValue, yValue, zValue, color, label, xAxis, yAxis, drilldownSerie;
+  private String xValue;
+  private String yValue;
+  private String zValue;
+  private String color;
+  private String label;
+  private String xAxis;
+  private String yAxis;
+  private String drilldownSerie;
   private Boolean drilldown;
   private List<ChartParameterBuilder> chartParameterList;
 

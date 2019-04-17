@@ -20,8 +20,12 @@ public class DependencyActionBuilder extends AweBuilder<DependencyActionBuilder>
 
   private DependencyActionType type;
   private ServerAction serverAction;
-  private Boolean asynchronous, silent;
-  private String context, target, targetAction, value;
+  private Boolean asynchronous;
+  private Boolean silent;
+  private String context;
+  private String target;
+  private String targetAction;
+  private String value;
 
   /**
    * Constructor

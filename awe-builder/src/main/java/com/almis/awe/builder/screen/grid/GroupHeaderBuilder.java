@@ -20,7 +20,8 @@ import java.util.List;
 public class GroupHeaderBuilder extends AweBuilder<GroupHeaderBuilder> {
 
   private List<ColumnBuilder> columnList;
-  private String name, label;
+  private String name;
+  private String label;
 
   /**
    * Constructor
@@ -116,9 +117,8 @@ public class GroupHeaderBuilder extends AweBuilder<GroupHeaderBuilder> {
    *
    * @param columnList
    * @return
-   * @throws AWException
    */
-  public GroupHeaderBuilder addColumnList(ColumnBuilder... columnList) throws AWException {
+  public GroupHeaderBuilder addColumnList(ColumnBuilder... columnList) {
     if (columnList != null) {
       if (this.columnList == null) {
         this.columnList = new ArrayList<>();

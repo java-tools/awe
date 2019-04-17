@@ -21,7 +21,8 @@ import java.util.List;
 public class AccordionBuilder extends AweBuilder<AccordionBuilder> {
 
   private Boolean autocollapse;
-  private String selected, style;
+  private String selected;
+  private String style;
   private List<AweBuilder> elements;
 
   /**

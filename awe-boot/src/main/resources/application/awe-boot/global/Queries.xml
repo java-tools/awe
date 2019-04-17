@@ -164,6 +164,24 @@
     <field id="Ide" alias="Asdf" />
   </query>
 
+  <query id="SimpleGetAllUsers">
+    <table id="ope"/>
+    <field id="IdeOpe" alias="IdeOpe"/>
+    <field id="l1_nom" alias="l1_nom"/>
+  </query>
+
+  <query id="SubqueryInJoin">
+    <table id="ope"/>
+    <field id="l1_nom" table="ope" alias="name"/>
+    <field id="l1_nom" table="opeAll" alias="nameAll"/>
+    <join>
+      <table query="SimpleGetAllUsers" alias="opeAll"/>
+      <and>
+        <filter left-field="IdeOpe" left-table="ope" condition="eq" right-field="IdeOpe" right-table="opeAll"/>
+      </and>
+    </join>
+  </query>
+
   <query id="TestFieldFunctions">
     <table id="AweSitModDbs" alias="awe" />
     <field id="IdeSitModDbs" alias="Max" function="MAX" />

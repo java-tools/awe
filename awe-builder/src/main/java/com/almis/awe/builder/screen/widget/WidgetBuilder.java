@@ -28,10 +28,14 @@ public class WidgetBuilder extends AweBuilder<WidgetBuilder> {
   private WidgetComponent component;
   private InitialLoad initialLoad;
   private ServerAction serverAction;
-  private Boolean autoload, autorefresh, visible;
+  private Boolean autoload;
+  private Boolean autorefresh;
+  private Boolean visible;
   private Integer max;
-  private String help, helpImage;
-  private String style, targetAction;
+  private String help;
+  private String helpImage;
+  private String style;
+  private String targetAction;
   private List<AweBuilder> elements;
   private List<WidgetParameterBuilder> widgetParameterList;
 

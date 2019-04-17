@@ -37,18 +37,6 @@ public class CompoundColumnProcessor implements ColumnProcessor, AweContextAware
   }
 
   /**
-   * Retrieve Awe Elements
-   * 
-   * @return
-   */
-  private AweElements getElements() throws AWException {
-    if (elements == null) {
-      throw new AWException("No elements defined", "Define elements before building the compound processor");
-    }
-    return elements;
-  }
-
-  /**
    * Set variable map
    * 
    * @param variableMap
@@ -75,7 +63,7 @@ public class CompoundColumnProcessor implements ColumnProcessor, AweContextAware
                 .setElements(elements)
                 .setComputed(computed);
         if (computedMap == null) {
-          computedMap = new HashMap<String, ComputedColumnProcessor>();
+          computedMap = new HashMap<>();
         }
         computedMap.put(computed.getAlias(), computedProcessor);
       }

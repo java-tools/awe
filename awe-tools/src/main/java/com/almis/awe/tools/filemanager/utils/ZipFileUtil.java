@@ -125,7 +125,7 @@ public class ZipFileUtil {
     final Path destDir = Paths.get(destDirname);
     // if the destination doesn't exist, create it
     if (!destDir.toFile().exists()) {
-      LOGGER.debug(destDir + " does not exist. Creating...");
+      LOGGER.debug("%s does not exist. Creating...", destDir);
       Files.createDirectories(destDir);
     }
 

@@ -20,8 +20,11 @@ import java.util.List;
  */
 public class AxisBuilder extends AweBuilder<AxisBuilder>{
   
-  private Boolean allowDecimal, opposite;
-  private String label, labelFormat, tickInterval;
+  private Boolean allowDecimal;
+  private Boolean opposite;
+  private String label;
+  private String labelFormat;
+  private String tickInterval;
   private Float labelRotation;
   private FormatterFunction formatterFunction;
   private AxisDataType type;

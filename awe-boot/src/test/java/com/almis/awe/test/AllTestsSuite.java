@@ -5,6 +5,7 @@ import com.almis.awe.test.unit.rest.DataRestControllerTest;
 import com.almis.awe.test.unit.rest.MaintainRestControllerTest;
 import com.almis.awe.test.unit.*;
 import com.almis.awe.test.unit.tools.ZipFileUtilTest;
+import com.almis.awe.test.unit.util.DataListTest;
 import com.almis.awe.test.unit.util.DateUtilTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -29,6 +30,7 @@ import org.junit.runners.Suite;
   UploadControllerTest.class,
   TagListTest.class,
   DateUtilTest.class,
+  DataListTest.class,
   UserServiceTest.class,
   ZipFileUtilTest.class
 })

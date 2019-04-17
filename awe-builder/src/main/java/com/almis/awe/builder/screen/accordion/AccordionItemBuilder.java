@@ -30,7 +30,8 @@ import java.util.List;
  */
 public class AccordionItemBuilder extends AweBuilder<AccordionItemBuilder> {
 
-  private String label, style;
+  private String label;
+  private String style;
   private List<AweBuilder> elements;
 
   /**

@@ -1,4 +1,4 @@
-import { aweApplication } from "./../awe";
+import {aweApplication} from "./../awe";
 
 // Validation rules service
 aweApplication.factory('ValidationRules',
@@ -91,18 +91,16 @@ aweApplication.factory('ValidationRules',
        */
       let extractParameters = function (ruleMethod, value, rule, address) {
         let parameters = {values: {value1: value}};
-        switch (typeof rule) {
-          case "object":
-            _.merge(parameters, rule);
-            if ("from" in rule && "to" in rule) {
-              parameters.values.from = retrieveExternalParameters(rule["from"], address.view);
-              parameters.values.to = retrieveExternalParameters(rule["to"], address.view);
-            } else if ("value" in rule || "criterion" in rule || "setting" in rule) {
-              parameters.values.value2 = retrieveExternalParameters(rule, address.view);
-            }
-            break;
-          default:
-            parameters.values.value2 = rule;
+        if (typeof rule === "object") {
+          _.merge(parameters, rule);
+          if ("from" in rule && "to" in rule) {
+            parameters.values.from = retrieveExternalParameters(rule["from"], address.view);
+            parameters.values.to = retrieveExternalParameters(rule["to"], address.view);
+          } else if ("value" in rule || "criterion" in rule || "setting" in rule) {
+            parameters.values.value2 = retrieveExternalParameters(rule, address.view);
+          }
+        } else {
+          parameters.values.value2 = rule;
         }
         // Format comparison values
         switch (parameters.type) {
@@ -169,18 +167,18 @@ aweApplication.factory('ValidationRules',
           return $utilities.isEmpty(parameters.values.value1) && parameters.values.value2 ? error : null;
         },
         text: function (parameters) {
-            let error = {
-              message: formatMessage(parameters.message || "VALIDATOR_MESSAGE_TEXT", parameters)
-            };
-            let passed = new RegExp(patterns.TEXT).test(String(parameters.values.value1));
-            return $utilities.isEmpty(parameters.values.value1) || passed ? null : error;
+          let error = {
+            message: formatMessage(parameters.message || "VALIDATOR_MESSAGE_TEXT", parameters)
+          };
+          let passed = new RegExp(patterns.TEXT).test(String(parameters.values.value1));
+          return $utilities.isEmpty(parameters.values.value1) || passed ? null : error;
         },
         textWithSpaces: function (parameters) {
-            let error = {
-              message: formatMessage(parameters.message || "VALIDATOR_MESSAGE_TEXT_WHITESPACES", parameters)
-            };
-            let passed = new RegExp(patterns.TEXT_WHITESPACES).test(String(parameters.values.value1));
-            return $utilities.isEmpty(parameters.values.value1) || passed ? null : error;
+          let error = {
+            message: formatMessage(parameters.message || "VALIDATOR_MESSAGE_TEXT_WHITESPACES", parameters)
+          };
+          let passed = new RegExp(patterns.TEXT_WHITESPACES).test(String(parameters.values.value1));
+          return $utilities.isEmpty(parameters.values.value1) || passed ? null : error;
         },
         number: function (parameters) {
           let error = {

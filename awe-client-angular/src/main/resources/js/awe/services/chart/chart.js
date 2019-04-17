@@ -97,7 +97,6 @@ aweApplication.factory('Chart',
         this.addedRows = 0;
 
         // Define attribute methods
-        var component = this.component;
         this.attributeMethods = {
           /**
            * Retrieve x value
@@ -223,7 +222,7 @@ aweApplication.factory('Chart',
                 _.each(seriesModelList, function (serie) {
                   var chartSerie = chart.get(serie.id);
                   var serieData = getSerieData(serie, model);
-                  sizeSerieLimit = !sizeSerieLimit && serieData.length > limitPointSerie ? true : false;
+                  sizeSerieLimit = !sizeSerieLimit && serieData.length > limitPointSerie;
                   chartSerie.setData(serieData, false, true);
                 });
               }
@@ -231,13 +230,10 @@ aweApplication.factory('Chart',
               // Build array datas for each drilldown serie of chart
               if (drillDownSeriesModelList !== null) {
                 _.each(drillDownSeriesModelList, function (serie) {
-                  var chartSerie = component.chart.get(serie.id);
-                  if (chartSerie !== null) {
-                    var chartSerie = chart.get(serie.id);
-                    var serieData = getSerieData(serie, model);
-                    sizeSerieLimit = !sizeSerieLimit && serieData.length > limitPointSerie ? true : false;
-                    chartSerie.setData(chartSerie, false, true);
-                  }
+                  var chartSerie = chart.get(serie.id);
+                  var serieData = getSerieData(serie, model);
+                  sizeSerieLimit = !sizeSerieLimit && serieData.length > limitPointSerie;
+                  chartSerie.setData(serieData, false, true);
                 });
                 // Disabled allow point selection in Pies
                 if (chartOptions.plotOptions.pie) {
