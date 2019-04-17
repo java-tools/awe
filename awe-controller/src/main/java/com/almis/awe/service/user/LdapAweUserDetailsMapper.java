@@ -26,7 +26,7 @@ import java.util.Collection;
 @Log4j2
 public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetailsContextMapper {
 
-  private String passwordAttributeName = "userPassword";
+  private String userCredentialsAttribute = "userPassword";
   private String rolePrefix = "ROLE_";
   private String[] roleAttributes = null;
   private boolean convertToUpperCase = true;
@@ -53,7 +53,7 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
     LdapUserDetailsImpl.Essence essence = new LdapUserDetailsImpl.Essence();
     essence.setDn(dn);
 
-    Object passwordValue = ctx.getObjectAttribute(this.passwordAttributeName);
+    Object passwordValue = ctx.getObjectAttribute(userCredentialsAttribute);
 
     if (passwordValue != null) {
       essence.setPassword(mapPassword(passwordValue));
@@ -62,21 +62,21 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
     essence.setUsername(username);
 
     // Map the roles
-    for (int i = 0; (this.roleAttributes != null)
-            && (i < this.roleAttributes.length); i++) {
-      String[] rolesForAttribute = ctx.getStringAttributes(this.roleAttributes[i]);
+    if (roleAttributes != null) {
+      for (String roleAttribute : roleAttributes) {
+        String[] rolesForAttribute = ctx.getStringAttributes(roleAttribute);
 
-      if (rolesForAttribute == null) {
-        log.debug("Couldn't read role attribute '"
-                + this.roleAttributes[i] + "' for user " + dn);
-        continue;
-      }
+        if (rolesForAttribute == null) {
+          log.debug("Couldn't read role attribute ''{0}'' for user {1}", new Object[]{roleAttribute, dn});
+          continue;
+        }
 
-      for (String role : rolesForAttribute) {
-        GrantedAuthority authority = createAuthority(role);
+        for (String role : rolesForAttribute) {
+          GrantedAuthority authority = createAuthority(role);
 
-        if (authority != null) {
-          essence.addAuthority(authority);
+          if (authority != null) {
+            essence.addAuthority(authority);
+          }
         }
       }
     }
@@ -146,10 +146,10 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
    */
   private GrantedAuthority createAuthority(Object role) {
     if (role instanceof String) {
-      if (this.convertToUpperCase) {
+      if (convertToUpperCase) {
         role = ((String) role).toUpperCase();
       }
-      return new SimpleGrantedAuthority(this.rolePrefix + role);
+      return new SimpleGrantedAuthority(rolePrefix + role);
     }
     return null;
   }
@@ -171,7 +171,7 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
    * @param passwordAttributeName the name of the attribute
    */
   public void setPasswordAttributeName(String passwordAttributeName) {
-    this.passwordAttributeName = passwordAttributeName;
+    this.userCredentialsAttribute = passwordAttributeName;
   }
 
   /**
