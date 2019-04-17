@@ -14,6 +14,7 @@ import com.almis.awe.service.AccessService;
 import com.almis.awe.service.MenuService;
 import com.almis.awe.service.QueryService;
 import com.almis.awe.service.user.AweUserDetailService;
+import com.almis.awe.service.user.LdapAweUserDetailsMapper;
 import com.almis.awe.session.AweSessionDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -41,6 +42,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.ldap.authentication.BindAuthenticator;
 import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
 import org.springframework.security.ldap.search.FilterBasedLdapUserSearch;
+import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -286,18 +288,30 @@ public class SecurityConfig extends ServiceConfig {
      */
     @Bean
     @ConditionalOnProperty(name = "security.auth.mode", havingValue = "ldap")
-    public AuthenticationProvider ldapAuthenticationProvider() {
+    public AuthenticationProvider ldapAuthenticationProvider(UserDAO userDAO) {
 
       // Bind authenticator with search filter
       final BindAuthenticator bindAuthenticator = new BindAuthenticator(getBean(LdapContextSource.class));
       bindAuthenticator.setUserSearch(new FilterBasedLdapUserSearch("", "(" + ldapUserFilter + ")", getBean(LdapContextSource.class)));
 
+
       // Ldap provider
       final LdapAuthenticationProvider ldapAuthenticationProvider = new LdapAuthenticationProvider(bindAuthenticator);
       ldapAuthenticationProvider.setHideUserNotFoundExceptions(false);
       ldapAuthenticationProvider.setAuthoritiesMapper(new SimpleAuthorityMapper());
+      ldapAuthenticationProvider.setUserDetailsContextMapper(ldapAweUserDetailsMapper(userDAO));
 
       return ldapAuthenticationProvider;
+    }
+
+    /**
+     * Configure ldap user details mapper
+     * @param userDAO user dao
+     * @return Ldap user details context mapper
+     */
+    @Bean
+    public UserDetailsContextMapper ldapAweUserDetailsMapper(UserDAO userDAO) {
+      return new LdapAweUserDetailsMapper(userDAO);
     }
 
     /**

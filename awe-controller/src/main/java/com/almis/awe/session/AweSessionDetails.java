@@ -16,6 +16,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.Assert;
 
 import java.util.*;
 
@@ -52,9 +53,9 @@ public class AweSessionDetails extends ServiceConfig {
 
   /**
    * Autowired constructor
-   * @param aweClientTracker
-   * @param queryService
-   * @param connectedUsers
+   * @param aweClientTracker awe client tracker
+   * @param queryService query service
+   * @param connectedUsers set of connected users
    */
   @Autowired
   public AweSessionDetails(AweClientTracker aweClientTracker, QueryService queryService, Map<String, Set<String>> connectedUsers) {
@@ -85,14 +86,12 @@ public class AweSessionDetails extends ServiceConfig {
       if (connectedUsers.containsKey(session.getUser())) {
         sessionList = connectedUsers.get(session.getUser());
       } else {
-        sessionList = new HashSet();
+        sessionList = new HashSet<>();
         connectedUsers.put(session.getUser(), sessionList);
       }
 
       // Add cometUID to user session
-      if (!sessionList.contains(token)) {
-        sessionList.add(token);
-      }
+      sessionList.add(token);
 
       // Initialize session variables
       initializeSessionVariables();
@@ -170,7 +169,6 @@ public class AweSessionDetails extends ServiceConfig {
         }
       }
     }
-    // throw new AWException(LocalSingleton.getInstance().getLocal("ERROR_TITLE_DEFAULT_SESSION_PARAMETERS"), LocalSingleton.getInstance().getLocal("ERROR_MESSAGE_DEFAULT_SESSION_PARAMETERS"), exc)
   }
 
   /**
@@ -178,7 +176,9 @@ public class AweSessionDetails extends ServiceConfig {
    */
   private void storeUserDetails() {
     AweSession session = getSession();
-    User userDetails = session.getParameter(User.class, AweConstants.SESSION_USER_DETAILS);
+    User userDetails = session.getParameter(User.class, SESSION_USER_DETAILS);
+
+    Assert.notNull(userDetails, "User details must not be null. Check if the authentication provider saves user information in session");
 
     // Get user data
     String theme = defaultTheme;
