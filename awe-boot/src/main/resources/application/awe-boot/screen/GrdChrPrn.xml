@@ -38,7 +38,7 @@ and open the template in the editor.
         </chart>
       </window>
       <window style="expand" maximize="true" label="SCREEN_TEXT_DATA">
-        <grid id="GrdKeyLst" style="expand" initial-load="query" server-action="data" target-action="GetAweKey" multiselect="true" max="25"  pager-values="5, 25, 50, 100">
+        <grid id="GrdKeyLst" style="expand" initial-load="query" server-action="data" target-action="GetAweKey" multiselect="true" max="25" load-all="true" pager-values="5, 25, 50, 100">
           <column label="PARAMETER_KEY" name="Nam" sort-field="Nam" align="left" charlength="14" frozen="true" />
           <column label="PARAMETER_KEY_VALUE" name="Val" sort-field="Val" align="left" charlength="25" />
         </grid>
