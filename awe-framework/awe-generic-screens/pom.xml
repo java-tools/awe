@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>com.almis.awe</groupId>
+    <artifactId>awe-dependencies</artifactId>
+    <version>4.0.6-SNAPSHOT</version>
+    <relativePath>../awe-dependencies</relativePath>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>jar</packaging>
+  <artifactId>awe-generic-screens</artifactId>
+  <name>AWE Generic Screens (V${project.version})</name>
+  <description>Awe Generic Screens Module</description>
+
+  <properties>
+    <application.acronym>awe</application.acronym>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <jetspeed.version>2.3.1</jetspeed.version>
+    <!-- Sonar properties -->
+    <application.folder>.</application.folder>
+    <sonar.sources>src</sonar.sources>
+    <sonar.inclusions>src/main/resources/application/**</sonar.inclusions>
+    <performancetest.host>localhost</performancetest.host>
+    <performancetest.port>18080</performancetest.port>
+    <performancetest.path/>
+  </properties>
+
+  <build>
+    <finalName>${project.artifactId}</finalName>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/resources/application</directory>
+        <targetPath>${project.build.directory}/classes/application</targetPath>
+        <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>${project.basedir}/src/main/resources/schemas</directory>
+        <targetPath>${project.build.directory}/classes/schemas</targetPath>
+        <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>${project.basedir}/src/main/resources/docs</directory>
+        <targetPath>${project.build.directory}/classes/docs</targetPath>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
+
+    <plugins>
+      <!-- Xml validation -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+      </plugin>
+      <!-- Copy AWE schemas -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy schemas awe-generic-screens</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>src/main/resources</directory>
+                  <includes>
+                    <include>schemas/**</include>
+                  </includes>
+                </resource>
+              </resources>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
