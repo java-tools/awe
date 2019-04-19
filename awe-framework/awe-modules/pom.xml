@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>awe-dependencies</artifactId>
+    <groupId>com.almis.awe</groupId>
+    <version>4.0.6-SNAPSHOT</version>
+    <relativePath>../awe-dependencies</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>AWE Modules (V${project.version})</name>
+  <artifactId>awe-modules</artifactId>
+  <packaging>pom</packaging>
+
+  <properties>
+    <jacoco.base.reports>${project.basedir}/../../../awe-tests/awe-boot/target</jacoco.base.reports>
+  </properties>
+
+  <modules>
+    <module>awe-annotation</module>
+    <module>awe-builder</module>
+    <module>awe-developer</module>
+    <module>awe-rest</module>
+    <module>awe-tools</module>
+  </modules>
+
+</project>
