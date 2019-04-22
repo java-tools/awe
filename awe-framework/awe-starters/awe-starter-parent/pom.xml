@@ -14,5 +14,6 @@
   <artifactId>awe-starter-parent</artifactId>
   <packaging>pom</packaging>
   <name>AWE Starter Parent (V${project.version})</name>
+  <version>4.0.6-SNAPSHOT</version>
 
 </project>
