@@ -13,6 +13,7 @@
   <artifactId>awe-spring-boot-starter</artifactId>
   <name>AWE Spring Boot Starter (V${project.version})</name>
   <description>AWE Spring Boot Starter</description>
+  <version>4.0.6-SNAPSHOT</version>
 
   <dependencies>
 
@@ -102,6 +103,11 @@
     <dependency>
       <groupId>com.almis.awe</groupId>
       <artifactId>awe-controller</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-generic-screens</artifactId>
     </dependency>
 
     <!-- ADE Libraries -->

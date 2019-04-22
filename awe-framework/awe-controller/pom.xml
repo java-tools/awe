@@ -14,6 +14,7 @@
   <packaging>jar</packaging>
   <name>AWE Controller (V${project.version})</name>
   <description>Awe Spring Controller Module</description>
+  <version>4.0.6-SNAPSHOT</version>
 
   <properties>
     <querydsl.version>4.2.1</querydsl.version>
@@ -28,10 +29,6 @@
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>com.almis.awe</groupId>
-      <artifactId>awe-generic-screens</artifactId>
-    </dependency>
     <dependency>
       <groupId>com.almis.awe</groupId>
       <artifactId>awe-model</artifactId>
@@ -80,6 +77,11 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
+    </dependency>
+    <!-- AOP -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.mail</groupId>

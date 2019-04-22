@@ -14,6 +14,7 @@
 
   <artifactId>awe-testing</artifactId>
   <name>AWE Testing Utilities (V${project.version})</name>
+  <version>4.0.6-SNAPSHOT</version>
 
   <properties>
     <!-- Application maven properties -->

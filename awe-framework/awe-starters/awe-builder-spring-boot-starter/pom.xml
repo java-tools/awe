@@ -12,6 +12,7 @@
   <artifactId>awe-builder-spring-boot-starter</artifactId>
   <name>AWE Spring Boot Starter Builder (V${project.version})</name>
   <description>AWE Spring Boot Starter Builder</description>
+  <version>4.0.6-SNAPSHOT</version>
 
   <dependencies>
 

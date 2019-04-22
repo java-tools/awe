@@ -12,6 +12,8 @@
 
   <artifactId>awe-developer</artifactId>
   <name>AWE Modules - Developer (V${project.version})</name>
+  <description>Awe Developer Module</description>
+  <version>4.0.6-SNAPSHOT</version>
 
   <properties>
     <application.acronym>awe-developer</application.acronym>

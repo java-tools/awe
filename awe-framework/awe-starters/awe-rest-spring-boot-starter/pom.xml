@@ -12,6 +12,7 @@
   <artifactId>awe-rest-spring-boot-starter</artifactId>
   <name>AWE Spring Boot Starter Rest (V${project.version})</name>
   <description>AWE Spring Boot Starter Rest</description>
+  <version>4.0.6-SNAPSHOT</version>
 
   <dependencies>
 
