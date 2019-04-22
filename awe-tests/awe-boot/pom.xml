@@ -14,11 +14,9 @@
   <artifactId>awe-boot</artifactId>
   <packaging>war</packaging>
   <name>AWE Integration Tests (V${project.version})</name>
-  <version>1.0.0</version>
 
   <properties>
     <!-- Application maven properties -->
-    <awe.version>${project.parent.version}</awe.version>
     <java.version>1.8</java.version>
     <application.name>awe-boot</application.name>
     <application.acronym>awe-boot</application.acronym>

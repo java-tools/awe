@@ -3,7 +3,6 @@ package com.almis.awe.autoconfigure;
 import com.almis.ade.api.ADE;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.AweRequest;
-import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.component.XStreamSerializer;
 import com.almis.awe.model.util.data.NumericUtil;
 import com.almis.awe.model.util.data.QueryUtil;
@@ -28,13 +27,8 @@ import com.almis.awe.service.screen.ScreenComponentGenerator;
 import com.almis.awe.service.screen.ScreenConfigurationGenerator;
 import com.almis.awe.service.screen.ScreenModelGenerator;
 import com.almis.awe.service.screen.ScreenRestrictionGenerator;
-import org.apache.tomcat.util.http.LegacyCookieProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -101,8 +95,8 @@ public class AweAutoConfiguration {
    */
   @Bean
   @ConditionalOnMissingBean
-  public LogUtil logUtil(AweSession session) {
-    return new LogUtil(session);
+  public LogUtil logUtil() {
+    return new LogUtil(context);
   }
 
   /**

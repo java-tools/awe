@@ -6,7 +6,6 @@ image: docker:latest
 
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
-  DS_DISABLE_REMOTE_CHECKS: "1"
   MAVEN_REPO_PATH: ".m2/repository"
   SAST_PULL_ANALYZER_IMAGES: "0"
   SAST_RUN_ANALYZER_TIMEOUT: 30m
@@ -40,9 +39,9 @@ stages:
 - deploy
 - release
 
-include:
-  - template: SAST.gitlab-ci.yml
-  - template: Dependency-Scanning.gitlab-ci.yml
+#include:
+#  - template: SAST.gitlab-ci.yml
+#  - template: Dependency-Scanning.gitlab-ci.yml
 
 # Testing extension
 .testing:
@@ -141,13 +140,13 @@ check-sonar:
   - develop
   - tags
 
-sast:
-  stage: analysis
-  extends: .analyze
-
-dependency_scanning:
-  stage: analysis
-  extends: .analyze
+#sast:
+#  stage: analysis
+#  extends: .analyze
+#
+#dependency_scanning:
+#  stage: analysis
+#  extends: .analyze
 
 ##############################
 # Site stage

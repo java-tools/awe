@@ -18,7 +18,7 @@
 
   <properties>
     <!-- dependency versions -->
-    <awe.version>${version}</awe.version>
+    <awe.version>${revision}</awe.version>
     <ade.version>2.0.7</ade.version>
     <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
     <spring-cloud.version>Edgware.SR2</spring-cloud.version>
@@ -27,7 +27,7 @@
     <node.version>v11.10.0</node.version>
     <yarn.version>v1.13.0</yarn.version>
     <guava.version>27.0.1-jre</guava.version>
-    <aspectweaber.version>1.9.2</aspectweaber.version>
+    <aspectjweaver.version>1.9.2</aspectjweaver.version>
     <selenium.version>3.141.59</selenium.version>
     <!-- plugin versions -->
     <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
@@ -196,7 +196,7 @@
       <dependency>
         <groupId>org.aspectj</groupId>
         <artifactId>aspectjweaver</artifactId>
-        <version>${aspectweaber.version}</version>
+        <version>${aspectjweaver.version}</version>
       </dependency>
 
       <dependency>
