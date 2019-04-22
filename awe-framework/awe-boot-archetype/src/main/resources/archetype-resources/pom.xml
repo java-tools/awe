@@ -18,8 +18,6 @@
 
   <properties>
     <!-- Application maven properties -->
-    <awe.version>\${project.version}</awe.version>
-    <ade.version>2.0.7</ade.version>
     <java.version>1.8</java.version>
     <application.name>\${artifactId}_V${version}</application.name>
 
