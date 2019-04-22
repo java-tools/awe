@@ -13,6 +13,7 @@
   <packaging>jar</packaging>
   <name>AWE Modules - Annotation (V${project.version})</name>
   <description>Awe Spring Annotation Module</description>
+  <version>4.0.6-SNAPSHOT</version>
 
   <properties>
     <!-- Sonar properties -->

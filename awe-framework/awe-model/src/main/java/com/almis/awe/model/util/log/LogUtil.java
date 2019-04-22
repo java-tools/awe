@@ -14,6 +14,7 @@ import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.config.xml.XmlConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 
 import java.util.ArrayList;
 import java.util.EventObject;
@@ -32,7 +33,7 @@ public class LogUtil {
   private LoggerContext loggerContext;
   private Configuration logConfiguration;
   private Logger loggerUtil;
-  private AweSession session;
+  private ApplicationContext context;
 
   @Value("${application.log.users.level:info}")
   private String defaultLogLevel;
@@ -45,11 +46,12 @@ public class LogUtil {
 
   /**
    * Autowired constructor
-   * @param session
+   *
+   * @param context Application context
    */
   @Autowired
-  public LogUtil(AweSession session) {
-    this.session = session;
+  public LogUtil(ApplicationContext context) {
+    this.context = context;
   }
 
   /**
@@ -153,7 +155,7 @@ public class LogUtil {
    * @param parameters Log parameter list
    * @param cause      Throwable Cause exception
    */
-  public void  log(Class logClass, Level level, String message, Throwable cause, Object... parameters) {
+  public void log(Class logClass, Level level, String message, Throwable cause, Object... parameters) {
     Logger logger = getLogger(logClass);
     if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
       logger.log(level, generateMessage(message, parameters), cause);
@@ -190,7 +192,8 @@ public class LogUtil {
 
   /**
    * Set logger config
-   * @param level Level to put
+   *
+   * @param level        Level to put
    * @param loggerConfig Logger configuration
    * @return Final level
    */
@@ -213,6 +216,7 @@ public class LogUtil {
     }
     return finalLevel;
   }
+
   /**
    * Generate message
    *
@@ -233,17 +237,36 @@ public class LogUtil {
   private AweMessage generateMessage(String message, final Object[] parameters) {
     AweMessage aweMessage = new AweMessage(message, parameters);
     try {
-      String database = session.getParameter(String.class, AweConstants.SESSION_DATABASE);
+      String database = getSession().getParameter(String.class, AweConstants.SESSION_DATABASE);
       database = database == null ? defaultDatasource : database;
       aweMessage.setDatabase(database)
-              .setScreen(session.getParameter(String.class, AweConstants.SESSION_CURRENT_SCREEN));
-      if (session.isAuthenticated()) {
-        aweMessage.setUser(session.getUser());
-      }
+        .setScreen(getSession().getParameter(String.class, AweConstants.SESSION_CURRENT_SCREEN))
+        .setUser(getUser());
     } catch (Exception exc) {
       // Do nothing
     }
     return aweMessage;
+  }
+
+  /**
+   * Retrieve session user
+   * @return Session user
+   */
+  private String getUser() {
+    try {
+      return getSession().isAuthenticated() ? getSession().getUser() : null;
+    } catch (Exception exc) {
+      return null;
+    }
+  }
+
+  /**
+   * Retrieve current session
+   *
+   * @return Session
+   */
+  private AweSession getSession() {
+    return context.getBean(AweSession.class);
   }
 
   /**
@@ -256,19 +279,14 @@ public class LogUtil {
     Logger loggerInstance = LogManager.getLogger(loggerClass);
 
     // User logger
-    String userName = null;
-    try {
-      if (session.isAuthenticated()) {
-        userName = session.getUser();
-      }
-    } catch (Exception exc) {
-      // Do nothing
-    }
+    String userName = getUser();
 
     // User logger
     if (userName != null && !userName.isEmpty() && logUsersEnabled) {
       // Put key user for routing
       ThreadContext.put(AweConstants.SESSION_USER, userName);
+    } else {
+      ThreadContext.remove(AweConstants.SESSION_USER);
     }
 
     // Return rootLogger if userLogger and classLogger not exist

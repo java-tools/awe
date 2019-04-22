@@ -5,10 +5,12 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -106,8 +108,7 @@ public class AweSession {
    * @return Session user
    */
   public String getUser() {
-    Authentication auth = getAuthentication();
-    return auth != null ? auth.getName() : null;
+    return isAuthenticated() ? ((UserDetails) getAuthentication().getPrincipal()).getUsername() : null;
   }
 
   /**
@@ -228,11 +229,7 @@ public class AweSession {
    * @return User is authenticated
    */
   public boolean isAuthenticated() {
-    try {
-      return !hasRole("ROLE_ANONYMOUS");
-    } catch (Exception exc) {
-      return false;
-    }
+    return getAuthentication() != null && !(getAuthentication() instanceof AnonymousAuthenticationToken);
   }
 
   /**

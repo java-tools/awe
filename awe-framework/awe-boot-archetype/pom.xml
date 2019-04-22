@@ -16,6 +16,8 @@
   <name>AWE Spring Boot Archetype (V${project.version})</name>
   <url>https://www.almis.com</url>
   <description>This archetype generates a simple AWE web application with spring boot</description>
+  <version>4.0.6-SNAPSHOT</version>
+
   <developers>
     <developer>
       <id>pabloG</id>
