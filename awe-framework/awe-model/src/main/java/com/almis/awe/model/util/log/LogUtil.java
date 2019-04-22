@@ -285,6 +285,8 @@ public class LogUtil {
     if (userName != null && !userName.isEmpty() && logUsersEnabled) {
       // Put key user for routing
       ThreadContext.put(AweConstants.SESSION_USER, userName);
+    } else {
+      ThreadContext.remove(AweConstants.SESSION_USER);
     }
 
     // Return rootLogger if userLogger and classLogger not exist

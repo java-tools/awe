@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -107,8 +108,7 @@ public class AweSession {
    * @return Session user
    */
   public String getUser() {
-    Authentication auth = getAuthentication();
-    return auth != null ? auth.getName() : null;
+    return isAuthenticated() ? ((UserDetails) getAuthentication().getPrincipal()).getUsername() : null;
   }
 
   /**
@@ -229,7 +229,7 @@ public class AweSession {
    * @return User is authenticated
    */
   public boolean isAuthenticated() {
-    return !(getAuthentication() instanceof AnonymousAuthenticationToken);
+    return getAuthentication() != null && !(getAuthentication() instanceof AnonymousAuthenticationToken);
   }
 
   /**
