@@ -30,10 +30,6 @@
   <dependencies>
     <dependency>
       <groupId>com.almis.awe</groupId>
-      <artifactId>awe-generic-screens</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.almis.awe</groupId>
       <artifactId>awe-model</artifactId>
     </dependency>
     <!-- ADE -->
