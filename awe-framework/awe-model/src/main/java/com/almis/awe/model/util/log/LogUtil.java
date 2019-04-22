@@ -241,11 +241,23 @@ public class LogUtil {
       database = database == null ? defaultDatasource : database;
       aweMessage.setDatabase(database)
         .setScreen(getSession().getParameter(String.class, AweConstants.SESSION_CURRENT_SCREEN))
-        .setUser(getSession().getUser());
+        .setUser(getUser());
     } catch (Exception exc) {
       // Do nothing
     }
     return aweMessage;
+  }
+
+  /**
+   * Retrieve session user
+   * @return Session user
+   */
+  private String getUser() {
+    try {
+      return getSession().isAuthenticated() ? getSession().getUser() : null;
+    } catch (Exception exc) {
+      return null;
+    }
   }
 
   /**
@@ -267,12 +279,7 @@ public class LogUtil {
     Logger loggerInstance = LogManager.getLogger(loggerClass);
 
     // User logger
-    String userName = null;
-    try {
-      userName = getSession().getUser();
-    } catch (Exception exc) {
-      // Do nothing
-    }
+    String userName = getUser();
 
     // User logger
     if (userName != null && !userName.isEmpty() && logUsersEnabled) {
