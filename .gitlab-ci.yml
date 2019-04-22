@@ -9,7 +9,7 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
   JACOCO_OPTS: "-DgenerateIntegrationReport=true -Dskip.selenium=false -Dkarma.launch.gitlab=true -Djava.debug=true"
-  GENERAL_BROWSER_OPTS: "-f awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false"
+  GENERAL_BROWSER_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false"
   CHROME_OPTS: "-Dbrowser=headless-chrome"
   FIREFOX_OPTS: "-Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
@@ -24,8 +24,8 @@ cache:
   policy: pull
   paths:
   - .m2/repository/
-  - awe-client-angular/node_modules/
-  - awe-tools/node_modules/
+  - awe-framework/awe-client-angular/node_modules/
+  - awe-framework/awe-modules/awe-tools/node_modules/
 
 stages:
 - build
@@ -47,8 +47,8 @@ include:
   - shared
   allow_failure: true
   script:
-  - mvn -f awe-boot/pom.xml $MAVEN_CLI_OPTS verify $GENERAL_BROWSER_OPTS $BROWSER_OPTS
-  - search=`cat awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml`
+  - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $GENERAL_BROWSER_OPTS $BROWSER_OPTS
+  - search=`cat awe-tests/awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml`
   - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
   - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
   - echo "$errors errors and $failures failures found"
@@ -56,11 +56,11 @@ include:
   - exit $exitWithErrors
   artifacts:
     paths:
-    - awe-boot/target/tests/
-    - awe-boot/target/surefire-reports/
+    - awe-tests/awe-boot/target/tests/
+    - awe-tests/awe-boot/target/surefire-reports/
     reports:
       junit:
-      - awe-boot/target/surefire-reports/TEST-*.xml
+      - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
     when: on_failure
 
 # Analysis extension
@@ -80,25 +80,25 @@ maven-build:
     policy: push
     paths:
       - .m2/repository/
-      - awe-client-angular/node_modules/
-      - awe-tools/node_modules/
+      - awe-framework/awe-client-angular/node_modules/
+      - awe-framework/awe-modules/awe-tools/node_modules/
   tags:
   - shared
   script:
   - mvn $MAVEN_CLI_OPTS clean install sonar:sonar $JACOCO_OPTS $SONAR_OPTS
-  - cat awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
+  - cat awe-tests/awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
   retry: 2
   artifacts:
     paths:
-    - awe-boot/target/awe-boot.war
-    - awe-boot/target/tests/
-    - awe-boot/target/coverage-reports/
-    - awe-boot/target/surefire-reports/
-    - awe-client-angular/target/reports/karma/
+    - awe-tests/awe-boot/target/awe-boot.war
+    - awe-tests/awe-boot/target/tests/
+    - awe-tests/awe-boot/target/coverage-reports/
+    - awe-tests/awe-boot/target/surefire-reports/
+    - awe-framework/awe-client-angular/target/reports/karma/
     reports:
       junit:
-      - awe-boot/target/surefire-reports/TEST-*.xml
-      - awe-client-angular/target/reports/karma/junit/*.xml
+      - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
+      - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
 
 ##############################
 # Testing stage
@@ -181,7 +181,7 @@ package-build:
   - docker
   script:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-  - docker build -t registry.gitlab.com/aweframework/awe/awe-boot:latest ./awe-boot
+  - docker build -t registry.gitlab.com/aweframework/awe/awe-boot:latest ./awe-tests/awe-boot
   - docker push registry.gitlab.com/aweframework/awe/awe-boot:latest
   only:
   - develop
@@ -214,9 +214,9 @@ k8s-deploy-staging:
   - kubectl config use-context default-system
   - kubectl delete secret registry.gitlab.com
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
-  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-boot/deployment.yaml
+  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
   - kubectl delete --all pods --namespace=staging
-  - kubectl apply -f awe-boot/deployment.yaml --namespace=staging
+  - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=staging
   environment:
     name: staging
     url: http://staging.aweframework.com
@@ -239,9 +239,9 @@ k8s-deploy-production:
   - kubectl config use-context default-system
   - kubectl delete secret registry.gitlab.com
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
-  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-boot/deployment.yaml
+  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
   - kubectl delete --all pods --namespace=production
-  - kubectl apply -f awe-boot/deployment.yaml --namespace=production
+  - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=production
   environment:
     name: production
     url: http://demo.aweframework.com

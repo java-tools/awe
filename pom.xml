@@ -33,7 +33,7 @@
 
     <!-- Jacoco configuration -->
     <jacoco.version>0.8.2</jacoco.version>
-    <jacoco.base.reports>${project.basedir}/../awe-boot/target</jacoco.base.reports>
+    <jacoco.base.reports>${project.basedir}/../../awe-tests/awe-boot/target</jacoco.base.reports>
     <jacoco.reportPaths>${jacoco.base.reports}/coverage-reports</jacoco.reportPaths>
 
     <!-- Sonar configuration -->
@@ -43,11 +43,11 @@
     <sonar.links.issue>https://gitlab.com/aweframework/awe/issues</sonar.links.issue>
     <sonar.links.scm>https://gitlab.com/aweframework/awe.git</sonar.links.scm>
     <sonar.junit.reportPath>${jacoco.base.reports}/surefire-reports</sonar.junit.reportPath>
+    <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
+    <sonar.coverage.jacoco.xmlReportsPath>${jacoco.reportPaths}/jacoco.xml</sonar.coverage.jacoco.xmlReportsPath>
     <sonar.testExecutionReportPaths>
-      ${project.basedir}/awe-client-angular/target/reports/karma/junit/javascriptUnitTests.xml
+      ${project.basedir}/awe-framework/awe-client-angular/target/reports/karma/junit/javascriptUnitTests.xml
     </sonar.testExecutionReportPaths>
-    <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec
-    </sonar.jacoco.reportPaths>
     <sonar.sources>${project.basedir}/src/main</sonar.sources>
     <sonar.binaries>${project.build.directory}/classes</sonar.binaries>
     <sonar.java.source>${java.version}</sonar.java.source>
@@ -72,7 +72,8 @@
 
   <modules>
     <module>awe-framework</module>
-    <module>awe-boot</module>
+    <module>awe-samples</module>
+    <module>awe-tests</module>
   </modules>
 
   <build>
@@ -187,7 +188,7 @@
         </plugins>
       </build>
     </profile>
-    <!-- No deploy awe-boot -->
+    <!-- No deploy awe-tests -->
     <profile>
       <id>no-deploy</id>
       <activation>
@@ -196,7 +197,7 @@
         </property>
       </activation>
       <modules>
-        <module>awe-boot</module>
+        <module>awe-tests</module>
       </modules>
     </profile>
     <!-- Integration report profile -->
