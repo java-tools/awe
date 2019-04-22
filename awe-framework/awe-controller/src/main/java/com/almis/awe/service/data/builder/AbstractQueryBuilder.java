@@ -235,21 +235,25 @@ public abstract class AbstractQueryBuilder extends ServiceConfig implements Quer
    * @return Node value
    */
   private Object getNodeValue(JsonNode node, QueryParameter parameter) {
-    switch (parameter.getType()) {
-      case INTEGER:
-        return node.asInt();
-      case LONG:
-        return node.asLong();
-      case FLOAT:
-        return (float) node.asDouble();
-      case DOUBLE:
-        return node.asDouble();
-      case BOOLEAN:
-        return node.asBoolean();
-      case OBJECT:
-        return node;
-      default:
-        return node.asText();
+    if (node == null || node.isNull()) {
+      return null;
+    } else {
+      switch (parameter.getType()) {
+        case INTEGER:
+          return node.asInt();
+        case LONG:
+          return node.asLong();
+        case FLOAT:
+          return (float) node.asDouble();
+        case DOUBLE:
+          return node.asDouble();
+        case BOOLEAN:
+          return node.asBoolean();
+        case OBJECT:
+          return node;
+        default:
+          return node.asText();
+      }
     }
   }
 }

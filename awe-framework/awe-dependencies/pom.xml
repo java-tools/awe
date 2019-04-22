@@ -18,7 +18,7 @@
 
   <properties>
     <!-- dependency versions -->
-    <awe.version>${revision}</awe.version>
+    <awe.version>${version}</awe.version>
     <ade.version>2.0.7</ade.version>
     <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
     <spring-cloud.version>Edgware.SR2</spring-cloud.version>
