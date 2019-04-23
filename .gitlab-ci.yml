@@ -20,7 +20,7 @@ variables:
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
   KUBERNETES_PROJECT_ID: wired-armor-229610
-  KUBERNETES_CLUSTER_NAME: awe-selenium-testing
+  KUBERNETES_CLUSTER_NAME: awe-boot-cluster
   CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
 
 cache:
@@ -79,7 +79,7 @@ stages:
   script:
   - echo "$GOOGLE_KEY" > key.json
   - gcloud auth activate-service-account --key-file key.json
-  - gcloud config set compute/zone us-central1-a
+  - gcloud config set compute/zone europe-west3-b
   - gcloud config set project $KUBERNETES_PROJECT_ID
   - gcloud config set container/use_client_certificate True
   - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
