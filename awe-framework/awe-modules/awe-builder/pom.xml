@@ -13,7 +13,6 @@
   <name>AWE Modules - Builder (V${project.version})</name>
   <description>Awe Spring Builder Module</description>
   <artifactId>awe-builder</artifactId>
-  <version>4.0.6-SNAPSHOT</version>
 
   <properties>
     <querydsl.version>4.1.4</querydsl.version>
