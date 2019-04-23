@@ -13,6 +13,7 @@ variables:
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
   JACOCO_OPTS: "-DgenerateIntegrationReport=true -Dskip.selenium=false -Dkarma.launch.gitlab=true -Djava.debug=true"
   GENERAL_BROWSER_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false"
+  DEPLOY_OPTS: "-DskipTests -Dskip.karma=true -Dskip.javadoc=false -Dbuild.environment=production"
   CHROME_OPTS: "-Dbrowser=headless-chrome"
   FIREFOX_OPTS: "-Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
@@ -218,18 +219,18 @@ deploy:
   image: maven:3.5-jdk-8
   stage: deploy
   script:
-  - mvn $MAVEN_CLI_OPTS deploy -DskipTests -Dskip.karma=true -Dskip.javadoc=false -Dbuild.environment=production
+  - mvn $MAVEN_CLI_OPTS deploy $DEPLOY_OPTS
   only:
   - develop
 
 deploy-tag-maven-central:
-  image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
+  image: maven:3.5-jdk-8
   stage: deploy
   before_script:
   ## Add gpg key to sign
   - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
   script:
-  - mvn $MAVEN_CLI_OPTS deploy -DperformRelease=true
+  - mvn $MAVEN_CLI_OPTS deploy $DEPLOY_OPTS -DperformRelease=true
   only:
   - tags
 
