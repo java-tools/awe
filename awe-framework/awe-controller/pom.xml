@@ -14,7 +14,6 @@
   <packaging>jar</packaging>
   <name>AWE Controller (V${project.version})</name>
   <description>Awe Spring Controller Module</description>
-  <version>4.0.6-SNAPSHOT</version>
 
   <properties>
     <querydsl.version>4.2.1</querydsl.version>
