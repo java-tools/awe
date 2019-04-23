@@ -1,5 +1,3 @@
-# Changelog for AWE 
-*23/04/2019*
 # Changelog for AWE 4.0.5
 *04/03/2019*
 
