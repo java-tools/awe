@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.almis.awe</groupId>
+    <artifactId>awe-starter-parent</artifactId>
+    <version>\${project.version}</version>
+    <relativePath />
+  </parent>
+
+  <groupId>\${groupId}</groupId>
+  <artifactId>\${artifactId}</artifactId>
+  <version>\${version}</version>
+  <packaging>jar</packaging>
+  <name>\${artifactId}</name>
+
+  <properties>
+    <!-- Application maven properties -->
+    <java.version>1.8</java.version>
+    <application.name>\${artifactId}_V${version}</application.name>
+
+    <!-- Build properties -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
+  <dependencies>
+    <!-- AWE -->
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-spring-boot-starter</artifactId>
+      <exclusions>
+      	<!-- Use log4j2 lib -->
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-client-angular</artifactId>
+    </dependency>
+    <!-- JDBC Drivers -->
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>test</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/application/**</include>
+          <include>**/config/**</include>
+          <include>**/sql/**</include>
+          <include>**/static/**</include>
+          <include>*</include>
+        </includes>
+        <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources/images</directory>
+        <targetPath>${project.build.directory}/classes/static/images</targetPath>
+        <filtering>false</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <!-- AWE static resources -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <id>unpack awe-generic-screens schemas</id>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.almis.awe</groupId>
+                  <artifactId>awe-generic-screens</artifactId>
+                  <version>${awe.version}</version>
+                  <outputDirectory>\${project.build.directory}</outputDirectory>
+                  <includes>schemas/**,</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>generate-sources</phase>
+            <id>unpack awe-generic-screens docs</id>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.almis.awe</groupId>
+                  <artifactId>awe-generic-screens</artifactId>
+                  <version>${awe.version}</version>
+                  <outputDirectory>\${project.build.frontend}</outputDirectory>
+                  <includes>docs/**</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <phase>generate-resources</phase>
+            <id>unpack awe-client-angular</id>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.almis.awe</groupId>
+                  <artifactId>awe-client-angular</artifactId>
+                  <version>${awe.version}</version>
+                  <outputDirectory>\${project.build.frontend}</outputDirectory>
+                  <includes>images/**,css/**</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Spring boot -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Frontend generation -->
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- Xml validation -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- Reporting javadoc -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <show>public</show>
+          <outputDirectory>\${project.build.directory}/apidocs</outputDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
+
+</project>

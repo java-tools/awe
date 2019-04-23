@@ -543,18 +543,12 @@ security.auth.ldap.basedn=
 security.auth.ldap.timeout=5000
 
 ################################################
-# General jdbc properties
-################################################
-# JDBC Authentication user check query
-security.auth.jdbc.param.userPasswordQuery=select LTRIM(RTRIM(l1_nom)) as name, LTRIM(RTRIM(l1_pas)) as password, l1_act from ope where LTRIM(RTRIM(l1_nom)) = ?
-# JDBC Authentication role check query
-security.auth.jdbc.param.rolesQuery=select LTRIM(RTRIM(l1_nom)) as name, LTRIM(RTRIM(Acr)) as role from ope left join AwePro on ope.IdePro = AwePro.IdePro where LTRIM(RTRIM(l1_nom)) = ?
-
-################################################
 # Security request headers
 ################################################
 # Avoid cross domain frame requests
 security.headers.frameOptions.sameOrigin=true
+# Allowed origins when starting websocket connection
+security.headers.allowedOrigins=*
 ```
 
 ## Session properties

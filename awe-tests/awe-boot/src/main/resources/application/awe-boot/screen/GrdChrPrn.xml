@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_CHART_GRID_PRINT" help="HELP_SCREEN_TITLE_CHART_GRID_PRINT">
+  <tag source="buttons">
+    <button label="BUTTON_RESET" icon="eraser" id="ButRes" help="HELP_RESET_BUTTON">
+      <button-action type="reset" target="ChrLinTst"/>
+    </button>
+    <button label="BUTTON_SEARCH" icon="search" id="ButSea" help="HELP_SEARCH_BUTTON">
+       <button-action type="server" server-action="data" target-action="TstChrTwoSrc" target="ChrLinTst"/>
+    </button>
+    <button label="BUTTON_RESTORE" icon="rotate-left" id="ButRestore">
+      <button-action type="restore" target="ChrLinTst"/>
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_PRINT" icon="print" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="validate" />
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+  </tag>
+  <tag source="center">
+    <tag type="div" style="expand" expandible="vertical">
+      <window label="SCREEN_TEXT_LINE_CHART" maximize="true" icon="line-chart" style="expand">
+        <chart id="ChrLinTst" label="SCREEN_TEXT_LINE_CHART" type="line" theme="dark-unica" initial-load="query" target-action="TstChrTwoSrc" zoom-type="xAxis" max="25">
+          <chart-legend label="Leyenda" verticalAlign="middle" align="right" border-width="1" />
+          <x-axis label="Fechas" type="datetime" />
+          <y-axis label="Temperaturas (ºC)" />
+          <chart-tooltip crosshairs="xAxis" suffix=" ºC" number-decimals="1" />
+          <chart-serie id="serie-1" x-value="dates" y-value="serie1" label="Serie 1" color="#0080FF" />
+          <chart-serie id="serie-2" x-value="dates" y-value="serie2" label="Serie 2" color="#81DAF5" />
+          <context-button id="CtxLinTstRef" label="BUTTON_RELOAD" icon="refresh">
+            <button-action type="server" server-action="data" target-action="TstChrTwoSrc" target="ChrLinTst" />
+          </context-button>
+        </chart>
+      </window>
+      <window style="expand" maximize="true" label="SCREEN_TEXT_DATA">
+        <grid id="GrdKeyLst" style="expand" initial-load="query" server-action="data" target-action="GetAweKey" multiselect="true" max="25" load-all="true" pager-values="5, 25, 50, 100">
+          <column label="PARAMETER_KEY" name="Nam" sort-field="Nam" align="left" charlength="14" frozen="true" />
+          <column label="PARAMETER_KEY_VALUE" name="Val" sort-field="Val" align="left" charlength="25" />
+        </grid>
+      </window>
+    </tag>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.almis.awe</groupId>
+    <artifactId>awe-modules</artifactId>
+    <version>4.0.6</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <name>AWE Modules - Builder (V${project.version})</name>
+  <description>Awe Spring Builder Module</description>
+  <artifactId>awe-builder</artifactId>
+
+  <properties>
+    <querydsl.version>4.1.4</querydsl.version>
+    <!-- Sonar properties -->
+    <application.folder>.</application.folder>
+    <sonar.sources>src</sonar.sources>
+    <sonar.inclusions>src/main/java/**</sonar.inclusions>
+    <sonar.language>java</sonar.language>
+    <performancetest.host>localhost</performancetest.host>
+    <performancetest.port>18080</performancetest.port>
+    <performancetest.path />
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-model</artifactId>
+    </dependency>
+  </dependencies>
+</project>

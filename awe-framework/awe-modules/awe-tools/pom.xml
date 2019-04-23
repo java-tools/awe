@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.almis.awe</groupId>
+    <artifactId>awe-modules</artifactId>
+    <version>4.0.6</version>
+    <relativePath>..</relativePath>
+  </parent>
+  
+  <artifactId>awe-tools</artifactId>
+  <packaging>jar</packaging>
+  <name>AWE Modules - Tools (V${project.version})</name>
+  <description>Awe Tools Module</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-controller</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.1</version>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <application.acronym>awe-tools</application.acronym>
+    <skip.karma>true</skip.karma>
+  </properties>
+
+  <build>
+    <finalName>awe-tools</finalName>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/resources/js/awe-tools</directory>
+        <targetPath>${project.build.directory}/classes/js/awe-tools</targetPath>
+      </resource>
+      <resource>
+        <directory>${project.basedir}/src/main/resources/templates</directory>
+        <targetPath>${project.build.directory}/classes/templates</targetPath>
+      </resource>
+      <resource>
+        <directory>${project.basedir}/src/main/resources/application</directory>
+        <targetPath>${project.build.directory}/classes/application</targetPath>
+      </resource>
+    </resources>
+
+    <plugins>
+      <!-- Xml validation -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- Frontend generation -->
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

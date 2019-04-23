@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.almis.awe</groupId>
+    <artifactId>awe-framework</artifactId>
+    <version>4.0.6</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <artifactId>awe-boot-archetype</artifactId>
+  <packaging>maven-archetype</packaging>
+  <name>AWE Spring Boot Archetype (V${project.version})</name>
+  <url>https://www.almis.com</url>
+  <description>This archetype generates a simple AWE web application with spring boot</description>
+
+  <developers>
+    <developer>
+      <id>pabloG</id>
+      <name>Pablo Garcia</name>
+      <email>pablo.garcia@almis.com</email>
+      <organization>Almis</organization>
+      <organizationUrl>https://www.almis.com</organizationUrl>
+      <timezone>+2</timezone>
+    </developer>
+    <developer>
+      <id>pabloV</id>
+      <name>Pablo Vidal</name>
+      <email>pablo.vidal@almis.com</email>
+      <organization>Almis</organization>
+      <organizationUrl>https://www.almis.com</organizationUrl>
+      <timezone>+2</timezone>
+    </developer>
+  </developers>
+
+  <properties>
+    <sonar.exclusions>src/**</sonar.exclusions>
+  </properties>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.archetype</groupId>
+        <artifactId>archetype-packaging</artifactId>
+        <version>2.3</version>
+      </extension>
+    </extensions>
+
+    <!-- Plugins -->
+    <plugins>
+      <!-- Filter root POM to replace project version -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+				<version>${plugin-resources.version}</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <escapeString>\</escapeString>
+        </configuration>
+      </plugin>
+      <!-- Skip deploy -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>${maven-deploy-plugin.version}</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>archetype-resources/pom.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>archetype-resources/pom.xml</exclude>
+        </excludes>
+      </resource>
+    </resources>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-archetype-plugin</artifactId>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>

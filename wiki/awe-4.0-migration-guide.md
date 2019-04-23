@@ -505,7 +505,7 @@ AweConstants.PARAMETER_MAX => AweConstants.COMPONENT_MAX
 * Anyway it's more legible to retrive properties the Spring way:
 
 ```java
-  @Value("var.trt.thd.sug.tim:100")
+  @Value("${var.trt.thd.sug.tim:100}")
   private Integer suggestTime;
 ```
   

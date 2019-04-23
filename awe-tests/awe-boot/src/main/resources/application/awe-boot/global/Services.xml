@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--$Id$ -->
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/services.xsd">
+
+  <!-- Test services -->
+
+  <service id="simplePagination">
+    <java classname="com.almis.awe.test.service.DummyService" method="paginate" />
+  </service>
+
+  <service id="simpleManagedPagination">
+    <java classname="com.almis.awe.test.service.DummyService" method="paginate">
+      <service-parameter name="_page_" type="LONG"/>
+      <service-parameter name="_max_" type="LONG"/>
+    </java>
+  </service>
+
+  <service id="SysDat">
+    <java classname="com.almis.awe.test.service.DummyService" method="getDate" />
+  </service>
+
+  <service id="getDateList">
+    <java classname="com.almis.awe.test.service.DummyService" method="getDateList" />
+  </service>
+
+  <service id="returnDatalistNoParams">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnDatalistNoParams">
+    </java>
+  </service>
+
+  <service id="returnStringArrayNoParams">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnStringArrayNoParams">
+    </java>
+  </service>
+
+  <service id="returnStringArrayTwoStringParams">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnStringArrayTwoStringParams">
+      <service-parameter type="STRING" name="qryNam" />
+      <service-parameter type="STRING" name="fldLst" />
+    </java>
+  </service>
+
+  <service id="returnStringArrayNumberParam">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnStringArrayNumberParam">
+      <service-parameter type="INTEGER" name="variable" />
+    </java>
+  </service>
+
+  <service id="returnStringArrayLongParam">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnStringArrayLongParam">
+      <service-parameter type="LONG" name="variable" />
+    </java>
+  </service>
+
+  <service id="returnStringArrayDoubleParam">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnStringArrayDoubleParam">
+      <service-parameter type="DOUBLE" name="variable" />
+    </java>
+  </service>
+
+  <service id="returnStringArrayFloatParam">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnStringArrayFloatParam">
+      <service-parameter type="FLOAT" name="variable" />
+    </java>
+  </service>
+
+  <service id="returnStringArrayBooleanParam">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnStringArrayBooleanParam">
+      <service-parameter type="BOOLEAN" name="variable" />
+    </java>
+  </service>
+
+  <service id="returnMaintainOkNoParams">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnMaintainOkNoParams">
+    </java>
+  </service>
+
+  <service id="returnMaintainOkMessageParam">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnMaintainOkMessageParam">
+      <service-parameter type="STRING" name="message" />
+    </java>
+  </service>
+
+  <service id="returnMaintainOkTitleMessageParam">
+    <java classname="com.almis.awe.test.service.DummyService" method="returnMaintainOkTitleMessageParam">
+      <service-parameter type="STRING" name="title" />
+      <service-parameter type="STRING" name="message" />
+    </java>
+  </service>
+
+  <service id="ValidateBankAccount">
+    <java classname="com.almis.awe.test.Validation" method="validateBankAccount">
+      <service-parameter type="STRING" name="BankAccount" />
+    </java>
+  </service>
+  <service id="downloadFile">
+    <java classname="com.almis.awe.test.File" method="downloadFile">
+      <service-parameter type="STRING" name="filename" />
+    </java>
+  </service>
+  <service id="getFileInfo">
+    <java classname="com.almis.awe.test.File" method="getFileInfo">
+      <service-parameter type="STRING" name="fileName" />
+    </java>
+  </service>
+  <service id="modalDialog">
+    <java classname="com.almis.awe.test.Dialog" method="modalDialog">
+      <service-parameter type="FLOAT" name="num" />
+    </java>
+  </service>
+  <service id="addColumns">
+    <java classname="com.almis.awe.test.Grid" method="addColumns" />
+  </service>
+  <service id="replaceColumns">
+    <java classname="com.almis.awe.test.Grid" method="replaceColumns">
+      <service-parameter name="fechas" type="DATE"
+        list="true" />
+    </java>
+  </service>
+  <!-- Dynamic series chserviceices -->
+  <service id="replaceSeriesChart">
+    <java classname="com.almis.awe.test.Chart" method="replaceSeriesChart">
+      <service-parameter type="STRING" name="CrtUsrLst"
+        list="true" />
+    </java>
+  </service>
+  <service id="addSeriesChart">
+    <java classname="com.almis.awe.test.Chart" method="addSeriesChart">
+      <service-parameter type="STRING" name="CrtUsrLst"
+        list="true" />
+    </java>
+  </service>
+  <service id="removeSeriesChart">
+    <java classname="com.almis.awe.test.Chart" method="removeSeriesChart">
+      <service-parameter type="STRING" name="CrtUsrLst"
+        list="true" />
+    </java>
+  </service>
+  <!-- <service id="startScheduler" launch-phase="APPLICATION_START"> <java
+    classname="com.almis.awe.scheduler.controller.SchedulerController" method="startNoQuartz"
+    /> </service> <se<servicervice id="startScheduler" launch-phase="APPLICATION_START">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController"
+    method="start" /> </service> <service id="stopScheduler" launch-phase="APPLICATION_END">
+    <java classname="com.almis.awe.scheduler.controller.SchedulerController"
+    method="stop" /> </service> -->
+  <!-- Load user json file -->
+  <service id="loadUserJsonFile">
+    <java classname="com.almis.awe.test.UserList" method="loadUsersJsonFile" />
+  </service>
+  
+  <service id="simpleGETMicroservice">
+    <microservice name="alu-microservice" method="GET" endpoint="/invoke" />
+  </service>
+  
+  <service id="simpleMicroservice2">
+    <microservice name="alu-microservice2" method="POST" endpoint="/invoke/hgf" content-type="JSON"/>
+  </service>
+
+  <service id="simpleMicroservice2WithParameters">
+    <microservice name="alu-microservice2" method="POST" endpoint="/invoke/hgvgh" content-type="JSON">
+      <service-parameter name="param1" type="STRING"/>
+      <service-parameter name="param2" type="DATE" list="true"/>
+      <service-parameter name="param3" type="INTEGER" list="true"/>
+      <service-parameter name="param4" type="STRING" list="true"/>
+      <service-parameter name="param5" type="STRING" list="true"/>
+      <service-parameter name="param6" type="STRING"/>
+    </microservice>
+  </service>
+
+  <service id="simpleMicroservice3">
+    <microservice name="alu-microservice3" method="POST" endpoint="/invoke"/>
+  </service>
+
+  <service id="simpleGETMicroserviceWithWrapper">
+    <microservice name="alu-microservice" method="GET" endpoint="/invoke" wrapper="com.almis.awe.test.service.dto.ServiceDataWrapper" />
+  </service>
+  
+  <service id="simpleGETMicroserviceWithParameter">
+    <microservice name="alu-microservice" method="GET" endpoint="/invoke">
+      <service-parameter name="param1" type="STRING"/>
+    </microservice>
+  </service>
+  
+  <service id="simpleGETMicroserviceWithWildcard">
+    <microservice name="alu-microservice" method="GET" endpoint="/invoke/{param1}">
+      <service-parameter name="param1" type="STRING"/>
+    </microservice>
+  </service>
+  
+  <service id="simpleGETMicroserviceWithWildcardAndParameter">
+    <microservice name="alu-microservice" method="GET" endpoint="/invoke/{param1}">
+      <service-parameter name="param1" type="STRING"/>
+      <service-parameter name="param2" type="STRING"/>
+    </microservice>
+  </service>
+  
+  <service id="simplePOSTMicroserviceWithParameters">
+    <microservice name="alu-microservice" method="POST" endpoint="/invoke">
+      <service-parameter name="param1" type="STRING"/>
+      <service-parameter name="param2" type="STRING"/>
+    </microservice>
+  </service>
+  
+  <service id="simplePUTMicroserviceWithParameters">
+    <microservice name="alu-microservice" method="PUT" endpoint="/invoke">
+      <service-parameter name="param1" type="STRING"/>
+      <service-parameter name="param2" type="STRING"/>
+    </microservice>
+  </service>
+  
+  <service id="simpleDELETEMicroserviceWithWildcard">
+    <microservice name="alu-microservice" method="DELETE" endpoint="/invoke/{param1}">
+      <service-parameter name="param1" type="STRING"/>
+    </microservice>
+  </service>
+
+  <service id="aluGetKey">
+    <microservice name="alu-microservice" method="POST" endpoint="/data/aluWbsCorGetKey">
+      <service-parameter name="Ken" type="STRING"/>
+      <service-parameter name="Nbk" type="INTEGER"/>
+    </microservice>
+  </service>
+
+  <service id="aluGetKeyNoParam">
+    <microservice name="alu-microservice" method="POST" endpoint="/data/aluWbsCorGetKey"/>
+  </service>
+
+  <service id="aluGetKeyRest">
+    <rest server="alu-server" method="POST" endpoint="/data/aluWbsCorGetKey">
+      <service-parameter name="Ken" type="STRING"/>
+      <service-parameter name="Nbk" type="INTEGER"/>
+    </rest>
+  </service>
+
+
+  <service id="getQueryDataTotalize">
+    <java classname="com.almis.awe.test.Grid" method="getServiceData">
+      <service-parameter name="query" type="STRING"/>
+    </java>
+  </service>
+  
+  <service id="sendMail">
+    <java classname="com.almis.awe.test.service.DummyService" method="sendMail" />
+  </service>
+
+  <service id="convertIcon">
+    <java classname="com.almis.awe.test.Grid" method="convertIcon" >
+      <service-parameter name="selected" type="INTEGER" list="true"/>
+    </java>
+  </service>
+
+  <service id="delayedSuggest">
+    <java classname="com.almis.awe.test.Suggest" method="delayedSuggest">
+      <service-parameter type="STRING" name="queryName" />
+    </java>
+  </service>
+
+  <service id="testSimpleRestGet">
+    <rest method="GET" endpoint="http://localhost:18081/testapi/simple"/>
+  </service>
+
+  <service id="testSimpleRestPost">
+    <rest method="POST" endpoint="http://localhost:18081/testapi/simple"/>
+  </service>
+
+  <service id="testComplexRestGet">
+    <rest method="GET" endpoint="http://localhost:18081/testapi/complex/QtyTst"/>
+  </service>
+
+  <service id="testComplexRestPost">
+    <rest method="POST" endpoint="http://localhost:18081/testapi/complex/testInclude"/>
+  </service>
+
+  <service id="testComplexRestGetParameters">
+    <rest server="local" method="GET" endpoint="/testapi/complex/QtyTst{name}/{value}">
+      <service-parameter type="STRING" name="name" />
+      <service-parameter type="STRING" name="value" />
+    </rest>
+  </service>
+
+  <service id="testComplexRestPostParameters">
+    <rest method="POST" endpoint="http://localhost:18081/testapi/complex/parameters/testRestParameters">
+      <service-parameter type="INTEGER" name="value" />
+    </rest>
+  </service>
+
+  <service id="testComplexRestPostParametersList">
+    <rest method="POST" endpoint="http://localhost:18081/testapi/complex/parameterList">
+      <service-parameter type="INTEGER" name="integerList" list="true"/>
+      <service-parameter type="STRING" name="stringList" list="true"/>
+      <service-parameter type="DATE" name="dateList" list="true"/>
+    </rest>
+  </service>
+
+  <service id="testComplexRestPostParametersListGetParameters">
+    <rest method="POST" endpoint="http://localhost:18081/testapi/complex/parameterListGetParameters">
+      <service-parameter type="INTEGER" name="integerList" list="true"/>
+      <service-parameter type="STRING" name="stringList" list="true"/>
+      <service-parameter type="DATE" name="dateList" list="true"/>
+    </rest>
+  </service>
+
+  <service id="testComplexRestPostParametersListJson">
+    <rest method="POST" endpoint="http://localhost:18081/testapi/complex/parameterListJson" content-type="JSON">
+      <service-parameter type="INTEGER" name="integerList" list="true"/>
+      <service-parameter type="STRING" name="stringList" list="true"/>
+      <service-parameter type="DATE" name="dateList" list="true"/>
+    </rest>
+  </service>
+
+  <service id="testComplexRestPostParametersJson">
+    <rest server="local" method="POST" endpoint="/testapi/complex/parameters/json/testRestParameters" content-type="JSON">
+      <service-parameter type="INTEGER" name="value" />
+    </rest>
+  </service>
+
+  <service id="testExternalRest">
+    <rest server="islandia" method="GET" endpoint="/concerts" wrapper="com.almis.awe.test.bean.Concerts"/>
+  </service>
+
+  <service id="testPostman">
+    <rest server="postman" method="GET" endpoint="/gzip" wrapper="com.almis.awe.test.bean.Postman"/>
+  </service>
+
+</services>
