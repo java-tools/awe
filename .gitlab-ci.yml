@@ -58,6 +58,8 @@ stages:
   - echo "$errors errors and $failures failures found"
   - exitWithErrors=`echo $errors $failures | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
   - exit $exitWithErrors
+  except:
+  - /^release\/.*$/
   artifacts:
     paths:
     - awe-tests/awe-boot/target/tests/
@@ -66,15 +68,13 @@ stages:
       junit:
       - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
     when: on_failure
-  except:
-  - release/.*
 
 # Analysis extension
 .analyze:
   tags:
   - docker
   except:
-  - release/.*
+  - /^release\/.*$/
 
 # Kubernetes deployment
 .k8s-deploy:
@@ -147,7 +147,7 @@ maven-build:
       - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
       - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
   except:
-  - release/.*
+  - /^release\/.*$/
 
 ##############################
 # Testing stage
@@ -185,7 +185,7 @@ check-sonar:
   - master
   - develop
   - tags
-  - release/.*
+  - /^release\/.*$/
 
 #sast:
 #  stage: analysis
@@ -218,7 +218,7 @@ site:
     - awe-framework/awe-generic-screens/src/main/resources/schemas/
   only:
   - master
-  - release/.*
+  - /^release\/.*$/
 
 ##############################
 # Package stage
@@ -310,9 +310,9 @@ release-start:
   - git commit -m "Generated CHANGELOG"
   ## Generate release
   - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true
+  when: manual
   only:
   - develop
-  when: manual
 
 release-finish:
   extends: .publish-git
@@ -332,4 +332,4 @@ release-finish:
   - git commit -m "Updated revision property"
   - git push origin --mirror
   only:
-  - release/.*
+  - /^release\/.*$/
