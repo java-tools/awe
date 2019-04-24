@@ -732,17 +732,4 @@
     </plugins>
   </reporting>
 
-  <distributionManagement>
-    <repository>
-      <id>central</id>
-      <name>Releases</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-    <snapshotRepository>
-      <id>central</id>
-      <name>Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
-
 </project>
