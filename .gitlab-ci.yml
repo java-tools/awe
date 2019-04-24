@@ -66,11 +66,15 @@ stages:
       junit:
       - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
     when: on_failure
+  except:
+  - release/.*
 
 # Analysis extension
 .analyze:
   tags:
   - docker
+  except:
+  - release/.*
 
 # Kubernetes deployment
 .k8s-deploy:
@@ -142,6 +146,8 @@ maven-build:
       junit:
       - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
       - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
+  except:
+  - release/.*
 
 ##############################
 # Testing stage
@@ -175,10 +181,11 @@ check-sonar:
   - echo "Sonar has ended with a $sonarStatus status"
   - exitWithErrors=`echo $sonarStatus | sed -e 's/"//g' | awk '{printf ($1 != "OK")}'`
   - exit $exitWithErrors
-  except:
+  only:
   - master
   - develop
   - tags
+  - release/.*
 
 #sast:
 #  stage: analysis
@@ -325,4 +332,4 @@ release-finish:
   - git commit -m "Updated revision property"
   - git push origin --mirror
   only:
-    - release/.*
+  - release/.*
