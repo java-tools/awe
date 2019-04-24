@@ -186,7 +186,7 @@ site:
   image: maven:3.5-jdk-8
   stage: site
   script:
-  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.karma=true -Dbuild.environment=production
+  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.karma=true -Dbuild.environment=production -f awe-framework/pom.xml
   artifacts:
     paths:
     - awe-framework/target/site/apidocs
