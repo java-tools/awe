@@ -173,7 +173,6 @@ public class FileController extends ServiceConfig {
   /**
    * Handle error
    * @param exc Exception to handle
-   * @return Response error
    */
   @ExceptionHandler(AWException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
