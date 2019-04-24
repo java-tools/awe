@@ -77,7 +77,7 @@ stages:
   - release/.*
 
 # Kubernetes deployment
-.k8s-deploy:
+.k8s_deploy:
   image: google/cloud-sdk
   stage: deploy
   script:
@@ -97,9 +97,9 @@ stages:
   - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
   - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
 
-# GIT publishing
-.publish-git:
-  before_script:
+.prepare_release:
+  stage: release
+  script:
   ## Install ssh-agent if not already installed, it is required by Docker.
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
   - eval $(ssh-agent -s)
@@ -261,7 +261,7 @@ deploy-tag-maven-central:
   - tags
 
 k8s-deploy-staging:
-  extends: .k8s-deploy
+  extends: .k8s_deploy
   environment:
     name: staging
     url: http://staging.aweframework.com
@@ -269,7 +269,7 @@ k8s-deploy-staging:
   - develop
 
 k8s-deploy-production:
-  extends: .k8s-deploy
+  extends: .k8s_deploy
   environment:
     name: production
     url: http://demo.aweframework.com
@@ -286,24 +286,20 @@ pages:
   - cp -r awe-framework/target/site/apidocs .public/javadoc-api/
   - cp -r awe-framework/awe-generic-screens/src/main/resources/schemas/awe/*.xsd .public/docs/schemas/
   - mv .public public
-  only:
-  - master
   artifacts:
     paths:
     - public
+  only:
+  - master
 
 ##############################
 # Release stage
 ##############################
 
-release-start:
-  extends: .publish-git
+start-release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
-  stage: release
-  when: manual
-  only:
-  - develop
-  script:
+  extends: .prepare_release
+  after_script:
   ## Generate changelog
   - git checkout $CI_COMMIT_REF_NAME
   - chmod +x ./bin/changelog.sh
@@ -313,14 +309,14 @@ release-start:
   - git commit -m "Generated CHANGELOG"
   ## Generate release
   - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true
-
-release-finish:
-  extends: .publish-git
-  image: maven:3.5-jdk-8
-  stage: release
+  when: manual
   only:
-  - release/.*
-  script:
+  - develop
+
+finish-release:
+  image: maven:3.5-jdk-8
+  extends: .prepare_release
+  after_script:
   ## Update property version
   - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
   - git add ./pom.xml
@@ -333,3 +329,5 @@ release-finish:
   - git add ./pom.xml
   - git commit -m "Updated revision property"
   - git push origin --mirror
+  only:
+  - release/.*
