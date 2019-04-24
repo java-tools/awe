@@ -59,7 +59,7 @@ stages:
   - exitWithErrors=`echo $errors $failures | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
   - exit $exitWithErrors
   except:
-  - /^release\/.*$/
+  - release/.*
   artifacts:
     paths:
     - awe-tests/awe-boot/target/tests/
@@ -74,7 +74,7 @@ stages:
   tags:
   - docker
   except:
-  - /^release\/.*$/
+  - release/.*
 
 # Kubernetes deployment
 .k8s-deploy:
@@ -147,7 +147,7 @@ maven-build:
       - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
       - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
   except:
-  - /^release\/.*$/
+  - release/.*
 
 ##############################
 # Testing stage
@@ -181,11 +181,11 @@ check-sonar:
   - echo "Sonar has ended with a $sonarStatus status"
   - exitWithErrors=`echo $sonarStatus | sed -e 's/"//g' | awk '{printf ($1 != "OK")}'`
   - exit $exitWithErrors
-  only:
+  except:
   - master
   - develop
   - tags
-  - /^release\/.*$/
+  - release/.*
 
 #sast:
 #  stage: analysis
@@ -218,7 +218,7 @@ site:
     - awe-framework/awe-generic-screens/src/main/resources/schemas/
   only:
   - master
-  - /^release\/.*$/
+  - release/.*
 
 ##############################
 # Package stage
@@ -286,11 +286,11 @@ pages:
   - cp -r awe-framework/target/site/apidocs .public/javadoc-api/
   - cp -r awe-framework/awe-generic-screens/src/main/resources/schemas/awe/*.xsd .public/docs/schemas/
   - mv .public public
+  only:
+  - master
   artifacts:
     paths:
     - public
-  only:
-  - master
 
 ##############################
 # Release stage
@@ -300,6 +300,9 @@ release-start:
   extends: .publish-git
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
+  when: manual
+  only:
+  - develop
   script:
   ## Generate changelog
   - git checkout $CI_COMMIT_REF_NAME
@@ -310,14 +313,13 @@ release-start:
   - git commit -m "Generated CHANGELOG"
   ## Generate release
   - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true
-  when: manual
-  only:
-  - develop
 
 release-finish:
   extends: .publish-git
   image: maven:3.5-jdk-8
   stage: release
+  only:
+  - release/.*
   script:
   ## Update property version
   - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
@@ -331,5 +333,3 @@ release-finish:
   - git add ./pom.xml
   - git commit -m "Updated revision property"
   - git push origin --mirror
-  only:
-  - /^release\/.*$/
