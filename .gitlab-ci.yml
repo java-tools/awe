@@ -189,8 +189,8 @@ site:
   - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.karma=true -Dbuild.environment=production
   artifacts:
     paths:
-    - target/site/apidocs
-    - awe-generic-screens/src/main/resources/schemas/
+    - awe-framework/target/site/apidocs
+    - awe-framework/awe-generic-screens/src/main/resources/schemas/
   only:
   - master
 
@@ -257,8 +257,8 @@ pages:
   - site
   script:
   - mkdir -p .public/docs/schemas
-  - cp -r target/site/apidocs .public/javadoc-api/
-  - cp -r awe-generic-screens/src/main/resources/schemas/awe/*.xsd .public/docs/schemas/
+  - cp -r awe-framework/target/site/apidocs .public/javadoc-api/
+  - cp -r awe-framework/awe-generic-screens/src/main/resources/schemas/awe/*.xsd .public/docs/schemas/
   - mv .public public
   artifacts:
     paths:

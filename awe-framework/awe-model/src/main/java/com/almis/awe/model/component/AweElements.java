@@ -888,7 +888,6 @@ public class AweElements {
   /**
    * Retrieve a property value
    *
-   * @param <T> Return value class
    * @param propertyIdentifier Property identifier
    * @param defaultValue       Default value
    * @return Selected locale
