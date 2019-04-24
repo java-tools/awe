@@ -93,6 +93,24 @@ stages:
   - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
   - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
 
+# GIT publishing
+.publish-git:
+  before_script:
+  ## Install ssh-agent if not already installed, it is required by Docker.
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  # Use ssh-keyscan to scan the keys of your private server.
+  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  ## Config git
+  - git config --global user.email no-reply@almis.com
+  - git config --global user.name "Gitlab CI"
+  - git remote set-url $CI_PROJECT_URL_SSH
+
 ##############################
 # Build stage
 ##############################
@@ -193,6 +211,7 @@ site:
     - awe-framework/awe-generic-screens/src/main/resources/schemas/
   only:
   - master
+  - release/.*
 
 ##############################
 # Package stage
@@ -270,24 +289,10 @@ pages:
 # Release stage
 ##############################
 
-release:
+release-start:
+  extends: .publish-git
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
-  before_script:
-  ## Install ssh-agent if not already installed, it is required by Docker.
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  # Use ssh-keyscan to scan the keys of your private server.
-  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-  ## Config git
-  - git config --global user.email no-reply@almis.com
-  - git config --global user.name "Gitlab CI"
-  - git remote set-url $CI_PROJECT_URL_SSH
   script:
   ## Generate changelog
   - git checkout $CI_COMMIT_REF_NAME
@@ -297,7 +302,27 @@ release:
   - git add ./CHANGELOG.md
   - git commit -m "Generated CHANGELOG"
   ## Generate release
-  - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTestProject=true
+  - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true
   only:
   - develop
   when: manual
+
+release-finish:
+  extends: .publish-git
+  image: maven:3.5-jdk-8
+  stage: release
+  script:
+  ## Update property version
+  - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
+  - git add ./pom.xml
+  - git commit -m "Updated revision property"
+  ## Generate release
+  - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DpushRemote=false
+  ## Update property on develop
+  - git checkout develop
+  - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
+  - git add ./pom.xml
+  - git commit -m "Updated revision property"
+  - git push origin --mirror
+  only:
+    - release/.*

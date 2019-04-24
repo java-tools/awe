@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="utf-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
-  <version>4.0.7-SNAPSHOT</version>
+  <version>4.0.6-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>AWE (V${project.version})</name>
@@ -15,7 +12,7 @@
 
   <properties>
     <!-- Project versions -->
-    <revision>4.0.7-SNAPSHOT</revision>
+    <revision>4.0.6-SNAPSHOT</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
@@ -57,6 +54,7 @@
     <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
     <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
     <maven-failsafe-plugin.version>2.18.1</maven-failsafe-plugin.version>
+    <plugin-xml-maven.version>1.0</plugin-xml-maven.version>
     <gitflow-maven-plugin.version>1.12.0</gitflow-maven-plugin.version>
     <skip.selenium>true</skip.selenium>
     <skip.javadoc>true</skip.javadoc>
@@ -101,6 +99,24 @@
             <versionTagPrefix>v</versionTagPrefix>
             <origin>origin</origin>
           </gitFlowConfig>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <version>${plugin-xml-maven.version}</version>
+        <inherited>false</inherited>
+        <configuration>
+          <transformationSets>
+            <transformationSet>
+              <dir>${project.basedir}</dir>
+              <outputDir>${project.basedir}</outputDir>
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+              <stylesheet>xslt/process-version.xsl</stylesheet>
+            </transformationSet>
+          </transformationSets>
         </configuration>
       </plugin>
     </plugins>
@@ -180,30 +196,11 @@
       <organizationUrl>http://www.almis.com</organizationUrl>
     </developer>
     <developer>
-      <name>Isaac Serna</name>
-      <email>isaac.serna@almis.com</email>
-      <organization>Almis I.F.</organization>
-      <organizationUrl>http://www.almis.com</organizationUrl>
-    </developer>
-    <developer>
       <name>Aitor Ugarte</name>
       <email>aitor.ugarte@almis.com</email>
       <organization>Almis I.F.</organization>
       <organizationUrl>http://www.almis.com</organizationUrl>
     </developer>
   </developers>
-
-  <distributionManagement>
-    <repository>
-      <id>central</id>
-      <name>Releases</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-    <snapshotRepository>
-      <id>central</id>
-      <name>Snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
 
 </project>

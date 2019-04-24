@@ -3,10 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>awe-parent</artifactId>
+    <artifactId>awe-dependencies</artifactId>
     <groupId>com.almis.awe</groupId>
-    <version>4.0.7-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <version>4.0.6-SNAPSHOT</version>
+    <relativePath>../awe-framework/awe-dependencies</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -14,8 +14,48 @@
   <artifactId>awe-tests</artifactId>
   <packaging>pom</packaging>
 
+  <properties>
+    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+  </properties>
+
   <modules>
     <module>awe-boot</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+        <inherited>true</inherited>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>${maven-gpg-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Deploy nexus -->
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>${nexus-staging-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>default-deploy</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
