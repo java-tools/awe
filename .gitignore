@@ -120,3 +120,4 @@ node_modules/
 ######################
 .eslintcache
 *.lock
+awe-framework/awe-dependencies/.flattened-pom.xml

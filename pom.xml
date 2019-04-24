@@ -51,14 +51,8 @@
 
     <!-- plugin versions -->
     <plugin-resources.version>3.1.0</plugin-resources.version>
-    <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
-    <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
-    <maven-failsafe-plugin.version>2.18.1</maven-failsafe-plugin.version>
     <plugin-xml-maven.version>1.0</plugin-xml-maven.version>
     <gitflow-maven-plugin.version>1.12.0</gitflow-maven-plugin.version>
-    <skip.selenium>true</skip.selenium>
-    <skip.javadoc>true</skip.javadoc>
-    <skip.main>false</skip.main>
 
     <!-- Build environment -->
     <build.environment>development</build.environment>
@@ -72,17 +66,6 @@
 
   <build>
     <plugins>
-      <!-- Surefire Junit test -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven-surefire-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>${maven-failsafe-plugin.version}</version>
-      </plugin>
       <!-- Git flow -->
       <plugin>
         <groupId>com.amashchenko.maven.plugin</groupId>
@@ -121,53 +104,6 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <!-- Integration report profile -->
-    <profile>
-      <id>generate-integration-report</id>
-      <activation>
-        <property>
-          <name>generateIntegrationReport</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <!-- Jacoco coverage -->
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco.version}</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-                <configuration>
-                  <append>true</append>
-                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
-                </configuration>
-              </execution>
-              <execution>
-                <id>prepare-integration-agent</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>prepare-agent-integration</goal>
-                </goals>
-                <configuration>
-                  <skip>${skip.selenium}</skip>
-                  <append>true</append>
-                  <destFile>${jacoco.base.reports}/jacoco-it.exec</destFile>
-                  <propertyName>failsafe.argLine</propertyName>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
   <licenses>
     <license>
