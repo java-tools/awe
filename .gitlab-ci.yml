@@ -273,9 +273,9 @@ k8s-deploy-production:
   environment:
     name: production
     url: http://demo.aweframework.com
-  when: manual
   only:
   - master
+  when: manual
 
 pages:
   stage: deploy
