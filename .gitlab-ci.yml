@@ -87,15 +87,25 @@ stages:
   - gcloud config set project $KUBERNETES_PROJECT_ID
   - gcloud config set container/use_client_certificate True
   - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
-  - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
-  - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin
-  - kubectl config use-context default-system
   - kubectl delete secret registry.gitlab.com
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
   - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
-  - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
   - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
+# - echo "$GOOGLE_KEY" > key.json
+# - gcloud auth activate-service-account --key-file key.json
+# - gcloud config set compute/zone europe-west3-b
+# - gcloud config set project $KUBERNETES_PROJECT_ID
+# - gcloud config set container/use_client_certificate True
+# - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
+# - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
+# - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
+# - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin
+# - kubectl config use-context default-system
+# - kubectl delete secret registry.gitlab.com
+# - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
+# - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
+# - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
+# - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
 
 # GIT push credentials
 .git_push_credentials_template: &git_push_credentials |
@@ -262,6 +272,7 @@ k8s-deploy-staging:
     url: http://staging.aweframework.com
   only:
   - develop
+  - merge_requests
 
 k8s-deploy-production:
   extends: .k8s_deploy
