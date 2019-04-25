@@ -115,7 +115,7 @@ stages:
 # Build stage
 ##############################
 
-Build project with coverage:
+Build project:
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   stage: build
   cache:
@@ -149,13 +149,13 @@ Build project with coverage:
 # Testing stage
 ##############################
 
-Integration tests in Chrome:
+Chrome IT:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
     BROWSER_OPTS: $CHROME_OPTS
 
-Integration tests in Firefox:
+Firefox IT:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
@@ -195,7 +195,7 @@ Check Sonar:
 # Site stage
 ##############################
 
-Publish documentation:
+Publish docs:
   stage: site
   image: cfmanteiga/alpine-bash-curl-jq:latest
   script:
@@ -203,7 +203,7 @@ Publish documentation:
   only:
   - develop
 
-Generate javadoc and schemas:
+Generate javadoc & schemas:
   image: maven:3.5-jdk-8
   stage: site
   script:
@@ -245,7 +245,7 @@ Deploy snapshot:
   only:
   - develop
 
-Deploy release to Maven Central:
+Deploy Maven Central:
   image: maven:3.5-jdk-8
   stage: deploy
   before_script:
@@ -256,7 +256,7 @@ Deploy release to Maven Central:
   only:
   - tags
 
-Deploy to staging environment:
+Deploy staging:
   extends: .k8s_deploy
   environment:
     name: staging
@@ -266,7 +266,7 @@ Deploy to staging environment:
     - develop
     kubernetes: active
 
-Deploy to production environment:
+Deploy production:
   extends: .k8s_deploy
   environment:
     name: production
@@ -277,10 +277,10 @@ Deploy to production environment:
     kubernetes: active
   when: manual
 
-Publish javadoc and schemas:
+Publish javadoc & schemas:
   stage: deploy
   dependencies:
-  - Generate javadoc and schemas
+  - Generate javadoc & schemas
   script:
   - mkdir -p .public/docs/schemas
   - cp -r awe-framework/target/site/apidocs .public/javadoc-api/
