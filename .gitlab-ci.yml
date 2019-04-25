@@ -89,9 +89,9 @@ stages:
   - gcloud config set project $KUBERNETES_PROJECT_ID
   - gcloud config set container/use_client_certificate True
   - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
-  - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
-  - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$CI_ENVIRONMENT_SLUG
+#  - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
+#  - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
+#  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$CI_ENVIRONMENT_SLUG
   - kubectl delete secret registry.gitlab.com --user=admin --namespace=$CI_ENVIRONMENT_SLUG
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL --namespace=$CI_ENVIRONMENT_SLUG
   - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
@@ -129,7 +129,7 @@ stages:
 # Build stage
 ##############################
 
-maven-build:
+Build project with coverage:
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   stage: build
   cache:
@@ -164,13 +164,13 @@ maven-build:
 # Testing stage
 ##############################
 
-test-chrome:
+Integration tests in Chrome:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
     BROWSER_OPTS: $CHROME_OPTS
 
-test-firefox:
+Integration tests in Firefox:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
@@ -180,7 +180,7 @@ test-firefox:
 # Analysis stage
 ##############################
 
-check-sonar:
+Check Sonar:
   stage: analysis
   image: cfmanteiga/alpine-bash-curl-jq:latest
   script:
@@ -211,7 +211,7 @@ check-sonar:
 # Site stage
 ##############################
 
-publish-docs:
+Publish documentation:
   stage: site
   image: cfmanteiga/alpine-bash-curl-jq:latest
   script:
@@ -219,7 +219,7 @@ publish-docs:
   only:
   - develop
 
-site:
+Generate javadoc and schemas:
   image: maven:3.5-jdk-8
   stage: site
   script:
@@ -236,7 +236,7 @@ site:
 # Package stage
 ##############################
 
-package-build:
+Build package:
   stage: package
   services:
   - docker:dind
@@ -253,7 +253,7 @@ package-build:
 # Deploy stage
 ##############################
 
-deploy:
+Deploy snapshot:
   image: maven:3.5-jdk-8
   stage: deploy
   script:
@@ -261,7 +261,7 @@ deploy:
   only:
   - develop
 
-deploy-tag-maven-central:
+Deploy release to Maven Central:
   image: maven:3.5-jdk-8
   stage: deploy
   before_script:
@@ -272,7 +272,7 @@ deploy-tag-maven-central:
   only:
   - tags
 
-Deploy to staging:
+Deploy to staging environment:
   extends: .k8s_deploy
   environment:
     name: staging
@@ -283,7 +283,7 @@ Deploy to staging:
     - /^feature/test-.*$/
     kubernetes: active
 
-Deploy to production:
+Deploy to production environment:
   extends: .k8s_deploy
   environment:
     name: production
@@ -294,10 +294,10 @@ Deploy to production:
     kubernetes: active
   when: manual
 
-pages:
+Publish javadoc and schemas:
   stage: deploy
   dependencies:
-  - site
+  - Generate javadoc and schemas
   script:
   - mkdir -p .public/docs/schemas
   - cp -r awe-framework/target/site/apidocs .public/javadoc-api/
@@ -313,7 +313,7 @@ pages:
 # Release stage
 ##############################
 
-start-release:
+Start a new release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
   allow_failure: false
@@ -332,7 +332,7 @@ start-release:
   - develop
   when: manual
 
-finish-release:
+Finish the release:
   image: maven:3.5-jdk-8
   stage: release
   allow_failure: false
