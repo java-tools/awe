@@ -60,7 +60,6 @@ stages:
   - exit $exitWithErrors
   except:
   - /^release/.*$/
-  - feature/test-deploy
   artifacts:
     paths:
     - awe-tests/awe-boot/target/tests/
@@ -76,7 +75,6 @@ stages:
   - docker
   except:
   - /^release/.*$/
-  - feature/test-deploy
 
 # Kubernetes deployment
 .k8s_deploy:
@@ -146,7 +144,6 @@ Build project with coverage:
       - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
   except:
   - /^release/.*$/
-  - feature/test-deploy
 
 ##############################
 # Testing stage
@@ -185,7 +182,6 @@ Check Sonar:
   - develop
   - tags
   - /^release/.*$/
-  - /^feature/test-.*$/
 
 #sast:
 #  stage: analysis
@@ -268,7 +264,6 @@ Deploy to staging environment:
   only:
     refs:
     - develop
-    - /^feature/test-.*$/
     kubernetes: active
 
 Deploy to production environment:
