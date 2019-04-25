@@ -59,7 +59,8 @@ stages:
   - exitWithErrors=`echo $errors $failures | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
   - exit $exitWithErrors
   except:
-  - release/.*
+  - /^release/.*$/
+  - feature/test-deploy
   artifacts:
     paths:
     - awe-tests/awe-boot/target/tests/
@@ -74,7 +75,8 @@ stages:
   tags:
   - docker
   except:
-  - release/.*
+  - /^release/.*$/
+  - feature/test-deploy
 
 # Kubernetes deployment
 .k8s_deploy:
@@ -83,25 +85,38 @@ stages:
   script:
   - echo "$GOOGLE_KEY" > key.json
   - gcloud auth activate-service-account --key-file key.json
-  - gcloud config set compute/zone europe-west3-b
+  - gcloud config set compute/zone $KUBE_ZONE
   - gcloud config set project $KUBERNETES_PROJECT_ID
   - gcloud config set container/use_client_certificate True
   - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
-  - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
+#  - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
   - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin
-  - kubectl config use-context default-system
-  - kubectl delete secret registry.gitlab.com
-  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
+#  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$CI_ENVIRONMENT_SLUG
+  - kubectl delete secret registry.gitlab.com --ignore-not-found --user=admin --namespace=$CI_ENVIRONMENT_SLUG
+  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL --user=admin --namespace=$CI_ENVIRONMENT_SLUG
   - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
-  - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
-  - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
+  - kubectl apply -f awe-tests/awe-boot/deployment.yaml --user=admin --namespace=$CI_ENVIRONMENT_SLUG
+# - echo "$GOOGLE_KEY" > key.json
+# - gcloud auth activate-service-account --key-file key.json
+# - gcloud config set compute/zone europe-west3-b
+# - gcloud config set project $KUBERNETES_PROJECT_ID
+# - gcloud config set container/use_client_certificate True
+# - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
+# - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
+# - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
+# - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin
+# - kubectl config use-context default-system
+# - kubectl delete secret registry.gitlab.com
+# - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
+# - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
+# - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
+# - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
 
 ##############################
 # Build stage
 ##############################
 
-maven-build:
+Build project with coverage:
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   stage: build
   cache:
@@ -129,19 +144,20 @@ maven-build:
       - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
       - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
   except:
-  - release/.*
+  - /^release/.*$/
+  - feature/test-deploy
 
 ##############################
 # Testing stage
 ##############################
 
-test-chrome:
+Integration tests in Chrome:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
     BROWSER_OPTS: $CHROME_OPTS
 
-test-firefox:
+Integration tests in Firefox:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
@@ -151,7 +167,7 @@ test-firefox:
 # Analysis stage
 ##############################
 
-check-sonar:
+Check Sonar:
   stage: analysis
   image: cfmanteiga/alpine-bash-curl-jq:latest
   script:
@@ -167,7 +183,8 @@ check-sonar:
   - master
   - develop
   - tags
-  - release/.*
+  - /^release/.*$/
+  - /^feature/test-.*$/
 
 #sast:
 #  stage: analysis
@@ -181,7 +198,7 @@ check-sonar:
 # Site stage
 ##############################
 
-publish-docs:
+Publish documentation:
   stage: site
   image: cfmanteiga/alpine-bash-curl-jq:latest
   script:
@@ -189,7 +206,7 @@ publish-docs:
   only:
   - develop
 
-site:
+Generate javadoc and schemas:
   image: maven:3.5-jdk-8
   stage: site
   script:
@@ -200,13 +217,13 @@ site:
     - awe-framework/awe-generic-screens/src/main/resources/schemas/
   only:
   - master
-  - release/.*
+  - /^release/.*$/
 
 ##############################
 # Package stage
 ##############################
 
-package-build:
+Build package:
   stage: package
   services:
   - docker:dind
@@ -223,7 +240,7 @@ package-build:
 # Deploy stage
 ##############################
 
-deploy:
+Deploy snapshot:
   image: maven:3.5-jdk-8
   stage: deploy
   script:
@@ -231,7 +248,7 @@ deploy:
   only:
   - develop
 
-deploy-tag-maven-central:
+Deploy release to Maven Central:
   image: maven:3.5-jdk-8
   stage: deploy
   before_script:
@@ -242,27 +259,32 @@ deploy-tag-maven-central:
   only:
   - tags
 
-k8s-deploy-staging:
+Deploy to staging environment:
   extends: .k8s_deploy
   environment:
     name: staging
     url: http://staging.aweframework.com
   only:
-  - develop
+    refs:
+    - develop
+    - /^feature/test-.*$/
+    kubernetes: active
 
-k8s-deploy-production:
+Deploy to production environment:
   extends: .k8s_deploy
   environment:
     name: production
     url: http://demo.aweframework.com
   only:
-  - master
+    refs:
+    - master
+    kubernetes: active
   when: manual
 
-pages:
+Publish javadoc and schemas:
   stage: deploy
   dependencies:
-  - site
+  - Generate javadoc and schemas
   script:
   - mkdir -p .public/docs/schemas
   - cp -r awe-framework/target/site/apidocs .public/javadoc-api/
@@ -278,7 +300,7 @@ pages:
 # Release stage
 ##############################
 
-start-release:
+Start a new release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
   allow_failure: false
@@ -307,7 +329,7 @@ start-release:
   - develop
   when: manual
 
-finish-release:
+Finish the release:
   image: maven:3.5-jdk-8
   stage: release
   allow_failure: false
@@ -332,4 +354,4 @@ finish-release:
   - git commit -m "Updated revision property"
   - git push origin --mirror
   only:
-  - release/.*
+  - /^release/.*$/
