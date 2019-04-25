@@ -325,7 +325,12 @@ Start a new release:
   - git add ./CHANGELOG.md
   - git commit -m "Generated CHANGELOG"
   ## Generate release
-  - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true -DpushRemote=true
+  - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true
+  ## Update property on release
+  - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
+  - git add ./pom.xml
+  - git commit -m "Updated revision property on release"
+  - git push origin --mirror
   only:
   - develop
   when: manual
@@ -352,7 +357,7 @@ Finish the release:
   - git checkout develop
   - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
   - git add ./pom.xml
-  - git commit -m "Updated revision property"
+  - git commit -m "Updated revision property on develop"
   - git push origin --mirror
   only:
   - /^release/.*$/
