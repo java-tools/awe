@@ -59,7 +59,7 @@ stages:
   - exitWithErrors=`echo $errors $failures | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
   - exit $exitWithErrors
   except:
-  - release/.*
+  - /^release/.*$/
   - feature/test-deploy
   artifacts:
     paths:
@@ -75,7 +75,7 @@ stages:
   tags:
   - docker
   except:
-  - release/.*
+  - /^release/.*$/
   - feature/test-deploy
 
 # Kubernetes deployment
@@ -92,7 +92,7 @@ stages:
   - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
   - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
   - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$CI_ENVIRONMENT_SLUG
-  - kubectl delete secret registry.gitlab.com --namespace=$CI_ENVIRONMENT_SLUG
+  - kubectl delete secret registry.gitlab.com --user=admin --namespace=$CI_ENVIRONMENT_SLUG
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL --namespace=$CI_ENVIRONMENT_SLUG
   - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
   - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
@@ -157,7 +157,7 @@ maven-build:
       - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
       - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
   except:
-  - release/.*
+  - /^release/.*$/
   - feature/test-deploy
 
 ##############################
@@ -196,7 +196,7 @@ check-sonar:
   - master
   - develop
   - tags
-  - release/.*
+  - /^release/.*$/
   - /^feature/test-.*$/
 
 #sast:
@@ -230,7 +230,7 @@ site:
     - awe-framework/awe-generic-screens/src/main/resources/schemas/
   only:
   - master
-  - release/.*
+  - /^release/.*$/
 
 ##############################
 # Package stage
@@ -347,4 +347,4 @@ finish-release:
   - git commit -m "Updated revision property"
   - git push origin --mirror
   only:
-  - release/.*
+  - /^release/.*$/
