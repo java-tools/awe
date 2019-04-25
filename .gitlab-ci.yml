@@ -197,7 +197,7 @@ check-sonar:
   - develop
   - tags
   - release/.*
-  - feature/test-.*
+  - /^feature/test-.*$/
 
 #sast:
 #  stage: analysis
@@ -280,7 +280,7 @@ Deploy to staging:
   only:
     refs:
     - develop
-    - feature/test-.*
+    - /^feature/test-.*$/
     kubernetes: active
 
 Deploy to production:
