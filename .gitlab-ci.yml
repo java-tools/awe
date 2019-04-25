@@ -97,24 +97,6 @@ stages:
   - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
   - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
 
-.prepare_release:
-  stage: release
-  script:
-  ## Install ssh-agent if not already installed, it is required by Docker.
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  # Use ssh-keyscan to scan the keys of your private server.
-  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-  ## Config git
-  - git config --global user.email no-reply@almis.com
-  - git config --global user.name "Gitlab CI"
-  - git remote set-url $CI_PROJECT_URL_SSH
-
 ##############################
 # Build stage
 ##############################
@@ -298,9 +280,23 @@ pages:
 
 start-release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
-  extends: .prepare_release
+  stage: release
   allow_failure: false
-  after_script:
+  script:
+  ## Install ssh-agent if not already installed, it is required by Docker.
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  # Use ssh-keyscan to scan the keys of your private server.
+  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  ## Config git
+  - git config --global user.email no-reply@almis.com
+  - git config --global user.name "Gitlab CI"
+  - git remote set-url $CI_PROJECT_URL_SSH
   ## Generate changelog
   - git checkout $CI_COMMIT_REF_NAME
   - chmod +x ./bin/changelog.sh
@@ -316,9 +312,22 @@ start-release:
 
 finish-release:
   image: maven:3.5-jdk-8
-  extends: .prepare_release
   allow_failure: false
-  after_script:
+  script:
+  ## Install ssh-agent if not already installed, it is required by Docker.
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  # Use ssh-keyscan to scan the keys of your private server.
+  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  ## Config git
+  - git config --global user.email no-reply@almis.com
+  - git config --global user.name "Gitlab CI"
+  - git remote set-url $CI_PROJECT_URL_SSH
   ## Update property version
   - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
   - git add ./pom.xml
