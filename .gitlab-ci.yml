@@ -272,22 +272,26 @@ deploy-tag-maven-central:
   only:
   - tags
 
-k8s-deploy-staging:
+Deploy to staging:
   extends: .k8s_deploy
   environment:
     name: staging
     url: http://staging.aweframework.com
   only:
-  - develop
-  - feature/test-deploy
+    refs:
+    - develop
+    - feature/test-.*
+    kubernetes: active
 
-k8s-deploy-production:
+Deploy to production:
   extends: .k8s_deploy
   environment:
     name: production
     url: http://demo.aweframework.com
   only:
-  - master
+    refs:
+    - master
+    kubernetes: active
   when: manual
 
 pages:
