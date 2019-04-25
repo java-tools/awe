@@ -312,6 +312,7 @@ start-release:
 
 finish-release:
   image: maven:3.5-jdk-8
+  stage: release
   allow_failure: false
   script:
   ## Install ssh-agent if not already installed, it is required by Docker.
