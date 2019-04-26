@@ -49,6 +49,14 @@
     <sonar.java.source>${java.version}</sonar.java.source>
 
     <!-- plugin versions -->
+    <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+    <maven-project-info-reports-plugin.version>2.7</maven-project-info-reports-plugin.version>
+    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+    <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+    <maven-source-plugin.version>2.4</maven-source-plugin.version>
+    <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+    <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
     <plugin-resources.version>3.1.0</plugin-resources.version>
     <plugin-xml-maven.version>1.0</plugin-xml-maven.version>
     <gitflow-maven-plugin.version>1.12.0</gitflow-maven-plugin.version>
@@ -102,6 +110,25 @@
         </configuration>
       </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
   <licenses>
