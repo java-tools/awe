@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-modules</artifactId>
-    <version>4.0.7-SNAPSHOT</version>
+    <version>4.0.7</version>
     <relativePath>..</relativePath>
   </parent>
   
@@ -13,7 +13,7 @@
   <packaging>jar</packaging>
   <name>AWE Modules - Tools (V${project.version})</name>
   <description>Awe Tools Module</description>
-  <version>4.0.7-SNAPSHOT</version>
+  <version>4.0.7</version>
 
   <dependencies>
     <dependency>
