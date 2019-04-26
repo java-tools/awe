@@ -60,7 +60,6 @@ stages:
   - exit $exitWithErrors
   except:
   - /^release/.*$/
-  - /^feature/test.*$/
   artifacts:
     paths:
     - awe-tests/awe-boot/target/tests/
@@ -76,7 +75,6 @@ stages:
   - docker
   except:
   - /^release/.*$/
-  - /^feature/test.*$/
 
 # Kubernetes deployment
 .k8s_deploy:
@@ -146,31 +144,6 @@ Build project:
       - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
   except:
   - /^release/.*$/
-  - /^feature/test.*$/
-
-#Build release version:
-#  image: maven:3.5-jdk-8
-#  stage: build
-#  allow_failure: false
-#  script:
-#    ## Push git credentials
-#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-#    - eval $(ssh-agent -s)
-#    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-#    - mkdir -p ~/.ssh
-#    - chmod 700 ~/.ssh
-#    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-#    - chmod 644 ~/.ssh/known_hosts
-#    - git config --global user.email no-reply@almis.com
-#    - git config --global user.name "Gitlab CI"
-#    - git remote set-url $CI_PROJECT_URL_SSH
-#    ## Update property on release
-#    - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
-#    - git add ./pom.xml
-#    - git commit -m "Updated revision property on release"
-#    - git push
-#  only:
-#    - /^release/.*$/
 
 ##############################
 # Testing stage
@@ -209,7 +182,6 @@ Check Sonar:
   - develop
   - tags
   - /^release/.*$/
-  - /^feature/test.*$/
 
 #sast:
 #  stage: analysis
@@ -356,7 +328,6 @@ Start a new release:
   - git push --set-upstream origin release/$NEW_VERSION
   only:
   - develop
-  - /^feature/test.*$/
   when: manual
 
 Finish the release:
