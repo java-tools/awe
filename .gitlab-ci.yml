@@ -222,7 +222,7 @@ Generate javadoc & schemas:
   image: maven:3.5-jdk-8
   stage: site
   script:
-  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.karma=true -Dbuild.environment=production -f awe-framework/pom.xml
+  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.main=true -Dskip.karma=true -Dbuild.environment=production -f awe-framework/pom.xml
   artifacts:
     paths:
     - awe-framework/target/site/apidocs
@@ -342,6 +342,7 @@ Finish the release:
   <<: *git_credentials
   script:
   ## Generate release
+  - git checkout $CI_COMMIT_REF_NAME
   - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DpushRemote=false
   ## Push master and tags
   - git checkout master
