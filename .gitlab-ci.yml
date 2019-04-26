@@ -342,7 +342,6 @@ Finish the release:
   <<: *git_credentials
   script:
   ## Generate release
-  - git fetch origin
   - git checkout $CI_COMMIT_REF_NAME
   - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DpushRemote=false
   ## Push master and tags
@@ -354,5 +353,7 @@ Finish the release:
   - git add ./pom.xml
   - git commit -m "Updated revision property on develop"
   - git push
+  ## Delete remote branch
+  - git push --delete origin $CI_COMMIT_REF_NAME
   only:
   - /^release/.*$/
