@@ -94,6 +94,7 @@ stages:
   - kubectl delete secret registry.gitlab.com --ignore-not-found
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
   - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
+  - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
   - kubectl apply -f awe-tests/awe-boot/deployment.yaml
 # - echo "$GOOGLE_KEY" > key.json
 # - gcloud auth activate-service-account --key-file key.json
@@ -221,7 +222,7 @@ Generate javadoc & schemas:
   image: maven:3.5-jdk-8
   stage: site
   script:
-  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.karma=true -Dbuild.environment=production -f awe-framework/pom.xml
+  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.main=true -Dskip.karma=true -Dbuild.environment=production -f awe-framework/pom.xml
   artifacts:
     paths:
     - awe-framework/target/site/apidocs
@@ -341,6 +342,8 @@ Finish the release:
   <<: *git_credentials
   script:
   ## Generate release
+  - git fetch origin
+  - git checkout $CI_COMMIT_REF_NAME
   - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DpushRemote=false
   ## Push master and tags
   - git checkout master

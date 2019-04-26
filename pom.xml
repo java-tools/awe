@@ -3,16 +3,15 @@
 
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
-  <version>4.0.6-SNAPSHOT</version>
+  <version>4.0.6</version>
   <packaging>pom</packaging>
 
   <name>AWE (V${project.version})</name>
   <description>Almis Web Engine: Web application development platform based on XML descriptors</description>
-  <url>http://www.awe-framework.com</url>
 
   <properties>
     <!-- Project versions -->
-    <revision>4.0.6-SNAPSHOT</revision>
+    <revision>4.0.6</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
