@@ -6,9 +6,9 @@
 
   <parent>
     <groupId>com.almis.awe</groupId>
-    <artifactId>awe-framework</artifactId>
-    <version>4.0.7-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <artifactId>awe-dependencies</artifactId>
+    <version>4.0.6-SNAPSHOT</version>
+    <relativePath>../awe-dependencies</relativePath>
   </parent>
 
   <artifactId>awe-boot-archetype</artifactId>

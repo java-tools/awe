@@ -58,6 +58,8 @@ stages:
   - echo "$errors errors and $failures failures found"
   - exitWithErrors=`echo $errors $failures | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
   - exit $exitWithErrors
+  except:
+  - /^release/.*$/
   artifacts:
     paths:
     - awe-tests/awe-boot/target/tests/
@@ -71,33 +73,49 @@ stages:
 .analyze:
   tags:
   - docker
+  except:
+  - /^release/.*$/
 
 # Kubernetes deployment
-.k8s-deploy:
+.k8s_deploy:
   image: google/cloud-sdk
   stage: deploy
   script:
   - echo "$GOOGLE_KEY" > key.json
   - gcloud auth activate-service-account --key-file key.json
-  - gcloud config set compute/zone europe-west3-b
+  - gcloud config set compute/zone $KUBE_ZONE
   - gcloud config set project $KUBERNETES_PROJECT_ID
   - gcloud config set container/use_client_certificate True
   - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
   - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
   - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin
+  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$CI_ENVIRONMENT_SLUG
   - kubectl config use-context default-system
-  - kubectl delete secret registry.gitlab.com
+  - kubectl delete secret registry.gitlab.com --ignore-not-found
   - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
   - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
-  - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
-  - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
+  - kubectl apply -f awe-tests/awe-boot/deployment.yaml
+# - echo "$GOOGLE_KEY" > key.json
+# - gcloud auth activate-service-account --key-file key.json
+# - gcloud config set compute/zone europe-west3-b
+# - gcloud config set project $KUBERNETES_PROJECT_ID
+# - gcloud config set container/use_client_certificate True
+# - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
+# - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
+# - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
+# - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin
+# - kubectl config use-context default-system
+# - kubectl delete secret registry.gitlab.com
+# - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
+# - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
+# - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
+# - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
 
 ##############################
 # Build stage
 ##############################
 
-maven-build:
+Build project:
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   stage: build
   cache:
@@ -124,18 +142,44 @@ maven-build:
       junit:
       - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
       - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
+  except:
+  - /^release/.*$/
+
+#Build release version:
+#  image: maven:3.5-jdk-8
+#  stage: build
+#  allow_failure: false
+#  script:
+#    ## Push git credentials
+#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+#    - eval $(ssh-agent -s)
+#    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+#    - mkdir -p ~/.ssh
+#    - chmod 700 ~/.ssh
+#    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+#    - chmod 644 ~/.ssh/known_hosts
+#    - git config --global user.email no-reply@almis.com
+#    - git config --global user.name "Gitlab CI"
+#    - git remote set-url $CI_PROJECT_URL_SSH
+#    ## Update property on release
+#    - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
+#    - git add ./pom.xml
+#    - git commit -m "Updated revision property on release"
+#    - git push
+#  only:
+#    - /^release/.*$/
 
 ##############################
 # Testing stage
 ##############################
 
-test-chrome:
+Chrome IT:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
     BROWSER_OPTS: $CHROME_OPTS
 
-test-firefox:
+Firefox IT:
   extends: .testing
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   variables:
@@ -145,7 +189,7 @@ test-firefox:
 # Analysis stage
 ##############################
 
-check-sonar:
+Check Sonar:
   stage: analysis
   image: cfmanteiga/alpine-bash-curl-jq:latest
   script:
@@ -161,6 +205,7 @@ check-sonar:
   - master
   - develop
   - tags
+  - /^release/.*$/
 
 #sast:
 #  stage: analysis
@@ -174,7 +219,7 @@ check-sonar:
 # Site stage
 ##############################
 
-publish-docs:
+Publish docs:
   stage: site
   image: cfmanteiga/alpine-bash-curl-jq:latest
   script:
@@ -182,7 +227,7 @@ publish-docs:
   only:
   - develop
 
-site:
+Generate javadoc & schemas:
   image: maven:3.5-jdk-8
   stage: site
   script:
@@ -193,12 +238,13 @@ site:
     - awe-framework/awe-generic-screens/src/main/resources/schemas/
   only:
   - master
+  - /^release/.*$/
 
 ##############################
 # Package stage
 ##############################
 
-package-build:
+Build package:
   stage: package
   services:
   - docker:dind
@@ -215,7 +261,7 @@ package-build:
 # Deploy stage
 ##############################
 
-deploy:
+Deploy snapshot:
   image: maven:3.5-jdk-8
   stage: deploy
   script:
@@ -223,7 +269,7 @@ deploy:
   only:
   - develop
 
-deploy-tag-maven-central:
+Deploy Maven Central:
   image: maven:3.5-jdk-8
   stage: deploy
   before_script:
@@ -234,27 +280,31 @@ deploy-tag-maven-central:
   only:
   - tags
 
-k8s-deploy-staging:
-  extends: .k8s-deploy
+Deploy staging:
+  extends: .k8s_deploy
   environment:
     name: staging
     url: http://staging.aweframework.com
   only:
-  - develop
+    refs:
+    - develop
+    kubernetes: active
 
-k8s-deploy-production:
-  extends: .k8s-deploy
+Deploy production:
+  extends: .k8s_deploy
   environment:
     name: production
     url: http://demo.aweframework.com
-  when: manual
   only:
-  - master
+    refs:
+    - master
+    kubernetes: active
+  when: manual
 
-pages:
+Publish javadoc & schemas:
   stage: deploy
   dependencies:
-  - site
+  - Generate javadoc & schemas
   script:
   - mkdir -p .public/docs/schemas
   - cp -r awe-framework/target/site/apidocs .public/javadoc-api/
@@ -270,25 +320,22 @@ pages:
 # Release stage
 ##############################
 
-release:
+Start a new release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
-  before_script:
-  ## Install ssh-agent if not already installed, it is required by Docker.
+  allow_failure: false
+  script:
+  ## Push git credentials
   - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
   - eval $(ssh-agent -s)
-  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
   - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
   - mkdir -p ~/.ssh
   - chmod 700 ~/.ssh
-  # Use ssh-keyscan to scan the keys of your private server.
   - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
   - chmod 644 ~/.ssh/known_hosts
-  ## Config git
   - git config --global user.email no-reply@almis.com
   - git config --global user.name "Gitlab CI"
   - git remote set-url $CI_PROJECT_URL_SSH
-  script:
   ## Generate changelog
   - git checkout $CI_COMMIT_REF_NAME
   - chmod +x ./bin/changelog.sh
@@ -297,7 +344,43 @@ release:
   - git add ./CHANGELOG.md
   - git commit -m "Generated CHANGELOG"
   ## Generate release
-  - mvn $MAVEN_CLI_OPTS -B gitflow:release -DskipTestProject=true
+  - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true
+  ## Update property on release
+  - git checkout release/$version
+  - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
+  - git add ./pom.xml
+  - git commit -m "Updated revision property on release"
+  - git push
   only:
   - develop
   when: manual
+
+Finish the release:
+  image: maven:3.5-jdk-8
+  stage: release
+  allow_failure: false
+  script:
+  ## Push git credentials
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - git config --global user.email no-reply@almis.com
+  - git config --global user.name "Gitlab CI"
+  - git remote set-url $CI_PROJECT_URL_SSH
+  ## Generate release
+  - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DpushRemote=false
+  ## Push master and tags
+  - git checkout master
+  - git push --follow-tags
+  ## Update property on develop
+  - git checkout develop
+  - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
+  - git add ./pom.xml
+  - git commit -m "Updated revision property on develop"
+  - git push
+  only:
+  - /^release/.*$/

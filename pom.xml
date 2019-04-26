@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="utf-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
-  <version>4.0.7-SNAPSHOT</version>
+  <version>4.0.6-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>AWE (V${project.version})</name>
@@ -15,7 +12,7 @@
 
   <properties>
     <!-- Project versions -->
-    <revision>4.0.7-SNAPSHOT</revision>
+    <revision>4.0.6-SNAPSHOT</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
@@ -54,13 +51,8 @@
 
     <!-- plugin versions -->
     <plugin-resources.version>3.1.0</plugin-resources.version>
-    <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
-    <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
-    <maven-failsafe-plugin.version>2.18.1</maven-failsafe-plugin.version>
+    <plugin-xml-maven.version>1.0</plugin-xml-maven.version>
     <gitflow-maven-plugin.version>1.12.0</gitflow-maven-plugin.version>
-    <skip.selenium>true</skip.selenium>
-    <skip.javadoc>true</skip.javadoc>
-    <skip.main>false</skip.main>
 
     <!-- Build environment -->
     <build.environment>development</build.environment>
@@ -74,17 +66,6 @@
 
   <build>
     <plugins>
-      <!-- Surefire Junit test -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven-surefire-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>${maven-failsafe-plugin.version}</version>
-      </plugin>
       <!-- Git flow -->
       <plugin>
         <groupId>com.amashchenko.maven.plugin</groupId>
@@ -103,55 +84,26 @@
           </gitFlowConfig>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <version>${plugin-xml-maven.version}</version>
+        <inherited>false</inherited>
+        <configuration>
+          <transformationSets>
+            <transformationSet>
+              <dir>${project.basedir}</dir>
+              <outputDir>${project.basedir}</outputDir>
+              <includes>
+                <include>pom.xml</include>
+              </includes>
+              <stylesheet>xslt/process-version.xsl</stylesheet>
+            </transformationSet>
+          </transformationSets>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <!-- Integration report profile -->
-    <profile>
-      <id>generate-integration-report</id>
-      <activation>
-        <property>
-          <name>generateIntegrationReport</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <!-- Jacoco coverage -->
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco.version}</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-                <configuration>
-                  <append>true</append>
-                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
-                </configuration>
-              </execution>
-              <execution>
-                <id>prepare-integration-agent</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>prepare-agent-integration</goal>
-                </goals>
-                <configuration>
-                  <skip>${skip.selenium}</skip>
-                  <append>true</append>
-                  <destFile>${jacoco.base.reports}/jacoco-it.exec</destFile>
-                  <propertyName>failsafe.argLine</propertyName>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 
   <licenses>
     <license>
@@ -176,12 +128,6 @@
     <developer>
       <name>Pablo Vidal</name>
       <email>pablo.vidal@almis.com</email>
-      <organization>Almis I.F.</organization>
-      <organizationUrl>http://www.almis.com</organizationUrl>
-    </developer>
-    <developer>
-      <name>Isaac Serna</name>
-      <email>isaac.serna@almis.com</email>
       <organization>Almis I.F.</organization>
       <organizationUrl>http://www.almis.com</organizationUrl>
     </developer>
