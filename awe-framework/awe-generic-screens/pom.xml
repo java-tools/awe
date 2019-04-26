@@ -14,6 +14,7 @@
   <artifactId>awe-generic-screens</artifactId>
   <name>AWE Generic Screens (V${project.version})</name>
   <description>Awe Generic Screens Module</description>
+  <version>4.0.6</version>
 
   <properties>
     <application.acronym>awe</application.acronym>

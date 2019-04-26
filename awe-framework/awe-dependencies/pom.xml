@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -14,6 +14,7 @@
   <packaging>pom</packaging>
   <name>AWE Dependencies (V${project.version})</name>
   <description>AWE Dependencies</description>
+  <version>4.0.6</version>
 
   <properties>
     <!-- dependency versions -->
@@ -28,6 +29,7 @@
     <guava.version>27.0.1-jre</guava.version>
     <aspectjweaver.version>1.9.2</aspectjweaver.version>
     <selenium.version>3.141.59</selenium.version>
+    <lombok.version>1.18.6</lombok.version>
     <!-- plugin versions -->
     <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
     <plugin-frontend.version>1.6</plugin-frontend.version>
@@ -35,17 +37,32 @@
     <plugin-compiler.version>3.5.1</plugin-compiler.version>
     <plugin-sonar.version>3.5.0.1254</plugin-sonar.version>
     <plugin-surefire.version>2.20</plugin-surefire.version>
+    <plugin-failsafe.version>2.20</plugin-failsafe.version>
     <plugin-archetype.version>3.0.1</plugin-archetype.version>
     <plugin-xml-maven.version>1.0</plugin-xml-maven.version>
     <plugin-jar.version>3.1.0</plugin-jar.version>
     <plugin-ant.version>1.8</plugin-ant.version>
-    <plugin-flatten-maven.version>1.0.1</plugin-flatten-maven.version>
+    <plugin-flatten-maven.version>1.1.0</plugin-flatten-maven.version>
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
     <plugin-site.version>3.5.1</plugin-site.version>
     <plugin-info-reports.version>2.9</plugin-info-reports.version>
+    <plugin-resources.version>3.1.0</plugin-resources.version>
+    <maven-source-plugin.version>2.4</maven-source-plugin.version>
+    <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+    <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
+    <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
+    <maven-project-info-reports-plugin.version>2.7</maven-project-info-reports-plugin.version>
+    <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+    <build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
     <!-- Karma configuration -->
     <karma.launch.edge>true</karma.launch.edge>
     <karma.launch.gitlab>false</karma.launch.gitlab>
+
+    <!-- Skip configuration -->
+    <skip.selenium>true</skip.selenium>
+    <skip.javadoc>true</skip.javadoc>
+    <skip.main>false</skip.main>
   </properties>
 
   <dependencies>
@@ -187,7 +204,7 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.6</version>
+        <version>${lombok.version}</version>
         <scope>provided</scope>
       </dependency>
 
@@ -257,6 +274,37 @@
     <!-- Plugins -->
     <pluginManagement>
       <plugins>
+        <!-- Maven source plugin -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- Maven javadoc plugin -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
+          <configuration>
+            <skip>${skip.javadoc}</skip>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
         <!-- Compiler -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -350,11 +398,16 @@
           </configuration>
         </plugin>
 
-        <!-- JUnit -->
+        <!-- Surefire Junit test -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${plugin-surefire.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${plugin-failsafe.version}</version>
         </plugin>
         <!-- Resources -->
         <plugin>
@@ -379,12 +432,6 @@
           <artifactId>maven-archetype-plugin</artifactId>
           <version>${plugin-archetype.version}</version>
         </plugin>
-        <!-- Javadoc -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${plugin-javadoc.version}</version>
-        </plugin>
         <!-- Site -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -403,8 +450,241 @@
           <artifactId>maven-antrun-plugin</artifactId>
           <version>${plugin-ant.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>${plugin-flatten-maven.version}</version>
+        </plugin>
+        <!-- Deploy nexus -->
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>${nexus-staging-maven-plugin.version}</version>
+          <extensions>true</extensions>
+          <configuration>
+            <serverId>central</serverId>
+            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <!-- Create an effective POM (with versions expanded) for the CLI and
+              documentation -->
+            <id>flatten-effective-pom</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+            <configuration>
+              <updatePomFile>false</updatePomFile>
+              <outputDirectory>${project.build.directory}/effective-pom</outputDirectory>
+              <flattenedPomFilename>awe-dependencies.xml</flattenedPomFilename>
+              <flattenMode>oss</flattenMode>
+              <pomElements>
+                <dependencyManagement>expand</dependencyManagement>
+                <pluginManagement>expand</pluginManagement>
+                <properties>remove</properties>
+                <repositories>remove</repositories>
+              </pomElements>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- Flatten and simplify our own POM for install/deploy -->
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+            <configuration>
+              <updatePomFile>true</updatePomFile>
+              <flattenMode>bom</flattenMode>
+              <outputDirectory>${project.basedir}</outputDirectory>
+              <pomElements>
+                <pluginManagement>keep</pluginManagement>
+                <properties>keep</properties>
+                <repositories>remove</repositories>
+              </pomElements>
+            </configuration>
+          </execution>
+          <execution>
+            <id>flatten-clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <!-- Cleanup the effective POM -->
+            <id>post-process-effective-pom</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+            <configuration>
+              <transformationSets>
+                <transformationSet>
+                  <dir>${project.build.directory}/effective-pom</dir>
+                  <outputDir>${project.build.directory}/effective-pom</outputDir>
+                  <stylesheet>src/main/resources/xslt/post-process-flattened-pom.xsl</stylesheet>
+                  <outputProperties>
+                    <outputProperty>
+                      <name>indent</name>
+                      <value>yes</value>
+                    </outputProperty>
+                  </outputProperties>
+                </transformationSet>
+              </transformationSets>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- Cleanup the flattened project POM -->
+            <id>post-process-flattened-pom</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+            <configuration>
+              <transformationSets>
+                <transformationSet>
+                  <dir>${project.basedir}</dir>
+                  <outputDir>${project.basedir}</outputDir>
+                  <includes>
+                    <include>.flattened-pom.xml</include>
+                  </includes>
+                  <stylesheet>src/main/resources/xslt/post-process-flattened-pom.xsl</stylesheet>
+                  <outputProperties>
+                    <outputProperty>
+                      <name>indent</name>
+                      <value>yes</value>
+                    </outputProperty>
+                  </outputProperties>
+                </transformationSet>
+              </transformationSets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${build-helper-maven-plugin.version}</version>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <!-- Attach effective POM -->
+            <id>attach-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${project.build.directory}/effective-pom/awe-dependencies.xml</file>
+                  <type>effective-pom</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
+
+  <profiles>
+    <!-- GPG Signature on release -->
+    <profile>
+      <id>release-sign-artifacts</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${maven-gpg-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+                <configuration>
+                  <gpgArguments>
+                    <arg>--pinentry-mode</arg>
+                    <arg>loopback</arg>
+                  </gpgArguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <!-- Integration report profile -->
+    <profile>
+      <id>generate-integration-report</id>
+      <activation>
+        <property>
+          <name>generateIntegrationReport</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Jacoco coverage -->
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco.version}</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+                <configuration>
+                  <append>true</append>
+                  <destFile>${jacoco.base.reports}/jacoco.exec</destFile>
+                </configuration>
+              </execution>
+              <execution>
+                <id>prepare-integration-agent</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>prepare-agent-integration</goal>
+                </goals>
+                <configuration>
+                  <skip>${skip.selenium}</skip>
+                  <append>true</append>
+                  <destFile>${jacoco.base.reports}/jacoco-it.exec</destFile>
+                  <propertyName>failsafe.argLine</propertyName>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>
