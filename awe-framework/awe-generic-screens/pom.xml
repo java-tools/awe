@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-dependencies</artifactId>
-    <version>4.0.6</version>
+    <version>4.0.7</version>
     <relativePath>../awe-dependencies</relativePath>
   </parent>
 
@@ -14,7 +14,7 @@
   <artifactId>awe-generic-screens</artifactId>
   <name>AWE Generic Screens (V${project.version})</name>
   <description>Awe Generic Screens Module</description>
-  <version>4.0.6</version>
+  <version>4.0.7</version>
 
   <properties>
     <application.acronym>awe</application.acronym>

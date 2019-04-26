@@ -13,7 +13,7 @@ variables:
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
   JACOCO_OPTS: "-DgenerateIntegrationReport=true -Dskip.selenium=false -Dkarma.launch.gitlab=true -Djava.debug=true"
   GENERAL_BROWSER_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false"
-  DEPLOY_OPTS: "-DskipTests -Dskip.karma=true -Dskip.javadoc=false -Dbuild.environment=production"
+  DEPLOY_OPTS: "-f awe-framework/pom.xml -DskipTests -Dskip.karma=true -Dskip.javadoc=false -Dbuild.environment=production"
   CHROME_OPTS: "-Dbrowser=headless-chrome"
   FIREFOX_OPTS: "-Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
@@ -342,7 +342,6 @@ Finish the release:
   <<: *git_credentials
   script:
   ## Generate release
-  - git fetch origin
   - git checkout $CI_COMMIT_REF_NAME
   - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DpushRemote=false
   ## Push master and tags
@@ -354,5 +353,7 @@ Finish the release:
   - git add ./pom.xml
   - git commit -m "Updated revision property on develop"
   - git push
+  ## Delete remote branch
+  - git push --delete origin $CI_COMMIT_REF_NAME
   only:
   - /^release/.*$/
