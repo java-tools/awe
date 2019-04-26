@@ -8,7 +8,6 @@
 
   <name>AWE (V${project.version})</name>
   <description>Almis Web Engine: Web application development platform based on XML descriptors</description>
-  <url>http://www.awe-framework.com</url>
 
   <properties>
     <!-- Project versions -->
