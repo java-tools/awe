@@ -343,7 +343,7 @@ Start a new release:
   ## Generate changelog
   - git checkout $CI_COMMIT_REF_NAME
   - chmod +x ./bin/changelog.sh
-  - . /bin/sh ./bin/changelog.sh
+  - . ./bin/changelog.sh
   - git checkout ./bin/changelog.sh
   - git add ./CHANGELOG.md
   - git commit -m "Generated CHANGELOG"
