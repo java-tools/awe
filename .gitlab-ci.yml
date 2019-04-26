@@ -111,6 +111,20 @@ stages:
 # - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
 # - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
 
+.git_credentials_template: &git_credentials
+  before_script:
+  ## Push git credentials
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - git config --global user.email no-reply@almis.com
+  - git config --global user.name "Gitlab CI"
+  - git remote set-url $CI_PROJECT_URL_SSH
+
 ##############################
 # Build stage
 ##############################
@@ -144,30 +158,6 @@ Build project:
       - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
   except:
   - /^release/.*$/
-
-#Build release version:
-#  image: maven:3.5-jdk-8
-#  stage: build
-#  allow_failure: false
-#  script:
-#    ## Push git credentials
-#    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-#    - eval $(ssh-agent -s)
-#    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-#    - mkdir -p ~/.ssh
-#    - chmod 700 ~/.ssh
-#    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-#    - chmod 644 ~/.ssh/known_hosts
-#    - git config --global user.email no-reply@almis.com
-#    - git config --global user.name "Gitlab CI"
-#    - git remote set-url $CI_PROJECT_URL_SSH
-#    ## Update property on release
-#    - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
-#    - git add ./pom.xml
-#    - git commit -m "Updated revision property on release"
-#    - git push
-#  only:
-#    - /^release/.*$/
 
 ##############################
 # Testing stage
@@ -324,33 +314,22 @@ Start a new release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
   allow_failure: false
+  <<: *git_credentials
   script:
-  ## Push git credentials
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-  - git config --global user.email no-reply@almis.com
-  - git config --global user.name "Gitlab CI"
-  - git remote set-url $CI_PROJECT_URL_SSH
   ## Generate changelog
   - git checkout $CI_COMMIT_REF_NAME
   - chmod +x ./bin/changelog.sh
-  - /bin/sh ./bin/changelog.sh
+  - . ./bin/changelog.sh
   - git checkout ./bin/changelog.sh
   - git add ./CHANGELOG.md
   - git commit -m "Generated CHANGELOG"
   ## Generate release
   - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true
   ## Update property on release
-  - git checkout release/$version
   - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
   - git add ./pom.xml
   - git commit -m "Updated revision property on release"
-  - git push
+  - git push --set-upstream origin release/$NEW_VERSION
   only:
   - develop
   when: manual
@@ -359,18 +338,8 @@ Finish the release:
   image: maven:3.5-jdk-8
   stage: release
   allow_failure: false
+  <<: *git_credentials
   script:
-  ## Push git credentials
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-  - git config --global user.email no-reply@almis.com
-  - git config --global user.name "Gitlab CI"
-  - git remote set-url $CI_PROJECT_URL_SSH
   ## Generate release
   - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DpushRemote=false
   ## Push master and tags
