@@ -695,7 +695,6 @@
         <configuration>
           <show>public</show>
           <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
-          <skip>${skip.main}</skip>
         </configuration>
         <reportSets>
           <reportSet>
