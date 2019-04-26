@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-dependencies</artifactId>
-    <version>4.0.7-SNAPSHOT</version>
+    <version>4.0.7</version>
     <relativePath>../awe-dependencies</relativePath>
   </parent>
 
@@ -14,7 +14,7 @@
   <packaging>jar</packaging>
   <name>AWE Model (V${project.parent.version})</name>
   <description>Awe Model Module</description>
-  <version>4.0.7-SNAPSHOT</version>
+  <version>4.0.7</version>
 
   <properties>
     <querydsl.version>4.1.4</querydsl.version>
