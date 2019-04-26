@@ -350,7 +350,7 @@ Start a new release:
   ## Generate release
   - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true
   ## Update property on release
-  - git checkout release/$version
+  - git checkout release/$NEW_VERSION
   - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
   - git add ./pom.xml
   - git commit -m "Updated revision property on release"
