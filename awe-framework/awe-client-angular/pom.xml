@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-dependencies</artifactId>
-    <version>4.0.8-SNAPSHOT</version>
+    <version>4.0.7-SNAPSHOT</version>
     <relativePath>../awe-dependencies</relativePath>
   </parent>
 
@@ -14,7 +14,6 @@
   <artifactId>awe-client-angular</artifactId>
   <name>AWE Client Angular (V${project.version})</name>
   <description>Awe Client Angular Module</description>
-  <version>4.0.8-SNAPSHOT</version>
   <url>http://webjars.org</url>
 
   <properties>

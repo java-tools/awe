@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-framework</artifactId>
-    <version>4.0.8-SNAPSHOT</version>
+    <version>4.0.7-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -14,7 +14,6 @@
   <packaging>pom</packaging>
   <name>AWE Dependencies (V${project.version})</name>
   <description>AWE Dependencies</description>
-  <version>4.0.8-SNAPSHOT</version>
 
   <properties>
     <!-- dependency versions -->
@@ -446,18 +445,6 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>flatten-maven-plugin</artifactId>
           <version>${plugin-flatten-maven.version}</version>
-        </plugin>
-        <!-- Deploy nexus -->
-        <plugin>
-          <groupId>org.sonatype.plugins</groupId>
-          <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>${nexus-staging-maven-plugin.version}</version>
-          <extensions>true</extensions>
-          <configuration>
-            <serverId>central</serverId>
-            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

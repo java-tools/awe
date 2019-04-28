@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-dependencies</artifactId>
-    <version>4.0.8-SNAPSHOT</version>
+    <version>4.0.7-SNAPSHOT</version>
     <relativePath>../awe-dependencies/pom.xml</relativePath>
   </parent>
 
@@ -14,7 +14,6 @@
 
   <artifactId>awe-testing</artifactId>
   <name>AWE Testing Utilities (V${project.version})</name>
-  <version>4.0.8-SNAPSHOT</version>
 
   <properties>
     <!-- Application maven properties -->

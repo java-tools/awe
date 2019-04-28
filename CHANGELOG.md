@@ -1,7 +1,4 @@
-# Changelog for AWE 4.0.7
-*26/04/2019*
 
-- Fix deployment stages. [MR #46](https://gitlab.com/aweframework/awe/merge_requests/46) (Pablo Javier García Mora)
 # Changelog for AWE 4.0.6
 *26/04/2019*
 

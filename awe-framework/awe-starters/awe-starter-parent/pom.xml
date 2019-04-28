@@ -7,13 +7,12 @@
   <parent>
     <artifactId>awe-starters</artifactId>
     <groupId>com.almis.awe</groupId>
-    <version>4.0.8-SNAPSHOT</version>
+    <version>4.0.7-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
   <artifactId>awe-starter-parent</artifactId>
   <packaging>pom</packaging>
   <name>AWE Starter Parent (V${project.version})</name>
-  <version>4.0.8-SNAPSHOT</version>
 
 </project>

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.almis.awe</groupId>
 		<artifactId>awe-modules</artifactId>
-		<version>4.0.8-SNAPSHOT</version>
+		<version>4.0.7-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
@@ -14,7 +14,6 @@
 	<packaging>jar</packaging>
 	<name>AWE Modules - Rest (V${project.version})</name>
 	<description>Awe Spring Rest Module</description>
-	<version>4.0.8-SNAPSHOT</version>
 
 	<properties>
 		<querydsl.version>4.1.4</querydsl.version>
