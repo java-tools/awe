@@ -3,15 +3,16 @@
 
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
-  <version>4.0.8-SNAPSHOT</version>
+  <version>4.0.7-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>AWE (V${project.version})</name>
   <description>Almis Web Engine: Web application development platform based on XML descriptors</description>
+  <url>https://gitlab.com/aweframework/awe/tree/master/</url>
 
   <properties>
     <!-- Project versions -->
-    <revision>4.0.8-SNAPSHOT</revision>
+    <revision>4.0.7-SNAPSHOT</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
@@ -262,9 +263,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:https://gitlab.com/awe-team/awe.git</connection>
-    <developerConnection>scm:git:https://gitlab.com/awe-team/awe.git</developerConnection>
-    <url>https://gitlab.com/awe-team/awe</url>
+    <connection>scm:git:https://gitlab.com/aweframework/awe.git</connection>
+    <developerConnection>scm:git:https://gitlab.com/aweframework/awe.git</developerConnection>
+    <url>https://gitlab.com/aweframework/awe/tree/master/</url>
   </scm>
 
   <developers>
