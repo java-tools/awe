@@ -13,7 +13,10 @@ VOLUME /logs
 # Volume of app data
 VOLUME /tmp
 
+# Set JAVA options
+ENV JAVA_OPTS="-Xmx512m -Xmx512m"
+
 # Execute jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom", "-jar","/awe-boot.war"]
+ENTRYPOINT ["java", "$JAVA_OPTS", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/awe-boot.war"]
 
 
