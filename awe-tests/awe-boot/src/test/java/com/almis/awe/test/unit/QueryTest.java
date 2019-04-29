@@ -1029,6 +1029,20 @@ public class QueryTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
+  public void testDatabaseQueryQryEdiTstWithoutLimit() throws Exception {
+    String queryName = "QryEdiTst";
+    String variables = "\"max\": 0";
+
+    String result = performRequest(queryName, variables, DATABASE);
+    assertResultJson(queryName, result, 16);
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
   public void testDatabaseQueryQryEdiTstChk() throws Exception {
     String queryName = "QryEdiTstChk";
     String variables = "";
