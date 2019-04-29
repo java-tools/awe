@@ -14,7 +14,6 @@
   <artifactId>awe-client-angular</artifactId>
   <name>AWE Client Angular (V${project.version})</name>
   <description>Awe Client Angular Module</description>
-  <version>4.0.7</version>
   <url>http://webjars.org</url>
 
   <properties>

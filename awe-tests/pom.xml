@@ -14,10 +14,6 @@
   <artifactId>awe-tests</artifactId>
   <packaging>pom</packaging>
 
-  <properties>
-    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
-  </properties>
-
   <modules>
     <module>awe-boot</module>
   </modules>
@@ -31,29 +27,6 @@
           <skip>true</skip>
         </configuration>
         <inherited>true</inherited>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>${maven-gpg-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>none</phase>
-          </execution>
-        </executions>
-      </plugin>
-      <!-- Deploy nexus -->
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <version>${nexus-staging-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>default-deploy</id>
-            <phase>none</phase>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
