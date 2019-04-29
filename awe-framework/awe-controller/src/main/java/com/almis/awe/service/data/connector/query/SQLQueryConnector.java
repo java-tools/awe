@@ -88,10 +88,14 @@ public class SQLQueryConnector extends AbstractQueryConnector {
       builder.setComponentSort(sortList);
     }
 
+    // Get pagination
+    long elementsPerPage = variableMap.get(AweConstants.QUERY_MAX).getValue().asLong();
+    boolean paginate = query.isPaginationManaged() && (elementsPerPage > 0);
+
     // Generate query
     SQLQuery<Tuple> queryBuilt = builder.build();
     SQLQuery<Tuple> queryCount = null;
-    if (query.isPaginationManaged()) {
+    if (paginate) {
       queryCount = builder.queryForCount().build();
     }
 
@@ -101,15 +105,14 @@ public class SQLQueryConnector extends AbstractQueryConnector {
     List<Tuple> results;
     long records;
     try {
-      if (query.isPaginationManaged()) {
-        long max = variableMap.get(AweConstants.QUERY_MAX).getValue().asLong();
+      if (paginate) {
         long page = variableMap.get(AweConstants.QUERY_PAGE).getValue().asLong();
-        queryBuilt.limit(max).offset(max * (page - 1));
+        queryBuilt.limit(elementsPerPage).offset(elementsPerPage * (page - 1));
       }
 
       // Launch query
       List<Tuple> allResults = queryBuilt.fetch();
-      if (query.isPaginationManaged()) {
+      if (paginate) {
         records = queryFactory.select(SQLExpressions.all).from(queryCount, new PathBuilder<>(Object.class, "R")).fetchCount();
       } else {
         records = allResults.size();
