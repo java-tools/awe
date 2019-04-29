@@ -1,6 +1,7 @@
 # Changelog for AWE 4.0.7
 *29/04/2019*
 
+- Limit must be greater than 0 trying to execute queryService.launchQuery(queryID, 1, 0) with managed-pagination=true. [MR #47](https://gitlab.com/aweframework/awe/merge_requests/47) (Pablo Javier García Mora)
 - Fix deployment stages. [MR #46](https://gitlab.com/aweframework/awe/merge_requests/46) (Pablo Javier García Mora)
 
 # Changelog for AWE 4.0.6
