@@ -5,7 +5,7 @@ metadata:
   labels:
     app: __CI_ENVIRONMENT_SLUG__
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: __CI_ENVIRONMENT_SLUG__

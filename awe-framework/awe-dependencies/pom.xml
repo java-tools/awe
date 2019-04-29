@@ -32,19 +32,15 @@
     <!-- plugin versions -->
     <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
     <plugin-frontend.version>1.6</plugin-frontend.version>
-    <plugin-dependency.version>3.0.2</plugin-dependency.version>
     <plugin-compiler.version>3.5.1</plugin-compiler.version>
     <plugin-sonar.version>3.5.0.1254</plugin-sonar.version>
     <plugin-surefire.version>2.20</plugin-surefire.version>
     <plugin-failsafe.version>2.20</plugin-failsafe.version>
-    <plugin-archetype.version>3.0.1</plugin-archetype.version>
     <plugin-xml-maven.version>1.0</plugin-xml-maven.version>
     <plugin-jar.version>3.1.0</plugin-jar.version>
     <plugin-ant.version>1.8</plugin-ant.version>
     <plugin-flatten-maven.version>1.1.0</plugin-flatten-maven.version>
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
-    <plugin-site.version>3.5.1</plugin-site.version>
-    <plugin-info-reports.version>2.9</plugin-info-reports.version>
     <plugin-resources.version>3.1.0</plugin-resources.version>
     <!-- Karma configuration -->
     <karma.launch.edge>true</karma.launch.edge>
@@ -52,7 +48,6 @@
 
     <!-- Skip configuration -->
     <skip.selenium>true</skip.selenium>
-    <skip.javadoc>true</skip.javadoc>
     <skip.main>false</skip.main>
   </properties>
 
@@ -265,53 +260,6 @@
     <!-- Plugins -->
     <pluginManagement>
       <plugins>
-        <!-- Maven source plugin -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>${maven-source-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>attach-sources</id>
-              <goals>
-                <goal>jar-no-fork</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <!-- Maven javadoc plugin -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>${maven-javadoc-plugin.version}</version>
-          <configuration>
-            <skip>${skip.javadoc}</skip>
-          </configuration>
-          <executions>
-            <execution>
-              <id>attach-javadocs</id>
-              <goals>
-                <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <!-- Compiler -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>${plugin-compiler.version}</version>
-          <configuration>
-            <source>${java.version}</source>
-            <target>${java.version}</target>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>${plugin-jar.version}</version>
-        </plugin>
-
         <!-- Spring boot -->
         <plugin>
           <groupId>org.springframework.boot</groupId>
@@ -405,35 +353,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
           <version>${plugin-resources.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>${maven-deploy-plugin.version}</version>
-        </plugin>
-        <!-- Dependency plugin -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>${plugin-dependency.version}</version>
-        </plugin>
-        <!-- Archetype -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-archetype-plugin</artifactId>
-          <version>${plugin-archetype.version}</version>
-        </plugin>
-        <!-- Site -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>${plugin-site.version}</version>
-        </plugin>
-        <!-- Project info report -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>${plugin-info-reports.version}</version>
         </plugin>
         <!-- Ant plugin -->
         <plugin>
