@@ -5,7 +5,7 @@ metadata:
   labels:
     app: __CI_ENVIRONMENT_SLUG__
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: __CI_ENVIRONMENT_SLUG__
@@ -22,3 +22,8 @@ spec:
         - containerPort: 8080
       imagePullSecrets:
         - name: registry.gitlab.com
+      resources:
+        limits:
+          memory: 512Mi
+        requests:
+          memory: 256Mi
