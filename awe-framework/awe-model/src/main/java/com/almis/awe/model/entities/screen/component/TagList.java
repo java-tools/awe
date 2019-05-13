@@ -1,19 +1,18 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.regex.Pattern;
-
-/*
- * File Imports
- */
 
 /**
  * TagList Class
@@ -23,6 +22,11 @@ import java.util.regex.Pattern;
  *
  * @author Pablo GARCIA - 10/MAR/2014
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 @XStreamAlias("tag-list")
 public class TagList extends Component {
 
@@ -31,24 +35,11 @@ public class TagList extends Component {
   @XStreamOmitField
   public static final Pattern wildcard = Pattern.compile("\\[([a-zA-Z_]*)\\]");
 
-  /**
-   * Default constructor
-   */
-  public TagList() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public TagList(TagList other) throws AWException {
-    super(other);
-  }
-
   @Override
   public TagList copy() throws AWException {
-    return new TagList(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**

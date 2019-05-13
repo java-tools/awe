@@ -203,7 +203,7 @@ public class DummyService extends ServiceConfig {
 
     out.setType(AnswerType.OK);
     out.setTitle("Operation successful");
-    out.setMessage("The selected maintain operation has been succesfully performed");
+    out.setMessage("The selected maintain operation has been successfully performed");
 
     return out;
   }

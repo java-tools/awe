@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import "../directives/plugins/uiSelect";
 
 // Selector template
 export const templateSelector =

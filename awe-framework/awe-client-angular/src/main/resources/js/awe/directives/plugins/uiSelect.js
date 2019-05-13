@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "Select2";
 
 // Selector plugin
 aweApplication.directive('uiSelect2',

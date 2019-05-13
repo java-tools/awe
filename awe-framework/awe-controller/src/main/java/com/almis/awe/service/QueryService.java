@@ -129,7 +129,7 @@ public class QueryService extends ServiceConfig {
     ServiceData serviceData = getBean(QueueQueryConnector.class).onSubscriptionData(query, subscriptionData, parameterMap);
 
     // Add a client action to 'fill' a criterion or a grid
-    serviceData.addClientAction(new ClientAction("fill").setAddress(address).addParameter("data", new CellData(serviceData.getDataList())).setAsync(Boolean.TRUE.toString()));
+    serviceData.addClientAction(new ClientAction("fill").setAddress(address).addParameter("data", new CellData(serviceData.getDataList())).setAsync(Boolean.TRUE));
 
     return serviceData;
   }
@@ -330,7 +330,7 @@ public class QueryService extends ServiceConfig {
         ClientAction clientAction = new ClientAction("select");
         clientAction.addParameter("values", new CellData(DataListUtil.getColumn(serviceData.getDataList(), column)));
         clientAction.setTarget(column);
-        clientAction.setAsync(Boolean.TRUE.toString());
+        clientAction.setAsync(Boolean.TRUE);
         serviceData.addClientAction(clientAction);
       }
     }
@@ -385,7 +385,7 @@ public class QueryService extends ServiceConfig {
     Query query;
     try {
       // Get the query
-      query = new Query(getElements().getQuery(queryName));
+      query = getElements().getQuery(queryName).copy();
 
       // If query is private, check security
       if (checkAvailable && !query.isPublic() && !getSession().isAuthenticated()) {

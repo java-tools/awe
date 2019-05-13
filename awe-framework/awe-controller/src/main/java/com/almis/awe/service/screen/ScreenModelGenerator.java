@@ -10,7 +10,7 @@ import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.screen.component.Component;
 import com.almis.awe.model.entities.screen.component.MenuContainer;
-import com.almis.awe.model.entities.screen.component.criteria.Criteria;
+import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.entities.screen.component.grid.Grid;
 import com.almis.awe.model.entities.screen.data.AweThreadInitialization;
@@ -213,7 +213,7 @@ public class ScreenModelGenerator extends ServiceConfig {
         DataList screenTargetData = (DataList) screenTargetOutput.getVariableMap().get(AweConstants.ACTION_DATA).getObjectValue();
 
         // Add all client actions generated
-        data.getActionList().addAll(screenTargetOutput.getClientActionList());
+        data.getActions().addAll(screenTargetOutput.getClientActionList());
 
         // For each column, store value in components
         addScreenTargetDataToComponent(screenTargetData, componentMap);
@@ -297,7 +297,7 @@ public class ScreenModelGenerator extends ServiceConfig {
       DataList componentData = (DataList) componentTargetOutput.getVariableMap().get(AweConstants.ACTION_DATA).getObjectValue();
 
       // Add all client actions generated
-      data.getActionList().addAll(componentTargetOutput.getClientActionList());
+      data.getActions().addAll(componentTargetOutput.getClientActionList());
 
       // Store values in component
       ComponentModel model = component.getModel();
@@ -363,7 +363,7 @@ public class ScreenModelGenerator extends ServiceConfig {
    * @param screenComponent Screen component
    * @param screenParameters Screen paremeters (stored from keep-criteria)
    */
-  void generateScreenCriterionModel(Criteria criterion, ScreenComponent screenComponent, ObjectNode screenParameters) {
+  void generateScreenCriterionModel(AbstractCriteria criterion, ScreenComponent screenComponent, ObjectNode screenParameters) {
     ComponentModel model = screenComponent.getModel();
     List<CellData> defaultValues = getDefaultValues(criterion, screenParameters);
     if (defaultValues != null) {
@@ -381,7 +381,7 @@ public class ScreenModelGenerator extends ServiceConfig {
    * @param criterion Criterion object
    * @param screenComponent Screen component
    */
-  private void initializeCheckboxRadioModel(Criteria criterion, ScreenComponent screenComponent) {
+  private void initializeCheckboxRadioModel(AbstractCriteria criterion, ScreenComponent screenComponent) {
     ComponentModel model = screenComponent.getModel();
     // Not Query or Enum
     String component = criterion.getComponentType();
@@ -461,7 +461,7 @@ public class ScreenModelGenerator extends ServiceConfig {
    * @param criterion Criterion object
    * @return List of criterion values
    */
-  private List<CellData> getDefaultValues(Criteria criterion, ObjectNode storedParameters) {
+  private List<CellData> getDefaultValues(AbstractCriteria criterion, ObjectNode storedParameters) {
     List<CellData> defaultValues = null;
     AweRequest request = getRequest();
     AweSession session = getSession();

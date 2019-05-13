@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import Spinner from "spin.js";
 
 // Spinner plugin
 aweApplication.directive('uiSpin',

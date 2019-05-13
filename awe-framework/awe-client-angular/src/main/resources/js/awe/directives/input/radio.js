@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "../../services/checkboxRadio";
 
 // Radio directive
 aweApplication.directive('aweInputRadio',

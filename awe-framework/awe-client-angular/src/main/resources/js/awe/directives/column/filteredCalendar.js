@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "../../services/dateTime";
 
 // Column filtered calendar directive
 aweApplication.directive('aweColumnFilteredCalendar',

@@ -1,20 +1,15 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.maintain;
 
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.XMLWrapper;
-import com.almis.awe.model.util.data.ListUtil;
+import com.almis.awe.model.entities.XMLFile;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-
-/*
- * File Imports
- */
 
 /**
  * Maintain Class
@@ -24,29 +19,17 @@ import java.util.List;
  *
  * @author Ismael SERRANO - 28/JUN/2010
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("maintain")
-public class Maintain extends XMLWrapper {
+public class Maintain implements XMLFile {
 
   private static final long serialVersionUID = -1962157356340282704L;
   // Maintain Target List
   @XStreamImplicit
   private List<Target> maintainList;
-
-  /**
-   * Default constructor
-   */
-  public Maintain() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Maintain(Maintain other) throws AWException {
-    super(other);
-    this.maintainList = ListUtil.copyList(other.maintainList);
-  }
 
   /**
    * Returns a a target from its identifier
@@ -63,26 +46,8 @@ public class Maintain extends XMLWrapper {
     return null;
   }
 
-  /**
-   * Returns the Target List
-   *
-   * @return Target List
-   */
-  public List<Target> getTargetList() {
-    return maintainList;
-  }
-
-  /**
-   * Stores the Target List
-   *
-   * @param List Target List
-   */
-  public void setTargetList(List<Target> List) {
-    this.maintainList = List;
-  }
-
   @Override
   public List<Target> getBaseElementList() {
-    return maintainList == null ? Collections.emptyList() : maintainList;
+    return maintainList == null ? new ArrayList<>() : maintainList;
   }
 }

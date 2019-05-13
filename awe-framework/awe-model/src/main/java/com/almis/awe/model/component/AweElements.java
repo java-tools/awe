@@ -4,7 +4,8 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.Global;
-import com.almis.awe.model.entities.XMLWrapper;
+import com.almis.awe.model.entities.XMLFile;
+import com.almis.awe.model.entities.XMLNode;
 import com.almis.awe.model.entities.access.Profile;
 import com.almis.awe.model.entities.actions.Action;
 import com.almis.awe.model.entities.actions.Actions;
@@ -308,7 +309,7 @@ public class AweElements {
         Resource resource = new ClassPathResource(path);
         if (resource.exists()) {
           InputStream resourceInputStream = resource.getInputStream();
-          XMLWrapper fullXml = (XMLWrapper) serializer.getObjectFromXml(rootClass, resourceInputStream);
+          XMLFile fullXml = (XMLFile) serializer.getObjectFromXml(rootClass, resourceInputStream);
 
           // Read all XML elements
           readXmlElements(fullXml, storage);
@@ -328,14 +329,11 @@ public class AweElements {
    * @param fullXml Full xml object
    * @param storage Storage map
    */
-  protected void readXmlElements(XMLWrapper fullXml, Map storage) {
+  protected void readXmlElements(XMLFile fullXml, Map storage) {
     // Read XML Elements and store them
-    List<XMLWrapper> elementList = fullXml.getBaseElementList();
-    for (XMLWrapper element : elementList) {
+    List<XMLNode> elementList = fullXml.getBaseElementList();
+    for (XMLNode element : elementList) {
       if (element != null && !storage.containsKey(element.getElementKey())) {
-        // Set parent
-        element.setParent(fullXml);
-
         // Store element list
         storage.put(element.getElementKey(), element);
       }
@@ -362,7 +360,7 @@ public class AweElements {
           Resource resource = new ClassPathResource(path);
           if (resource.exists()) {
             InputStream resourceInputStream = resource.getInputStream();
-            file = (T) serializer.getObjectFromXml(clazz, resourceInputStream);
+            file = serializer.getObjectFromXml(clazz, resourceInputStream);
             logger.log(AweElements.class, Level.DEBUG, READING + OK, path);
           } else {
             logger.log(AweElements.class, Level.DEBUG, READING + KO, path);
@@ -701,13 +699,12 @@ public class AweElements {
    * @throws AWException
    */
   private Tag getScreenSource(Screen screen, String source) throws AWException {
-    Tag sourceTag = null;
-    for (Element child : screen.getElementList()) {
-      if (child.getSource().equalsIgnoreCase(source)) {
-        return new Tag((Tag) child);
+    for (Tag child : screen.getChildrenByType(Tag.class)) {
+      if (source.equalsIgnoreCase(child.getSource())) {
+        return child.copy();
       }
     }
-    return sourceTag;
+    return null;
   }
 
   /**
@@ -905,6 +902,7 @@ public class AweElements {
    *
    * @param phase Phase to look into
    * @return Start Service list
+   * @throws AWException Error starting service
    */
   public List<Service> getPhaseServices(LaunchPhaseType phase) throws AWException {
 
@@ -914,7 +912,7 @@ public class AweElements {
     // Search from application file to awe file
     for (Service service : serviceList.values()) {
       if (phase.toString().equalsIgnoreCase(service.getLaunchPhase())) {
-        phaseServices.add(new Service(service));
+        phaseServices.add(service.copy());
       }
     }
 

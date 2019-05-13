@@ -1,13 +1,8 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component.panelable;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
-import com.almis.awe.model.entities.screen.component.criteria.Criteria;
-import com.almis.awe.model.util.data.ListUtil;
+import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -16,6 +11,11 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
@@ -34,32 +34,21 @@ import java.util.Map;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 @XStreamInclude({Accordion.class, Tab.class, Wizard.class})
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder(alphabetic = true)
-public abstract class Panelable extends Criteria {
+public abstract class Panelable extends AbstractCriteria {
 
   private static final long serialVersionUID = 4769623059339446522L;
 
   @XStreamOmitField
   private
   Map<String, String> tabValues;
-
-  /**
-   * Default constructor
-   */
-  public Panelable() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Panelable(Panelable other) throws AWException {
-    super(other);
-    this.tabValues = ListUtil.copyMap(other.tabValues, String.class);
-  }
 
   @JsonIgnore
   @Override
@@ -71,13 +60,12 @@ public abstract class Panelable extends Criteria {
     ArrayNode panelableValues = (ArrayNode) dataNode.get(AweConstants.JSON_ALL);
 
     // Call generate method on all children
-    if (getElementList() != null) {
-      for (Element element : getElementList()) {
-        if (printAllTabs || element.getId().equalsIgnoreCase(selectedTab)) {
-          element.getReportStructure(printElementList, getTabLabel(element.getId(), panelableValues), parameters, dataSuffix);
-        }
+    for (Element element : getElementList()) {
+      if (printAllTabs || element.getId().equalsIgnoreCase(selectedTab)) {
+        element.getReportStructure(printElementList, getTabLabel(element.getId(), panelableValues), parameters, dataSuffix);
       }
     }
+
     return printElementList;
   }
 
@@ -121,19 +109,17 @@ public abstract class Panelable extends Criteria {
     String currentLabel = getLabel() == null ? label : getLabel();
 
     // Call generate method on all children
-    if (this.getElementList() != null) {
-      for (Element element : this.getElementList()) {
-        // Generate the children
-        String tabContainerLabel = element.getLabel();
-        if (tabContainerLabel == null) {
-          if (panelableValues != null && panelableValues.containsKey(element.getId())) {
-            tabContainerLabel = panelableValues.get(element.getId());
-          } else {
-            tabContainerLabel = currentLabel;
-          }
+    for (Element element : getElementList()) {
+      // Generate the children
+      String tabContainerLabel = element.getLabel();
+      if (tabContainerLabel == null) {
+        if (panelableValues != null && panelableValues.containsKey(element.getId())) {
+          tabContainerLabel = panelableValues.get(element.getId());
+        } else {
+          tabContainerLabel = currentLabel;
         }
-        children.add(element.generateHelpTemplate(group, tabContainerLabel, developers));
       }
+      children.add(element.generateHelpTemplate(group, tabContainerLabel, developers));
     }
 
     // Generate template
@@ -144,25 +130,5 @@ public abstract class Panelable extends Criteria {
 
     // Retrieve code
     return template;
-  }
-
-  /**
-   * Set tab values
-   *
-   * @param tabValues Tab values
-   * @return this
-   */
-  public Panelable setTabValues(Map<String, String> tabValues) {
-    this.tabValues = tabValues;
-    return this;
-  }
-
-  /**
-   * Get tab values
-   *
-   * @return Tab values
-   */
-  public Map<String, String> getTabValues() {
-    return tabValues;
   }
 }

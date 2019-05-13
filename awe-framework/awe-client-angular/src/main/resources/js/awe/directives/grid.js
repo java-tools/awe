@@ -1,5 +1,7 @@
 import { aweApplication } from "./../awe";
 import { DefaultGridOptions, DefaultSpin } from "../data/options";
+import "./../services/grid/base";
+import "./gridHeader";
 
 // Grid directive
 aweApplication.directive('aweGrid',

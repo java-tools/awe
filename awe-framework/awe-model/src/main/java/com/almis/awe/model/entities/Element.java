@@ -1,17 +1,13 @@
 package com.almis.awe.model.entities;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.menu.Menu;
-import com.almis.awe.model.entities.menu.Option;
-import com.almis.awe.model.entities.screen.Message;
-import com.almis.awe.model.entities.screen.Tag;
+import com.almis.awe.model.entities.screen.*;
 import com.almis.awe.model.entities.screen.component.Component;
+import com.almis.awe.model.entities.screen.component.action.AbstractAction;
 import com.almis.awe.model.entities.screen.component.action.Dependency;
 import com.almis.awe.model.entities.screen.component.action.DependencyElement;
-import com.almis.awe.model.entities.screen.component.action.ScreenAction;
-import com.almis.awe.model.util.data.ListUtil;
-import com.fasterxml.jackson.annotation.JsonGetter;
+import com.almis.awe.model.entities.screen.component.grid.GroupHeader;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -19,8 +15,12 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
@@ -29,90 +29,67 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Element Class
+ * Element decorator
  * Used to parse all tags from screen XML files with XStream
  *
  * @author Pablo GARCIA - 24/JUN/2010
  */
-@XStreamInclude({Tag.class, Component.class, Option.class, Menu.class, Message.class, Dependency.class, DependencyElement.class, ScreenAction.class})
+@Getter
+@Setter
+@EqualsAndHashCode
+@SuperBuilder(toBuilder = true)
+@Accessors(chain = true)
+@NoArgsConstructor
+@XStreamInclude({Screen.class, Tag.class, Component.class, Menu.class, Message.class, Dependency.class, DependencyElement.class,
+  AbstractAction.class, GroupHeader.class, Include.class, View.class, Message.class})
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public abstract class Element extends XMLWrapper implements Copyable {
+public abstract class Element implements XMLNode, Copyable {
 
   private static final long serialVersionUID = -5600527339665790940L;
 
   // Element identifier
   @XStreamAlias("id")
   @XStreamAsAttribute
-  private String id = null;
-
-  // Source where generated HTML code is going to be stored
-  @XStreamAlias("source")
-  @XStreamAsAttribute
-  private String source = null;
+  private String id;
 
   // Tag TYPE (DIV, P, INPUT, etc)
   @XStreamAlias("type")
   @XStreamAsAttribute
-  private String type = null;
+  private String type;
 
   // Element CSS classes
   @XStreamAlias("style")
   @XStreamAsAttribute
-  private String style = null;
+  private String style;
 
   // Contained text
   @XStreamAlias("label")
   @XStreamAsAttribute
-  private String label = null;
+  private String label;
 
   // Title
   @XStreamAlias("title")
   @XStreamAsAttribute
-  private String title = null;
+  private String title;
 
   // Expandible
   @XStreamAlias("expandible")
   @XStreamAsAttribute
-  private String expand = null;
+  private String expand;
 
-  // Help atribute (contains literal indicating HELP text VALUE)
+  // Help attribute (contains literal indicating HELP text VALUE)
   @XStreamAlias("help")
   @XStreamAsAttribute
-  private String help = null;
+  private String help;
 
   // HelpImage attribute that indicates image location for HELP
   @XStreamAlias("help-image")
   @XStreamAsAttribute
-  private String helpImage = null;
+  private String helpImage;
 
   // Children List
   @XStreamImplicit
   private List<Element> elementList;
-
-  /**
-   * Default constructor
-   */
-  public Element() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other Element to copy
-   */
-  public Element(Element other) throws AWException {
-    super(other);
-    this.id = other.id;
-    this.source = other.source;
-    this.type = other.type;
-    this.style = other.style;
-    this.label = other.label;
-    this.title = other.title;
-    this.expand = other.expand;
-    this.help = other.help;
-    this.helpImage = other.helpImage;
-    this.elementList = ListUtil.copyList(other.elementList);
-  }
 
   /**
    * Returns the children element list
@@ -124,14 +101,6 @@ public abstract class Element extends XMLWrapper implements Copyable {
     return elementList == null ? Collections.emptyList() : (List<T>) elementList;
   }
 
-  /**
-   * Stores the children element list
-   *
-   * @param elementList Children List
-   */
-  public <T extends Element> void setElementList(List<T> elementList) {
-    this.elementList = (List<Element>) elementList;
-  }
 
   /**
    * Add an element to the list
@@ -148,176 +117,6 @@ public abstract class Element extends XMLWrapper implements Copyable {
   }
 
   /**
-   * Returns element id
-   *
-   * @return Element id
-   */
-  @JsonGetter("id")
-  public String getId() {
-    return id;
-  }
-
-  /**
-   * Stores element id
-   *
-   * @param id Element id
-   */
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  /**
-   * Returns the element's TYPE
-   *
-   * @return Element TYPE
-   */
-  @JsonGetter("type")
-  public String getType() {
-    return type;
-  }
-
-  /**
-   * Stores the element's TYPE
-   *
-   * @param type Element type
-   */
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  /**
-   * Return the element's CSS Class List
-   *
-   * @return CSS Class List
-   */
-  @JsonGetter("style")
-  public String getStyle() {
-    return style;
-  }
-
-  /**
-   * Stores the CSS Class List
-   *
-   * @param style element style
-   */
-  public void setStyle(String style) {
-    this.style = style;
-  }
-
-  /**
-   * Returns the element's LABEL. (Text inside element) Should be translated with Context.getLocal
-   *
-   * @return Element Label
-   */
-  @JsonGetter("label")
-  public String getLabel() {
-    return label;
-  }
-
-  /**
-   * Stores the element's LABEL.
-   *
-   * @param label Element Label
-   */
-  public void setLabel(String label) {
-    this.label = label;
-  }
-
-  /**
-   * Returns the element's TITLE. (element description) Should be translated with Context.getLocal
-   *
-   * @return Element Title
-   */
-  @JsonGetter("title")
-  public String getTitle() {
-    return title;
-  }
-
-  /**
-   * Stores the element's TITLE.
-   *
-   * @param title Element title
-   */
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  /**
-   * Returns the element's source name (where generated HTML code is going to be stored)
-   *
-   * @return Source name
-   */
-  public String getSource() {
-    return source;
-  }
-
-  /**
-   * Stores the element's source name (where generated HTML code is going to be stored)
-   *
-   * @param source Source name
-   */
-  public void setSource(String source) {
-    this.source = source;
-  }
-
-  /**
-   * Returns the element's EXPAND operation (if element has to EXPAND children)
-   *
-   * @return Expand TYPE
-   */
-  @JsonGetter("expand")
-  public String getExpand() {
-    return expand;
-  }
-
-  /**
-   * Stores the element's EXPAND operation (if element has to EXPAND children).
-   *
-   * @param expand Expand TYPE
-   */
-  public void setExpand(String expand) {
-    this.expand = expand;
-  }
-
-  /**
-   * Returns HELP text literal VALUE
-   *
-   * @return HELP literal
-   */
-  @JsonGetter("help")
-  public String getHelp() {
-    return help;
-  }
-
-  /**
-   * Stores Help literal
-   *
-   * @param help HELP literal to set
-   */
-  public void setHelp(String help) {
-    this.help = help;
-  }
-
-  /**
-   * Returns HELP image literal
-   *
-   * @return returns HELP image literal
-   */
-  @JsonGetter("helpImage")
-  public String getHelpImage() {
-    return helpImage;
-  }
-
-  /**
-   * Stores HELP_IMAGE literal
-   *
-   * @param helpImage Set HELP_IMAGE attribute
-   */
-  public void setHelpImage(String helpImage) {
-    this.helpImage = helpImage;
-  }
-
-  /**
    * Generates the output HTML of the element
    *
    * @param group String Template Group
@@ -328,11 +127,9 @@ public abstract class Element extends XMLWrapper implements Copyable {
     List<ST> children = new ArrayList<>();
 
     // Call generate method on all children
-    if (this.getElementList() != null) {
-      for (Element element : (List<Element>) this.getElementList()) {
-        // Generate the children
-        children.add(element.generateTemplate(group));
-      }
+    for (Element element : getElementList()) {
+      // Generate the children
+      children.add(element.generateTemplate(group));
     }
 
     // Generate template
@@ -369,11 +166,9 @@ public abstract class Element extends XMLWrapper implements Copyable {
     String currentLabel = getLabel() == null ? label : getLabel();
 
     // Call generate method on all children
-    if (this.getElementList() != null) {
-      for (Element element : this.getElementList()) {
-        // Generate the children
-        children.add(element.generateHelpTemplate(group, currentLabel, developers));
-      }
+    for (Element element : getElementList()) {
+      // Generate the children
+      children.add(element.generateHelpTemplate(group, currentLabel, developers));
     }
 
     // Generate template
@@ -519,19 +314,15 @@ public abstract class Element extends XMLWrapper implements Copyable {
   @JsonIgnore
   public List<Element> getReportStructure(List<Element> printElementList, String label, ObjectNode parameters, String dataSuffix) {
     // Call generate method on all children
-    if (getElementList() != null) {
-      for (Element element : getElementList()) {
-        element.getReportStructure(printElementList, label, parameters, dataSuffix);
-      }
+    for (Element element : getElementList()) {
+      element.getReportStructure(printElementList, label, parameters, dataSuffix);
     }
     return printElementList;
   }
 
-  /**
-   * Retrieve logger
-   * @return Logger
-   */
-  protected Logger getLogger() {
-    return LogManager.getLogger(this.getClass());
+  @JsonIgnore
+  @Override
+  public String getElementKey() {
+    return getId() == null ? AweConstants.NO_KEY : getId();
   }
 }

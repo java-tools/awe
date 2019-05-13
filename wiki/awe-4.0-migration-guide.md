@@ -417,8 +417,8 @@ Encode again the properties encoded with `ENC(xxxx)` at the Encrypt util screen.
   * Packages
   
 ```regexp
-com.almis.awe.core.services.data.global.XMLWrapper => com.almis.awe.model.entities.XMLWrapper
-com.almis.awe.core.services.data.global.XMLElement => com.almis.awe.model.entities.XMLWrapper
+com.almis.awe.core.services.data.global.XMLWrapper => com.almis.awe.model.entities.XMLFile
+com.almis.awe.core.services.data.global.XMLElement => com.almis.awe.model.entities.XMLFile
 com.almis.awe.core.services.data.service.ServiceData => com.almis.awe.model.dto.ServiceData
 com.almis.awe.core.services.controller.DataController => com.almis.awe.service.QueryService
 com.almis.awe.core.services.controller.MaintainController => com.almis.awe.service.MaintainService

@@ -1,14 +1,13 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component.panelable;
 
-/*
- * File Imports
- */
-
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Wizard Class
@@ -21,29 +20,21 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 @XStreamAlias("wizard")
 public class Wizard extends Panelable {
 
   private static final long serialVersionUID = -6523633454585300507L;
 
-  /**
-   * Default constructor
-   */
-  public Wizard() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Wizard(Wizard other) throws AWException {
-    super(other);
-  }
-
   @Override
   public Wizard copy() throws AWException {
-    return new Wizard(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**

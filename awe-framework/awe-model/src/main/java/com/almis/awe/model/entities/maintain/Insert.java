@@ -5,6 +5,12 @@ import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Insert Class
@@ -13,6 +19,12 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  *
  * @author Ismael SERRANO - 28/JUN/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("insert")
 public class Insert extends MaintainQuery {
 
@@ -25,41 +37,11 @@ public class Insert extends MaintainQuery {
   // Insert from query
   @XStreamAlias("query")
   @XStreamAsAttribute
-  private String query = null;
-
-  /**
-   * Default constructor
-   */
-  public Insert() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Insert(Insert other) throws AWException {
-    super(other);
-    this.query = other.query;
-  }
+  private String query;
 
   @Override
   public Insert copy() throws AWException {
-    return new Insert(this);
-  }
-
-  /**
-   * @return the query
-   */
-  public String getQuery() {
-    return query;
-  }
-
-  /**
-   * @param query the query to set
-   */
-  public void setQuery(String query) {
-    this.query = query;
+    return this.toBuilder().build();
   }
 
   /**
@@ -76,11 +58,6 @@ public class Insert extends MaintainQuery {
     return auditTable;
   }
 
-  /**
-   * Returns the maintain type
-   *
-   * @return Maintain type
-   */
   @Override
   public MaintainType getMaintainType() {
     return maintainType;

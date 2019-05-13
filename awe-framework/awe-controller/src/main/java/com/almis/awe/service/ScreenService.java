@@ -218,20 +218,16 @@ public class ScreenService extends ServiceConfig {
    * @param optionId Option identifier
    */
   private void addScreenInformationToScreenData(Screen screen, ScreenData data, String optionId) {
-    // Generate screen properties
-    Map<String, String> screenProperties = new HashMap<>();
     if (screen.getLabel() != null) {
-      screenProperties.put("title", screen.getLabel());
-      // Add Name
-      screenProperties.put("name", screen.getId());
-      // Add Option
-      screenProperties.put("option", optionId);
+      data
+        .addScreenProperty("title", screen.getLabel())
+        .addScreenProperty("name", screen.getId())
+        .addScreenProperty("option", optionId);
       // Add Unload
       if (screen.getOnUnload() != null) {
-        screenProperties.put("onunload", screen.getOnUnload());
+        data.addScreenProperty("onunload", screen.getOnUnload());
       }
     }
-    data.setScreenProperties(screenProperties);
   }
 
   /**
@@ -247,16 +243,10 @@ public class ScreenService extends ServiceConfig {
     getLogger().log(ScreenService.class, Level.ERROR, exc.getTitle(), exc.getMessage(), exc);
 
     // Generate screen properties
-    Map<String, String> screenProperties = new HashMap<>();
-    // Add title
-    screenProperties.put("title", exc.getTitle());
-    // Add Name
-    screenProperties.put("name", AweConstants.ERROR_SCREEN);
-    // Add option
-    screenProperties.put("option", AweConstants.ERROR_OPTION);
-    data.setScreenProperties(screenProperties);
-
-    return data;
+    return data
+      .addScreenProperty("title", exc.getTitle())
+      .addScreenProperty("name", AweConstants.ERROR_SCREEN)
+      .addScreenProperty("option", AweConstants.ERROR_OPTION);
   }
 
   /**
@@ -339,7 +329,7 @@ public class ScreenService extends ServiceConfig {
     session.setParameter(AweConstants.SESSION_CURRENT_SCREEN, option);
 
     // Store screen option if keep criteria
-    session.setParameter(AweConstants.SESSION_STORE_SCREEN_CRITERIA, screen.keepCriteria() ? option : null);
+    session.setParameter(AweConstants.SESSION_STORE_SCREEN_CRITERIA, screen.isKeepCriteria() ? option : null);
   }
 
   /**
@@ -396,7 +386,7 @@ public class ScreenService extends ServiceConfig {
    */
   public ServiceData getAttributeNameList(String suggest) throws AWException {
     // Get screen from option
-    EnumeratedGroup attributeList = new EnumeratedGroup(getElements().getEnumerated(AweConstants.ATTRIBUTE_LIST));
+    EnumeratedGroup attributeList = getElements().getEnumerated(AweConstants.ATTRIBUTE_LIST).copy();
     ServiceData serviceData = new ServiceData();
     DataList dataList = new DataList();
     for (Global option : attributeList.getOptionList()) {

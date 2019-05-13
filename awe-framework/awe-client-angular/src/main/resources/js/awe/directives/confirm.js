@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import "../services/dialog";
 
 // Confirm directive
 aweApplication.directive('aweConfirm',

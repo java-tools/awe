@@ -894,7 +894,7 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="OK_MESSAGE_GENERATING_DOCUMENT" value="Document has been successfully generated"/>
   <locale name="OK_MESSAGE_LAUNCHING_BATCH" value="Batch process has been launched successfully. You will be redirected to process status screen to watch process status."/>
   <locale name="OK_MESSAGE_LOCAL_UPDATED" value="The localee -{0}- has been updated sucessfully"/>
-  <locale name="OK_MESSAGE_MAINTAIN_OPERATION" value="The selected maintain operation has been succesfully performed"/>
+  <locale name="OK_MESSAGE_MAINTAIN_OPERATION" value="The selected maintain operation has been successfully performed"/>
   <locale name="OK_MESSAGE_MESSAGE_SENT" value="Message has been sent to the users sucessfully"/>
   <locale name="OK_MESSAGE_NEW_LOCAL" value="The locale -{0}- has been generated sucessfully"/>
   <locale name="OK_MESSAGE_REMOVED_LOCAL" value="The localee -{0}- has been deleted sucessfully"/>

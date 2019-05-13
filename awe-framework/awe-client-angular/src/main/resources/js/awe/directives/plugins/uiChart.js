@@ -1,5 +1,17 @@
 import { aweApplication } from "./../../awe";
 
+// HIGHCHARTS
+import Highcharts from "highcharts/highstock";
+require("highcharts/highcharts-more.src")(Highcharts);
+require("highcharts/highcharts-3d.src")(Highcharts);
+require("highcharts/modules/drilldown.src")(Highcharts);
+require("highcharts/modules/boost.src")(Highcharts);
+require("highcharts/modules/no-data-to-display.src")(Highcharts);
+require("highcharts/modules/exporting.src")(Highcharts);
+
+import "HighchartsLocale";
+import "HighchartsThemes";
+
 // Highcharts plugin
 aweApplication.directive('uiChart', ['AweSettings', 'AweUtilities',
   /**

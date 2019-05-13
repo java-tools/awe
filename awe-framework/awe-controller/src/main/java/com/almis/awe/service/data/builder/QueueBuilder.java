@@ -12,6 +12,7 @@ import com.almis.awe.model.entities.queues.JmsConnectionInfo;
 import com.almis.awe.model.entities.queues.MessageBuilder;
 import com.almis.awe.model.entities.queues.Queue;
 import com.almis.awe.model.entities.queues.RequestMessage;
+import com.almis.awe.model.type.QueueMessageType;
 import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.service.data.processor.QueueProcessor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -338,7 +339,7 @@ public class QueueBuilder extends AbstractQueryBuilder {
     try {
       // Create message
       messageCreator = getBean(MessageBuilder.class)
-        .setType(request.getType())
+        .setType(QueueMessageType.valueOf(request.getType().toUpperCase()))
         .setSelector(request.getSelector())
         .setRequest(request)
         .setValueList(parameterList);

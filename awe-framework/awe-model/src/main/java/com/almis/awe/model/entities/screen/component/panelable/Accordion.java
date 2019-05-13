@@ -1,13 +1,16 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component.panelable;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +19,16 @@ import java.util.List;
  * Accordion Class
  *
  * Used to parse an accordion with XStream
- *
- *
- * Generates an accordion with collapsable elements
- *
+ * Generates an accordion with collapsible elements
  *
  * @author Jorge BELLON - 16/02/2017
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@Accessors(chain = true)
+@NoArgsConstructor
 @XStreamAlias("accordion")
 public class Accordion extends Panelable {
 
@@ -31,62 +37,26 @@ public class Accordion extends Panelable {
   // Value attribute
   @XStreamAlias("selected")
   @XStreamAsAttribute
-  private String selected = null;
+  private String selected;
 
   // Autocollapse attribute
   @XStreamAlias("autocollapse")
   @XStreamAsAttribute
-  private String autocollapse = null;
-
-  /**
-   * Default constructor
-   */
-  public Accordion() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Accordion(Accordion other) throws AWException {
-    super(other);
-    this.selected = other.selected;
-    this.autocollapse = other.autocollapse;
-  }
+  private Boolean autocollapse;
 
   @Override
   public Accordion copy() throws AWException {
-    return new Accordion(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**
-   * Retrieves the item's ID desired to be expanded at the beggining (if any)
-   *
-   * @return Item's ID
+   * Returns if is autocollapse
+   * @return Is autocollapse
    */
-  @JsonIgnore
-  public String getSelected() {
-    return selected;
-  }
-
-  /**
-   * Set a new value for the item to be expanded initially
-   *
-   * @param selected
-   */
-  public void setSelected(String selected) {
-    this.selected = selected;
-  }
-
-  /**
-   * Retrieves the autocollapse value
-   *
-   * @return autocollapse
-   */
-  @JsonIgnore
-  public String getAutocollapse() {
-    return autocollapse;
+  public boolean isAutocollapse() {
+    return getAutocollapse() != null && getAutocollapse();
   }
 
   /**
@@ -97,32 +67,10 @@ public class Accordion extends Panelable {
   @JsonGetter("itemsSelected")
   public List<String> getItemsSelectedConverter() {
     ArrayList<String> list = new ArrayList<>();
-    if (this.getSelected() != null) {
-      list.add(this.getSelected());
+    if (getSelected() != null) {
+      list.add(getSelected());
     }
     return list;
-  }
-
-  /**
-   * Retrieves the autocollapse value as a boolean
-   *
-   * @return autocollapse
-   */
-  @JsonGetter("autocollapse")
-  public boolean isAutocollapse() {
-    if (autocollapse == null) {
-      return true;
-    }
-    return "true".equals(autocollapse);
-  }
-
-  /**
-   * Sets a new value for the autocollapse attribute
-   *
-   * @param autocollapse
-   */
-  public void setAutocollapse(String autocollapse) {
-    this.autocollapse = autocollapse;
   }
 
   /**

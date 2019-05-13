@@ -1,16 +1,14 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.maintain;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
-/*
- * File Imports
- */
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Email Class
@@ -20,6 +18,11 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  *
  * @author Pablo GARCIA - 09/NOV/2010
  */
+@Getter
+@Setter
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("send-email")
 public class Email extends MaintainQuery {
 
@@ -28,31 +31,11 @@ public class Email extends MaintainQuery {
   @XStreamOmitField
   private static final MaintainType maintainType = MaintainType.EMAIL;
 
-  /**
-   * Default constructor
-   */
-  public Email() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Email(Email other) throws AWException {
-    super(other);
-  }
-
   @Override
   public Email copy() throws AWException {
-    return new Email(this);
+    return this.toBuilder().build();
   }
 
-  /**
-   * Returns the maintain type
-   *
-   * @return Maintain type
-   */
   @Override
   public MaintainType getMaintainType() {
     return maintainType;

@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "./commons";
 
 // Tree grid service
 aweApplication.factory('GridTree',

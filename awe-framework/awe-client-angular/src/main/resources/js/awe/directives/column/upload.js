@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "../../services/uploader";
 
 // Column uploader directive
 aweApplication.directive('aweColumnUploader',

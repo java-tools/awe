@@ -48,7 +48,7 @@ public class ActionService extends ServiceConfig {
    * @throws AWException Action has not been found
    */
   public Action getAction(String actionId) throws AWException {
-    return new Action(getElements().getAction(actionId));
+    return getElements().getAction(actionId).copy();
   }
 
   /**
@@ -177,7 +177,7 @@ public class ActionService extends ServiceConfig {
     // Replace variable in actionList with serviceData variables
     for (ClientAction response : actionList) {
       // Get new response
-      ClientAction clientAction = new ClientAction(response);
+      ClientAction clientAction = response.copy();
 
       // Fill new response with variables and parameters
       if (clientAction.getParameterList() != null) {

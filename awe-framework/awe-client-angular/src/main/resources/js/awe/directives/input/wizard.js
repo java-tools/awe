@@ -1,5 +1,6 @@
 import { aweApplication } from "./../../awe";
 import { ClientActions } from "../../data/actions";
+import "../wizardpanel";
 
 // Wizard directive
 aweApplication.directive('aweInputWizard',

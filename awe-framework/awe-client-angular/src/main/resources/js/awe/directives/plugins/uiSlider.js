@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import Slider from "bootstrap-slider";
 
 // Slider plugin
 aweApplication.directive('uiSlider',

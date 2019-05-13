@@ -3,11 +3,15 @@ package com.almis.awe.model.entities.enumerated;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Copyable;
 import com.almis.awe.model.entities.Global;
-import com.almis.awe.model.entities.XMLWrapper;
-import com.almis.awe.model.util.data.ListUtil;
+import com.almis.awe.model.entities.XMLNode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -23,8 +27,12 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("group")
-public class EnumeratedGroup extends XMLWrapper implements Copyable {
+public class EnumeratedGroup implements XMLNode, Copyable {
 
   private static final long serialVersionUID = 405249052409598721L;
 
@@ -36,60 +44,6 @@ public class EnumeratedGroup extends XMLWrapper implements Copyable {
   // Group option list
   @XStreamImplicit(itemFieldName = "option")
   private List<Global> optionList;
-
-  /**
-   * Default constructor
-   */
-  public EnumeratedGroup() {
-    super();
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public EnumeratedGroup(EnumeratedGroup other) throws AWException {
-    super(other);
-    this.id = other.id;
-    this.optionList = ListUtil.copyList(other.optionList);
-  }
-
-  /**
-   * Returns the group identifier
-   *
-   * @return Group identifier
-   */
-  public String getId() {
-    return id;
-  }
-
-  /**
-   * Stores the group identifier
-   *
-   * @param id Group identifier
-   */
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  /**
-   * Returns the group option list
-   *
-   * @return Group option list
-   */
-  public List<Global> getOptionList() {
-    return optionList;
-  }
-
-  /**
-   * Stores the group option list
-   *
-   * @param optionList Group option list
-   */
-  public void setOptionList(List<Global> optionList) {
-    this.optionList = optionList;
-  }
 
   /**
    * Returns the label of the selected value (for translate purpose in queries)
@@ -107,22 +61,7 @@ public class EnumeratedGroup extends XMLWrapper implements Copyable {
     return value;
   }
 
-  /**
-   * Returns if identifier belongs to the element
-   *
-   * @param ide
-   * @return true if the identifier belongs to the element
-   */
-  @Override
-  public boolean isElement(String ide) {
-    return this.getId().equals(ide);
-  }
-
-  /**
-   * Return the XML Element Key
-   *
-   * @return the elementKey
-   */
+  @JsonIgnore
   @Override
   public String getElementKey() {
     return this.getId();
@@ -130,6 +69,6 @@ public class EnumeratedGroup extends XMLWrapper implements Copyable {
 
   @Override
   public EnumeratedGroup copy() throws AWException {
-    return new EnumeratedGroup(this);
+    return this.toBuilder().build();
   }
 }

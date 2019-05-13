@@ -1,12 +1,11 @@
 package com.almis.awe.service.data.builder;
 
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.dto.QueryParameter;
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.maintain.Insert;
 import com.almis.awe.model.entities.maintain.MaintainQuery;
 import com.almis.awe.model.entities.queries.Field;
-import com.almis.awe.model.entities.queries.Table;
 import com.almis.awe.model.entities.queries.Variable;
 import com.almis.awe.model.type.MaintainBuildOperation;
 import com.almis.awe.model.type.MaintainType;
@@ -217,7 +216,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
       }
     } else {
       // Builds the basic query
-      RelationalPath<?> tablePath = getTable();
+      RelationalPath tablePath = getTable();
 
       switch (operation) {
       case BATCH_INITIAL_DEFINITION:
@@ -303,8 +302,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
     if (this.getQuery().getTableList().isEmpty()) {
       throw new AWException(getElements().getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN), getElements().getLocale("ERROR_MESSAGE_NOT_DEFINED_IN", "table", this.getQuery().getId() ));
     }
-    Table table = this.getQuery().getTableList().get(0);
-    return new RelationalPathBase<>(Object.class, "", table.getSchema(), table.getId());
+    return getTable(this.getQuery().getTableList().get(0), false);
   }
 
   /**
@@ -370,7 +368,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
     List paths = new ArrayList<>();
 
     for (Field field : this.getQuery().getFieldList()) {
-      if (!"true".equals(field.getAudit())) {
+      if (!field.isAudit()) {
         paths.add(buildPath(field.getTable(), field.getId(), field.getAlias()));
       }
     }
@@ -454,7 +452,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
     values.add(getStringExpression(((MaintainQuery) this.getQuery()).getMaintainType().toString()));
 
     for (Field field : this.getQuery().getFieldList()) {
-      if ("true".equals(field.getAudit())) {
+      if (field.isAudit()) {
         values.add(getFieldValue(field, num));
       }
     }

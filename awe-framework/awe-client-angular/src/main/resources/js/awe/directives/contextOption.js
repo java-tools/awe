@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import "../services/contextMenu";
 
 const template =
 `<li ng-show="controller.visible || controller.separator" class="context-option {{controller.opened ? 'open' : ''}}" ng-class="::{'divider': controller.separator, 'dropdown-submenu': controller.hasChildren}" ui-dependency="dependencies" ng-cloak>

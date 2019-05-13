@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 /**
  * Class that holds information of Query Variable obtained from AWERequest parameters
@@ -22,7 +21,7 @@ import java.io.Serializable;
  * @author jbellon
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class QueryParameter implements Serializable, Copyable {
+public class QueryParameter implements Copyable {
 
   private JsonNode value;
   private boolean isList;

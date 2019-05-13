@@ -32,7 +32,7 @@
     <field id="IdeMod" table="awe" alias="module" />
     <field id="IdeDbs" table="awe" alias="database" />
     <field id="Ord" table="awe" alias="order" />
-    <order-by field="database" type="ASC"></order-by>
+    <order-by field="database" type="ASC"/>
   </query>
 
   <query id="CheckRollback">
@@ -2089,6 +2089,13 @@
   <query id="CallAnotherMicroservice" service="simpleMicroservice2"/>
 
   <query id="CallAnotherMicroserviceWithParameters" service="simpleMicroservice2WithParameters">
+    <field id="date" alias="dateFormatted" transform="DATE"/>
+    <field id="float" alias="floatFormatted" transform="NUMBER"/>
+    <field id="double" alias="doubleFormatted" transform="NUMBER"/>
+    <field id="integer" alias="integerFormatted" transform="NUMBER"/>
+    <field id="long" alias="longFormatted" transform="NUMBER"/>
+    <field id="text" alias="text"/>
+    <field id="null" alias="null"/>
     <variable id="param1" type="STRING" value="prueba" />
     <variable id="param2" type="DATE" name="tutu" />
     <variable id="param3" type="INTEGER" name="lala" />

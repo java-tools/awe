@@ -1,10 +1,17 @@
 package com.almis.awe.model.entities.screen.component.chart;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * ChartAxis Class
@@ -17,7 +24,13 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Pablo VIDAL - 21/OCT/2014
  */
-public class ChartAxis extends ChartModel {
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
+public class ChartAxis extends AbstractChart {
 
   private static final long serialVersionUID = -870412966991859326L;
 
@@ -34,7 +47,7 @@ public class ChartAxis extends ChartModel {
   // Label rotation of axis
   @XStreamAlias("label-rotation")
   @XStreamAsAttribute
-  private String labelRotation;
+  private Float labelRotation;
 
   // Tick interval of axis label
   @XStreamAlias("tick-interval")
@@ -44,159 +57,34 @@ public class ChartAxis extends ChartModel {
   // Allow decimals on ticks
   @XStreamAlias("allow-decimal")
   @XStreamAsAttribute
-  private String allowDecimal;
+  private Boolean allowDecimal;
 
   // Set opposite to axis
   @XStreamAlias("opposite")
   @XStreamAsAttribute
-  private String opposite;
-
-  /**
-   * Default constructor
-   */
-  public ChartAxis() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public ChartAxis(ChartAxis other) throws AWException {
-    super(other);
-    this.labelFormat = other.labelFormat;
-    this.formatterFunction = other.formatterFunction;
-    this.labelRotation = other.labelRotation;
-    this.tickInterval = other.tickInterval;
-    this.allowDecimal = other.allowDecimal;
-    this.opposite = other.opposite;
-  }
+  private Boolean opposite;
 
   @Override
   public ChartAxis copy() throws AWException {
-    return new ChartAxis(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**
-   * Retrive label format
-   *
-   * @return labelFormat
-   */
-  public String getLabelFormat() {
-    return labelFormat;
-  }
-
-  /**
-   * Store label format
-   *
-   * @param labelFormat Label format
-   */
-  public void setLabelFormat(String labelFormat) {
-    this.labelFormat = labelFormat;
-  }
-
-  /**
-   * @return the formatterFunction
-   */
-  public String getFormatterFunction() {
-    return formatterFunction;
-  }
-
-  /**
-   * @param formatterFunction the formatterFunction to set
-   */
-  public void setFormatterFunction(String formatterFunction) {
-    this.formatterFunction = formatterFunction;
-  }
-
-  /**
-   * Retrieve rotation of axis labels
-   *
-   * @return labelRotation
-   */
-  public String getLabelRotation() {
-    return labelRotation;
-  }
-
-  /**
-   * Set rotation to axis labels
-   *
-   * @param labelRotation Label rotation
-   */
-  public void setLabelRotation(String labelRotation) {
-    this.labelRotation = labelRotation;
-  }
-
-  /**
-   * Retrieve tick intervals
-   *
-   * @return tickInterval
-   */
-  public String getTickInterval() {
-    return tickInterval;
-  }
-
-  /**
-   * Set interval to axis tick
-   *
-   * @param tickInterval Tick interval
-   */
-  public void setTickInterval(String tickInterval) {
-    this.tickInterval = tickInterval;
-  }
-
-  /**
-   * Retrive flag allow decimals on axis
-   *
-   * @return allowDecimal
-   */
-  public String getAllowDecimal() {
-    return allowDecimal;
-  }
-
-  /**
-   * Set flag to enable decimal values on axis
-   *
-   * @param allowDecimal Allow decimals
-   */
-  public void setAllowDecimal(String allowDecimal) {
-    this.allowDecimal = allowDecimal;
-  }
-
-  /**
-   * If allow decimals on axis
-   *
-   * @return allowDecimal flag
+   * Returns if allow decimals
+   * @return Allow decimals
    */
   public boolean isAllowDecimal() {
-    return "true".equalsIgnoreCase(getAllowDecimal());
+    return allowDecimal != null && allowDecimal;
   }
 
   /**
-   * Retrieve flag axis is opposite
-   *
-   * @return opposite
-   */
-  public String getOpposite() {
-    return opposite;
-  }
-
-  /**
-   * Set flag opposite axis
-   *
-   * @param opposite Is opposite
-   */
-  public void setOpposite(String opposite) {
-    this.opposite = opposite;
-  }
-
-  /**
-   * If axis is opposite
-   *
-   * @return flag opposite
+   * Returns if is opposite
+   * @return Is opposite
    */
   public boolean isOpposite() {
-    return "true".equalsIgnoreCase(getOpposite());
+    return opposite != null && opposite;
   }
 
   /**
@@ -233,7 +121,7 @@ public class ChartAxis extends ChartModel {
 
     // Set label rotation
     if (getLabelRotation() != null) {
-      labelNode.put(ChartConstants.ROTATION, Float.valueOf(getLabelRotation()));
+      labelNode.put(ChartConstants.ROTATION, getLabelRotation());
     }
 
     // Set labels node
@@ -251,14 +139,10 @@ public class ChartAxis extends ChartModel {
     }
 
     // Set allow-decimal
-    if (getAllowDecimal() != null) {
-      axisNode.put(ChartConstants.ALLOW_DECIMALS, isAllowDecimal());
-    }
+    axisNode.put(ChartConstants.ALLOW_DECIMALS, isAllowDecimal());
 
     // Axis opposite
-    if (getOpposite() != null) {
-      axisNode.put(ChartConstants.OPPOSITE, isOpposite());
-    }
+    axisNode.put(ChartConstants.OPPOSITE, isOpposite());
 
     // Update model with chart parameters
     addParameters(axisNode);

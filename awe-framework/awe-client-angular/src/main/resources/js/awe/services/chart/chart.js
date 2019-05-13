@@ -1,17 +1,20 @@
 import { aweApplication } from "./../../awe";
+import "../../directives/plugins/uiChart";
+import "./events";
+import "./sparkLine";
 
 // Chart service
 aweApplication.factory('Chart',
   ['Component', '$translate', 'ChartEvents', 'Storage', 'Control', 'AweUtilities', 'AweSettings',
     /**
      * Chart generic methods
-     * @param {Service} Component
-     * @param {Service} $translate
-     * @param {Service} ChartEvents
-     * @param {Service} Storage
-     * @param {Service} Control
-     * @param {Service} Utilities
-     * @param {Service} $settings Awe $settings
+     * @param {Object} Component
+     * @param {Object} $translate
+     * @param {Object} ChartEvents
+     * @param {Object} Storage
+     * @param {Object} Control
+     * @param {Object} Utilities
+     * @param {Object} $settings Awe $settings
      */
     function (Component, $translate, ChartEvents, Storage, Control, Utilities, $settings) {
       // Get awe $settings

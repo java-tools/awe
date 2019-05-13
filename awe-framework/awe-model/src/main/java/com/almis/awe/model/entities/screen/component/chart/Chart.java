@@ -4,6 +4,7 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.type.ChartType;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,8 +14,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,424 +34,95 @@ import java.util.List;
  *
  * @author Pablo VIDAL - 20/OCT/2014
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("chart")
-public class Chart extends ChartModel {
+public class Chart extends AbstractChart {
 
   private static final long serialVersionUID = -5778594007618151363L;
 
   // Chart subtitle
+  @JsonIgnore
   @XStreamAlias("subtitle")
   @XStreamAsAttribute
   private String subTitle;
 
   // Flag stock chart
+  @JsonIgnore
   @XStreamAlias("stock-chart")
   @XStreamAsAttribute
-  private String stockChart;
+  private Boolean stockChart;
 
   // Chart theme template
+  @JsonIgnore
   @XStreamAlias("theme")
   @XStreamAsAttribute
   private String theme;
 
   // Inverted axis
+  @JsonIgnore
   @XStreamAlias("inverted")
   @XStreamAsAttribute
-  private String inverted;
+  private Boolean inverted;
 
   // Stack series of chart (Only column and area TYPE)
+  @JsonIgnore
   @XStreamAlias("stacking")
   @XStreamAsAttribute
   private String stacking;
 
   // Flag to show data labels in series
+  @JsonIgnore
   @XStreamAlias("enable-data-labels")
   @XStreamAsAttribute
-  private String enableDataLabels;
+  private Boolean enableDataLabels;
 
   // Format data labels
+  @JsonIgnore
   @XStreamAlias("format-data-labels")
   @XStreamAsAttribute
   private String formatDataLabels;
 
   // Flag to enable chart zoom
+  @JsonIgnore
   @XStreamAlias("zoom-type")
   @XStreamAsAttribute
   private String zoomType;
 
   // Legend of chart
   @XStreamAlias("chart-legend")
+  @JsonIgnore
   private ChartLegend chartLegend;
 
   // Tooltip of chart
+  @JsonIgnore
   @XStreamAlias("chart-tooltip")
   private ChartTooltip chartTooltip;
 
   // Chart X Axis list
+  @JsonIgnore
   @XStreamImplicit(itemFieldName = "x-axis")
   private List<ChartAxis> xAxisList;
 
   // Chart Y Axis list
+  @JsonIgnore
   @XStreamImplicit(itemFieldName = "y-axis")
   private List<ChartAxis> yAxisList;
 
   // Chart Y Axis list
+  @JsonIgnore
   @XStreamImplicit
   private List<ChartSerie> serieList;
 
-  /**
-   * Default constructor
-   */
-  public Chart() {
-    xAxisList = new ArrayList<>();
-    yAxisList = new ArrayList<>();
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Chart(Chart other) throws AWException {
-    super(other);
-    this.subTitle = other.subTitle;
-    this.stockChart = other.stockChart;
-    this.theme = other.theme;
-    this.inverted = other.inverted;
-    this.stacking = other.stacking;
-    this.enableDataLabels = other.enableDataLabels;
-    this.formatDataLabels = other.formatDataLabels;
-    this.zoomType = other.zoomType;
-    this.chartLegend = other.chartLegend == null ? null : new ChartLegend(other.chartLegend);
-    this.chartTooltip = other.chartTooltip == null ? null : new ChartTooltip(other.chartTooltip);
-
-    if (other.xAxisList != null) {
-      this.xAxisList = new ArrayList<>();
-      for (ChartAxis axis : other.xAxisList) {
-        this.xAxisList.add(new ChartAxis(axis));
-      }
-    }
-
-    if (other.yAxisList != null) {
-      this.yAxisList = new ArrayList<>();
-      for (ChartAxis axis : other.yAxisList) {
-        this.yAxisList.add(new ChartAxis(axis));
-      }
-    }
-
-    if (other.serieList != null) {
-      this.serieList = new ArrayList<>();
-      for (ChartSerie serie : other.serieList) {
-        this.serieList.add(new ChartSerie(serie));
-      }
-    }
-  }
-
   @Override
   public Chart copy() throws AWException {
-    return new Chart(this);
-  }
-
-  /**
-   * Retrieve chart subtitle
-   *
-   * @return Chart subtitle
-   */
-  @JsonIgnore
-  public String getSubTitle() {
-    return subTitle;
-  }
-
-  /**
-   * Set chart subtitle
-   *
-   * @param subTitle Chart subtitle
-   * @return Chart
-   */
-  public Chart setSubTitle(String subTitle) {
-    this.subTitle = subTitle;
-    return this;
-  }
-
-  /**
-   * Retrive stockChart VALUE
-   *
-   * @return boolean stockChart
-   */
-  @JsonIgnore
-  public String getStockChart() {
-    return stockChart;
-  }
-
-  /**
-   * Store stockChart flag
-   *
-   * @param stockChart A boolean string VALUE
-   * @return Chart
-   */
-  public Chart setStockChart(String stockChart) {
-    this.stockChart = stockChart;
-    return this;
-  }
-
-  /**
-   * Get if chart is a stock chart TYPE
-   *
-   * @return flag stockChart
-   */
-  @JsonIgnore
-  public boolean isStockChart() {
-    return "true".equalsIgnoreCase(getStockChart());
-  }
-
-  /**
-   * Retrive theme of chart
-   *
-   * @return theme chart
-   */
-  @JsonIgnore
-  public String getTheme() {
-    return theme;
-  }
-
-  /**
-   * Store theme attribute
-   *
-   * @param theme Chart theme
-   * @return Chart
-   */
-  public Chart setTheme(String theme) {
-    this.theme = theme;
-    return this;
-  }
-
-  /**
-   * Retrieve if chart has axis inverted
-   *
-   * @return flag inverted
-   */
-  @JsonIgnore
-  public String getInverted() {
-    return inverted;
-  }
-
-  /**
-   * Store flag inverted
-   *
-   * @param inverted Chart axis inverted
-   * @return Chart
-   */
-  public Chart setInverted(String inverted) {
-    this.inverted = inverted;
-    return this;
-  }
-
-  /**
-   * Get if chart has its axis inverted
-   *
-   * @return flag inverted
-   */
-  @JsonIgnore
-  public boolean isInverted() {
-    return "true".equalsIgnoreCase(getInverted());
-  }
-
-  /**
-   * Get the kind of stack Values "normal" or "percent" (Only apply column and area charts)
-   *
-   * @return stacking
-   */
-  @JsonIgnore
-  public String getStacking() {
-    return stacking;
-  }
-
-  /**
-   * Store stacking TYPE of chart
-   *
-   * @param stacking Stack TYPE
-   * @return Chart
-   */
-  public Chart setStacking(String stacking) {
-    this.stacking = stacking;
-    return this;
-  }
-
-  /**
-   * Get flag enabled data labels
-   *
-   * @return flag data labels
-   */
-  @JsonIgnore
-  public String getEnableDataLabels() {
-    return enableDataLabels;
-  }
-
-  /**
-   * Store flag data labels
-   *
-   * @param enableDataLabels Enable data labels
-   * @return Chart
-   */
-  public Chart setEnableDataLabels(String enableDataLabels) {
-    this.enableDataLabels = enableDataLabels;
-    return this;
-  }
-
-  /**
-   * Flat to show data labels in chart
-   *
-   * @return flag data labels
-   */
-  @JsonIgnore
-  public boolean isEnabledDataLabels() {
-    return "true".equalsIgnoreCase(getEnableDataLabels());
-  }
-
-  /**
-   * Retrieve format data labels
-   *
-   * @return format
-   */
-  public String getFormatDataLabels() {
-    return formatDataLabels;
-  }
-
-  /**
-   * Store format for data labels
-   *
-   * @param formatDataLabels Format data labels
-   * @return Chart
-   */
-  public Chart setFormatDataLabels(String formatDataLabels) {
-    this.formatDataLabels = formatDataLabels;
-    return this;
-  }
-
-  /**
-   * Retrieve TYPE zoom by dragging the mouse Default none
-   *
-   * @return flag zoom
-   */
-  @JsonIgnore
-  public String getZoomType() {
-    return zoomType;
-  }
-
-  /**
-   * Store zoom TYPE attribute
-   *
-   * @param zoomType Zoom type
-   * @return Chart
-   */
-  public Chart setZoomType(String zoomType) {
-    this.zoomType = zoomType;
-    return this;
-  }
-
-  /**
-   * Retrieve Chart legend
-   *
-   * @return chart legend
-   */
-  @JsonIgnore
-  public ChartLegend getChartLegend() {
-    return chartLegend;
-  }
-
-  /**
-   * Store chart legend of char
-   *
-   * @param chartLegend Chart legend
-   * @return Chart
-   */
-  public Chart setChartLegend(ChartLegend chartLegend) {
-    this.chartLegend = chartLegend;
-    return this;
-  }
-
-  /**
-   * Retrieve tooltip chart
-   *
-   * @return tooltip chart
-   */
-  @JsonIgnore
-  public ChartTooltip getChartTooltip() {
-    return chartTooltip;
-  }
-
-  /**
-   * Store tooltip object to char
-   *
-   * @param chartTooltip Chart tooltip
-   * @return Chart
-   */
-  public Chart setChartTooltip(ChartTooltip chartTooltip) {
-    this.chartTooltip = chartTooltip;
-    return this;
-  }
-
-  /**
-   * Retrieve list of xAxis
-   *
-   * @return list with xAxis
-   */
-  @JsonIgnore
-  public List<ChartAxis> getxAxisList() {
-    return xAxisList;
-  }
-
-  /**
-   * Store the list of xAxis
-   *
-   * @param xAxisList X Axis list
-   * @return Chart
-   */
-  public Chart setxAxisList(List<ChartAxis> xAxisList) {
-    this.xAxisList = xAxisList;
-    return this;
-  }
-
-  /**
-   * Retrieve list of yAxis
-   *
-   * @return list with yAxis
-   */
-  @JsonIgnore
-  public List<ChartAxis> getyAxisList() {
-    return yAxisList;
-  }
-
-  /**
-   * Store the list of xAxis
-   *
-   * @param yAxisList Y Axis list
-   * @return Chart
-   */
-  public Chart setyAxisList(List<ChartAxis> yAxisList) {
-    this.yAxisList = yAxisList;
-    return this;
-  }
-
-  /**
-   * Retrieve list series of chart
-   *
-   * @return Serie list
-   */
-  @JsonIgnore
-  public List<ChartSerie> getSerieList() {
-    return serieList;
-  }
-
-  /**
-   * Retrieve series of chart
-   *
-   * @param serieList Serie list
-   * @return Chart
-   */
-  public Chart setSerieList(List<ChartSerie> serieList) {
-    this.serieList = serieList;
-    return this;
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**
@@ -456,6 +133,30 @@ public class Chart extends ChartModel {
   @JsonIgnore
   public boolean is3DChart() {
     return getType().toUpperCase().endsWith("3D");
+  }
+
+  /**
+   * Returns if is stock chart
+   * @return Is stock chart
+   */
+  public boolean isStockChart() {
+    return stockChart != null && stockChart;
+  }
+
+  /**
+   * Returns if is inverted
+   * @return Is inverted
+   */
+  public boolean isInverted() {
+    return inverted != null && inverted;
+  }
+
+  /**
+   * Returns if data labels are enabled
+   * @return Data labels are enabled
+   */
+  public boolean isEnableDataLabels() {
+    return enableDataLabels != null && enableDataLabels;
   }
 
   /**
@@ -471,9 +172,7 @@ public class Chart extends ChartModel {
     // Add node general chart options
     if (getType() != null) {
       // Check if is stock chart
-      if (getStockChart() != null) {
-        chartNode.put(ChartConstants.STOCK_CHART, isStockChart());
-      }
+      chartNode.put(ChartConstants.STOCK_CHART, isStockChart());
 
       // Add chart general information
       chartNode.set(ChartConstants.CHART, getChartInfo());
@@ -507,12 +206,12 @@ public class Chart extends ChartModel {
     }
 
     // Add xAsis model
-    if (getxAxisList() != null) {
-      chartNode.set(ChartConstants.X_AXIS, this.getAxisModel(getxAxisList()));
+    if (getXAxisList() != null) {
+      chartNode.set(ChartConstants.X_AXIS, this.getAxisModel(getXAxisList()));
     }
     // Add yAsis model
-    if (getyAxisList() != null) {
-      chartNode.set(ChartConstants.Y_AXIS, this.getAxisModel(getyAxisList()));
+    if (getYAxisList() != null) {
+      chartNode.set(ChartConstants.Y_AXIS, this.getAxisModel(getYAxisList()));
     }
 
     // Add series model
@@ -625,9 +324,7 @@ public class Chart extends ChartModel {
 
     // Stacked chart series
     // --------------------------------------------------------------------------
-    if (this.getStacking() != null) {
-      charTypePlotOpt.put(ChartConstants.STACKING, this.getStacking());
-    }
+    charTypePlotOpt.put(ChartConstants.STACKING, isStacking());
 
     // 3D Charts plot options
     if (is3DChart()) {
@@ -644,7 +341,7 @@ public class Chart extends ChartModel {
     }
 
     // Data labels
-    if (this.isEnabledDataLabels()) {
+    if (this.isEnableDataLabels()) {
       ObjectNode dataLabelsNode = factory.objectNode();
       dataLabelsNode.put(ChartConstants.ENABLED, true);
 
@@ -742,7 +439,7 @@ public class Chart extends ChartModel {
 
     // Add axis controller attributes
     for (ChartSerie serie : serieList) {
-      if (serie.isDrillDownSerie() == drilldown) {
+      if (serie.isDrillDown() == drilldown) {
         seriesModel.add(serie.getModel());
       }
     }
@@ -800,5 +497,13 @@ public class Chart extends ChartModel {
     }
     printElementList.add(this);
     return printElementList;
+  }
+
+  /**
+   * Is a stacking chart
+   * @return
+   */
+  public boolean isStacking() {
+    return getStacking() != null;
   }
 }

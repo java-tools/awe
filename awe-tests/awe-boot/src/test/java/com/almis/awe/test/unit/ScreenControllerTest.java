@@ -81,7 +81,7 @@ public class ScreenControllerTest {
    */
   @Test
   public void testLaunchScreenDataAction() throws Exception {
-    String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ButLogIn\",\"controller\":{\"actions\":[{\"type\":\"validate\",\"parameters\":{}},{\"type\":\"server\",\"parameters\":{\"serverAction\":\"login\"}}],\"buttonType\":\"submit\",\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"icon\":\"sign-in\",\"id\":\"ButLogIn\",\"label\":\"BUTTON_LOGIN\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"no-class btn btn-primary signin-btn bg-primary\",\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"pwd_usr\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"icon\":\"key signin-form-icon\",\"id\":\"pwd_usr\",\"optional\":false,\"placeholder\":\"SCREEN_TEXT_PASS\",\"printable\":true,\"readonly\":false,\"required\":true,\"size\":\"lg\",\"strict\":true,\"style\":\"no-label\",\"validation\":\"required\",\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"cod_usr\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"icon\":\"user signin-form-icon\",\"id\":\"cod_usr\",\"optional\":false,\"placeholder\":\"SCREEN_TEXT_USER\",\"printable\":true,\"readonly\":false,\"required\":true,\"size\":\"lg\",\"strict\":true,\"style\":\"no-label\",\"validation\":\"required\",\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}}],\"messages\":{},\"errors\":[],\"screen\":{\"name\":\"signin\",\"title\":\"SCREEN_TITLE_LOGIN\",\"option\":null}}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ButLogIn\",\"controller\":{\"actions\":[{\"type\":\"validate\"},{\"type\":\"server\",\"parameters\":{\"serverAction\":\"login\"}}],\"buttonType\":\"submit\",\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"icon\":\"sign-in\",\"id\":\"ButLogIn\",\"label\":\"BUTTON_LOGIN\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"no-class btn btn-primary signin-btn bg-primary\",\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"pwd_usr\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"icon\":\"key signin-form-icon\",\"id\":\"pwd_usr\",\"optional\":false,\"placeholder\":\"SCREEN_TEXT_PASS\",\"printable\":true,\"readonly\":false,\"required\":true,\"size\":\"lg\",\"strict\":true,\"style\":\"no-label\",\"validation\":\"required\",\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"cod_usr\",\"controller\":{\"checkInitial\":true,\"checkTarget\":false,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"icon\":\"user signin-form-icon\",\"id\":\"cod_usr\",\"optional\":false,\"placeholder\":\"SCREEN_TEXT_USER\",\"printable\":true,\"readonly\":false,\"required\":true,\"size\":\"lg\",\"strict\":true,\"style\":\"no-label\",\"validation\":\"required\",\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}}],\"messages\":{},\"errors\":[],\"screen\":{\"name\":\"signin\",\"title\":\"SCREEN_TITLE_LOGIN\",\"option\":null}}}},{\"type\":\"end-load\"}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
       .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
       .contentType(MediaType.APPLICATION_JSON)
@@ -109,8 +109,6 @@ public class ScreenControllerTest {
 
     ObjectNode endLoad = (ObjectNode) resultList.get(1);
     assertEquals("end-load", endLoad.get("type").textValue());
-    ObjectNode endLoadParameters = (ObjectNode) endLoad.get("parameters");
-    assertEquals(0, endLoadParameters.size());
 
     // Test all keys
     for (JsonNode element : screenDataComponents) {
@@ -131,7 +129,7 @@ public class ScreenControllerTest {
    */
   @Test
   public void testLaunchScreenDataActionError() throws Exception {
-    String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"error\",\"title\":\"Option not defined\",\"option\":\"error\"}}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"error\",\"title\":\"Option not defined\",\"option\":\"error\"}}}},{\"type\":\"end-load\"}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
       .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
       .contentType(MediaType.APPLICATION_JSON)
@@ -166,8 +164,6 @@ public class ScreenControllerTest {
 
     ObjectNode endLoad = (ObjectNode) resultList.get(0);
     assertEquals("end-load", endLoad.get("type").textValue());
-    ObjectNode endLoadParameters = (ObjectNode) endLoad.get("parameters");
-    assertEquals(0, endLoadParameters.size());
 
     ObjectNode localsRetrievedActionES = (ObjectNode) resultList.get(1);
     assertEquals("locals-retrieved", localsRetrievedActionES.get("type").textValue());

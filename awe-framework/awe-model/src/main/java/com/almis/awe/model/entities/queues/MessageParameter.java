@@ -1,15 +1,16 @@
 package com.almis.awe.model.entities.queues;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Copyable;
-import com.almis.awe.model.entities.XMLWrapper;
+import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.type.ParameterType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,156 +22,18 @@ import java.util.Map;
  *
  * @author Pablo GARCIA - 31/OCT/2013
  */
+@Data
+@Accessors(chain = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 @XStreamAlias("message-parameter")
-public class MessageParameter extends XMLWrapper implements Copyable {
+public class MessageParameter extends ServiceInputParameter implements Copyable {
 
   private static final long serialVersionUID = -3825265381738837148L;
   // Parameter id
   @XStreamAlias("id")
   @XStreamAsAttribute
   private String id;
-  // Parameter type
-  @XStreamAlias("type")
-  @XStreamAsAttribute
-  private String type;
-  // Parameter name
-  @XStreamAlias("name")
-  @XStreamAsAttribute
-  private String name;
-
-  // Parameter value
-  @XStreamAlias("value")
-  @XStreamAsAttribute
-  private String value;
-  // Parameter value
-  @XStreamOmitField
-  private List<String> valueList;
-  // Parameter value
-  @XStreamAlias("list")
-  @XStreamAsAttribute
-  private String list;
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public MessageParameter(MessageParameter other) {
-    super(other);
-    this.id = other.id;
-    this.type = other.type;
-    this.name = other.name;
-    this.value = other.value;
-    this.list = other.list;
-  }
-
-  /**
-   * Returns the parameter name
-   *
-   * @return Parameter name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * Stores the paramete name
-   *
-   * @param name Parameter name
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  /**
-   * Returns the parameter value
-   *
-   * @return Parameter value
-   */
-  public String getValue() {
-    return value;
-  }
-
-  /**
-   * Stores the parameter value
-   *
-   * @param value Parameter value
-   */
-  public void setValue(String value) {
-    this.value = value;
-  }
-
-  /**
-   * Returns if the parameter is a list
-   *
-   * @return Parameter is a list
-   */
-  public boolean isList() {
-    return Boolean.parseBoolean(list);
-  }
-
-  /**
-   * Set parameter as list
-   *
-   * @param list Parameter is a list
-   */
-  public void setList(String list) {
-    this.list = list;
-  }
-
-  /**
-   * Returns the value list
-   *
-   * @return the valueList
-   */
-  public List<String> getValueList() {
-    return valueList;
-  }
-
-  /**
-   * Stores the value list
-   *
-   * @param valueList the valueList to set
-   */
-  public void setValueList(List<String> valueList) {
-    this.valueList = valueList;
-  }
-
-  /**
-   * Retrieve parameter id
-   *
-   * @return the id
-   */
-  public String getId() {
-    return id;
-  }
-
-  /**
-   * Store parameter id
-   *
-   * @param id the id to set
-   */
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  /**
-   * Retrieve parameter type
-   *
-   * @return the type
-   */
-  public String getType() {
-    return type;
-  }
-
-  /**
-   * Store parameter type
-   *
-   * @param type the type to set
-   */
-  public void setType(String type) {
-    this.type = type;
-  }
 
   /**
    * Retrieve parameter value list
@@ -261,21 +124,13 @@ public class MessageParameter extends XMLWrapper implements Copyable {
     // Get text value for parameter
     switch (ParameterType.valueOf(type)) {
       case INTEGER:
-        stringValue = ((Integer) value).toString();
-        break;
       case FLOAT:
-        stringValue = ((Float) value).toString();
-        break;
       case DOUBLE:
-        stringValue = ((Double) value).toString();
-        break;
       case LONG:
-        stringValue = ((Long) value).toString();
-        break;
       case DATE:
       case TIME:
       case TIMESTAMP:
-        stringValue = ((Date) value).toString();
+        stringValue = value.toString();
         break;
       case STRING:
       default:
@@ -287,7 +142,7 @@ public class MessageParameter extends XMLWrapper implements Copyable {
   }
 
   @Override
-  public MessageParameter copy() throws AWException {
-    return new MessageParameter(this);
+  public MessageParameter copy() {
+    return this.toBuilder().build();
   }
 }

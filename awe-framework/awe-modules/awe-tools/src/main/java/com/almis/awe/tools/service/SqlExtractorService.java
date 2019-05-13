@@ -379,7 +379,7 @@ public class SqlExtractorService extends ServiceConfig {
       size = rsMetaData.getPrecision(index);
     }
 
-    column.setCharLength(size.toString());
+    column.setCharLength(size);
     column.setField(columnName);
     column.setName(columnName);
     column.setLabel(columnName);

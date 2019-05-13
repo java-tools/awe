@@ -1,5 +1,6 @@
 import { aweApplication } from "./../awe";
 import { DefaultSpin } from "./../data/options";
+import "./plugins/uiPivotTable";
 
 // Pivot table directive
 aweApplication.directive('awePivotTable',

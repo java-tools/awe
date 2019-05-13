@@ -1,4 +1,6 @@
 import { aweApplication } from "./../../awe";
+import "../plugins/uiTabdrop";
+import "../tabcontainer";
 
 // Tab directive
 aweApplication.directive('aweInputTab',

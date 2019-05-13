@@ -1,13 +1,17 @@
 package com.almis.awe.model.entities.maintain;
 
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.Copyable;
 import com.almis.awe.model.entities.queries.Query;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * MaintainQuery Class
@@ -16,20 +20,26 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  *
  * @author Ismael SERRANO - 28/JUN/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamInclude({Serve.class, Insert.class, Update.class, Delete.class, Multiple.class, Commit.class, Email.class, Queue.class, IncludeTarget.class})
-public abstract class MaintainQuery extends Query implements Copyable {
+public abstract class MaintainQuery extends Query {
 
   private static final long serialVersionUID = 418621393719461416L;
 
   // Audit table name
   @XStreamAlias("audit")
   @XStreamAsAttribute
-  private String auditTable = null;
+  private String auditTable;
 
   // Launch as batch
   @XStreamAlias("batch")
   @XStreamAsAttribute
-  private String batch = null;
+  private Boolean batch;
 
   // Maintain type
   @XStreamOmitField
@@ -37,63 +47,14 @@ public abstract class MaintainQuery extends Query implements Copyable {
 
   // Variable index
   @XStreamOmitField
-  private Integer variableIndex = null;
+  private Integer variableIndex;
 
   /**
-   * Default constructor
-   */
-  public MaintainQuery() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public MaintainQuery(MaintainQuery other) throws AWException {
-    super(other);
-    this.auditTable = other.auditTable;
-    this.batch = other.batch;
-    this.variableIndex = other.variableIndex;
-  }
-
-  /**
-   * Returns the audit table name
-   *
-   * @return Audit table name
-   */
-  public String getAuditTable() {
-    return auditTable;
-  }
-
-  /**
-   * Stores the audit table name
-   *
-   * @param auditTable the auditTable to set
-   */
-  public void setAuditTable(String auditTable) {
-    this.auditTable = auditTable;
-  }
-
-  /**
-   * @return the batch
-   */
-  public String getBatch() {
-    return batch;
-  }
-
-  /**
-   * @return the batch
+   * Returns if is batch
+   * @return Is batch
    */
   public boolean isBatch() {
-    return batch != null && Boolean.parseBoolean(batch);
-  }
-
-  /**
-   * @param batch the batch to set
-   */
-  public void setBatch(String batch) {
-    this.batch = batch;
+    return batch != null && batch;
   }
 
   /**
@@ -103,25 +64,5 @@ public abstract class MaintainQuery extends Query implements Copyable {
    */
   public MaintainType getMaintainType() {
     return maintainType;
-  }
-
-  /**
-   * Retrieve variable index
-   *
-   * @return Variable index
-   */
-  public Integer getVariableIndex() {
-    return variableIndex;
-  }
-
-  /**
-   * Store variable index
-   *
-   * @param variableIndex Variable index
-   * @return this
-   */
-  public MaintainQuery setVariableIndex(Integer variableIndex) {
-    this.variableIndex = variableIndex;
-    return this;
   }
 }

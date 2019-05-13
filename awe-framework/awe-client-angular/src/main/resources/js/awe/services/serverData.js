@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import _ from "lodash";
 
 // Server data service
 aweApplication.factory('ServerData',

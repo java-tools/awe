@@ -35,14 +35,15 @@ public class Grid extends ServiceConfig {
    */
   public ServiceData addColumns() {
     // Generate service data
+    final String ADD_COLUMNS = "add-columns";
     ServiceData serviceData = new ServiceData();
     List<ClientAction> clientActionList = serviceData.getClientActionList();
 
     // Add columns to some grids
-    clientActionList.add(getAction("add-columns", "GrdMus"));
-    clientActionList.add(getAction("add-columns", "GrdSta"));
-    clientActionList.add(getAction("add-columns", "GrdEdi"));
-    clientActionList.add(getAction("add-columns", "GrdMuo"));
+    clientActionList.add(getAction(ADD_COLUMNS, "GrdMus"));
+    clientActionList.add(getAction(ADD_COLUMNS, "GrdSta"));
+    clientActionList.add(getAction(ADD_COLUMNS, "GrdEdi"));
+    clientActionList.add(getAction(ADD_COLUMNS, "GrdMuo"));
 
     // Set variables
     serviceData.setClientActionList(clientActionList);
@@ -74,23 +75,23 @@ public class Grid extends ServiceConfig {
    * @return Client action
    */
   private ClientAction getAction(String action, String gridId) {
-    List<Column> columns = new ArrayList<Column>();
+    List<Column> columns = new ArrayList<>();
 
     // Add first column
-    columns.add(new Column()
+    columns.add((Column) new Column()
             .setAlign("right")
-            .setCharLength("20")
-            .setColumnValue("1")
-            .setColumnName(gridId + "-newColumn1")
-            .setColumnLabel("BUTTON_NEW ELEMENT_TYPE_COLUMN 1"));
+            .setCharLength(20)
+            .setValue("1")
+            .setName(gridId + "-newColumn1")
+            .setLabel("BUTTON_NEW ELEMENT_TYPE_COLUMN 1"));
 
     // Add second column
-    columns.add(new Column()
+    columns.add((Column) new Column()
             .setAlign("left")
-            .setCharLength("20")
-            .setColumnValue("aaaa")
-            .setColumnName(gridId + "-newColumn2")
-            .setColumnLabel("BUTTON_NEW ELEMENT_TYPE_COLUMN 2"));
+            .setCharLength(20)
+            .setValue("aaaa")
+            .setName(gridId + "-newColumn2")
+            .setLabel("BUTTON_NEW ELEMENT_TYPE_COLUMN 2"));
 
     // Add columns to the grid
     ClientAction addColumnsGrid = new ClientAction(action);

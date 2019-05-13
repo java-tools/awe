@@ -9,12 +9,11 @@
             "id": "NumHid",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "NumHid",
-              "leftLabel": "18",
+              "id": "NumHid",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -40,14 +39,13 @@
             "id": "RadBox23",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "RadBoxGrp2",
-                            "id": "RadBox23",
+              "id": "RadBox23",
               "label": "PARAMETER_RADIO_3",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -77,14 +75,13 @@
             "id": "RadBox22",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "RadBoxGrp2",
-                            "id": "RadBox22",
+              "id": "RadBox22",
               "label": "PARAMETER_RADIO_2",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -114,14 +111,13 @@
             "id": "RadBox21",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "RadBoxGrp2",
-                            "id": "RadBox21",
+              "id": "RadBox21",
               "label": "PARAMETER_RADIO_1",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -153,14 +149,13 @@
             "id": "ChkBoxVa21",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "ChkBoxVa2",
-                            "id": "ChkBoxVa21",
+              "id": "ChkBoxVa21",
               "label": "PARAMETER_CHECKBOX_1",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -188,13 +183,12 @@
             "id": "Tar",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "Tar",
+              "id": "Tar",
               "label": "PARAMETER_TEXTAREA",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -216,13 +210,12 @@
             "id": "TxtReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "TxtReq",
+              "id": "TxtReq",
               "label": "PARAMETER_TEXT",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -246,11 +239,10 @@
             "id": "PrnScr",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "PrnScr",
+              "id": "PrnScr",
               "loadAll": false,
               "optional": false,
               "printable": false,
@@ -286,13 +278,12 @@
               ],
               "buttonType": "button",
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_HELP_BUTTON",
               "icon": "question-circle",
-                            "id": "ButHlp",
+              "id": "ButHlp",
               "label": "BUTTON_SCREEN_HELP",
               "loadAll": false,
               "optional": false,
@@ -314,7 +305,6 @@
             "id": "UsrPrn",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -337,7 +327,7 @@
                 }
               ],
               "help": "HELP_PRINT_DESTINATION_USERS_CRITERION",
-                            "id": "UsrPrn",
+              "id": "UsrPrn",
               "label": "ENUM_EML_DST_USR",
               "loadAll": false,
               "optional": false,
@@ -362,14 +352,13 @@
             "id": "RadBox25",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": true,
               "contextMenu": [],
               "dependencies": [],
               "group": "RadBoxGrp2",
-                            "id": "RadBox25",
+              "id": "RadBox25",
               "label": "PARAMETER_RADIO_1",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -401,14 +390,13 @@
             "id": "RadBox24",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "RadBoxGrp2",
-                            "id": "RadBox24",
+              "id": "RadBox24",
               "label": "PARAMETER_RADIO_1",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -438,13 +426,12 @@
             "id": "Upl",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "Upl",
+              "id": "Upl",
               "label": "PARAMETER_UPLOADER",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -466,7 +453,6 @@
             "id": "SelDep",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -520,9 +506,9 @@
                   "actions": []
                 }
               ],
-                            "id": "SelDep",
+              "id": "SelDep",
               "label": "PARAMETER_SELECT",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": true,
               "printable": true,
@@ -544,13 +530,12 @@
             "id": "SelRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "SelRea",
+              "id": "SelRea",
               "label": "PARAMETER_SELECT_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -584,7 +569,6 @@
             "id": "TxtVal",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -607,9 +591,9 @@
                   "actions": []
                 }
               ],
-                            "id": "TxtVal",
+              "id": "TxtVal",
               "label": "PARAMETER_TEXT",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -655,13 +639,12 @@
               ],
               "buttonType": "submit",
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_ACCEPT_PRINT_BUTTON",
               "icon": "check",
-                            "id": "ButDiaVal",
+              "id": "ButDiaVal",
               "label": "BUTTON_ACCEPT",
               "loadAll": false,
               "optional": false,
@@ -683,14 +666,13 @@
             "id": "ChkBoxVa22",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "ChkBoxVa2",
-                            "id": "ChkBoxVa22",
+              "id": "ChkBoxVa22",
               "label": "PARAMETER_CHECKBOX_2",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -718,7 +700,6 @@
             "id": "TxtViw",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -813,9 +794,9 @@
                 }
               ],
               "icon": "download",
-                            "id": "TxtViw",
+              "id": "TxtViw",
               "label": "PARAMETER_TEXT",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -838,13 +819,12 @@
             "id": "SugMul",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "SugMul",
+              "id": "SugMul",
               "label": "PARAMETER_SUGGEST_MULTIPLE",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -853,7 +833,7 @@
               "strict": true,
               "style": "col-xs-12 col-sm-6 col-lg-4",
               "targetAction": "UsrEmlLstTstSug",
-              "timeout": "1000",
+              "timeout": 1000,
               "visible": true
             },
             "model": {
@@ -869,14 +849,13 @@
             "id": "ChkBoxVa23",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "ChkBoxVa2",
-                            "id": "ChkBoxVa23",
+              "id": "ChkBoxVa23",
               "label": "PARAMETER_CHECKBOX_3",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -903,14 +882,13 @@
             "id": "ChkBoxVa24",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "ChkBoxVa2",
-                            "id": "ChkBoxVa24",
+              "id": "ChkBoxVa24",
               "label": "PARAMETER_CHECKBOX",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -938,14 +916,13 @@
             "id": "ChkBoxVa25",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": true,
               "contextMenu": [],
               "dependencies": [],
               "group": "ChkBoxVa2",
-                            "id": "ChkBoxVa25",
+              "id": "ChkBoxVa25",
               "label": "PARAMETER_CHECKBOX",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -977,7 +954,6 @@
             "id": "Sug",
             "controller": {
               "checkInitial": false,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -1003,9 +979,9 @@
                   "actions": []
                 }
               ],
-                            "id": "Sug",
+              "id": "Sug",
               "label": "PARAMETER_SUGGEST",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1014,7 +990,7 @@
               "strict": true,
               "style": "col-xs-6 col-sm-3 col-lg-2",
               "targetAction": "TstUsrSug",
-              "timeout": "500",
+              "timeout": 500,
               "visible": true
             },
             "model": {
@@ -1030,7 +1006,6 @@
             "id": "UplReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -1053,9 +1028,9 @@
                 }
               ],
               "destination": "testModule",
-                            "id": "UplReq",
+              "id": "UplReq",
               "label": "PARAMETER_UPLOADER",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1079,13 +1054,12 @@
             "id": "TimRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "TimRea",
+              "id": "TimRea",
               "label": "PARAMETER_TIME_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1107,12 +1081,11 @@
             "id": "DblFmtPrn",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_PRINT_NUMERIC_FORMAT_CRITERION",
-                            "id": "DblFmtPrn",
+              "id": "DblFmtPrn",
               "label": "PARAMETER_DBL_FORMAT",
               "loadAll": false,
               "optional": false,
@@ -1162,13 +1135,12 @@
             "id": "FilCalReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "FilCalReq",
+              "id": "FilCalReq",
               "label": "PARAMETER_FILTERED_DATE",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1204,13 +1176,12 @@
             "id": "TarRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "TarRea",
+              "id": "TarRea",
               "label": "PARAMETER_TEXTAREA_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1249,13 +1220,12 @@
               ],
               "buttonType": "button",
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_CANCEL_PRINT_BUTTON",
               "icon": "close",
-                            "id": "ButDiaCan",
+              "id": "ButDiaCan",
               "label": "BUTTON_CANCEL",
               "loadAll": false,
               "optional": false,
@@ -1277,13 +1247,12 @@
             "id": "SelMulRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "SelMulRea",
+              "id": "SelMulRea",
               "label": "PARAMETER_SELECT_MULTIPLE_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1301,31 +1270,31 @@
               "defaultValues": [
                 "test"
               ],
-              "values":[
+              "values": [
                 {
-                  "label":"donald (donald@test.com)",
-                  "id":1,
-                  "value":"donald"
+                  "label": "donald (donald@test.com)",
+                  "id": 1,
+                  "value": "donald"
                 },
                 {
-                  "label":"jaimito (jaimito@test.com)",
-                  "id":2,
-                  "value":"jaimito"
+                  "label": "jaimito (jaimito@test.com)",
+                  "id": 2,
+                  "value": "jaimito"
                 },
                 {
-                  "label":"jorgito (jorgito@test.com)",
-                  "id":3,
-                  "value":"jorgito"
+                  "label": "jorgito (jorgito@test.com)",
+                  "id": 3,
+                  "value": "jorgito"
                 },
                 {
-                  "label":"juanito (juanito@test.com)",
-                  "id":4,
-                  "value":"juanito"
+                  "label": "juanito (juanito@test.com)",
+                  "id": 4,
+                  "value": "juanito"
                 },
                 {
-                  "label":"test (test@test.com)",
-                  "id":5,
-                  "value":"test"
+                  "label": "test (test@test.com)",
+                  "id": 5,
+                  "value": "test"
                 }
               ],
               "page": 1,
@@ -1337,13 +1306,12 @@
             "id": "ColRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "ColRea",
+              "id": "ColRea",
               "label": "PARAMETER_COLOR_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1365,7 +1333,6 @@
             "id": "SelDepDep",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -1431,9 +1398,9 @@
                   "actions": []
                 }
               ],
-                            "id": "SelDepDep",
+              "id": "SelDepDep",
               "label": "PARAMETER_SELECT",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": true,
               "printable": true,
@@ -1455,7 +1422,6 @@
             "id": "NumSlidReadOnly",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -1477,9 +1443,9 @@
                   "actions": []
                 }
               ],
-                            "id": "NumSlidReadOnly",
+              "id": "NumSlidReadOnly",
               "label": "PARAMETER_NUMERIC",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "numberFormat": "{min: 0, max: 100, step: 0.01, precision: 2, aSign:' £', pSign:'s', aPad:true}",
               "optional": false,
@@ -1508,13 +1474,12 @@
             "id": "Cal",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "Cal",
+              "id": "Cal",
               "label": "PARAMETER_DATE",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1539,13 +1504,11 @@
             "id": "FormatSelector",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "FormatSelector",
+              "id": "FormatSelector",
               "loadAll": false,
-              "maximize": false,
               "optional": false,
               "printable": true,
               "readonly": false,
@@ -1578,12 +1541,11 @@
             "id": "reportOrientation",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_PRINT_ORIENTATION_CRITERION",
-                            "id": "reportOrientation",
+              "id": "reportOrientation",
               "label": "PARAMETER_REPORT_ORIENTATION",
               "loadAll": false,
               "optional": true,
@@ -1618,7 +1580,6 @@
             "id": "TxtRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -1644,9 +1605,9 @@
                   "actions": []
                 }
               ],
-                            "id": "TxtRea",
+              "id": "TxtRea",
               "label": "PARAMETER_TEXT_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1679,14 +1640,13 @@
             "id": "RadBox3",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "RadBoxGrp1",
-                            "id": "RadBox3",
+              "id": "RadBox3",
               "label": "PARAMETER_RADIO_3",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1726,13 +1686,12 @@
               ],
               "buttonType": "submit",
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_CLOSE_HELP_BUTTON",
               "icon": "close",
-                            "id": "ButHlpClo",
+              "id": "ButHlpClo",
               "label": "BUTTON_CLOSE",
               "loadAll": false,
               "optional": false,
@@ -1754,7 +1713,6 @@
             "id": "FilCalRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -1776,9 +1734,9 @@
                   "actions": []
                 }
               ],
-                            "id": "FilCalRea",
+              "id": "FilCalRea",
               "label": "PARAMETER_FILTERED_DATE_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1812,14 +1770,13 @@
             "id": "RadBox2",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "RadBoxGrp1",
-                            "id": "RadBox2",
+              "id": "RadBox2",
               "label": "PARAMETER_RADIO_2",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1849,13 +1806,12 @@
             "id": "TarReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "TarReq",
+              "id": "TarReq",
               "label": "PARAMETER_TEXTAREA",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1879,14 +1835,13 @@
             "id": "RadBox5",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": true,
               "contextMenu": [],
               "dependencies": [],
               "group": "RadBoxGrp1",
-                            "id": "RadBox5",
+              "id": "RadBox5",
               "label": "PARAMETER_RADIO_1",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -1918,7 +1873,6 @@
             "id": "Sel",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -1999,9 +1953,9 @@
                   ]
                 }
               ],
-                            "id": "Sel",
+              "id": "Sel",
               "label": "PARAMETER_SELECT",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": true,
               "printable": true,
@@ -2035,7 +1989,6 @@
             "id": "SelMulReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -2057,9 +2010,9 @@
                   "actions": []
                 }
               ],
-                            "id": "SelMulReq",
+              "id": "SelMulReq",
               "label": "PARAMETER_SELECT_MULTIPLE",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2074,31 +2027,31 @@
             "model": {
               "selected": [],
               "defaultValues": [],
-              "values":[
+              "values": [
                 {
-                  "label":"donald (donald@test.com)",
-                  "id":1,
-                  "value":"donald"
+                  "label": "donald (donald@test.com)",
+                  "id": 1,
+                  "value": "donald"
                 },
                 {
-                  "label":"jaimito (jaimito@test.com)",
-                  "id":2,
-                  "value":"jaimito"
+                  "label": "jaimito (jaimito@test.com)",
+                  "id": 2,
+                  "value": "jaimito"
                 },
                 {
-                  "label":"jorgito (jorgito@test.com)",
-                  "id":3,
-                  "value":"jorgito"
+                  "label": "jorgito (jorgito@test.com)",
+                  "id": 3,
+                  "value": "jorgito"
                 },
                 {
-                  "label":"juanito (juanito@test.com)",
-                  "id":4,
-                  "value":"juanito"
+                  "label": "juanito (juanito@test.com)",
+                  "id": 4,
+                  "value": "juanito"
                 },
                 {
-                  "label":"test (test@test.com)",
-                  "id":5,
-                  "value":"test"
+                  "label": "test (test@test.com)",
+                  "id": 5,
+                  "value": "test"
                 }
               ],
               "page": 1,
@@ -2110,14 +2063,13 @@
             "id": "RadBox4",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "RadBoxGrp1",
-                            "id": "RadBox4",
+              "id": "RadBox4",
               "label": "PARAMETER_RADIO_1",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2148,7 +2100,7 @@
             "controller": {
               "contextMenu": [],
               "dependencies": [],
-                            "id": "ADVANCE",
+              "id": "ADVANCE",
               "loadAll": false,
               "visible": true
             },
@@ -2165,7 +2117,6 @@
             "id": "ColReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -2205,9 +2156,9 @@
                   "actions": []
                 }
               ],
-                            "id": "ColReq",
+              "id": "ColReq",
               "label": "PARAMETER_COLOR",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2231,14 +2182,13 @@
             "id": "RadBox1",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "RadBoxGrp1",
-                            "id": "RadBox1",
+              "id": "RadBox1",
               "label": "PARAMETER_RADIO_1",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2275,7 +2225,7 @@
               "dependencies": [],
               "help": "HELP_SCREEN_HELP",
               "icon": "question-circle",
-                            "id": "HlpOpt",
+              "id": "HlpOpt",
               "label": "SCREEN_HELP",
               "loadAll": false,
               "style": "modal-lg expand",
@@ -2294,13 +2244,12 @@
             "id": "FilCal",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "FilCal",
+              "id": "FilCal",
               "label": "PARAMETER_FILTERED_DATE",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2335,13 +2284,12 @@
             "id": "SelMul",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "SelMul",
+              "id": "SelMul",
               "label": "PARAMETER_SELECT_MULTIPLE",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2349,37 +2297,37 @@
               "strict": true,
               "style": "col-xs-12 col-sm-6 col-lg-4",
               "targetAction": "UsrEmlLst",
-              "timeout": "1000",
+              "timeout": 1000,
               "visible": true
             },
             "model": {
               "selected": [],
               "defaultValues": [],
-              "values":[
+              "values": [
                 {
-                  "label":"donald (donald@test.com)",
-                  "id":1,
-                  "value":"donald"
+                  "label": "donald (donald@test.com)",
+                  "id": 1,
+                  "value": "donald"
                 },
                 {
-                  "label":"jaimito (jaimito@test.com)",
-                  "id":2,
-                  "value":"jaimito"
+                  "label": "jaimito (jaimito@test.com)",
+                  "id": 2,
+                  "value": "jaimito"
                 },
                 {
-                  "label":"jorgito (jorgito@test.com)",
-                  "id":3,
-                  "value":"jorgito"
+                  "label": "jorgito (jorgito@test.com)",
+                  "id": 3,
+                  "value": "jorgito"
                 },
                 {
-                  "label":"juanito (juanito@test.com)",
-                  "id":4,
-                  "value":"juanito"
+                  "label": "juanito (juanito@test.com)",
+                  "id": 4,
+                  "value": "juanito"
                 },
                 {
-                  "label":"test (test@test.com)",
-                  "id":5,
-                  "value":"test"
+                  "label": "test (test@test.com)",
+                  "id": 5,
+                  "value": "test"
                 }
               ],
               "page": 1,
@@ -2393,9 +2341,8 @@
               "contextMenu": [],
               "dependencies": [],
               "expand": "vertical",
-                            "label": "SCREEN_TEXT_DATA",
+              "label": "SCREEN_TEXT_DATA",
               "loadAll": false,
-              "maximize": false,
               "style": "expand",
               "visible": true
             },
@@ -2413,7 +2360,7 @@
             "controller": {
               "contextMenu": [],
               "dependencies": [],
-                            "id": "GENERAL",
+              "id": "GENERAL",
               "loadAll": false,
               "visible": true
             },
@@ -2444,13 +2391,12 @@
               ],
               "buttonType": "button",
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_PRINT_BUTTON",
               "icon": "print",
-                            "id": "ButPrn",
+              "id": "ButPrn",
               "label": "BUTTON_PRINT",
               "loadAll": false,
               "optional": false,
@@ -2472,7 +2418,6 @@
             "id": "CalReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -2510,9 +2455,9 @@
                   ]
                 }
               ],
-                            "id": "CalReq",
+              "id": "CalReq",
               "label": "PARAMETER_DATE",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2536,13 +2481,12 @@
             "id": "NumSlid",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "NumSlid",
+              "id": "NumSlid",
               "label": "PARAMETER_NUMERIC",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "numberFormat": "{min: 0, max: 100, step: 1, precision: 2, pSign:'s', aPad:true}",
               "optional": false,
@@ -2566,12 +2510,11 @@
             "id": "ActPrn",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_PRINT_ACTION_CRITERION",
-                            "id": "ActPrn",
+              "id": "ActPrn",
               "label": "PARAMETER_PRN_ACTION",
               "loadAll": false,
               "optional": false,
@@ -2616,14 +2559,13 @@
             "id": "ChkBoxVa1",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "ChkBoxVa",
-                            "id": "ChkBoxVa1",
+              "id": "ChkBoxVa1",
               "label": "PARAMETER_CHECKBOX_1",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2656,14 +2598,13 @@
             "id": "ChkBoxVa3",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "ChkBoxVa",
-                            "id": "ChkBoxVa3",
+              "id": "ChkBoxVa3",
               "label": "PARAMETER_CHECKBOX_3",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2690,14 +2631,13 @@
             "id": "ChkBoxVa2",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "ChkBoxVa",
-                            "id": "ChkBoxVa2",
+              "id": "ChkBoxVa2",
               "label": "PARAMETER_CHECKBOX_2",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2725,14 +2665,13 @@
             "id": "ChkBoxVa5",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": true,
               "contextMenu": [],
               "dependencies": [],
               "group": "ChkBoxVa",
-                            "id": "ChkBoxVa5",
+              "id": "ChkBoxVa5",
               "label": "PARAMETER_CHECKBOX",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2764,13 +2703,12 @@
             "id": "UplRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "UplRea",
+              "id": "UplRea",
               "label": "PARAMETER_UPLOADER_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2792,14 +2730,13 @@
             "id": "ChkBoxVa4",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "group": "ChkBoxVa",
-                            "id": "ChkBoxVa4",
+              "id": "ChkBoxVa4",
               "label": "PARAMETER_CHECKBOX",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2827,12 +2764,11 @@
             "id": "FmtPrn",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_PRINT_FORMAT_CRITERION",
-                            "id": "FmtPrn",
+              "id": "FmtPrn",
               "label": "PARAMETER_PRN_FORMAT",
               "loadAll": false,
               "optional": false,
@@ -2899,7 +2835,6 @@
             "id": "TimReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -2931,9 +2866,9 @@
                   "actions": []
                 }
               ],
-                            "id": "TimReq",
+              "id": "TimReq",
               "label": "PARAMETER_TIME",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -2957,7 +2892,6 @@
             "id": "Unt",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -3201,9 +3135,9 @@
                 }
               ],
               "icon": "dollar",
-                            "id": "Unt",
+              "id": "Unt",
               "label": "PARAMETER_NUMERIC",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "numberFormat": "{vMin: '-999999', mDec: 2, aPad:true}",
               "optional": false,
@@ -3231,13 +3165,12 @@
             "id": "CalRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "CalRea",
+              "id": "CalRea",
               "label": "PARAMETER_DATE_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -3259,13 +3192,12 @@
             "id": "Col",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "Col",
+              "id": "Col",
               "label": "PARAMETER_COLOR",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -3292,7 +3224,6 @@
             "id": "NumReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -3314,9 +3245,9 @@
                   "actions": []
                 }
               ],
-                            "id": "NumReq",
+              "id": "NumReq",
               "label": "PARAMETER_NUMERIC",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "numberFormat": "{vMin: '-999999', mDec: 2, aSign:' EUR', pSign:'s', aPad:true}",
               "optional": false,
@@ -3346,7 +3277,6 @@
             "id": "Num",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -3374,9 +3304,9 @@
                   "actions": []
                 }
               ],
-                            "id": "Num",
+              "id": "Num",
               "label": "PARAMETER_NUMERIC",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "numberFormat": "{vMin: '-999999', mDec: 2, aSign:' EUR', pSign:'s', aPad:true}",
               "optional": false,
@@ -3404,7 +3334,6 @@
             "id": "SelReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -3426,9 +3355,9 @@
                   "actions": []
                 }
               ],
-                            "id": "SelReq",
+              "id": "SelReq",
               "label": "PARAMETER_SELECT",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": true,
               "printable": true,
@@ -3465,13 +3394,12 @@
             "id": "SugRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "SugRea",
+              "id": "SugRea",
               "label": "PARAMETER_SUGGEST_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -3500,13 +3428,12 @@
             "id": "NumSlidReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "NumSlidReq",
+              "id": "NumSlidReq",
               "label": "PARAMETER_NUMERIC",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "numberFormat": "{min: -1000, max: 1000, step: 10, precision: 2, aSign:' $', pSign:'s', aPad:true,  ticks: [-1000, -500, 0, 500, 1000], ticks_labels: ['-$1000', '-$500', '$0', '$500', '$1000']}",
               "optional": false,
@@ -3532,13 +3459,12 @@
             "id": "SugMulRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "SugMulRea",
+              "id": "SugMulRea",
               "label": "PARAMETER_SUGGEST_MULTIPLE_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -3586,13 +3512,12 @@
               ],
               "buttonType": "button",
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_RESET_BUTTON",
               "icon": "eraser",
-                            "id": "ButRst",
+              "id": "ButRst",
               "label": "BUTTON_RESET",
               "loadAll": false,
               "optional": false,
@@ -3614,13 +3539,12 @@
             "id": "NumRea",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
-                            "id": "NumRea",
+              "id": "NumRea",
               "label": "PARAMETER_NUMERIC_READONLY",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "numberFormat": "{vMin: '-999999999999.99999', vMax: '999999999999999.99999'}",
               "optional": false,
@@ -3648,12 +3572,11 @@
             "id": "TypPrn",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_PRINT_SELECTION_CRITERION",
-                            "id": "TypPrn",
+              "id": "TypPrn",
               "label": "PARAMETER_PRN_TYPE",
               "loadAll": false,
               "optional": false,
@@ -3694,7 +3617,7 @@
             "controller": {
               "contextMenu": [],
               "dependencies": [],
-                            "id": "helpViewer",
+              "id": "helpViewer",
               "loadAll": false,
               "parameters": {},
               "type": "help-viewer",
@@ -3713,7 +3636,6 @@
             "id": "Tim",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -3745,9 +3667,9 @@
                   "actions": []
                 }
               ],
-                            "id": "Tim",
+              "id": "Tim",
               "label": "PARAMETER_TIME",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -3769,7 +3691,6 @@
             "id": "SugReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -3791,9 +3712,9 @@
                   "actions": []
                 }
               ],
-                            "id": "SugReq",
+              "id": "SugReq",
               "label": "PARAMETER_SUGGEST",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -3829,7 +3750,7 @@
               "dependencies": [],
               "help": "HELP_SCREEN_TEXT_PRINT_EMAIL",
               "icon": "print",
-                            "id": "PrnOpt",
+              "id": "PrnOpt",
               "label": "SCREEN_TEXT_PRINT_EMAIL",
               "loadAll": false,
               "visible": true
@@ -3874,13 +3795,12 @@
               ],
               "buttonType": "button",
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [],
               "help": "HELP_CONFIRM_BUTTON",
               "icon": "save",
-                            "id": "ButCnf",
+              "id": "ButCnf",
               "label": "BUTTON_CONFIRM",
               "loadAll": false,
               "optional": false,
@@ -3902,7 +3822,6 @@
             "id": "SugMulReq",
             "controller": {
               "checkInitial": true,
-              "checkTarget": false,
               "checked": false,
               "contextMenu": [],
               "dependencies": [
@@ -3924,9 +3843,9 @@
                   "actions": []
                 }
               ],
-                            "id": "SugMulReq",
+              "id": "SugMulReq",
               "label": "PARAMETER_SUGGEST_MULTIPLE",
-              "leftLabel": "18",
+              "leftLabel": 18,
               "loadAll": false,
               "optional": false,
               "printable": true,
@@ -3971,7 +3890,6 @@
     }
   },
   {
-    "type": "end-load",
-    "parameters": {}
+    "type": "end-load"
   }
 ]

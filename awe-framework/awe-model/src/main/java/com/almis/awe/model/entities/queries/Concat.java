@@ -2,6 +2,10 @@ package com.almis.awe.model.entities.queries;
 
 import com.almis.awe.exception.AWException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Concat Class
@@ -14,28 +18,17 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  *
  * @author Jorge BELLON - 07/SEP/2017
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("concat")
 public class Concat extends Field {
 
   private static final long serialVersionUID = -3675559309732593756L;
 
-  /**
-   * Default constructor
-   */
-  public Concat() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Concat(Concat other) throws AWException {
-    super(other);
-  }
-
   @Override
   public Concat copy() throws AWException {
-    return new Concat(this);
+    return this.toBuilder().build();
   }
 }

@@ -3,8 +3,9 @@ let webpack = require("webpack");
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let LessPluginAutoPrefix = require('less-plugin-autoprefix');
 
-let dir = path.join(__dirname, "src", "main", "resources", "webpack");
-let styleDir = path.resolve(__dirname, "src", "main", "resources", "less");
+const dir = path.join(__dirname, "src", "main", "resources", "webpack");
+const styleDir = path.resolve(__dirname, "src", "main", "resources", "less");
+const libPath = path.resolve(__dirname, "src", "main", "resources", "js", "lib");
 
 let autoprefixerBrowsers = ['last 2 versions', '> 1%', 'opera 12.1', 'bb 10', 'android 4', 'IE 10'];
 
@@ -38,65 +39,86 @@ module.exports = {
       test : /\.css$/,
       include : [ styleDir ],
       use : ExtractTextPlugin.extract({
-        fallback : "style-loader",
-        use : "css-loader"
+        fallback: "style-loader",
+        use: "css-loader"
       })
     }, {
       test : /\.less$/,
       include : [ styleDir ],
       use : ExtractTextPlugin.extract({
         fallback : "style-loader",
-        use : [ "css-loader", {
-          loader: "less-loader",
-          options: {
-            lessPlugins: [
-              new LessPluginAutoPrefix({ browsers: autoprefixerBrowsers })
-            ],
-            minimize: true,
-            sourceMap: true
-          }
+        use : [{
+            loader: "css-loader"
+          }, {
+            loader: "less-loader",
+            options: {
+              lessPlugins: [
+                new LessPluginAutoPrefix({ browsers: autoprefixerBrowsers })
+              ],
+              minimize: true,
+              sourceMap: true
+            }
         }]
       })
     }, {
       test : /\.(jpg|gif|png)$/,
-      loader : 'url-loader?limit=100000&name=./images/[hash].[ext]'
+      use: [{
+        loader: "url-loader",
+        options: {
+          limit: 100000,
+          name: "./images/[hash].[ext]"
+        }
+      }]
     }, {
       test : /\.woff[2]*?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      use : "url-loader?limit=10000&mimetype=application/font-woff&name=./fonts/[hash].[ext]"
+      use: [{
+        loader: "url-loader",
+        options: {
+          limit: 10000,
+          mimetype: "application/font-woff",
+          name: "./fonts/[hash].[ext]"
+        }
+      }]
     }, {
       test : /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      use : "file-loader?name=./fonts/[hash].[ext]"
-    } ]
+      use: [{
+        loader: "file-loader",
+        options: {
+          name: "./fonts/[hash].[ext]"
+        }
+      }]
+    }]
   },
   resolve : {
     extensions : [ ".js", ".css", ".less", "*" ],
     alias : {
-      "aweApplication": path.resolve(__dirname, "src", "main", "resources", "js", "awe", "awe"),
       "jquery": path.resolve(__dirname, "node_modules", "jquery", "dist", "jquery"),
-      "stompjs" : path.resolve(__dirname, "node_modules", "stompjs", "lib", "stomp"),
-      "moment" : path.resolve(__dirname, "node_modules", "moment"),
-      "numeral" : path.resolve(__dirname, "node_modules", "numeral"),
-      "ng-caps-lock" : path.resolve(__dirname, "src", "main", "resources", "js", "lib", "ngCapsLock", "ng-caps-lock"),
-      "bootstrap-tabdrop" : path.resolve(__dirname, "src", "main", "resources", "js", "lib", "bootstrap-tabdrop", "src", "js", "bootstrap-tabdrop"),
-      "HighchartsLocale" : path.resolve(__dirname, "src", "main", "resources", "js", "lib", "highcharts", "i18n", "highcharts-lang")
-    }
+      "ng-caps-lock" : path.resolve(libPath, "ngCapsLock", "ng-caps-lock"),
+      "bootstrap-tabdrop" : path.resolve(libPath, "bootstrap-tabdrop", "src", "js", "bootstrap-tabdrop"),
+      "HighchartsLocale" : path.resolve(libPath, "highcharts", "i18n", "highcharts-lang"),
+      "HighchartsThemes" : path.resolve(libPath, "highcharts", "themes", "all"),
+      "Tocify": path.resolve(libPath, "tocify", "jquery.tocify"),
+      "PivotTable": path.resolve(libPath, "pivotTable", "pivotTable")
+    },
+    modules: [
+      path.join(__dirname, "src"),
+      "node_modules"
+    ]
   },
   plugins : [
-  new ExtractTextPlugin("css/styles.css"),
+  new ExtractTextPlugin({
+    filename: "css/styles.css",
+    disable: false,
+    allChunks: true
+  }),
   new webpack.ProvidePlugin({
     "jQuery": "jquery",
     "$": "jquery",
     "window.jQuery": "jquery",
     "window.$": "jquery",
-    "aweApplication": "aweApplication",
-    "SockJS" : "sockjs-client",
-    "Highcharts" : "highcharts/highstock.src",
+    "Highcharts" : "highcharts/highstock",
     "HighchartsLocale" : "HighchartsLocale",
-    "numeral" : "numeral",
-    "moment" : "moment",
-    "window.constructor" : "constructor",
-    "Spinner" : "spin.js",
-    "Slider" : "bootstrap-slider"
+    "window.constructor" : "constructor"
   }),
   new webpack.optimize.CommonsChunkPlugin({
     name : 'commons',

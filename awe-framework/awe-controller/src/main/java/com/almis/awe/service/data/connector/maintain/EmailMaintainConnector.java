@@ -35,7 +35,7 @@ public class EmailMaintainConnector extends ServiceConfig implements MaintainCon
   public <T extends MaintainQuery> ServiceData launch(T query, DatabaseConnection databaseConnection, Map<String, QueryParameter> parameterMap) throws AWException {
 
     // Get email
-    Email email = new Email(getElements().getEmail(query.getId()));
+    Email email = getElements().getEmail(query.getId()).copy();
 
     // Initialize needed variables variables
     ServiceData serviceData = new ServiceData();

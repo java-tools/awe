@@ -325,7 +325,7 @@
     </delete>
   </target>
 
-  <target name="CleanUpSequence">
+  <target name="CleanUpSequence" public="true">
     <delete>
       <table id="AweThm" />
       <where>
@@ -451,7 +451,7 @@
   </target>
 
   <target name="TestCommit">
-    <insert>
+    <insert batch="false">
       <table id="HISAweDbs" />
       <field id="HISope" value="test" />
       <field id="HISdat" variable="date" />
@@ -460,7 +460,7 @@
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
     </insert>
     <commit />
-    <insert>
+    <insert batch="false">
       <table id="HISAweDbs" />
       <field id="HISope" value="test" />
       <field id="HISdat" variable="date" />
@@ -469,7 +469,7 @@
     </insert>
   </target>
 
-  <target name="GridMultiple">
+  <target name="GridMultiple" public="false">
     <multiple grid="grid">
       <table id="AweThm" />
       <field id="IdeThm" sequence="ThmKey" key="true" variable="varKey"/>

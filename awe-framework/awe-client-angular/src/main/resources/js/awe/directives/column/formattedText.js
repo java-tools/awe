@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "../../services/formattedText";
 
 // Column formatted text directive
 aweApplication.directive('aweColumnFormattedText',

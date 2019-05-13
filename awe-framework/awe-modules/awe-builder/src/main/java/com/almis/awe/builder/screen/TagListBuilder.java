@@ -5,11 +5,10 @@
  */
 package com.almis.awe.builder.screen;
 
-import com.almis.awe.builder.enumerates.InitialLoad;
-import com.almis.awe.builder.enumerates.ServerAction;
 import com.almis.awe.builder.screen.accordion.AccordionBuilder;
 import com.almis.awe.builder.screen.button.ButtonBuilder;
 import com.almis.awe.builder.screen.chart.ChartBuilder;
+import com.almis.awe.builder.screen.base.AbstractComponentBuilder;
 import com.almis.awe.builder.screen.criteria.CriteriaBuilder;
 import com.almis.awe.builder.screen.grid.GridBuilder;
 import com.almis.awe.builder.screen.info.InfoBuilder;
@@ -18,532 +17,266 @@ import com.almis.awe.builder.screen.info.InfoCriteriaBuilder;
 import com.almis.awe.builder.screen.tab.TabBuilder;
 import com.almis.awe.builder.screen.widget.WidgetBuilder;
 import com.almis.awe.builder.screen.wizard.WizardBuilder;
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.component.TagList;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * Build a tag list
  * @author dfuentes
  */
-public class TagListBuilder extends AweBuilder<TagListBuilder> {
-
-  private InitialLoad initialLoad;
-  private ServerAction serverAction;
-  private Boolean autoload;
-  private Boolean autorefresh;
-  private Integer max;
-  private String style;
-  private String targetAction;
-  private String type;
-  private List<AweBuilder> elements;
-
-  /**
-   * Constructor
-   *
-   * @throws AWException Error in construction
-   */
-  public TagListBuilder() throws AWException {
-    super();
-  }
+@Getter
+@Setter
+@NoArgsConstructor
+@Accessors(chain = true)
+public class TagListBuilder extends AbstractComponentBuilder<TagListBuilder, TagList> {
 
   @Override
-  public void initializeElements() {
-    elements = new ArrayList<>();
-  }
-
-  @Override
-  public TagListBuilder setParent() {
-    return this;
-  }
-
-  @Override
-  public Element build(Element element) {
-    TagList tagList = new TagList();
-
-    tagList.setId(getId());
-
-    if (initialLoad != null) {
-      tagList.setInitialLoad(getInitialLoad().toString());
-    }
-
-    if (getServerAction() != null) {
-      tagList.setServerAction(getServerAction().toString());
-    }
-
-    if (isAutoload() != null) {
-      tagList.setAutoload(String.valueOf(isAutoload()));
-    }
-
-    if (isAutorefresh() != null) {
-      tagList.setAutorefresh(String.valueOf(isAutorefresh()));
-    }
-
-    if (getMax() != null) {
-      tagList.setMax(String.valueOf(getMax()));
-    }
-
-    if (getStyle() != null) {
-      tagList.setStyle(getStyle());
-    }
-
-    if (getTargetAction() != null) {
-      tagList.setTargetAction(getTargetAction());
-    }
-
-    if (getType() != null) {
-      tagList.setType(getType());
-    }
-
-    for (AweBuilder aweBuilder : getElementList()) {
-      addElement(tagList, aweBuilder.build(tagList));
-    }
-
-    return tagList;
+  public TagList build() {
+    return build(new TagList());
   }
 
   /**
-   * Get initial load
+   * Add tag
    *
-   * @return Initial load
+   * @param tag
+   * @return
    */
-  public InitialLoad getInitialLoad() {
-    return initialLoad;
-  }
-
-  /**
-   * Set initial load
-   *
-   * @param initialLoad Initial load
-   * @return this
-   */
-  public TagListBuilder setInitialLoad(InitialLoad initialLoad) {
-    this.initialLoad = initialLoad;
-    return this;
-  }
-
-  /**
-   * Get server action
-   *
-   * @return Server action
-   */
-  public ServerAction getServerAction() {
-    return serverAction;
-  }
-
-  /**
-   * Set server Action
-   *
-   * @param serverAction Server action
-   * @return this
-   */
-  public TagListBuilder setServerAction(ServerAction serverAction) {
-    this.serverAction = serverAction;
-    return this;
-  }
-
-  /**
-   * Is Autoload
-   *
-   * @return Is autoload
-   */
-  public Boolean isAutoload() {
-    return autoload;
-  }
-
-  /**
-   * Set autoload
-   *
-   * @param autoload Autoload
-   * @return this
-   */
-  public TagListBuilder setAutoload(Boolean autoload) {
-    this.autoload = autoload;
-    return this;
-  }
-
-  /**
-   * Is autorefresh
-   *
-   * @return Is autorefresh
-   */
-  public Boolean isAutorefresh() {
-    return autorefresh;
-  }
-
-  /**
-   * Set autorefresh
-   *
-   * @param autorefresh Autorefresh
-   * @return this
-   */
-  public TagListBuilder setAutorefresh(Boolean autorefresh) {
-    this.autorefresh = autorefresh;
-    return this;
-  }
-
-  /**
-   * Get Max
-   *
-   * @return Max
-   */
-  public Integer getMax() {
-    return max;
-  }
-
-  /**
-   * Set Max
-   *
-   * @param max Max
-   * @return this
-   */
-  public TagListBuilder setMax(Integer max) {
-    this.max = max;
-    return this;
-  }
-
-  /**
-   * Get style
-   *
-   * @return Style
-   */
-  public String getStyle() {
-    return style;
-  }
-
-  /**
-   * Set style
-   *
-   * @param style Style
-   * @return this
-   */
-  public TagListBuilder setStyle(String style) {
-    this.style = style;
-    return this;
-  }
-
-  /**
-   * Get target action
-   *
-   * @return this
-   */
-  public String getTargetAction() {
-    return targetAction;
-  }
-
-  /**
-   * Set target action
-   *
-   * @param targetAction Target action
-   * @return this
-   */
-  public TagListBuilder setTargetAction(String targetAction) {
-    this.targetAction = targetAction;
-    return this;
-  }
-
-  /**
-   * Get type
-   *
-   * @return Type
-   */
-  public String getType() {
-    return type;
-  }
-
-  /**
-   * Set type
-   *
-   * @param type Type
-   * @return this
-   */
-  public TagListBuilder setType(String type) {
-    this.type = type;
+  public TagListBuilder addTag(TagBuilder... tag) {
+    addAllElements(tag);
     return this;
   }
 
   /**
    * Add accordion
    *
-   * @param accordion AccordionBuilder list
-   * @return this
+   * @param accordion
+   * @return
    */
   public TagListBuilder addAccordion(AccordionBuilder... accordion) {
-    if (accordion != null) {
-      this.elements.addAll(Arrays.asList(accordion));
-    }
+    addAllElements(accordion);
     return this;
   }
 
   /**
    * Add button
    *
-   * @param button ButtonBuilder list
-   * @return this
+   * @param button
+   * @return
    */
   public TagListBuilder addButton(ButtonBuilder... button) {
-    if (button != null) {
-      this.elements.addAll(Arrays.asList(button));
-    }
+    addAllElements(button);
     return this;
   }
 
   /**
    * Add chart
    *
-   * @param chart ChartBuilder list
-   * @return this
+   * @param chart
+   * @return
    */
   public TagListBuilder addChart(ChartBuilder... chart) {
-    if (chart != null) {
-      this.elements.addAll(Arrays.asList(chart));
-    }
+    addAllElements(chart);
     return this;
   }
 
   /**
    * Add criteria
    *
-   * @param criteria CriteriaBuilder list
-   * @return this
+   * @param criteria
+   * @return
    */
   public TagListBuilder addCriteria(CriteriaBuilder... criteria) {
-    if (criteria != null) {
-      this.elements.addAll(Arrays.asList(criteria));
-    }
+    addAllElements(criteria);
     return this;
   }
 
   /**
    * Add dialog
    *
-   * @param dialog DialogBuilder list
-   * @return this
+   * @param dialog
+   * @return
    */
   public TagListBuilder addDialog(DialogBuilder... dialog) {
-    if (dialog != null) {
-      this.elements.addAll(Arrays.asList(dialog));
-    }
+    addAllElements(dialog);
     return this;
   }
 
   /**
    * Add frame
    *
-   * @param frame FrameBuilder list
-   * @return this
+   * @param frame
+   * @return
    */
   public TagListBuilder addFrame(FrameBuilder... frame) {
-    if (frame != null) {
-      this.elements.addAll(Arrays.asList(frame));
-    }
+    addAllElements(frame);
     return this;
   }
 
   /**
    * Add grid
-   * @param grid GridBuilder list
-   * @return this
+   *
+   * @param grid
+   * @return
    */
   public TagListBuilder addGrid(GridBuilder... grid) {
-    if (grid != null) {
-      this.elements.addAll(Arrays.asList(grid));
-    }
+    addAllElements(grid);
     return this;
   }
 
   /**
    * Add include
    *
-   * @param include IncludeBuilder list
-   * @return this
+   * @param include
+   * @return
    */
   public TagListBuilder addInclude(IncludeBuilder... include) {
-    if (include != null) {
-      this.elements.addAll(Arrays.asList(include));
-    }
+    addAllElements(include);
     return this;
   }
 
   /**
    * Add info
    *
-   * @param info InfoBuilder list
-   * @return this
+   * @param info
+   * @return
    */
   public TagListBuilder addInfo(InfoBuilder... info) {
-    if (info != null) {
-      this.elements.addAll(Arrays.asList(info));
-    }
+    addAllElements(info);
     return this;
   }
 
   /**
    * Add info button
    *
-   * @param infoButton InfoButtonBuilder list
-   * @return this
+   * @param infoButton
+   * @return
    */
   public TagListBuilder addInfoButton(InfoButtonBuilder... infoButton) {
-    if (infoButton != null) {
-      this.elements.addAll(Arrays.asList(infoButton));
-    }
+    addAllElements(infoButton);
     return this;
   }
 
   /**
    * Add info criteria
    *
-   * @param infoCriteria InfoCriteriaBuilder list
-   * @return this
+   * @param infoCriteria
+   * @return
    */
   public TagListBuilder addInfoCriteria(InfoCriteriaBuilder... infoCriteria) {
-    if (infoCriteria != null) {
-      this.elements.addAll(Arrays.asList(infoCriteria));
-    }
+    addAllElements(infoCriteria);
     return this;
   }
 
   /**
    * Add window
    *
-   * @param windowBuilder WindowBuilder list
-   * @return this
+   * @param windowBuilder
+   * @return
    */
   public TagListBuilder addWindow(WindowBuilder... windowBuilder) {
-    if (windowBuilder != null) {
-      this.elements.addAll(Arrays.asList(windowBuilder));
-    }
+    addAllElements(windowBuilder);
     return this;
   }
 
   /**
-   * Add tag list
+   * ADd tag list
    *
-   * @param tagListBuilder TagListBuilder list
-   * @return this
+   * @param tagListBuilder
+   * @return
    */
   public TagListBuilder addTagList(TagListBuilder... tagListBuilder) {
-    if (tagListBuilder != null) {
-      this.elements.addAll(Arrays.asList(tagListBuilder));
-    }
+    addAllElements(tagListBuilder);
     return this;
   }
 
   /**
    * Add menu container
    *
-   * @param menuContainerBuilder MenuContainerBuilder list
-   * @return this
+   * @param menuContainerBuilder
+   * @return
    */
   public TagListBuilder addMenuContainer(MenuContainerBuilder... menuContainerBuilder) {
-    if (menuContainerBuilder != null) {
-      this.elements.addAll(Arrays.asList(menuContainerBuilder));
-    }
+    addAllElements(menuContainerBuilder);
     return this;
   }
 
   /**
    * Add message
    *
-   * @param messageBuilder MessageBuilder list
-   * @return this
+   * @param messageBuilder
+   * @return
    */
   public TagListBuilder addMessage(MessageBuilder... messageBuilder) {
-    if (messageBuilder != null) {
-      this.elements.addAll(Arrays.asList(messageBuilder));
-    }
+    addAllElements(messageBuilder);
     return this;
   }
 
   /**
    * Add pivot table
    *
-   * @param pivotTableBuilder PivotTableBuilder list
-   * @return this
+   * @param pivotTableBuilder
+   * @return
    */
   public TagListBuilder addPivotTable(PivotTableBuilder... pivotTableBuilder) {
-    if (pivotTableBuilder != null) {
-      this.elements.addAll(Arrays.asList(pivotTableBuilder));
-    }
+    addAllElements(pivotTableBuilder);
     return this;
   }
 
   /**
    * Add resizable
    *
-   * @param resizableBuilder ResizableBuilder list
-   * @return this
+   * @param resizableBuilder
+   * @return
    */
   public TagListBuilder addResizable(ResizableBuilder... resizableBuilder) {
-    if (resizableBuilder != null) {
-      this.elements.addAll(Arrays.asList(resizableBuilder));
-    }
+    addAllElements(resizableBuilder);
     return this;
   }
 
   /**
    * Add tab
    *
-   * @param tabBuilder TabBuilder list
-   * @return this
+   * @param tabBuilder
+   * @return
    */
   public TagListBuilder addTab(TabBuilder... tabBuilder) {
-    if (tabBuilder != null) {
-      this.elements.addAll(Arrays.asList(tabBuilder));
-    }
+    addAllElements(tabBuilder);
     return this;
   }
 
   /**
    * Add view
    *
-   * @param viewBuilder ViewBuilder list
-   * @return this
+   * @param viewBuilder
+   * @return
    */
   public TagListBuilder addView(ViewBuilder... viewBuilder) {
-    if (viewBuilder != null) {
-      this.elements.addAll(Arrays.asList(viewBuilder));
-    }
+    addAllElements(viewBuilder);
     return this;
   }
 
   /**
    * Add widget
    *
-   * @param widgetBuilder WidgetBuilder list
-   * @return this
+   * @param widgetBuilder
+   * @return
    */
   public TagListBuilder addWidget(WidgetBuilder... widgetBuilder) {
-    if (widgetBuilder != null) {
-      this.elements.addAll(Arrays.asList(widgetBuilder));
-    }
+    addAllElements(widgetBuilder);
     return this;
   }
 
   /**
    * Add wizard
    *
-   * @param wizardBuilder WizardBuilder list
-   * @return this
+   * @param wizardBuilder
+   * @return
    */
   public TagListBuilder addWizard(WizardBuilder... wizardBuilder) {
-    if (wizardBuilder != null) {
-      this.elements.addAll(Arrays.asList(wizardBuilder));
-    }
+    addAllElements(wizardBuilder);
     return this;
-  }
-
-  /**
-   * Get element list
-   *
-   * @return Element list
-   */
-  public List<AweBuilder> getElementList() {
-    return this.elements;
   }
 }

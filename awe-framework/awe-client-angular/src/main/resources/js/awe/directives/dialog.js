@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import "./../services/dialog";
 
 // Dialog directive
 aweApplication.directive('aweDialog',

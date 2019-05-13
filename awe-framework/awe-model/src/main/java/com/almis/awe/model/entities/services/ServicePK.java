@@ -1,13 +1,8 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.services;
 
-/*
- * File Imports
- */
-
 import com.almis.awe.model.util.data.ListUtil;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
@@ -24,12 +19,14 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Data
+@Accessors(chain = true)
 public class ServicePK implements Serializable {
 
   private static final long serialVersionUID = -662538310201242257L;
 
   // Service name
-  private String name = "";
+  private String name;
 
   // Variable list
   private transient List<String> variableList = null;
@@ -55,24 +52,6 @@ public class ServicePK implements Serializable {
   }
 
   /**
-   * Returns the service name
-   *
-   * @return service name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * Stores the service name
-   *
-   * @param name service name
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  /**
    * Stores the service input parameter list
    *
    * @param parameterList service input parameter list
@@ -90,24 +69,6 @@ public class ServicePK implements Serializable {
     }
 
     // Assign as arraylist of strings
-    this.variableList = variableList;
-  }
-
-  /**
-   * Returns the service variable list
-   *
-   * @return service variable list
-   */
-  public List<String> getVariableList() {
-    return variableList;
-  }
-
-  /**
-   * Stores the service variable list
-   *
-   * @param variableList service variable list
-   */
-  public void setVariableList(List<String> variableList) {
     this.variableList = variableList;
   }
 

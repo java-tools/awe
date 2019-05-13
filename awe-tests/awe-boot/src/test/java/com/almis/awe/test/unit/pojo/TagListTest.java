@@ -1,7 +1,8 @@
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.pojo;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.service.TemplateService;
+import com.almis.awe.test.unit.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

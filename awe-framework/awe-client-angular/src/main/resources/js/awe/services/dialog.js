@@ -1,5 +1,6 @@
 import { aweApplication } from "./../awe";
 import { ClientActions } from "../data/actions";
+import "../directives/plugins/uiModal";
 
 // Dialog service
 aweApplication.factory('Dialog',

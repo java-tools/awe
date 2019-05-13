@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "../../services/dateTime";
 
 // Time directive
 aweApplication.directive('aweInputTime',

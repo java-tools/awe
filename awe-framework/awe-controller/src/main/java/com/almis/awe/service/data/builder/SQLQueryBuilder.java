@@ -1,39 +1,26 @@
 package com.almis.awe.service.data.builder;
 
-import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.almis.awe.model.util.data.QueryUtil;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.dto.SortColumn;
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.queries.Field;
-import com.almis.awe.model.entities.queries.FilterGroup;
-import com.almis.awe.model.entities.queries.GroupBy;
-import com.almis.awe.model.entities.queries.Join;
-import com.almis.awe.model.entities.queries.OrderBy;
-import com.almis.awe.model.entities.queries.Query;
-import com.almis.awe.model.entities.queries.Table;
-import com.almis.awe.model.entities.queries.Union;
+import com.almis.awe.model.entities.queries.*;
 import com.almis.awe.model.type.JoinType;
+import com.almis.awe.model.util.data.QueryUtil;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.EntityPath;
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.SubQueryExpression;
+import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Generates sql codes
@@ -142,7 +129,7 @@ public class SQLQueryBuilder extends SQLBuilder {
     }
 
     // If GROUP BY operations were defined, apply
-    if (getQuery().getGroupList() != null) {
+    if (getQuery().getGroupByList() != null) {
       doGroupBy(finalQuery);
     }
 
@@ -278,14 +265,14 @@ public class SQLQueryBuilder extends SQLBuilder {
       PathBuilder<Object> alias = buildPath(table.getAlias());
 
       // Do the join
-      Class expressionClass = tableExpression instanceof PathBuilder ? EntityPath.class : SubQueryExpression.class;
+      Class expressionClass = tableExpression instanceof EntityPath ? EntityPath.class : SubQueryExpression.class;
       SQLQuery<Tuple> joinQuery;
-      if (alias == null) {
-        expressionCondition = finalQuery.getClass().getMethod(joinType, expressionClass);
-        joinQuery = (SQLQuery<Tuple>) (expressionCondition.invoke(finalQuery, expressionClass.cast(tableExpression)));
-      } else {
+      if (alias != null) {
         expressionCondition = finalQuery.getClass().getMethod(joinType, expressionClass, Path.class);
         joinQuery = (SQLQuery<Tuple>) (expressionCondition.invoke(finalQuery, expressionClass.cast(tableExpression), alias));
+      } else {
+        expressionCondition = finalQuery.getClass().getMethod(joinType, expressionClass);
+        joinQuery = (SQLQuery<Tuple>) (expressionCondition.invoke(finalQuery, expressionClass.cast(tableExpression)));
       }
 
       // If filters are defined, add them
@@ -329,10 +316,10 @@ public class SQLQueryBuilder extends SQLBuilder {
    */
   private void doGroupBy(SQLQuery<Tuple> finalQuery) {
     // List of partial Expressions from filters
-    PathBuilder<Object>[] groupExpressions = new PathBuilder[this.getQuery().getGroupList().size()];
+    PathBuilder<Object>[] groupExpressions = new PathBuilder[this.getQuery().getGroupByList().size()];
 
     int i = 0;
-    for (GroupBy groupby : this.getQuery().getGroupList()) {
+    for (GroupBy groupby : this.getQuery().getGroupByList()) {
       // Store the path created
       groupExpressions[i] = buildPath(groupby.getTable(), groupby.getField());
       i++;

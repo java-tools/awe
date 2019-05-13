@@ -6,6 +6,8 @@ import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.type.QueueMessageType;
 import com.almis.awe.model.type.QueueMessageWrapperType;
 import com.almis.awe.model.util.data.StringUtil;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.web.context.WebApplicationContext;
@@ -18,6 +20,8 @@ import java.util.Map;
 /**
  * Message creator with correlation id
  */
+@Data
+@Accessors(chain = true)
 public class MessageBuilder implements MessageCreator {
 
   private QueueMessageType type;
@@ -38,86 +42,6 @@ public class MessageBuilder implements MessageCreator {
   public MessageBuilder(WebApplicationContext context, XStreamSerializer serializer) {
     this.context = context;
     this.serializer = serializer;
-  }
-
-  /**
-   * Get message type
-   *
-   * @return Message type
-   */
-  public QueueMessageType getType() {
-    return type;
-  }
-
-  /**
-   * Set message type
-   *
-   * @param type Type (as string)
-   * @return this
-   */
-  public MessageBuilder setType(String type) {
-    this.type = QueueMessageType.valueOf(type);
-    return this;
-  }
-
-  /**
-   * Get request message
-   *
-   * @return Request
-   */
-  public RequestMessage getRequest() {
-    return request;
-  }
-
-  /**
-   * Set request message
-   *
-   * @param request Request message
-   * @return this
-   */
-  public MessageBuilder setRequest(RequestMessage request) {
-    this.request = request;
-    return this;
-  }
-
-  /**
-   * Get parameters
-   *
-   * @return parameters
-   */
-  public Map<String, Object> getValueList() {
-    return valueList;
-  }
-
-  /**
-   * Set parameters
-   *
-   * @param valueList parameters
-   * @return this
-   */
-  public MessageBuilder setValueList(Map<String, Object> valueList) {
-    this.valueList = valueList;
-    return this;
-  }
-
-  /**
-   * Get message selector
-   *
-   * @return Selector
-   */
-  public String getSelector() {
-    return selector;
-  }
-
-  /**
-   * Set message selector
-   *
-   * @param selector Selector
-   * @return this
-   */
-  public MessageBuilder setSelector(String selector) {
-    this.selector = selector;
-    return this;
   }
 
   /**
