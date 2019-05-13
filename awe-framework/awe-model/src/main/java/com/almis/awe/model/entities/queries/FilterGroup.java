@@ -4,8 +4,7 @@ import com.almis.awe.model.entities.Copyable;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +20,9 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @Accessors(chain = true)
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor

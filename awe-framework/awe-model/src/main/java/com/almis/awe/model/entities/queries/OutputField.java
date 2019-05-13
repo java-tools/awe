@@ -5,6 +5,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
@@ -18,10 +19,11 @@ import lombok.experimental.SuperBuilder;
  * @author Pablo GARCIA - 28/JUN/2010
  */
 @Data
+@EqualsAndHashCode
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Accessors(chain = true)
-@XStreamInclude({Field.class, Computed.class, Compound.class, Concat.class})
+@XStreamInclude({Field.class, Computed.class, Compound.class})
 public abstract class OutputField implements Copyable {
 
   private static final long serialVersionUID = -5029397784962648558L;

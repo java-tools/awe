@@ -5,7 +5,9 @@ import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.annotations.XStreamInclude;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
@@ -24,10 +26,12 @@ import java.util.List;
  * @author Pablo GARCIA - 28/JUN/2010
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Accessors(chain = true)
 @XStreamAlias("field")
+@XStreamInclude({Concat.class})
 public class Field extends OutputField {
 
   private static final long serialVersionUID = 7587109759292448862L;

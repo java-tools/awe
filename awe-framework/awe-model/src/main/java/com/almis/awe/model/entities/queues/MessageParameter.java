@@ -1,11 +1,11 @@
 package com.almis.awe.model.entities.queues;
 
-import com.almis.awe.model.entities.Copyable;
 import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.type.ParameterType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
@@ -23,11 +23,12 @@ import java.util.Map;
  * @author Pablo GARCIA - 31/OCT/2013
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @XStreamAlias("message-parameter")
-public class MessageParameter extends ServiceInputParameter implements Copyable {
+public class MessageParameter extends ServiceInputParameter {
 
   private static final long serialVersionUID = -3825265381738837148L;
   // Parameter id

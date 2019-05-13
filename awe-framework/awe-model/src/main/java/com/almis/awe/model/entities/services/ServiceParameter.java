@@ -4,6 +4,7 @@ import com.almis.awe.model.entities.Copyable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,9 +18,10 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @Setter
+@EqualsAndHashCode
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-@XStreamInclude({ServiceInputParameter.class})
+@XStreamInclude({ServiceInputParameter.class, ServiceOutputParameter.class})
 abstract class ServiceParameter implements Copyable {
 
   private static final long serialVersionUID = -4097764290823490551L;
