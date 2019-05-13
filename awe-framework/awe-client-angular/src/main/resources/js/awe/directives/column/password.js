@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "ng-caps-lock";
 
 // Add requirements
 aweApplication.requires.push("ngCapsLock");

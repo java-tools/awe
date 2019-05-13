@@ -167,6 +167,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.dat2WebDate(date);
     }
     return transformed;
@@ -182,6 +183,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date.getTime());
+      cell.setSendStringValue(true);
       transformed = String.valueOf(date.getTime());
     }
     return transformed;
@@ -197,6 +199,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.dat2WebTime(date);
     }
     return transformed;
@@ -212,6 +215,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.dat2WebTimestamp(date);
     }
     return transformed;
@@ -227,6 +231,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.dat2JsDate(date);
     }
     return transformed;
@@ -242,6 +247,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.dat2JsTimestamp(date);
     }
     return transformed;
@@ -255,6 +261,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
   private String processGenericDate(@NotNull CellData cell) {
     String transformed = DateUtil.generic2Date(cell.getStringValue(), field.getFormatFrom(), field.getFormatTo());
     cell.setValue(transformed);
+    cell.setSendStringValue(true);
     return transformed;
   }
 
@@ -267,8 +274,9 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     String transformed = cell.getStringValue();
     Date date = cell.getDateValue();
     if (date != null) {
+      cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.rdbDate2String(date);
-      cell.setValue(transformed);      
     }
     return transformed;
   }

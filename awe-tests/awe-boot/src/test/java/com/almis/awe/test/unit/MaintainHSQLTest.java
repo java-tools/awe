@@ -51,7 +51,7 @@ public class MaintainHSQLTest extends MaintainTest {
       }
     }
     String variables = "\"dat\": " + dates.toString() + ",\"datApp\":" + datesApp.toString() + ",";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
       .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
       .content("{\"targetAction\":\"" + maintainName + "\"," + variables + "\"t\":\"6c65626d637a6b6b5737504b3941745a414265653148684e6e7145555a362f704d744b4832766c4474436946706c55472b3738566b773d3d\",\"max\":30}")

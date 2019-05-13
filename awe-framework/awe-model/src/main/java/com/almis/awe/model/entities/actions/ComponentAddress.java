@@ -3,12 +3,22 @@ package com.almis.awe.model.entities.actions;
 import com.almis.awe.model.constant.AweConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 /**
  * @author pgarcia and pvidal
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Accessors(chain = true)
+@Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ComponentAddress implements Serializable {
 
@@ -115,149 +125,5 @@ public class ComponentAddress implements Serializable {
     this.view = view;
     this.screen = screen;
     this.component = component;
-  }
-
-  /**
-   * Constructor
-   *
-   * @param application Application
-   * @param session     Session token
-   * @param view        Component view
-   * @param screen      Screen name
-   * @param component   Component id
-   * @param row         Row
-   * @param column      Column
-   */
-  public ComponentAddress(String application, String session, String view, String screen, String component, String row, String column) {
-    super();
-    this.application = application;
-    this.session = session;
-    this.view = view;
-    this.screen = screen;
-    this.component = component;
-    this.row = row;
-    this.column = column;
-  }
-
-  /**
-   * Retrieves the component session
-   *
-   * @return the session
-   */
-  public String getSession() {
-    return session;
-  }
-
-  /**
-   * Stores the component session
-   *
-   * @param session the session to set
-   */
-  public void setSession(String session) {
-    this.session = session;
-  }
-
-  /**
-   * Retrieves the component view
-   *
-   * @return the view
-   */
-  public String getView() {
-    return view;
-  }
-
-  /**
-   * Stores the component view
-   *
-   * @param view View to set
-   */
-  public void setView(String view) {
-    this.view = view;
-  }
-
-  /**
-   * Retrieves the screen name
-   *
-   * @return the screen
-   */
-  public String getScreen() {
-    return screen;
-  }
-
-  /**
-   * Store the screen of component
-   *
-   * @param screen of component
-   */
-  public void setScreen(String screen) {
-    this.screen = screen;
-  }
-
-  /**
-   * Retrieves the component id
-   *
-   * @return the component
-   */
-  public String getComponent() {
-    return component;
-  }
-
-  /**
-   * Stores the component id
-   *
-   * @param component the component to set
-   */
-  public void setComponent(String component) {
-    this.component = component;
-  }
-
-  /**
-   * @return the application
-   */
-  public String getApplication() {
-    return application;
-  }
-
-  /**
-   * @param application the application to set
-   */
-  public void setApplication(String application) {
-    this.application = application;
-  }
-
-  /**
-   * Retrieve row of component
-   *
-   * @return id of row
-   */
-  public String getRow() {
-    return row;
-  }
-
-  /**
-   * Store the row of component
-   *
-   * @param row Row to set
-   */
-  public void setRow(String row) {
-    this.row = row;
-  }
-
-  /**
-   * Retrieve column of component
-   *
-   * @return column of component
-   */
-  public String getColumn() {
-    return column;
-  }
-
-  /**
-   * Store column of component
-   *
-   * @param column Column to set
-   */
-  public void setColumn(String column) {
-    this.column = column;
   }
 }

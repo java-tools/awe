@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import "./accordionItem";
 
 // Accordion directive
 aweApplication.directive('aweAccordion', [

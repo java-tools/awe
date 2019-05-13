@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import "../services/contextMenu";
 
 const template =
 `<ul ng-if="::contextMenu" ng-show="contextMenu.isVisible()" class="context-menu dropdown-menu ng-hide" role="menu" ng-cloak>

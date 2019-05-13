@@ -1,23 +1,21 @@
 {
   "presets": [
-    ["env", {
+    ["@babel/preset-env", {
       "targets": {
         "browsers": [
           "> 1%",
           "last 3 versions",
           "ie 8"
         ]
-      },
-      "debug": false,
-      "useBuiltIns": true
+      }
     }]
   ],
   "env": {
     "development": {
       "compact": false,
       "plugins": [
-        "transform-object-rest-spread",
-        "transform-object-assign",
+        "@babel/plugin-proposal-object-rest-spread",
+        "@babel/plugin-transform-object-assign",
         "array-includes",
         "object-values-to-object-keys",
         "transform-object-entries",
@@ -32,8 +30,8 @@
     },
     "production": {
       "plugins": [
-        "transform-object-rest-spread",
-        "transform-object-assign",
+        "@babel/plugin-proposal-object-rest-spread",
+        "@babel/plugin-transform-object-assign",
         "array-includes",
         "object-values-to-object-keys",
         "transform-object-entries",

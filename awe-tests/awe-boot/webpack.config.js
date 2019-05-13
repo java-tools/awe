@@ -28,23 +28,45 @@ module.exports = {
       use : ExtractTextPlugin.extract({
         fallback : "style-loader",
         use : [ "css-loader", "less-loader" ]
-      })
+      }),
     }, {
       test : /\.(jpg|gif|png)$/,
-      loader : 'url-loader?limit=100000&name=./images/[hash].[ext]'
+      use: [{
+        loader: "url-loader",
+        options: {
+          limit: 100000,
+          name: "./images/[hash].[ext]"
+        }
+      }]
     }, {
       test : /\.woff[2]*?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      use : "url-loader?limit=10000&mimetype=application/font-woff&name=./fonts/[hash].[ext]"
+      use: [{
+        loader: "url-loader",
+        options: {
+          limit: 10000,
+          mimetype: "application/font-woff",
+          name: "./fonts/[hash].[ext]"
+        }
+      }]
     }, {
       test : /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      use : "file-loader?name=./fonts/[hash].[ext]"
-    } ]
+      use: [{
+        loader: "file-loader",
+        options: {
+          name: "./fonts/[hash].[ext]"
+        }
+      }]
+    }]
   },
   resolve : {
     extensions : [ ".js", ".css", ".less", "*" ]
   },
   plugins : [
-    new ExtractTextPlugin("css/specific.css"),
+    new ExtractTextPlugin({
+      filename: "css/specific.css",
+      disable: false,
+      allChunks: true
+    }),
     new webpack.optimize.UglifyJsPlugin({ uglifyOptions: {compress: { warnings: true, drop_console: false}}, cache: true, parallel:true, sourceMap: true})
   ]
 };

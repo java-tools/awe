@@ -1,4 +1,12 @@
 import { aweApplication } from "./../../awe";
+import "angular-ui-grid";
+import "./components";
+import "./editable";
+import "./multioperation";
+import "./events";
+
+// Add requirements
+aweApplication.requires.push.apply(aweApplication.requires, ["ui.grid", "ui.grid.resizeColumns", "ui.grid.pinning", "ui.grid.selection", "ui.grid.pagination", "ui.grid.moveColumns", "ui.grid.treeView"]);
 
 // Grid commons service
 aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMultioperation', 'GridEvents', '$translate', 'AweSettings', 'Control', 'AweUtilities',

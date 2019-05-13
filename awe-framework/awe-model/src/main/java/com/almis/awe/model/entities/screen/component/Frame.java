@@ -1,15 +1,15 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component;
 
-/*
- * File Imports
- */
-
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Message Class
@@ -22,6 +22,12 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("frame")
 public class Frame extends Component {
 
@@ -29,87 +35,29 @@ public class Frame extends Component {
   // Frame screen
   @XStreamAlias("screen")
   @XStreamAsAttribute
-  private String screen = null;
+  private String screen;
   // Frame screen variable
   @XStreamAlias("screen-variable")
   @XStreamAsAttribute
-  private String screenVariable = null;
+  private String screenVariable;
 
   // Frame scroll
   @XStreamAlias("scroll")
   @XStreamAsAttribute
-  private String scroll = null;
+  private Boolean scroll;
 
   /**
-   * Default constructor
+   * Returns if is scroll
+   * @return Is scroll
    */
-  public Frame() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Frame(Frame other) throws AWException {
-    super(other);
-    this.screen = other.screen;
-    this.screenVariable = other.screenVariable;
-    this.scroll = other.scroll;
+  public boolean isScroll() {
+    return scroll != null && scroll;
   }
 
   @Override
   public Frame copy() throws AWException {
-    return new Frame(this);
-  }
-
-  /**
-   * Returns the frame initial screen
-   *
-   * @return Frame initial screen
-   */
-  public String getScreen() {
-    return screen;
-  }
-
-  /**
-   * Stores the initial screen
-   *
-   * @param screen Initial screen
-   */
-  public void setScreen(String screen) {
-    this.screen = screen;
-  }
-
-  /**
-   * Returns the frame scroll
-   *
-   * @return Frame scroll
-   */
-  public String getScroll() {
-    return scroll;
-  }
-
-  /**
-   * Stores the frame scroll
-   *
-   * @param scroll Frame scroll
-   */
-  public void setScroll(String scroll) {
-    this.scroll = scroll;
-  }
-
-  /**
-   * @return the screenVariable
-   */
-  public String getScreenVariable() {
-    return screenVariable;
-  }
-
-  /**
-   * @param screenVariable the screenVariable to set
-   */
-  public void setScreenVariable(String screenVariable) {
-    this.screenVariable = screenVariable;
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 }

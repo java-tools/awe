@@ -1,4 +1,4 @@
-package com.almis.awe.test.unit.tools;
+package com.almis.awe.test.unit.util;
 
 import com.almis.awe.test.unit.TestUtil;
 import com.almis.awe.tools.filemanager.utils.ZipFileUtil;

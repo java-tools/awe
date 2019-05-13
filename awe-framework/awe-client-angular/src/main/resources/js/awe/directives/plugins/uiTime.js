@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "bootstrap-timepicker";
 
 // Time plugin
 aweApplication.directive('uiTime',

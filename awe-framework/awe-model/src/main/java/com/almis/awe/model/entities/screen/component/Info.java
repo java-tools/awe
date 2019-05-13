@@ -1,14 +1,19 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Info Class
@@ -18,99 +23,37 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  *
  * @author Pablo GARCIA - 04/JUN/2012
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("info")
 public class Info extends Component {
 
   private static final long serialVersionUID = -2190505817555353007L;
 
   // Value from query
+  @JsonProperty("text")
   @XStreamOmitField
-  private String value = null;
+  private String value;
 
   // Info unit
   @XStreamAlias("unit")
   @XStreamAsAttribute
-  private String unit = null;
+  private String unit;
 
   // Info dropdown style
   @XStreamAlias("dropdown-style")
   @XStreamAsAttribute
-  private String dropdownStyle = null;
-
-  /**
-   * Default constructor
-   */
-  public Info() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Info(Info other) throws AWException {
-    super(other);
-    this.value = other.value;
-    this.unit = other.unit;
-    this.dropdownStyle = other.dropdownStyle;
-  }
+  private String dropdownStyle;
 
   @Override
   public Info copy() throws AWException {
-    return new Info(this);
-  }
-
-  /**
-   * Returns the static value
-   *
-   * @return Static value
-   */
-  @JsonGetter("text")
-  public String getValue() {
-    return value;
-  }
-
-  /**
-   * Stores the static value
-   *
-   * @param value Static value
-   */
-  public void setValue(String value) {
-    this.value = value;
-  }
-
-  /**
-   * Returns the unit info
-   *
-   * @return unit info
-   */
-  @JsonGetter("unit")
-  public String getUnit() {
-    return unit;
-  }
-
-  /**
-   * Stores the info unit
-   *
-   * @param unit info unit
-   */
-  public void setUnit(String unit) {
-    this.unit = unit;
-  }
-
-  /**
-   * @return the dropdownStyle
-   */
-  @JsonGetter("dropdownStyle")
-  public String getDropdownStyle() {
-    return dropdownStyle;
-  }
-
-  /**
-   * @param dropdownStyle the dropdownStyle to set
-   */
-  public void setDropdownStyle(String dropdownStyle) {
-    this.dropdownStyle = dropdownStyle;
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**

@@ -1,8 +1,8 @@
 package com.almis.awe.model.entities.screen.component.chart;
 
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.type.ChartParameterType;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,6 +11,12 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -25,8 +31,14 @@ import java.util.List;
  *
  * @author Pablo VIDAL - 21/OCT/2014
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("chart-parameter")
-public class ChartParameter extends Element {
+public class ChartParameter extends AbstractChart {
 
   private static final long serialVersionUID = -7098280839924260785L;
 
@@ -36,71 +48,16 @@ public class ChartParameter extends Element {
   private String name;
 
   // Parameter value
+  @JsonIgnore
   @XStreamAlias("value")
   @XStreamAsAttribute
   private String value;
 
-  /**
-   * Default constructor
-   */
-  public ChartParameter() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public ChartParameter(ChartParameter other) throws AWException {
-    super(other);
-    this.name = other.name;
-    this.value = other.value;
-  }
-
   @Override
   public ChartParameter copy() throws AWException {
-    return new ChartParameter(this);
-  }
-
-  /**
-   * Returns the parameter name.
-   *
-   * @return Parameter value
-   */
-  public String getName() {
-    return this.name;
-  }
-
-  /**
-   * Stores the parameter value
-   *
-   * @param name Parameter name
-   * @return ChartParameter
-   */
-  public ChartParameter setName(String name) {
-    this.name = name;
-    return this;
-  }
-
-  /**
-   * Returns the parameter value.
-   *
-   * @return Parameter value
-   */
-  @JsonIgnore
-  public String getValue() {
-    return this.value;
-  }
-
-  /**
-   * Stores the parameter value
-   *
-   * @param value Parameter value
-   * @return ChartParameter
-   */
-  public ChartParameter setValue(String value) {
-    this.value = value;
-    return this;
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**

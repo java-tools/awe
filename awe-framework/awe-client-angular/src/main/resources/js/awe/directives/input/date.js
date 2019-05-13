@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "../../services/dateTime";
 
 // Datepicker directive
 aweApplication.directive('aweInputDate',

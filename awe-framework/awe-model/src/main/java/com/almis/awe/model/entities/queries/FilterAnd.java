@@ -1,11 +1,13 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.queries;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.UnionType;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * FilterAnd Class
@@ -15,27 +17,19 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("and")
 public class FilterAnd extends FilterGroup {
 
-  /**
-   * Default constructor
-   */
-  public FilterAnd() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public FilterAnd(FilterAnd other) throws AWException {
-    super(other);
-  }
-
   @Override
   public FilterAnd copy() throws AWException {
-    return new FilterAnd(this);
+    return this.toBuilder()
+      .filterGroupList(ListUtil.copyList(getFilterGroupList()))
+      .filterList(ListUtil.copyList(getFilterList()))
+      .build();
   }
 
   /**

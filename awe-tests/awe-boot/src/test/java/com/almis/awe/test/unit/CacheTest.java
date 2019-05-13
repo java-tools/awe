@@ -33,16 +33,20 @@ public class CacheTest {
 
   @Test
   public void testMenu() throws Exception {
-    Menu menu = new Menu(aweElements.getMenu(AweConstants.PUBLIC_MENU));
-    menu.addElement(new Option().setInvisible(true).setScreen("Prueba").setName("prueba"));
+    Menu menu = aweElements.getMenu(AweConstants.PUBLIC_MENU).copy();
+    menu.addElement(Option.builder()
+      .invisible(true)
+      .screen("Prueba")
+      .name("prueba")
+      .build());
     aweElements.setMenu(AweConstants.PUBLIC_MENU, menu);
     assertThat(menu.getElementList().size(), equalTo(aweElements.getMenu(AweConstants.PUBLIC_MENU).getElementList().size()));
   }
 
   @Test
   public void testScreen() throws Exception {
-    Screen screen = new Screen(aweElements.getScreen("MatTst"));
-    screen.addElement(new Tag());
+    Screen screen = aweElements.getScreen("MatTst").copy();
+    screen.addElement(Tag.builder().build());
     aweElements.setScreen(screen);
     assertThat(screen.getElementList().size(), equalTo(aweElements.getScreen("MatTst").getElementList().size()));
   }

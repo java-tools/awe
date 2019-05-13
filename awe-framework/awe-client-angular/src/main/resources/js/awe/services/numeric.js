@@ -1,4 +1,6 @@
 import { aweApplication } from "./../awe";
+import "../directives/plugins/uiNumeric";
+import "../directives/plugins/uiSlider";
 
 // Numeric template
 export const templateNumeric =

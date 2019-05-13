@@ -1,20 +1,15 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.queries;
 
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.XMLWrapper;
-import com.almis.awe.model.util.data.ListUtil;
+import com.almis.awe.model.entities.XMLFile;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-
-/*
- * File Imports
- */
 
 /**
  * Queries Class
@@ -24,29 +19,17 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("queries")
-public class Queries extends XMLWrapper {
+public class Queries implements XMLFile {
 
   private static final long serialVersionUID = -8280761936351955254L;
   // Query list
   @XStreamImplicit
   private List<Query> queryList;
-
-  /**
-   * Default constructor
-   */
-  public Queries() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Queries(Queries other) throws AWException {
-    super(other);
-    this.queryList = ListUtil.copyList(other.queryList);
-  }
 
   /**
    * Returns a query
@@ -63,26 +46,8 @@ public class Queries extends XMLWrapper {
     return null;
   }
 
-  /**
-   * Returns the query list
-   *
-   * @return Query list
-   */
-  public List<Query> getQueryList() {
-    return queryList;
-  }
-
-  /**
-   * Stores the query list
-   *
-   * @param queryList Query list
-   */
-  public void setQueryList(List<Query> queryList) {
-    this.queryList = queryList;
-  }
-
   @Override
   public List<Query> getBaseElementList() {
-    return queryList == null ? Collections.emptyList() : queryList;
+    return queryList == null ? new ArrayList<>() : queryList;
   }
 }

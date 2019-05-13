@@ -41,7 +41,7 @@ public class EnumBuilder extends ServiceConfig {
    * @throws AWException Error retrieving enumerated group
    */
   public EnumeratedGroup getEnumerated() throws AWException {
-    return new EnumeratedGroup(getElements().getEnumerated(enumeratedId));
+    return getElements().getEnumerated(enumeratedId).copy();
   }
 
   /**

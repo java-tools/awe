@@ -1,11 +1,9 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.queues;
 
 import com.almis.awe.model.entities.actions.ComponentAddress;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Data;
+import lombok.experimental.Accessors;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
 
 import java.util.Observable;
@@ -13,57 +11,17 @@ import java.util.Observer;
 
 /**
  * JmsConnectionInfo Class
- *
  * Bean class with message queue connection info
- *
  *
  * @author Pablo GARCIA - 03/Aug/2017
  */
+@Data
+@Accessors(chain = true)
+@Log4j2
 public class JmsConnectionInfo implements Observer {
 
   private DefaultMessageListenerContainer listenerContainer;
   private ComponentAddress address;
-  private final Logger logger = LogManager.getLogger(this.getClass());
-
-  /**
-   * Get listener container
-   *
-   * @return Listener container
-   */
-  public DefaultMessageListenerContainer getListenerContainer() {
-    return listenerContainer;
-  }
-
-  /**
-   * Set listener container
-   *
-   * @param listenerContainer Listener container
-   * @return this
-   */
-  public JmsConnectionInfo setListenerContainer(DefaultMessageListenerContainer listenerContainer) {
-    this.listenerContainer = listenerContainer;
-    return this;
-  }
-
-  /**
-   * Get component address
-   *
-   * @return the address
-   */
-  public ComponentAddress getAddress() {
-    return address;
-  }
-
-  /**
-   * Set component address
-   *
-   * @param address the address to set
-   * @return this
-   */
-  public JmsConnectionInfo setAddress(ComponentAddress address) {
-    this.address = address;
-    return this;
-  }
 
   /**
    * Checks if connection must be closed
@@ -88,6 +46,6 @@ public class JmsConnectionInfo implements Observer {
    */
   public void destroy() {
     getListenerContainer().shutdown();
-    logger.debug("JMS Connection finished for {0}", new Object[]{getAddress().toString()});
+    log.debug("JMS Connection finished for {}", getAddress().toString());
   }
 }

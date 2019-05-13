@@ -1,4 +1,5 @@
 import {aweApplication} from "./../awe";
+import moment from "moment";
 
 // Validation rules service
 aweApplication.factory('ValidationRules',

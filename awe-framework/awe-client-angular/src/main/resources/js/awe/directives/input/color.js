@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "angular-bootstrap-colorpicker";
 
 // Add requirements
 aweApplication.requires.push("colorpicker.module");

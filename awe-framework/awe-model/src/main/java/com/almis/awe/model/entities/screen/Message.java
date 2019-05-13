@@ -1,19 +1,19 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen;
-
-/*
- * File Imports
- */
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
-import com.fasterxml.jackson.annotation.JsonGetter;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Message Class
@@ -26,61 +26,31 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Pablo GARCIA, Pablo VIDAL - 11/JUN/2014
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("message")
 public class Message extends Element {
 
   private static final long serialVersionUID = 5151876057457019598L;
 
   // Message description
+  @JsonProperty("message")
   @XStreamAlias("message")
   @XStreamAsAttribute
-  private String message = null;
-
-  /**
-   * Default constructor
-   */
-  public Message() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Message(Message other) throws AWException {
-    super(other);
-    this.message = other.message;
-  }
+  private String text;
 
   @Override
   public Message copy() throws AWException {
-    return new Message(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
-  /**
-   * Returns the message description
-   *
-   * @return Message description
-   */
-  @JsonGetter("message")
-  public String getMessage() {
-    return message;
-  }
-
-  /**
-   * Stores the message description
-   *
-   * @param message Messasge description
-   */
-  public void setMessage(String message) {
-    this.message = message;
-  }
-
-  /**
-   * Get elementKey
-   *
-   * @return key
-   */
+  @JsonIgnore
   @Override
   public String getElementKey() {
     return this.getId();

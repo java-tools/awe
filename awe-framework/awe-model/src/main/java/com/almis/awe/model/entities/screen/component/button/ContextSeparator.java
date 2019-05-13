@@ -1,17 +1,14 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component.button;
-
-/*
- * File Imports
- */
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * ContextSeparator Class
@@ -21,29 +18,18 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  *
  * @author Pablo GARCIA - 06/JUN/2013
  */
+@Getter
+@Setter
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 @XStreamAlias("context-separator")
-public class ContextSeparator extends Button {
+public class ContextSeparator extends AbstractButton {
 
   private static final long serialVersionUID = 5664473708570111319L;
 
-  /**
-   * Default constructor
-   */
-  public ContextSeparator() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public ContextSeparator(ContextSeparator other) throws AWException {
-    super(other);
-  }
-
   @Override
   public ContextSeparator copy() throws AWException {
-    return new ContextSeparator(this);
+    return this.toBuilder().build();
   }
 
   @Override
@@ -56,7 +42,7 @@ public class ContextSeparator extends Button {
   @Override
   @JsonIgnore
   public String getComponentTag() {
-    return AweConstants.NO_TAG;
+    return AweConstants.TEMPLATE_EMPTY;
   }
 
   /**
@@ -65,7 +51,14 @@ public class ContextSeparator extends Button {
    * @return true
    */
   @JsonGetter("separator")
-  public boolean getSeparatorConverter() {
+  public boolean isSeparator() {
     return true;
+  }
+
+  @JsonIgnore
+  @Override
+  public String getHelpTemplate() {
+    // Retrieve code
+    return AweConstants.TEMPLATE_HELP_EMPTY;
   }
 }

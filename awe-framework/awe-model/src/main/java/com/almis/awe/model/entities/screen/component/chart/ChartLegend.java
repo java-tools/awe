@@ -1,13 +1,19 @@
 package com.almis.awe.model.entities.screen.component.chart;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,15 +27,21 @@ import java.util.List;
  *
  * @author Pablo VIDAL - 20/OCT/2014
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("chart-legend")
-public class ChartLegend extends ChartModel {
+public class ChartLegend extends AbstractChart {
 
   private static final long serialVersionUID = 3276211655233499386L;
 
   // Flag enable chart legend
   @XStreamAlias("enabled")
   @XStreamAsAttribute
-  private String enabled;
+  private Boolean enabled;
 
   // Layout of the legend items
   @XStreamAlias("layout")
@@ -49,206 +61,39 @@ public class ChartLegend extends ChartModel {
   // Chart legend floating
   @XStreamAlias("floating")
   @XStreamAsAttribute
-  private String floating;
+  private Boolean floating;
 
   // The width of the drawn border around the legend
   @XStreamAlias("border-width")
   @XStreamAsAttribute
-  private String borderWidth;
+  private Integer borderWidth;
 
   // Chart legend parameter list
   @XStreamImplicit
   private List<ChartParameter> legendParameterList;
 
-  /**
-   * Default constructor
-   */
-  public ChartLegend() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public ChartLegend(ChartLegend other) throws AWException {
-    super(other);
-    this.enabled = other.enabled;
-    this.layout = other.layout;
-    this.align = other.align;
-    this.verticalAlign = other.verticalAlign;
-    this.floating = other.floating;
-    this.borderWidth = other.borderWidth;
-
-    if (other.legendParameterList != null) {
-      this.legendParameterList = new ArrayList<>();
-      for (ChartParameter parameter : other.legendParameterList) {
-        this.legendParameterList.add(new ChartParameter(parameter));
-      }
-    }
-  }
-
   @Override
   public ChartLegend copy() throws AWException {
-    return new ChartLegend(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .legendParameterList(ListUtil.copyList(getLegendParameterList()))
+      .build();
   }
 
   /**
-   * Get flag to enabled legend of char
-   *
-   * @return Legend enabled
-   */
-  public String getEnabled() {
-    return enabled;
-  }
-
-  /**
-   * Set flat to enable chart legend
-   *
-   * @param enabled flag legend enabled
-   * @return ChartLegend
-   */
-  public ChartLegend setEnabled(String enabled) {
-    this.enabled = enabled;
-    return this;
-  }
-
-  /**
-   * If legend chart is enabled
-   *
-   * @return Legend is enabled
+   * Returns is enabled
+   * @return Is enabled
    */
   public boolean isEnabled() {
-    return !"false".equalsIgnoreCase(getEnabled());
+    return enabled != null && enabled;
   }
 
   /**
-   * Retrieve align
-   *
-   * @return align
-   */
-  public String getAlign() {
-    return align;
-  }
-
-  /**
-   * Store align legend
-   *
-   * @param align Legend align
-   * @return ChartLegend
-   */
-  public ChartLegend setAlign(String align) {
-    this.align = align;
-    return this;
-  }
-
-  /**
-   * Retrieve vertical align
-   *
-   * @return vertical align
-   */
-  public String getVerticalAlign() {
-    return verticalAlign;
-  }
-
-  /**
-   * Store vertical align
-   *
-   * @param verticalAlign Vertical align
-   * @return ChartLegend
-   */
-  public ChartLegend setVerticalAlign(String verticalAlign) {
-    this.verticalAlign = verticalAlign;
-    return this;
-  }
-
-  /**
-   * Retrieve floating legend
-   *
-   * @return floating legend
-   */
-  public String getFloating() {
-    return floating;
-  }
-
-  /**
-   * Store floating legend flag
-   *
-   * @param floating Legend is floating
-   * @return ChartLegend
-   */
-  public ChartLegend setFloating(String floating) {
-    this.floating = floating;
-    return this;
-  }
-
-  /**
-   * Check if legend is floating
-   *
-   * @return flag floating
+   * Returns is floating
+   * @return Is floating
    */
   public boolean isFloating() {
-    return "true".equalsIgnoreCase(getFloating());
-  }
-
-  /**
-   * Retrieve border width of legend
-   *
-   * @return border width
-   */
-  public String getBorderWidth() {
-    return borderWidth;
-  }
-
-  /**
-   * Store border width to legend
-   *
-   * @param borderWidth Legend border width
-   * @return ChartLegend
-   */
-  public ChartLegend setBorderWidth(String borderWidth) {
-    this.borderWidth = borderWidth;
-    return this;
-  }
-
-  /**
-   * Retrieve layout of legend items
-   *
-   * @return layout
-   */
-  public String getLayout() {
-    return layout;
-  }
-
-  /**
-   * Store layout of legend items
-   *
-   * @param layout Legend layout
-   * @return ChartLegend
-   */
-  public ChartLegend setLayout(String layout) {
-    this.layout = layout;
-    return this;
-  }
-
-  /**
-   * Retrieve parameter list of chart legend element
-   *
-   * @return legend parameter list
-   */
-  public List<ChartParameter> getLegendParameterList() {
-    return legendParameterList;
-  }
-
-  /**
-   * Store the parameter list to chart legend element
-   *
-   * @param legendParameterList Legend parameter list
-   * @return ChartLegend
-   */
-  public ChartLegend setLegendParameterList(List<ChartParameter> legendParameterList) {
-    this.legendParameterList = legendParameterList;
-    return this;
+    return floating != null && floating;
   }
 
   /**
@@ -263,9 +108,7 @@ public class ChartLegend extends ChartModel {
     ObjectNode legendNode = factory.objectNode();
 
     // Add enable
-    if (getEnabled() != null) {
-      legendNode.put(ChartConstants.ENABLED, isEnabled());
-    }
+    legendNode.put(ChartConstants.ENABLED, isEnabled());
 
     // Layout type
     if (getLayout() != null) {
@@ -290,9 +133,7 @@ public class ChartLegend extends ChartModel {
     }
 
     // Add if legend is floating
-    if (getFloating() != null) {
-      legendNode.put(ChartConstants.FLOATING, isFloating());
-    }
+    legendNode.put(ChartConstants.FLOATING, isFloating());
 
     // Add border width
     if (getBorderWidth() != null) {

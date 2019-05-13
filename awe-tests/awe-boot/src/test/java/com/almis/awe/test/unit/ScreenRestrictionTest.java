@@ -94,7 +94,7 @@ public class ScreenRestrictionTest extends TestUtil {
    */
   private void addRestriction(String operation, String user, String profile, String option, String value) throws Exception {
     String maintainName = "updateScreenRestriction";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1}]}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1}]}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
       .header("Authorization", sessionToken)
       .contentType(MediaType.APPLICATION_JSON)
@@ -144,7 +144,7 @@ public class ScreenRestrictionTest extends TestUtil {
     logger.debug(setParameter("profile", profileSession));
 
     // Check screen
-    String expected = "[{\"type\":\"change-menu\",\"parameters\":" + parameters + "},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"change-menu\",\"parameters\":" + parameters + "},{\"type\":\"end-load\"}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/refresh-menu")
       .header("Authorization", sessionToken)
       .contentType(MediaType.APPLICATION_JSON)

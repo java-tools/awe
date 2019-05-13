@@ -1,20 +1,15 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.actions;
 
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.XMLWrapper;
-import com.almis.awe.model.util.data.ListUtil;
+import com.almis.awe.model.entities.XMLFile;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-
-/*
- * File Imports
- */
 
 /**
  * Actions Class
@@ -24,47 +19,17 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 25/JUN/2010
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("actions")
-public class Actions extends XMLWrapper {
+public class Actions implements XMLFile {
 
   private static final long serialVersionUID = -6519438900878392915L;
   // Action list
   @XStreamImplicit(itemFieldName = "action")
   private List<Action> actionList;
-
-  /**
-   * Default constructor
-   */
-  public Actions() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Actions(Actions other) throws AWException {
-    super(other);
-    this.actionList = ListUtil.copyList(other.actionList);
-  }
-
-  /**
-   * Returns the action list
-   *
-   * @return Action list
-   */
-  public List<Action> getActionList() {
-    return actionList;
-  }
-
-  /**
-   * Stores the action list
-   *
-   * @param actions Action list
-   */
-  public void setActionList(List<Action> actions) {
-    this.actionList = actions;
-  }
 
   /**
    * Returns an action
@@ -84,6 +49,6 @@ public class Actions extends XMLWrapper {
 
   @Override
   public List<Action> getBaseElementList() {
-    return actionList == null ? Collections.emptyList() : actionList;
+    return actionList == null ? new ArrayList<>() : actionList;
   }
 }

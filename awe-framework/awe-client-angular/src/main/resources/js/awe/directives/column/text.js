@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "./../../services/text";
 
 // Column text directive
 aweApplication.directive('aweColumnText',

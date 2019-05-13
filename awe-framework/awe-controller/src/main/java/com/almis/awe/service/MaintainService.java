@@ -229,7 +229,7 @@ public class MaintainService extends ServiceConfig {
     Target maintain;
     try {
       // Get maintain
-      maintain = new Target(getElements().getMaintain(maintainId));
+      maintain = getElements().getMaintain(maintainId).copy();
 
       // If query is private, check security
       if (checkSession && !maintain.isPublic() && !accessService.isAuthenticated()) {
@@ -491,7 +491,7 @@ public class MaintainService extends ServiceConfig {
     if (origin.getTableList() != null) {
       for (Table table : origin.getTableList()) {
         // Get table and table cloned
-        Table clonedTable = new Table(table);
+        Table clonedTable = table.copy();
         // Add variable to list
         tableList.add(clonedTable);
       }
@@ -518,12 +518,7 @@ public class MaintainService extends ServiceConfig {
         Field clonedField = field.copy();
 
         // If field is key, and addKeys is false, or field is not key and addNonKeys is false, set audit to true
-        if (("true".equalsIgnoreCase(field.getKey()) && !addKeys) || (field.getKey() == null && !addNonKeys)) {
-          clonedField.setAudit("true");
-          // Else set field to store/update it
-        } else {
-          clonedField.setAudit(null);
-        }
+        clonedField.setAudit((field.isKey() && !addKeys) || (!field.isKey() && !addNonKeys));
 
         // Add field copy to list
         fieldList.add(clonedField);
@@ -550,9 +545,14 @@ public class MaintainService extends ServiceConfig {
       for (Field field : origin.getFieldList()) {
 
         // If field is key generate a filter with it
-        if ("true".equalsIgnoreCase(field.getKey())) {
+        if (field.isKey()) {
           // Generate a new filter and fill it
-          Filter filter = new Filter().setLeftField(field.getId()).setLeftTable(field.getTable()).setCondition("eq").setRightVariable(field.getVariable());
+          Filter filter = Filter.builder()
+            .leftField(field.getId())
+            .leftTable(field.getTable())
+            .condition("eq")
+            .rightVariable(field.getVariable())
+            .build();
 
           // If variable is a string, ignorecase it
           Variable var = origin.getVariableDefinition(field.getVariable());
@@ -565,10 +565,10 @@ public class MaintainService extends ServiceConfig {
             case STRING_HASH_SHA:
             case STRING_HASH_PBKDF_2_W_HMAC_SHA_1:
             case STRING_ENCRYPT:
-              filter.setIgnoreCase("true");
+              filter.setIgnoreCase(true);
               break;
             default:
-              filter.setIgnoreCase("false");
+              filter.setIgnoreCase(false);
               break;
           }
 

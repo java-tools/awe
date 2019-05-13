@@ -2,9 +2,12 @@ package com.almis.awe.model.entities.queries;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Copyable;
-import com.almis.awe.model.entities.XMLWrapper;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * TotalizeBy Class
@@ -13,45 +16,22 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Pablo GARCIA - 22/SEP/2011
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("totalize-by")
-public class TotalizeBy extends XMLWrapper implements Copyable {
+public class TotalizeBy implements Copyable {
 
   private static final long serialVersionUID = -5294879694115446878L;
+
   // Field to totalize
   @XStreamAlias("field")
   @XStreamAsAttribute
   private String field;
 
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public TotalizeBy(TotalizeBy other) {
-    super(other);
-    this.field = other.field;
-  }
-
-  /**
-   * Returns the field to filter (left side)
-   *
-   * @return Field to filter
-   */
-  public String getField() {
-    return field;
-  }
-
-  /**
-   * Stores the field to filter (left side)
-   *
-   * @param field Field to filter
-   */
-  public void setField(String field) {
-    this.field = field;
-  }
-
   @Override
   public TotalizeBy copy() throws AWException {
-    return new TotalizeBy(this);
+    return this.toBuilder().build();
   }
 }

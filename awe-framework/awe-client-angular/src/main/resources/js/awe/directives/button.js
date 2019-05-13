@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import "../services/button";
 
 // Button directive
 aweApplication.directive('aweButton',

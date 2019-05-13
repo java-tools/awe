@@ -1,17 +1,15 @@
 package com.almis.awe.model.entities.email;
 
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.XMLWrapper;
-import com.almis.awe.model.util.data.ListUtil;
+import com.almis.awe.model.entities.XMLFile;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-
-/*
- * File Imports
- */
 
 /**
  * Emails Class
@@ -21,29 +19,17 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 28/JUL/2011
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("emails")
-public class Emails extends XMLWrapper {
+public class Emails implements XMLFile {
 
   private static final long serialVersionUID = 7127095378963356899L;
   // Query list
   @XStreamImplicit
   private List<Email> emailList;
-
-  /**
-   * Default constructor
-   */
-  public Emails() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Emails(Emails other) throws AWException {
-    super(other);
-    this.emailList = ListUtil.copyList(other.emailList);
-  }
 
   /**
    * Returns an email
@@ -60,26 +46,8 @@ public class Emails extends XMLWrapper {
     return null;
   }
 
-  /**
-   * Returns the email list
-   *
-   * @return Email list
-   */
-  public List<Email> getEmailList() {
-    return emailList;
-  }
-
-  /**
-   * Stores the email list
-   *
-   * @param emailList Email list
-   */
-  public void setEmailList(List<Email> emailList) {
-    this.emailList = emailList;
-  }
-
   @Override
   public List<Email> getBaseElementList() {
-    return emailList == null ? Collections.emptyList() : emailList;
+    return emailList == null ? new ArrayList<>() : emailList;
   }
 }

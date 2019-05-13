@@ -3,18 +3,23 @@ package com.almis.awe.model.entities.queries;
 import com.almis.awe.exception.AWException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Computed Class
  *
  * Used to parse the file Queries.xml with XStream
- *
- *
  * Computed field from queries. Generates a new field using other fields
- *
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("computed")
 public class Computed extends OutputField {
 
@@ -33,7 +38,7 @@ public class Computed extends OutputField {
   // Field evaluation (Default is false)
   @XStreamAlias("eval")
   @XStreamAsAttribute
-  private String eval;
+  private Boolean eval;
 
   // Null value treating (Default is blank)
   @XStreamAlias("nullValue")
@@ -41,107 +46,15 @@ public class Computed extends OutputField {
   private String nullValue;
 
   /**
-   * Default constructor
+   * Returns if is eval
+   * @return Is eval
    */
-  public Computed() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Computed(Computed other) {
-    super(other);
-    this.format = other.format;
-    this.label = other.label;
-    this.eval = other.eval;
-    this.nullValue = other.nullValue;
+  public boolean isEval() {
+    return eval != null && eval;
   }
 
   @Override
   public Computed copy() throws AWException {
-    return new Computed(this);
-  }
-
-  /**
-   * Returns the field format (p.e. '[alias1] - [alias2]')
-   *
-   * @return Field format
-   */
-  public String getFormat() {
-    return format;
-  }
-
-  /**
-   * Stores the field format (p.e. '[alias1] - [alias2]')
-   *
-   * @param format Field format
-   */
-  public void setFormat(String format) {
-    this.format = format;
-  }
-
-  /**
-   * Returns the field evaluation
-   *
-   * @return Field evaluation type
-   */
-  public boolean isEval() {
-    return "true".equalsIgnoreCase(eval);
-  }
-
-  /**
-   * Returns the field evaluation
-   *
-   * @return Field evaluation type
-   */
-  public String getEval() {
-    return eval;
-  }
-
-  /**
-   * Stores the field evaluation type
-   *
-   * @param eval Field evaluation type
-   */
-  public void setEval(String eval) {
-    this.eval = eval;
-  }
-
-  /**
-   * Returns the null value treatment
-   *
-   * @return Null value treatment
-   */
-  public String getNullValue() {
-    return nullValue;
-  }
-
-  /**
-   * Stores the null value treatment
-   *
-   * @param nullValue Null value treatment
-   */
-  public void setNullValue(String nullValue) {
-    this.nullValue = nullValue;
-  }
-
-  /**
-   * Retrieve i18n label format
-   *
-   * @return the label
-   */
-  public String getLabel() {
-    return label;
-  }
-
-  /**
-   * Store i18n label format
-   *
-   * @param label the label to set
-   */
-  public void setLabel(String label) {
-    this.label = label;
+    return this.toBuilder().build();
   }
 }

@@ -37,7 +37,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
   private Boolean audit;
 
   @Value("${awe.database.batch.max:100}")
-  private String batchMax;
+  private Integer batchMax;
 
   @Override
   public <T extends MaintainQuery> ServiceData launch(T query, DatabaseConnection databaseConnection, Map<String, QueryParameter> parameterMap) throws AWException {
@@ -73,11 +73,10 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
   private ServiceData launchMultipleMaintain(MaintainQuery query, Provider<Connection> connectionProvider, String connectionType, Map<String, QueryParameter> parameterMap) throws AWException {
 
     // Variable definition
-    long rowsUpdated = 0;
-    boolean auditActive = false;
+    long rowsUpdated;
+    boolean auditActive;
     boolean isBatch = query.isBatch();
 
-    AbstractSQLClause<?> queryBuilt = null;
     AbstractSQLClause<?> auditQueryBuilt = null;
 
     // Store service data
@@ -95,7 +94,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     SQLMaintainBuilder builder = getBean(SQLMaintainBuilder.class);
 
     // Build query
-    queryBuilt = builder.setMaintain(query)
+    AbstractSQLClause<?> queryBuilt = builder.setMaintain(query)
             .setVariableIndex(0)
             .setOperation(MaintainBuildOperation.NO_BATCH)
             .setFactory(queryFactory)
@@ -311,11 +310,10 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     Long rowsUpdated;
 
     // Batch block
-    Integer batchBlock = Integer.valueOf(batchMax);
     MaintainType maintainType = isAudit ? MaintainType.AUDIT : query.getMaintainType();
 
     // If this is the first operation of the batch, generate the initial definition
-    if (index % batchBlock == 0) {
+    if (index % batchMax == 0) {
       builder.setAudit(isAudit)
         .setOperation(MaintainBuildOperation.BATCH_INITIAL_DEFINITION);
 
@@ -343,7 +341,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     addBatch(queryBuilt, maintainType);
 
     // If this is the last operation of the batch, launch it
-    if ((index + 1) % batchBlock == 0) {
+    if ((index + 1) % batchMax == 0) {
       // Launch as single operation
       rowsUpdated = launchAsSingleOperation(queryBuilt, index, isAudit, query.getId());
       maintainOut.addResultDetails(new MaintainResultDetails(maintainType, rowsUpdated, new HashMap<>(builder.getVariables())));

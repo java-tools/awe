@@ -12,8 +12,9 @@ import com.almis.awe.model.entities.menu.Option;
 import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.model.entities.screen.component.Component;
 import com.almis.awe.model.entities.screen.component.MenuContainer;
-import com.almis.awe.model.entities.screen.component.action.ScreenAction;
-import com.almis.awe.model.entities.screen.component.criteria.Criteria;
+import com.almis.awe.model.entities.screen.component.action.AbstractAction;
+import com.almis.awe.model.entities.screen.component.action.ButtonAction;
+import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.entities.screen.component.grid.Grid;
 import com.almis.awe.model.entities.screen.data.*;
@@ -130,8 +131,8 @@ public class ScreenComponentGenerator extends ServiceConfig {
         .setModel(new ComponentModel());
 
       // If the component has an initial value, add it to the model
-      if (component instanceof Criteria) {
-        screenModelGenerator.generateScreenCriterionModel((Criteria) screenComponent.getController(), screenComponent, storedCriteria);
+      if (component instanceof AbstractCriteria) {
+        screenModelGenerator.generateScreenCriterionModel((AbstractCriteria) screenComponent.getController(), screenComponent, storedCriteria);
       }
 
       // Store initial load
@@ -184,21 +185,16 @@ public class ScreenComponentGenerator extends ServiceConfig {
     // For each option, add actions
     List<Option> options = menu.getElementsByType(Option.class);
     for (Option option: options) {
-      if (option.getActions() == null) {
+      if (option.getActionList() == null) {
         String serverAction = option.getServerAction() != null ? option.getServerAction() : menu.getDefaultAction();
         String context = option.getScreenContext() != null ? option.getScreenContext() : menu.getScreenContext();
-        ScreenAction action = new ScreenAction()
-          .setServerAction(serverAction)
-          .setTargetAction(option.getTargetAction())
-          .setTarget(option.getName())
-          .setScreenContext(context)
-          .setAsync(option.getAsync())
-          .setSilent(option.getSilent())
-          .setValue(option.getValue());
+        AbstractAction action = ButtonAction.builder()
+          .serverAction(serverAction)
+          .screenContext(context)
+          .target(option.getName())
+          .build();
 
-        List<ScreenAction> actionList = new ArrayList<>();
-        actionList.add(action);
-        option.setActions(actionList);
+        option.setActionList(Arrays.asList(action));
       }
     }
   }

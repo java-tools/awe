@@ -1,17 +1,15 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component.button;
 
-/*
- * File Imports
- */
-
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.*;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * InfoButton Class
@@ -21,49 +19,25 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Pablo Vidal - 04/JUN/2015
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("info-button")
-public class InfoButton extends Button {
+public class InfoButton extends AbstractButton {
 
   private static final long serialVersionUID = -8521012517719249256L;
   // Info style
   @XStreamAlias("info-style")
   @XStreamAsAttribute
-  private String infoStyle = null;
-
-  /**
-   * Default constructor
-   */
-  public InfoButton() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public InfoButton(InfoButton other) throws AWException {
-    super(other);
-    this.infoStyle = other.infoStyle;
-  }
+  private String infoStyle;
 
   @Override
   public InfoButton copy() throws AWException {
-    return new InfoButton(this);
-  }
-
-  /**
-   * @return the infoStyle
-   */
-  @JsonGetter("infoStyle")
-  public String getInfoStyle() {
-    return infoStyle;
-  }
-
-  /**
-   * @param infoStyle the infoStyle to set
-   */
-  public void setInfoStyle(String infoStyle) {
-    this.infoStyle = infoStyle;
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**
@@ -80,5 +54,12 @@ public class InfoButton extends Button {
   @JsonIgnore
   public String getComponentTag() {
     return "info-button";
+  }
+
+  @JsonIgnore
+  @Override
+  public String getHelpTemplate() {
+    // Retrieve code
+    return AweConstants.TEMPLATE_HELP_EMPTY;
   }
 }

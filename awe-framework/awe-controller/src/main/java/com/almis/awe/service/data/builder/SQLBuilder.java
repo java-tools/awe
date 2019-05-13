@@ -16,6 +16,8 @@ import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.*;
+import com.querydsl.sql.RelationalPath;
+import com.querydsl.sql.RelationalPathBase;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +79,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   protected SQLQuery<Tuple> getSubquery(String queryId) throws AWException {
     SQLQueryBuilder builder = getBean(SQLQueryBuilder.class);
     return builder
-      .setQuery(new Query(getElements().getQuery(queryId)))
+      .setQuery(getElements().getQuery(queryId).copy())
       .setFactory(getFactory())
       .setParameters(getParameters())
       .build();
@@ -274,20 +276,17 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Retrieve table expression
    *
    * @param table Table
-   * @param withAlias With alias
    * @return Table expression
    * @throws AWException Error generating table expression
    */
   protected Object getTableExpression(Table table, boolean withAlias) throws AWException {
-    Object tablePath;
-
     // If subquery is defined, obtain it and alias if defined
     if (table.getQuery() != null) {
       SQLQuery<Tuple> subquery = getSubquery(table.getQuery());
       if (withAlias) {
-        tablePath = subquery.as(buildPath(table.getAlias()));
+        return subquery.as(buildPath(table.getAlias()));
       } else {
-        tablePath = subquery;
+        return subquery;
       }
 
       // Otherwise, take table name (also schema and alias if defined)
@@ -298,9 +297,18 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       }
 
       // Generate table path
-      tablePath = buildPath(table.getSchema(), table.getId(), withAlias ? table.getAlias() : null);
+      return getTable(table, withAlias);
     }
-    return tablePath;
+  }
+
+  /**
+   * Get table expression with schema
+   * @param table Table
+   * @return Table expression
+   */
+  protected RelationalPath getTable(Table table, boolean withAlias) {
+    String alias = withAlias && table.getAlias() != null ? table.getAlias() : table.getId();
+    return new RelationalPathBase<>(Object.class, alias, table.getSchema(), table.getId());
   }
 
   /**

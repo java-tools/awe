@@ -1,11 +1,14 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Video Tag Class
@@ -18,6 +21,11 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author David FUENTES - 09/MAR/2016
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 @XStreamAlias("video")
 public class Video extends Component {
 
@@ -26,57 +34,38 @@ public class Video extends Component {
   // Tag loop attribute
   @XStreamAlias("loop")
   @XStreamAsAttribute
-  private String loop = null;
+  private String loop;
 
   // Tag preload attribute
   @XStreamAlias("preload")
   @XStreamAsAttribute
-  private String preload = null;
+  private String preload;
 
   // Tag autoplay attribute
   @XStreamAlias("autoplay")
   @XStreamAsAttribute
-  private String autoplay = null;
+  private String autoplay;
 
   // Tag poster attribute
   @XStreamAlias("poster")
   @XStreamAsAttribute
-  private String poster = null;
+  private String poster;
 
   // Tag poster attribute
   @XStreamAlias("controls")
   @XStreamAsAttribute
-  private String controls = null;
+  private String controls;
 
   // Tag source attribute
   @XStreamAlias("src")
   @XStreamAsAttribute
-  private String src = null;
-
-  /**
-   * Default constructor
-   */
-  public Video() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Video(Video other) throws AWException {
-    super(other);
-    this.loop = other.loop;
-    this.preload = other.preload;
-    this.autoplay = other.autoplay;
-    this.poster = other.poster;
-    this.controls = other.controls;
-    this.src = other.src;
-  }
+  private String src;
 
   @Override
   public Video copy() throws AWException {
-    return new Video(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**

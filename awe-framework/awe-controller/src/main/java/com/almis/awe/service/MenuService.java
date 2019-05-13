@@ -162,7 +162,9 @@ public class MenuService extends ServiceConfig {
    */
   public Menu getMenu(String menuId) throws AWException {
     // Retrieve menu
-    return new Menu(getElements().getMenu(menuId));
+    Menu menu = getElements().getMenu(menuId).copy();
+    menu.defineRelationship();
+    return menu;
   }
 
   /**
@@ -267,7 +269,7 @@ public class MenuService extends ServiceConfig {
     }
 
     // Get screen
-    Screen screen = new Screen(getElements().getScreen(screenId));
+    Screen screen = getElements().getScreen(screenId).copy();
 
     // Add screen data
     if (!screen.isInitialized()) {
@@ -595,7 +597,7 @@ public class MenuService extends ServiceConfig {
   public ServiceData getScreenRestrictions(String restriction) throws AWException {
     // Step 1: Get profile restrictions
     String restrictionToSearch = restriction == null || restriction.isEmpty() ? defaultRestriction : restriction;
-    Profile baseProfile = new Profile(getElements().getProfile(restrictionToSearch));
+    Profile baseProfile = getElements().getProfile(restrictionToSearch).copy();
 
     // Step 2: Generate a datalist from base profile
     DataList baseRestrictions = new DataList();

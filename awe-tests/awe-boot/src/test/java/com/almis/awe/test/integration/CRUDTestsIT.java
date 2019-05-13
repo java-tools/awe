@@ -1464,10 +1464,10 @@ public class CRUDTestsIT extends SeleniumUtilities {
     waitForButton("ButBck");
 
     // Check text
-    waitForText("visible-text", "[INFO ]");
+    waitForText("visible-text", "INFO");
 
     // Check text
-    checkTextContains(".visible-text", "[INFO ]");
+    checkTextContains(".visible-text", "INFO");
   }
 
   /**

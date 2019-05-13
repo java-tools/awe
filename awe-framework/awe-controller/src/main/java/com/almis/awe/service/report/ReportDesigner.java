@@ -206,8 +206,6 @@ public class ReportDesigner extends ServiceConfig {
         String criterionLabel = null;
         if (element.getLabel() != null) {
           criterionLabel = getLocale(element.getLabel());
-        } else if (element.getLeftLabel() != null) {
-          criterionLabel = getLocale(element.getLeftLabel());
         }
 
         if (criterionLabel != null) {
@@ -416,9 +414,9 @@ public class ReportDesigner extends ServiceConfig {
   private Integer getColumnWidth(Column column) {
     Integer columnWidth = null;
     if (column.getCharLength() != null) {
-      columnWidth = Integer.parseInt(column.getCharLength()) * pixelsPerCharacter;
+      columnWidth = column.getCharLength() * pixelsPerCharacter;
     } else if (column.getWidth() != null) {
-      columnWidth = Integer.parseInt(column.getWidth());
+      columnWidth = column.getWidth();
     }
     return columnWidth;
   }

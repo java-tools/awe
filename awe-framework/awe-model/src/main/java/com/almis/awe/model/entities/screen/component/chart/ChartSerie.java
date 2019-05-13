@@ -7,8 +7,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,8 +24,14 @@ import java.util.List;
  *
  * @author Pablo VIDAL - 21/OCT/2014
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("chart-serie")
-public class ChartSerie extends ChartModel {
+public class ChartSerie extends AbstractChart {
 
   private static final long serialVersionUID = -3249310197282122907L;
 
@@ -62,213 +73,26 @@ public class ChartSerie extends ChartModel {
   // Flag if serie is type drilldown
   @XStreamAlias("drilldown")
   @XStreamAsAttribute
-  private String drillDown;
+  private Boolean drillDown;
 
   // Chart serie data
   @XStreamImplicit
   private transient List<ChartSeriePoint> data;
 
-  /**
-   * Default constructor
-   */
-  public ChartSerie() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public ChartSerie(ChartSerie other) throws AWException {
-    super(other);
-    this.color = other.color;
-    this.xAxis = other.xAxis;
-    this.yAxis = other.yAxis;
-    this.xValue = other.xValue;
-    this.yValue = other.yValue;
-    this.zValue = other.zValue;
-    this.drillDownSerie = other.drillDownSerie;
-    this.drillDown = other.drillDown;
-    this.data = ListUtil.copyList(other.data);
-  }
-
   @Override
   public ChartSerie copy() throws AWException {
-    return new ChartSerie(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .data(ListUtil.copyList(getData()))
+      .build();
   }
 
   /**
-   * Get data of serie
-   *
-   * @return serie data
+   * Returns is drill down
+   * @return Is drill down
    */
-  public List<ChartSeriePoint> getData() {
-    if (this.data == null) {
-      this.data = new ArrayList<>();
-    }
-    return data;
-  }
-
-  /**
-   * Set serie data
-   *
-   * @param data Serie data
-   */
-  public void setData(List<ChartSeriePoint> data) {
-    this.data = data;
-  }
-
-  /**
-   * Get serie color
-   *
-   * @return color serie
-   */
-  public String getColor() {
-    return color;
-  }
-
-  /**
-   * Set color of serie
-   *
-   * @param color Serie color
-   */
-  public void setColor(String color) {
-    this.color = color;
-  }
-
-  /**
-   * Get xAxis index of serie
-   *
-   * @return xAxis
-   */
-  public String getxAxis() {
-    return xAxis;
-  }
-
-  /**
-   * Set xAxis index to serie
-   *
-   * @param xAxis Serie x axis
-   */
-  public void setxAxis(String xAxis) {
-    this.xAxis = xAxis;
-  }
-
-  /**
-   * Get yAxis index of serie
-   *
-   * @return yAxis
-   */
-  public String getyAxis() {
-    return yAxis;
-  }
-
-  /**
-   * Set yAxis index to serie
-   *
-   * @param yAxis Serie y axis
-   */
-  public void setyAxis(String yAxis) {
-    this.yAxis = yAxis;
-  }
-
-  /**
-   * Get query field name for xValue point of serie
-   *
-   * @return xValue
-   */
-  public String getxValue() {
-    return xValue;
-  }
-
-  /**
-   * Set query field name to xValue point of serie
-   *
-   * @param xValue Serie x value
-   */
-  public void setxValue(String xValue) {
-    this.xValue = xValue;
-  }
-
-  /**
-   * Get query field name for yValue point of serie
-   *
-   * @return yValue
-   */
-  public String getyValue() {
-    return yValue;
-  }
-
-  /**
-   * Set query field name to yValue point of serie
-   *
-   * @param yValue serie y value
-   */
-  public void setyValue(String yValue) {
-    this.yValue = yValue;
-  }
-
-  /**
-   * Get query field name for z point of serie
-   *
-   * @return zValue
-   */
-  public String getzValue() {
-    return zValue;
-  }
-
-  /**
-   * Set query field name to z point of serie
-   *
-   * @param zValue serie z value
-   */
-  public void setzValue(String zValue) {
-    this.zValue = zValue;
-  }
-
-  /**
-   * Serie id for drilldown
-   *
-   * @return drillDownSerie
-   */
-  public String getDrillDownSerie() {
-    return drillDownSerie;
-  }
-
-  /**
-   * Store serie id for drilldown
-   *
-   * @param drillDownSerie Drilldown serie
-   */
-  public void setDrillDownSerie(String drillDownSerie) {
-    this.drillDownSerie = drillDownSerie;
-  }
-
-  /**
-   * Retrieve flag if serie is drilldown type
-   *
-   * @return drillDown
-   */
-  public String getDrillDown() {
-    return drillDown;
-  }
-
-  /**
-   * Store drilldown serie
-   *
-   * @param drillDown Drilldown
-   */
-  public void setDrillDown(String drillDown) {
-    this.drillDown = drillDown;
-  }
-
-  /**
-   * Flat if it's drilldown serie
-   *
-   * @return drillDown
-   */
-  public boolean isDrillDownSerie() {
-    return "true".equalsIgnoreCase(getDrillDown());
+  public boolean isDrillDown() {
+    return drillDown != null && drillDown;
   }
 
   /**
@@ -303,30 +127,30 @@ public class ChartSerie extends ChartModel {
     }
 
     // Add index xAxix
-    if (getxAxis() != null) {
-      serieNode.set(ChartConstants.X_AXIS, factory.numberNode(Integer.valueOf(getxAxis())));
+    if (getXAxis() != null) {
+      serieNode.set(ChartConstants.X_AXIS, factory.numberNode(Integer.valueOf(getXAxis())));
     }
 
     // Add index yAxix
-    if (getyAxis() != null) {
-      serieNode.set(ChartConstants.Y_AXIS, factory.numberNode(Integer.valueOf(getyAxis())));
+    if (getYAxis() != null) {
+      serieNode.set(ChartConstants.Y_AXIS, factory.numberNode(Integer.valueOf(getYAxis())));
     }
 
     // Add xValue field name
-    if (getxValue() != null && !getxValue().isEmpty()) {
-      serieNode.put(ChartConstants.X_VALUE, getxValue());
+    if (getXValue() != null && !getXValue().isEmpty()) {
+      serieNode.put(ChartConstants.X_VALUE, getXValue());
     }
     // Add yValue field name
-    if (getyValue() != null && !getyValue().isEmpty()) {
-      serieNode.put(ChartConstants.Y_VALUE, getyValue());
+    if (getYValue() != null && !getYValue().isEmpty()) {
+      serieNode.put(ChartConstants.Y_VALUE, getYValue());
     }
     // Add zValue field name
-    if (getzValue() != null && !getzValue().isEmpty()) {
-      serieNode.put(ChartConstants.Z_VALUE, getzValue());
+    if (getZValue() != null && !getZValue().isEmpty()) {
+      serieNode.put(ChartConstants.Z_VALUE, getZValue());
     }
 
     // Add drilldown serie id
-    if (getDrillDownSerie() != null) {
+    if (isDrillDown() && getDrillDownSerie() != null) {
       serieNode.put(ChartConstants.DRILL_DOWN, getDrillDownSerie());
     }
 

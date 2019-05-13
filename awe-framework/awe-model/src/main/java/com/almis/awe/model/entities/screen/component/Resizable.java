@@ -1,16 +1,15 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component;
 
-/*
- * File Imports
- */
-
 import com.almis.awe.exception.AWException;
-import com.fasterxml.jackson.annotation.JsonGetter;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Resizable Class
@@ -23,6 +22,12 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Pablo GARCIA - 05/MAY/2015
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("resizable")
 public class Resizable extends Component {
 
@@ -30,27 +35,13 @@ public class Resizable extends Component {
   // Resizable directions
   @XStreamAlias("directions")
   @XStreamAsAttribute
-  private String directions = null;
-
-  /**
-   * Default constructor
-   */
-  public Resizable() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Resizable(Resizable other) throws AWException {
-    super(other);
-    this.directions = other.directions;
-  }
+  private String directions;
 
   @Override
   public Resizable copy() throws AWException {
-    return new Resizable(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**
@@ -61,20 +52,5 @@ public class Resizable extends Component {
   @Override
   public String getComponentTag() {
     return "resizable";
-  }
-
-  /**
-   * @return the directions
-   */
-  @JsonGetter("directions")
-  public String getDirections() {
-    return directions;
-  }
-
-  /**
-   * @param directions the directions to set
-   */
-  public void setDirection(String directions) {
-    this.directions = directions;
   }
 }

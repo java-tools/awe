@@ -1,20 +1,20 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component;
-
-/*
- * File Imports
- */
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -29,6 +29,12 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("window")
 @JsonIgnoreProperties({"id"})
 public class Window extends Component {
@@ -37,27 +43,21 @@ public class Window extends Component {
   // Window can be maximized or not
   @XStreamAlias("maximize")
   @XStreamAsAttribute
-  private String maximize = null;
-
-  /**
-   * Default constructor
-   */
-  public Window() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Window(Window other) throws AWException {
-    super(other);
-    this.maximize = other.maximize;
-  }
+  private Boolean maximize;
 
   @Override
   public Window copy() throws AWException {
-    return new Window(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
+  }
+
+  /**
+   * Returns is maximizable
+   * @return Is maximizable
+   */
+  public boolean isMaximize() {
+    return maximize != null && maximize;
   }
 
   /**
@@ -76,11 +76,7 @@ public class Window extends Component {
    * @return Window allows to maximize/restore itself
    */
   public boolean allowMaximize() {
-    if ("true".equalsIgnoreCase(this.getMaximize())) {
-      return this.getLabel() != null;
-    } else {
-      return false;
-    }
+    return isMaximize() && getLabel() != null;
   }
 
   /**
@@ -90,30 +86,7 @@ public class Window extends Component {
    */
   @JsonGetter("maximize")
   public boolean getMaximizeConverter() {
-    if ("true".equalsIgnoreCase(this.getMaximize())) {
-      return this.getLabel() != null;
-    } else {
-      return false;
-    }
-  }
-
-  /**
-   * Returns if window maximizes or not
-   *
-   * @return Window has the maximize button or not
-   */
-  public String getMaximize() {
-    return maximize;
-  }
-
-
-  /**
-   * Sets if window maximizes or not
-   *
-   * @param maximize Maximize window
-   */
-  public void setMaximize(String maximize) {
-    this.maximize = maximize;
+    return allowMaximize();
   }
 
   /**
@@ -126,6 +99,7 @@ public class Window extends Component {
    * @return Print bean
    */
   @JsonIgnore
+  @Override
   public List<Element> getReportStructure(List<Element> printElementList, String label, ObjectNode parameters, String dataSuffix) {
     return super.getReportStructure(printElementList, getLabel() == null ? label : getLabel(), parameters, dataSuffix);
   }

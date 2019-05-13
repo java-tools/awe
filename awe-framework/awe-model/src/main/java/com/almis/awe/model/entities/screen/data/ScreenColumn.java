@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 /**
- * ScreenAction Class
+ * AbstractAction Class
  *
  * Used to parse screen actions with XStream
  *

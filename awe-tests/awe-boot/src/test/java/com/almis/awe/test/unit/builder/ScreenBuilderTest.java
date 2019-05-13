@@ -31,9 +31,7 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.menu.Menu;
-import com.almis.awe.model.entities.screen.Include;
-import com.almis.awe.model.entities.screen.Message;
-import com.almis.awe.model.entities.screen.Screen;
+import com.almis.awe.model.entities.screen.*;
 import com.almis.awe.model.entities.screen.View;
 import com.almis.awe.model.entities.screen.component.*;
 import com.almis.awe.model.entities.screen.component.action.ButtonAction;
@@ -57,6 +55,8 @@ import com.almis.awe.model.entities.screen.component.panelable.Accordion;
 import com.almis.awe.model.entities.screen.component.panelable.Tab;
 import com.almis.awe.model.entities.screen.component.panelable.Wizard;
 import com.almis.awe.model.entities.screen.component.pivottable.PivotTable;
+import com.almis.awe.model.entities.screen.component.widget.Widget;
+import com.almis.awe.model.entities.screen.component.widget.WidgetParameter;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -100,19 +100,19 @@ public class ScreenBuilderTest {
   public void build() throws Exception {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
-      .setHelp("HELP")
-      .setHelpImage("HELP_IMAGE")
       .setKeepCriteria(true)
-      .setLabel("LABEL")
       .setTarget("initial_target")
       .setOnLoad("OnLoad")
       .setOnUnload("OnUnLoad")
-      .setTemplate("full");
+      .setTemplate("full")
+      .setLabel("LABEL")
+      .setHelp("HELP")
+      .setHelpImage("HELP_IMAGE");
     Screen screen = builder.build();
 
     assertEquals("HELP", screen.getHelp());
     assertEquals("HELP_IMAGE", screen.getHelpImage());
-    assertEquals("true", screen.getKeepCriteria());
+    assertSame(true, screen.isKeepCriteria());
     assertEquals("LABEL", screen.getLabel());
     assertEquals("initial_target", screen.getTarget());
     assertEquals("full", screen.getTemplate());
@@ -146,15 +146,15 @@ public class ScreenBuilderTest {
   public void addTag() throws Exception {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
-      .addTag(new TagBuilder()
+      .addTag((TagBuilder) new TagBuilder()
+        .setSource(Source.CENTER.toString())
+        .setType("div")
         .setLabel("LABEL")
-        .setSource(Source.CENTER)
         .setStyle("expand")
-        .setExpandible(Expandible.VERTICAL)
-        .setType("div"));
+        .setExpandible(Expandible.VERTICAL));
     Screen screen = builder.build();
     assertEquals("LABEL", screen.getElementList().get(0).getLabel());
-    assertEquals(Source.CENTER.toString(), screen.getElementList().get(0).getSource());
+    assertEquals(Source.CENTER.toString(), screen.getElementsByType(Tag.class).get(0).getSource());
     assertEquals("expand", screen.getElementList().get(0).getStyle());
     assertTrue(Expandible.VERTICAL.equalsStr(screen.getElementList().get(0).getExpand()));
     assertEquals("div", screen.getElementList().get(0).getType());
@@ -173,8 +173,8 @@ public class ScreenBuilderTest {
         .setTitle("MESSAGE_TITLE")
         .setMessage("MESSAGE"));
     Screen screen = builder.build();
-    assertEquals("MESSAGE_TITLE", ((Message) screen.getElementList().get(0)).getTitle());
-    assertEquals("MESSAGE", ((Message) screen.getElementList().get(0)).getMessage());
+    assertEquals("MESSAGE_TITLE", screen.getElementList().get(0).getTitle());
+    assertEquals("MESSAGE", ((Message) screen.getElementList().get(0)).getText());
   }
 
   /**
@@ -187,13 +187,11 @@ public class ScreenBuilderTest {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
       .addTag(new TagBuilder()
-        .setLabel("LABEL")
         .setSource("center")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
-        .addDialog(new DialogBuilder()
-          .setLabel("DIALOG_LABEL")
-          .setOnClose(OnClose.ACCEPT)));
+        .addDialog((DialogBuilder) new DialogBuilder().setOnClose(OnClose.ACCEPT).setLabel("DIALOG_LABEL")));
 
     Screen screen = builder.build();
     assertEquals("DIALOG_LABEL", ((Dialog) screen.getElementList().get(0).getElementList().get(0)).getLabel());
@@ -209,9 +207,9 @@ public class ScreenBuilderTest {
   public void addInclude() throws Exception {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
-      .addTag(new TagBuilder()
-        .setLabel("LABEL")
+      .addTag((TagBuilder) new TagBuilder()
         .setSource("center")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
         .addInclude(new IncludeBuilder()
@@ -233,8 +231,8 @@ public class ScreenBuilderTest {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
       .addTag(new TagBuilder()
-        .setLabel("LABEL")
         .setSource("center")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
         .addView(new ViewBuilder()
@@ -253,14 +251,14 @@ public class ScreenBuilderTest {
   public void addTagList() throws Exception {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
-      .addTag(new TagBuilder()
-        .setLabel("LABEL")
+      .addTag((TagBuilder) new TagBuilder()
         .setSource("center")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
-        .addTagList(new TagListBuilder()
+        .addTagList((TagListBuilder) new TagListBuilder()
           .setAutoload(true)
-          .setAutorefresh(true)
+          .setAutorefresh(5)
           .setInitialLoad(InitialLoad.QUERY)
           .setMax(50)
           .setServerAction(ServerAction.DATA)
@@ -268,10 +266,10 @@ public class ScreenBuilderTest {
           .setType("div")));
 
     Screen screen = builder.build();
-    assertEquals("true", ((TagList) screen.getElementList().get(0).getElementList().get(0)).getAutoload());
-    assertEquals("true", ((TagList) screen.getElementList().get(0).getElementList().get(0)).getAutorefresh());
+    assertSame(true, ((TagList) screen.getElementList().get(0).getElementList().get(0)).isAutoload());
+    assertSame(5, ((TagList) screen.getElementList().get(0).getElementList().get(0)).getAutorefresh());
     assertTrue(InitialLoad.QUERY.equalsStr(((TagList) screen.getElementList().get(0).getElementList().get(0)).getInitialLoad()));
-    assertEquals("50", ((TagList) screen.getElementList().get(0).getElementList().get(0)).getMax());
+    assertSame(50, ((TagList) screen.getElementList().get(0).getElementList().get(0)).getMax());
     assertTrue(ServerAction.DATA.equalsStr(((TagList) screen.getElementList().get(0).getElementList().get(0)).getServerAction()));
     assertEquals("TagListTargetAction", ((TagList) screen.getElementList().get(0).getElementList().get(0)).getTargetAction());
     assertEquals("div", screen.getElementList().get(0).getElementList().get(0).getType());
@@ -287,19 +285,17 @@ public class ScreenBuilderTest {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
       .addTag(new TagBuilder()
-        .setLabel("LABEL")
         .setSource("center")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
         .addResizable(new ResizableBuilder()
           .setDirections("left")
-          .setIcon("icon")
           .setLabel("LABEL")));
 
     Screen screen = builder.build();
     assertEquals("left", ((Resizable) screen.getElementList().get(0).getElementList().get(0)).getDirections());
-    assertEquals("icon", ((Resizable) screen.getElementList().get(0).getElementList().get(0)).getIcon());
-    assertEquals("LABEL", ((Resizable) screen.getElementList().get(0).getElementList().get(0)).getLabel());
+    assertEquals("LABEL", screen.getElementList().get(0).getElementList().get(0).getLabel());
   }
 
   /**
@@ -312,16 +308,15 @@ public class ScreenBuilderTest {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
       .addTag(new TagBuilder()
-        .setLabel("LABEL")
         .setSource("center")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
         .addPivotTable(new PivotTableBuilder()
           .setAggregationField("agg")
           .setAggregator(Aggregator.AVERAGE)
-          .setAutoload(true)
-          .setCols(3)
-          .setRows(4)
+          .setCols("Als,Nom")
+          .setRows("Test, Tutu")
           .setDecimalNumbers(4)
           .setDecimalSeparator(",")
           .setThousandSeparator(".")
@@ -332,14 +327,15 @@ public class ScreenBuilderTest {
           .setInitialLoad(InitialLoad.QUERY)
           .setMax(50)
           .setServerAction(ServerAction.DATA)
-          .setTargetAction("targetAction")));
+          .setTargetAction("targetAction")
+          .setAutoload(true)));
 
     Screen screen = builder.build();
     assertEquals("agg", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getAggregationField());
     assertTrue(Aggregator.AVERAGE.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getAggregator()));
-    assertEquals("true", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getAutoload());
-    assertEquals("3", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getCols());
-    assertEquals("4", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getRows());
+    assertSame(true, ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).isAutoload());
+    assertSame("Als,Nom", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getCols());
+    assertSame("Test, Tutu", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getRows());
     assertSame(4, ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getDecimalNumbers());
     assertEquals(",", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getDecimalSeparator());
     assertEquals(".", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getThousandSeparator());
@@ -348,7 +344,7 @@ public class ScreenBuilderTest {
     assertTrue(TotalRowPlacement.BOTTOM.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getTotalRowPlacement()));
     assertTrue(SortMethod.ABSOLUTE.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getSortMethod()));
     assertTrue(InitialLoad.QUERY.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getInitialLoad()));
-    assertEquals("50", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getMax());
+    assertSame(50, ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getMax());
     assertTrue(ServerAction.DATA.equalsStr(((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getServerAction()));
     assertEquals("targetAction", ((PivotTable) screen.getElementList().get(0).getElementList().get(0)).getTargetAction());
   }
@@ -363,21 +359,21 @@ public class ScreenBuilderTest {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
       .addTag(new TagBuilder()
-        .setLabel("LABEL")
         .setSource("center")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
         .addWindow(new WindowBuilder()
+          .setMaximize(true)
           .setIcon("icon")
           .setLabel("LABEL")
-          .setStyle("style")
-          .setMaximize(true)));
+          .setStyle("style")));
 
     Screen screen = builder.build();
     assertEquals("icon", ((Window) screen.getElementList().get(0).getElementList().get(0)).getIcon());
-    assertEquals("LABEL", ((Window) screen.getElementList().get(0).getElementList().get(0)).getLabel());
-    assertEquals("style", ((Window) screen.getElementList().get(0).getElementList().get(0)).getStyle());
-    assertEquals("true", ((Window) screen.getElementList().get(0).getElementList().get(0)).getMaximize());
+    assertEquals("LABEL", screen.getElementList().get(0).getElementList().get(0).getLabel());
+    assertEquals("style", screen.getElementList().get(0).getElementList().get(0).getStyle());
+    assertEquals(true, ((Window) screen.getElementList().get(0).getElementList().get(0)).isMaximize());
   }
 
   /**
@@ -390,8 +386,8 @@ public class ScreenBuilderTest {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
       .addTag(new TagBuilder()
-        .setLabel("LABEL")
         .setSource("center")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
         .addMenuContainer(new MenuContainerBuilder()
@@ -413,8 +409,8 @@ public class ScreenBuilderTest {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
       .addTag(new TagBuilder()
-        .setLabel("LABEL")
         .setSource("center")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
         .addFrame(new FrameBuilder()
@@ -426,7 +422,7 @@ public class ScreenBuilderTest {
     Screen screen = builder.build();
     assertEquals("screen", ((Frame) screen.getElementList().get(0).getElementList().get(0)).getScreen());
     assertEquals("var", ((Frame) screen.getElementList().get(0).getElementList().get(0)).getScreenVariable());
-    assertEquals("true", ((Frame) screen.getElementList().get(0).getElementList().get(0)).getScroll());
+    assertSame(true, ((Frame) screen.getElementList().get(0).getElementList().get(0)).isScroll());
     assertTrue(ServerAction.APPLICATION_HELP.equalsStr(((Frame) screen.getElementList().get(0).getElementList().get(0)).getServerAction()));
   }
 
@@ -440,8 +436,8 @@ public class ScreenBuilderTest {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
       .addTag(new TagBuilder()
-        .setLabel("LABEL")
         .setSource("center")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
         .addAccordion(new AccordionBuilder()
@@ -455,7 +451,7 @@ public class ScreenBuilderTest {
             .setLabel("OTHER_LABEL"))));
 
     Screen screen = builder.build();
-    assertEquals("true", ((Accordion) screen.getElementList().get(0).getElementList().get(0)).getAutocollapse());
+    assertSame(true, ((Accordion) screen.getElementList().get(0).getElementList().get(0)).isAutocollapse());
     assertEquals("selected", ((Accordion) screen.getElementList().get(0).getElementList().get(0)).getSelected());
     assertEquals("notSelected", ((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0)).getId());
     assertEquals("LABEL", ((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0)).getLabel());
@@ -473,8 +469,8 @@ public class ScreenBuilderTest {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
       .addTag(new TagBuilder()
-        .setLabel("LABEL")
         .setSource("buttons")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
         .addButton(new ButtonBuilder()
@@ -511,8 +507,8 @@ public class ScreenBuilderTest {
     assertTrue(Action.ADD_CLASS.equalsStr(buttonAction.getType()));
     assertEquals("targetAction1", buttonAction.getTargetAction());
     assertEquals("target1", buttonAction.getTarget());
-    assertEquals("true", buttonAction.getAsync());
-    assertEquals("true", buttonAction.getSilent());
+    assertSame(true, buttonAction.isAsync());
+    assertSame(true, buttonAction.isSilent());
     assertEquals("buttonValue1", buttonAction.getValue());
     assertEquals("home", buttonAction.getScreenContext());
 
@@ -521,8 +517,8 @@ public class ScreenBuilderTest {
     assertTrue(Action.SERVER.equalsStr(buttonAction.getType()));
     assertEquals("targetAction2", buttonAction.getTargetAction());
     assertEquals("target2", buttonAction.getTarget());
-    assertEquals("false", buttonAction.getAsync());
-    assertEquals("false", buttonAction.getSilent());
+    assertSame(false, buttonAction.isAsync());
+    assertSame(false, buttonAction.isSilent());
     assertEquals("buttonValue2", buttonAction.getValue());
     assertEquals("home", buttonAction.getScreenContext());
   }
@@ -537,15 +533,15 @@ public class ScreenBuilderTest {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
       .addTag(new TagBuilder()
-        .setLabel("LABEL")
         .setSource("buttons")
+        .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
         .addChart(new ChartBuilder()
           .setStockChart(true)
           .setAutoload(true)
           .setId("chart1")
-          .setAutorefresh(true)
+          .setAutorefresh(5)
           .setEnableDataLabels(true)
           .setFormatDataLabels("formatDataLabels")
           .setIconLoading(IconLoading.CIRCLEBAR)
@@ -555,7 +551,7 @@ public class ScreenBuilderTest {
           .setTheme("chartTheme")
           .setVisible(false)
           .setSubtitle("SUBTITLE")
-          .setType(ChartType.BUBBLE)
+          .setChartType(ChartType.BUBBLE)
           .setZoomType(ChartAxis.Y_AXIS)
           .setChartLegend(new ChartLegendBuilder()
             .setChartLayout(ChartLayout.HORIZONTAL)
@@ -577,21 +573,21 @@ public class ScreenBuilderTest {
             .setName("parameterName")
             .setValue("0.1213"))
           .addChartSerieList(new ChartSerieBuilder()
+            .setDrillDown(true)
             .setColor("red")
-            .setDrilldown(true)
-            .setxAxis("xAxis")
-            .setyAxis("yAxis")
-            .setxValue("x")
-            .setyValue("y")
-            .setzValue("z")
-            .setDrilldownSerie("drilldownSerie"))
+            .setXAxis("xAxis")
+            .setYAxis("yAxis")
+            .setXValue("x")
+            .setYValue("y")
+            .setZValue("z")
+            .setDrillDownSerie("drilldownSerie"))
           .addContextButton(new ContextButtonBuilder()
-            .setLabel("LABEL")
             .setButtonType(ButtonType.BUTTON)
+            .setValue("value")
             .setIcon("icon")
             .setSize("sm")
-            .setValue("value"))
-          .addContextButton(new ContextSeparatorBuilder())
+            .setLabel("LABEL"))
+          .addContextSeparator(new ContextSeparatorBuilder())
           .addDependency(new DependencyBuilder()
             .setFormule("formule")
             .setInitial(true)
@@ -608,7 +604,7 @@ public class ScreenBuilderTest {
               .setTarget("target")
               .setAsynchronous(true)
               .setContext("context")
-              .setType(DependencyActionType.ADD_ROW)
+              .setType(Action.ADD_ROW)
               .setSilent(true)
               .setValue("value"))
             .addDependencyElement(new DependencyElementBuilder()
@@ -623,28 +619,28 @@ public class ScreenBuilderTest {
               .setColumn2("column2")
               .setEvent(Event.AFTER_ADD_ROW)
               .setId2("id2")))
-          .addXAxis(new AxisBuilder()
+          .addAxis(new AxisBuilder()
             .setFormatterFunction(FormatterFunction.FORMAT_CURRENCY_MAGNITUDE)
             .setType(AxisDataType.CATEGORY))
-          .addYAxis(new AxisBuilder()
+          .addAxis(new AxisBuilder()
             .setAllowDecimal(true))
-          .setType(ChartType.BUBBLE)));
+          .setChartType(ChartType.BUBBLE)));
 
     Screen screen = builder.build();
     Chart chart = (Chart) screen.getElementList().get(0).getElementList().get(0);
 
-    assertEquals("true", chart.getStockChart());
-    assertEquals("true", chart.getAutoload());
+    assertSame(true, chart.isStockChart());
+    assertSame(true, chart.isAutoload());
     assertEquals("chart1", chart.getId());
-    assertEquals("true", chart.getAutorefresh());
-    assertEquals("true", chart.getEnableDataLabels());
+    assertSame(5, chart.getAutorefresh());
+    assertSame(true, chart.isEnableDataLabels());
     assertEquals("formatDataLabels", chart.getFormatDataLabels());
     assertTrue(IconLoading.CIRCLEBAR.equalsStr(chart.getIconLoading()));
     assertTrue(Stacking.PERCENT.equalsStr(chart.getStacking()));
-    assertEquals("true", chart.getInverted());
-    assertEquals("45", chart.getMax());
+    assertSame(true, chart.isInverted());
+    assertSame(45, chart.getMax());
     assertEquals("chartTheme", chart.getTheme());
-    assertEquals("false", chart.getVisible());
+    assertSame(false, chart.isVisible());
     assertEquals("SUBTITLE", chart.getSubTitle());
     assertEquals(chart.getType(), ChartType.BUBBLE.toString());
     assertTrue(ChartAxis.Y_AXIS.equalsStr(chart.getZoomType()));
@@ -652,19 +648,19 @@ public class ScreenBuilderTest {
     ChartLegend chartLegend = chart.getChartLegend();
     assertTrue(ChartLayout.HORIZONTAL.equalsStr(chartLegend.getLayout()));
     assertTrue(Align.CENTER.equalsStr(chartLegend.getAlign()));
-    assertEquals("true", chartLegend.getEnabled());
-    assertEquals("true", chartLegend.getFloating());
-    assertEquals("2", chartLegend.getBorderWidth());
+    assertSame(true, chartLegend.isEnabled());
+    assertSame(true, chartLegend.isFloating());
+    assertSame(2, chartLegend.getBorderWidth());
 
     ChartTooltip chartTooltip = chart.getChartTooltip();
     assertTrue(ChartAxis.ALL.equalsStr(chartTooltip.getCrosshairs()));
-    assertEquals("true", chartTooltip.getEnabled());
-    assertEquals("4", chartTooltip.getNumberDecimals());
+    assertSame(true, chartTooltip.isEnabled());
+    assertSame(4, chartTooltip.getNumberDecimals());
     assertEquals("pointFormat", chartTooltip.getPointFormat());
-    assertEquals("pre", chartTooltip.getPreffix());
+    assertEquals("pre", chartTooltip.getPrefix());
     assertEquals("post", chartTooltip.getSuffix());
     assertEquals("yyyymmdd", chartTooltip.getDateFormat());
-    assertEquals("true", chartTooltip.getShared());
+    assertSame(true, chartTooltip.isShared());
 
     ChartParameter chartParameter = (ChartParameter) chart.getElementList().get(0);
     assertTrue(DataType.DOUBLE.equalsStr(chartParameter.getType()));
@@ -674,12 +670,12 @@ public class ScreenBuilderTest {
 
     ChartSerie chartSerie = (ChartSerie) chart.getElementList().get(1);
     assertEquals("red", chartSerie.getColor());
-    assertEquals("true", chartSerie.getDrillDown());
-    assertEquals("xAxis", chartSerie.getxAxis());
-    assertEquals("yAxis", chartSerie.getyAxis());
-    assertEquals("x", chartSerie.getxValue());
-    assertEquals("y", chartSerie.getyValue());
-    assertEquals("z", chartSerie.getzValue());
+    assertSame(true, chartSerie.isDrillDown());
+    assertEquals("xAxis", chartSerie.getXAxis());
+    assertEquals("yAxis", chartSerie.getYAxis());
+    assertEquals("x", chartSerie.getXValue());
+    assertEquals("y", chartSerie.getYValue());
+    assertEquals("z", chartSerie.getZValue());
     assertEquals("drilldownSerie", chartSerie.getDrillDownSerie());
 
     ContextButton contextButton = (ContextButton) chart.getElementList().get(2);
@@ -692,8 +688,8 @@ public class ScreenBuilderTest {
     ContextSeparator contextSeparator = (ContextSeparator) chart.getElementList().get(3);
     Dependency dependency = (Dependency) chart.getElementList().get(4);
     assertEquals("formule", dependency.getFormule());
-    assertEquals("true", dependency.getInitial());
-    assertEquals("true", dependency.getInvert());
+    assertSame(true, dependency.isInitial());
+    assertSame(true, dependency.isInvert());
     assertEquals("LABEL", dependency.getLabel());
     assertTrue(ServerAction.CONTROL.equalsStr(dependency.getServerAction()));
     assertTrue(SourceType.QUERY.equalsStr(dependency.getSourceType()));
@@ -705,16 +701,16 @@ public class ScreenBuilderTest {
     assertTrue(ServerAction.GET_SERVER_FILE.equalsStr(dependencyAction.getServerAction()));
     assertEquals("TargetAction", dependencyAction.getTargetAction());
     assertEquals("target", dependencyAction.getTarget());
-    assertEquals("true", dependencyAction.getAsync());
+    assertSame(true, dependencyAction.isAsync());
     assertEquals("context", dependencyAction.getScreenContext());
-    assertTrue(DependencyActionType.ADD_ROW.equalsStr(dependencyAction.getType()));
-    assertEquals("true", dependencyAction.getSilent());
+    assertTrue(Action.ADD_ROW.equalsStr(dependencyAction.getType()));
+    assertSame(true, dependencyAction.isSilent());
     assertEquals("value", dependencyAction.getValue());
 
     DependencyElement dependencyElement = (DependencyElement) dependency.getElementList().get(1);
     assertEquals("alias", dependencyElement.getAlias());
     assertEquals("id", dependencyElement.getId());
-    assertEquals("false", dependencyElement.getCancel());
+    assertSame(false, dependencyElement.isCancel());
     assertTrue(Attribute.CURRENT_ROW_VALUE.equalsStr(dependencyElement.getAttribute()));
     assertEquals("column", dependencyElement.getColumn());
     assertEquals(com.almis.awe.builder.enumerates.View.REPORT.toString(), dependencyElement.getView());
@@ -744,7 +740,7 @@ public class ScreenBuilderTest {
           .setSize("sm")
           .setAreaRows(3)
           .setAutoload(false)
-          .setAutorefresh(true)
+          .setAutorefresh(5)
           .setCapitalize(true)
           .setChecked(true)
           .setCheckEmpty(true)
@@ -756,7 +752,7 @@ public class ScreenBuilderTest {
           .setDateViewMode(DateViewMode.MONTHS)
           .setDestination("destination")
           .setGroup("group")
-          .setLeftLabel("leftLabel")
+          .setLeftLabel(20)
           .setNumberFormat("numberFormat")
           .setPlaceholder("placeholder")
           .setPrintable(Printable.EXCEL)
@@ -782,38 +778,38 @@ public class ScreenBuilderTest {
     Criteria criterion = (Criteria) screen.getElementList().get(0).getElementList().get(0);
     assertEquals("criterion_icon", criterion.getIcon());
     assertEquals("sm", criterion.getSize());
-    assertEquals("3", criterion.getAreaRows());
-    assertEquals("false", criterion.getAutoload());
-    assertEquals("true", criterion.getAutorefresh());
-    assertEquals("true", criterion.getCapitalize());
-    assertEquals("true", criterion.getChecked());
-    assertEquals("true", criterion.getCheckEmpty());
-    assertEquals("true", criterion.getCheckInitial());
+    assertSame(3, criterion.getAreaRows());
+    assertSame(false, criterion.isAutoload());
+    assertSame(5, criterion.getAutorefresh());
+    assertSame(true, criterion.isCapitalize());
+    assertSame(true, criterion.isChecked());
+    assertSame(true, criterion.isCheckEmpty());
+    assertSame(true, criterion.isCheckInitial());
     assertEquals("checkTarget", criterion.getCheckTarget());
     assertEquals(criterion.getComponentType(), Component.CHECKBOX.toString());
     assertEquals("dd/mm/yyyy", criterion.getDateFormat());
-    assertEquals("true", criterion.getShowTodayButton());
+    assertSame(true, criterion.isShowTodayButton());
     assertEquals(criterion.getDateViewMode(), DateViewMode.MONTHS.toString());
     assertEquals("destination", criterion.getDestination());
     assertEquals("group", criterion.getGroup());
-    assertEquals("leftLabel", criterion.getLeftLabel());
+    assertSame(20, criterion.getLeftLabel());
     assertEquals("numberFormat", criterion.getNumberFormat());
     assertEquals("placeholder", criterion.getPlaceholder());
     assertEquals(criterion.getPrintable(), Printable.EXCEL.toString());
-    assertEquals("true", criterion.getReadonly());
-    assertEquals("true", criterion.getStrict());
+    assertSame(true, criterion.isReadonly());
+    assertSame(true, criterion.isStrict());
     assertEquals("proper.ty", criterion.getProperty());
-    assertEquals("true", criterion.getShowFutureDates());
-    assertEquals("false", criterion.getShowSlider());
-    assertEquals("true", criterion.getShowWeekends());
+    assertSame(true, criterion.isShowFutureDates());
+    assertSame(false, criterion.isShowSlider());
+    assertSame(true, criterion.isShowWeekends());
     assertEquals("unit1", criterion.getUnit());
     assertEquals("required", criterion.getValidation());
     assertEquals("variable1", criterion.getVariable());
-    assertEquals("true", criterion.getVisible());
-    assertEquals("10", criterion.getTimeout());
+    assertSame(true, criterion.isVisible());
+    assertSame(10, criterion.getTimeout());
     assertEquals("specific", criterion.getSpecific());
     assertEquals("sessionVariable", criterion.getSession());
-    assertEquals("true", criterion.getOptional());
+    assertSame(true, criterion.isOptional());
     assertEquals("MESSAGE", criterion.getMessage());
     assertEquals("asada", criterion.getValue());
     assertEquals("criterion1", criterion.getId());
@@ -836,7 +832,7 @@ public class ScreenBuilderTest {
         .addGrid(new GridBuilder()
           .setTreeGrid(true)
           .setAutoload(true)
-          .setAutorefresh(true)
+          .setAutorefresh(5)
           .setCheckMultiselect(true)
           .setEditable(true)
           .setExpandColumn("name")
@@ -860,11 +856,10 @@ public class ScreenBuilderTest {
           .setShowTotals(true)
           .setTreeLeaf("treeLeaf")
           .addGroupHeader(new GroupHeaderBuilder()
-            .setName("groupHeader1")
             .setLabel("LABEL1")
             .addColumnList(new ColumnBuilder()
               .setIcon("criterion_icon")
-              .setAutorefresh(true)
+              .setAutorefresh(5)
               .setChecked(true)
               .setCheckInitial(true)
               .setComponent(Component.CHECKBOX)
@@ -890,52 +885,52 @@ public class ScreenBuilderTest {
     GroupHeader header = grid.getGroupHeaderModel().get(0);
     Column column = (Column) header.getElementList().get(0);
 
-    assertEquals(true, grid.isTreegrid());
-    assertEquals("true", grid.getAutoload());
-    assertEquals("true", grid.getAutorefresh());
-    assertEquals("true", grid.getCheckboxMultiselect());
-    assertEquals("true", grid.getEditable());
+    assertSame(true, grid.isTreegrid());
+    assertSame(true, grid.isAutoload());
+    assertSame(5, grid.getAutorefresh());
+    assertSame(true, grid.isCheckboxMultiselect());
+    assertSame(true, grid.isEditable());
     assertEquals("name", grid.getExpandColumn());
     assertEquals("iconCollapse", grid.getIconCollapse());
     assertEquals("iconLeaf", grid.getIconLeaf());
     assertEquals(IconLoading.CIRCLES.toString(), grid.getIconLoading());
-    assertEquals("2", grid.getInitialLevel());
+    assertSame(2, grid.getInitialLevel());
     assertEquals(InitialLoad.QUERY.toString(), grid.getInitialLoad());
-    assertEquals("true", grid.getMultiselect());
+    assertSame(true, grid.isMultiselect());
     assertEquals("grid1", grid.getName());
     assertEquals("10,20,30", grid.getPagerValues());
-    assertEquals("true", grid.getDisablePagination());
-    assertEquals("true", grid.getRowNumbers());
-    assertEquals("true", grid.getSendAll());
-    assertEquals("false", grid.getSendOperations());
+    assertSame(true, grid.isDisablePagination());
+    assertSame(true, grid.isRowNumbers());
+    assertSame(true, grid.isSendAll());
+    assertSame(false, grid.isMultioperation());
     assertEquals(ServerAction.DATA.toString(), grid.getServerAction());
     assertEquals("lalal", grid.getTargetAction());
-    assertEquals(true, grid.isValidateOnSave());
+    assertSame(true, grid.isValidateOnSave());
     assertEquals("treeId", grid.getTreeId());
-    assertEquals("true", grid.getLoadAll());
-    assertEquals("true", grid.getShowTotals());
+    assertSame(true, grid.isLoadAll());
+    assertSame(true, grid.isShowTotals());
     assertEquals("treeLeaf", grid.getTreeLeaf());
 
     assertEquals("LABEL1", header.getLabel());
 
     assertEquals("criterion_icon", column.getIcon());
-    assertEquals("true", column.getAutorefresh());
-    assertEquals("true", column.getChecked());
-    assertEquals("true", column.getCheckInitial());
+    assertSame(5, column.getAutorefresh());
+    assertSame(true, column.isChecked());
+    assertSame(true, column.isCheckInitial());
     assertEquals(Component.CHECKBOX.toString(), column.getComponentType());
     assertEquals("dd/mm/yyyy", column.getDateFormat());
-    assertEquals("true", column.getShowTodayButton());
+    assertSame(true, column.isShowTodayButton());
     assertEquals(DateViewMode.MONTHS.toString(), column.getDateViewMode());
     assertEquals("numberFormat", column.getNumberFormat());
     assertEquals(Printable.EXCEL.toString(), column.getPrintable());
-    assertEquals("true", column.getReadonly());
-    assertEquals("true", column.getStrict());
-    assertEquals("true", column.getShowFutureDates());
-    assertEquals("true", column.getShowWeekends());
+    assertSame(true, column.isReadonly());
+    assertSame(true, column.isStrict());
+    assertSame(true, column.isShowFutureDates());
+    assertSame(true, column.isShowWeekends());
     assertEquals("unit1", column.getUnit());
     assertEquals("required", column.getValidation());
-    assertEquals("true", column.getVisible());
-    assertEquals("true", column.getOptional());
+    assertSame(true, column.isVisible());
+    assertSame(true, column.isOptional());
     assertEquals("asada", column.getValue());
   }
 
@@ -1003,7 +998,7 @@ public class ScreenBuilderTest {
     Tab tab = (Tab) screen.getElementList().get(0).getElementList().get(0);
     TabContainer tabContainer = (TabContainer) tab.getElementList().get(0);
     assertEquals(InitialLoad.ENUMERATED.toString(), tab.getInitialLoad());
-    assertEquals("true", tab.getMaximize());
+    assertSame(true, tab.isMaximize());
     assertEquals("tab1", tab.getId());
     assertEquals("LABEL", tabContainer.getLabel());
     assertEquals("div", tabContainer.getType());

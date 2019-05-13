@@ -12,7 +12,7 @@ import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.Global;
-import com.almis.awe.model.entities.XMLWrapper;
+import com.almis.awe.model.entities.XMLFile;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.entities.locale.Locales;
@@ -166,10 +166,10 @@ public class LiteralsService extends ServiceConfig {
     try {
       storeUpdatedLocale(codeLang.toUpperCase(), code, text, markdown, formatSelector);
     } catch (Exception exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_STORING_TRANSLATION"), getElements().getLocale("ERROR_MESSAGE_STORING_TRANSLATION", new String[] { code, text }), exc);
+      throw new AWException(getElements().getLocale("ERROR_TITLE_STORING_TRANSLATION"), getElements().getLocale("ERROR_MESSAGE_STORING_TRANSLATION", code, text), exc);
     }
 
-    String value = "";
+    String value;
     if (FormatType.TEXT.toString().equalsIgnoreCase(formatSelector)) {
       value = text;
     } else {
@@ -185,8 +185,8 @@ public class LiteralsService extends ServiceConfig {
     // Build address of cell
     ComponentAddress address = new ComponentAddress(null, null, "report", null, "GrdTraLit", codeLang, "lite");
     updateCell.setAddress(address);
-    updateCell.setAsync("true");
-    updateCell.setSilent("true");
+    updateCell.setAsync(true);
+    updateCell.setSilent(true);
     updateCell.addParameter("data", new CellData(value));
 
     // Add action to list
@@ -199,8 +199,8 @@ public class LiteralsService extends ServiceConfig {
       // Build address of cell
       address = new ComponentAddress(null, null, "report", null, "GrdStrLit", code, "lit");
       updateCell.setAddress(address);
-      updateCell.setAsync("true");
-      updateCell.setSilent("true");
+      updateCell.setAsync(true);
+      updateCell.setSilent(true);
       updateCell.addParameter("data", new CellData(value));
 
       // Add action to list
@@ -662,8 +662,8 @@ public class LiteralsService extends ServiceConfig {
    *
    * @return Xml file object
    */
-  private XMLWrapper readXmlFile(Class<? extends XMLWrapper> fileClass, String path) {
-    XMLWrapper xml = null;
+  private XMLFile readXmlFile(Class<? extends XMLFile> fileClass, String path) {
+    XMLFile xml = null;
     try {
       // Unmarshall XML
       File file = new File(path);

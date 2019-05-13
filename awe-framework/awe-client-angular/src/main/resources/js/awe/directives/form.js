@@ -1,5 +1,6 @@
 import { aweApplication } from "./../awe";
 import { ClientActions } from "../data/actions";
+import _ from "lodash";
 
 // Form directive
 aweApplication.directive('aweForm',
@@ -439,7 +440,7 @@ aweApplication.directive('aweForm',
           ActionController.deleteStack();
         }
       };
-      var Form = {
+      const Form = {
         restrict: 'A',
         link: function (scope, elem) {
           // Store element in scope

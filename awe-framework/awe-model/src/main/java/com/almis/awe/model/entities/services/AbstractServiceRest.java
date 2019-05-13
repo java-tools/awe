@@ -1,20 +1,15 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.services;
 
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.XMLWrapper;
-import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
-/*
- * File Imports
- */
 
 /**
  * ServiceRest Class
@@ -27,7 +22,11 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 18/MAY/2018
  */
-public abstract class AbstractServiceRest extends XMLWrapper implements ServiceType {
+@Getter
+@Setter
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+public abstract class AbstractServiceRest implements ServiceType {
 
   private static final long serialVersionUID = 7493053120314893763L;
 
@@ -53,117 +52,5 @@ public abstract class AbstractServiceRest extends XMLWrapper implements ServiceT
 
   // Input Parameter List
   @XStreamImplicit
-  private List<ServiceInputParameter> parameters;
-
-  /**
-   * Default constructor
-   */
-  public AbstractServiceRest() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public AbstractServiceRest(AbstractServiceRest other) throws AWException {
-    super(other);
-    this.endpoint = other.endpoint;
-    this.method = other.method;
-    this.contentType = other.contentType;
-    this.wrapper = other.wrapper;
-    this.parameters = ListUtil.copyList(other.parameters);
-  }
-
-  /**
-   * Returns the endpoint to access the rest service
-   *
-   * @return Endpoint
-   */
-  public String getEndpoint() {
-    return endpoint;
-  }
-
-  /**
-   * Stores the endpoint to access the rest service
-   *
-   * @param endpoint
-   */
-  public void setEndpoint(String endpoint) {
-    this.endpoint = endpoint;
-  }
-
-  /**
-   * Returns the wrapper class to handle the response
-   *
-   * @return Wrapper
-   */
-  public String getWrapper() {
-    return wrapper;
-  }
-
-  /**
-   * Stores the wrapper class to handle the response
-   *
-   * @param wrapper
-   */
-  public void setWrapper(String wrapper) {
-    this.wrapper = wrapper;
-  }
-
-  /**
-   * Stores web method used to access the rest service (GET/POST/PUT/DELETE)
-   *
-   * @param method Web Services Server URL
-   */
-  public void setMethod(String method) {
-    this.method = method;
-  }
-
-  /**
-   * Returns web method (GET/POST/PUT/DELETE)
-   *
-   * @return method
-   */
-  public String getMethod() {
-    return method;
-  }
-
-  /**
-   * Get content type (JSON/URLENCODED)
-   *
-   * @return
-   */
-  public String getContentType() {
-    return contentType;
-  }
-
-  /**
-   * Set content type (JSON/URLENCODED)
-   *
-   * @param contentType
-   */
-  public void setContentType(String contentType) {
-    this.contentType = contentType;
-  }
-
-  /**
-   * Retrieves the parameter list
-   *
-   * @return Parameter list
-   */
-  @Override
-  public List<ServiceInputParameter> getParameterList() {
-    return this.parameters;
-  }
-
-  /**
-   * Stores parameter list
-   *
-   * @param parameters Parameter list
-   */
-  @Override
-  public void setParameterList(List<ServiceInputParameter> parameters) {
-    this.parameters = parameters;
-  }
+  private List<ServiceInputParameter> parameterList;
 }

@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "./../../services/dialog";
 
 // Column dialog directive
 aweApplication.directive('aweColumnDialog',

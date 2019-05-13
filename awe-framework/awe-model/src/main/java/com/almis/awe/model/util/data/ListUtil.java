@@ -20,22 +20,33 @@ import java.util.Map;
  */
 public final class ListUtil {
 
-  private ListUtil() {}
+  private ListUtil() {
+  }
+
+  /**
+   * Copy a single element
+   *
+   * @param element Element to copy
+   * @param <T>     Element class
+   * @return Copy of element
+   */
+  public static <T extends Copyable> T copyElement(T element) throws AWException {
+    return element == null ? null : element.copy();
+  }
 
   /**
    * Get a copy of a list
    *
    * @param source Source list
-   * @param clazz Element class
-   * @param <T> Element type
+   * @param clazz  Element class
+   * @param <T>    Element type
    * @return Copied list
-   * @throws AWException Error generating a new instance of an element
    */
-  public static <T> List<T> copyList(List<T> source, Class<T> clazz) throws AWException {
-    try {
-      List<T> copy = null;
-      Constructor<T> constructor = clazz.getConstructors().length > 1 ? clazz.getConstructor(clazz) : null;
-      if (source != null) {
+  public static <T> List<T> copyList(List<T> source, Class<T> clazz) {
+    List<T> copy = null;
+    if (source != null) {
+      try {
+        Constructor<T> constructor = clazz.getConstructors().length > 1 ? clazz.getConstructor(clazz) : null;
         copy = source.getClass().newInstance();
         for (T item : source) {
           if (constructor != null) {
@@ -44,51 +55,51 @@ public final class ListUtil {
             copy.add(item);
           }
         }
+
+      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
+        copy = new ArrayList<>();
       }
-      return copy;
-    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
-      throw new AWException(String.format("Error copying list %s of type %s", source, clazz.getName()), exc);
     }
+    return copy;
   }
 
   /**
    * Get a copy of a list
    *
    * @param source Source list
-   * @param <T> Element type
+   * @param <T>    Element type
    * @return Copied list
    * @throws AWException Error generating a new instance of an element
    */
   public static <T extends Copyable> List<T> copyList(List<T> source) throws AWException {
-    try {
-      List<T> copy = null;
-      if (source != null) {
+    List<T> copy = null;
+    if (source != null) {
+      try {
         Constructor<? extends List> constructor = source.getClass().getConstructor();
         copy = constructor.newInstance();
         for (T item : source) {
           copy.add(item.copy());
         }
+      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
+        copy = new ArrayList<>();
       }
-      return copy;
-    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
-      throw new AWException(String.format("Error copying list %s", source), exc);
     }
+    return copy;
   }
 
   /**
    * Get a copy of a map
    *
    * @param source Source map
-   * @param clazz Element class
-   * @param <T> Element type
+   * @param clazz  Element class
+   * @param <T>    Element type
    * @return Copied map
-   * @throws AWException Error generating a new instance of an element
    */
-  public static <T> Map<String, T> copyMap(Map<String, T> source, Class<T> clazz) throws AWException {
-    try {
-      Map<String, T> copy = null;
-      Constructor<T> constructor = clazz.getConstructors().length > 1 ? clazz.getConstructor(clazz) : null;
-      if (source != null) {
+  public static <T> Map<String, T> copyMap(Map<String, T> source, Class<T> clazz) {
+    Map<String, T> copy = null;
+    if (source != null) {
+      try {
+        Constructor<T> constructor = clazz.getConstructors().length > 1 ? clazz.getConstructor(clazz) : null;
         copy = source.getClass().newInstance();
         for (Map.Entry<String, T> entry : source.entrySet()) {
           if (constructor != null) {
@@ -99,42 +110,43 @@ public final class ListUtil {
             copy.put(entry.getKey(), entry.getValue());
           }
         }
+      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
+        copy = new HashMap<>();
       }
-      return copy;
-    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
-      throw new AWException(String.format("Error copying map %s of type %s", source, clazz.getName()), exc);
     }
+    return copy;
   }
 
   /**
    * Get a copy of a map
    *
    * @param source Source map
-   * @param <T> Element type
+   * @param <T>    Element type
    * @return Copied map
    * @throws AWException Error generating a new instance of an element
    */
   public static <T extends Copyable> Map<String, T> copyMap(Map<String, T> source) throws AWException {
-    try {
-      Map<String, T> copy = null;
-      if (source != null) {
+    Map<String, T> copy = null;
+    if (source != null) {
+      try {
         Constructor<? extends Map> constructor = source.getClass().getConstructor();
         copy = constructor.newInstance();
         for (Map.Entry<String, T> item : source.entrySet()) {
           copy.put(item.getKey(), item.getValue() == null ? null : item.getValue().copy());
         }
+      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
+        copy = new HashMap<>();
       }
-      return copy;
-    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
-      throw new AWException(String.format("Error copying map %s", source), exc);
     }
+    return copy;
   }
 
   /**
    * Serialize list
-   * @param out Output stream
+   *
+   * @param out  Output stream
    * @param list List
-   * @param <T> Class
+   * @param <T>  Class
    * @throws IOException Error accessing to IO
    */
   public static <T> void writeList(ObjectOutputStream out, List<T> list) throws IOException {
@@ -148,9 +160,10 @@ public final class ListUtil {
 
   /**
    * Deserialize list
-   * @param in Input stream
+   *
+   * @param in  Input stream
    * @param <T> Class
-   * @throws IOException Error accessing to IO
+   * @throws IOException            Error accessing to IO
    * @throws ClassNotFoundException Class not found
    */
   public static <T> List<T> readList(ObjectInputStream in, Class<T> clazz) throws IOException, ClassNotFoundException {
@@ -170,6 +183,7 @@ public final class ListUtil {
 
   /**
    * Serialize list
+   *
    * @param out Output stream
    * @param map List
    * @param <T> Class
@@ -187,9 +201,10 @@ public final class ListUtil {
 
   /**
    * Deserialize list
-   * @param in Input stream
+   *
+   * @param in  Input stream
    * @param <T> Class
-   * @throws IOException Error accessing to IO
+   * @throws IOException            Error accessing to IO
    * @throws ClassNotFoundException Class not found
    */
   public static <T> Map<String, T> readMap(ObjectInputStream in, Class<T> clazz) throws IOException, ClassNotFoundException {

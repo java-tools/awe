@@ -68,7 +68,7 @@ This is example of json output
   "result" : {
     "code" : 0,
     "type" : "ok",
-    "description" : "Service rest login launched succesfully"
+    "description" : "Service rest login launched successfully"
   }
 }
 ```
@@ -101,7 +101,7 @@ This is example of json output
   "result" : {
     "code" : 0,
     "type" : "ok",
-    "description" : "Service rest DATA launched succesfully"
+    "description" : "Service rest DATA launched successfully"
   },
   "records" : 1,
   "rows" : [ {
@@ -167,7 +167,7 @@ This is example of json output
 {
   "code" : 0,
   "type" : "ok",
-  "description" : "The selected maintain operation has been succesfully performed"
+  "description" : "The selected maintain operation has been successfully performed"
 }
 ```
 

@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "bootstrap-tabdrop";
 
 // Tabdrop plugin
 aweApplication.directive('uiTabdrop',

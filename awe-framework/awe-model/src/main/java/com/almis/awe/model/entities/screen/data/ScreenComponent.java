@@ -11,7 +11,7 @@ import com.almis.awe.model.entities.screen.component.Component;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
- * ScreenAction Class
+ * AbstractAction Class
  *
  * Used to parse screen actions with XStream
  *

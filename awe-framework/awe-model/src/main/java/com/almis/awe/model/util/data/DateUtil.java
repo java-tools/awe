@@ -61,6 +61,9 @@ public final class DateUtil {
   /* Timestamp in Web Format with milliseconds */
   private static final FastDateFormat TMST_FORMAT_WEB_MS = FastDateFormat.getInstance("dd/MM/yyyy HH:mm:ss.S");
 
+  /* Timestamp in Web Format with milliseconds */
+  private static final FastDateFormat JSON_DATE = FastDateFormat.getInstance("yyyy-MM-dd@HH:mm:ss.SSSZ");
+
   /**
    * Transforms a web date into a SQL Date
    *
@@ -873,20 +876,12 @@ public final class DateUtil {
    * @return Is an WBS date
    */
   public static boolean isWbsDate(String date) {
-
-    /* Variable definition */
-    boolean isParseable = true;
-
-    /* If is parseable return true, else return false */
     try {
       DATE_FORMAT_WBS.parse(date);
+      return true;
     } catch (Exception exc) {
-      logger.debug("[{0}] Date is not WBS formatted -{1}-", new Object[] { UTILITY_NAME, date }, exc);
-      isParseable = false;
+      return false;
     }
-
-    /* Return web date string */
-    return isParseable;
   }
 
   /**
@@ -896,20 +891,12 @@ public final class DateUtil {
    * @return Is an SQL date
    */
   public static boolean isSqlDate(String date) {
-
-    /* Variable definition */
-    boolean isParseable = true;
-
-    /* If is parseable return true, else return false */
     try {
       TMST_FORMAT_SQL_MS.parse(date);
+      return true;
     } catch (ParseException exc) {
-      logger.debug("[{}] Date is not SQL formatted -{}-", UTILITY_NAME, date);
-      isParseable = false;
+      return false;
     }
-
-    /* Return web date string */
-    return isParseable;
   }
 
   /**
@@ -919,20 +906,51 @@ public final class DateUtil {
    * @return Is an WBS date
    */
   public static boolean isWebTimestamp(String date) {
-
-    /* Variable definition */
-    boolean isParseable = true;
-
-    /* If is parseable return true, else return false */
     try {
       TMST_FORMAT_WEB_MS.parse(date);
+      return true;
     } catch (Exception exc) {
-      logger.debug("[{}] Date is not WBS formatted -{}-", UTILITY_NAME, date, exc);
-      isParseable = false;
+      return false;
     }
+  }
 
+  /**
+   * Returns true if date is json date
+   *
+   * @param date (Web service formatted)
+   * @return Is an WBS date
+   */
+  public static boolean isJsonDate(String date) {
+    try {
+      JSON_DATE.parse(date);
+      return true;
+    } catch (Exception exc) {
+      return false;
+    }
+  }
+
+  /**
+   * Transforms a JSON Date to a Date object
+   *
+   * @param date JSON date
+   * @return Date OBJECT
+   * @throws ParseException Parse error
+   */
+  public static Date jsonDate(String date) throws ParseException {
     /* Return web date string */
-    return isParseable;
+    return JSON_DATE.parse(date);
+  }
+
+  /**
+   * Transforms a JSON Date from a Date object
+   *
+   * @param date JSON date
+   * @return Date OBJECT
+   * @throws ParseException Parse error
+   */
+  public static String jsonDate(Date date) {
+    /* Return web date string */
+    return JSON_DATE.format(date);
   }
 
   /**

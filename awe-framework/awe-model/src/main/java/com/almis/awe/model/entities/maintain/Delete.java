@@ -1,12 +1,14 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.maintain;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Delete Class
@@ -19,39 +21,25 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  *
  * @author Ismael SERRANO - 28/JUN/2010
  */
+@Getter
+@Setter
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("delete")
 public class Delete extends MaintainQuery {
 
   private static final long serialVersionUID = 3169621156759677359L;
+
   // Maintain type
   @XStreamOmitField
   private static final MaintainType maintainType = MaintainType.DELETE;
 
-  /**
-   * Default constructor
-   */
-  public Delete() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Delete(Delete other) throws AWException {
-    super(other);
-  }
-
   @Override
   public Delete copy() throws AWException {
-    return new Delete(this);
+    return this.toBuilder().build();
   }
 
-  /**
-   * Returns the maintain type
-   *
-   * @return Maintain type
-   */
   @Override
   public MaintainType getMaintainType() {
     return maintainType;

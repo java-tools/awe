@@ -1,13 +1,17 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component.criteria;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
@@ -19,49 +23,27 @@ import org.stringtemplate.v4.STGroup;
  *
  * @author Pablo GARCIA - 04/JUN/2012
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("info-criteria")
-public class InfoCriteria extends Criteria {
+public class InfoCriteria extends AbstractCriteria {
 
   private static final long serialVersionUID = 6550382841315255907L;
   // Button Type (button, submit, reset)
+  @JsonIgnore
   @XStreamAlias("info-style")
   @XStreamAsAttribute
-  private String infoStyle = null;
-
-  /**
-   * Default constructor
-   */
-  public InfoCriteria() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public InfoCriteria(InfoCriteria other) throws AWException {
-    super(other);
-    this.infoStyle = other.infoStyle;
-  }
+  private String infoStyle;
 
   @Override
   public InfoCriteria copy() throws AWException {
-    return new InfoCriteria(this);
-  }
-
-  /**
-   * @return the infoStyle
-   */
-  @JsonIgnore
-  public String getInfoStyle() {
-    return infoStyle;
-  }
-
-  /**
-   * @param infoStyle the infoStyle to set
-   */
-  public void setInfoStyle(String infoStyle) {
-    this.infoStyle = infoStyle;
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   @Override
