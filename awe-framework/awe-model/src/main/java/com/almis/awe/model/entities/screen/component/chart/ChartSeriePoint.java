@@ -1,5 +1,7 @@
 package com.almis.awe.model.entities.screen.component.chart;
 
+import com.almis.awe.exception.AWException;
+import com.almis.awe.model.entities.Copyable;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -11,9 +13,9 @@ import java.util.List;
  *
  * @author pvidal
  */
-public class ChartSeriePoint {
+public class ChartSeriePoint implements Copyable {
 
-  private List<JsonNode> positionPoint;
+  private transient List<JsonNode> positionPoint;
 
   /**
    * Copy constructor
@@ -68,5 +70,10 @@ public class ChartSeriePoint {
    */
   public void setPositionPoint(List<JsonNode> positionPoint) {
     this.positionPoint = positionPoint;
+  }
+
+  @Override
+  public ChartSeriePoint copy() throws AWException {
+    return new ChartSeriePoint(this);
   }
 }
