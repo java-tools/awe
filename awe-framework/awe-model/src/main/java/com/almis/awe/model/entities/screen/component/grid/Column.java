@@ -196,16 +196,6 @@ public class Column extends AbstractCriteria {
   }
 
   /**
-   * Returns the criteria javascript COMPONENT for JSON serialization
-   *
-   * @return Javascript COMPONENT name
-   */
-  @JsonGetter("component")
-  public String getComponentConverter() {
-    return this.getComponentType();
-  }
-
-  /**
    * Returns the text of the column
    *
    * @return Text of the column

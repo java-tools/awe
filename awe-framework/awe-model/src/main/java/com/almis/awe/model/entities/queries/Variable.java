@@ -82,4 +82,24 @@ public class Variable implements Copyable {
   public Variable copy() throws AWException {
     return this.toBuilder().build();
   }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append(getId()).append(": ");
+
+    // Value
+    if (getValue() != null) builder.append(getValue());
+
+    // Session
+    if (getSession() != null) builder.append("session(").append(getSession()).append(")");
+
+    // Property
+    if (getProperty() != null) builder.append("property(").append(getProperty()).append(")");
+
+    // Parameter
+    if (getName() != null) builder.append("parameter(").append(getName()).append(")");
+
+    return builder.append(" [").append(getType()).append("]").toString();
+  }
 }

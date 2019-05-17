@@ -39,4 +39,14 @@ public class Union implements Copyable {
   public Union copy() throws AWException {
     return this.toBuilder().build();
   }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder()
+      .append(" UNION ")
+      .append(getType() != null ? getType() + " " : "")
+      .append(getQuery());
+
+    return builder.toString();
+  }
 }

@@ -4,9 +4,7 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.UnionType;
 import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
@@ -17,7 +15,8 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor

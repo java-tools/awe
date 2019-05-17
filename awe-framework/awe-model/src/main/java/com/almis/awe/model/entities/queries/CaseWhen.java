@@ -1,8 +1,9 @@
 package com.almis.awe.model.entities.queries;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -22,26 +23,26 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 @Accessors(chain = true)
-@XStreamAlias("case-when")
-public class CaseWhen extends Filter implements CaseClause {
+@XStreamAlias("when")
+public class CaseWhen extends Filter {
 
   // Optional filter
-  @XStreamAlias("then-field")
-  @XStreamAsAttribute
-  private String thenField;
-
-  // Optional filter
-  @XStreamAlias("then-table")
-  @XStreamAsAttribute
-  private String thenTable;
-
-  // Optional filter
-  @XStreamAlias("then-variable")
-  @XStreamAsAttribute
-  private String thenVariable;
+  @XStreamAlias("then")
+  @XStreamConverter(OperandConverter.class)
+  private SqlField thenOperand;
 
   @Override
   public CaseWhen copy() throws AWException {
-    return this.toBuilder().build();
+    return ((CaseWhen) super.copy())
+      .setThenOperand(ListUtil.copyElement(thenOperand));
+  }
+
+  @Override
+  public String toString() {
+    String thenString = "";
+    if (getThenOperand() != null) {
+      thenString = getThenOperand().toString();
+    }
+    return "WHEN " + super.toString() + " THEN " + thenString;
   }
 }

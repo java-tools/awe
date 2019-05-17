@@ -512,7 +512,7 @@ public class MaintainService extends ServiceConfig {
   private void addFields(Multiple origin, MaintainQuery maintainQuery, boolean addKeys, boolean addNonKeys) throws AWException {
 
     // Field definition
-    List<Field> fieldList = new ArrayList<>();
+    List<SqlField> fieldList = new ArrayList<>();
     if (origin.getFieldList() != null) {
       for (Field field : origin.getFieldList()) {
         Field clonedField = field.copy();
@@ -526,7 +526,7 @@ public class MaintainService extends ServiceConfig {
     }
 
     // Set field list to query
-    maintainQuery.setFieldList(fieldList);
+    maintainQuery.setSqlFieldList(fieldList);
   }
 
   /**

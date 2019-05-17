@@ -59,25 +59,29 @@ public class Join implements Copyable {
    * @return Filter group
    */
   public FilterGroup getFilterGroup() {
-    return filterGroupList == null || filterGroupList.isEmpty() ? null : filterGroupList.get(0);
+    return getFilterGroupList() == null || getFilterGroupList().isEmpty() ? null : getFilterGroupList().get(0);
   }
 
   @Override
   public String toString() {
-    String joinString = "";
+    StringBuilder builder = new StringBuilder();
 
     // Add table on JOIN
-    if (this.getTable() != null) {
-      joinString += this.getType() != null ? "join " + this.getType().toLowerCase() : "join ";
-      joinString += this.getTable().toString();
+    if (getTable() != null) {
+      builder
+        .append(getType() != null ? " " + getType().toUpperCase() : "")
+        .append(" JOIN ")
+        .append(getTable().toString());
     }
 
     // Add on on join
-    if (this.getFilterGroupList() != null) {
-      joinString += " on " + StringUtils.join(getFilterGroupList(), " ");
+    if (getFilterGroupList() != null) {
+      builder
+        .append(" ON ")
+        .append(StringUtils.join(getFilterGroupList(), " "));
     }
 
-    return joinString;
+    return builder.toString();
   }
 
   @Override

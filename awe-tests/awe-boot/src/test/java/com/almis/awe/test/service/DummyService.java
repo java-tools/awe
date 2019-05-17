@@ -298,13 +298,13 @@ public class DummyService extends ServiceConfig {
 
       // Get system version
       serviceData.setDataList(new DataList());
-      DataListUtil.addColumn(serviceData.getDataList(), "date1", dates, "DATE");
-      DataListUtil.addColumn(serviceData.getDataList(), "date2", dates, "DATE");
-      DataListUtil.addColumn(serviceData.getDataList(), "date3", dates, "DATE");
-      DataListUtil.addColumn(serviceData.getDataList(), "date4", dates, "DATE");
-      DataListUtil.addColumn(serviceData.getDataList(), "date5", dates, "DATE");
-      DataListUtil.addColumn(serviceData.getDataList(), "date6", dates, "DATE");
-      DataListUtil.addColumn(serviceData.getDataList(), "date7", dates, "DATE");
+      DataListUtil.addColumn(serviceData.getDataList(), "date1", dates);
+      DataListUtil.addColumn(serviceData.getDataList(), "date2", dates);
+      DataListUtil.addColumn(serviceData.getDataList(), "date3", dates);
+      DataListUtil.addColumn(serviceData.getDataList(), "date4", dates);
+      DataListUtil.addColumn(serviceData.getDataList(), "date5", dates);
+      DataListUtil.addColumn(serviceData.getDataList(), "date6", dates);
+      DataListUtil.addColumn(serviceData.getDataList(), "date7", dates);
     } catch (Exception exc) {
     }
 

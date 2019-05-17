@@ -4,7 +4,6 @@ import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.CompareRow;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.SortColumn;
-import com.almis.awe.model.type.ParameterType;
 
 import java.util.*;
 
@@ -161,66 +160,21 @@ public final class DataListUtil {
    * @param list Datalist
    * @param columnName Column name (alias)
    * @param columnValues List with column values
-   * @param columnType Value type
    */
-  public static void addColumn(DataList list, String columnName, List<?> columnValues, String columnType) {
-    CellData cell;
+  public static void addColumn(DataList list, String columnName, List<?> columnValues) {
     Integer rowIdentifier = 0;
 
     // Add alias row by row
     for (Object columnData : columnValues) {
-      if (columnData != null) {
-        // Define cell
-        cell = new CellData();
-
-        switch (ParameterType.valueOf(columnType)) {
-          case DOUBLE:
-            cell.setValue((Double) columnData);
-            break;
-          case LONG:
-            cell.setValue((Long) columnData);
-            break;
-          case FLOAT:
-            cell.setValue((Float) columnData);
-            break;
-          case INTEGER:
-            cell.setValue((Integer) columnData);
-            break;
-          case DATE:
-            cell.setValue((Date) columnData);
-            break;
-          case OBJECT:
-            cell.setValue(columnData);
-            break;
-          case STRING:
-          default:
-            cell.setValue(columnData.toString());
-            break;
-        }
-
-        // Add cell to row
-        addCellToRow(list, columnName, rowIdentifier, cell);
+      CellData cell;
+      if (columnData instanceof CellData) {
+        cell = (CellData) columnData;
+      } else {
+        cell = new CellData(columnData);
       }
 
-      // Increase row identifier
-      rowIdentifier++;
-    }
-  }
-
-  /**
-   * Set column Name and it's value per line
-   *
-   * @param list Datalist
-   * @param columnName Column name (alias)
-   * @param columnValues List with column values
-   */
-  public static void addColumn(DataList list, String columnName, List<CellData> columnValues) {
-    Integer rowIdentifier = 0;
-
-    // Add alias row by row
-    for (CellData columnData : columnValues) {
       // Add cell to row
-      addCellToRow(list, columnName, rowIdentifier, columnData);
+      addCellToRow(list, columnName, rowIdentifier, cell);
 
       // Increase row identifier
       rowIdentifier++;
@@ -266,78 +220,6 @@ public final class DataListUtil {
     }
     String[] dataArray = new String[list.size()];
     return list.toArray(dataArray);
-  }
-
-  /**
-   * Add a column with one row value
-   *
-   * @param list DataList
-   * @param columnName Column name (alias)
-   * @param cellValue Cell value
-   */
-  public static void addColumnWithOneRow(DataList list, String columnName, Integer cellValue) {
-    // Add cell to row
-    addCellToRow(list, columnName, 0, new CellData(cellValue));
-  }
-
-  /**
-   * Add a column with one row value
-   *
-   * @param list DataList
-   * @param columnName Column name (alias)
-   * @param cellValue Cell value
-   */
-  public static void addColumnWithOneRow(DataList list, String columnName, Double cellValue) {
-    // Add cell to row
-    addCellToRow(list, columnName, 0, new CellData(cellValue));
-  }
-
-  /**
-   * Add a column with one row value
-   *
-   * @param list DataList
-   * @param columnName Column name (alias)
-   * @param cellValue Cell value
-   */
-  public static void addColumnWithOneRow(DataList list, String columnName, String cellValue) {
-    // Add cell to row
-    addCellToRow(list, columnName, 0, new CellData(cellValue));
-  }
-
-  /**
-   * Add a column with one row value
-   *
-   * @param list DataList
-   * @param columnName Column name (alias)
-   * @param cellValue Cell value
-   */
-  public static void addColumnWithOneRow(DataList list, String columnName, Long cellValue) {
-    // Add cell to row
-    addCellToRow(list, columnName, 0, new CellData(cellValue));
-  }
-
-  /**
-   * Add a column with one row value
-   *
-   * @param list DataList
-   * @param columnName Column name (alias)
-   * @param cellValue Cell value
-   */
-  public static void addColumnWithOneRow(DataList list, String columnName, Date cellValue) {
-    // Add cell to row
-    addCellToRow(list, columnName, 0, new CellData(cellValue));
-  }
-
-  /**
-   * Add a column with one row value
-   *
-   * @param list DataList
-   * @param columnName Column name (alias)
-   * @param cellValue Cell value
-   */
-  public static void addColumnWithOneRow(DataList list, String columnName, Float cellValue) {
-    // Add cell to row
-    addCellToRow(list, columnName, 0, new CellData(cellValue));
   }
 
   /**

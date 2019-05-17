@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
   DependencyTest.class,
   TagListTest.class,
   TableTest.class,
-  CriteriaTest.class
+  CriteriaTest.class,
+  QueryTest.class
 })
 @RunWith(Suite.class)
 public class PojoTestsSuite {

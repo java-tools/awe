@@ -11,7 +11,9 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +30,6 @@ import java.util.List;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Accessors(chain = true)
-@ToString
 @XStreamAlias("query")
 public class Query implements XMLNode, Copyable {
 
@@ -80,7 +81,7 @@ public class Query implements XMLNode, Copyable {
 
   // Query field list
   @XStreamImplicit
-  private List<Field> fieldList;
+  private List<SqlField> sqlFieldList;
 
   // Query join list
   @XStreamImplicit
@@ -187,11 +188,25 @@ public class Query implements XMLNode, Copyable {
     return getId();
   }
 
+  /**
+   * Retrieve field list
+   * @return
+   */
+  public List<Field> getFieldList() {
+    List<Field> fields = new ArrayList<>();
+    for (SqlField sqlField : getSqlFieldList()) {
+      if (sqlField instanceof Field) {
+        fields.add((Field) sqlField);
+      }
+    }
+    return fields;
+  }
+
   @Override
   public Query copy() throws AWException {
     return this.toBuilder()
       .tableList(ListUtil.copyList(getTableList()))
-      .fieldList(ListUtil.copyList(getFieldList()))
+      .sqlFieldList(ListUtil.copyList(getSqlFieldList()))
       .joinList(ListUtil.copyList(getJoinList()))
       .unionList(ListUtil.copyList(getUnionList()))
       .computedList(ListUtil.copyList(getComputedList()))
@@ -203,5 +218,72 @@ public class Query implements XMLNode, Copyable {
       .havingGroup(ListUtil.copyElement(getHavingGroup()))
       .variableDefinitionList(ListUtil.copyList(getVariableDefinitionList()))
       .build();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    if (getService() != null) {
+      builder.append("SERVICE QUERY:\n")
+        .append(getService());
+    } else if (getEnumerated() != null) {
+      builder.append("ENUMERATED QUERY:\n")
+        .append(getEnumerated());
+    } else {
+      generateSelectClause(builder);
+    }
+
+    if (getVariableDefinitionList() != null) {
+      builder.append("\nVARIABLES:\n");
+      builder.append(StringUtils.join(getVariableDefinitionList(), ", "));
+    }
+
+    return builder.toString();
+  }
+
+  private void generateSelectClause(StringBuilder builder) {
+    builder.append("SQL QUERY:\nSELECT ")
+      .append(StringUtils.join(getSqlFieldList(), ", "));
+
+    // Join
+    if (getJoinList() != null) {
+      builder
+        .append(StringUtils.join(getJoinList(), " "));
+    }
+
+    // Union
+    if (getUnionList() != null) {
+      builder
+        .append(StringUtils.join(getUnionList(), " "));
+    }
+
+
+    // Where
+    if (getFilterGroup() != null) {
+      builder
+        .append(" WHERE ")
+        .append(getFilterGroup());
+    }
+
+    // Having
+    if (getHavingGroup() != null) {
+      builder
+        .append(" HAVING ")
+        .append(getHavingGroup());
+    }
+
+    // Order by
+    if (getOrderByList() != null) {
+      builder
+        .append(" ORDER BY ")
+        .append(StringUtils.join(getOrderByList(), ", "));
+    }
+
+    // Group by
+    if (getGroupByList() != null) {
+      builder
+        .append(" GROUP BY ")
+        .append(StringUtils.join(getGroupByList(), ", "));
+    }
   }
 }

@@ -17,7 +17,6 @@ aweApplication.directive('aweForm',
      */
     function (ServerData, Control, ActionController, $settings, Utilities, Validator) {
 
-
       /**
        * Retrieve reseteable scopes
        * @param {type} target

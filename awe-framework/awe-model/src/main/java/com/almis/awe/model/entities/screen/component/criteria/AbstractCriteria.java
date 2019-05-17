@@ -317,7 +317,7 @@ public abstract class AbstractCriteria extends Component {
    */
   @Override
   public String getComponentTag() {
-    return "input-" + this.getComponentType();
+    return "input-" + getComponentType();
   }
 
   /**

@@ -62,7 +62,7 @@ public class PathService extends ServiceConfig {
 
     List<String> paths = Arrays.asList(path);
     DataList dataList = new DataList();
-    DataListUtil.addColumn(dataList, "paths", paths, "STRING");
+    DataListUtil.addColumn(dataList, "paths", paths);
     dataList.setRecords(dataList.getRows().size());
 
     serviceData.setDataList(dataList);

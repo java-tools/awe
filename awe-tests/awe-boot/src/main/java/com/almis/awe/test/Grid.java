@@ -3,10 +3,12 @@ package com.almis.awe.test;
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
+import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.entities.screen.component.grid.Column;
+import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.service.QueryService;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -56,7 +58,7 @@ public class Grid extends ServiceConfig {
    * @param fechas Dates
    * @return Service data
    */
-  public ServiceData replaceColumns(List<Date> fechas) {
+  public ServiceData replaceColumns(List<Date> fechas, Date fecha) {
     // Generate service data
     ServiceData serviceData = new ServiceData();
     List<ClientAction> clientActionList = serviceData.getClientActionList();
@@ -66,7 +68,12 @@ public class Grid extends ServiceConfig {
 
     // Set variables
     serviceData.setClientActionList(clientActionList);
-    return serviceData;
+    fechas.add(fecha);
+    DataList dataList = new DataList();
+    DataListUtil.addColumn(dataList, "GrdMus-newColumn1", fechas);
+    dataList.setRecords(dataList.getRows().size());
+    return serviceData
+      .setDataList(dataList);
   }
 
   /**
@@ -91,6 +98,7 @@ public class Grid extends ServiceConfig {
             .setCharLength(20)
             .setValue("aaaa")
             .setName(gridId + "-newColumn2")
+            .setComponentType("icon")
             .setLabel("BUTTON_NEW ELEMENT_TYPE_COLUMN 2"));
 
     // Add columns to the grid

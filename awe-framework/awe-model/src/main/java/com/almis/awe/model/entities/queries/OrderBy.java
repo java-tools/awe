@@ -44,4 +44,10 @@ public class OrderBy implements Copyable {
   public OrderBy copy() throws AWException {
     return this.toBuilder().build();
   }
+
+  @Override
+  public String toString() {
+    String fieldTable = getTable() != null ? getTable() + "." + getField() : getField();
+    return getType() != null ? fieldTable + " " + getType() : fieldTable;
+  }
 }

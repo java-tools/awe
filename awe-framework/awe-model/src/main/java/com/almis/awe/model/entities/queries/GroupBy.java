@@ -39,4 +39,9 @@ public class GroupBy implements Copyable {
   public GroupBy copy() throws AWException {
     return this.toBuilder().build();
   }
+
+  @Override
+  public String toString() {
+    return getTable() != null ? getTable() + "." + getField() : getField();
+  }
 }

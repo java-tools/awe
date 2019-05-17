@@ -4,7 +4,6 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweContextAware;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.CellData;
-import com.almis.awe.model.entities.queries.Field;
 import com.almis.awe.model.entities.queries.OutputField;
 import com.almis.awe.model.type.CellDataType;
 import com.almis.awe.model.type.TransformType;
@@ -22,9 +21,6 @@ import java.util.Date;
 public class TransformCellProcessor implements CellProcessor, AweContextAware {
   private OutputField field;
   private AweElements elements;
-
-  private static final String ERROR_TITLE_PARSING_TEXT = "ERROR_TITLE_PARSING_TEXT";
-  private static final String ERROR_MESSAGE_PARSING_TEXT = "ERROR_MESSAGE_PARSING_TEXT";
 
   /**
    * Set Awe Elements
@@ -50,14 +46,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
    * @return Column identifier
    */
   public String getColumnIdentifier() {
-    String identifier = null;
-    if (field.getAlias() != null) {
-      return field.getAlias();
-    } else if (field instanceof Field) {
-      Field fieldObject = (Field) field;
-      identifier = fieldObject.getId();
-    }
-    return identifier;
+    return field.getIdentifier();
   }
 
   /**

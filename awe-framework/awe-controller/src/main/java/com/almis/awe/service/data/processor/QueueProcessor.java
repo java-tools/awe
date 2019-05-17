@@ -148,7 +148,7 @@ public class QueueProcessor extends ServiceConfig {
           }
 
           // Add list as column
-          DataListUtil.addColumn(dataList, parameter.getId(), list, parameter.getType());
+          DataListUtil.addColumn(dataList, parameter.getId(), list);
         } else {
           // Generate list
           ArrayList<Object> list = new ArrayList<>();
@@ -160,7 +160,7 @@ public class QueueProcessor extends ServiceConfig {
           valueIndex++;
 
           // Add list as column
-          DataListUtil.addColumn(dataList, parameter.getId(), list, parameter.getType());
+          DataListUtil.addColumn(dataList, parameter.getId(), list);
         }
       }
     }
@@ -239,7 +239,7 @@ public class QueueProcessor extends ServiceConfig {
         list.add(message.getObject(parameter.getName()));
 
         // Add list as column
-        DataListUtil.addColumn(dataList, parameter.getId(), list, parameter.getType());
+        DataListUtil.addColumn(dataList, parameter.getId(), list);
       }
     }
   }
@@ -284,7 +284,7 @@ public class QueueProcessor extends ServiceConfig {
     }
 
     // Add list as column
-    DataListUtil.addColumn(dataList, parameter.getId(), list, parameter.getType());
+    DataListUtil.addColumn(dataList, parameter.getId(), list);
   }
 
   /**
