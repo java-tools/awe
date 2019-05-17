@@ -56,7 +56,7 @@ public final class ListUtil {
           }
         }
 
-      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
+      } catch (Exception exc) {
         copy = new ArrayList<>();
       }
     }
@@ -77,11 +77,12 @@ public final class ListUtil {
       try {
         Constructor<? extends List> constructor = source.getClass().getConstructor();
         copy = constructor.newInstance();
-        for (T item : source) {
-          copy.add(item.copy());
-        }
       } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
         copy = new ArrayList<>();
+      }
+
+      for (T item : source) {
+        copy.add(item.copy());
       }
     }
     return copy;
@@ -131,11 +132,12 @@ public final class ListUtil {
       try {
         Constructor<? extends Map> constructor = source.getClass().getConstructor();
         copy = constructor.newInstance();
-        for (Map.Entry<String, T> item : source.entrySet()) {
-          copy.put(item.getKey(), item.getValue() == null ? null : item.getValue().copy());
-        }
-      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException exc) {
+      } catch (Exception exc) {
         copy = new HashMap<>();
+      }
+
+      for (Map.Entry<String, T> item : source.entrySet()) {
+        copy.put(item.getKey(), item.getValue() == null ? null : item.getValue().copy());
       }
     }
     return copy;

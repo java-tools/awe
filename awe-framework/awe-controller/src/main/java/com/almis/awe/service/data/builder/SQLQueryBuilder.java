@@ -159,14 +159,14 @@ public class SQLQueryBuilder extends SQLBuilder {
    * @throws AWException Error retrieving fields
    */
   protected Expression[] getFields() throws AWException {
-    List<Field> fieldList = this.getQuery().getFieldList();
+    List<SqlField> fieldList = this.getQuery().getSqlFieldList();
     Expression[] fields = new Expression[fieldList.size()];
 
     // For each field, obtain its expression
     int i = 0;
-    for (Field field : fieldList) {
+    for (SqlField field : fieldList) {
       // Store the expression created
-      fields[i] = getFieldExpression(field);
+      fields[i] = getSqlFieldExpression(field);
       i++;
     }
 
@@ -180,12 +180,12 @@ public class SQLQueryBuilder extends SQLBuilder {
    * @return Expression[] expressions
    */
   protected Expression[] getFieldsAlias(String table) {
-    List<Field> fieldList = this.getQuery().getFieldList();
+    List<SqlField> fieldList = this.getQuery().getSqlFieldList();
     Expression[] fields = new Expression[fieldList.size()];
 
     // For each field, obtain its expression
     int i = 0;
-    for (Field field : fieldList) {
+    for (SqlField field : fieldList) {
       // Store the expression created
       fields[i] = getFieldAliasExpression(field, table);
       i++;

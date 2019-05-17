@@ -1,6 +1,3 @@
-/*
- * Package definition
- */
 package com.almis.awe.service.data.processor;
 
 import com.almis.awe.exception.AWException;
@@ -8,10 +5,7 @@ import com.almis.awe.model.component.AweContextAware;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
-import com.almis.awe.model.entities.queries.Field;
-import com.almis.awe.model.entities.queries.Totalize;
-import com.almis.awe.model.entities.queries.TotalizeBy;
-import com.almis.awe.model.entities.queries.TotalizeField;
+import com.almis.awe.model.entities.queries.*;
 import com.almis.awe.model.util.data.NumericUtil;
 
 import java.text.ParseException;
@@ -26,7 +20,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
   private Totalize totalize;
   Map<String, CellData> totalizeValues = null;
   Map<String, String> totalizeKeys = null;
-  List<Field> fieldList = null;
+  List<SqlField> fieldList = null;
   private AweElements elements;
 
   /**
@@ -64,7 +58,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
    * @param fieldList Field list
    * @return TotalizeColumnProcessor
    */
-  public TotalizeColumnProcessor setFieldList(List<Field> fieldList) {
+  public TotalizeColumnProcessor setFieldList(List<SqlField> fieldList) {
     this.fieldList = fieldList;
     return this;
   }
@@ -123,7 +117,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
     // Create new row
     Map<String, CellData> totalizeRow = new HashMap<>();
 
-    for (Field field : fieldList) {
+    for (SqlField field : fieldList) {
       String columnIdentifier = "";
       String totalizeIdentifier = "-" + totalize.getFunction();
       CellData cell = null;

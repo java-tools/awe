@@ -7,6 +7,7 @@ import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.SortColumn;
 import com.almis.awe.model.entities.Global;
 import com.almis.awe.model.entities.queries.Field;
+import com.almis.awe.model.entities.queries.SqlField;
 import com.almis.awe.model.type.CellDataType;
 import com.almis.awe.service.data.processor.*;
 import com.querydsl.core.Tuple;
@@ -48,7 +49,7 @@ public class DataListBuilder extends ServiceConfig {
   private List<Tuple> queryResult = null;
   private List<Global> enumQueryResult = null;
   private List<String> serviceQueryResult = null;
-  private List<Field> fieldList = null;
+  private List<SqlField> fieldList = null;
   private Expression<?> projection = null;
   private List<SortColumn> sortList = null;
   private List<SortColumn> distinctList = null;
@@ -91,7 +92,7 @@ public class DataListBuilder extends ServiceConfig {
    * @param fieldList Field list
    * @return DataListBuilder
    */
-  public DataListBuilder setFieldList(List<Field> fieldList) {
+  public DataListBuilder setFieldList(List<SqlField> fieldList) {
     this.fieldList = fieldList;
     return this;
   }
@@ -625,8 +626,8 @@ public class DataListBuilder extends ServiceConfig {
     for (columnIndex = 0; columnIndex < totalColumns; columnIndex++) {
 
       // Store field value
-      Field field = fieldList.get(columnIndex);
-      String nom = field.getAlias() != null ? field.getAlias() : field.getId();
+      SqlField field = fieldList.get(columnIndex);
+      String nom = field.getIdentifier();
       String value = serviceQueryResult.get(((rowIndex - 1) * totalColumns) + columnIndex);
 
       // Format output data

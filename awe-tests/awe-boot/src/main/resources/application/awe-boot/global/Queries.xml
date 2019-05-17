@@ -126,7 +126,7 @@
   <query id="QueryValueInField">
     <table id="AweModPro" />
     <field id="IdeModPro" />
-    <field value="1" alias="one" />
+    <static value="1" alias="one" />
   </query>
 
   <query id="QueryStaticVariableInField">
@@ -578,28 +578,28 @@
   <query id="TransformArray">
     <table id="ope" />
     <field id="l1_nom" alias="nombre" />
-    <field value="1,2,3,4,5,6" alias="array" transform="ARRAY" pattern="," />
+    <static value="1,2,3,4,5,6" alias="array" transform="ARRAY" pattern="," />
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
   <query id="TransformTextHtml">
     <table id="ope" />
     <field id="l1_nom" alias="nombre" />
-    <field value="&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;" alias="text" transform="TEXT_HTML" />
+    <static value="&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;" alias="text" transform="TEXT_HTML" />
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
   <query id="TransformTextPlain">
     <table id="ope" />
     <field id="l1_nom" alias="nombre" />
-    <field value="&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;" alias="text" transform="TEXT_PLAIN" />
+    <static value="&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;" alias="text" transform="TEXT_PLAIN" />
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
   <query id="TransformTextUniline">
     <table id="ope" />
     <field id="l1_nom" alias="nombre" />
-    <field value="&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;" alias="text" transform="TEXT_UNILINE" />
+    <static value="&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;\n&lt;a href='tutu'&gt;aaa&lt;/a&gt;" alias="text" transform="TEXT_UNILINE" />
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
@@ -780,19 +780,31 @@
     <variable id="hashEncrypt" type="STRING_ENCRYPT" value="prueba" />
   </query>
 
-  <query id="VariableDate">
-    <table id="ope" />
-    <field id="l1_nom" />
+  <query id="VariableDate" distinct="true">
+    <table id="HISAweDbs" />
+    <field id="Als" />
     <field variable="date" alias="date" transform="DATE" />
     <field variable="timestamp" alias="timestamp" transform="TIMESTAMP" />
     <where>
       <and>
-        <filter left-field="l1_nom" condition="eq" right-variable="test" trim="true" />
+        <filter condition="like" ignorecase="true">
+          <left-operand id="HISope"/>
+          <right-operand value="test" type="STRINGB"/>
+        </filter>
+        <filter left-field="HISdat" condition="lt">
+          <right-operand variable="dateParameter"/>
+        </filter>
       </and>
     </where>
-    <variable id="test" type="STRING" value="test" />
     <variable id="date" type="DATE" value="23/10/1978" />
+    <variable id="dateParameter" type="DATE" name="date" />
     <variable id="timestamp" type="TIMESTAMP" value="23/10/1978 15:03:01.000" />
+  </query>
+
+  <query id="VariableDateList" service="replaceColumns">
+    <field id="GrdMus-newColumn1" alias="date" transform="DATE"/>
+    <variable id="fechas" type="DATE" name="FilDat" />
+    <variable id="fecha" type="DATE" value="23/10/1978" />
   </query>
 
   <query id="VariableSystemDate">
@@ -1103,7 +1115,7 @@
     <field id="Des" table="dbs" alias="Des1" />
     <field id="Des" table="dbs" alias="Des2" />
     <field id="Des" table="dbs" alias="Des3" />
-    <field value="123456" alias="MulNum" transform="NUMBER" pattern="###,###.00" />
+    <static value="123456" alias="MulNum" transform="NUMBER" pattern="###,###.00" />
     <computed alias="Prg" format="parseInt(Math.random()*100,10)" eval="true" />
     <computed alias="Prg1" format="parseInt(Math.random()*100,10)" eval="true" />
     <computed format="[Als] - [Des]" alias="DesTxt" />
@@ -1138,7 +1150,7 @@
       <computed alias="label" format="[Des]" />
       <computed alias="value" format="d2ViYXBwLnJhciB8IDk2MjI5MDkgfCBhcHBsaWNhdGlvbi9vY3RldC1zdHJlYW0%3D" />
     </compound>
-    <field value="123456" alias="MulNum" transform="NUMBER" pattern="###,###.00" />
+    <static value="123456" alias="MulNum" transform="NUMBER" pattern="###,###.00" />
     <computed alias="PrgVal" format="Math.round(Math.random()*100)" eval="true" />
     <compound alias="Prg">
       <computed alias="value" format="[PrgVal]" />
@@ -1221,14 +1233,14 @@
   </query>
   <query id="ProModTreProBas" distinct="true" cacheable="true">
     <table id="AweModPro" alias="modpro" />
-    <field alias="id">
-      <concat value="Pro" />
-      <concat id="Nam" table="pro"/>
-    </field>
-    <field value="" alias="parent" />
-    <field value="false" alias="isLeaf" />
+    <operation operator="CONCAT" alias="id">
+      <static value="Pro" />
+      <field id="Nam" table="pro"/>
+    </operation>
+    <static value="" alias="parent" />
+    <static value="false" type="BOOLEAN" alias="isLeaf" />
     <field id="Nam" table="pro" alias="Nam" />
-    <field value="1" alias="Lev" />
+    <static value="1" type="INTEGER" alias="Lev" />
     <computed format="'[parent]' === 'null' ? '' : '[parent]'" eval="true" alias="parent"/>
     <join>
       <table id="AwePro" alias="pro" />
@@ -1242,19 +1254,19 @@
   </query>
   <query id="ProModTreMod" distinct="true" cacheable="true">
     <table id="AweModPro" alias="modpro" />
-    <field alias="id">
-      <concat value="Pro" />
-      <concat id="Nam" table="pro" />
-      <concat value="-Mod" />
-      <concat id="Nam" table="mod" />
-    </field>
-    <field id="parent" alias="parent">
-      <concat value="Pro" />
-      <concat id="Nam" table="pro" />
-    </field>
-    <field value="false" alias="isLeaf" />
+    <operation operator="CONCAT" alias="id">
+      <static value="Pro" />
+      <field id="Nam" table="pro" />
+      <static value="-Mod" />
+      <field id="Nam" table="mod" />
+    </operation>
+    <operation operator="CONCAT" alias="parent">
+      <static value="Pro" />
+      <field id="Nam" table="pro" />
+    </operation>
+    <static value="false" type="BOOLEAN" alias="isLeaf" />
     <field id="Nam" table="mod" alias="Nam" />
-    <field value="2" alias="Lev" />
+    <static value="2" type="INTEGER" alias="Lev" />
     <join>
       <table id="AwePro" alias="pro" />
       <and>
@@ -1269,30 +1281,35 @@
     </join>
     <where>
       <and>
-        <filter left-concat="parent" condition="eq" right-variable="parent" optional="true" />
+        <filter condition="eq" right-variable="parent" optional="true">
+          <left-operand operator="CONCAT">
+            <static value="Pro" />
+            <field id="Nam" table="pro" />
+          </left-operand>
+        </filter>
       </and>
     </where>
     <variable id="parent" type="STRING" name="expandingBranch" optional="true" />
   </query>
   <query id="ProSitTreMod" distinct="true" cacheable="true">
     <table id="AweModPro" alias="modpro" />
-    <field alias="id">
-      <concat value="Pro" />
-      <concat id="Nam" table="pro"/>
-      <concat value="-Mod" />
-      <concat id="Nam" table="mod" />
-      <concat value="-Sit" />
-      <concat id="Nam" table="sit" />
-    </field>
-    <field id="parent" alias="parent">
-      <concat value="Pro" />
-      <concat id="Nam" table="pro" />
-      <concat value="-Mod" />
-      <concat id="Nam" table="mod" />
-    </field>
-    <field value="true" alias="isLeaf" />
+    <operation operator="CONCAT" alias="id">
+      <static value="Pro" />
+      <field id="Nam" table="pro"/>
+      <static value="-Mod" />
+      <field id="Nam" table="mod" />
+      <static value="-Sit" />
+      <field id="Nam" table="sit" />
+    </operation>
+    <operation operator="CONCAT" alias="parent">
+      <static value="Pro" />
+      <field id="Nam" table="pro" />
+      <static value="-Mod" />
+      <field id="Nam" table="mod" />
+    </operation>
+    <static value="true" type="BOOLEAN" alias="isLeaf" />
     <field id="Nam" table="sit" alias="Nam" />
-    <field value="3" alias="Lev" />
+    <static value="3" type="INTEGER" alias="Lev" />
     <join>
       <table id="AwePro" alias="pro" />
       <and>
@@ -1319,7 +1336,14 @@
     </join>
     <where>
       <and>
-        <filter left-concat="parent" condition="eq" right-variable="parent" optional="true" />
+        <filter condition="eq" right-variable="parent" optional="true">
+          <left-operand operator="CONCAT">
+            <static value="Pro" />
+            <field id="Nam" table="pro" />
+            <static value="-Mod" />
+            <field id="Nam" table="mod" />
+          </left-operand>
+        </filter>
       </and>
     </where>
     <variable id="parent" type="STRING" name="expandingBranch" optional="true" />
@@ -1438,7 +1462,7 @@
   <query id="CrtTstDat">
     <table id="AwePro" alias="acc1" />
     <field id="Nam" alias="value" noprint="true" />
-    <field value="1000000.12123" alias="TxtRea" transform="NUMBER_PLAIN" />
+    <static value="1000000.12123" alias="TxtRea" transform="NUMBER_PLAIN" />
   </query>
 
   <!-- Filtered calendar dates sample -->
@@ -2115,25 +2139,25 @@
 
   <query id="testCaseWhenElseDistinct" distinct="true">
     <table id="AweThm"/>
-    <field alias="Value">
-      <case-when left-field="Nam" condition="like" right-variable="sunset" then-variable="1"/>
-      <case-when left-field="Nam" condition="like" right-variable="sunny" then-variable="2"/>
-      <case-when left-field="Nam" condition="eq" right-variable="purple-hills" then-variable="3"/>
-      <case-else then-variable="null"/>
-    </field>
-    <field alias="label">
-      <case-when left-field="Nam" condition="like" right-variable="sunset" then-variable="sunset-mays"/>
-      <case-when left-field="Nam" condition="like" right-variable="sunny" then-variable="sunny-mays"/>
-      <case-when left-field="Nam" condition="eq" right-variable="purple-hills" then-variable="purple-hills-mays"/>
-      <case-else then-variable="null"/>
-    </field>
-    <field alias="other">
-      <case-else then-variable="3"/>
-    </field>
-    <field alias="another">
-      <case-when left-field="Nam" condition="like" right-variable="sunset" then-table="AweThm" then-field="Nam"/>
-      <case-else then-variable="purple-hills"/>
-    </field>
+    <case alias="Value">
+      <when left-field="Nam" condition="like" right-variable="sunset"><then variable="1"/></when>
+      <when left-field="Nam" condition="like" right-variable="sunny"><then variable="2"/></when>
+      <when left-field="Nam" condition="eq" right-variable="purple-hills"><then variable="3"/></when>
+      <else value="null" type="NULL"/>
+    </case>
+    <case alias="label">
+      <when left-field="Nam" condition="like" right-variable="sunset"><then value="SUNSET"/></when>
+      <when left-field="Nam" condition="like" right-variable="sunny"><then value="SUNNY"/></when>
+      <when left-field="Nam" condition="eq" right-variable="purple-hills"><then value="PURPLE-HILLS"/></when>
+      <else value="null" type="NULL"/>
+    </case>
+    <case alias="other">
+      <else value="3" type="INTEGER"/>
+    </case>
+    <case alias="another">
+      <when left-field="Nam" condition="like" right-variable="sunset"><then id="Nam" table="AweThm"/></when>
+      <else value="purple-hills"/>
+    </case>
     <variable id="sunset" type="STRINGL" value="sunset"/>
     <variable id="sunny" type="STRINGR" value="sunny"/>
     <variable id="purple-hills" type="STRING" value="purple-hills"/>
@@ -2148,26 +2172,56 @@
 
   <query id="testCaseWhenElse">
     <table id="AweThm"/>
-    <field alias="value">
-      <case-when left-field="Nam" condition="eq" right-variable="sunset" then-variable="1"/>
-      <case-when left-field="Nam" condition="eq" right-variable="sunny" then-variable="2"/>
-      <case-when left-field="Nam" condition="eq" right-variable="purple-hills" then-variable="3"/>
-      <case-else then-variable="0"/>
-    </field>
-    <field alias="label">
-      <case-when left-field="Nam" condition="eq" right-variable="sunset" then-variable="sunset-mays"/>
-      <case-when left-field="Nam" condition="eq" right-variable="sunny" then-variable="sunny-mays"/>
-      <case-when left-field="Nam" condition="eq" right-variable="purple-hills" then-variable="purple-hills-mays"/>
-      <case-else then-variable="EMPTY"/>
-    </field>
+    <case alias="value">
+      <when left-field="Nam" condition="eq" right-variable="sunset"><then variable="1"/></when>
+      <when left-field="Nam" condition="eq" right-variable="sunny"><then variable="2"/></when>
+      <when left-field="Nam" condition="eq" right-variable="purple-hills"><then variable="3"/></when>
+      <else value="0" type="INTEGER"/>
+    </case>
+    <case alias="label">
+      <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunset"/><then value="SUNSET"/></when>
+      <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunny"/><then value="SUNNY"/></when>
+      <when condition="eq"><left-operand id="Nam"/><right-operand variable="purple-hills"/><then value="PURPLE-HILLS"/></when>
+      <else value=""/>
+    </case>
     <variable id="sunset" type="STRING" value="sunset"/>
     <variable id="sunny" type="STRING" value="sunny"/>
     <variable id="purple-hills" type="STRING" value="purple-hills"/>
-    <variable id="sunset-mays" type="STRING" value="SUNSET"/>
-    <variable id="sunny-mays" type="STRING" value="SUNNY"/>
-    <variable id="purple-hills-mays" type="STRING" value="PURPLE-HILLS"/>
-    <variable id="0" type="INTEGER" value="0"/>
-    <variable id="EMPTY" type="STRING" value=""/>
+    <variable id="1" type="INTEGER" value="1"/>
+    <variable id="2" type="INTEGER" value="2"/>
+    <variable id="3" type="INTEGER" value="3"/>
+  </query>
+
+  <query id="testCaseWhenElseInFilter">
+    <table id="AweThm"/>
+    <case alias="value">
+      <when left-field="Nam" condition="eq" right-variable="sunset"><then variable="1"/></when>
+      <when left-field="Nam" condition="eq" right-variable="sunny"><then variable="2"/></when>
+      <when left-field="Nam" condition="eq" right-variable="purple-hills"><then variable="3"/></when>
+      <else value="0" type="INTEGER"/>
+    </case>
+    <case alias="label">
+      <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunset"/><then value="SUNSET"/></when>
+      <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunny"/><then value="SUNNY"/></when>
+      <when condition="eq"><left-operand id="Nam"/><right-operand variable="purple-hills"/><then value="PURPLE-HILLS"/></when>
+      <else value=""/>
+    </case>
+    <where>
+      <and>
+        <filter condition="eq">
+          <left-operand>
+            <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunset"/><then value="SUNSET"/></when>
+            <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunny"/><then value="SUNNY"/></when>
+            <when condition="eq"><left-operand id="Nam"/><right-operand variable="purple-hills"/><then value="PURPLE-HILLS"/></when>
+            <else value=""/>
+          </left-operand>
+          <right-operand value="SUNSET"/>
+        </filter>
+      </and>
+    </where>
+    <variable id="sunset" type="STRING" value="sunset"/>
+    <variable id="sunny" type="STRING" value="sunny"/>
+    <variable id="purple-hills" type="STRING" value="purple-hills"/>
     <variable id="1" type="INTEGER" value="1"/>
     <variable id="2" type="INTEGER" value="2"/>
     <variable id="3" type="INTEGER" value="3"/>

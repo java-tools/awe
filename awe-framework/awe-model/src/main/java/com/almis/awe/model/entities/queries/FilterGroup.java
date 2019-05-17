@@ -53,6 +53,6 @@ public abstract class FilterGroup implements Copyable {
     if (getFilterGroupList() != null) {
       filterGroupAll.addAll(getFilterGroupList());
     }
-    return StringUtils.join(filterGroupAll, " " + getUnion().toLowerCase() + " ");
+    return "(" + StringUtils.join(filterGroupAll, " " + getUnion().toLowerCase() + " ") + ")";
   }
 }

@@ -4,9 +4,9 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.entities.Copyable;
 import com.almis.awe.model.util.data.ListUtil;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -57,7 +57,7 @@ public class ClientAction implements Copyable {
   private List<Parameter> parameterList;
 
   // Client action parameter list
-  @JsonProperty("parameters")
+  @JsonIgnore
   @XStreamOmitField
   private transient Map<String, Object> parameterMap;
 
@@ -106,6 +106,18 @@ public class ClientAction implements Copyable {
     }
     parameterMap.put(name, value);
     return this;
+  }
+
+  /**
+   * Retrieve parameters map
+   * @return Parameters map
+   */
+  @JsonGetter("parameters")
+  public Map<String, Object> getParameters() {
+    if (parameterMap == null) {
+      parameterMap = new HashMap<>();
+    }
+    return parameterMap;
   }
 
   @Override

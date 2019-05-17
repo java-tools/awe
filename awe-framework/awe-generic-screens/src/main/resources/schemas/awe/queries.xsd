@@ -30,14 +30,38 @@
   <!-- Field Element -->
   <xs:element name="field" type="fieldType" />
 
-  <!-- Concat Element -->
-  <xs:element name="concat" type="concatType" />
+  <!-- Case Element -->
+  <xs:element name="static" type="staticType" />
+
+  <!-- Case Element -->
+  <xs:element name="operation" type="operationType" />
+
+  <!-- Case Element -->
+  <xs:element name="case" type="caseType" />
 
   <!-- Case When Element -->
-  <xs:element name="case-when" type="caseWhenType" />
+  <xs:element name="when" type="caseWhenType" />
+
+  <!-- Case Then Element -->
+  <xs:element name="then" type="operandType" />
 
   <!-- Case Else Element -->
-  <xs:element name="case-else" type="caseElseType" />
+  <xs:element name="else" type="operandType" />
+
+  <!-- Filter Element -->
+  <xs:element name="filter" type="filterType"/>
+
+  <!-- And Element -->
+  <xs:element name="and" type="filterGroupType"/>
+
+  <!-- Or Element -->
+  <xs:element name="or" type="filterGroupType"/>
+
+  <!-- Left operand element -->
+  <xs:element name="left-operand" type="operandType" />
+
+  <!-- Right operand element -->
+  <xs:element name="right-operand" type="operandType" />
 
   <!-- Query Element -->
   <xs:element name="query" type="queryType" />
@@ -47,6 +71,12 @@
 
   <!-- Compound Element -->
   <xs:element name="compound" type="compoundType" />
+
+  <!-- Where Element -->
+  <xs:element name="where" type="whereType"/>
+
+  <!-- Having Element -->
+  <xs:element name="having" type="whereType"/>
 
   <!-- Join Element -->
   <xs:element name="join" type="joinType" />
@@ -86,6 +116,9 @@
       <xs:element ref="computed" />
       <xs:element ref="compound" />
       <xs:element ref="field" />
+      <xs:element ref="static" />
+      <xs:element ref="operation" />
+      <xs:element ref="case" />
       <xs:element ref="join" />
       <xs:element ref="union" />
       <xs:element ref="variable" />
@@ -126,30 +159,63 @@
 
   <!-- Field Type -->
   <xs:complexType name="fieldType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="concat" />
-      <xs:element ref="case-when" />
-      <xs:element ref="case-else" />
-    </xs:choice>
     <xs:attributeGroup ref="fieldQueryAttr" />
   </xs:complexType>
 
-  <!-- Concat type -->
-  <xs:complexType name="concatType">
-    <xs:attribute name="id" type="xs:string" />
-    <xs:attribute name="table" type="xs:string" />
-    <xs:attribute name="value" type="xs:string" />
+  <!-- Operation type -->
+  <xs:complexType name="operationType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="field" />
+      <xs:element ref="static" />
+      <xs:element ref="operation" />
+      <xs:element ref="case" />
+    </xs:choice>
+    <xs:attributeGroup ref="operationQueryAttr"/>
+  </xs:complexType>
+
+  <!-- Field Type -->
+  <xs:complexType name="staticType">
+    <xs:attributeGroup ref="staticQueryAttr" />
   </xs:complexType>
 
   <!-- Case Else type -->
-  <xs:complexType name="caseElseType">
-    <xs:attributeGroup ref="caseAttr"/>
+  <xs:complexType name="caseType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="when" />
+      <xs:element ref="else" />
+    </xs:choice>
+    <xs:attributeGroup ref="caseQueryAttr"/>
   </xs:complexType>
 
-  <!-- Case When type -->
-  <xs:complexType name="caseWhenType">
-    <xs:attributeGroup ref="caseAttr" />
-    <xs:attributeGroup ref="filterAttr"/>
+  <!-- Operand Type -->
+  <xs:complexType name="operandType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="field" />
+      <xs:element ref="static" />
+      <xs:element ref="operation" />
+      <xs:element ref="case" />
+      <xs:element ref="when" />
+      <xs:element ref="else" />
+    </xs:choice>
+    <xs:attributeGroup ref="operandAttr"/>
+  </xs:complexType>
+
+
+  <!-- FilterGroup Type -->
+  <xs:complexType name="filterGroupType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="filter"/>
+      <xs:element ref="or"/>
+      <xs:element ref="and"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- Where Type -->
+  <xs:complexType name="whereType">
+    <xs:choice minOccurs="1" maxOccurs="unbounded">
+      <xs:element ref="or"/>
+      <xs:element ref="and"/>
+    </xs:choice>
   </xs:complexType>
 
   <!-- Compound type -->
@@ -172,6 +238,29 @@
     <xs:attribute name="label" type="xs:string" />
   </xs:complexType>
 
+  <!-- Case Else type -->
+  <xs:complexType name="caseElseType">
+    <xs:attributeGroup ref="operandAttr"/>
+  </xs:complexType>
+
+  <!-- Case When type -->
+  <xs:complexType name="caseWhenType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="left-operand" />
+      <xs:element ref="right-operand" />
+      <xs:element ref="then" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttr"/>
+  </xs:complexType>
+
+  <!-- Filter Type -->
+  <xs:complexType name="filterType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="left-operand" />
+      <xs:element ref="right-operand" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttr"/>
+  </xs:complexType>
 
   <!-- Join Element -->
   <xs:complexType name="joinType">

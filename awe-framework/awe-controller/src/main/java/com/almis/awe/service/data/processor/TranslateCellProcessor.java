@@ -5,7 +5,6 @@ import com.almis.awe.model.component.AweContextAware;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.entities.enumerated.EnumeratedGroup;
-import com.almis.awe.model.entities.queries.Field;
 import com.almis.awe.model.entities.queries.OutputField;
 
 /**
@@ -57,14 +56,7 @@ public class TranslateCellProcessor implements CellProcessor, AweContextAware {
    * @return
    */
   public String getColumnIdentifier() {
-    String identifier = null;
-    if (field.getAlias() != null) {
-      return field.getAlias();
-    } else if (field instanceof Field) {
-      Field fieldObject = (Field) field;
-      identifier = fieldObject.getId();
-    }
-    return identifier;
+    return field.getIdentifier();
   }
 
   /**

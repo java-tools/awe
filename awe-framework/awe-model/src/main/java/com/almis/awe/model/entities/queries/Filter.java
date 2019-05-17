@@ -2,8 +2,10 @@ package com.almis.awe.model.entities.queries;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Copyable;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -40,11 +42,6 @@ public class Filter implements Copyable {
   @XStreamAsAttribute
   private String leftTable;
 
-  // Concat to compare (left side)
-  @XStreamAlias("left-concat")
-  @XStreamAsAttribute
-  private String leftConcat;
-
   // Value to filter (string at left side) (to be deprecated)
   @XStreamAlias("value")
   @XStreamAsAttribute
@@ -80,11 +77,6 @@ public class Filter implements Copyable {
   @XStreamAsAttribute
   private String rightTable;
 
-  // Concat to compare (right side)
-  @XStreamAlias("right-concat")
-  @XStreamAsAttribute
-  private String rightConcat;
-
   // Function to field or variable (right side)
   @XStreamAlias("right-function")
   @XStreamAsAttribute
@@ -115,6 +107,16 @@ public class Filter implements Copyable {
   @XStreamAsAttribute
   private Boolean optional;
 
+  // Left operand
+  @XStreamAlias("left-operand")
+  @XStreamConverter(OperandConverter.class)
+  private SqlField leftOperand;
+
+  // Right operand
+  @XStreamAlias("right-operand")
+  @XStreamConverter(OperandConverter.class)
+  private SqlField rightOperand;
+
   /**
    * Returns if optional
    * @return Is optional
@@ -143,10 +145,11 @@ public class Filter implements Copyable {
   public String toString() {
 
     // Generate filter expressions
-    StringBuilder builder = new StringBuilder();
-    builder.append(getSideExpression(getLeftField(), getLeftTable(), getLeftVariable(), null, getLeftFunction()));
-    builder.append(" ").append(getCondition()).append(" ");
-    String rightExpression = getSideExpression(getRightField(), getRightTable(), getRightVariable(), getQuery(), getRightFunction());
+    StringBuilder builder = new StringBuilder()
+      .append("(")
+      .append(getSideExpression(getLeftOperand(), getLeftField(), getLeftTable(), getLeftVariable(), null, getLeftFunction()))
+      .append(" ").append(getCondition()).append(" ");
+    String rightExpression = getSideExpression(getRightOperand(), getRightField(), getRightTable(), getRightVariable(), getQuery(), getRightFunction());
     builder.append(rightExpression == null ? "" : rightExpression);
 
     // Add modifiers
@@ -161,7 +164,7 @@ public class Filter implements Copyable {
       modifierList.add("trim");
     }
     String modifiers = StringUtils.join(modifierList, ", ");
-    builder.append(modifiers.isEmpty() ? "" : " <= (" + modifiers + ")");
+    builder.append(modifiers.isEmpty() ? ")" : ") <- [" + modifiers + "]");
 
     // Generate full filter
     return builder.toString();
@@ -170,6 +173,7 @@ public class Filter implements Copyable {
   /**
    * Retrieve a side expression
    *
+   * @param operand  Expression operand
    * @param field    Expression field
    * @param table    Expression table
    * @param variable Expression variable
@@ -177,16 +181,23 @@ public class Filter implements Copyable {
    * @param function Expression function
    * @return Side expression
    */
-  private String getSideExpression(String field, String table, String variable, String query, String function) {
-    String fieldTable = (table != null) ? (table + "." + field) : field;
-    String expression = (field != null) ? fieldTable : null;
-    expression = variable != null ? "variable(" + variable + ")" : expression;
-    expression = query != null ? "query(" + query + ")" : expression;
-    return function != null ? function.toLowerCase() + "(" + expression + ")" : expression;
+  private String getSideExpression(OutputField operand, String field, String table, String variable, String query, String function) {
+    if (operand != null) {
+      return operand.toString();
+    } else {
+      String fieldTable = (table != null) ? (table + "." + field) : field;
+      String expression = (field != null) ? fieldTable : null;
+      expression = variable != null ? "variable(" + variable + ")" : expression;
+      expression = query != null ? "query(" + query + ")" : expression;
+      return function != null ? function.toLowerCase() + "(" + expression + ")" : expression;
+    }
   }
 
   @Override
   public Filter copy() throws AWException {
-    return this.toBuilder().build();
+    return this.toBuilder()
+      .leftOperand(ListUtil.copyElement(getLeftOperand()))
+      .rightOperand(ListUtil.copyElement(getRightOperand()))
+      .build();
   }
 }

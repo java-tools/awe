@@ -4,11 +4,9 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.type.ParameterType;
+import com.almis.awe.model.util.data.DateUtil;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Abstract class that contains general method implementations for all ServiceConnectors
@@ -35,11 +33,12 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
       if (param != null) {
         paramNameToInvoke = param.getName();
         if (param.isList()) {
-          extractParameterList(iteratingParam, param, paramsMapFromRequest, paramsToInvoke);
+          paramsToInvoke[iteratingParam] = getParameterValueList(param, paramsMapFromRequest);
           paramsClassesToInvoke[iteratingParam] = List.class;
         } else {
           Object paramValue = paramsMapFromRequest.get(paramNameToInvoke);
-          extractParameterValue(iteratingParam, param, paramValue, paramsToInvoke, paramsClassesToInvoke);
+          paramsToInvoke[iteratingParam] = getParameterValue(param, paramValue);
+          paramsClassesToInvoke[iteratingParam] = getParameterClass(param);
         }
         iteratingParam++;
       } else {
@@ -50,114 +49,78 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
   }
 
   /**
-   * Extract parameters values
-   *
-   * @param iteratingParam       XML parameters
-   * @param parameter            Parameter
-   * @param paramsMapFromRequest Map parameters
-   * @param paramsToInvoke       Parameters to invoke
+   * Get parameter class
+   * @param parameter Parameter
    */
-  public void extractParameterList(Integer iteratingParam, ServiceInputParameter parameter, Map<String, Object> paramsMapFromRequest, Object[] paramsToInvoke) {
+  public Class getParameterClass(ServiceInputParameter parameter) {
     switch (ParameterType.valueOf(parameter.getType())) {
       case INTEGER:
-        paramsToInvoke[iteratingParam] = getParameterValueList(parameter.getName(), Integer.class, paramsMapFromRequest);
-        break;
+        return Integer.class;
       case LONG:
-        paramsToInvoke[iteratingParam] = getParameterValueList(parameter.getName(), Long.class, paramsMapFromRequest);
-        break;
+        return Long.class;
       case FLOAT:
-        paramsToInvoke[iteratingParam] = getParameterValueList(parameter.getName(), Float.class, paramsMapFromRequest);
-        break;
+        return Float.class;
       case DOUBLE:
-        paramsToInvoke[iteratingParam] = getParameterValueList(parameter.getName(), Double.class, paramsMapFromRequest);
-        break;
+        return Double.class;
       case DATE:
       case TIME:
       case TIMESTAMP:
-        paramsToInvoke[iteratingParam] = getParameterValueList(parameter.getName(), Date.class, paramsMapFromRequest);
-        break;
+        return Date.class;
       case BOOLEAN:
-        paramsToInvoke[iteratingParam] = getParameterValueList(parameter.getName(), Boolean.class, paramsMapFromRequest);
-        break;
+        return Boolean.class;
       case OBJECT:
-        paramsToInvoke[iteratingParam] = getParameterValueList(parameter.getName(), Object.class, paramsMapFromRequest);
-        break;
+        return Object.class;
       case STRING:
       default:
-        paramsToInvoke[iteratingParam] = getParameterValueList(parameter.getName(), String.class, paramsMapFromRequest);
-        break;
+        return String.class;
     }
   }
 
   /**
    * Extract parameters values
    *
-   * @param iteratingParam        Parameter index
    * @param parameter             Parameter
    * @param paramValue            Parameter value
-   * @param paramsToInvoke        Parameters to invoke
-   * @param paramsClassesToInvoke Classes to invoke
    */
-  public void extractParameterValue(Integer iteratingParam, ServiceInputParameter parameter, Object paramValue, Object[] paramsToInvoke, Class[] paramsClassesToInvoke) {
+  public Object getParameterValue(ServiceInputParameter parameter, Object paramValue) {
     switch (ParameterType.valueOf(parameter.getType())) {
       case INTEGER:
-        paramsToInvoke[iteratingParam] = "".equals(paramValue) ? null : (Integer) paramValue;
-        paramsClassesToInvoke[iteratingParam] = Integer.class;
-        break;
       case LONG:
-        paramsToInvoke[iteratingParam] = "".equals(paramValue) ? null : (Long) paramValue;
-        paramsClassesToInvoke[iteratingParam] = Long.class;
-        break;
       case FLOAT:
-        paramsToInvoke[iteratingParam] = "".equals(paramValue) ? null : (Float) paramValue;
-        paramsClassesToInvoke[iteratingParam] = Float.class;
-        break;
       case DOUBLE:
-        paramsToInvoke[iteratingParam] = "".equals(paramValue) ? null : (Double) paramValue;
-        paramsClassesToInvoke[iteratingParam] = Double.class;
-        break;
+      case BOOLEAN:
+        return "".equals(paramValue) ? null : paramValue;
       case DATE:
       case TIME:
       case TIMESTAMP:
-        paramsToInvoke[iteratingParam] = "".equals(paramValue) ? null : (Date) paramValue;
-        paramsClassesToInvoke[iteratingParam] = Date.class;
-        break;
-      case BOOLEAN:
-        paramsToInvoke[iteratingParam] = "".equals(paramValue) ? null : (Boolean) paramValue;
-        paramsClassesToInvoke[iteratingParam] = Boolean.class;
-        break;
+        return "".equals(paramValue) ? null : DateUtil.web2Date((String) paramValue);
       case OBJECT:
-        paramsToInvoke[iteratingParam] = paramValue;
-        paramsClassesToInvoke[iteratingParam] = Object.class;
-        break;
       case STRING:
       default:
-        paramsToInvoke[iteratingParam] = paramValue;
-        paramsClassesToInvoke[iteratingParam] = String.class;
-        break;
+        return paramValue;
     }
   }
 
   /**
    * Returns the value array list
    *
-   * @param name      parameter name
-   * @param className parameter object type
+   * @param parameter parameter name
    * @param paramsMap map with parameters
    * @return Service call string
    */
-  public List<Object> getParameterValueList(String name, Class className, Map<String, Object> paramsMap) {
+  public List<Object> getParameterValueList(ServiceInputParameter parameter, Map<String, Object> paramsMap) {
 
     // Variable definition
-    List parameterList;
+    List parameterList = new ArrayList();
     Object parameterValue;
-    if (paramsMap.containsKey(name) && !"".equals(paramsMap.get(name))) {
-      parameterValue = paramsMap.get(name);
-      if (parameterValue instanceof List) {
-        parameterList = (List) parameterValue;
+    if (paramsMap.containsKey(parameter.getName()) && !"".equals(paramsMap.get(parameter.getName()))) {
+      parameterValue = paramsMap.get(parameter.getName());
+      if (parameterValue instanceof Collection) {
+        for (Object parameterValueElement : (Collection) parameterValue) {
+          parameterList.add(getParameterValue(parameter, parameterValueElement));
+        }
       } else {
-        parameterList = new ArrayList();
-        parameterList.add(className.cast(parameterValue));
+        parameterList.add(getParameterValue(parameter, parameterValue));
       }
     } else {
       parameterList = new ArrayList();

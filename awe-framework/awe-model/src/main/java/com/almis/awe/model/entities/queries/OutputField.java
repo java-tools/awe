@@ -4,9 +4,7 @@ import com.almis.awe.model.entities.Copyable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
@@ -18,12 +16,13 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Accessors(chain = true)
-@XStreamInclude({Field.class, Computed.class, Compound.class})
+@XStreamInclude({SqlField.class, Computed.class, Compound.class})
 public abstract class OutputField implements Copyable {
 
   private static final long serialVersionUID = -5029397784962648558L;
@@ -84,5 +83,26 @@ public abstract class OutputField implements Copyable {
    */
   public boolean isTranslate() {
     return translate != null && !translate.isEmpty();
+  }
+
+  /**
+   * Retrieve field identifier
+   * @return Identifier
+   */
+  public String getIdentifier() {
+    String identifier = null;
+    if (alias != null) {
+      identifier = alias;
+    }
+    return identifier;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    if (getAlias() != null) {
+      builder.append(" as ").append(getAlias());
+    }
+    return builder.toString();
   }
 }

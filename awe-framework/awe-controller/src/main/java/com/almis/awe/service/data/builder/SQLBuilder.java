@@ -2,19 +2,16 @@ package com.almis.awe.service.data.builder;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.queries.*;
-import com.almis.awe.model.type.FilterValueType;
 import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.type.UnionType;
 import com.almis.awe.model.util.data.DateUtil;
 import com.almis.awe.model.util.data.QueryUtil;
-import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Ops;
-import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.sql.RelationalPath;
 import com.querydsl.sql.RelationalPathBase;
@@ -22,8 +19,9 @@ import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Generates sql codes
@@ -31,14 +29,7 @@ import java.util.*;
 public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   private SQLQueryFactory factory;
-
-  private static final String IS_NULL = "isNull";
-  private static final String IS_NOT_NULL = "isNotNull";
-  private static final String IN = "in";
-  private static final String NOT_IN = "notIn";
   private static final String ERROR_TITLE_GENERATING_FILTER = "ERROR_TITLE_GENERATING_FILTER";
-  private static final List<String> NULL_CONDITIONS = Arrays.asList((String[]) new String[] { IS_NULL, IS_NOT_NULL });
-  private static final List<String> IN_CONDITIONS = Arrays.asList((String[]) new String[] { IN, NOT_IN });
 
   /**
    * Autowired constructor
@@ -95,30 +86,18 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   protected Expression getFieldExpression(Field field) throws AWException {
     Expression fieldExpression = null;
 
-    // Field as Subquery
     if (field.getQuery() != null) {
+      // Field as Subquery
       fieldExpression = getSubquery(field.getQuery());
-      // Field as variable
     } else if (field.getVariable() != null) {
+      // Field as variable
       fieldExpression = getVariableExpression(field.getVariable());
-      // Field as caseWhen
-    } else if (field.getCaseElse() != null) {
-      fieldExpression = getCaseExpression(field);
-      // Field as concat
-    } else if (field.getConcatList() != null) {
-      fieldExpression = getConcatExpression(field);
-      // Field as value
-    } else if (field.getValue() != null) {
-      fieldExpression = getStringExpression(field.getValue());
-      // Field from function (numeric)
-    } else if (field.getFunction() != null) {
-      fieldExpression = convertFieldToExpression(field.getTable(), field.getId(), FilterValueType.NUMBER);
-      // Field from specifying its table
     } else {
+      // Field from specifying its table
       fieldExpression = buildPath(field.getTable(), field.getId());
     }
 
-    // Add a function to the field if specified
+    // Apply function to field
     if (field.getFunction() != null) {
       try {
         fieldExpression = getExpressionFunction(fieldExpression, field.getFunction());
@@ -128,12 +107,22 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       }
     }
 
-    // Add an alias to the field if specified
-    if (field.getAlias() != null) {
-      fieldExpression = Expressions.as(fieldExpression, buildPath(field.getAlias()));
-    }
-
     return fieldExpression;
+  }
+
+  /**
+   * Retrieve field expression
+   *
+   * @param field
+   * @return Expression field expression
+   * @throws AWException Error retrieving field expression
+   */
+  protected Expression getStaticExpression(Static field) throws AWException {
+    ParameterType type = ParameterType.STRING;
+    if (field.getType() != null) {
+      type = ParameterType.valueOf(field.getType());
+    }
+    return getVariableAsExpression(field.getValue(), type);
   }
 
   /**
@@ -169,62 +158,124 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @param table
    * @return Expression field expression
    */
-  protected Expression getFieldAliasExpression(Field field, String table) {
+  protected Expression getFieldAliasExpression(SqlField field, String table) {
     Expression fieldExpression = null;
 
-    if (field.getAlias() != null) {
-      fieldExpression = buildPath(table, field.getAlias(), field.getAlias());
-    } else {
-      fieldExpression = buildPath(table, field.getId(), field.getId());
+    if (field.getIdentifier() != null) {
+      fieldExpression = buildPath(table, field.getIdentifier(), field.getIdentifier());
     }
 
     return fieldExpression;
   }
 
   /**
-   * Retrieve concat expression
+   * Retrieve operation expression
    *
-   * @param field Field to concat
+   * @param operation Operation to manage
    * @return Expression concat expression
    */
-  protected Expression getConcatExpression(Field field) {
-    StringExpression concatExpression = null;
+  protected Expression getOperationExpression(Operation operation) throws AWException {
+    Expression operationExpression = null;
+    List<Expression> operands = new ArrayList<>();
 
-    if (field.getConcatList() != null) {
-      for (Concat concat : field.getConcatList()) {
-        StringExpression template = getConcatTemplate(concat);
-
-        if (concatExpression == null) {
-          concatExpression = template;
-        } else {
-          concatExpression = concatExpression.concat(template);
-        }
+    if (operation.getOperandList() != null) {
+      for (SqlField operand : operation.getOperandList()) {
+        operands.add(getOperandExpression(operand));
       }
+      operationExpression = generateOperationExpression(operation, operands.toArray(new Expression[0]));
     }
 
-    return concatExpression;
+    return operationExpression;
   }
 
   /**
-   * Retrieve concat template
+   * Apply operand into operation
+   * @param operation Operation
+   * @param operands Operand list
+   * @return Operation expression
+   */
+  protected Expression generateOperationExpression(Operation operation, Expression... operands) {
+    Expression substractExpression = Expressions.constant(-1);
+    switch (operation.getOperator()) {
+      case "CONCAT":
+        Expression result = null;
+        for (Expression operand : operands) {
+          if (result == null) {
+            result = operand;
+          } else {
+            result = Expressions.stringOperation(Ops.CONCAT, result, operand);
+          }
+        }
+        return result;
+      case "ADD":
+      case "SUB":
+      case "MULT":
+      case "DIV":
+        return Expressions.numberOperation(Long.class, Ops.valueOf(operation.getOperator()), operands);
+      case "ADD_SECONDS":
+      case "ADD_MINUTES":
+      case "ADD_HOURS":
+      case "ADD_DAYS":
+      case "ADD_WEEKS":
+      case "ADD_MONTHS":
+      case "ADD_YEARS":
+      case "DIFF_SECONDS":
+      case "DIFF_MINUTES":
+      case "DIFF_HOURS":
+      case "DIFF_DAYS":
+      case "DIFF_WEEKS":
+      case "DIFF_MONTHS":
+      case "DIFF_YEARS":
+        return Expressions.dateOperation(Date.class, Ops.DateTimeOps.valueOf(operation.getOperator()), operands);
+      case "SUB_SECONDS":
+      case "SUB_MINUTES":
+      case "SUB_HOURS":
+      case "SUB_DAYS":
+      case "SUB_WEEKS":
+      case "SUB_MONTHS":
+      case "SUB_YEARS":
+        String operator = operation.getOperator().replace("SUB", "ADD");
+        return Expressions.dateOperation(Date.class, Ops.DateTimeOps.valueOf(operator), operands[0], Expressions.numberOperation(Integer.class, Ops.MULT, operands[1], substractExpression));
+      default:
+        return null;
+    }
+  }
+
+  /**
+   * Retrieve operand template
    *
-   * @param concat Field to concat
+   * @param operand Operand to retrieve template
    * @return Expression concat expression
    */
-  private StringExpression getConcatTemplate(Concat concat) {
-    StringExpression concatExpression = null;
+  protected Expression getOperandExpression(SqlField operand) throws AWException {
+    if (operand instanceof Static) {
+      return getStaticExpression((Static) operand);
+    } else if (operand instanceof Field) {
+      return getFieldExpression((Field) operand);
+    } else if (operand instanceof Operation) {
+      return getOperationExpression((Operation) operand);
+    } else if (operand instanceof Case) {
+      return getCaseExpression((Case) operand);
+    } else {
+      return null;
+    }
+  }
 
-    if (concat.getId() != null) {
-      if (concat.getTable() != null) {
-        concatExpression = buildPath(concat.getTable()).getString(concat.getId());
-      } else {
-        concatExpression = Expressions.stringTemplate(concat.getId());
-      }
-    } else if (concat.getValue() != null) {
-      concatExpression = Expressions.stringTemplate("{0}", concat.getValue());
+  /**
+   * Retrieve operand template
+   *
+   * @param field Operand to retrieve template
+   * @return Expression concat expression
+   */
+  protected Expression getSqlFieldExpression(SqlField field) throws AWException {
+    Expression expression = getOperandExpression(field);
+
+    // Add an alias to the field if specified
+    if (field.getIdentifier() != null) {
+      expression = Expressions.as(expression, buildPath(field.getIdentifier()));
     }
 
-    return concatExpression;
+    return expression;
   }
 
   /**
@@ -233,15 +284,15 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @param field Field to apply the case when condition
    * @return Expression caseWhen expression
    */
-  protected Expression getCaseExpression(Field field) throws AWException {
+  protected Expression getCaseExpression(Case field) throws AWException {
     CaseBuilder initialCase = new CaseBuilder();
     CaseBuilder.Cases caseList = null;
-    Expression caseElse = getCaseThenExpression(field.getCaseElse());
+    Expression caseElse = getOperandExpression(field.getCaseElse());
 
     if (field.getCaseWhenList() != null) {
       for (CaseWhen caseWhen : field.getCaseWhenList()) {
         BooleanExpression filter = getFilters(caseWhen);
-        Expression caseThen = getCaseThenExpression(caseWhen);
+        Expression caseThen = getOperandExpression(caseWhen.getThenOperand());
         if (caseList == null) {
           caseList = initialCase.when(filter).then(caseThen);
         } else {
@@ -251,25 +302,6 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     }
 
     return caseList == null ? caseElse : caseList.otherwise(caseElse);
-  }
-
-  /**
-   * Retrieve caseWhen expression
-   *
-   * @param caseClause Case clause
-   * @return Expression caseWhen expression
-   */
-  protected Expression getCaseThenExpression(CaseClause caseClause) throws AWException {
-
-    Expression caseThen;
-
-    if (caseClause.getThenField() != null) {
-      caseThen = buildPath(caseClause.getThenTable(), caseClause.getThenField());
-    } else {
-      caseThen = getVariableExpression(caseClause.getThenVariable());
-    }
-
-    return caseThen;
   }
 
   /**
@@ -315,8 +347,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Retrieve filter operand
    *
    * @param filter Filter
-   * @param field Field
-   * @param concat Concat
+   * @param operand Operand
+   * @param fieldId Field id
    * @param table Table
    * @param variable Variable
    * @param query Query
@@ -324,33 +356,36 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @return Filter operand
    * @throws AWException Error generating filter
    */
-  private Expression getFilterOperand(Filter filter, String field, String table, String concat, String variable, String query, String function) throws AWException {
-    Expression operand = null;
+  private Expression getFilterOperand(Filter filter, SqlField operand, String fieldId, String table, String variable, String query, String function) throws AWException {
+    Expression operandExpression = null;
 
-    if (variable != null) {
-      operand = convertVariableToExpression(filter, variable);
-      // If operand is Expressions.TRUE means we don't want to continue with the evaluation of the filter
-      if (Expressions.TRUE.equals(operand)) {
-        return operand;
-      }
-    } else if (field != null) {
-      FilterValueType type = filter.getType() != null ? FilterValueType.valueOf(filter.getType()) : FilterValueType.STRING;
-      operand = convertFieldToExpression(table, field, type);
-    } else if (concat != null) {
-      operand = convertConcatToExpression(concat);
-    } else if (query != null) {
-      operand = getSubquery(query);
+    if (operand == null) {
+      Field field = (Field) new Field()
+        .setVariable(variable)
+        .setQuery(query)
+        .setFunction(function)
+        .setId(fieldId)
+        .setTable(table);
+      operand = field;
     }
 
-    // Apply function if defined
-    operand = applyFilterFunction(operand, filter, function);
+    if (operand instanceof Field && ((Field) operand).getVariable() != null) {
+      Field field = (Field) operand;
+      operandExpression = getOperandVariableExpression(filter, field);
+      if (operandExpression == null) {
+        return null;
+      }
+    } else {
+      operandExpression = getOperandExpression(operand);
+    }
+
 
     // If filter is set to ignore cases or trim, trim operands
-    if ((filter.isTrim() || filter.isIgnoreCase()) && field != null) {
-      operand = operand != null ? ((StringExpression) operand).trim() : null;
+    if (filter.isTrim() || filter.isIgnoreCase()) {
+      operandExpression = Expressions.stringTemplate("{0}", operandExpression).trim();
     }
 
-    return operand == null ? Expressions.nullExpression() : operand;
+    return operandExpression == null ? Expressions.nullExpression() : operandExpression;
   }
 
   /**
@@ -453,6 +488,10 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return Expressions.asNumber(Long.valueOf(value));
       case INTEGER:
         return Expressions.asNumber(Integer.valueOf(value));
+      case BOOLEAN:
+        return Expressions.asBoolean(Boolean.valueOf(value));
+      case NULL:
+        return Expressions.nullExpression();
       case STRINGN:
       case MULTIPLE_SEQUENCE:
       case SEQUENCE:
@@ -469,29 +508,21 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @return Expression
    */
   protected Expression getExpressionFunction(Expression fieldExpression, String function) {
-    Expression functionExpression;
-
     switch (function.toUpperCase()) {
       case "AVG":
-        functionExpression = Expressions.numberOperation(Double.class, Ops.AggOps.AVG_AGG, fieldExpression);
-        break;
+        return Expressions.numberOperation(Double.class, Ops.AggOps.AVG_AGG, fieldExpression);
       case "CNT":
-        functionExpression = Expressions.numberOperation(Long.class, Ops.AggOps.COUNT_AGG, fieldExpression);
-        break;
+        return Expressions.numberOperation(Long.class, Ops.AggOps.COUNT_AGG, fieldExpression);
       case "MAX":
-        functionExpression = Expressions.numberOperation(Long.class, Ops.AggOps.MAX_AGG, fieldExpression);
-        break;
+        return Expressions.numberOperation(Long.class, Ops.AggOps.MAX_AGG, fieldExpression);
       case "MIN":
-        functionExpression = Expressions.numberOperation(Long.class, Ops.AggOps.MIN_AGG, fieldExpression);
-        break;
+        return Expressions.numberOperation(Long.class, Ops.AggOps.MIN_AGG, fieldExpression);
       case "TRUNCDATE":
-        functionExpression = Expressions.dateOperation(Date.class, Ops.DateTimeOps.DATE, fieldExpression);
-        break;
+        return Expressions.dateOperation(Date.class, Ops.DateTimeOps.DATE, fieldExpression);
       case "SUM":
       default:
-        functionExpression = Expressions.numberOperation(Long.class, Ops.AggOps.SUM_AGG, fieldExpression);
+        return Expressions.numberOperation(Long.class, Ops.AggOps.SUM_AGG, fieldExpression);
     }
-    return functionExpression;
   }
 
   /**
@@ -551,67 +582,25 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @throws AWException Filter statement generation error
    */
   private BooleanExpression getFilters(Filter filter) throws AWException {
-    // Final result
-    BooleanExpression result = null;
-
     try {
       // The left side of the comparison has to be either a static value of a
       // column from a table (or concatenation of several)
-      Expression firstOperand = getFilterOperand(filter, filter.getLeftField(), filter.getLeftTable(), filter.getLeftConcat(), filter.getLeftVariable(), null, filter.getLeftFunction());
-      Expression secondOperand = getFilterOperand(filter, filter.getRightField(), filter.getRightTable(), filter.getRightConcat(), filter.getRightVariable(), filter.getQuery(),
-        filter.getRightFunction());
+      Expression firstOperand = getFilterOperand(filter, filter.getLeftOperand(), filter.getLeftField(), filter.getLeftTable(), filter.getLeftVariable(), null, filter.getLeftFunction());
+      Expression secondOperand = getFilterOperand(filter, filter.getRightOperand(), filter.getRightField(), filter.getRightTable(), filter.getRightVariable(), filter.getQuery(), filter.getRightFunction());
 
       // If one of the operands return TRUE, it means optional filter with a null value
-      if (Expressions.TRUE.equals(firstOperand) || Expressions.TRUE.equals(secondOperand)) {
+      if (firstOperand == null || secondOperand == null) {
         return null;
       }
 
       // Create the condition for the comparison and execute
-      String conditionMethod = getFilterConditionMethod(filter.getCondition().toLowerCase(), filter.isIgnoreCase(), secondOperand);
-
-      // Execute the method
-      if (NULL_CONDITIONS.contains(conditionMethod)) {
-        Method expressionCondition = firstOperand.getClass().getMethod(conditionMethod);
-        result = (BooleanExpression) (expressionCondition.invoke(firstOperand));
-      } else if (IN_CONDITIONS.contains(conditionMethod) && secondOperand instanceof SQLQuery) {
-        Method expressionCondition = firstOperand.getClass().getMethod(conditionMethod, SubQueryExpression.class);
-        result = (BooleanExpression) (expressionCondition.invoke(firstOperand, secondOperand));
-      } else if (IN_CONDITIONS.contains(conditionMethod)) {
-        Method expressionCondition = firstOperand.getClass().getMethod(conditionMethod, Collection.class);
-        result = (BooleanExpression) (expressionCondition.invoke(firstOperand, ((SimpleOperation) secondOperand).getArgs()));
-      } else {
-        Method expressionCondition = firstOperand.getClass().getMethod(conditionMethod, Expression.class);
-        result = (BooleanExpression) (expressionCondition.invoke(firstOperand, secondOperand));
-      }
-      return result;
+      return applyFilterCondition(filter.getCondition().toLowerCase(), filter.isIgnoreCase(), firstOperand, secondOperand);
     } catch (AWException exc) {
       throw exc;
     } catch (Exception exc) {
       throw new AWException(getElements().getLocale(ERROR_TITLE_GENERATING_FILTER),
         getElements().getLocale("ERROR_MESSAGE_GENERATING_FILTER", filter.toString()), exc);
     }
-  }
-
-  /**
-   * Apply filter function to operand
-   *
-   * @param operand Operand
-   * @param filter Filter
-   * @param function Function to apply
-   * @return Operand with function
-   * @throws AWException Filter function is wrong
-   */
-  private Expression applyFilterFunction(Expression operand, Filter filter, String function) throws AWException {
-    Expression expression = operand;
-    if (function != null) {
-      try {
-        expression = getExpressionFunction(operand, function);
-      } catch (Exception exc) {
-        throw new AWException(getElements().getLocale(ERROR_TITLE_GENERATING_FILTER),
-          getElements().getLocale("ERROR_MESSAGE_GENERATING_FILTER", filter.toString()), exc);
-      }
-    }
-    return expression;
   }
 
   /**
@@ -622,149 +611,102 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @param secondOperand Second operand (to check whether is null)
    * @return Filter condition
    */
-  private String getFilterConditionMethod(String filterCondition, boolean ignoreCase, Expression secondOperand) {
-    String conditionMethod = null;
+  private BooleanOperation applyFilterCondition(String filterCondition, boolean ignoreCase, Expression firstOperand, Expression secondOperand) {
     boolean inCondition = secondOperand instanceof SimpleOperation || secondOperand instanceof SQLQuery;
     switch (filterCondition) {
       case "ge":
-        conditionMethod = "goe";
-        break;
+        return Expressions.booleanOperation(Ops.GOE, firstOperand, secondOperand);
       case "le":
-        conditionMethod = "loe";
-        break;
+        return Expressions.booleanOperation(Ops.LOE, firstOperand, secondOperand);
       case "in":
-        if (inCondition) {
-          conditionMethod = "in";
-        } else {
-          conditionMethod = getFilterConditionMethod("eq", ignoreCase, secondOperand);
-        }
-        break;
+        return getFilterIn(inCondition, firstOperand, secondOperand);
       case "not in":
-        if (inCondition) {
-          conditionMethod = NOT_IN;
-        } else {
-          conditionMethod = getFilterConditionMethod("ne", ignoreCase, secondOperand);
-        }
-        break;
+        return Expressions.booleanOperation(Ops.NOT, getFilterIn(inCondition, firstOperand, secondOperand));
       case "is null":
-        conditionMethod = IS_NULL;
-        break;
+        return Expressions.booleanOperation(Ops.IS_NULL, firstOperand);
       case "is not null":
-        conditionMethod = IS_NOT_NULL;
-        break;
+        return Expressions.booleanOperation(Ops.IS_NOT_NULL, firstOperand);
       case "like":
-        if (ignoreCase) {
-          conditionMethod = "likeIgnoreCase";
-        } else {
-          conditionMethod = "like";
-        }
-        break;
+        return getFilterLike(ignoreCase, firstOperand, secondOperand);
       case "not like":
-        conditionMethod = "notLike";
-        break;
+        return Expressions.booleanOperation(Ops.NOT, getFilterLike(ignoreCase, firstOperand, secondOperand));
       case "eq":
-        conditionMethod = getVariableConditionMethod(secondOperand, ignoreCase, IS_NULL, "equalsIgnoreCase", "eq");
-        break;
+        return getFilterEq(ignoreCase, firstOperand, secondOperand);
       case "ne":
-        conditionMethod = getVariableConditionMethod(secondOperand, ignoreCase, IS_NOT_NULL, "notEqualsIgnoreCase", "ne");
-        break;
+        return Expressions.booleanOperation(Ops.NOT, getFilterEq(ignoreCase, firstOperand, secondOperand));
       default:
-        conditionMethod = filterCondition;
+        return Expressions.booleanOperation(Ops.valueOf(filterCondition.toUpperCase()), firstOperand, secondOperand);
     }
-    return conditionMethod;
   }
 
   /**
-   * Check operand and retrieve condition method
-   * @param operand Operand
-   * @param nullValue Value if null
-   * @param ignoreCaseValue Value if ignorecase
-   * @param value Value
-   * @return Condition
+   * Get filter EQ
+   * @param ignoreCase Ignore cases
+   * @param firstOperand First operand
+   * @param secondOperand Second operand
+   * @return Boolean operation
    */
-  private String getVariableConditionMethod(Expression operand, boolean ignoreCase, String nullValue, String ignoreCaseValue, String value) {
-    if (operand instanceof NullExpression) {
-      return nullValue;
+  private BooleanOperation getFilterEq(boolean ignoreCase, Expression firstOperand, Expression secondOperand) {
+    if (secondOperand instanceof NullExpression) {
+      return Expressions.booleanOperation(Ops.IS_NULL, firstOperand);
     } else if (ignoreCase) {
-      return ignoreCaseValue;
+      return Expressions.booleanOperation(Ops.EQ_IGNORE_CASE, firstOperand, secondOperand);
     } else {
-      return value;
+      return Expressions.booleanOperation(Ops.EQ, firstOperand, secondOperand);
     }
   }
 
   /**
-   * Generate queryDSL expression from field
-   *
-   * @param table Field table
-   * @param field Field name
-   * @param type Filter value type
-   * @return Field as expression
+   * Get filter IN
+   * @param inCondition In condition
+   * @param firstOperand First operand
+   * @param secondOperand Second operand
+   * @return Boolean operation
    */
-  private Expression convertFieldToExpression(String table, String field, FilterValueType type) {
-    if (table != null) {
-      PathBuilder<Object> path = buildPath(table);
-      switch (type) {
-        case NUMBER:
-          return path.getNumber(field, Long.class);
-        case DECIMAL_NUMBER:
-          return path.getNumber(field, Double.class);
-        case DATE:
-          return path.getDate(field, String.class);
-        case TIME:
-          return path.getTime(field, String.class);
-        default:
-          return path.getString(field);
-      }
+  private BooleanOperation getFilterIn(boolean inCondition, Expression firstOperand, Expression secondOperand) {
+    if (secondOperand instanceof NullExpression) {
+      return Expressions.booleanOperation(Ops.IS_NULL, firstOperand);
+    } else if (inCondition) {
+      return Expressions.booleanOperation(Ops.IN, firstOperand, secondOperand);
     } else {
-      switch (type) {
-        case NUMBER:
-          return Expressions.numberPath(Long.class, field);
-        case DECIMAL_NUMBER:
-          return Expressions.numberPath(Double.class, field);
-        case DATE:
-          return Expressions.datePath(Date.class, field);
-        case TIME:
-          return Expressions.timePath(Date.class, field);
-        default:
-          return Expressions.stringPath(field);
-      }
+      return Expressions.booleanOperation(Ops.EQ, firstOperand, secondOperand);
     }
   }
 
   /**
-   * Generate queryDSL expression from concat
-   *
-   * @param fieldConcatId Field concat id
-   * @return Expression
+   * Get filter LIKE
+   * @param ignoreCase Ignore cases
+   * @param firstOperand First operand
+   * @param secondOperand Second operand
+   * @return Boolean operation
    */
-  private Expression convertConcatToExpression(String fieldConcatId) {
-    for (Field fieldConcat : this.getQuery().getFieldList()) {
-      if (fieldConcatId.equals(fieldConcat.getId())) {
-        return getConcatExpression(fieldConcat);
-      }
+  private BooleanOperation getFilterLike(boolean ignoreCase, Expression firstOperand, Expression secondOperand) {
+    if (ignoreCase) {
+      return Expressions.booleanOperation(Ops.LIKE_IC, firstOperand, secondOperand);
+    } else {
+      return Expressions.booleanOperation(Ops.LIKE, firstOperand, secondOperand);
     }
-    return Expressions.ONE;
   }
 
   /**
    * Generate querydsl expression from variable
    *
    * @param filter Filter
-   * @param variableName Variable name
+   * @param field Field to
    * @return Filter variable as expression
    * @throws AWException Conversion was wrong
    */
-  private Expression convertVariableToExpression(Filter filter, String variableName) throws AWException {
+  private Expression getOperandVariableExpression(Filter filter, Field field) throws AWException {
     List<Expression> expressionList = new ArrayList<>();
     Expression expression;
-    Variable variable = getQuery().getVariableDefinition(variableName);
+    Variable variable = getQuery().getVariableDefinition(field.getVariable());
     if (variable == null) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_GENERATING_VARIABLE_VALUE"), getElements().getLocale("ERROR_MESSAGE_GENERATING_VARIABLE_VALUE", variableName));
+      throw new AWException(getElements().getLocale("ERROR_TITLE_GENERATING_VARIABLE_VALUE"), getElements().getLocale("ERROR_MESSAGE_GENERATING_VARIABLE_VALUE", field.getVariable()));
     }
 
     // Get variable values from previously prepared map
-    JsonNode variableValue = variables.get(variableName).getValue();
-    boolean isList = variables.get(variableName).isList();
+    JsonNode variableValue = variables.get(field.getVariable()).getValue();
+    boolean isList = variables.get(field.getVariable()).isList();
     String value = getVariableAsString(variableValue);
 
     if (isList && (getQuery().getMultiple() == null || "audit".equalsIgnoreCase(getQuery().getMultiple())) && getVariableIndex() == null) {
@@ -775,19 +717,19 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       return convertVariableListToExpressionWithIndex(variableValue, variable, value, filter);
     } else if (filter.isOptional() && queryUtil.isEmptyVariable(variableValue)) {
       // OPTIONAL filter and EMPTY variable, removing filter
-      return Expressions.TRUE;
+      return null;
     } else if (!filter.isOptional() && queryUtil.isEmptyVariable(variableValue) && ParameterType.STRINGN.toString().equalsIgnoreCase(variable.getType())) {
       // NON OPTIONAL filter and EMPTY variable and STRINGN Type, set IS NULL
       return Expressions.nullExpression();
     } else {
-      // EMPTY variable but not optional filter, filling variable as NULL
-      return getVariableAsExpression(value, ParameterType.valueOf(variable.getType()));
+      // Retrieve field expression
+      return getFieldExpression(field);
     }
 
     // If variable value is empty, don't generate the filter
     boolean variableOrParameterExpressionEmpty = queryUtil.isEmptyString(value) || expressionList.isEmpty();
     if (filter.isOptional() && variableOrParameterExpressionEmpty) {
-      return Expressions.TRUE;
+      return null;
     }
 
     return expression;
@@ -859,8 +801,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   protected Expression getStringExpression(String value) {
     if (value != null) {
-      String sanitizedValue = StringUtil.fixQueryValue(value);
-      return Expressions.stringTemplate("'" + sanitizedValue + "'");
+      return Expressions.stringTemplate("{0}" , value);
     } else {
       return Expressions.nullExpression();
     }

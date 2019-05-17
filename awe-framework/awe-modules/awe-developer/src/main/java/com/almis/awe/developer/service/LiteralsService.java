@@ -7,7 +7,6 @@ import com.almis.awe.developer.util.LocaleUtil;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.XStreamSerializer;
-import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
@@ -463,8 +462,8 @@ public class LiteralsService extends ServiceConfig {
         }
       }
 
-      DataListUtil.addColumn(dataList, "key", keys, AweConstants.DATALIST_STRING_TYPE);
-      DataListUtil.addColumn(dataList, "value", values, AweConstants.DATALIST_STRING_TYPE);
+      DataListUtil.addColumn(dataList, "key", keys);
+      DataListUtil.addColumn(dataList, "value", values);
       dataList.setRecords(dataList.getRows().size());
     }
 
@@ -512,7 +511,7 @@ public class LiteralsService extends ServiceConfig {
           values.add(getElements().parseLocale(locale));
         }
       }
-      DataListUtil.addColumn(dataList, "value", values, "STRING");
+      DataListUtil.addColumn(dataList, "value", values);
       DataListUtil.addColumn(dataList, "key", codeLang);
       DataListUtil.addColumn(dataList, "code", code);
       dataList.setRecords(dataList.getRows().size());
@@ -714,7 +713,7 @@ public class LiteralsService extends ServiceConfig {
       xstream.processAnnotations(Locales.class);
 
       // Generate xml file
-      BufferedWriter xmlOut = new BufferedWriter(new OutputStreamWriter(fileOutputStream, "UTF8"));
+      BufferedWriter xmlOut = new BufferedWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8));
       LocaleUtil.printHeader(xmlOut, fileName, System.getProperty("user.name"), FILE_DESCRIPTION, true, true);
       xstream.toXML(locales, xmlOut);
     } catch (AWException exc) {

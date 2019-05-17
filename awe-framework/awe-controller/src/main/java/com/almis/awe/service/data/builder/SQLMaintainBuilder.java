@@ -6,6 +6,7 @@ import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.entities.maintain.Insert;
 import com.almis.awe.model.entities.maintain.MaintainQuery;
 import com.almis.awe.model.entities.queries.Field;
+import com.almis.awe.model.entities.queries.SqlField;
 import com.almis.awe.model.entities.queries.Variable;
 import com.almis.awe.model.type.MaintainBuildOperation;
 import com.almis.awe.model.type.MaintainType;
@@ -367,7 +368,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
   private List getFieldPaths() {
     List paths = new ArrayList<>();
 
-    for (Field field : this.getQuery().getFieldList()) {
+    for (SqlField field : getQuery().getSqlFieldList()) {
       if (!field.isAudit()) {
         paths.add(buildPath(field.getTable(), field.getId(), field.getAlias()));
       }
@@ -386,16 +387,16 @@ public class SQLMaintainBuilder extends SQLBuilder {
     List<Path> paths = new ArrayList<>();
 
     // Check if there are field list
-    if (this.getQuery().getFieldList() == null) {
+    if (getQuery().getFieldList() == null) {
       throw new AWException(getElements().getLocale("ERROR_TITLE_NO_AUDIT_FIELDS"),
-              getElements().getLocale("ERROR_MESSAGE_NO_AUDIT_FIELDS", this.getQuery().getId()));
+              getElements().getLocale("ERROR_MESSAGE_NO_AUDIT_FIELDS", getQuery().getId()));
     }
 
     paths.add(buildPath(auditUserField));
     paths.add(buildPath(auditDateField));
     paths.add(buildPath(auditTypeField));
 
-    for (Field field : this.getQuery().getFieldList()) {
+    for (SqlField field : getQuery().getSqlFieldList()) {
       if (field.isAudit()) {
         paths.add((Path) buildPath(field.getTable(), field.getId(), field.getAlias()));
       }
@@ -413,14 +414,14 @@ public class SQLMaintainBuilder extends SQLBuilder {
   private List<Expression> getFieldValues() throws AWException {
     List<Expression> values = new ArrayList<>();
 
-    for (Field field : getQuery().getFieldList()) {
+    for (SqlField field : getQuery().getSqlFieldList()) {
       if (!field.isAudit()) {
         // Field as sequence
-        if (field.getSequence() != null) {
-          values.add(calculateSequence(field, this.getVariableIndex()));
+        if (field instanceof Field && ((Field) field).getSequence() != null) {
+          values.add(calculateSequence((Field) field, getVariableIndex()));
           // Get field value
         } else {
-          values.add(getFieldValue(field, this.getVariableIndex()));
+          values.add(getSqlFieldExpression(field, getVariableIndex()));
         }
       }
     }
@@ -451,9 +452,9 @@ public class SQLMaintainBuilder extends SQLBuilder {
     values.add(Expressions.asDateTime(dateAudit));
     values.add(getStringExpression(((MaintainQuery) this.getQuery()).getMaintainType().toString()));
 
-    for (Field field : this.getQuery().getFieldList()) {
+    for (SqlField field : this.getQuery().getSqlFieldList()) {
       if (field.isAudit()) {
-        values.add(getFieldValue(field, num));
+        values.add(getSqlFieldExpression(field, num));
       }
     }
 
@@ -534,6 +535,21 @@ public class SQLMaintainBuilder extends SQLBuilder {
   }
 
   /**
+   * Retrieve sql field expression
+   * @param field SQL field
+   * @param index Index
+   * @return
+   * @throws AWException
+   */
+  private Expression getSqlFieldExpression(SqlField field, Integer index) throws AWException {
+    if (field instanceof Field && ((Field) field).getVariable() != null) {
+      return getFieldValue((Field) field, index);
+    } else {
+      return getOperandExpression(field);
+    }
+  }
+
+  /**
    * Retrieve field value
    * @param field Field
    * @param index Variable index
@@ -542,29 +558,20 @@ public class SQLMaintainBuilder extends SQLBuilder {
    */
   private Expression getFieldValue(Field field, Integer index) throws AWException {
     Expression fieldValue = null;
-    if (field.getVariable() != null) {
-      Variable variable = getQuery().getVariableDefinition(field.getVariable());
-      if (variable != null) {
-        // Get variable values from previously prepared map
-        JsonNode variableValue = variables.get(variable.getId()).getValue();
-        boolean isList = variables.get(variable.getId()).isList();
-        if (variable.getValue() != null) {
-          fieldValue = getVariableAsExpression(variable.getValue(), ParameterType.valueOf(variable.getType()));
+    Variable variable = getQuery().getVariableDefinition(field.getVariable());
+    if (variable != null) {
+      // Get variable values from previously prepared map
+      JsonNode variableValue = variables.get(variable.getId()).getValue();
+      boolean isList = variables.get(variable.getId()).isList();
+      if (variable.getValue() != null) {
+        fieldValue = getVariableAsExpression(variable.getValue(), ParameterType.valueOf(variable.getType()));
+      } else {
+        if (isList) {
+          fieldValue = getVariableAsExpression(getVariableAsString(variableValue.get(index)), ParameterType.valueOf(variable.getType()));
         } else {
-          if (isList) {
-            fieldValue = getVariableAsExpression(getVariableAsString(variableValue.get(index)), ParameterType.valueOf(variable.getType()));
-          } else {
-            fieldValue = getVariableAsExpression(getVariableAsString(variableValue), ParameterType.valueOf(variable.getType()));
-          }
+          fieldValue = getVariableAsExpression(getVariableAsString(variableValue), ParameterType.valueOf(variable.getType()));
         }
       }
-      // Field as value
-    } else if (field.getValue() != null) {
-      fieldValue = getStringExpression(field.getValue());
-      // Field as subquery
-    } else if (field.getQuery() != null) {
-      // TODO: Implement subqueries in maintain fields
-      throw new AWException("Using subqueries in maintain fields is not supported yet");
     }
 
     return fieldValue;
