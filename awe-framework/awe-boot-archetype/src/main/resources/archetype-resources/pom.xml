@@ -39,16 +39,28 @@
         </exclusion>
       </exclusions>
     </dependency>
+
+    <!-- AngularJS UI -->
     <dependency>
       <groupId>com.almis.awe</groupId>
       <artifactId>awe-client-angular</artifactId>
     </dependency>
+
+    <!-- Spring Boot DevTools -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <optional>true</optional>
+      <scope>runtime</scope>
+    </dependency>
+
     <!-- JDBC Drivers -->
     <dependency>
       <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
       <scope>runtime</scope>
     </dependency>
+
     <!-- Test dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
