@@ -17,6 +17,6 @@ VOLUME /tmp
 ENV JAVA_OPTS="-Xmx512m -Xmx512m"
 
 # Execute jar
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/awe-boot.war"]
+ENTRYPOINT ["java", "-Dspring.devtools.restart.enabled=false", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/awe-boot.war"]
 
 
