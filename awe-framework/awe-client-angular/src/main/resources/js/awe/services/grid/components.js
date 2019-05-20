@@ -35,24 +35,6 @@ aweApplication.factory('GridComponents',
           }
 
           /**
-           * Add extra column information
-           * @param {Object} column Column
-           */
-          component.addExtraColumnData = function (column) {
-            // Calculate fields with components
-            if ("component" in column) {
-              column.sortField = column.index || column.id;
-              column.enableFiltering = false;
-              column.cellTemplate = "<div class=\"ui-grid-cell-contents component {{col.cellClass}}\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-" + column.component +
-                " cell-address='{\"hash\":\"{{row.uid}}\", \"view\":\"" + component.address.view + "\", \"component\":\"" + component.address.component + "\", \"row\":\"{{row.entity." +
-                component.constants.ROW_IDENTIFIER + "}}\", \"column\":\"{{col.name}}\"}'/></div>";
-              column.footerCellTemplate = column.summaryType ? "<div class=\"ui-grid-cell-contents ui-grid-cell-footer {{::col.cellClass}}\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-" +
-                column.component + " cell-address='{\"hash\":\"footer-{{grid.appScope.model.page}}\", \"view\":\"" + component.address.view + "\", \"component\":\"" +
-                component.address.component + "\", \"row\":\"footer\", \"column\":\"{{col.name}}\"}'/></div>" : column.footerCellTemplate;
-            }
-          };
-
-          /**
            * Update the model
            */
           component.updateModel = function () {
