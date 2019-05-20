@@ -78,14 +78,14 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         }
       });
       return selectedHeader;
-    }
+    };
 
     /**
      * Grid constructor
      *
      * @param {Scope} component Component
      */
-    var GridCommons = function (component) {
+    const GridCommons = function (component) {
       this.component = component;
 
       // Generate grid cell controller / model
@@ -1172,7 +1172,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           Utilities.timeout(function () {
             component.reportChangedColumns();
             component.resize();
-          })
+          });
         };
 
         /**
@@ -1267,9 +1267,16 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
 
           column.sortingAlgorithm = component.sortingAlgorithm;
 
-          // Add extra column information if exists
-          if (component.addExtraColumnData) {
-            component.addExtraColumnData(column);
+          // Calculate fields with components
+          if ("component" in column) {
+            column.sortField = column.index || column.id;
+            column.enableFiltering = false;
+            column.cellTemplate = "<div class=\"ui-grid-cell-contents component {{col.cellClass}}\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-" + column.component +
+              " cell-address='{\"hash\":\"{{row.uid}}\", \"view\":\"" + component.address.view + "\", \"component\":\"" + component.address.component + "\", \"row\":\"{{row.entity." +
+              component.constants.ROW_IDENTIFIER + "}}\", \"column\":\"{{col.name}}\"}'/></div>";
+            column.footerCellTemplate = column.summaryType ? "<div class=\"ui-grid-cell-contents ui-grid-cell-footer {{::col.cellClass}}\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-" +
+              column.component + " cell-address='{\"hash\":\"footer-{{grid.appScope.model.page}}\", \"view\":\"" + component.address.view + "\", \"component\":\"" +
+              component.address.component + "\", \"row\":\"footer\", \"column\":\"{{col.name}}\"}'/></div>" : column.footerCellTemplate;
           }
 
           // Remove dependencies and add them to the grid

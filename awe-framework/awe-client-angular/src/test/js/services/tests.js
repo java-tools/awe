@@ -6,3 +6,4 @@ import './control.js';
 import './screen.js';
 import './settings.js';
 import './validationRules.js';
+import './grid/tests.js';
