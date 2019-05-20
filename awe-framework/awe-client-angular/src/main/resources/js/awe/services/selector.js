@@ -498,7 +498,10 @@ aweApplication.factory('Selector',
            */
           component.getSpecificFields = function () {
             // Initialize data
-            return {max: component.getMax(), suggest: Control.formatDataList(selector.term)};
+            return {
+              max: component.getMax(0),
+              suggest: Control.formatDataList(selector.term)
+            };
           };
           /**
            * Update the model when model and selected have changed
