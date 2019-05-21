@@ -2227,4 +2227,6 @@
     <variable id="3" type="INTEGER" value="3"/>
   </query>
 
+  <query id="testServiceByQualifier" service="testServiceByQualifier"/>
+
 </queries>

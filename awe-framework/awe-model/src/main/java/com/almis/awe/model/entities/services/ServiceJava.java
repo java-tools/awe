@@ -18,9 +18,7 @@ import java.util.List;
  *
  * Used to parse the tag 'java' in file Services.xml with XStream
  *
- *
  * This file contains a 'Java Service', which means a method inside a classname
- *
  *
  * @author Pablo GARCIA - 25/JUN/2010
  */
@@ -42,6 +40,11 @@ public class ServiceJava implements ServiceType {
   @XStreamAlias("method")
   @XStreamAsAttribute
   private String method;
+
+  // Java service qualifier bean (Spring)
+  @XStreamAlias("qualifier")
+  @XStreamAsAttribute
+  private String qualifier;
 
   // Input Parameter List
   @XStreamImplicit

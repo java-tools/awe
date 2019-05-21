@@ -323,4 +323,8 @@
     <rest server="postman" method="GET" endpoint="/gzip" wrapper="com.almis.awe.test.bean.Postman"/>
   </service>
 
+  <service id="testServiceByQualifier">
+    <java classname="com.almis.awe.test.service.DummyQualifierService" method="getInstance" qualifier="dummyQualifierService"/>
+  </service>
+
 </services>

@@ -23,6 +23,7 @@ public class JavaConnector extends AbstractServiceConnector {
     // Variable definition
     Object serviceInstance = null;
     Method serviceMethod = null;
+    String qualifierAtritbute = null;
     ServiceData outData = null;
     Object[] paramsToInvoke = null;
     Class[] paramsClassesToInvoke = null;
@@ -32,9 +33,10 @@ public class JavaConnector extends AbstractServiceConnector {
     String methodReceived = null;
 
     if (service != null) {
-      paramsFromXml = ((ServiceJava) service).getParameterList();
+      paramsFromXml = service.getParameterList();
       classNameReceived = ((ServiceJava) service).getClassName();
       methodReceived = ((ServiceJava) service).getMethod();
+      qualifierAtritbute = ((ServiceJava) service).getQualifier();
     }
 
     try {
@@ -52,7 +54,7 @@ public class JavaConnector extends AbstractServiceConnector {
 
     // Object generation
     try {
-      serviceInstance = getBean(Class.forName(classNameReceived));
+      serviceInstance = qualifierAtritbute != null ? getBean(qualifierAtritbute) : getBean(Class.forName(classNameReceived));
     } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_ERROR_INITIALIZING_INSTANCE"),
         getLocale("ERROR_MESSAGE_ERROR_INITIALIZING_INSTANCE", classNameReceived), exc);
