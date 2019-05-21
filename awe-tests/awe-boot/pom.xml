@@ -270,6 +270,7 @@
           <profiles>
             <profile>dev</profile>
           </profiles>
+          <excludeDevtools>${exclude.devtools}</excludeDevtools>
         </configuration>
         <executions>
           <execution>
@@ -408,6 +409,9 @@
           <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+              <excludeDevtools>${exclude.devtools}</excludeDevtools>
+            </configuration>
             <executions>
               <execution>
                 <id>start-application</id>
