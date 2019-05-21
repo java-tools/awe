@@ -40,7 +40,6 @@
     <skip.main>false</skip.main>
     <skip.selenium>true</skip.selenium>
     <skip.junit>false</skip.junit>
-    <exclude.devtools>false</exclude.devtools>
   </properties>
 
   <dependencies>
@@ -134,14 +133,6 @@
       <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
       <scope>runtime</scope>
-    </dependency>
-
-    <!-- Spring Boot DevTools -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <optional>true</optional>
-      <scope>provided</scope>
     </dependency>
 
     <!-- Test dependencies -->
@@ -270,7 +261,6 @@
           <profiles>
             <profile>dev</profile>
           </profiles>
-          <excludeDevtools>${exclude.devtools}</excludeDevtools>
         </configuration>
         <executions>
           <execution>
@@ -278,9 +268,6 @@
             <goals>
               <goal>repackage</goal>
             </goals>
-            <configuration>
-              <excludeDevtools>${exclude.devtools}</excludeDevtools>
-            </configuration>
           </execution>
           <execution>
             <id>start-application</id>
@@ -359,6 +346,20 @@
   </build>
 
   <profiles>
+    <!-- Devtools profile -->
+    <profile>
+      <id>devtools</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-devtools</artifactId>
+          <scope>provided</scope>
+        </dependency>
+      </dependencies>
+    </profile>
     <!-- Integration report profile -->
     <profile>
       <id>generate-integration-report</id>
@@ -409,9 +410,6 @@
           <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-              <excludeDevtools>${exclude.devtools}</excludeDevtools>
-            </configuration>
             <executions>
               <execution>
                 <id>start-application</id>
