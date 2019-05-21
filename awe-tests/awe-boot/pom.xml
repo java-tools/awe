@@ -40,6 +40,7 @@
     <skip.main>false</skip.main>
     <skip.selenium>true</skip.selenium>
     <skip.junit>false</skip.junit>
+    <exclude.devtools>false</exclude.devtools>
   </properties>
 
   <dependencies>
@@ -140,7 +141,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
       <optional>true</optional>
-      <scope>runtime</scope>
+      <scope>provided</scope>
     </dependency>
 
     <!-- Test dependencies -->
@@ -269,6 +270,7 @@
           <profiles>
             <profile>dev</profile>
           </profiles>
+          <excludeDevtools>${exclude.devtools}</excludeDevtools>
         </configuration>
         <executions>
           <execution>
