@@ -270,7 +270,6 @@
           <profiles>
             <profile>dev</profile>
           </profiles>
-          <excludeDevtools>${exclude.devtools}</excludeDevtools>
         </configuration>
         <executions>
           <execution>
@@ -278,6 +277,9 @@
             <goals>
               <goal>repackage</goal>
             </goals>
+            <configuration>
+              <excludeDevtools>${exclude.devtools}</excludeDevtools>
+            </configuration>
           </execution>
           <execution>
             <id>start-application</id>
