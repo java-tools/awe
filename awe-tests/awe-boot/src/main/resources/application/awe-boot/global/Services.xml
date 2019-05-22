@@ -324,7 +324,7 @@
   </service>
 
   <service id="testServiceByQualifier">
-    <java classname="com.almis.awe.test.service.DummyQualifierService" method="getInstance" qualifier="dummyQualifierService"/>
+    <java classname="com.almis.awe.test.service.DummyQualifierService" method="getInstance" qualifier="CustomQualifierNameService"/>
   </service>
 
 </services>

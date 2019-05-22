@@ -80,9 +80,9 @@ Java element has the following attributes:
 
 | Attribute   | Use          | Type      |  Description                        |   Values                                           |
 | ----------- | -------------|-----------|-------------------------------------|----------------------------------------------------|
-| classname   | **Required** | String    | Class name of java service          |  Ex.: `classname="com.almis.awe.core.services.controller.AccessController"`
-| method      | **Required** | String    | Method name of class to be executed | Ex.: `method="login"` |
-| qualifier   | Optional     | String    | Bean name as qualifier              | Ex.: `qualifier="myBean"` |
+| classname   | **Required** | String    | Class name of java service                                    |  Ex.: `classname="com.almis.awe.core.services.controller.AccessController"`
+| method      | **Required** | String    | Method name of class to be executed                           | Ex.: `method="login"` |
+| qualifier   | Optional     | String    | Qualifier bean name. If uses `@Qualifier` spring annotation   | Ex.: `qualifier="myBean"` |
 
 ### Microservice element
 

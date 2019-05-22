@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-@Qualifier("dummyQualifierService")
+@Qualifier("CustomQualifierNameService")
 public class DummyQualifierService extends ServiceConfig {
 
   /**
