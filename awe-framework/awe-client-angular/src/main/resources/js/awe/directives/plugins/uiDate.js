@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "bootstrap-datepicker";
 
 // Date plugin
 aweApplication.directive('uiDate',

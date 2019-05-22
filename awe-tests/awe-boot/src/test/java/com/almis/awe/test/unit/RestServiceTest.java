@@ -98,7 +98,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testSimpleGetData() throws Exception {
-    doRestTest("TestSimpleRestGet", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("TestSimpleRestGet", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\"}]");
   }
 
   /**
@@ -108,7 +108,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testSimplePostData() throws Exception {
-    doRestTest("TestSimpleRestPost", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("TestSimpleRestPost", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\"}]");
   }
 
   /**
@@ -118,7 +118,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testSimpleGetMaintain() throws Exception {
-    doRestTest("TestSimpleRestGet", "maintain", "", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[]}}]");
+    doRestTest("TestSimpleRestGet", "maintain", "", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[]}}]");
   }
 
   /**
@@ -128,7 +128,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testSimplePostMaintain() throws Exception {
-    doRestTest("TestSimpleRestPost", "maintain", "", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[]}}]");
+    doRestTest("TestSimpleRestPost", "maintain", "", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[]}}]");
   }
 
   /**
@@ -138,7 +138,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testComplexGet() throws Exception {
-    doRestTest("TestComplexRestGet", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"CrtTst\":1,\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("TestComplexRestGet", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"CrtTst\":1,\"id\":1}]}}},{\"type\":\"end-load\"}]");
   }
 
   /**
@@ -148,7 +148,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testComplexPost() throws Exception {
-    doRestTest("TestComplexRestPost", "maintain", "", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTargetUpd\",\"Act\":2,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":2,\"Nam\":\"testIncludeTargetUpd\",\"Date\":null}}]}}]");
+    doRestTest("TestComplexRestPost", "maintain", "", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTargetUpd\",\"Act\":2,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":2,\"Nam\":\"testIncludeTargetUpd\",\"Date\":null}}]}}]");
   }
 
   /**
@@ -158,7 +158,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testComplexGetParameters() throws Exception {
-    doRestTest("TestComplexRestGetParameters", "data", "\"value\":\"1\",", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"CrtTst\":1,\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("TestComplexRestGetParameters", "data", "\"value\":\"1\",", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"CrtTst\":1,\"id\":1}]}}},{\"type\":\"end-load\"}]");
   }
 
   /**
@@ -168,7 +168,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testComplexPostParameters() throws Exception {
-    doRestTest("TestComplexRestPostParameters", "maintain", "\"value\":1,", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTarget\",\"Act\":1,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":1,\"Nam\":\"testIncludeTarget\",\"Date\":null}}]}}]");
+    doRestTest("TestComplexRestPostParameters", "maintain", "\"value\":1,", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTarget\",\"Act\":1,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":1,\"Nam\":\"testIncludeTarget\",\"Date\":null}}]}}]");
   }
 
   /**
@@ -178,7 +178,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testComplexPostParametersJson() throws Exception {
-    doRestTest("TestComplexRestPostParametersJson", "maintain", "\"value\":1,", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTarget\",\"Act\":1,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":1,\"Nam\":\"testIncludeTarget\",\"Date\":null}}]}}]");
+    doRestTest("TestComplexRestPostParametersJson", "maintain", "\"value\":1,", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTarget\",\"Act\":1,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":1,\"Nam\":\"testIncludeTarget\",\"Date\":null}}]}}]");
   }
 
   /**
@@ -198,7 +198,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testPostmanRestApi() throws Exception {
-    doRestTest("TestPostmanRestApi", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"acceptLanguage\":\"\",\"acceptEncoding\":\"gzip,deflate\",\"cookie\":\"\",\"method\":\"GET\",\"gzipped\":\"true\",\"postmanToken\":\"\",\"id\":1,\"cacheControl\":\"\",\"accept\":\"application/json, application/*+json\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("TestPostmanRestApi", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"acceptLanguage\":\"\",\"acceptEncoding\":\"gzip,deflate\",\"cookie\":\"\",\"method\":\"GET\",\"gzipped\":\"true\",\"postmanToken\":\"\",\"id\":1,\"cacheControl\":\"\",\"accept\":\"application/json, application/*+json\"}]}}},{\"type\":\"end-load\"}]");
   }
 
   /**
@@ -208,7 +208,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testPostParameterList() throws Exception {
-    doRestTest("TestComplexRestPostParametersList", "maintain", "\"stringList\":[\"tutu\", \"lala\", \"yoyo\"],\"integerList\":[4, 6, 7],\"dateList\":[\"23/04/2014\", \"22/05/2017\", \"07/01/2019\"],", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[]}}]");
+    doRestTest("TestComplexRestPostParametersList", "maintain", "\"stringList\":[\"tutu\", \"lala\", \"yoyo\"],\"integerList\":[4, 6, 7],\"dateList\":[\"23/04/2014\", \"22/05/2017\", \"07/01/2019\"],", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[]}}]");
   }
 
   /**
@@ -218,7 +218,7 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testPostParameterListGetParameters() throws Exception {
-    doRestTest("TestComplexRestPostParametersListGetParameters", "maintain", "\"stringList\":[\"tutu\", \"lala\", \"yoyo\"],\"integerList\":[4, 6, 7],\"dateList\":[\"23/04/2014\", \"22/05/2017\", \"07/01/2019\"],", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[]}}]");
+    doRestTest("TestComplexRestPostParametersListGetParameters", "maintain", "\"stringList\":[\"tutu\", \"lala\", \"yoyo\"],\"integerList\":[4, 6, 7],\"dateList\":[\"23/04/2014\", \"22/05/2017\", \"07/01/2019\"],", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[]}}]");
   }
 
   /**
@@ -228,6 +228,6 @@ public class RestServiceTest extends TestUtil {
    */
   @Test
   public void testPostParameterListJson() throws Exception {
-    doRestTest("TestComplexRestPostParametersListJson", "maintain", "\"stringList\":[\"tutu\", \"lala\", \"yoyo\"],\"integerList\":[4, 6, 7],\"dateList\":[\"23/04/2014\", \"22/05/2017\", \"07/01/2019\"],", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[]}}]");
+    doRestTest("TestComplexRestPostParametersListJson", "maintain", "\"stringList\":[\"tutu\", \"lala\", \"yoyo\"],\"integerList\":[4, 6, 7],\"dateList\":[\"23/04/2014\", \"22/05/2017\", \"07/01/2019\"],", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[]}}]");
   }
 }

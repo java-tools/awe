@@ -4,7 +4,6 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweContextAware;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.CellData;
-import com.almis.awe.model.entities.queries.Field;
 import com.almis.awe.model.entities.queries.OutputField;
 import com.almis.awe.model.type.CellDataType;
 import com.almis.awe.model.type.TransformType;
@@ -22,9 +21,6 @@ import java.util.Date;
 public class TransformCellProcessor implements CellProcessor, AweContextAware {
   private OutputField field;
   private AweElements elements;
-
-  private static final String ERROR_TITLE_PARSING_TEXT = "ERROR_TITLE_PARSING_TEXT";
-  private static final String ERROR_MESSAGE_PARSING_TEXT = "ERROR_MESSAGE_PARSING_TEXT";
 
   /**
    * Set Awe Elements
@@ -50,14 +46,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
    * @return Column identifier
    */
   public String getColumnIdentifier() {
-    String identifier = null;
-    if (field.getAlias() != null) {
-      return field.getAlias();
-    } else if (field instanceof Field) {
-      Field fieldObject = (Field) field;
-      identifier = fieldObject.getId();
-    }
-    return identifier;
+    return field.getIdentifier();
   }
 
   /**
@@ -167,6 +156,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.dat2WebDate(date);
     }
     return transformed;
@@ -182,6 +172,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date.getTime());
+      cell.setSendStringValue(true);
       transformed = String.valueOf(date.getTime());
     }
     return transformed;
@@ -197,6 +188,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.dat2WebTime(date);
     }
     return transformed;
@@ -212,6 +204,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.dat2WebTimestamp(date);
     }
     return transformed;
@@ -227,6 +220,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.dat2JsDate(date);
     }
     return transformed;
@@ -242,6 +236,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.dat2JsTimestamp(date);
     }
     return transformed;
@@ -255,6 +250,7 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
   private String processGenericDate(@NotNull CellData cell) {
     String transformed = DateUtil.generic2Date(cell.getStringValue(), field.getFormatFrom(), field.getFormatTo());
     cell.setValue(transformed);
+    cell.setSendStringValue(true);
     return transformed;
   }
 
@@ -267,8 +263,9 @@ public class TransformCellProcessor implements CellProcessor, AweContextAware {
     String transformed = cell.getStringValue();
     Date date = cell.getDateValue();
     if (date != null) {
+      cell.setValue(date);
+      cell.setSendStringValue(true);
       transformed = DateUtil.rdbDate2String(date);
-      cell.setValue(transformed);      
     }
     return transformed;
   }

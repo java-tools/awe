@@ -2,11 +2,18 @@ package com.almis.awe.model.entities.screen.component.chart;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.CrosshairType;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * ChartTooltip Class
@@ -19,8 +26,14 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Pablo VIDAL - 21/OCT/2014
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("chart-tooltip")
-public class ChartTooltip extends ChartModel {
+public class ChartTooltip extends AbstractChart {
 
   private static final long serialVersionUID = 8810846715874354742L;
   private static final String CROSSHAIRS_TEXT = "crosshairs";
@@ -28,7 +41,7 @@ public class ChartTooltip extends ChartModel {
   // Enable tooltip in chart
   @XStreamAlias("enabled")
   @XStreamAsAttribute
-  private String enabled;
+  private Boolean enabled;
 
   // Set crosshair lines in chart
   @XStreamAlias(CROSSHAIRS_TEXT)
@@ -38,7 +51,7 @@ public class ChartTooltip extends ChartModel {
   // Number of decimals in tooltip
   @XStreamAlias("number-decimals")
   @XStreamAsAttribute
-  private String numberDecimals;
+  private Integer numberDecimals;
 
   // Suffix string in tooltip
   @XStreamAlias("suffix")
@@ -48,7 +61,7 @@ public class ChartTooltip extends ChartModel {
   // Preffix string in tooltip
   @XStreamAlias("prefix")
   @XStreamAsAttribute
-  private String preffix;
+  private String prefix;
 
   // Point format in tooltip
   @XStreamAlias("point-format")
@@ -63,183 +76,29 @@ public class ChartTooltip extends ChartModel {
   // Shared tooltip for multiple series
   @XStreamAlias("shared")
   @XStreamAsAttribute
-  private String shared;
-
-  /**
-   * Default constructor
-   */
-  public ChartTooltip() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public ChartTooltip(ChartTooltip other) throws AWException {
-    super(other);
-    this.enabled = other.enabled;
-    this.crosshairs = other.crosshairs;
-    this.numberDecimals = other.numberDecimals;
-    this.suffix = other.suffix;
-    this.preffix = other.preffix;
-    this.pointFormat = other.pointFormat;
-    this.dateFormat = other.dateFormat;
-    this.shared = other.shared;
-  }
+  private Boolean shared;
 
   @Override
   public ChartTooltip copy() throws AWException {
-    return new ChartTooltip(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**
-   * Retrieve flag to activate tooltip
-   *
-   * @return enabled flag
-   */
-  public String getEnabled() {
-    return enabled;
-  }
-
-  /**
-   * Set flag to activate tooltip
-   *
-   * @param enabled Tooltip enabled
-   */
-  public void setEnable(String enabled) {
-    this.enabled = enabled;
-  }
-
-  /**
-   * If tooltip is activated
-   *
-   * @return enabled flag
+   * Returns is enabled
+   * @return Is enabled
    */
   public boolean isEnabled() {
-    return getEnabled() == null || "true".equalsIgnoreCase(getEnabled());
+    return enabled != null && enabled;
   }
 
   /**
-   * Retrive crosshairs type
-   *
-   * @return crosshairs type
+   * Returns is floating
+   * @return Is floating
    */
-  public String getCrosshairs() {
-    return crosshairs;
-  }
-
-  /**
-   * Store crosshairs type
-   *
-   * @param crosshairs Tooltip crosshairs
-   */
-  public void setCrosshairs(String crosshairs) {
-    this.crosshairs = crosshairs;
-  }
-
-  /**
-   * Retrive number of decimals in tooltip value
-   *
-   * @return number of decimals
-   */
-  public String getNumberDecimals() {
-    return numberDecimals;
-  }
-
-  /**
-   * Store number of decimal
-   *
-   * @param numberDecimals Tooltip number of decimals
-   */
-  public void setNumberDecimals(String numberDecimals) {
-    this.numberDecimals = numberDecimals;
-  }
-
-  /**
-   * Retrive string preffix in tooltip
-   *
-   * @return suffix
-   */
-  public String getSuffix() {
-    return suffix;
-  }
-
-  /**
-   * Store suffix in tooltip
-   *
-   * @param suffix Tooltip suffix
-   */
-  public void setSuffix(String suffix) {
-    this.suffix = suffix;
-  }
-
-  /**
-   * Retrieve prefix in tooltip
-   *
-   * @return prefix tooltip prefix
-   */
-  public String getPreffix() {
-    return preffix;
-  }
-
-  /**
-   * Store prefix in tooltip
-   *
-   * @param preffix Tooltip prefix
-   */
-  public void setPreffix(String preffix) {
-    this.preffix = preffix;
-  }
-
-  /**
-   * Retrive point format
-   *
-   * @return point format
-   */
-  public String getPointFormat() {
-    return pointFormat;
-  }
-
-  /**
-   * Store point format
-   *
-   * @param pointFormat Tooltip point format
-   */
-  public void setPointFormat(String pointFormat) {
-    this.pointFormat = pointFormat;
-  }
-
-  /**
-   * Retrieve date format
-   *
-   * @return date format
-   */
-  public String getDateFormat() {
-    return dateFormat;
-  }
-
-  /**
-   * Store date format
-   *
-   * @param dateFormat Tooltip date format
-   */
-  public void setDateFormat(String dateFormat) {
-    this.dateFormat = dateFormat;
-  }
-
-  /**
-   * @return the shared
-   */
-  public String getShared() {
-    return shared;
-  }
-
-  /**
-   * @param shared the shared to set
-   */
-  public void setShared(String shared) {
-    this.shared = shared;
+  public boolean isShared() {
+    return shared != null && shared;
   }
 
   /**
@@ -252,11 +111,7 @@ public class ChartTooltip extends ChartModel {
     // Variable definition
     JsonNodeFactory factory = JsonNodeFactory.instance;
     ObjectNode tooltipNode = factory.objectNode();
-
-    // Add enable
-    if (getEnabled() != null) {
-      tooltipNode.put("enabled", isEnabled());
-    }
+    tooltipNode.put("enabled", isEnabled());
 
     // Add crosshairs
     if (getCrosshairs() != null) {
@@ -285,12 +140,12 @@ public class ChartTooltip extends ChartModel {
 
     // Add number of decimals
     if (getNumberDecimals() != null) {
-      tooltipNode.put(ChartConstants.VALUE_DECIMALS, Integer.valueOf(getNumberDecimals()));
+      tooltipNode.put(ChartConstants.VALUE_DECIMALS, getNumberDecimals());
     }
 
     // Add prefix
-    if (getPreffix() != null) {
-      tooltipNode.put(ChartConstants.PREFIX, getPreffix());
+    if (getPrefix() != null) {
+      tooltipNode.put(ChartConstants.PREFIX, getPrefix());
     }
 
     // Add suffix
@@ -309,9 +164,7 @@ public class ChartTooltip extends ChartModel {
     }
 
     // Add shared tootltip
-    if (getShared() != null) {
-      tooltipNode.put(ChartConstants.SHARED, Boolean.valueOf(getShared()));
-    }
+    tooltipNode.put(ChartConstants.SHARED, isShared());
 
     // Add extra parameters
     addParameters(tooltipNode);

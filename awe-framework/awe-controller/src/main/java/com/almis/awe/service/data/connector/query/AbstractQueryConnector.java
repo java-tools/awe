@@ -106,7 +106,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
     builder.generateIdentifiers();
     DataList serviceDataList = serviceData.getDataList();
     if (serviceDataList != null) {
-      if (query.getFieldList() != null) {
+      if (query.getSqlFieldList() != null) {
         // As datalist
         for (Field field : query.getFieldList()) {
           if (field.getAlias() != null && !field.getId().equalsIgnoreCase(field.getAlias())) {
@@ -114,7 +114,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
           }
         }
         builder.setDataList(serviceDataList)
-                .setFieldList(query.getFieldList())
+                .setFieldList(query.getSqlFieldList())
                 .setMax(parameterMap.get(AweConstants.QUERY_MAX).getValue().asLong())
                 .setPage(parameterMap.get(AweConstants.QUERY_PAGE).getValue().asLong())
                 .setRecords(serviceDataList.getRecords());
@@ -129,7 +129,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
     } else {
       // As string array
       builder.setServiceQueryResult((String[]) serviceData.getData())
-              .setFieldList(query.getFieldList())
+              .setFieldList(query.getSqlFieldList())
               .setMax(parameterMap.get(AweConstants.QUERY_MAX).getValue().asLong())
               .setPage(parameterMap.get(AweConstants.QUERY_PAGE).getValue().asLong());
     }
@@ -175,8 +175,8 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
    */
   protected DataListBuilder processDataList(DataListBuilder builder, Query query, Map<String, QueryParameter> variables) throws AWException {
     // Add transformations & translations
-    if (query.getFieldList() != null) {
-      for (Field field : query.getFieldList()) {
+    if (query.getSqlFieldList() != null) {
+      for (SqlField field : query.getSqlFieldList()) {
         addFieldTransformations(field, builder);
       }
     }
@@ -201,7 +201,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
     if (query.getTotalizeList() != null) {
       for (Totalize totalize : query.getTotalizeList()) {
         TotalizeColumnProcessor totalizeProcessor = new TotalizeColumnProcessor();
-        totalizeProcessor.setElements(getElements()).setFieldList(query.getFieldList()).setTotalize(totalize);
+        totalizeProcessor.setElements(getElements()).setFieldList(query.getSqlFieldList()).setTotalize(totalize);
         builder.addTotalize(totalizeProcessor);
       }
     }
@@ -215,7 +215,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
    * @param builder Builder
    * @throws AWException
    */
-  private void addFieldTransformations(Field field, DataListBuilder builder) throws AWException {
+  private void addFieldTransformations(OutputField field, DataListBuilder builder) throws AWException {
     // Check transformations
     if (field.isTransform()) {
       TransformCellProcessor transformProcessor = new TransformCellProcessor();
@@ -232,8 +232,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
 
     // Check no print
     if (field.isNoprint()) {
-      String fieldIdentifier = field.getAlias() == null ? field.getId() : field.getAlias();
-      builder.addNoPrint(fieldIdentifier);
+      builder.addNoPrint(field.getIdentifier());
     }
   }
 
@@ -252,7 +251,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
 
     // Add no print
     if (computed.isNoprint()) {
-      builder.addNoPrint(computed.getAlias());
+      builder.addNoPrint(computed.getIdentifier());
     }
   }
 

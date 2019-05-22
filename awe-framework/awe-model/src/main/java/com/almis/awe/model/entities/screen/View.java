@@ -1,18 +1,17 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen;
-
-/*
- * File Imports
- */
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
-import com.fasterxml.jackson.annotation.JsonGetter;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Message Class
@@ -25,6 +24,12 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("view")
 public class View extends Element {
 
@@ -32,48 +37,13 @@ public class View extends Element {
   // View name (identifier)
   @XStreamAlias("name")
   @XStreamAsAttribute
-  private String name = null;
-
-  /**
-   * Default constructor
-   */
-  public View() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public View(View other) throws AWException {
-    super(other);
-    this.name = other.name;
-  }
+  private String name;
 
   @Override
   public View copy() throws AWException {
-    return new View(this);
-  }
-
-  /**
-   * Returns the view name
-   *
-   * @return Parameter name
-   */
-  @JsonGetter("name")
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * Stores the view name
-   *
-   * @param name View name
-   * @return View
-   */
-  public View setName(String name) {
-    this.name = name;
-    return this;
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**

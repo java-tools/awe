@@ -3,7 +3,7 @@
 
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
-  <version>4.0.7</version>
+  <version>4.0.8</version>
   <packaging>pom</packaging>
 
   <name>AWE (V${project.version})</name>
@@ -12,7 +12,7 @@
 
   <properties>
     <!-- Project versions -->
-    <revision>4.0.7</revision>
+    <revision>4.0.8</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>

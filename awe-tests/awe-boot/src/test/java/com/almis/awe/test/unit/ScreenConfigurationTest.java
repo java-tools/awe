@@ -101,7 +101,7 @@ public class ScreenConfigurationTest extends TestUtil {
    */
   private void addRestriction(String operation, String screen, String component, String attribute, String value) throws Exception {
     String maintainName = "updateScreenConfiguration";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"" + operation + "\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"" + operation + "\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
       .header("Authorization", "410e0604-84d7-4cf1-9d28-4a6ddcf97d34")
       .contentType(MediaType.APPLICATION_JSON)
@@ -143,8 +143,8 @@ public class ScreenConfigurationTest extends TestUtil {
       .andExpect(content().json(expected))
       .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
-    //logger.debug(result);
-    //logger.debug(expected);
+    logger.debug(result);
+    logger.debug(expected);
   }
 
   /**

@@ -141,10 +141,10 @@ public class TemplateService extends ServiceConfig {
     // Generate breadcrumbs
     if (option != null) {
       Option nextOption = option;
-      while (nextOption.getParent() instanceof Option) {
+      while (nextOption.getParent() != null) {
         ST breadcrumb = elementsTemplateGroup.createStringTemplate(elementsTemplateGroup.rawGetTemplate(AweConstants.TEMPLATE_BREADCRUMB));
 
-        nextOption = (Option) nextOption.getParent();
+        nextOption = nextOption.getParent();
         breadcrumb.add("text", nextOption.getLabel());
         breadcrumbs.add(0, breadcrumb);
       }
@@ -217,16 +217,14 @@ public class TemplateService extends ServiceConfig {
     List<ST> templateList = new ArrayList<>();
 
     // Call generate method on all elements
-    if (elementList != null) {
-      for (Element element : elementList) {
-        Option option = (Option) element;
-        if (option.getLabel() != null) {
-          // Generate option template
-          templateList.add(generateOptionHelp(option, level, developers));
+    for (Element element : elementList) {
+      Option option = (Option) element;
+      if (option.getLabel() != null) {
+        // Generate option template
+        templateList.add(generateOptionHelp(option, level, developers));
 
-          // Generate the children
-          templateList.addAll(generateMenuHelp(option.getElementList(), level + 1, developers));
-        }
+        // Generate the children
+        templateList.addAll(generateMenuHelp(option.getElementList(), level + 1, developers));
       }
     }
 
@@ -335,11 +333,11 @@ public class TemplateService extends ServiceConfig {
       LoadType initialLoadValue = LoadType.valueOf(tagList.getInitialLoad().toUpperCase());
       switch (initialLoadValue) {
         case QUERY:
-          data = queryService.launchQuery(tagList.getTargetAction(), "1", tagList.getMax() == null ? "0" : tagList.getMax()).getDataList();
+          data = queryService.launchQuery(tagList.getTargetAction(), "1", tagList.getMax() == null ? "0" : tagList.getMax().toString()).getDataList();
           break;
         case ENUM:
         default:
-          data = queryService.launchEnumQuery(tagList.getTargetAction(), "1", tagList.getMax() == null ? "0" : tagList.getMax()).getDataList();
+          data = queryService.launchEnumQuery(tagList.getTargetAction(), "1", tagList.getMax() == null ? "0" : tagList.getMax().toString()).getDataList();
           break;
       }
     }

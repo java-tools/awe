@@ -2,7 +2,9 @@ package com.almis.awe.model.entities;
 
 import com.almis.awe.exception.AWException;
 
-public interface Copyable {
+import java.io.Serializable;
+
+public interface Copyable extends Serializable {
   /**
    * Get a copy of this element
    *

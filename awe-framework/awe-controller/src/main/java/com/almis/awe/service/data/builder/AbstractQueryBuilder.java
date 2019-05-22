@@ -238,21 +238,28 @@ public abstract class AbstractQueryBuilder extends ServiceConfig implements Quer
     if (node == null || node.isNull()) {
       return null;
     } else {
-      switch (parameter.getType()) {
-        case INTEGER:
-          return node.asInt();
-        case LONG:
-          return node.asLong();
-        case FLOAT:
-          return (float) node.asDouble();
-        case DOUBLE:
-          return node.asDouble();
-        case BOOLEAN:
-          return node.asBoolean();
-        case OBJECT:
-          return node;
-        default:
-          return node.asText();
+      if (node.isNumber()) {
+        switch (parameter.getType()) {
+          case INTEGER:
+            return node.asInt();
+          case LONG:
+            return node.asLong();
+          case FLOAT:
+            return (float) node.asDouble();
+          case DOUBLE:
+            return node.asDouble();
+          default:
+            return node.asText();
+        }
+      } else {
+        switch (parameter.getType()) {
+          case BOOLEAN:
+            return node.asBoolean();
+          case OBJECT:
+            return node;
+          default:
+            return node.asText();
+        }
       }
     }
   }

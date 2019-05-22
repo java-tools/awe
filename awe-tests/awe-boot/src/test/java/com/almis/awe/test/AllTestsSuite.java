@@ -1,12 +1,10 @@
 package com.almis.awe.test;
 
-import com.almis.awe.test.unit.builder.ScreenBuilderTest;
-import com.almis.awe.test.unit.rest.DataRestControllerTest;
-import com.almis.awe.test.unit.rest.MaintainRestControllerTest;
 import com.almis.awe.test.unit.*;
-import com.almis.awe.test.unit.tools.ZipFileUtilTest;
-import com.almis.awe.test.unit.util.DataListTest;
-import com.almis.awe.test.unit.util.DateUtilTest;
+import com.almis.awe.test.unit.builder.ScreenBuilderTest;
+import com.almis.awe.test.unit.pojo.PojoTestsSuite;
+import com.almis.awe.test.unit.rest.RestTestsSuite;
+import com.almis.awe.test.unit.util.UtilitiesTestsSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -22,17 +20,15 @@ import org.junit.runners.Suite;
   ScreenControllerTest.class,
   ScreenRestrictionTest.class,
   TemplateControllerTest.class,
-  DataRestControllerTest.class,
-  MaintainRestControllerTest.class,
   ScreenBuilderTest.class,
   MenuServiceTest.class,
   FileServiceTest.class,
+  JavaServiceTest.class,
   UploadControllerTest.class,
-  TagListTest.class,
-  DateUtilTest.class,
-  DataListTest.class,
   UserServiceTest.class,
-  ZipFileUtilTest.class
+  UtilitiesTestsSuite.class,
+  RestTestsSuite.class,
+  PojoTestsSuite.class
 })
 @RunWith(Suite.class)
 public class AllTestsSuite {

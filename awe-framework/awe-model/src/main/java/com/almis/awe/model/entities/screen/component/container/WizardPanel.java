@@ -1,10 +1,13 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component.container;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * WizardPanel Class
@@ -17,29 +20,21 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 @XStreamAlias("wizard-panel")
 public class WizardPanel extends Container {
 
   private static final long serialVersionUID = 3530144017985374473L;
 
-  /**
-   * Default constructor
-   */
-  public WizardPanel() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public WizardPanel(WizardPanel other) throws AWException {
-    super(other);
-  }
-
   @Override
   public WizardPanel copy() throws AWException {
-    return new WizardPanel(this);
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**

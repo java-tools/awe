@@ -1,8 +1,14 @@
 package com.almis.awe.model.entities.queries;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * CaseWhen Class
@@ -12,102 +18,31 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Isaac Serna - 13/JUN/2018
  */
-@XStreamAlias("case-when")
-public class CaseWhen extends Filter implements CaseClause {
-
-  private static final long serialVersionUID = 6575179747084476685L;
-
-  // Optional filter
-  @XStreamAlias("then-field")
-  @XStreamAsAttribute
-  private String thenField;
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@SuperBuilder(toBuilder = true)
+@Accessors(chain = true)
+@XStreamAlias("when")
+public class CaseWhen extends Filter {
 
   // Optional filter
-  @XStreamAlias("then-table")
-  @XStreamAsAttribute
-  private String thenTable;
-
-
-  // Optional filter
-  @XStreamAlias("then-variable")
-  @XStreamAsAttribute
-  private String thenVariable;
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public CaseWhen(CaseWhen other) throws AWException {
-    super(other);
-    this.thenField = other.thenField;
-    this.thenTable = other.thenTable;
-    this.thenVariable = other.thenVariable;
-  }
-
-  /**
-   * Get then field table name
-   *
-   * @return String
-   */
-  public String getThenTable() {
-    return thenTable;
-  }
-
-  /**
-   * Set then field table name
-   *
-   * @param thenTable then field table name
-   * @return CaseWhen
-   */
-  public CaseWhen setThenTable(String thenTable) {
-    this.thenTable = thenTable;
-    return this;
-  }
-
-
-  /**
-   * Get field if the condition is true
-   *
-   * @return String
-   */
-  public String getThenField() {
-    return thenField;
-  }
-
-  /**
-   * Set then field value
-   *
-   * @param thenField then field value of the condition
-   * @return CaseWhen
-   */
-  public CaseWhen setThenField(String thenField) {
-    this.thenField = thenField;
-    return this;
-  }
-
-  /**
-   * Get variable if the condition is true
-   *
-   * @return String
-   */
-  public String getThenVariable() {
-    return thenVariable;
-  }
-
-  /**
-   * Set then variable value
-   *
-   * @param thenVariable then variable value of the condition
-   * @return CaseWhen
-   */
-  public CaseWhen setThenVariable(String thenVariable) {
-    this.thenVariable = thenVariable;
-    return this;
-  }
+  @XStreamAlias("then")
+  @XStreamConverter(OperandConverter.class)
+  private SqlField thenOperand;
 
   @Override
   public CaseWhen copy() throws AWException {
-    return new CaseWhen(this);
+    return ((CaseWhen) super.copy())
+      .setThenOperand(ListUtil.copyElement(thenOperand));
+  }
+
+  @Override
+  public String toString() {
+    String thenString = "";
+    if (getThenOperand() != null) {
+      thenString = getThenOperand().toString();
+    }
+    return "WHEN " + super.toString() + " THEN " + thenString;
   }
 }

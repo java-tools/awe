@@ -65,7 +65,7 @@ public class CompoundColumnProcessor implements ColumnProcessor, AweContextAware
         if (computedMap == null) {
           computedMap = new HashMap<>();
         }
-        computedMap.put(computed.getAlias(), computedProcessor);
+        computedMap.put(computed.getIdentifier(), computedProcessor);
       }
     }
     return this;
@@ -76,7 +76,7 @@ public class CompoundColumnProcessor implements ColumnProcessor, AweContextAware
    * @return
    */
   public String getColumnIdentifier() {
-    return compound.getAlias();
+    return compound.getIdentifier();
   }
 
   /**
@@ -91,7 +91,7 @@ public class CompoundColumnProcessor implements ColumnProcessor, AweContextAware
       for (Computed computed : compound.getComputedList()) {
 
         // Computed alias
-        String computedIdentifier = computed.getAlias();
+        String computedIdentifier = computed.getIdentifier();
 
         // Calculate computed
         CellData computedData = computedMap.get(computedIdentifier)

@@ -28,6 +28,13 @@ public abstract class ServiceConfig implements ApplicationContextAware {
   }
 
   /**
+   * Get application context
+   * @return context
+   */
+  protected ApplicationContext getApplicationContext() {
+    return context;
+  }
+  /**
    * Returns instantiated elements
    *
    * @return Awe Elements

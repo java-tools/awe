@@ -7,11 +7,14 @@ import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.entities.services.ServiceJava;
 import com.almis.awe.model.entities.services.ServiceType;
 import org.apache.logging.log4j.Level;
+import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Launches a Java service
@@ -21,20 +24,21 @@ public class JavaConnector extends AbstractServiceConnector {
   @Override
   public ServiceData launch(ServiceType service, Map<String, Object> paramsMapFromRequest) throws AWException {
     // Variable definition
-    Object serviceInstance = null;
-    Method serviceMethod = null;
-    ServiceData outData = null;
+    Method serviceMethod;
+    String qualifierAttribute = null;
     Object[] paramsToInvoke = null;
     Class[] paramsClassesToInvoke = null;
+    ServiceData outData;
 
     List<ServiceInputParameter> paramsFromXml = null;
     String classNameReceived = null;
     String methodReceived = null;
 
     if (service != null) {
-      paramsFromXml = ((ServiceJava) service).getParameterList();
+      paramsFromXml = service.getParameterList();
       classNameReceived = ((ServiceJava) service).getClassName();
       methodReceived = ((ServiceJava) service).getMethod();
+      qualifierAttribute = ((ServiceJava) service).getQualifier();
     }
 
     try {
@@ -51,8 +55,9 @@ public class JavaConnector extends AbstractServiceConnector {
     }
 
     // Object generation
+    Object serviceInstance;
     try {
-      serviceInstance = getBean(Class.forName(classNameReceived));
+      serviceInstance = qualifierAttribute != null ? BeanFactoryAnnotationUtils.qualifiedBeanOfType(((GenericWebApplicationContext) getApplicationContext()).getBeanFactory(), Class.forName(classNameReceived), qualifierAttribute) : getBean(Class.forName(classNameReceived));
     } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_ERROR_INITIALIZING_INSTANCE"),
         getLocale("ERROR_MESSAGE_ERROR_INITIALIZING_INSTANCE", classNameReceived), exc);
@@ -61,7 +66,7 @@ public class JavaConnector extends AbstractServiceConnector {
     // Method generation
     try {
       getLogger().log(JavaConnector.class, Level.DEBUG, "[Java Service]: Calling Java Service {0} Method {1}", classNameReceived, methodReceived);
-      serviceMethod = serviceInstance.getClass().getMethod(methodReceived, paramsClassesToInvoke);
+      serviceMethod = serviceInstance.getClass().getMethod(Objects.requireNonNull(methodReceived), paramsClassesToInvoke);
     } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_METHOD_NOT_DEFINED"),
               getLocale("ERROR_MESSAGE_METHOD_NOT_DEFINED", methodReceived), exc);

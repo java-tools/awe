@@ -1,5 +1,6 @@
 import { aweApplication } from "./../awe";
 import { DefaultGridOptions, DefaultSpin } from "../data/options";
+import "../services/grid/tree";
 
 // Treegrid directive
 aweApplication.directive('aweTreeGrid',

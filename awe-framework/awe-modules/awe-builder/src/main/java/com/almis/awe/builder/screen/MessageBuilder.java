@@ -1,89 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.almis.awe.builder.screen;
 
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.Element;
+import com.almis.awe.builder.screen.base.AweBuilder;
 import com.almis.awe.model.entities.screen.Message;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * @author dfuentes
  */
-public class MessageBuilder extends AweBuilder<MessageBuilder> {
+@Getter
+@Setter
+@NoArgsConstructor
+@Accessors(chain = true)
+public class MessageBuilder extends AweBuilder<MessageBuilder, Message> {
 
   private String message;
   private String title;
 
-  /**
-   * Constructor
-   *
-   * @throws AWException
-   */
-  public MessageBuilder() throws AWException {
-    super();
+  @Override
+  public Message build() {
+    return build(new Message());
   }
 
   @Override
-  public void initializeElements() {
-    // No need to initialize elements
-  }
-
-  @Override
-  public MessageBuilder setParent() {
-    return this;
-  }
-
-  @Override
-  public Element build(Element element) {
-    Message builder = new Message();
-    builder.setId(getId());
-    builder.setMessage(getMessage());
-
-    if (getTitle() != null) {
-      builder.setTitle(getTitle());
-    }
-
-    return builder;
-  }
-
-  /**
-   * Get message
-   *
-   * @return
-   */
-  public String getMessage() {
-    return message;
-  }
-
-  /**
-   * Set message
-   *
-   * @param message
-   */
-  public MessageBuilder setMessage(String message) {
-    this.message = message;
-    return this;
-  }
-
-  /**
-   * Get title
-   *
-   * @return
-   */
-  public String getTitle() {
-    return title;
-  }
-
-  /**
-   * Set title
-   *
-   * @param title
-   */
-  public MessageBuilder setTitle(String title) {
-    this.title = title;
-    return this;
+  public Message build(Message message) {
+    return (Message) super.build(message)
+      .setText(getMessage())
+      .setTitle(getTitle());
   }
 }

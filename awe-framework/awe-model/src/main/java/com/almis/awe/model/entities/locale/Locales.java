@@ -1,23 +1,17 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.locale;
 
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Global;
-import com.almis.awe.model.entities.XMLWrapper;
-import com.almis.awe.model.util.data.ListUtil;
+import com.almis.awe.model.entities.XMLFile;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-
-/*
- * File Imports
- */
 
 /**
  * Locals class
@@ -27,8 +21,12 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("locales")
-public class Locales extends XMLWrapper {
+public class Locales implements XMLFile {
 
   private static final long serialVersionUID = 2560444152446535714L;
   /* Local list */
@@ -37,47 +35,11 @@ public class Locales extends XMLWrapper {
 
   @XStreamAlias("xmlns:xsi")
   @XStreamAsAttribute
-  protected String xmlns = AweConstants.XMLNS;
+  protected String xmlns;
 
   @XStreamAlias("xsi:noNamespaceSchemaLocation")
   @XStreamAsAttribute
-  private String xsd = AweConstants.XSD_LOCALES;
-
-  /**
-   * Default constructor
-   */
-  public Locales() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Locales(Locales other) throws AWException {
-    super(other);
-    this.locales = ListUtil.copyList(other.locales);
-    this.xmlns = other.xmlns;
-    this.xsd = other.xsd;
-  }
-
-  /**
-   * Returns the locale list
-   *
-   * @return Locale list
-   */
-  public List<Global> getLocales() {
-    return locales;
-  }
-
-  /**
-   * Stores the locale list
-   *
-   * @param locales Locale list
-   */
-  public void setLocales(List<Global> locales) {
-    this.locales = locales;
-  }
+  private String xsd;
 
   /**
    * Returns a translated locale
@@ -96,6 +58,6 @@ public class Locales extends XMLWrapper {
 
   @Override
   public List<Global> getBaseElementList() {
-    return locales == null ? Collections.emptyList() : locales;
+    return locales == null ? new ArrayList<>() : locales;
   }
 }

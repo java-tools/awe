@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "Tocify";
 
 // Toc plugin
 aweApplication.directive('uiToc',

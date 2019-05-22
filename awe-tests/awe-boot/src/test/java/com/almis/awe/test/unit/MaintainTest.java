@@ -108,7 +108,7 @@ public class MaintainTest extends TestUtil {
   public void testSimpleSingleInsert() throws Exception {
     String maintainName = "SimpleSingleInsert";
     String variables = "";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
@@ -129,7 +129,7 @@ public class MaintainTest extends TestUtil {
     for (int i = 0; i < 5; i++) {
       String maintainName = "SimpleSingleInsertFromVariableValue";
       String variables = "\"variable\":\"AWEBOOT-TEST-" + i + "\",";
-      String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+      String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
       String result = launchMaintain(maintainName, variables, expected);
       logger.debug(result);
       assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
@@ -150,7 +150,7 @@ public class MaintainTest extends TestUtil {
   public void testSingleInsertWithSequence() throws Exception {
     String maintainName = "SingleInsertWithSequence";
     String variables = "";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
@@ -170,7 +170,7 @@ public class MaintainTest extends TestUtil {
   public void testMultipleInsertWithSequence() throws Exception {
     String maintainName = "MultipleInsertWithSequence";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"],";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
@@ -191,7 +191,7 @@ public class MaintainTest extends TestUtil {
   public void testSimpleSingleUpdate() throws Exception {
     String maintainName = "SimpleSingleInsert";
     String variables = "";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
@@ -200,7 +200,7 @@ public class MaintainTest extends TestUtil {
 
     maintainName = "SimpleSingleUpdate";
     variables = "";
-    expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
@@ -220,7 +220,7 @@ public class MaintainTest extends TestUtil {
   public void testSimpleSingleDelete() throws Exception {
     String maintainName = "CleanUp";
     String variables = "";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":0}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":0}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
@@ -239,7 +239,7 @@ public class MaintainTest extends TestUtil {
     String maintainName = "SimpleSingleInsertAudit";
     String variables = "";
     setParameter("user", "test");
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
@@ -260,7 +260,7 @@ public class MaintainTest extends TestUtil {
     for (int i = 0; i < 5; i++) {
       String maintainName = "SimpleSingleInsertFromVariable";
       String variables = "\"variable\":\"AWEBOOT-TEST-" + i + "\",";
-      String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+      String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
       String result = launchMaintain(maintainName, variables, expected);
       logger.debug(result);
       assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
@@ -281,7 +281,7 @@ public class MaintainTest extends TestUtil {
 
     String maintainName = "SingleUpdateWithVariableListAudit";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":5},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":5},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 6, new MaintainResultDetails[]{
@@ -309,7 +309,7 @@ public class MaintainTest extends TestUtil {
 
     String maintainName = "SingleUpdateWithVariableListAuditBatched";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":5},{\"operationType\":\"AUDIT\",\"rowsAffected\":5}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":5},{\"operationType\":\"AUDIT\",\"rowsAffected\":5}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
@@ -332,7 +332,7 @@ public class MaintainTest extends TestUtil {
 
     String maintainName = "MultipleUpdate";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 5, new MaintainResultDetails[]{
@@ -359,7 +359,7 @@ public class MaintainTest extends TestUtil {
 
     String maintainName = "MultipleUpdateAudit";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"AUDIT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 10, new MaintainResultDetails[]{
@@ -391,7 +391,7 @@ public class MaintainTest extends TestUtil {
 
     String maintainName = "MultipleUpdateAuditBatched";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\", \"AWEBOOT-TEST-4\"],";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":5},{\"operationType\":\"AUDIT\",\"rowsAffected\":5}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":5},{\"operationType\":\"AUDIT\",\"rowsAffected\":5}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
@@ -412,7 +412,7 @@ public class MaintainTest extends TestUtil {
   public void testInsertUpdateDelete() throws Exception {
     String maintainName = "InsertUpdateDelete";
     String variables = "";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"DELETE\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"DELETE\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 3, new MaintainResultDetails[]{
@@ -434,7 +434,7 @@ public class MaintainTest extends TestUtil {
   public void testInsertUpdateDeleteWithVariables() throws Exception {
     String maintainName = "InsertUpdateDeleteWithVariables";
     String variables = "\"var1\": \"AWEBOOT-TEST-0\", \"var2\": \"AWEBOOT-TEST-1\",";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"DELETE\",\"rowsAffected\":2}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"UPDATE\",\"rowsAffected\":1},{\"operationType\":\"DELETE\",\"rowsAffected\":2}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 5, new MaintainResultDetails[]{
@@ -458,11 +458,11 @@ public class MaintainTest extends TestUtil {
   public void testRollback() throws Exception {
     String maintainName = "TestRollback";
     String variables = "";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"There was a problem calling a maintain process\",\"title\":\"Error in maintain operation\",\"type\":\"error\"}},{\"type\":\"cancel\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"There was a problem calling a maintain process\",\"title\":\"Error in maintain operation\",\"type\":\"error\"}},{\"type\":\"cancel\"}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
 
-    expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\"}]";
     result = launchQuery("CheckRollback", variables, expected);
     logger.debug(result);
 
@@ -479,11 +479,11 @@ public class MaintainTest extends TestUtil {
   public void testCommit() throws Exception {
     String maintainName = "TestCommit";
     String variables = "";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"There was a problem calling a maintain process\",\"title\":\"Error in maintain operation\",\"type\":\"error\"}},{\"type\":\"cancel\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"There was a problem calling a maintain process\",\"title\":\"Error in maintain operation\",\"type\":\"error\"}},{\"type\":\"cancel\"}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
 
-    expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"HISope\":\"test\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"HISope\":\"test\"}]}}},{\"type\":\"end-load\"}]";
     result = launchQuery("CheckRollback", variables, expected);
     logger.debug(result);
 
@@ -500,7 +500,7 @@ public class MaintainTest extends TestUtil {
   public void testGridMultiple() throws Exception {
     String maintainName = "GridMultiple";
     String variables = "\"grid-RowTyp\": [\"INSERT\", \"INSERT\"], \"nam\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"], \"act\":[0, 0],";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
@@ -521,7 +521,7 @@ public class MaintainTest extends TestUtil {
   public void testGridMultipleInsertSingle() throws Exception {
     String maintainName = "GridMultiple";
     String variables = "\"grid-RowTyp\": [\"INSERT\"], \"nam\": [\"AWEBOOT-TEST-0\"], \"act\":[0],";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
@@ -540,7 +540,7 @@ public class MaintainTest extends TestUtil {
   @Test
   public void testIncludeTarget() throws Exception {
     String maintainName = "testInclude";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, "", expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 3, new MaintainResultDetails[]{
@@ -565,7 +565,7 @@ public class MaintainTest extends TestUtil {
 
     String maintainName = "GridMultiple";
     String variables = "\"grid-RowTyp\": [\"INSERT\", \"INSERT\"], \"nam\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"], \"act\":[0, 0],";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
@@ -587,7 +587,7 @@ public class MaintainTest extends TestUtil {
     maintainName = "GridMultiple";
     String key = "\"key\":[" + Joiner.on(", ").join(keys) + "],";
     variables = "\"grid-RowTyp\": [\"DELETE\", \"DELETE\"], \"nam\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"], \"act\":[0, 0]," + key;
-    expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
@@ -605,7 +605,7 @@ public class MaintainTest extends TestUtil {
   public void testServiceNoParams() throws Exception {
     String maintainName = "ServeNoParams";
     String variables = "";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been succesfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
   }
@@ -619,7 +619,7 @@ public class MaintainTest extends TestUtil {
   public void testServiceMessageParams() throws Exception {
     String maintainName = "ServeMessageParams";
     String variables = "";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"message\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"message\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
   }
@@ -633,7 +633,7 @@ public class MaintainTest extends TestUtil {
   public void testServiceTitleMessageParams() throws Exception {
     String maintainName = "ServeTitleMessageParams";
     String variables = "";
-    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"message\":\"message\",\"title\":\"title\",\"type\":\"ok\"}}]";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"message\",\"title\":\"title\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
   }

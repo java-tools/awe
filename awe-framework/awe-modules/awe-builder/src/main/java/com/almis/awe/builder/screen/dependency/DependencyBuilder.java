@@ -1,62 +1,50 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.almis.awe.builder.screen.dependency;
 
-import com.almis.awe.builder.enumerates.*;
-import com.almis.awe.builder.screen.AweBuilder;
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.Element;
+import com.almis.awe.builder.enumerates.DependencyType;
+import com.almis.awe.builder.enumerates.ServerAction;
+import com.almis.awe.builder.enumerates.SourceType;
+import com.almis.awe.builder.enumerates.TargetType;
+import com.almis.awe.builder.screen.base.AweBuilder;
 import com.almis.awe.model.entities.screen.component.action.Dependency;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
- *
  * @author dfuentes
  */
-public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
+@Getter
+@Setter
+@NoArgsConstructor
+@Accessors(chain = true)
+public class DependencyBuilder extends AweBuilder<DependencyBuilder, Dependency> {
 
   private ServerAction serverAction;
   private SourceType sourceType;
   private TargetType targetType;
   private DependencyType type;
-  private Boolean invert;
-  private Boolean initial;
+  private boolean invert;
+  private boolean initial;
   private String formule;
   private String label;
   private String targetAction;
   private String value;
-  private List<AweBuilder> elements;
 
-  /**
-   * Constructor
-   *
-   * @throws AWException
-   */
-  public DependencyBuilder() throws AWException {
-    super();
+  @Override
+  public Dependency build() {
+    return build(new Dependency());
   }
 
   @Override
-  public void initializeElements() {
-    this.elements = new ArrayList<>();
-  }
-
-  @Override
-  public DependencyBuilder setParent() {
-    return this;
-  }
-
-  @Override
-  public Element build(Element element) {
-    Dependency dependency = new Dependency();
-
-    dependency.setId(getId());
+  public Dependency build(Dependency dependency) {
+    super.build(dependency)
+      .setInvert(isInvert())
+      .setInitial(isInitial())
+      .setFormule(getFormule())
+      .setTargetAction(getTargetAction())
+      .setValue(getValue())
+      .setLabel(getLabel());
 
     if (getServerAction() != null) {
       dependency.setServerAction(getServerAction().toString());
@@ -74,235 +62,7 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
       dependency.setType(getType().toString());
     }
 
-    if (isInvert() != null) {
-      dependency.setInvert(String.valueOf(isInvert()));
-    }
-
-    if (isInitial() != null) {
-      dependency.setInitial(String.valueOf(isInitial()));
-    }
-
-    if (getFormule() != null) {
-      dependency.setFormule(getFormule());
-    }
-
-    if (getLabel() != null) {
-      dependency.setLabel(getLabel());
-    }
-
-    if (getTargetAction() != null) {
-      dependency.setTargetAction(getTargetAction());
-    }
-
-    if (getValue() != null) {
-      dependency.setValue(getValue());
-    }
-
-    for (AweBuilder aweBuilder : getElementList()) {
-      addElement(dependency, aweBuilder.build(dependency));
-    }
-
     return dependency;
-  }
-
-  /**
-   * Get server action
-   *
-   * @return
-   */
-  public ServerAction getServerAction() {
-    return serverAction;
-  }
-
-  /**
-   * Set server action
-   *
-   * @param serverAction
-   * @return
-   */
-  public DependencyBuilder setServerAction(ServerAction serverAction) {
-    this.serverAction = serverAction;
-    return this;
-  }
-
-  /**
-   * Get source type
-   *
-   * @return
-   */
-  public SourceType getSourceType() {
-    return sourceType;
-  }
-
-  /**
-   * Set source type
-   *
-   * @param sourceType
-   * @return
-   */
-  public DependencyBuilder setSourceType(SourceType sourceType) {
-    this.sourceType = sourceType;
-    return this;
-  }
-
-  /**
-   * Get target type
-   *
-   * @return
-   */
-  public TargetType getTargetType() {
-    return targetType;
-  }
-
-  /**
-   * Set target type
-   *
-   * @param targetType
-   * @return
-   */
-  public DependencyBuilder setTargetType(TargetType targetType) {
-    this.targetType = targetType;
-    return this;
-  }
-
-  /**
-   * Get type
-   *
-   * @return
-   */
-  public DependencyType getType() {
-    return type;
-  }
-
-  /**
-   * Set type
-   *
-   * @param type
-   * @return
-   */
-  public DependencyBuilder setType(DependencyType type) {
-    this.type = type;
-    return this;
-  }
-
-  /**
-   * Is invert
-   *
-   * @return
-   */
-  public Boolean isInvert() {
-    return invert;
-  }
-
-  /**
-   * Set invert
-   *
-   * @param invert
-   * @return
-   */
-  public DependencyBuilder setInvert(Boolean invert) {
-    this.invert = invert;
-    return this;
-  }
-
-  /**
-   * Is initial
-   *
-   * @return
-   */
-  public Boolean isInitial() {
-    return initial;
-  }
-
-  /**
-   * Set initial
-   *
-   * @param initial
-   * @return
-   */
-  public DependencyBuilder setInitial(Boolean initial) {
-    this.initial = initial;
-    return this;
-  }
-
-  /**
-   * Get formule
-   *
-   * @return
-   */
-  public String getFormule() {
-    return formule;
-  }
-
-  /**
-   * Set formule
-   *
-   * @param formule
-   * @return
-   */
-  public DependencyBuilder setFormule(String formule) {
-    this.formule = formule;
-    return this;
-  }
-
-  /**
-   * Get label
-   *
-   * @return
-   */
-  public String getLabel() {
-    return label;
-  }
-
-  /**
-   * Set label
-   *
-   * @param label
-   * @return
-   */
-  public DependencyBuilder setLabel(String label) {
-    this.label = label;
-    return this;
-  }
-
-  /**
-   * Get target action
-   *
-   * @return
-   */
-  public String getTargetAction() {
-    return targetAction;
-  }
-
-  /**
-   * Set target action
-   *
-   * @param targetAction
-   * @return
-   */
-  public DependencyBuilder setTargetAction(String targetAction) {
-    this.targetAction = targetAction;
-    return this;
-  }
-
-  /**
-   * Get value
-   *
-   * @return
-   */
-  public String getValue() {
-    return value;
-  }
-
-  /**
-   * Set value
-   *
-   * @param value
-   * @return
-   */
-  public DependencyBuilder setValue(String value) {
-    this.value = value;
-    return this;
   }
 
   /**
@@ -312,9 +72,7 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
    * @return
    */
   public DependencyBuilder addDependencyAction(DependencyActionBuilder... dependencyAction) {
-    if (dependencyAction != null) {
-      this.elements.addAll(Arrays.asList(dependencyAction));
-    }
+    addAllElements(dependencyAction);
     return this;
   }
 
@@ -325,18 +83,7 @@ public class DependencyBuilder extends AweBuilder<DependencyBuilder> {
    * @return
    */
   public DependencyBuilder addDependencyElement(DependencyElementBuilder... dependencyElement) {
-    if (dependencyElement != null) {
-      this.elements.addAll(Arrays.asList(dependencyElement));
-    }
+    addAllElements(dependencyElement);
     return this;
-  }
-
-  /**
-   * Get element list
-   *
-   * @return
-   */
-  public List<AweBuilder> getElementList() {
-    return elements;
   }
 }

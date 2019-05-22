@@ -27,9 +27,9 @@ public class Topic implements ResponseWrapper {
 
     DataList dataList = new DataList();
     long dateMs = DateUtil.web2TimestampWithMs(getDate()).getTime();
-    DataListUtil.addColumn(dataList, "date", Arrays.asList(new Long[]{dateMs}), "LONG");
-    DataListUtil.addColumn(dataList, "serie1", Arrays.asList(new Float[]{getSerie1()}), "FLOAT");
-    DataListUtil.addColumn(dataList, "serie2", Arrays.asList(new Float[]{getSerie2()}), "FLOAT");
+    DataListUtil.addColumn(dataList, "date", Arrays.asList(new Long[]{dateMs}));
+    DataListUtil.addColumn(dataList, "serie1", Arrays.asList(new Float[]{getSerie1()}));
+    DataListUtil.addColumn(dataList, "serie2", Arrays.asList(new Float[]{getSerie2()}));
 
     serviceData.addClientAction(new ClientAction("add-points")
             .setAsync(true)

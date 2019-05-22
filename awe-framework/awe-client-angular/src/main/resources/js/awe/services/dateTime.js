@@ -1,4 +1,6 @@
 import { aweApplication } from "./../awe";
+import "../directives/plugins/uiDate";
+import "../directives/plugins/uiTime";
 
 // Date and time service
 aweApplication.factory('DateTime',

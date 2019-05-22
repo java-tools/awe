@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "./../../services/text";
 
 // Column textarea directive
 aweApplication.directive('aweColumnTextarea',

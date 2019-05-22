@@ -114,8 +114,8 @@
   </service>
   <service id="replaceColumns">
     <java classname="com.almis.awe.test.Grid" method="replaceColumns">
-      <service-parameter name="fechas" type="DATE"
-        list="true" />
+      <service-parameter name="fechas" type="DATE" list="true" />
+      <service-parameter name="fecha" type="DATE"/>
     </java>
   </service>
   <!-- Dynamic series chserviceices -->
@@ -321,6 +321,10 @@
 
   <service id="testPostman">
     <rest server="postman" method="GET" endpoint="/gzip" wrapper="com.almis.awe.test.bean.Postman"/>
+  </service>
+
+  <service id="testServiceByQualifier">
+    <java classname="com.almis.awe.test.service.DummyQualifierService" method="getInstance" qualifier="CustomQualifierNameService"/>
   </service>
 
 </services>

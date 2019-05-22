@@ -13,9 +13,11 @@ Almis Web Engine > **[Basic Development Guide](basic-developer-guide.md)**
      * [Query element](#query-element)
      * [Table element](#table-element)
      * [Field element](#field-element)
-       * [Transform attribute](#transform-attribute)       
-       * [Concat element](#concat-element)     
-       * [Case element](#case-element)       
+       * [Transform attribute](#transform-attribute)
+     * [Static element](#static-element)
+     * [Operation element](#operation-element)     
+       * [Operator attribute](#operator-attribute)       
+     * [Case element](#case-element)
      * [Computed element](#computed-element)
      * [Compound element](#compound-element)
      * [Join element](#join-element)
@@ -70,6 +72,7 @@ The full sql query structure is the following:
   ...
   <field id="[Field id]" table="[Table field]" alias="[Alias field]"/>
   <field variable="[Variable id]"/>
+  <static value="[Static value]" type="INTEGER"/>
   <computed format="[Format]" alias="[Alias] transform="[Transform]"/>
   ...
   <computed format="[Format]" alias="[Alias] transform="[Transform]"/>
@@ -219,13 +222,11 @@ The *field* element has the following attributes:
 | function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
 | query | Optional | String | Is the query identifier to do a subquery  | **Note:** The query id must exist, and `table` and `id` attributes will be ignored |
 | variable | Optional | String | A variable identified to be used as field value | **Note:** If `variable` attribute is defined, `table` and `id` attributes will be ignored |
-| value | Optional | String | A static value to be used as field value | **Note:** If `value` attribute is defined, `table` and `id` attributes will be ignored |
 
 > **Note:** The order in attribute reading for fields is the following:
 > 1. `query`
 > 2. `variable`
-> 3. `value`
-> 4. `id` (and `table` if defined)
+> 3. `id` (and `table` if defined)
 >
 > At least one of the previous attributes is required in a field.
 
@@ -256,69 +257,136 @@ These are the possible values for the `transform` attribute:
 * **DECRYPT**: Decrypt a column value which is encrypted in the database
 * **ARRAY**: Split a string value with the string in `pattern` attribute
 
-#### Concat element
+### Static element
 
-The *concat* element goes inside a *field* element, and has the following attributes:
-
+The *static* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| id | Optional | String | Name of field | **Note:** Is the real column name of table in data base            |
-| table | Optional | String | Table name of field |  |
-| value | Optional | String | A static value to be used as field value | **Note:** If `value` attribute is defined, `table` and `id` attributes will be ignored |
+| alias | Optional | String | Alias of field. It used to describe the field |  |
+| noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
+| transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
+| value | Required | String | A static value to be used as field value |  |
+| type | Optional | String | Type of the value | The possible values are available [here](#variable-types) |
 
-##### Concat examples
+### Operation element
 
-Concatenated field: `"Pro" + profile + "-Mod" + module`
+The *operation* element allows to define operation between fields and will be resolved as SQL clauses:
 
 ```xml
-<field id="parent" alias="parent">
-  <concat value="Pro" />
-  <concat id="Nam" table="pro" />
-  <concat value="-Mod" />
-  <concat id="Nam" table="mod" />
+<operation operator="[operator]" alias="[alias]">
+  <static value="[static value]" />
+  <field id="[field name]" table="[field table]" />
+  ...
 </field>
 ```
 
-#### Case element
+| Attribute   | Use      | Type      |  Description                    |   Values                                           |
+| ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
+| operator    | Required | String    | Operator of the operation       | See [operator attribute](#operator-attribute)      |
+| alias | Optional | String | Alias of field. It used to describe the field |  |
+| noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
+| transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
 
-The *case* element allows to generate a case-when clause inside a *field* element. It has the same attributes as a [filter element](#filter-element) **plus** some extra attributes:
+#### Operator attribute
+
+These are the possible values for the `operator` attribute:
+
+* **CONCAT**: Concat some string fields
+* **ADD**: Sum two fields
+* **SUB**: Substract two fields
+* **MULT**: Multiply two fields
+* **DIV**: Divide two fields
+* **"ADD_SECONDS**: Add seconds to a date field
+* **"ADD_MINUTES**: Add minutes to a date field
+* **"ADD_HOURS**: Add hours to a date field
+* **"ADD_DAYS**: Add days to a date field
+* **"ADD_WEEKS**: Add weeks to a date field
+* **"ADD_MONTHS**: Add months to a date field
+* **"ADD_YEARS**: Add years to a date field
+* **"DIFF_SECONDS**: Calculate the difference in seconds between two dates
+* **"DIFF_MINUTES**: Calculate the difference in minutes between two dates
+* **"DIFF_HOURS**: Calculate the difference in hours between two dates
+* **"DIFF_DAYS**: Calculate the difference in days between two dates
+* **"DIFF_WEEKS**: Calculate the difference in weeks between two dates
+* **"DIFF_MONTHS**: Calculate the difference in months between two dates
+* **"DIFF_YEARS**: Calculate the difference in years between two dates
+* **"SUB_SECONDS**: Substract seconds from a date field
+* **"SUB_MINUTES**: Substract minutes from a date field
+* **"SUB_HOURS**: Substract hours from a date field
+* **"SUB_DAYS**: Substract days from a date field
+* **"SUB_WEEKS**: Substract weeks from a date field
+* **"SUB_MONTHS**: Substract months from a date field
+* **"SUB_YEARS**: Substract years from a date field
+
+#### Operation examples
+
+Concatenated field: `("Pro" + pro.Nam + "-Mod" + mod.Nam) as parent`
+
+```xml
+<operation operator="CONCAT" alias="parent">
+  <static value="Pro" />
+  <field id="Nam" table="pro" />
+  <static value="-Mod" />
+  <field id="Nam" table="mod" />
+</field>
+```
+
+Add 1 to a field: `(pro.Nam + 1) as parent`
+
+```xml
+<operation operator="ADD" alias="parent">
+  <field id="Nam" table="pro" />
+  <static value="1" type="INTEGER"/>
+</field>
+```
+
+### Case element
+
+The *case* element allows to generate a list of `when` clauses inside a `field` element. A `else` clause must be defined at the end of the `case` clause. 
+It has the same attributes as a [filter element](#filter-element) **plus** some extra attributes:
 
 | Attribute     | Use      | Type      |  Description                    |   Values                                           |
 | ------------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| then-field    | Optional | String    | Name of field | **Note:** Is the real column name of table in data base                 |
-| then-table    | Optional | String    | Table name of field |  |
-| then-variable | Optional | String    | A static value to be used as field value | **Note:** If `value` attribute is defined, `table` and `id` attributes will be ignored |
+| alias | Optional | String | Alias of field. It used to describe the field |  |
+| noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
+| transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
 
-> **Note**: These attributes correspond to the data we want to show if the case clause is matched.
+> **NEW!**: As described on [filter element](#filter-element), `left-operand` and `right-operand` can be defined with the
+> properties of `field`, `static`, `operation` or `case` as well. Same case for the `then` and `else` elements.
 
-##### Case examples
+#### Case examples
 
 Case field: 
+
+```sql
+CASE WHEN (Nam = "sunset") THEN 1 WHEN (Nam = "sunny") THEN 2 WHEN (Nam = "purple-hills") THEN 3 ELSE 0 END AS "value"
+```
+
+will be generated as:
 
 ```xml
 <query id="testCaseWhenElse">
   <table id="AweThm"/>
-  <field alias="value">
-    <case-when left-field="Nam" condition="eq" right-variable="sunset" then-variable="1"/>
-    <case-when left-field="Nam" condition="eq" right-variable="sunny" then-variable="2"/>
-    <case-when left-field="Nam" condition="eq" right-variable="purple-hills" then-variable="3"/>
-    <case-else then-variable="0"/>
-  </field>
+  <case alias="value">
+    <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunset"/><then value="1" type="INTEGER"/></when>
+    <when left-field="Nam" condition="eq" right-variable="sunny"><then value="2" type="INTEGER"/></when>
+    <when left-field="Nam" condition="eq" right-variable="purple-hills"><then value="3" type="INTEGER"/></when>
+    <else value="0" type="INTEGER"/>
+  </case>
   <variable id="sunset" type="STRING" value="sunset"/>
   <variable id="sunny" type="STRING" value="sunny"/>
   <variable id="purple-hills" type="STRING" value="purple-hills"/>
-  <variable id="0" type="INTEGER" value="0"/>
-  <variable id="1" type="INTEGER" value="1"/>
-  <variable id="2" type="INTEGER" value="2"/>
-  <variable id="3" type="INTEGER" value="3"/>
 </query>
-```
-
-Is the same as:
-
-```sql
-CASE WHEN (Nam = "sunset") THEN 1 WHEN (Nam = "sunny") THEN 2 WHEN (Nam = "purple-hills") THEN 3 ELSE 0 END AS "value"
 ```
 
 ### Computed element
@@ -518,16 +586,26 @@ The having structure is the next one, is the same as where element:
 The filter structure is as follows:
 
 ```xml
-<filter left-value="[Static value]" left-concat="[Concat 1]" left-field="[Field 1]" left-table="[Field table 1]" left-query="[Query Id]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]" 
-        right-value="[Static value]" right-concat="[Concat 2]" right-field="[Field 2]" right-table="[Field table 2]" right-query="[Query Id]" right-variable="[Variable Id]" ignorecase="[Ignorecase]" trim="[Trim]"/>
+<filter left-value="[Static value]" left-field="[Field 1]" left-table="[Field table 1]" left-query="[Query Id]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]" 
+        right-value="[Static value]" right-field="[Field 2]" right-table="[Field table 2]" right-query="[Query Id]" right-variable="[Variable Id]" ignorecase="[Ignorecase]" trim="[Trim]"/>
 ```
+
+> **NEW!** Now you can define a `left-operand` and a `right-operand` children to define the filters. 
+> These elements can have any attribute from `field`, `static`, `operation` or `case` elements:
+
+ ```xml
+<filter condition="[Condition]" ignorecase="[Ignorecase]" trim="[Trim]" optional="[Optional]">
+  <left-operand id="[field name]"/>
+  <right-operand value="[static value]" type="[value type]"/> 
+</filter>
+ ```
+
 
 The *filter* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
 | left-value | Optional | String | A static value to compare with |  |
-| left-concat | Optional | String | The name of a concat |  |
 | left-field | Optional | String | The name of a column |  |
 | left-table | Optional | String | The name of the table that *field* belongs to |  |
 | left-query | Optional | String | The id of a query  |  |
@@ -535,7 +613,6 @@ The *filter* element has the following attributes:
 | type | Optional | String | The type of values stored in columns being compared | `NUMBER`, `DECIMAL_NUMBER`, `DATE`, `TIME`,	`STRING` (default) |
 | condition | **Required** | String | The condition of the comparison | `eq`, `ne`, `ge`, `le`, `gt`, `lt`, `in`, `not in`, `is null`, `is not null`, `like`, `not like` |
 | right-value | Optional | String | A static value to compare with |  |
-| right-concat | Optional | String | The name of a concat |  |
 | right-field | Optional | String | The name of a column |  |
 | right-table | Optional | String | The name of the table that *right-field* belongs to |  |
 | right-query | Optional | String | The id of a query  |  |

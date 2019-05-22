@@ -316,14 +316,11 @@ aweApplication.factory('Component',
         },
         /**
          * Get max elements per page
-         * @returns {integer} elements per page
+         * @param {int|undefined} defaultValue [optional] default value
+         * @returns {int} elements per page
          */
-        getMax: function () {
-          var max = $settings.get("recordsPerPage");
-          if (this.controller.max) {
-            max = this.controller.max;
-          }
-          return max;
+        getMax: function (defaultValue = $settings.get("recordsPerPage")) {
+          return parseInt("max" in this.controller ? this.controller.max : defaultValue, 10);
         },
         /**
          * Basic getData function (To be overwritten on complex directives)

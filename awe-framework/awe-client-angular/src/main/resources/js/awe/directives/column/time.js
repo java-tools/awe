@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "../../services/dateTime";
 
 // Column timepicker directive
 aweApplication.directive('aweColumnTime',

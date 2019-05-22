@@ -1,19 +1,16 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.access;
 
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.XMLWrapper;
+import com.almis.awe.model.entities.Copyable;
 import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
-
-/*
- * File Imports
- */
 
 /**
  * Profile Class
@@ -23,46 +20,23 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 25/JUN/2010
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("profile")
-public class Profile extends XMLWrapper {
+public class Profile implements Copyable {
 
   private static final long serialVersionUID = -7990480714029113566L;
 
   // Restriction List
   @XStreamImplicit
-  private List<Restriction> restrictionList;
+  private List<Restriction> restrictions;
 
-  /**
-   * Constructor
-   */
-  public Profile() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Profile(Profile other) throws AWException {
-    super(other);
-    this.restrictionList = ListUtil.copyList(other.restrictionList);
-  }
-
-  /**
-   * Returns the restrictions list
-   *
-   * @return Restrictions list
-   */
-  public List<Restriction> getRestrictions() {
-    return restrictionList;
-  }
-
-  /**
-   * Stores the restrictions list
-   *
-   * @param restrictions Restrictions list
-   */
-  public void setRestrictions(List<Restriction> restrictions) {
-    this.restrictionList = restrictions;
+  @Override
+  public Profile copy() throws AWException {
+    return this.toBuilder()
+      .restrictions(ListUtil.copyList(getRestrictions()))
+      .build();
   }
 }

@@ -1,4 +1,5 @@
 import { aweApplication } from "./../awe";
+import numeral from "numeral";
 
 // Translate multiple filter
 aweApplication.filter('formatNumber', ['AweSettings', ($settings) => (number, options) => {

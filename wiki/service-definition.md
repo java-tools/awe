@@ -32,7 +32,7 @@ The xml structure of services is:
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation = "../../sch/services.xsd">
   <service id="[Service Id]">
     <java classname="[Java class]" method="[Java method]">
-      <service-parameter type="[Type]" name="[Parameter name]" />
+      <service-parameter type="[Type]" name="[Parameter name]" qualifier="[Bean name]" />
       ... (More <service_parameter>)
     </java>
   </service>
@@ -80,8 +80,9 @@ Java element has the following attributes:
 
 | Attribute   | Use          | Type      |  Description                        |   Values                                           |
 | ----------- | -------------|-----------|-------------------------------------|----------------------------------------------------|
-| classname   | **Required** | String    | Class name of java service          |  Ex.: `classname="com.almis.awe.core.services.controller.AccessController"`
-| method      | **Required** | String    | Method name of class to be executed | Ex.: `method="login"` |
+| classname   | **Required** | String    | Class name of java service                                    |  Ex.: `classname="com.almis.awe.core.services.controller.AccessController"`
+| method      | **Required** | String    | Method name of class to be executed                           | Ex.: `method="login"` |
+| qualifier   | Optional     | String    | Qualifier bean name. If uses `@Qualifier` spring annotation   | Ex.: `qualifier="myBean"` |
 
 ### Microservice element
 

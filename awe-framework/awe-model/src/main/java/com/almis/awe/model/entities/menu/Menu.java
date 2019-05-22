@@ -2,15 +2,16 @@ package com.almis.awe.model.entities.menu;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
-
-/*
- * File Imports
- */
 
 /**
  * Menu Class
@@ -20,113 +21,38 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 @XStreamAlias("menu")
 public class Menu extends Element {
 
   private static final long serialVersionUID = -786230210617881807L;
-  /**
-   * Generates the menu initial tag
-   */
 
   // Option screen
+  @JsonIgnore
   @XStreamAlias("screen")
   @XStreamAsAttribute
-  private String screen = null;
+  private String screen;
 
   // Target frame (for navigation)
+  @JsonIgnore
   @XStreamAlias("context")
   @XStreamAsAttribute
-  private String screenContext = null;
+  private String screenContext;
 
   // Menu default action
+  @JsonIgnore
   @XStreamAlias("default-action")
   @XStreamAsAttribute
-  private String defaultAction = null;
-
-  /**
-   * Default constructor
-   */
-  public Menu() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Menu(Menu other) throws AWException {
-    super(other);
-    this.screen = other.screen;
-    this.screenContext = other.screenContext;
-    this.defaultAction = other.defaultAction;
-  }
+  private String defaultAction;
 
   @Override
   public Menu copy() throws AWException {
-    return new Menu(this);
-  }
-
-  /**
-   * Returns the screen target name
-   *
-   * @return Screen target name
-   */
-  @JsonIgnore
-  public String getScreen() {
-    return screen;
-  }
-
-  /**
-   * Stores the screen target name
-   *
-   * @param screen Screen target name
-   * @return Menu
-   */
-  public Menu setScreen(String screen) {
-    this.screen = screen;
-    return this;
-  }
-
-  /**
-   * Get screen context
-   *
-   * @return Screen context
-   */
-  @JsonIgnore
-  public String getScreenContext() {
-    return screenContext;
-  }
-
-  /**
-   * Store screen context
-   *
-   * @param screenContext Screen context
-   * @return Menu
-   */
-  public Menu setScreenContext(String screenContext) {
-    this.screenContext = screenContext;
-    return this;
-  }
-
-  /**
-   * Get default action
-   *
-   * @return Default action
-   */
-  @JsonIgnore
-  public String getDefaultAction() {
-    return defaultAction;
-  }
-
-  /**
-   * Store default action
-   *
-   * @param defaultAction Default action
-   * @return Menu
-   */
-  public Menu setDefaultAction(String defaultAction) {
-    this.defaultAction = defaultAction;
-    return this;
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**
@@ -137,18 +63,17 @@ public class Menu extends Element {
    */
   @JsonIgnore
   public Option getOptionByScreen(String screen) {
-    Option option = null;
+    Option found = null;
     List<Option> optionList = getElementList();
     // Search in child options
     for (Option child : optionList) {
       // Check module
-      if (option == null) {
-        child.setParent(this);
-        option = child.getOptionByScreen(screen);
+      if (found == null) {
+        found = child.getOptionByScreen(screen);
       }
     }
 
-    return option;
+    return found;
   }
 
   /**
@@ -159,17 +84,27 @@ public class Menu extends Element {
    */
   @JsonIgnore
   public Option getOptionByName(String optionName) {
-    Option option = null;
+    Option found = null;
     // Search in child options
-    List<Option> optionList = this.getElementList();
+    List<Option> optionList = getElementList();
     for (Option child : optionList) {
       // Check module
-      if (option == null) {
-        child.setParent(this);
-        option = child.getOptionByName(optionName);
+      if (found == null) {
+        found = child.getOptionByName(optionName);
       }
     }
 
-    return option;
+    return found;
+  }
+
+  /**
+   * Define all options parent
+   */
+  public void defineRelationship() {
+    List<Option> options = getElementList();
+    for (Option option : options) {
+      // Check module
+      option.defineRelationship();
+    }
   }
 }

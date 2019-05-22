@@ -7,12 +7,11 @@ import com.almis.awe.developer.util.LocaleUtil;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.XStreamSerializer;
-import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.Global;
-import com.almis.awe.model.entities.XMLWrapper;
+import com.almis.awe.model.entities.XMLFile;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.entities.locale.Locales;
@@ -166,10 +165,10 @@ public class LiteralsService extends ServiceConfig {
     try {
       storeUpdatedLocale(codeLang.toUpperCase(), code, text, markdown, formatSelector);
     } catch (Exception exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_STORING_TRANSLATION"), getElements().getLocale("ERROR_MESSAGE_STORING_TRANSLATION", new String[] { code, text }), exc);
+      throw new AWException(getElements().getLocale("ERROR_TITLE_STORING_TRANSLATION"), getElements().getLocale("ERROR_MESSAGE_STORING_TRANSLATION", code, text), exc);
     }
 
-    String value = "";
+    String value;
     if (FormatType.TEXT.toString().equalsIgnoreCase(formatSelector)) {
       value = text;
     } else {
@@ -185,8 +184,8 @@ public class LiteralsService extends ServiceConfig {
     // Build address of cell
     ComponentAddress address = new ComponentAddress(null, null, "report", null, "GrdTraLit", codeLang, "lite");
     updateCell.setAddress(address);
-    updateCell.setAsync("true");
-    updateCell.setSilent("true");
+    updateCell.setAsync(true);
+    updateCell.setSilent(true);
     updateCell.addParameter("data", new CellData(value));
 
     // Add action to list
@@ -199,8 +198,8 @@ public class LiteralsService extends ServiceConfig {
       // Build address of cell
       address = new ComponentAddress(null, null, "report", null, "GrdStrLit", code, "lit");
       updateCell.setAddress(address);
-      updateCell.setAsync("true");
-      updateCell.setSilent("true");
+      updateCell.setAsync(true);
+      updateCell.setSilent(true);
       updateCell.addParameter("data", new CellData(value));
 
       // Add action to list
@@ -463,8 +462,8 @@ public class LiteralsService extends ServiceConfig {
         }
       }
 
-      DataListUtil.addColumn(dataList, "key", keys, AweConstants.DATALIST_STRING_TYPE);
-      DataListUtil.addColumn(dataList, "value", values, AweConstants.DATALIST_STRING_TYPE);
+      DataListUtil.addColumn(dataList, "key", keys);
+      DataListUtil.addColumn(dataList, "value", values);
       dataList.setRecords(dataList.getRows().size());
     }
 
@@ -512,7 +511,7 @@ public class LiteralsService extends ServiceConfig {
           values.add(getElements().parseLocale(locale));
         }
       }
-      DataListUtil.addColumn(dataList, "value", values, "STRING");
+      DataListUtil.addColumn(dataList, "value", values);
       DataListUtil.addColumn(dataList, "key", codeLang);
       DataListUtil.addColumn(dataList, "code", code);
       dataList.setRecords(dataList.getRows().size());
@@ -662,8 +661,8 @@ public class LiteralsService extends ServiceConfig {
    *
    * @return Xml file object
    */
-  private XMLWrapper readXmlFile(Class<? extends XMLWrapper> fileClass, String path) {
-    XMLWrapper xml = null;
+  private XMLFile readXmlFile(Class<? extends XMLFile> fileClass, String path) {
+    XMLFile xml = null;
     try {
       // Unmarshall XML
       File file = new File(path);
@@ -714,7 +713,7 @@ public class LiteralsService extends ServiceConfig {
       xstream.processAnnotations(Locales.class);
 
       // Generate xml file
-      BufferedWriter xmlOut = new BufferedWriter(new OutputStreamWriter(fileOutputStream, "UTF8"));
+      BufferedWriter xmlOut = new BufferedWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8));
       LocaleUtil.printHeader(xmlOut, fileName, System.getProperty("user.name"), FILE_DESCRIPTION, true, true);
       xstream.toXML(locales, xmlOut);
     } catch (AWException exc) {

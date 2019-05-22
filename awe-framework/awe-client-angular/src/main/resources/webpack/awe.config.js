@@ -1,3 +1,2 @@
-require("./../less/awe");
-
-require('./../js/awe/app');
+import "./../less/awe";
+import "./../js/awe/app";

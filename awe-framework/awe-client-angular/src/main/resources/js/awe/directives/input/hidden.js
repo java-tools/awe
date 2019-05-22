@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "./../../services/text";
 
 // Hidden directive
 aweApplication.directive('aweInputHidden',

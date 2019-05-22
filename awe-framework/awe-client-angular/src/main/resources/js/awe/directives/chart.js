@@ -1,5 +1,6 @@
 import { aweApplication } from "./../awe";
 import { DefaultSpin } from "./../data/options";
+import "../services/chart/chart";
 
 // Chart directive
 aweApplication.directive('aweChart',

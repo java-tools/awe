@@ -41,7 +41,7 @@ public class QueueQueryConnector extends AbstractQueryConnector {
 
     // Get query builder
     QueueBuilder builder = getBean(QueueBuilder.class);
-    Queue queue = new Queue(getElements().getQueue(query.getQueue()));
+    Queue queue = getElements().getQueue(query.getQueue()).copy();
 
     // Get query preparation time
     getLogger().checkpoint(timeLapse);
@@ -79,7 +79,7 @@ public class QueueQueryConnector extends AbstractQueryConnector {
 
     // Get query builder
     QueueBuilder builder = getBean(QueueBuilder.class);
-    Queue queue = new Queue(getElements().getQueue(query.getQueue()));
+    Queue queue = getElements().getQueue(query.getQueue()).copy();
 
     // Get query preparation time
     getLogger().checkpoint(timeLapse);

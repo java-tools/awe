@@ -1,5 +1,6 @@
 import { aweApplication } from "./../../awe";
 import marked from "marked";
+import "bootstrap-markdown/js/bootstrap-markdown";
 
 // Markdown editor directive
 aweApplication.directive('aweInputMarkdownEditor',

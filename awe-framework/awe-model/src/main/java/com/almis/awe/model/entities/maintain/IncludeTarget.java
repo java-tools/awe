@@ -1,17 +1,16 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.maintain;
-
-/*
- * File Imports
- */
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Serve Class
@@ -24,6 +23,12 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
  *
  * @author Pablo GARCIA - 09/NOV/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("include-target")
 public class IncludeTarget extends MaintainQuery {
 
@@ -35,52 +40,13 @@ public class IncludeTarget extends MaintainQuery {
   @XStreamAsAttribute
   private String name;
 
-  /**
-   * Default constructor
-   */
-  public IncludeTarget() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public IncludeTarget(IncludeTarget other) throws AWException {
-    super(other);
-    this.name = other.name;
-  }
-
   @Override
   public IncludeTarget copy() throws AWException {
-    return new IncludeTarget(this);
+    return this.toBuilder().build();
   }
 
-  /**
-   * Returns the maintain type
-   *
-   * @return Maintan type
-   */
   @Override
   public MaintainType getMaintainType() {
     return maintainType;
-  }
-
-  /**
-   * Get queue name
-   *
-   * @return Queue name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * Set queue name
-   *
-   * @param name queue name
-   */
-  public void setName(String name) {
-    this.name = name;
   }
 }

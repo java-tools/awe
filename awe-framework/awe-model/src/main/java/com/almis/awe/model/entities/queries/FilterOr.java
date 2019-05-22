@@ -1,15 +1,12 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.queries;
-
-/*
- * File Imports
- */
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.UnionType;
+import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import lombok.*;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * FilterOr Class
@@ -18,29 +15,23 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("or")
 public class FilterOr extends FilterGroup {
 
   private static final long serialVersionUID = -4696818779067777019L;
 
-  /**
-   * Default constructor
-   */
-  public FilterOr() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public FilterOr(FilterOr other) throws AWException {
-    super(other);
-  }
-
   @Override
   public FilterOr copy() throws AWException {
-    return new FilterOr(this);
+    return this.toBuilder()
+      .filterGroupList(ListUtil.copyList(getFilterGroupList()))
+      .filterList(ListUtil.copyList(getFilterList()))
+      .build();
   }
 
   /**

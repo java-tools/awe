@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -19,7 +18,7 @@ import java.util.Map;
  * @author jbellon
  */
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class MaintainResultDetails implements Serializable, Copyable {
+public class MaintainResultDetails implements Copyable {
 
   private MaintainType operationType;
   private Long rowsAffected;

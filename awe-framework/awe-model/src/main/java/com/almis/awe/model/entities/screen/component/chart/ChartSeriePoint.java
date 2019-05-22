@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ChartSeriePoint implements Copyable {
 
-  private List<JsonNode> positionPoint;
+  private transient List<JsonNode> positionPoint;
 
   /**
    * Copy constructor

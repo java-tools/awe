@@ -37,6 +37,13 @@ Almis Web Engine > **[Home](../README.md)**
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>com.almis.awe</groupId>
+    <artifactId>awe-starter-parent</artifactId>
+    <version>4.0.7</version>
+    <relativePath/>
+  </parent>
+
   <artifactId>[project-name]</artifactId>
   <groupId>[project-group]</groupId>
   <version>[project-version]</version>
@@ -45,29 +52,13 @@ Almis Web Engine > **[Home](../README.md)**
   <description>[Project description]</description>
 
   <properties>
-    <awe.version>[awe-version]</awe.version>
-    <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
     <application.acronym>[project-acronym]</application.acronym>
     <start-class>[project-group].AppBootApplication</start-class>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.frontend>${project.build.directory}/classes/static/</project.build.frontend>
     <java.version>1.8</java.version>
-    <awe.schemas>../../../static/schemas/awe</awe.schemas>
   </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <!-- AWE -->
-      <dependency>
-        <groupId>com.almis.awe</groupId>
-        <artifactId>awe-dependencies</artifactId>
-        <version>${awe.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <dependencies>
 
@@ -283,6 +274,9 @@ Almis Web Engine > **[Home](../README.md)**
 ^(.*)target\-type\s*=\s*["']none["']\s*(\S+.*)$ => $1$2
 ```
 
+> **Note:** `XXXX => YYYY` means that you must search for `XXXX` expression and replace with `YYYY` expression
+
+
 * Direct replacement:
 
   * Fix dependency conditions:
@@ -311,6 +305,7 @@ pagination="true" => managed-pagination="true"
 ^(\s*<filter.*\s+)countertable(.*/>.*)$ => $1right-table$2
 ^(\s*<filter.*\s+)field(.*/>.*)$ => $1left-field$2
 ^(\s*<filter.*\s+)table(.*/>.*)$ => $1left-table$2
+^(\s*<)field(.*\s+value.*/>.*)$ => $1static$2
 ```
 
 * Direct replacement:
@@ -417,8 +412,8 @@ Encode again the properties encoded with `ENC(xxxx)` at the Encrypt util screen.
   * Packages
   
 ```regexp
-com.almis.awe.core.services.data.global.XMLWrapper => com.almis.awe.model.entities.XMLWrapper
-com.almis.awe.core.services.data.global.XMLElement => com.almis.awe.model.entities.XMLWrapper
+com.almis.awe.core.services.data.global.XMLWrapper => com.almis.awe.model.entities.XMLFile
+com.almis.awe.core.services.data.global.XMLElement => com.almis.awe.model.entities.XMLFile
 com.almis.awe.core.services.data.service.ServiceData => com.almis.awe.model.dto.ServiceData
 com.almis.awe.core.services.controller.DataController => com.almis.awe.service.QueryService
 com.almis.awe.core.services.controller.MaintainController => com.almis.awe.service.MaintainService
@@ -449,7 +444,7 @@ AweConstants.PARAMETER_MAX => AweConstants.COMPONENT_MAX
   4. Use static logger. For example:
   
 ```java
-  logger.log(Level.INFO, "[{0}] No books defined for this treatment", new Object[]{treatment.getID()});
+  logger.log(Level.INFO, "[{}] No books defined for this treatment", treatment.getID());
 ```
 
 ### AWE packages

@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-framework</artifactId>
-    <version>4.0.7</version>
+    <version>4.0.8</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -23,15 +23,16 @@
     <spring-cloud.version>Edgware.SR2</spring-cloud.version>
     <spring-boot-admin.version>1.5.7</spring-boot-admin.version>
     <ehcache.version>3.6.1</ehcache.version>
-    <node.version>v11.10.0</node.version>
-    <yarn.version>v1.13.0</yarn.version>
+    <node.version>v12.1.0</node.version>
+    <yarn.version>v1.15.2</yarn.version>
+    <npm.version>v6.9.0</npm.version>
     <guava.version>27.0.1-jre</guava.version>
     <aspectjweaver.version>1.9.2</aspectjweaver.version>
     <selenium.version>3.141.59</selenium.version>
     <lombok.version>1.18.6</lombok.version>
     <!-- plugin versions -->
     <plugin-spring-boot.version>2.1.0.RELEASE</plugin-spring-boot.version>
-    <plugin-frontend.version>1.6</plugin-frontend.version>
+    <plugin-frontend.version>1.7.6</plugin-frontend.version>
     <plugin-compiler.version>3.5.1</plugin-compiler.version>
     <plugin-sonar.version>3.5.0.1254</plugin-sonar.version>
     <plugin-surefire.version>2.20</plugin-surefire.version>
@@ -42,6 +43,7 @@
     <plugin-flatten-maven.version>1.1.0</plugin-flatten-maven.version>
     <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
     <plugin-resources.version>3.1.0</plugin-resources.version>
+    <plugin-lombok.version>${lombok.version}.0</plugin-lombok.version>
     <!-- Karma configuration -->
     <karma.launch.edge>true</karma.launch.edge>
     <karma.launch.gitlab>false</karma.launch.gitlab>
@@ -501,6 +503,19 @@
           </execution>
         </executions>
       </plugin>
+      <!--<plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+        <version>${plugin-lombok.version}</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>delombok</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>-->
     </plugins>
   </build>
 

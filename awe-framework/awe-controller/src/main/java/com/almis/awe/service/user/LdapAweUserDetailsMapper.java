@@ -48,7 +48,7 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
 
     String dn = ctx.getNameInNamespace();
 
-    log.debug("Mapping user details from context with DN: " + dn);
+    log.debug("Mapping user details from context with DN: {}", dn);
 
     LdapUserDetailsImpl.Essence essence = new LdapUserDetailsImpl.Essence();
     essence.setDn(dn);
@@ -116,7 +116,7 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
           }
         }
       } else {
-        log.debug("Couldn't read role attribute ''{0}'' for user {1}", new Object[]{roleAttribute, dn});
+        log.debug("Couldn't read role attribute ''{}'' for user {}", roleAttribute, dn);
       }
     }
   }

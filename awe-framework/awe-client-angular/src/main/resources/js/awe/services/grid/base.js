@@ -1,7 +1,5 @@
 import { aweApplication } from "./../../awe";
-
-// Add requirements
-aweApplication.requires.push.apply(aweApplication.requires, ["ui.grid", "ui.grid.resizeColumns", "ui.grid.pinning", "ui.grid.selection", "ui.grid.pagination", "ui.grid.moveColumns", "ui.grid.treeView"]);
+import "./commons";
 
 // Base grid service
 aweApplication.factory('GridBase',
@@ -189,8 +187,8 @@ aweApplication.factory('GridBase',
               component.controller.columnModel.unshift(checkboxes);
             }
             // Add row numbers first
-            if (component.controller.rownumbers) {
-              var rownumbers = {
+            if (component.controller.rowNumbers) {
+              var rowNumbers = {
                 minWidth: 30,
                 width: 30,
                 label: "",
@@ -205,7 +203,7 @@ aweApplication.factory('GridBase',
                 enableFiltering: false,
                 enableSorting: false
               };
-              component.controller.columnModel.unshift(rownumbers);
+              component.controller.columnModel.unshift(rowNumbers);
             }
           };
 
@@ -803,7 +801,7 @@ aweApplication.factory('GridBase',
            */
           function updateRowNumberColumn() {
             // Update row number column size
-            if (component.controller.rownumbers) {
+            if (component.controller.rowNumbers) {
               // Get string size
               var rowNumberColumnSize = (String(getLastRecord()).length + 1) * component.scope.charSize;
               // Change column width

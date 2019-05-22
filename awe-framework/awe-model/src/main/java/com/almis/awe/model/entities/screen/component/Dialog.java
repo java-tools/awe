@@ -1,17 +1,21 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +24,16 @@ import java.util.List;
  * Dialog Class
  *
  * Used to parse a dialog tag with XStream
- *
- *
  * Generates a dialog structure with header, center and footing
- *
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("dialog")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Dialog extends Component {
@@ -35,35 +42,13 @@ public class Dialog extends Component {
   // Load all the data initially or not
   @XStreamAlias("on-close")
   @XStreamAsAttribute
-  private String onClose = null;
-
-  /**
-   * Default constructor
-   */
-  public Dialog() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Dialog(Dialog other) throws AWException {
-    super(other);
-    this.onClose = other.onClose;
-  }
+  private String onClose;
 
   @Override
   public Dialog copy() throws AWException {
-    return new Dialog(this);
-  }
-
-  /**
-   * @return the onClose
-   */
-  @JsonIgnore
-  public String getOnClose() {
-    return onClose;
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**
@@ -80,13 +65,6 @@ public class Dialog extends Component {
   @JsonGetter("accept")
   public Boolean acceptConverter() {
     return this.acceptOnClose();
-  }
-
-  /**
-   * @param onClose the onClose to set
-   */
-  public void setOnClose(String onClose) {
-    this.onClose = onClose;
   }
 
   /**

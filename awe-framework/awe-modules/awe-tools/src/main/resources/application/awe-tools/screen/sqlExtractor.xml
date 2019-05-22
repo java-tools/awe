@@ -43,7 +43,7 @@
       </tag>
     </window>
     <window style="static data expand" label="SCREEN_TEXT_DATA" icon="list" expandible="vertical">
-      <grid id="selectGrid" target-action="selectExtract" load-all="true" max="30" style="expand">
+      <grid id="selectGrid" target-action="selectExtract" load-all="true" style="expand">
       </grid>
     </window>
   </tag>

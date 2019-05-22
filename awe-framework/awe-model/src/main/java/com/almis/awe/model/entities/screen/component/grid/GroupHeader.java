@@ -1,21 +1,21 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.entities.screen.component.grid;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
+import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
-
-/*
- * File Imports
- */
 
 /**
  * GroupHeader Class
@@ -25,43 +25,26 @@ import java.util.List;
  *
  * @author Pablo GARCIA - 31/MAY/2013
  */
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("group-header")
 public class GroupHeader extends Element {
 
   private static final long serialVersionUID = 5469384624049029571L;
+
   // Position of GROUP header in the grid
   @XStreamOmitField
-  private String position = null;
-
-  /**
-   * Default constructor
-   */
-  public GroupHeader() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public GroupHeader(GroupHeader other) throws AWException {
-    super(other);
-    this.position = other.position;
-  }
+  private String position;
 
   @Override
   public GroupHeader copy() throws AWException {
-    return new GroupHeader(this);
-  }
-
-  /**
-   * Get column POSITION
-   *
-   * @return POSITION
-   */
-  @JsonGetter("position")
-  public String getPosition() {
-    return this.position;
+    return this.toBuilder()
+      .elementList(ListUtil.copyList(getElementList()))
+      .build();
   }
 
   /**

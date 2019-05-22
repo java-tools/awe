@@ -1868,7 +1868,7 @@
   <target name="UpdSchTskWthCal" public="true">
     <update audit="HISAweSchTskLch">
       <table id="AweSchTskLch"/>
-      <field id="IdeCal" value="''"/>
+      <static id="IdeCal" value=""/>
       <where>
         <and>
           <filter left-field="IdeCal" condition="eq" right-variable="IdeCal"/>

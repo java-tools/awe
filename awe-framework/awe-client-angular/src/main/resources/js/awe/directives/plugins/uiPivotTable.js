@@ -1,5 +1,7 @@
 import { aweApplication } from "./../../awe";
 import { ClientActions } from "../../data/actions";
+import "jquery-ui-sortable-npm";
+import "PivotTable";
 
 // Pivot table plugin
 aweApplication.directive('uiPivotTable',

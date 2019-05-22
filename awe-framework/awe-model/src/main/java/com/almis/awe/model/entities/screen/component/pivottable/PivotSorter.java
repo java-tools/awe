@@ -1,9 +1,7 @@
-/**
- *
- */
 package com.almis.awe.model.entities.screen.component.pivottable;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,38 +9,13 @@ import java.util.Map;
 /**
  * @author pvidal
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PivotSorter {
 
-  private Map<String, JsonNode> pivotSorter;
-
-  /**
-   * Generate a pivot sorter
-   */
-  public PivotSorter() {
-    pivotSorter = new HashMap<String, JsonNode>();
-  }
-
-  /**
-   * @param pivotSorter Sorter
-   */
-  public PivotSorter(Map<String, JsonNode> pivotSorter) {
-    super();
-    this.pivotSorter = pivotSorter;
-  }
-
-  /**
-   * @return the pivotSorter
-   */
-  public Map<String, JsonNode> getPivotSorter() {
-    return pivotSorter;
-  }
-
-  /**
-   * @param pivotSorter the pivotSorter to set
-   */
-  public void setPivotSorter(Map<String, JsonNode> pivotSorter) {
-    this.pivotSorter = pivotSorter;
-  }
+  private Map<String, JsonNode> sorterMap = new HashMap<>();
 
   /**
    * Add sorter to Map
@@ -51,6 +24,6 @@ public class PivotSorter {
    * @param sortValues Sort values
    */
   public void addSorter(String columnName, JsonNode sortValues) {
-    this.pivotSorter.put(columnName, sortValues);
+    sorterMap.put(columnName, sortValues);
   }
 }

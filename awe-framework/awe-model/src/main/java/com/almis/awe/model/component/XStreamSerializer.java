@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.XmlMappingException;
 import org.springframework.oxm.xstream.XStreamMarshaller;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 
@@ -34,7 +33,7 @@ public class XStreamSerializer {
       // Marshall object to Xml
       xmlXStreamMarshaller.marshalOutputStream(object, outputStream);
     } catch (IOException | XmlMappingException ex) {
-      logger.error("[XStreamSerializer] The Object {0} cannot be serialized", object.getClass().getCanonicalName(), ex);
+      logger.error("[XStreamSerializer] The object {} cannot be serialized", object.getClass().getCanonicalName(), ex);
     }
   }
 
@@ -53,7 +52,7 @@ public class XStreamSerializer {
       // Marshall object to Xml
       xmlXStreamMarshaller.marshalWriter(object, writer);
     } catch (IOException | XmlMappingException ex) {
-      logger.error("[XStreamSerializer] The Object {0} cannot be serialized", object.getClass().getCanonicalName(), ex);
+      logger.error("[XStreamSerializer] The object {} cannot be serialized", object.getClass().getCanonicalName(), ex);
     }
   }
 
@@ -73,7 +72,7 @@ public class XStreamSerializer {
       // Marshall objecto to Xml
       object = (T) xmlXStreamMarshaller.unmarshalReader(reader);
     } catch (IOException | XmlMappingException exc) {
-      logger.error("[XStreamSerializer] The Object {0} cannot be deserialized", wrapperClass.getCanonicalName(), exc);
+      logger.error("[XStreamSerializer] The object {} cannot be deserialized", wrapperClass.getCanonicalName(), exc);
     }
     return object;
   }
@@ -94,7 +93,7 @@ public class XStreamSerializer {
       // Marshall object to Xml
       object = (T) xmlXStreamMarshaller.unmarshalInputStream(inputStream);
     } catch (IOException | XmlMappingException exc) {
-      logger.error("[XStreamSerializer] The Object {0} cannot be deserialized", wrapperClass.getCanonicalName(), exc);
+      logger.error("[XStreamSerializer] The object {} cannot be deserialized", wrapperClass.getCanonicalName(), exc);
     }
     return object;
   }

@@ -1,15 +1,13 @@
 package com.almis.awe.model.entities.access;
 
-/*
- * File Imports
- */
-
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Copyable;
-import com.almis.awe.model.entities.XMLWrapper;
 import com.almis.awe.model.type.RestrictionType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Restriction Class
@@ -19,50 +17,21 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Pablo GARCIA - 25/JUN/2010
  */
+@Data
+@NoArgsConstructor
+@SuperBuilder(toBuilder = true)
 @XStreamAlias("restriction")
-public class Restriction extends XMLWrapper implements Copyable {
+public class Restriction implements Copyable {
 
   private static final long serialVersionUID = 6237956002557950701L;
+
   // Option to restrict
   @XStreamAlias("option")
   @XStreamAsAttribute
-  private String option = null;
+  private String option;
+
   // Restriction type
   private RestrictionType restrictionType;
-
-  /**
-   * Default constructor
-   */
-  public Restriction() {
-  }
-
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public Restriction(Restriction other) {
-    this.option = other.option;
-    this.restrictionType = other.restrictionType;
-  }
-
-  /**
-   * Returns the restriction option
-   *
-   * @return Option restricted
-   */
-  public String getOption() {
-    return option;
-  }
-
-  /**
-   * Stores the restriction option
-   *
-   * @param option Option restricted
-   */
-  public void setOption(String option) {
-    this.option = option;
-  }
 
   /**
    * Returns the restriction type (R: Restricted or A: Allowed)
@@ -88,6 +57,6 @@ public class Restriction extends XMLWrapper implements Copyable {
 
   @Override
   public Restriction copy() throws AWException {
-    return new Restriction(this);
+    return this.toBuilder().build();
   }
 }

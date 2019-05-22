@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "autonumeric";
 
 // Numeric plugin
 aweApplication.directive('uiNumeric',

@@ -2,9 +2,12 @@ package com.almis.awe.model.entities.queries;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Copyable;
-import com.almis.awe.model.entities.XMLWrapper;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 /**
  * GroupBy Class
@@ -13,8 +16,12 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
+@Data
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
+@Accessors(chain = true)
 @XStreamAlias("group-by")
-public class GroupBy extends XMLWrapper implements Copyable {
+public class GroupBy implements Copyable {
 
   private static final long serialVersionUID = 7419599738628447856L;
 
@@ -28,55 +35,13 @@ public class GroupBy extends XMLWrapper implements Copyable {
   @XStreamAsAttribute
   private String table;
 
-  /**
-   * Copy constructor
-   *
-   * @param other
-   */
-  public GroupBy(GroupBy other) {
-    super(other);
-    this.field = other.field;
-    this.table = other.table;
-  }
-
-  /**
-   * Returns the field to group by
-   *
-   * @return Field to group by
-   */
-  public String getField() {
-    return field;
-  }
-
-  /**
-   * Stores the field to group by
-   *
-   * @param field Field to group by
-   */
-  public void setField(String field) {
-    this.field = field;
-  }
-
-  /**
-   * Returns the table of the field to group by
-   *
-   * @return Table of the field to group by
-   */
-  public String getTable() {
-    return table;
-  }
-
-  /**
-   * Stores the table of the field to group by
-   *
-   * @param table the table to set
-   */
-  public void setTable(String table) {
-    this.table = table;
+  @Override
+  public GroupBy copy() throws AWException {
+    return this.toBuilder().build();
   }
 
   @Override
-  public GroupBy copy() throws AWException {
-    return new GroupBy(this);
+  public String toString() {
+    return getTable() != null ? getTable() + "." + getField() : getField();
   }
 }

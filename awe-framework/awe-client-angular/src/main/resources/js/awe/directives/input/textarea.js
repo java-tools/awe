@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+import "./../../services/text";
 
 // Textarea directive
 aweApplication.directive('aweInputTextarea',

@@ -4510,34 +4510,6 @@
         </table>
       </div>
     </div>
-    <div class="panel-body no-padding-vr">
-      <div class="table-light panel panel-sm">
-        <div class="panel-heading">
-          <i class="panel-title-icon fa fa-youtube-play fa-fw"></i>
-          <span class="panel-title" translate-multiple="HELP_BUTTONS"></span>
-        </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th translate-multiple="HELP_NAME"></th>
-              <th translate-multiple="HELP_DESCRIPTION"></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
   <hr/><div class="help-snippet padding-sm-vr no-padding-t">
     <h6 class="text-light-gray text-semibold text-sm">
@@ -4693,26 +4665,6 @@
             <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
             <td translate-multiple=""></td>
             <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_UP"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_DOWN"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
           </tr>
           </tbody>
         </table>
@@ -4821,30 +4773,6 @@
             <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
             <td translate-multiple=""></td>
             <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_UP"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_DOWN"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_COPY"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
           </tr>
           </tbody>
         </table>
@@ -4907,26 +4835,6 @@
           <tbody>
           <tr>
             <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_UP"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_DOWN"></strong></td>
             <td translate-multiple=""></td>
             <td></td>
           </tr><tr>
@@ -4999,34 +4907,6 @@
             <td></td>
           </tr><tr>
             <td><strong translate-multiple=""></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_UP"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_DOWN"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple=""></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_CHILD"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
             <td translate-multiple=""></td>
             <td></td>
           </tr>
@@ -5141,34 +5021,6 @@
             <td><strong translate-multiple=""></strong></td>
             <td translate-multiple=""></td>
             <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_UP"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_DOWN"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple=""></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_CHILD"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
           </tr>
           </tbody>
         </table>
@@ -5231,34 +5083,6 @@
           <tbody>
           <tr>
             <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_UP"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_DOWN"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple=""></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_CHILD"></strong></td>
             <td translate-multiple=""></td>
             <td></td>
           </tr><tr>
@@ -7146,30 +6970,6 @@
             <td></td>
           </tr><tr>
             <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_UP"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_NEW_ROW_DOWN"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="BUTTON_DELETE"></strong></td>
-            <td translate-multiple=""></td>
-            <td></td>
-          </tr><tr>
-            <td><strong translate-multiple="Convert"></strong></td>
             <td translate-multiple=""></td>
             <td></td>
           </tr>

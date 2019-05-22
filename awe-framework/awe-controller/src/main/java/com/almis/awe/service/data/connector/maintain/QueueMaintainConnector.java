@@ -32,7 +32,7 @@ public class QueueMaintainConnector extends ServiceConfig implements MaintainCon
 
     // Get query builder
     QueueBuilder builder = getBean(QueueBuilder.class);
-    Queue queue = new Queue(getElements().getQueue(query.getId()));
+    Queue queue = getElements().getQueue(query.getId()).copy();
 
     // Prepare variables
     builder.setQuery(query)

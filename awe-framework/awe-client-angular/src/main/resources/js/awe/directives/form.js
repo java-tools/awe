@@ -1,5 +1,6 @@
 import { aweApplication } from "./../awe";
 import { ClientActions } from "../data/actions";
+import _ from "lodash";
 
 // Form directive
 aweApplication.directive('aweForm',
@@ -15,7 +16,6 @@ aweApplication.directive('aweForm',
      * @param {Service} Validator Validator service
      */
     function (ServerData, Control, ActionController, $settings, Utilities, Validator) {
-
 
       /**
        * Retrieve reseteable scopes
@@ -439,7 +439,7 @@ aweApplication.directive('aweForm',
           ActionController.deleteStack();
         }
       };
-      var Form = {
+      const Form = {
         restrict: 'A',
         link: function (scope, elem) {
           // Store element in scope

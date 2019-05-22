@@ -2,7 +2,6 @@ package com.almis.awe.model.entities.services;
 
 import com.almis.awe.model.entities.Copyable;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +9,7 @@ import java.util.List;
  *
  * @author Jorge BELLON
  */
-public interface ServiceType extends Copyable, Serializable {
+public interface ServiceType extends Copyable {
 
   /**
    * Returns the service parameter list

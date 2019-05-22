@@ -3,10 +3,12 @@ package com.almis.awe.test;
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
+import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.entities.screen.component.grid.Column;
+import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.service.QueryService;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -35,14 +37,15 @@ public class Grid extends ServiceConfig {
    */
   public ServiceData addColumns() {
     // Generate service data
+    final String ADD_COLUMNS = "add-columns";
     ServiceData serviceData = new ServiceData();
     List<ClientAction> clientActionList = serviceData.getClientActionList();
 
     // Add columns to some grids
-    clientActionList.add(getAction("add-columns", "GrdMus"));
-    clientActionList.add(getAction("add-columns", "GrdSta"));
-    clientActionList.add(getAction("add-columns", "GrdEdi"));
-    clientActionList.add(getAction("add-columns", "GrdMuo"));
+    clientActionList.add(getAction(ADD_COLUMNS, "GrdMus"));
+    clientActionList.add(getAction(ADD_COLUMNS, "GrdSta"));
+    clientActionList.add(getAction(ADD_COLUMNS, "GrdEdi"));
+    clientActionList.add(getAction(ADD_COLUMNS, "GrdMuo"));
 
     // Set variables
     serviceData.setClientActionList(clientActionList);
@@ -55,7 +58,7 @@ public class Grid extends ServiceConfig {
    * @param fechas Dates
    * @return Service data
    */
-  public ServiceData replaceColumns(List<Date> fechas) {
+  public ServiceData replaceColumns(List<Date> fechas, Date fecha) {
     // Generate service data
     ServiceData serviceData = new ServiceData();
     List<ClientAction> clientActionList = serviceData.getClientActionList();
@@ -65,7 +68,12 @@ public class Grid extends ServiceConfig {
 
     // Set variables
     serviceData.setClientActionList(clientActionList);
-    return serviceData;
+    fechas.add(fecha);
+    DataList dataList = new DataList();
+    DataListUtil.addColumn(dataList, "GrdMus-newColumn1", fechas);
+    dataList.setRecords(dataList.getRows().size());
+    return serviceData
+      .setDataList(dataList);
   }
 
   /**
@@ -74,23 +82,24 @@ public class Grid extends ServiceConfig {
    * @return Client action
    */
   private ClientAction getAction(String action, String gridId) {
-    List<Column> columns = new ArrayList<Column>();
+    List<Column> columns = new ArrayList<>();
 
     // Add first column
-    columns.add(new Column()
+    columns.add((Column) new Column()
             .setAlign("right")
-            .setCharLength("20")
-            .setColumnValue("1")
-            .setColumnName(gridId + "-newColumn1")
-            .setColumnLabel("BUTTON_NEW ELEMENT_TYPE_COLUMN 1"));
+            .setCharLength(20)
+            .setValue("1")
+            .setName(gridId + "-newColumn1")
+            .setLabel("BUTTON_NEW ELEMENT_TYPE_COLUMN 1"));
 
     // Add second column
-    columns.add(new Column()
+    columns.add((Column) new Column()
             .setAlign("left")
-            .setCharLength("20")
-            .setColumnValue("aaaa")
-            .setColumnName(gridId + "-newColumn2")
-            .setColumnLabel("BUTTON_NEW ELEMENT_TYPE_COLUMN 2"));
+            .setCharLength(20)
+            .setValue("aaaa")
+            .setName(gridId + "-newColumn2")
+            .setComponentType("icon")
+            .setLabel("BUTTON_NEW ELEMENT_TYPE_COLUMN 2"));
 
     // Add columns to the grid
     ClientAction addColumnsGrid = new ClientAction(action);

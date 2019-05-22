@@ -28,21 +28,6 @@
   ==============================================================================
   -->
 
-  <!-- Where Element -->
-  <xs:element name="where" type="whereType"/>
-
-  <!-- Having Element -->
-  <xs:element name="having" type="havingType"/>
-
-  <!-- And Element -->
-  <xs:element name="and" type="filterGroupType"/>
-
-  <!-- Or Element -->
-  <xs:element name="or" type="filterGroupType"/>
-
-  <!-- Filter Element -->
-  <xs:element name="filter" type="filterType"/>
-
   <!-- Variable Element -->
   <xs:element name="variable" type="variableType"/>
 
@@ -71,32 +56,66 @@
   </xs:attributeGroup>
 
   <!-- Base Field Attributes -->
-  <xs:attributeGroup name="fieldAttr">
-    <xs:attribute name="variable" type="xs:string"/>
-    <xs:attribute name="value" type="xs:string"/>
-    <xs:attribute name="alias" type="xs:string"/>
-    <xs:attribute name="id" type="xs:string"/>
-    <xs:attribute name="table" type="xs:string"/>
-    <xs:attribute name="query" type="xs:string"/>
-  </xs:attributeGroup>
-
-  <!-- Field Attributes -->
-  <xs:attributeGroup name="fieldQueryAttr">
-    <xs:attributeGroup ref="fieldAttr"/>
+  <xs:attributeGroup name="baseQueryAttr">
     <xs:attribute name="noprint" type="booleanEnum"/>
     <xs:attribute name="transform" type="transformType"/>
     <xs:attribute name="pattern" type="xs:string"/>
     <xs:attribute name="translate" type="xs:string"/>
-    <xs:attribute name="function" type="functionTypeEnum"/>
     <xs:attribute name="format-from" type="xs:string"/>
     <xs:attribute name="format-to" type="xs:string" />
+    <xs:attribute name="alias" type="xs:string"/>
+    <xs:attribute name="function" type="functionTypeEnum"/>
+  </xs:attributeGroup>
+
+  <!-- Base Field Attributes -->
+  <xs:attributeGroup name="fieldAttr">
+    <xs:attribute name="query" type="xs:string"/>
+    <xs:attribute name="variable" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <!-- Field Attributes -->
+  <xs:attributeGroup name="fieldQueryAttr">
+    <xs:attributeGroup ref="baseQueryAttr"/>
+    <xs:attributeGroup ref="fieldAttr"/>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="table" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <!-- Static Attributes -->
+  <xs:attributeGroup name="staticAttr">
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="type" type="variableRestriction"/>
+  </xs:attributeGroup>
+
+  <!-- Static Attributes -->
+  <xs:attributeGroup name="staticQueryAttr">
+    <xs:attributeGroup ref="baseQueryAttr"/>
+    <xs:attributeGroup ref="staticAttr"/>
+  </xs:attributeGroup>
+
+  <!-- Operation Attributes -->
+  <xs:attributeGroup name="operationAttr">
+    <xs:attribute name="operator" type="operationRestriction"/>
+  </xs:attributeGroup>
+
+  <!-- Operation Attributes -->
+  <xs:attributeGroup name="operationQueryAttr">
+    <xs:attributeGroup ref="baseQueryAttr"/>
+    <xs:attributeGroup ref="operationAttr"/>
+  </xs:attributeGroup>
+
+  <!-- Operand Attributes -->
+  <xs:attributeGroup name="operandAttr">
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="table" type="xs:string"/>
+    <xs:attributeGroup ref="fieldAttr"/>
+    <xs:attributeGroup ref="staticAttr"/>
+    <xs:attributeGroup ref="operationAttr"/>
   </xs:attributeGroup>
 
   <!-- Case Attributes -->
-  <xs:attributeGroup name="caseAttr">
-    <xs:attribute name="then-field" type="xs:string" />
-    <xs:attribute name="then-table" type="xs:string" />
-    <xs:attribute name="then-variable" type="xs:string" />
+  <xs:attributeGroup name="caseQueryAttr">
+    <xs:attributeGroup ref="baseQueryAttr"/>
   </xs:attributeGroup>
 
   <!-- Filter Attributes -->
@@ -104,11 +123,9 @@
     <xs:attribute name="condition" use="required" type="conditionEnum"/>
     <xs:attribute name="left-field" type="xs:string"/>
     <xs:attribute name="left-table" type="xs:string"/>
-    <xs:attribute name="left-concat" type="xs:string"/>
     <xs:attribute name="left-variable" type="xs:string"/>
     <xs:attribute name="left-function" type="functionTypeEnum"/>
     <xs:attribute name="right-field" type="xs:string"/>
-    <xs:attribute name="right-concat" type="xs:string"/>
     <xs:attribute name="right-table" type="xs:string"/>
     <xs:attribute name="right-variable" type="xs:string"/>
     <xs:attribute name="right-function" type="functionTypeEnum"/>
@@ -118,42 +135,6 @@
     <xs:attribute name="query" type="xs:string"/>
     <xs:attribute name="type" type="valueTypeEnum"/>
   </xs:attributeGroup>
-
-  <!--
-  ==============================================================================
-  Type definitions
-  ==============================================================================
-  -->
-
-  <!-- Filter Type -->
-  <xs:complexType name="filterType">
-    <xs:attributeGroup ref="filterAttr"/>
-  </xs:complexType>
-
-  <!-- Where Type -->
-  <xs:complexType name="whereType">
-    <xs:choice minOccurs="1" maxOccurs="unbounded">
-      <xs:element ref="or"/>
-      <xs:element ref="and"/>
-    </xs:choice>
-  </xs:complexType>
-
-  <!-- Having Type -->
-  <xs:complexType name="havingType">
-    <xs:choice minOccurs="1" maxOccurs="unbounded">
-      <xs:element ref="or"/>
-      <xs:element ref="and"/>
-    </xs:choice>
-  </xs:complexType>
-
-  <!-- FilterGroup Type -->
-  <xs:complexType name="filterGroupType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="filter"/>
-      <xs:element ref="or"/>
-      <xs:element ref="and"/>
-    </xs:choice>
-  </xs:complexType>
 
   <!--
   ==============================================================================
@@ -221,6 +202,38 @@
       <xs:enumeration value="MIN" />
       <xs:enumeration value="TRUNCDATE" />
       <xs:enumeration value="SUM" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Operation restriction list -->
+  <xs:simpleType name="operationRestriction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CONCAT" />
+      <xs:enumeration value="ADD" />
+      <xs:enumeration value="SUB" />
+      <xs:enumeration value="MULT" />
+      <xs:enumeration value="DIV" />
+      <xs:enumeration value="ADD_SECONDS" />
+      <xs:enumeration value="ADD_MINUTES" />
+      <xs:enumeration value="ADD_HOURS" />
+      <xs:enumeration value="ADD_DAYS" />
+      <xs:enumeration value="ADD_WEEKS" />
+      <xs:enumeration value="ADD_MONTHS" />
+      <xs:enumeration value="ADD_YEARS" />
+      <xs:enumeration value="SUB_SECONDS" />
+      <xs:enumeration value="SUB_MINUTES" />
+      <xs:enumeration value="SUB_HOURS" />
+      <xs:enumeration value="SUB_DAYS" />
+      <xs:enumeration value="SUB_WEEKS" />
+      <xs:enumeration value="SUB_MONTHS" />
+      <xs:enumeration value="SUB_YEARS" />
+      <xs:enumeration value="DIFF_SECONDS" />
+      <xs:enumeration value="DIFF_MINUTES" />
+      <xs:enumeration value="DIFF_HOURS" />
+      <xs:enumeration value="DIFF_DAYS" />
+      <xs:enumeration value="DIFF_WEEKS" />
+      <xs:enumeration value="DIFF_MONTHS" />
+      <xs:enumeration value="DIFF_YEARS" />
     </xs:restriction>
   </xs:simpleType>
 

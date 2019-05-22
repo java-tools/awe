@@ -42,7 +42,7 @@ public class PrinterService extends ServiceConfig {
         printerList.add(printer.getName());
       }
       DataList dataList = new DataList();
-      DataListUtil.addColumn(dataList, "printer", printerList, "STRING");
+      DataListUtil.addColumn(dataList, "printer", printerList);
       dataList.setRecords(printerList.size());
       serviceData.setDataList(dataList);
     } catch (Exception exc) {

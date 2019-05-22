@@ -101,7 +101,7 @@ public class MicroserviceTest extends TestUtil {
   public void testSimpleMicroservice() throws Exception {
     setParameter("database", "awedb01");
     setParameter("currentDate", "22/02/2019");
-    doRestTest("CallAluMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("CallAluMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\"}]");
   }
 
   /**
@@ -111,7 +111,7 @@ public class MicroserviceTest extends TestUtil {
    */
   @Test
   public void testAnotherMicroservice() throws Exception {
-    doRestTest("CallAnotherMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("CallAnotherMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"null\":null,\"double\":22.0,\"text\":\"test\",\"integer\":22,\"id\":1,\"float\":22.0,\"long\":22}]}}},{\"type\":\"end-load\"}]");
   }
 
   /**
@@ -123,7 +123,7 @@ public class MicroserviceTest extends TestUtil {
   public void testSimpleMicroserviceWithoutParameters() throws Exception {
     setParameter("database", "awedb01");
     setParameter("currentDate", "22/02/2019");
-    doRestTest("CallAluMicroserviceWithoutParameters", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("CallAluMicroserviceWithoutParameters", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\"}]");
   }
 
   /**
@@ -133,7 +133,7 @@ public class MicroserviceTest extends TestUtil {
    */
   @Test
   public void testAnotherMicroserviceWithParameters() throws Exception {
-    doRestTest("CallAnotherMicroserviceWithParameters", "data", "\"tutu\":\"23/10/1978\", \"lala\":[1,2,4], \"erre\": \"\", \"queErre\": null, \"yQueErre\": null,", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("CallAnotherMicroserviceWithParameters", "data", "\"tutu\":\"23/10/1978\", \"lala\":[1,2,4], \"erre\": \"\", \"queErre\": null, \"yQueErre\": null,", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"double\":22.0,\"floatFormatted\":\"22\",\"integer\":22,\"dateFormatted\":\"23/10/1978\",\"longFormatted\":\"22\",\"float\":22.0,\"long\":22,\"doubleFormatted\":\"22\",\"null\":null,\"text\":\"test\",\"id\":1,\"integerFormatted\":\"22\"}]}}},{\"type\":\"end-load\"}]");
   }
 
   /**
@@ -143,6 +143,6 @@ public class MicroserviceTest extends TestUtil {
    */
   @Test
   public void testAnotherMoreMicroservice() throws Exception {
-    doRestTest("CallAnotherMoreMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]");
+    doRestTest("CallAnotherMoreMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\"}]");
   }
 }
