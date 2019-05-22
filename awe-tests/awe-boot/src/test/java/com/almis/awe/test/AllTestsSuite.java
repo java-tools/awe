@@ -23,6 +23,7 @@ import org.junit.runners.Suite;
   ScreenBuilderTest.class,
   MenuServiceTest.class,
   FileServiceTest.class,
+  JavaServiceTest.class,
   UploadControllerTest.class,
   UserServiceTest.class,
   UtilitiesTestsSuite.class,
