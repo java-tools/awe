@@ -2118,6 +2118,22 @@ public class QueryTest extends TestUtil {
    * @throws Exception Test error
    */
   @Test
+  public void testDatabaseOperationNullIf() throws Exception {
+    String queryName = "OperationNullIf";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"null\":\"default\",\"Nam\":\"default\",\"id\":1},{\"null\":\"purple-hills\",\"Nam\":\"purple-hills\",\"id\":2},{\"null\":\"sunny\",\"Nam\":\"sunny\",\"id\":3},{\"null\":null,\"Nam\":\"sunset\",\"id\":4}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    logger.warn(result);
+    assertResultVariablesJson(queryName, result, 4);
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
   public void testDatabaseVariableObject() throws Exception {
     String queryName = "VariableObject";
     String variables = "\"object\":{\"total\":1,\"page\":1,\"records\":1}";

@@ -127,9 +127,9 @@ public class DummyService extends ServiceConfig {
    * 
    * @return String[]
    */
-  public ServiceData returnStringArrayTwoStringParams(String name, String fields) {
+  public ServiceData returnStringArrayTwoStringParams(String name, List<String> fields) {
     ServiceData out = new ServiceData();
-    out.setData(new String[] { name, fields });
+    out.setData(new String[] { name, fields.toString().replaceAll("[\\[\\]\\s]", "") });
 
     return out;
   }

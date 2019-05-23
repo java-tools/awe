@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -293,10 +294,9 @@ public class QueryUtil extends ServiceConfig {
    * @throws AWException Error retrieving variable value
    */
   public JsonNode getParameter(Variable variable, ObjectNode parameters) throws AWException {
-    JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
-
     // Variable definition
     JsonNode parameter = variable.getName() != null ? getRequestParameter(variable.getName(), parameters) : null;
+    boolean parseList = false;
 
     // Check value as static
     String stringParameter;
@@ -308,22 +308,52 @@ public class QueryUtil extends ServiceConfig {
       stringParameter = variable.getValue();
     }
 
+    // Check if string parameter is a list
+    parseList = stringParameter != null && stringParameter.contains(",");
+
+    // Retrieve parameter
+    return getParameter(stringParameter, parameter, ParameterType.valueOf(variable.getType()), variable.getId(), parseList);
+  }
+
+  /**
+   * Retrieve parameter as Json
+   * @param stringValue String value
+   * @param parameter Parameter
+   * @param type Type
+   * @param variableId Variable id
+   * @param parseList Try to parse parameter as list
+   * @return Parameter as JSON
+   * @throws AWException
+   */
+  public JsonNode getParameter(String stringValue, JsonNode parameter, ParameterType type, String variableId, boolean parseList) throws AWException {
+    JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
+
+    // Retrieve string value as list
+    if (parseList) {
+      String[] values = StringUtils.split(stringValue, ",");
+      ArrayNode valueList = nodeFactory.arrayNode();
+      for (String value : values) {
+        valueList.add(value.trim());
+      }
+      parameter = valueList;
+    }
+
     // If parameter is not json, generate it
-    switch (ParameterType.valueOf(variable.getType())) {
+    switch (type) {
       case DOUBLE:
       case FLOAT:
       case INTEGER:
       case LONG:
-        parameter = getNumberParameter(parameter, stringParameter, variable);
+        parameter = getNumberParameter(parameter, stringValue, variableId, type);
         break;
       case OBJECT:
-        parameter = getObjectParameter(parameter, stringParameter);
+        parameter = getObjectParameter(parameter, stringValue);
         break;
       case DATE:
       case TIME:
       case TIMESTAMP:
       case STRINGN:
-        parameter = getStringWithNullsParameter(parameter, stringParameter);
+        parameter = getStringWithNullsParameter(parameter, stringValue);
         break;
       case SYSTEM_DATE:
       case SYSTEM_TIME:
@@ -339,19 +369,19 @@ public class QueryUtil extends ServiceConfig {
       case STRING_HASH_PBKDF_2_W_HMAC_SHA_1:
       case STRING_HASH_SHA:
       default:
-        parameter = getStringParameter(parameter, stringParameter);
+        parameter = getStringParameter(parameter, stringValue);
     }
 
     // Retrieve Json node
     return parameter;
   }
 
-  private JsonNode getNumberParameter(JsonNode parameter, String stringParameter, Variable variable) {
+  private JsonNode getNumberParameter(JsonNode parameter, String stringParameter, String variableId, ParameterType type) {
     JsonNode output = parameter;
     if (parameter == null) {
-      output = generateNumberNode(variable.getId(), stringParameter, ParameterType.valueOf(variable.getType()));
+      output = generateNumberNode(variableId, stringParameter, type);
     } else if (!parameter.isNumber() && !parameter.isArray() && parameter.isTextual()) {
-      output = generateNumberNode(variable.getId(), parameter.asText(), ParameterType.valueOf(variable.getType()));
+      output = generateNumberNode(variableId, parameter.asText(), type);
     }
     return output;
   }
@@ -433,6 +463,8 @@ public class QueryUtil extends ServiceConfig {
     if (variable.getName() != null) {
       JsonNode nodeValue = getRequestParameter(variable.getName(), parameters);
       list = nodeValue != null && nodeValue.isArray() && nodeValue instanceof ArrayNode;
+    } else if (variable.getValue() != null) {
+      list = variable.getValue().contains(",");
     }
     list = ParameterType.MULTIPLE_SEQUENCE.equals(ParameterType.valueOf(variable.getType())) || list;
 
@@ -448,7 +480,7 @@ public class QueryUtil extends ServiceConfig {
    */
   private JsonNode generateNumberNode(String name, String value, ParameterType type) {
     JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
-    JsonNode parameter = null;
+    JsonNode parameter;
 
     if (value == null) {
       parameter = nodeFactory.nullNode();

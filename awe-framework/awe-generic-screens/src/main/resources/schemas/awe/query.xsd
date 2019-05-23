@@ -209,6 +209,7 @@
   <xs:simpleType name="operationRestriction">
     <xs:restriction base="xs:string">
       <xs:enumeration value="CONCAT" />
+      <xs:enumeration value="NULLIF" />
       <xs:enumeration value="ADD" />
       <xs:enumeration value="SUB" />
       <xs:enumeration value="MULT" />
