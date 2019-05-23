@@ -510,10 +510,7 @@ public class ErrorMessageManager extends AWEManager {
           // Set records
           errorGrdParametersDatalist.setRecords(rowIndex);
 
-          fillErrorGrdAction.addParameter("rows", new CellData(errorGrdParametersDatalist.getJSONRows()));
-          fillErrorGrdAction.addParameter("total", new CellData(errorGrdParametersDatalist.getTotal().toString()));
-          fillErrorGrdAction.addParameter("page", new CellData(errorGrdParametersDatalist.getPage().toString()));
-          fillErrorGrdAction.addParameter("records", new CellData(errorGrdParametersDatalist.getRecords().toString()));
+          fillErrorGrdAction.addParameter("datalist", errorGrdParametersDatalist);
 
           // Notification Number
           ClientAction selectCrtNotificationNumberAction = new ClientAction("select");

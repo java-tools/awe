@@ -299,31 +299,32 @@ The *operation* element allows to define operation between fields and will be re
 These are the possible values for the `operator` attribute:
 
 * **CONCAT**: Concat some string fields
+* **NULLIF**: Set null if equals to second operand
 * **ADD**: Sum two fields
 * **SUB**: Substract two fields
 * **MULT**: Multiply two fields
 * **DIV**: Divide two fields
-* **"ADD_SECONDS**: Add seconds to a date field
-* **"ADD_MINUTES**: Add minutes to a date field
-* **"ADD_HOURS**: Add hours to a date field
-* **"ADD_DAYS**: Add days to a date field
-* **"ADD_WEEKS**: Add weeks to a date field
-* **"ADD_MONTHS**: Add months to a date field
-* **"ADD_YEARS**: Add years to a date field
-* **"DIFF_SECONDS**: Calculate the difference in seconds between two dates
-* **"DIFF_MINUTES**: Calculate the difference in minutes between two dates
-* **"DIFF_HOURS**: Calculate the difference in hours between two dates
-* **"DIFF_DAYS**: Calculate the difference in days between two dates
-* **"DIFF_WEEKS**: Calculate the difference in weeks between two dates
-* **"DIFF_MONTHS**: Calculate the difference in months between two dates
-* **"DIFF_YEARS**: Calculate the difference in years between two dates
-* **"SUB_SECONDS**: Substract seconds from a date field
-* **"SUB_MINUTES**: Substract minutes from a date field
-* **"SUB_HOURS**: Substract hours from a date field
-* **"SUB_DAYS**: Substract days from a date field
-* **"SUB_WEEKS**: Substract weeks from a date field
-* **"SUB_MONTHS**: Substract months from a date field
-* **"SUB_YEARS**: Substract years from a date field
+* **ADD_SECONDS**: Add seconds to a date field
+* **ADD_MINUTES**: Add minutes to a date field
+* **ADD_HOURS**: Add hours to a date field
+* **ADD_DAYS**: Add days to a date field
+* **ADD_WEEKS**: Add weeks to a date field
+* **ADD_MONTHS**: Add months to a date field
+* **ADD_YEARS**: Add years to a date field
+* **DIFF_SECONDS**: Calculate the difference in seconds between two dates
+* **DIFF_MINUTES**: Calculate the difference in minutes between two dates
+* **DIFF_HOURS**: Calculate the difference in hours between two dates
+* **DIFF_DAYS**: Calculate the difference in days between two dates
+* **DIFF_WEEKS**: Calculate the difference in weeks between two dates
+* **DIFF_MONTHS**: Calculate the difference in months between two dates
+* **DIFF_YEARS**: Calculate the difference in years between two dates
+* **SUB_SECONDS**: Substract seconds from a date field
+* **SUB_MINUTES**: Substract minutes from a date field
+* **SUB_HOURS**: Substract hours from a date field
+* **SUB_DAYS**: Substract days from a date field
+* **SUB_WEEKS**: Substract weeks from a date field
+* **SUB_MONTHS**: Substract months from a date field
+* **SUB_YEARS**: Substract years from a date field
 
 #### Operation examples
 

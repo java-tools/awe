@@ -290,11 +290,7 @@ ServiceData setCriteriaValue() {
  selectCrtTransactionIdAction.setTarget("transactionId");
 
  // Add parameters to actions
- DataList transactionIdDatalist = new DataList();
- HashMap<String, CellData> transactionIdRow = new HashMap<String , CellData>();
- transactionIdRow.put("value", new CellData("TR001"));
- transactionIdDatalist.getRows().add(transactionIdRow);
- selectCrtTransactionIdAction.addParameter("values", new CellData(transactionIdDatalist.getJSONRows()))
+ selectCrtTransactionIdAction.addParameter("values", Arrays.asList("TR001"))
 
  // Add actions to serviceData
  serviceData.addClientAction(selectCrtTransactionIdAction);
@@ -354,10 +350,7 @@ ServiceData fillGrid() {
  }
 
  // Add parameters to action
- fillGrdAction.addParameter("rows", new CellData(grdParametersDatalist.getJSONRows()));
- fillGrdAction.addParameter("total", new CellData(grdParametersDatalist.getTotal().toString()));
- fillGrdAction.addParameter("page", new CellData(grdParametersDatalist.getPage().toString()));
- fillGrdAction.addParameter("records", new CellData(grdParametersDatalist.getRecords().toString()));
+ fillGrdAction.addParameter("datalist", grdParametersDatalist);
 
  return serviceData;
 }

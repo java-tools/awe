@@ -207,6 +207,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
           }
         }
         return result;
+      case "NULLIF":
+        return Expressions.simpleOperation(Object.class, Ops.NULLIF, operands);
       case "ADD":
       case "SUB":
       case "MULT":
@@ -219,6 +221,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       case "ADD_WEEKS":
       case "ADD_MONTHS":
       case "ADD_YEARS":
+        return Expressions.dateOperation(Date.class, Ops.DateTimeOps.valueOf(operation.getOperator()), operands);
       case "DIFF_SECONDS":
       case "DIFF_MINUTES":
       case "DIFF_HOURS":
@@ -226,7 +229,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       case "DIFF_WEEKS":
       case "DIFF_MONTHS":
       case "DIFF_YEARS":
-        return Expressions.dateOperation(Date.class, Ops.DateTimeOps.valueOf(operation.getOperator()), operands);
+        return Expressions.dateOperation(Integer.class, Ops.DateTimeOps.valueOf(operation.getOperator()), operands);
       case "SUB_SECONDS":
       case "SUB_MINUTES":
       case "SUB_HOURS":
@@ -370,8 +373,12 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     }
 
     if (operand instanceof Field && ((Field) operand).getVariable() != null) {
-      Field field = (Field) operand;
-      operandExpression = getOperandVariableExpression(filter, field);
+      operandExpression = getOperandVariableExpression(filter, (Field) operand);
+      if (operandExpression == null) {
+        return null;
+      }
+    } else if (operand instanceof Static) {
+      operandExpression = getOperandConstantExpression(filter, (Static) operand);
       if (operandExpression == null) {
         return null;
       }
@@ -697,37 +704,67 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @throws AWException Conversion was wrong
    */
   private Expression getOperandVariableExpression(Filter filter, Field field) throws AWException {
-    List<Expression> expressionList = new ArrayList<>();
-    Expression expression;
     Variable variable = getQuery().getVariableDefinition(field.getVariable());
     if (variable == null) {
       throw new AWException(getElements().getLocale("ERROR_TITLE_GENERATING_VARIABLE_VALUE"), getElements().getLocale("ERROR_MESSAGE_GENERATING_VARIABLE_VALUE", field.getVariable()));
     }
 
     // Get variable values from previously prepared map
+    ParameterType parameterType = ParameterType.valueOf(variable.getType());
     JsonNode variableValue = variables.get(field.getVariable()).getValue();
     boolean isList = variables.get(field.getVariable()).isList();
-    String value = getVariableAsString(variableValue);
+
+    return getOperandFilterExpression(filter, field, isList, parameterType, variableValue, getVariableAsString(variableValue));
+  }
+
+  /**
+   * Generate querydsl expression from variable
+   *
+   * @param filter Filter
+   * @param field Field to
+   * @return Filter variable as expression
+   * @throws AWException Conversion was wrong
+   */
+  private Expression getOperandConstantExpression(Filter filter, Static field) throws AWException {
+    // Get variable values from previously prepared map
+    String type = field.getType() == null ? "STRING" : field.getType();
+    ParameterType parameterType = ParameterType.valueOf(type);
+    JsonNode variableValue = queryUtil.getParameter(field.getValue(), null, parameterType, null, field.getValue().contains(","));
+
+    return getOperandFilterExpression(filter, field, variableValue.isArray(), parameterType, variableValue, field.getValue());
+  }
+
+  /**
+   * Generate querydsl expression from variable
+   *
+   * @param filter Filter
+   * @param field Field to
+   * @return Filter variable as expression
+   * @throws AWException Conversion was wrong
+   */
+  private Expression getOperandFilterExpression(Filter filter, SqlField field, boolean isList, ParameterType type, JsonNode variableValue, String stringValue) throws AWException {
+    List<Expression> expressionList = new ArrayList<>();
+    Expression expression;
 
     if (isList && (getQuery().getMultiple() == null || "audit".equalsIgnoreCase(getQuery().getMultiple())) && getVariableIndex() == null) {
       // If variable is a list, generate a IN statement filtering out empty lists. Query should not be multiple
-      expression = convertVariableListToExpression(expressionList, variableValue, variable, value, filter);
+      expression = convertVariableListToExpression(expressionList, variableValue, type, stringValue, filter);
     } else if (isList) {
       // MULTIPLE query, getting index variable (each line a variable)
-      return convertVariableListToExpressionWithIndex(variableValue, variable, value, filter);
+      return convertVariableListToExpressionWithIndex(variableValue, type, stringValue, filter);
     } else if (filter.isOptional() && queryUtil.isEmptyVariable(variableValue)) {
       // OPTIONAL filter and EMPTY variable, removing filter
       return null;
-    } else if (!filter.isOptional() && queryUtil.isEmptyVariable(variableValue) && ParameterType.STRINGN.toString().equalsIgnoreCase(variable.getType())) {
+    } else if (!filter.isOptional() && queryUtil.isEmptyVariable(variableValue) && ParameterType.STRINGN.equals(type)) {
       // NON OPTIONAL filter and EMPTY variable and STRINGN Type, set IS NULL
       return Expressions.nullExpression();
     } else {
       // Retrieve field expression
-      return getFieldExpression(field);
+      return getOperandExpression(field);
     }
 
     // If variable value is empty, don't generate the filter
-    boolean variableOrParameterExpressionEmpty = queryUtil.isEmptyString(value) || expressionList.isEmpty();
+    boolean variableOrParameterExpressionEmpty = queryUtil.isEmptyString(stringValue) || expressionList.isEmpty();
     if (filter.isOptional() && variableOrParameterExpressionEmpty) {
       return null;
     }
@@ -739,28 +776,28 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Variable list as expression (IN)
    * @param expressionList Expression list
    * @param variableValue Variable value
-   * @param variable Variable
+   * @param type Variable type
    * @param value String value
    * @param filter Filter
    * @return Variable as expression
    * @throws AWException
    */
-  private Expression convertVariableListToExpression(List<Expression> expressionList, JsonNode variableValue, Variable variable, String value, Filter filter) throws AWException {
+  private Expression convertVariableListToExpression(List<Expression> expressionList, JsonNode variableValue, ParameterType type, String value, Filter filter) throws AWException {
     int variableValuesLength = variableValue.size();
     // If variable has more than 1 element, generate a sequence of (?, ?, ...)
     if (variableValuesLength > 1) {
       // For each value, add a ? to the statement
       for (int i = 0; i < variableValuesLength; i++) {
         String valueAtIndex = getVariableAsString(variableValue.get(i));
-        expressionList.add(getVariableAsExpression(valueAtIndex, ParameterType.valueOf(variable.getType())));
+        expressionList.add(getVariableAsExpression(valueAtIndex, type));
       }
       // One value NOT empty (in array)
     } else if (variableValuesLength == 1 && variableValue.isArray() && !(variableValue.get(0).asText().isEmpty())) {
       String valueAtIndex = getVariableAsString(variableValue.get(0));
-      expressionList.add(getVariableAsExpression(valueAtIndex, ParameterType.valueOf(variable.getType())));
+      expressionList.add(getVariableAsExpression(valueAtIndex, type));
       // One value NOT empty
     } else if (variableValuesLength == 1 && !(variableValue.asText().isEmpty())) {
-      expressionList.add(getVariableAsExpression(value, ParameterType.valueOf(variable.getType())));
+      expressionList.add(getVariableAsExpression(value, type));
       // OPTIONAL in, add nothing
     } else if (filter.isOptional()) {
       return Expressions.TRUE;
@@ -775,13 +812,13 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Variable list as expression for each index
    * @param variableValue Variable value
-   * @param variable Variable
+   * @param type Variable type
    * @param value String value
    * @param filter Filter
    * @return Variable as expression
    * @throws AWException
    */
-  private Expression convertVariableListToExpressionWithIndex(JsonNode variableValue, Variable variable, String value, Filter filter) throws AWException {
+  private Expression convertVariableListToExpressionWithIndex(JsonNode variableValue, ParameterType type, String value, Filter filter) throws AWException {
     // OPTIONAL filter and EMPTY variable, removing filter
     if (filter.isOptional() && queryUtil.isEmptyString(value)) {
       return null;
@@ -789,7 +826,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       return Expressions.nullExpression();
     } else {
       String valueAtIndex = getVariableAsString(variableValue.get(getVariableIndex()));
-      return getVariableAsExpression(valueAtIndex, ParameterType.valueOf(variable.getType()));
+      return getVariableAsExpression(valueAtIndex, type);
     }
   }
 

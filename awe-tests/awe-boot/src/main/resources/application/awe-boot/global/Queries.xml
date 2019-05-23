@@ -835,6 +835,22 @@
     <variable id="null" type="NULL" />
   </query>
 
+  <query id="OperationNullIf">
+    <table id="AweThm" />
+    <field id="Nam" />
+    <operation operator="NULLIF" alias="null">
+      <field id="Nam"/>
+      <static value="sunset"/>
+    </operation>
+    <where>
+      <and>
+        <filter left-field="Nam" condition="in">
+          <right-operand value="sunset,sunny,default,purple-hills" type="STRING"/>
+        </filter>
+      </and>
+    </where>
+  </query>
+
   <query id="VariableObject">
     <table id="ope" />
     <field id="l1_nom" />

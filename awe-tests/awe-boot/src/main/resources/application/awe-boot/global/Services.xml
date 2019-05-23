@@ -37,7 +37,7 @@
   <service id="returnStringArrayTwoStringParams">
     <java classname="com.almis.awe.test.service.DummyService" method="returnStringArrayTwoStringParams">
       <service-parameter type="STRING" name="qryNam" />
-      <service-parameter type="STRING" name="fldLst" />
+      <service-parameter type="STRING" name="fldLst" list="true"/>
     </java>
   </service>
 
