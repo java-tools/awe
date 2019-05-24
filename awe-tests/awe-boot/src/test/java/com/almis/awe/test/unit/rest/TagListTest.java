@@ -1,18 +1,8 @@
-package com.almis.awe.test.unit.pojo;
+package com.almis.awe.test.unit.rest;
 
 import com.almis.awe.exception.AWException;
-import com.almis.awe.service.TemplateService;
-import com.almis.awe.test.unit.TestUtil;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -28,22 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author pgarcia
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
-@WithAnonymousUser
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class TagListTest extends TestUtil {
-
-  @MockBean
-  TemplateService templateService;
-
-  /**
-   * Initializes json mapper for tests
-   */
-  @Before
-  public void setup() throws Exception {
-    super.setup();
-  }
+public class TagListTest extends AweSpringRestTests {
 
   /**
    * Test a template call
@@ -66,7 +41,6 @@ public class TagListTest extends TestUtil {
    * @throws Exception test error
    */
   @Test
-  @WithMockUser(username = "test", password = "test")
   public void testTagList() throws Exception {
     String expected = "test";
     when(templateService.generateTaglistTemplate(anyString())).thenReturn(expected);
@@ -82,7 +56,6 @@ public class TagListTest extends TestUtil {
    * @throws Exception test error
    */
   @Test
-  @WithMockUser(username = "test", password = "test")
   public void testTagListWithError() throws Exception {
     String expected = "test";
     when(templateService.generateTaglistTemplate(anyString())).thenThrow(new AWException("", ""));
@@ -98,7 +71,6 @@ public class TagListTest extends TestUtil {
    * @throws Exception test error
    */
   @Test
-  @WithMockUser(username = "test", password = "test")
   public void testTagListOption() throws Exception {
     String expected = "test";
     when(templateService.generateTaglistTemplate(anyString(), anyString())).thenReturn(expected);
@@ -114,7 +86,6 @@ public class TagListTest extends TestUtil {
    * @throws Exception test error
    */
   @Test
-  @WithMockUser(username = "test", password = "test")
   public void testTagListOptionWithError() throws Exception {
     String expected = "test";
     when(templateService.generateTaglistTemplate(anyString(), anyString())).thenThrow(new AWException("", ""));

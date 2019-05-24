@@ -1,36 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.rest;
 
-import com.almis.awe.controller.ActionController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.Before;
+import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockServletContext;
 import org.springframework.security.test.context.support.WithAnonymousUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.WebApplicationContext;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,35 +25,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author jbellon
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
+@Log4j2
 @WithAnonymousUser
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-public class ScreenControllerTest {
-
-  @Autowired
-  private WebApplicationContext applicationContext;
-
-  private MockMvc mockMvc;
-
-  private ObjectMapper objectMapper;
-
-  // Logger
-  private static Logger logger = LogManager.getLogger(ActionController.class);
-
-  /**
-   * Initializes json mapper for tests
-   */
-  @Before
-  public void setup() {
-    objectMapper = new ObjectMapper();
-    mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
-    MockServletContext sc = new MockServletContext("");
-    ServletContextListener listener = new ContextLoaderListener(applicationContext);
-    ServletContextEvent event = new ServletContextEvent(sc);
-    listener.contextInitialized(event);
-  }
+public class ScreenControllerTest extends AweSpringRestTests {
 
   /**
    * Test of launchAction method, of class ActionController.

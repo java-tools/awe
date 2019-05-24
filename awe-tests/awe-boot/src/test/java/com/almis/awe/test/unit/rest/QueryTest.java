@@ -1,23 +1,16 @@
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.Before;
+import lombok.extern.log4j.Log4j2;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.text.SimpleDateFormat;
@@ -34,26 +27,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author jbellon
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
-@WithMockUser(username = "test", password = "test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Log4j2
 @Ignore("Generic class for database testing")
-public class QueryTest extends TestUtil {
+public class QueryTest extends AweSpringRestTests {
 
   private static final String DATABASE = "aweora2";
-  // Logger
-  private static Logger logger = LogManager.getLogger(QueryTest.class);
-
-  /**
-   * Initializes json mapper for tests
-   */
-  @Before
-  public void setup() throws Exception {
-    super.setup();
-  }
 
   /**
    * Asserts the JSON in the response
@@ -706,10 +685,10 @@ public class QueryTest extends TestUtil {
   public void testDatabaseQueryFilterFieldFieldEq() throws Exception {
     String queryName = "FilterField-Field-Eq";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"IdeAweAppPar\":7},{\"IdeAweAppPar\":8},{\"IdeAweAppPar\":9}]}}},{\"type\":\"end-load\"}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"IdeAweAppPar\":7,\"id\":1},{\"IdeAweAppPar\":8,\"id\":2},{\"IdeAweAppPar\":9,\"id\":3},{\"IdeAweAppPar\":10,\"id\":4}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
-    assertResultJson(queryName, result, 3);
+    assertResultJson(queryName, result, 4);
   }
 
   /**
@@ -721,10 +700,10 @@ public class QueryTest extends TestUtil {
   public void testDatabaseQueryFilterFieldFieldEqCntTable() throws Exception {
     String queryName = "FilterField-Field-EqCntTable";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"IdeAweAppPar\":7},{\"IdeAweAppPar\":8},{\"IdeAweAppPar\":9}]}}},{\"type\":\"end-load\"}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"IdeAweAppPar\":7,\"id\":1},{\"IdeAweAppPar\":8,\"id\":2},{\"IdeAweAppPar\":9,\"id\":3},{\"IdeAweAppPar\":10,\"id\":4}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
-    assertResultJson(queryName, result, 3);
+    assertResultJson(queryName, result, 4);
   }
 
   /**
@@ -2047,12 +2026,10 @@ public class QueryTest extends TestUtil {
   public void testDatabaseVariableDate() throws Exception {
     String queryName = "VariableDate";
     String variables = "\"date\":\"22/10/3100\"";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"date\":\"23/10/1978\",\"Als\":\"DBSTest\",\"id\":1,\"timestamp\":\"23/10/1978 15:03:01\"},{\"date\":\"23/10/1978\",\"Als\":\"Theme test\",\"id\":2,\"timestamp\":\"23/10/1978 15:03:01\"},{\"date\":\"23/10/1978\",\"Als\":\"awesybase2\",\"id\":3,\"timestamp\":\"23/10/1978 15:03:01\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"date\":\"23/10/1978\",\"Als\":\"DBSTest\",\"id\":1,\"timestamp\":\"23/10/1978 15:03:01\"},{\"date\":\"23/10/1978\",\"Als\":\"Theme test\",\"id\":2,\"timestamp\":\"23/10/1978 15:03:01\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
-    String result = performRequest(queryName, variables, DATABASE);
-    logger.warn(result);
-    logger.warn(expected);
-    assertResultVariablesJson(queryName, result, 3);
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertResultVariablesJson(queryName, result, 2);
   }
 
   /**

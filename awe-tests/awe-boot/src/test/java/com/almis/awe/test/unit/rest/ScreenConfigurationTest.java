@@ -1,4 +1,4 @@
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.rest;
 
 import com.almis.awe.annotation.entities.session.FromSession;
 import com.almis.awe.annotation.entities.session.ToSession;
@@ -7,19 +7,12 @@ import com.almis.awe.model.type.MaintainType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.text.SimpleDateFormat;
@@ -34,25 +27,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author jbellon
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
-@WithMockUser(username = "test", password = "test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-public class ScreenConfigurationTest extends TestUtil {
+@Log4j2
+public class ScreenConfigurationTest extends AweSpringRestTests {
 
-  // Logger
-  private static Logger logger = LogManager.getLogger(ScreenConfigurationTest.class);
   private SimpleDateFormat sdfDate;
   private String textController;
   private String textModel;
   private String buttonController;
   private String criteriaTestLeft;
   private String screenParameters;
-
-  /*
-   * Tables - Test schema Fields - Test functions with doubles (now is casted to Long always)
-   */
 
   /**
    * Initializes json mapper for tests

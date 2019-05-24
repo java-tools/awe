@@ -1,16 +1,9 @@
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.model.util.security.Crypto;
 import com.almis.awe.test.service.EncryptService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.Before;
+import lombok.extern.log4j.Log4j2;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 
@@ -20,27 +13,8 @@ import static org.junit.Assert.*;
  * @author pgarcia
  *
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
-@WithMockUser(username = "test", password = "test")
-public class EncryptTest extends TestUtil {
-
-  // Logger
-  private static Logger logger = LogManager.getLogger(EncryptTest.class);
-
-	/*
-	 * Tables - Test schema Fields - Test functions with doubles (now is casted to Long always)
-	 */
-
-  /**
-   * Initializes json mapper for tests
-   * @throws Exception error updating user
-   */
-  @Before
-  public void setup() throws Exception{
-    super.setup();
-  }
+@Log4j2
+public class EncryptTest extends AweSpringBootTests {
 
   /**
    * Check encrypted properties

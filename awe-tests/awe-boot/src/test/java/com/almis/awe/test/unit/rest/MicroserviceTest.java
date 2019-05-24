@@ -1,17 +1,11 @@
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.rest;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -22,18 +16,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author pgarcia
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@WithMockUser(username = "test", password = "test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-public class MicroserviceTest extends TestUtil {
-
-  // Logger
-  private static Logger logger = LogManager.getLogger(MicroserviceTest.class);
-
-  /*
-   * Tables - Test schema Fields - Test functions with doubles (now is casted to Long always)
-   */
+@Log4j2
+public class MicroserviceTest extends AweSpringRestTests {
 
   /**
    * Initializes json mapper for tests
@@ -75,6 +59,7 @@ public class MicroserviceTest extends TestUtil {
    * @throws Exception
    */
   private void doRestTest(String name, String action, String parameters, String expected) throws Exception {
+
     MvcResult mvcResult = mockMvc.perform(post("/action/" + action + "/" + name)
       .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
       .contentType(MediaType.APPLICATION_JSON)

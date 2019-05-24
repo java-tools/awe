@@ -3,40 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.controller.ActionController;
 import com.almis.awe.controller.InitController;
 import com.almis.awe.controller.SettingsController;
 import com.almis.awe.controller.TemplateController;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockServletContext;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.naming.NamingException;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -46,43 +33,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author pgarcia
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
 @WithAnonymousUser
-public class TemplateControllerTest extends TestUtil {
+public class TemplateControllerTest extends AweSpringBootTests {
 
-  @Autowired
-  private WebApplicationContext applicationContext;
-
-  @Autowired
   private ActionController actionController;
-
-  @Autowired
   private InitController initController;
-
-  @Autowired
   private SettingsController settingsController;
-
-  @Autowired
   private TemplateController templateController;
 
-  private MockMvc mockMvc;
-  private ObjectMapper objectMapper;
-
-  /**
-   * Initializes json mapper for tests
-   */
   @Before
-  public void setup() {
-    mockMvc = MockMvcBuilders
-            .webAppContextSetup(applicationContext)
-            .build();
-    objectMapper = new ObjectMapper();
-    MockServletContext sc = new MockServletContext("");
-    ServletContextListener listener = new ContextLoaderListener(applicationContext);
-    ServletContextEvent event = new ServletContextEvent(sc);
-    listener.contextInitialized(event);
+  public void initBeans() {
+    actionController = getBean(ActionController.class);
+    initController = getBean(InitController.class);
+    settingsController = getBean(SettingsController.class);
+    templateController = getBean(TemplateController.class);
   }
 
   /**
@@ -210,6 +174,7 @@ public class TemplateControllerTest extends TestUtil {
   @Test
   @WithMockUser(username = "test", password = "test")
   public void testGetSitesHelpTemplate() throws Exception {
+    given(aweSession.isAuthenticated()).willReturn(true);
     String expected = readFileAsText("context-help/ScreenHelp.txt").replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
     MvcResult result = templateTest("/template/help/sites", "text/html;charset=UTF-8", status().isOk())
       .andExpect(content().encoding("UTF-8"))
@@ -225,6 +190,7 @@ public class TemplateControllerTest extends TestUtil {
   @Test
   @WithMockUser(username = "test", password = "test")
   public void testGetApplicationHelpTemplate() throws Exception {
+    given(aweSession.isAuthenticated()).willReturn(true);
     String expected = readFileAsText("context-help/ApplicationHelp.txt").replaceAll("\\n|\\r\\n", System.getProperty("line.separator"));
     MvcResult result = templateTest("/template/help", "text/html;charset=UTF-8", status().isOk())
       .andExpect(content().encoding("UTF-8"))
