@@ -101,27 +101,29 @@ aweApplication.factory('Control',
          * @return {Object} controller/model
          */
         setTarget: function (address, action, value) {
-          var target = null;
-          var view, component;
+          let target = null;
+          let view;
+          let component;
           if (address && VIEW in address && COMPONENT in address) {
             view = address[VIEW];
             component = address[COMPONENT];
           }
+
+          // If storage is not in action, return null;
+          if (!Storage.has(action)) return null;
+          let storedAction = Storage.get(action);
+
           // Check if address, action, view and component exists in both checks
           switch (Control.getAddressType(address)) {
             case "cell":
-              if (Storage.has(action)) {
-                let storedAction = Storage.get(action);
-                // Retrieve cell id
-                let cellId = Utilities.getCellId(address);
-                let cells = storedAction[view][component].cells;
-                cells[cellId] = value;
-                target = cells[cellId];
-              }
+              // Retrieve cell id
+              let cellId = Utilities.getCellId(address);
+              let cells = storedAction[view][component].cells || {};
+              cells[cellId] = value;
+              target = cells[cellId];
               break;
             case "viewAndComponent":
               // Normal component
-              let storedAction = Storage.get(action);
               storedAction[view][component] = value;
               target = storedAction[view][component];
               break;
