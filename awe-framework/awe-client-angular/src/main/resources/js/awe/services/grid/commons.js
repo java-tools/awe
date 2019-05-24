@@ -1568,7 +1568,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           component.gridEditable = new GridEditable(this.component);
           initializationFlag = component.gridEditable.init();
           // Initialize with component management
-        } else if (this.hasComponents()) {
+        } else {
           component.gridComponents = new GridComponents(this.component);
           initializationFlag = component.gridComponents.init();
         }

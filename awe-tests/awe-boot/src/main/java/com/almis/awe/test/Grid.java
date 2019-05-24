@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -38,18 +39,11 @@ public class Grid extends ServiceConfig {
   public ServiceData addColumns() {
     // Generate service data
     final String ADD_COLUMNS = "add-columns";
-    ServiceData serviceData = new ServiceData();
-    List<ClientAction> clientActionList = serviceData.getClientActionList();
-
-    // Add columns to some grids
-    clientActionList.add(getAction(ADD_COLUMNS, "GrdMus"));
-    clientActionList.add(getAction(ADD_COLUMNS, "GrdSta"));
-    clientActionList.add(getAction(ADD_COLUMNS, "GrdEdi"));
-    clientActionList.add(getAction(ADD_COLUMNS, "GrdMuo"));
-
-    // Set variables
-    serviceData.setClientActionList(clientActionList);
-    return serviceData;
+    return new ServiceData()
+      .addClientAction(getAction(ADD_COLUMNS, "GrdMus"))
+      .addClientAction(getAction(ADD_COLUMNS, "GrdSta"))
+      .addClientAction(getAction(ADD_COLUMNS, "GrdEdi"))
+      .addClientAction(getAction(ADD_COLUMNS, "GrdMuo"));
   }
 
   /**
@@ -59,19 +53,29 @@ public class Grid extends ServiceConfig {
    * @return Service data
    */
   public ServiceData replaceColumns(List<Date> fechas, Date fecha) {
-    // Generate service data
-    ServiceData serviceData = new ServiceData();
-    List<ClientAction> clientActionList = serviceData.getClientActionList();
-
-    // Replace columns to multiselect grid
-    clientActionList.add(getAction("replace-columns", "GrdMus"));
+    ObjectNode icon = JsonNodeFactory.instance.objectNode();
+    icon.put("value", "icono");
+    icon.put("icon", "fa-check");
+    icon.put("style", "text-success");
 
     // Set variables
-    serviceData.setClientActionList(clientActionList);
     fechas.add(fecha);
+
     DataList dataList = new DataList();
+    DataListUtil.addColumn(dataList, "id", Arrays.asList(1,2,3,4,5,6,7,8,9,10,11));
     DataListUtil.addColumn(dataList, "GrdMus-newColumn1", fechas);
+    DataListUtil.addColumn(dataList, "GrdMus-newColumn2", Arrays.asList(icon, icon, icon, icon, icon, icon, icon, icon, icon, icon, icon));
     dataList.setRecords(dataList.getRows().size());
+
+    ClientAction fillAction = new ClientAction("fill")
+      .setTarget("GrdMus")
+      .addParameter("datalist", dataList);
+
+    // Generate service data
+    ServiceData serviceData = new ServiceData()
+      .addClientAction(getAction("replace-columns", "GrdMus"))
+      .addClientAction(fillAction);
+
     return serviceData
       .setDataList(dataList);
   }
@@ -94,7 +98,7 @@ public class Grid extends ServiceConfig {
 
     // Add second column
     columns.add((Column) new Column()
-            .setAlign("left")
+            .setAlign("center")
             .setCharLength(20)
             .setValue("aaaa")
             .setName(gridId + "-newColumn2")

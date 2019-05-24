@@ -73,4 +73,25 @@ describe('awe-framework/awe-client-angular/src/test/js/services/control.js', fun
     expect($control.getTarget({component: "wwww"}, "model")).toEqual(null);
     expect($control.getTarget({}, "model")).toBe(null);
   });
+
+    // Set target
+    it('should set a target from storage', function() {
+    // Define
+    let target = {};
+
+    // Mock
+    spyOn($storage, "has").and.callFake(action => {
+      return action === "otra" ? false : true;
+    });
+    spyOn($storage, "get").and.returnValue({"lala":{"tutu":{"cells":{"tutu":"epa"}}, "otro":{}}});
+    spyOn($utilities, "getCellId").and.returnValue("lolo");
+
+    // Assert
+    expect($control.setTarget({component: "tutu", view: "lala", column: "Des", row: "2"}, "model", target)).toEqual(target);
+    expect($control.setTarget({component: "otro", view: "lala", column: "Des", row: "2"}, "api", target)).toEqual(target);
+    expect($control.setTarget({component: "otro", view: "lala"}, "otra", target)).toEqual(null);
+    expect($control.setTarget({component: "otro", view: "lala"}, "model", target)).toEqual(target);
+    expect($control.setTarget({component: "wwww"}, "model", target)).toEqual(null);
+    expect($control.setTarget({}, "model", target)).toEqual(null);
+    });
 });

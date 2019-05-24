@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -35,9 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author pgarcia
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
+@ContextConfiguration
 @WithMockUser(username = "test", password = "test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class UploadControllerTest extends TestUtil {
 
   private final static String TOKEN = "16617f0d-97ee-4f6b-ad54-905d6ce3c328";

@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -34,9 +35,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author jbellon
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
+@ContextConfiguration
 @WithMockUser(username = "test", password = "test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Ignore("Generic class for database testing")
 public class QueryTest extends TestUtil {
@@ -2047,7 +2049,9 @@ public class QueryTest extends TestUtil {
     String variables = "\"date\":\"22/10/3100\"";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"date\":\"23/10/1978\",\"Als\":\"DBSTest\",\"id\":1,\"timestamp\":\"23/10/1978 15:03:01\"},{\"date\":\"23/10/1978\",\"Als\":\"Theme test\",\"id\":2,\"timestamp\":\"23/10/1978 15:03:01\"},{\"date\":\"23/10/1978\",\"Als\":\"awesybase2\",\"id\":3,\"timestamp\":\"23/10/1978 15:03:01\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
-    String result = performRequest(queryName, variables, DATABASE, expected);
+    String result = performRequest(queryName, variables, DATABASE);
+    logger.warn(result);
+    logger.warn(expected);
     assertResultVariablesJson(queryName, result, 3);
   }
 
@@ -2060,10 +2064,10 @@ public class QueryTest extends TestUtil {
   public void testDatabaseServiceDateList() throws Exception {
     String queryName = "VariableDateList";
     String variables = "\"FilDat\":[\"11/03/1921\",\"15/01/1988\",\"28/04/2007\",\"18/06/2017\",\"10/05/2019\",\"22/10/3100\"]";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":7,\"rows\":[{\"date\":\"11/03/1921\",\"id\":1},{\"date\":\"15/01/1988\",\"id\":2},{\"date\":\"28/04/2007\",\"id\":3},{\"date\":\"18/06/2017\",\"id\":4},{\"date\":\"10/05/2019\",\"id\":5},{\"date\":\"22/10/3100\",\"id\":6},{\"date\":\"23/10/1978\",\"id\":7}]}}},{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"replace-columns\",\"target\":\"GrdMus\",\"parameters\":{\"columns\":[{\"align\":\"right\",\"autoload\":false,\"charlength\":20,\"checkEmpty\":false,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"frozen\":false,\"hidden\":false,\"label\":\"BUTTON_NEW ELEMENT_TYPE_COLUMN 1\",\"loadAll\":false,\"movable\":true,\"name\":\"GrdMus-newColumn1\",\"optional\":false,\"printable\":true,\"readonly\":false,\"required\":false,\"sendable\":true,\"sortable\":true,\"strict\":true,\"value\":\"1\",\"visible\":true},{\"align\":\"left\",\"autoload\":false,\"charlength\":20,\"checkEmpty\":false,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"frozen\":false,\"hidden\":false,\"label\":\"BUTTON_NEW ELEMENT_TYPE_COLUMN 2\",\"loadAll\":false,\"movable\":true,\"name\":\"GrdMus-newColumn2\",\"optional\":false,\"printable\":true,\"readonly\":false,\"required\":false,\"sendable\":true,\"sortable\":true,\"strict\":true,\"value\":\"aaaa\",\"visible\":true}]}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":11,\"rows\":[{\"date\":\"11/03/1921\",\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":1},{\"date\":\"15/01/1988\",\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":2},{\"date\":\"28/04/2007\",\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":3},{\"date\":\"18/06/2017\",\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":4},{\"date\":\"10/05/2019\",\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":5},{\"date\":\"22/10/3100\",\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":6},{\"date\":\"23/10/1978\",\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":7},{\"date\":null,\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":8},{\"date\":null,\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":9},{\"date\":null,\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":10},{\"date\":null,\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":11}]}}},{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"replace-columns\",\"target\":\"GrdMus\",\"parameters\":{\"columns\":[{\"align\":\"right\",\"autoload\":false,\"charlength\":20,\"checkEmpty\":false,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"frozen\":false,\"hidden\":false,\"label\":\"BUTTON_NEW ELEMENT_TYPE_COLUMN 1\",\"loadAll\":false,\"movable\":true,\"name\":\"GrdMus-newColumn1\",\"optional\":false,\"printable\":true,\"readonly\":false,\"required\":false,\"sendable\":true,\"sortable\":true,\"strict\":true,\"value\":\"1\",\"visible\":true},{\"align\":\"center\",\"autoload\":false,\"charlength\":20,\"checkEmpty\":false,\"checkInitial\":true,\"checked\":false,\"component\":\"icon\",\"contextMenu\":[],\"dependencies\":[],\"frozen\":false,\"hidden\":false,\"label\":\"BUTTON_NEW ELEMENT_TYPE_COLUMN 2\",\"loadAll\":false,\"movable\":true,\"name\":\"GrdMus-newColumn2\",\"optional\":false,\"printable\":true,\"readonly\":false,\"required\":false,\"sendable\":true,\"sortable\":true,\"strict\":true,\"value\":\"aaaa\",\"visible\":true}]}},{\"type\":\"fill\",\"target\":\"GrdMus\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":11,\"rows\":[{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":1},{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":2},{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":3},{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":4},{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":5},{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":6},{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":7},{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":8},{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":9},{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":10},{\"GrdMus-newColumn2\":{\"value\":\"icono\",\"icon\":\"fa-check\",\"style\":\"text-success\"},\"id\":11}]}}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
-    assertResultVariablesJson(queryName, result, 7);
+    assertResultVariablesJson(queryName, result, 11);
   }
 
 
