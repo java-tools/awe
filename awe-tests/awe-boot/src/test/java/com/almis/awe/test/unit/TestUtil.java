@@ -1,13 +1,13 @@
 package com.almis.awe.test.unit;
 
+import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.model.dto.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -31,16 +31,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class TestUtil {
+@Log4j2
+public class TestUtil extends ServiceConfig {
 
   @Autowired
   protected WebApplicationContext applicationContext;
-  protected MockMvc mockMvc;
-  ObjectMapper objectMapper;
-  protected MockHttpSession session;
 
-  // Logger
-  private static Logger logger = LogManager.getLogger(TestUtil.class);
+  protected MockMvc mockMvc;
+  protected ObjectMapper objectMapper;
+  protected MockHttpSession session;
 
   public void setup() throws Exception {
     objectMapper = new ObjectMapper();
@@ -51,13 +50,14 @@ public class TestUtil {
     listener.contextInitialized(event);
     session = new MockHttpSession();
   }
+
   /**
    * Set parameter in session
    * @param name Parameter name
    * @param value Parameter value
    * @return Parameter set
    */
-  String setParameter(String name, String value) throws Exception {
+  protected String setParameter(String name, String value) throws Exception {
     MvcResult mvcResult = mockMvc.perform(post("/session/set/" + name)
             .param("value", value)
             .session(session))
@@ -70,7 +70,7 @@ public class TestUtil {
    * @param name Parameter name
    * @return Parameter value
    */
-  String getParameter(String name) throws Exception {
+  protected String getParameter(String name) throws Exception {
     MvcResult mvcResult = mockMvc.perform(get("/session/get/" + name)
             .session(session))
             .andReturn();
@@ -82,7 +82,7 @@ public class TestUtil {
    * @param name Parameter name
    * @return Parameter value
    */
-  String removeParameter(String name) throws Exception {
+  protected String removeParameter(String name) throws Exception {
     MvcResult mvcResult = mockMvc.perform(get("/session/remove/" + name)
             .session(session))
             .andReturn();
@@ -95,7 +95,7 @@ public class TestUtil {
    * @return
    * @throws IOException
    */
-  String readFileAsText(String path) throws IOException {
+  protected String readFileAsText(String path) throws IOException {
     Resource resource = new ClassPathResource(path);
     return FileUtils.readFileToString(resource.getFile(), StandardCharsets.UTF_8.name());
   }
@@ -109,7 +109,7 @@ public class TestUtil {
    * @param expectedOperations Expected operations
    * @throws Exception Error in asser
    */
-  void assertResultJson(String maintainName, String result, int expectedOperationNumber, MaintainResultDetails[] expectedOperations) throws Exception {
+  protected void assertResultJson(String maintainName, String result, int expectedOperationNumber, MaintainResultDetails[] expectedOperations) throws Exception {
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
     ObjectNode messageAction = (ObjectNode) resultList.get(1);
     assertEquals("message", messageAction.get("type").textValue());
@@ -140,7 +140,7 @@ public class TestUtil {
    * @param method Clean up method
    * @throws Exception Test error
    */
-  void cleanUp(String method) throws Exception {
+  protected void cleanUp(String method) throws Exception {
 
     logger.debug("--------------------------------------------------------------------------------------");
     logger.debug(" Cleaning up all the mess... ");
@@ -166,7 +166,7 @@ public class TestUtil {
    *
    * @throws Exception Test error
    */
-  void loginUser() throws Exception {
+  protected void loginUser() throws Exception {
 
     logger.debug("--------------------------------------------------------------------------------------");
     logger.debug(" Login user... ");
@@ -195,7 +195,7 @@ public class TestUtil {
    *
    * @throws Exception Test error
    */
-  void logoutUser() throws Exception {
+  protected void logoutUser() throws Exception {
 
     logger.debug("--------------------------------------------------------------------------------------");
     logger.debug(" Logout user... ");

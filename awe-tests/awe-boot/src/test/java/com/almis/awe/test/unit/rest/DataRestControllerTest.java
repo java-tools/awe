@@ -10,37 +10,23 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Arrays;
-
-@RunWith (SpringRunner.class)
-@SpringBootTest (webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext (classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DataRestControllerTest {
+public class DataRestControllerTest extends AweSpringRestTests {
   @LocalServerPort
   private int port;
 
   TestRestTemplate restTemplate = new TestRestTemplate();
   HttpHeaders headers = new HttpHeaders();
 
-
-  @Autowired
-  private WebApplicationContext wac;
   private String queryIdNoAuth = "SimpleEnumPub";
   private String queryIdAuth = "SimpleEnum";
   private String queryWithVariable = "QueryVariableInField";
@@ -50,9 +36,8 @@ public class DataRestControllerTest {
    * @throws Exception error updating user
    */
   @Before
-  public void setup() throws Exception {
-    MockMvcBuilders.webAppContextSetup(this.wac).build();
-    this.headers.put("Authorization", Arrays.asList("Basic dGVzdDp0ZXN0"));
+  public void initHeaders() {
+    headers.put("Authorization", Arrays.asList("Basic dGVzdDp0ZXN0"));
   }
 
   /**

@@ -1,22 +1,15 @@
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.rest;
 
 import com.almis.awe.model.dto.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -28,15 +21,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author jbellon
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
-@WithMockUser(username = "test", password = "test")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-public class ScreenRestrictionTest extends TestUtil {
+@Log4j2
+public class ScreenRestrictionTest extends AweSpringRestTests {
 
-  // Logger
-  private static Logger logger = LogManager.getLogger(ScreenRestrictionTest.class);
   private String sessionToken = "e6144dad-6e67-499e-b74a-d1e600732e11";
 
   /*

@@ -1,16 +1,9 @@
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.spring;
 
-import com.almis.awe.model.component.AweSession;
 import com.almis.awe.service.MenuService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.naming.NamingException;
 
@@ -19,26 +12,16 @@ import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 
 /**
- *
+ * Menu service tests
  * @author pgarcia
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
-public class MenuServiceTest extends TestUtil {
+public class MenuServiceTest extends AweSpringBootTests {
 
-  @MockBean
-  private AweSession aweSession;
-
-  @Autowired
   private MenuService menuService;
 
-  /**
-   * Initializes json mapper for tests
-   */
   @Before
-  public void setup() throws Exception {
-    super.setup();
+  public void loadBeans() {
+    menuService = getBean(MenuService.class);
   }
 
   /**
@@ -47,7 +30,6 @@ public class MenuServiceTest extends TestUtil {
    */
   @Test
   public void contextLoads() {
-
     // Check that controller are active
     assertThat(menuService).isNotNull();
   }
@@ -84,6 +66,7 @@ public class MenuServiceTest extends TestUtil {
    */
   @Test
   public void getAvailablePublicScreenList() throws Exception {
+    given(aweSession.isAuthenticated()).willReturn(false);
     assertEquals(6, menuService.getAvailableScreenList("").getDataList().getRecords());
     assertEquals(1, menuService.getAvailableScreenList("si").getDataList().getRecords());
   }

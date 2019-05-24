@@ -8,7 +8,6 @@ import org.junit.runners.Suite;
   CellDataTest.class,
   WidgetTest.class,
   DependencyTest.class,
-  TagListTest.class,
   TableTest.class,
   CriteriaTest.class,
   QueryTest.class

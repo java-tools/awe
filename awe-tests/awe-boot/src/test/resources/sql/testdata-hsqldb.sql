@@ -47,7 +47,7 @@ Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('6','DjrS
 Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('7','MinPwd','3','1','Minimal number of characters in the password','1');
 Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('8','PwdPat',null,'1','Password pattern to validate','1');
 Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('9','PwdMaxNumLog','3','1','Number of attempts to login','1');
-Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('10','PwdExp','30','1','Number of days in which the password will expire','0');
+Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('10','PwdExp','30','1','Number of days in which the password will expire','1');
 Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('11','DjrFntVer','8','2','Select minimun font size for vertically oriented reports','1');
 Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('12','DjrFntHor','8','2','Select minimun font size for horizontally oriented reports','1');
 Insert into AweAppPar (IdeAweAppPar,ParNam,ParVal,Cat,Des,Act) values ('13','DjrCrtNum','5','2','Set the number of criteria to PROMPT in one column','1');

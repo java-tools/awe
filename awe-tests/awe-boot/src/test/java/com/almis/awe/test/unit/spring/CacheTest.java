@@ -1,4 +1,4 @@
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.constant.AweConstants;
@@ -7,33 +7,31 @@ import com.almis.awe.model.entities.menu.Menu;
 import com.almis.awe.model.entities.menu.Option;
 import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.model.entities.screen.Tag;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.runners.MethodSorters;
 import org.springframework.cache.CacheManager;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@RunWith (SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
-@TestPropertySource("classpath:cache.properties")
-public class CacheTest {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class CacheTest extends AweSpringBootTests {
 
-  @Autowired
-  AweElements aweElements;
+  private AweElements aweElements;
+  private CacheManager cacheManager;
 
-  @Autowired
-  CacheManager cacheManager;
+  @Before
+  public void loadBeans() {
+    aweElements = getElements();
+    cacheManager = getBean(CacheManager.class);
+  }
 
   @Test
   public void testMenu() throws Exception {
-    Menu menu = aweElements.getMenu(AweConstants.PUBLIC_MENU).copy();
+    Menu originalMenu = aweElements.getMenu(AweConstants.PUBLIC_MENU);
+    Menu menu = originalMenu.copy();
     menu.addElement(Option.builder()
       .invisible(true)
       .screen("Prueba")
@@ -41,6 +39,7 @@ public class CacheTest {
       .build());
     aweElements.setMenu(AweConstants.PUBLIC_MENU, menu);
     assertThat(menu.getElementList().size(), equalTo(aweElements.getMenu(AweConstants.PUBLIC_MENU).getElementList().size()));
+    aweElements.setMenu(AweConstants.PUBLIC_MENU, originalMenu);
   }
 
   @Test

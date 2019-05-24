@@ -1,27 +1,15 @@
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.spring;
 
-import com.almis.awe.dao.UserDAO;
-import com.almis.awe.model.component.AweElements;
-import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.dto.User;
 import com.almis.awe.service.user.LdapAweUserDetailsMapper;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.ldap.core.DirContextAdapter;
-import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.ldap.ppolicy.PasswordPolicyControl;
 import org.springframework.security.ldap.ppolicy.PasswordPolicyResponseControl;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.naming.NamingException;
 import java.util.Arrays;
@@ -37,38 +25,18 @@ import static org.mockito.Matchers.anyString;
  *
  * @author pgarcia
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
-public class UserServiceTest extends TestUtil {
+public class UserServiceTest extends AweSpringBootTests {
 
-  @MockBean
-  private UserDAO userDAO;
-
-  @MockBean
-  private AweElements elements;
-
-  @MockBean
-  private AweSession session;
-
-  @MockBean
-  private DirContextOperations contextOperations;
-
-  @MockBean
-  private DirContextAdapter contextAdapter;
-
-  @Autowired
   private UserDetailsService userDetailService;
-
-  @Autowired
   private LdapAweUserDetailsMapper userDetailsMapper;
 
   /**
    * Initializes json mapper for tests
    */
   @Before
-  public void setup() throws Exception {
-    super.setup();
+  public void initBeans() throws Exception {
+    userDetailService = getBean(UserDetailsService.class);
+    userDetailsMapper = getBean(LdapAweUserDetailsMapper.class);
   }
 
   /**
@@ -88,7 +56,6 @@ public class UserServiceTest extends TestUtil {
    */
   @Test
   public void testLoadByUsername() throws Exception {
-    given(elements.getProperty("PwdExp")).willReturn("30");
     given(userDAO.findByUserName(anyString())).willReturn(User.builder()
       .userName("test")
       .userPassword("asdada")
@@ -109,7 +76,6 @@ public class UserServiceTest extends TestUtil {
    */
   @Test
   public void testLoadByUsernameWithNullDate() throws Exception {
-    given(elements.getProperty("PwdExp")).willReturn("30");
     given(userDAO.findByUserName(anyString())).willReturn(User.builder()
       .userName("test")
       .userPassword("asdada")
@@ -130,7 +96,6 @@ public class UserServiceTest extends TestUtil {
   @Test
   public void testLdapUserDetails() throws Exception {
     given(contextOperations.getNameInNamespace()).willReturn("test");
-    given(elements.getProperty("PwdExp")).willReturn("30");
     given(userDAO.findByUserName(anyString())).willReturn(User.builder()
       .userName("test")
       .userPassword("asdada")
@@ -152,7 +117,6 @@ public class UserServiceTest extends TestUtil {
     given(contextOperations.getObjectAttribute("userPassword")).willReturn("asdada");
     given(contextOperations.getObjectAttribute(PasswordPolicyControl.OID)).willReturn(Mockito.mock(PasswordPolicyResponseControl.class));
     given(contextOperations.getStringAttributes("lala")).willReturn(new String[]{"tutu", "lala"});
-    given(elements.getProperty("PwdExp")).willReturn("30");
     given(userDAO.findByUserName(anyString())).willReturn(User.builder()
       .userName("test")
       .userPassword("asdada")

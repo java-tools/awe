@@ -1,29 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.controller.UploadController;
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.entities.actions.ClientAction;
-import com.almis.awe.service.BroadcastService;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
@@ -35,33 +19,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author pgarcia
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
-@WithMockUser(username = "test", password = "test")
-public class UploadControllerTest extends TestUtil {
+public class UploadControllerTest extends AweSpringBootTests {
 
   private final static String TOKEN = "16617f0d-97ee-4f6b-ad54-905d6ce3c328";
 
   // Upload identifier
-  @Value("${file.upload.identifier:u}")
   private String uploadIdentifierKey;
-
-  @MockBean
-  private BroadcastService broadcastService;
-
-  @MockBean
-  private AweSession aweSession;
-
-  @Autowired
   private UploadController uploadController;
 
   /**
    * Initializes json mapper for tests
    */
   @Before
-  public void setup() throws Exception {
-    super.setup();
+  public void initBeans() throws Exception {
+    uploadIdentifierKey = getProperty("file.upload.identifier");
+    uploadController = getBean(UploadController.class);
   }
 
   /**

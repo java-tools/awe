@@ -1,26 +1,16 @@
-package com.almis.awe.test.unit;
+package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.annotation.entities.security.Hash;
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.FileData;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.util.file.FileUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.test.service.AnnotationTestService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 
@@ -33,26 +23,17 @@ import static org.mockito.Matchers.anyString;
  *
  * @author pgarcia
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration
-@WithMockUser(username = "test", password = "test")
-public class AnnotationTest {
+@Log4j2
+public class AnnotationTest extends AweSpringBootTests {
 
-  @Value ("${application.base.path:/}")
-  private String applicationBasePath;
-
-  @Autowired
   private AnnotationTestService annotationTestService;
-
-  @Autowired
   private FileUtil fileUtil;
 
-  @MockBean
-  private AweSession aweSession;
-
-  // Logger
-  private static Logger logger = LogManager.getLogger(AnnotationTest.class);
+  @Before
+  public void loadBeans() {
+    annotationTestService = getBean(AnnotationTestService.class);
+    fileUtil = getBean(FileUtil.class);
+  }
 
   @Test
   public void checkLocaleAnnotations() {
@@ -66,7 +47,7 @@ public class AnnotationTest {
   }
 
   @Test
-  public void checkHashAnnotations() throws AWException {
+  public void checkHashAnnotations() throws Exception {
     //Hashing
     logger.warn("Check hash annotations");
     Assert.assertEquals(EncodeUtil.hash(Hash.HashingAlgorithm.SHA_256.getAlgorithm(), "Moderdonio", "1234"), annotationTestService.hashParameter("Moderdonio"));
@@ -74,7 +55,7 @@ public class AnnotationTest {
   }
 
   @Test
-  public void checkCryptoAnnotations() throws AWException {
+  public void checkCryptoAnnotations() throws Exception {
     // Crypto annotation on input parameters
     logger.warn("Check crypto annotations");
     String encriptedTextUtil = EncodeUtil.encryptAes("Moderdonio",  "1234");
@@ -120,7 +101,7 @@ public class AnnotationTest {
   }
 
   @Test
-  public void checkDownloadAnnotation() throws AWException {
+  public void checkDownloadAnnotation() throws Exception {
     String file = this.getClass().getClassLoader().getResource("application.properties").getFile();
 
     //Create sample file
