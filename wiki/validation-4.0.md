@@ -74,7 +74,7 @@ These are the possible attributes on a value comparator:
 
 | Value of attribute  | Description                                                 | Examples                                    | 
 | ------------------- | ----------------------------------------------------------- | ------------------------------------------- | 
-| value               | Static value to compare with                                | `value:5`                                   | 
+| value               | Constant value to compare with                              | `value:5`                                   | 
 | criterion           | Retrieve the value from a criterion                         | `criterion:"CriterionId"`                   |
 | setting             | Retrieve the value from a setting                           | `setting:"minlengthPassword"`               |
 | message             | Locale from message to retrieve if validation is not passed | `message:"VALIDATION_MESSAGE_CUSTOM_ERROR"` |

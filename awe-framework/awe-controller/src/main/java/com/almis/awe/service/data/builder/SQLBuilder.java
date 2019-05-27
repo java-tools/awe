@@ -114,7 +114,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @return Expression field expression
    * @throws AWException Error retrieving field expression
    */
-  protected Expression getStaticExpression(Static field) throws AWException {
+  protected Expression getStaticExpression(Constant field) throws AWException {
     ParameterType type = ParameterType.STRING;
     if (field.getType() != null) {
       type = ParameterType.valueOf(field.getType());
@@ -248,8 +248,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @return Expression concat expression
    */
   protected Expression getOperandExpression(SqlField operand) throws AWException {
-    if (operand instanceof Static) {
-      return getStaticExpression((Static) operand);
+    if (operand instanceof Constant) {
+      return getStaticExpression((Constant) operand);
     } else if (operand instanceof Field) {
       return getFieldExpression((Field) operand);
     } else if (operand instanceof Operation) {
@@ -374,8 +374,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       if (operandExpression == null) {
         return null;
       }
-    } else if (operand instanceof Static) {
-      operandExpression = getOperandConstantExpression(filter, (Static) operand);
+    } else if (operand instanceof Constant) {
+      operandExpression = getOperandConstantExpression(filter, (Constant) operand);
       if (operandExpression == null) {
         return null;
       }
@@ -724,7 +724,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @return Filter variable as expression
    * @throws AWException Conversion was wrong
    */
-  private Expression getOperandConstantExpression(Filter filter, Static field) throws AWException {
+  private Expression getOperandConstantExpression(Filter filter, Constant field) throws AWException {
     // Get variable values from previously prepared map
     String type = field.getType() == null ? "STRING" : field.getType();
     ParameterType parameterType = ParameterType.valueOf(type);

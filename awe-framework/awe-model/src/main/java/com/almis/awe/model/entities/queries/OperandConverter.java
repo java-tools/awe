@@ -27,8 +27,8 @@ public class OperandConverter implements Converter {
       Operation field = (Operation) source;
       writer.addAttribute(OPERATOR, field.getOperator());
       writeOperation(field, writer, context);
-    } else if (source instanceof Static) {
-      Static field = (Static) source;
+    } else if (source instanceof Constant) {
+      Constant field = (Constant) source;
       writer.addAttribute(VALUE, field.getValue());
       if (field.getType() != null) writer.addAttribute(TYPE, field.getType());
     } else if (source instanceof Field) {
@@ -87,7 +87,7 @@ public class OperandConverter implements Converter {
         .setOperandList(getOperands(reader, context, new ArrayList<>()));
     } else if (reader.getAttribute(VALUE) != null) {
       // Convert to static
-      sqlField = new Static()
+      sqlField = new Constant()
         .setValue(reader.getAttribute(VALUE))
         .setType(reader.getAttribute(TYPE));
     } else if (reader.hasMoreChildren()) {
