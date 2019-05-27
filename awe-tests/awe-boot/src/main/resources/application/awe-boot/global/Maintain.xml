@@ -158,10 +158,10 @@
   <target name="SimpleSingleInsert">
     <insert>
       <table id="HISAweDbs" />
-      <static id="HISope" value="test" />
+      <constant id="HISope" value="test" />
       <field id="HISdat" variable="date" />
-      <static id="HISact" value="i" />
-      <static id="Des" value="AWEBOOT-TEST" />
+      <constant id="HISact" value="i" />
+      <constant id="Des" value="AWEBOOT-TEST" />
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
     </insert>
   </target>
@@ -170,7 +170,7 @@
     <insert>
       <table id="AweThm" />
       <field id="IdeThm" sequence="ThmKey" />
-      <static id="Nam" value="AWEBOOT-TEST" />
+      <constant id="Nam" value="AWEBOOT-TEST" />
       <field id="Act" variable="Act" />
       <variable id="Act" type="INTEGER" value="1" />
     </insert>
@@ -190,9 +190,9 @@
   <target name="SimpleSingleInsertFromVariable">
     <insert>
       <table id="HISAweDbs" />
-      <static id="HISope" value="test" />
+      <constant id="HISope" value="test" />
       <field id="HISdat" variable="date" />
-      <static id="HISact" value="i" />
+      <constant id="HISact" value="i" />
       <field id="Des" variable="variable" />
       <variable type="STRING" id="variable" name="variable" />
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
@@ -202,9 +202,9 @@
   <target name="SimpleSingleInsertFromVariableValue">
     <insert>
       <table id="HISAweDbs" />
-      <static id="HISope" value="test" />
+      <constant id="HISope" value="test" />
       <field id="HISdat" variable="date" />
-      <static id="HISact" value="i" />
+      <constant id="HISact" value="i" />
       <field id="Des" variable="variable" />
       <variable type="STRING" id="variable" value="AWEBOOT-TEST" />
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
@@ -216,10 +216,10 @@
       <table id="HISAweDbs" />
       <field id="HISope" variable="user" />
       <field id="HISdat" variable="date" />
-      <static id="HISact" value="i" />
-      <static id="Des" value="AWEBOOT-TEST" />
-      <static id="Des" value="AWEBOOT-TEST-AUDIT" audit="true" />
-      <static id="Als" value="AWEBOOT-TEST" audit="true" />
+      <constant id="HISact" value="i" />
+      <constant id="Des" value="AWEBOOT-TEST" />
+      <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true" />
+      <constant id="Als" value="AWEBOOT-TEST" audit="true" />
       <variable id="user" type="STRING" session="user"/>
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
     </insert>
@@ -243,7 +243,7 @@
     <update multiple="audit" audit="HISAweDbs">
       <table id="HISAweDbs" />
       <field id="HISdat" variable="date" />
-      <static id="Des" value="AWEBOOT-TEST-AUDIT" audit="true" />
+      <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true" />
       <where>
         <and>
           <filter left-field="Des" condition="in" right-variable="variable" />
@@ -258,7 +258,7 @@
     <update multiple="audit" audit="HISAweDbs" batch="true">
       <table id="HISAweDbs" />
       <field id="HISdat" variable="date" />
-      <static id="Des" value="AWEBOOT-TEST-AUDIT" audit="true" />
+      <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true" />
       <where>
         <and>
           <filter left-field="Des" condition="in" right-variable="variable" />
@@ -287,7 +287,7 @@
     <update multiple="true" audit="HISAweDbs">
       <table id="HISAweDbs" />
       <field id="HISdat" variable="date" />
-      <static id="Des" value="AWEBOOT-TEST-AUDIT" audit="true" />
+      <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true" />
       <where>
         <and>
           <filter left-field="Des" condition="eq" right-variable="variable" />
@@ -302,7 +302,7 @@
     <update multiple="true" audit="HISAweDbs" batch="true">
       <table id="HISAweDbs" />
       <field id="HISdat" variable="date" />
-      <static id="Des" value="AWEBOOT-TEST-AUDIT" audit="true" />
+      <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true" />
       <where>
         <and>
           <filter left-field="Des" condition="eq" right-variable="variable" />
@@ -354,10 +354,10 @@
   <target name="InsertUpdateDelete">
     <insert>
       <table id="HISAweDbs" />
-      <static id="HISope" value="test" />
+      <constant id="HISope" value="test" />
       <field id="HISdat" variable="date" />
-      <static id="HISact" value="i" />
-      <static id="Des" value="AWEBOOT-TEST" />
+      <constant id="HISact" value="i" />
+      <constant id="Des" value="AWEBOOT-TEST" />
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
     </insert>
     <update>
@@ -385,18 +385,18 @@
   <target name="InsertUpdateDeleteWithVariables">
     <insert>
       <table id="HISAweDbs" />
-      <static id="HISope" value="test" />
+      <constant id="HISope" value="test" />
       <field id="HISdat" variable="date" />
-      <static id="HISact" value="i" />
-      <static id="Des" value="AWEBOOT-TEST-0" />
+      <constant id="HISact" value="i" />
+      <constant id="Des" value="AWEBOOT-TEST-0" />
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
     </insert>
     <insert>
       <table id="HISAweDbs" />
-      <static id="HISope" value="test" />
+      <constant id="HISope" value="test" />
       <field id="HISdat" variable="date" />
-      <static id="HISact" value="i" />
-      <static id="Des" value="AWEBOOT-TEST-1" />
+      <constant id="HISact" value="i" />
+      <constant id="Des" value="AWEBOOT-TEST-1" />
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
     </insert>
     <update>
@@ -436,17 +436,17 @@
   <target name="TestRollback">
     <insert>
       <table id="HISAweDbs" />
-      <static id="HISope" value="test" />
+      <constant id="HISope" value="test" />
       <field id="HISdat" variable="date" />
-      <static id="HISact" value="i" />
-      <static id="Des" value="AWEBOOT-TEST-ROLLBACK-0" />
+      <constant id="HISact" value="i" />
+      <constant id="Des" value="AWEBOOT-TEST-ROLLBACK-0" />
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
     </insert>
     <insert>
       <table id="HISAweDbs" />
-      <static id="HISope" value="test" />
+      <constant id="HISope" value="test" />
       <field id="HISdat" variable="date" />
-      <static id="Des" value="AWEBOOT-TEST-ROLLBACK-1" />
+      <constant id="Des" value="AWEBOOT-TEST-ROLLBACK-1" />
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
     </insert>
   </target>
@@ -454,18 +454,18 @@
   <target name="TestCommit">
     <insert batch="false">
       <table id="HISAweDbs" />
-      <static id="HISope" value="test" />
+      <constant id="HISope" value="test" />
       <field id="HISdat" variable="date" />
-      <static id="HISact" value="i" />
-      <static id="Des" value="AWEBOOT-TEST-ROLLBACK-0" />
+      <constant id="HISact" value="i" />
+      <constant id="Des" value="AWEBOOT-TEST-ROLLBACK-0" />
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
     </insert>
     <commit />
     <insert batch="false">
       <table id="HISAweDbs" />
-      <static id="HISope" value="test" />
+      <constant id="HISope" value="test" />
       <field id="HISdat" variable="date" />
-      <static id="Des" value="AWEBOOT-TEST-ROLLBACK-1" />
+      <constant id="Des" value="AWEBOOT-TEST-ROLLBACK-1" />
       <variable id="date" type="TIMESTAMP" value="21/04/2017 00:00:00"/>
     </insert>
   </target>

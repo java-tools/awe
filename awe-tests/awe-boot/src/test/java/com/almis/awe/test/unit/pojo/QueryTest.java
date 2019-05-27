@@ -27,27 +27,27 @@ public class QueryTest extends TestUtil {
   Operation concatOperation = new Operation()
     .setOperator("CONCAT")
     .setOperandList(Arrays.asList(
-      new Static().setValue("tutu").setType("STRING"),
-      new Static().setValue("lala"),
+      new Constant().setValue("tutu").setType("STRING"),
+      new Constant().setValue("lala"),
       new Operation().setOperator("ADD").setOperandList(Arrays.asList(
         new Field().setId("field"),
-        new Static().setType("INTEGER").setValue("1")
+        new Constant().setType("INTEGER").setValue("1")
       )),
-      new Static().setValue("lolo").setType("STRING")
+      new Constant().setValue("lolo").setType("STRING")
     ));
 
   Case caseExample = new Case().setCaseWhenList(Arrays.asList(
     (CaseWhen) new CaseWhen()
-      .setThenOperand(new Static().setValue("1").setType("INTEGER"))
+      .setThenOperand(new Constant().setValue("1").setType("INTEGER"))
       .setCondition("eq")
-      .setLeftOperand(new Static().setType("STRING").setValue("lala"))
+      .setLeftOperand(new Constant().setType("STRING").setValue("lala"))
       .setRightOperand(new Field().setVariable("lala")),
     (CaseWhen) new CaseWhen()
-      .setThenOperand(new Static().setValue("2").setType("INTEGER"))
+      .setThenOperand(new Constant().setValue("2").setType("INTEGER"))
       .setCondition("eq")
       .setLeftOperand(new Field().setId("fieldId").setTable("fieldTable").setFunction("function"))
-      .setRightOperand(new Static().setValue("lolo"))))
-    .setCaseElse(new Static().setType("INTEGER").setValue("0"));
+      .setRightOperand(new Constant().setValue("lolo"))))
+    .setCaseElse(new Constant().setType("INTEGER").setValue("0"));
 
   Table table = new Table()
     .setSchema("tableSchema")
@@ -156,13 +156,13 @@ public class QueryTest extends TestUtil {
       "  <field alias=\"alias1\" variable=\"fieldVariable\"/>\n" +
       "  <field id=\"fieldId\" table=\"fieldTable\"/>\n" +
       "  <operation alias=\"alias3\" operator=\"CONCAT\">\n" +
-      "    <static type=\"STRING\" value=\"tutu\"/>\n" +
-      "    <static value=\"lala\"/>\n" +
+      "    <constant type=\"STRING\" value=\"tutu\"/>\n" +
+      "    <constant value=\"lala\"/>\n" +
       "    <operation operator=\"ADD\">\n" +
       "      <field id=\"field\"/>\n" +
-      "      <static type=\"INTEGER\" value=\"1\"/>\n" +
+      "      <constant type=\"INTEGER\" value=\"1\"/>\n" +
       "    </operation>\n" +
-      "    <static type=\"STRING\" value=\"lolo\"/>\n" +
+      "    <constant type=\"STRING\" value=\"lolo\"/>\n" +
       "  </operation>\n" +
       "  <case alias=\"alias4\">\n" +
       "    <when condition=\"eq\">\n" +
@@ -192,13 +192,13 @@ public class QueryTest extends TestUtil {
       "  <where>\n" +
       "    <filter condition=\"gt\">\n" +
       "      <left-operand operator=\"CONCAT\">\n" +
-      "        <static type=\"STRING\" value=\"tutu\"/>\n" +
-      "        <static value=\"lala\"/>\n" +
+      "        <constant type=\"STRING\" value=\"tutu\"/>\n" +
+      "        <constant value=\"lala\"/>\n" +
       "        <operation operator=\"ADD\">\n" +
       "          <field id=\"field\"/>\n" +
-      "          <static type=\"INTEGER\" value=\"1\"/>\n" +
+      "          <constant type=\"INTEGER\" value=\"1\"/>\n" +
       "        </operation>\n" +
-      "        <static type=\"STRING\" value=\"lolo\"/>\n" +
+      "        <constant type=\"STRING\" value=\"lolo\"/>\n" +
       "      </left-operand>\n" +
       "      <right-operand>\n" +
       "        <when condition=\"eq\">\n" +

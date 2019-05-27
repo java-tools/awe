@@ -21,8 +21,8 @@ import lombok.experimental.SuperBuilder;
 @Accessors(chain = true)
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-@XStreamAlias("static")
-public class Static extends SqlField {
+@XStreamAlias("constant")
+public class Constant extends SqlField {
 
   // Variable type
   @XStreamAlias("type")
@@ -35,7 +35,7 @@ public class Static extends SqlField {
   private String value;
 
   @Override
-  public Static copy() throws AWException {
+  public Constant copy() throws AWException {
     return this.toBuilder().build();
   }
 

@@ -81,16 +81,16 @@
     <xs:attribute name="table" type="xs:string"/>
   </xs:attributeGroup>
 
-  <!-- Static Attributes -->
-  <xs:attributeGroup name="staticAttr">
+  <!-- Constant Attributes -->
+  <xs:attributeGroup name="constantAttr">
     <xs:attribute name="value" type="xs:string"/>
     <xs:attribute name="type" type="variableRestriction"/>
   </xs:attributeGroup>
 
-  <!-- Static Attributes -->
-  <xs:attributeGroup name="staticQueryAttr">
+  <!-- Constant Attributes -->
+  <xs:attributeGroup name="constantQueryAttr">
     <xs:attributeGroup ref="baseQueryAttr"/>
-    <xs:attributeGroup ref="staticAttr"/>
+    <xs:attributeGroup ref="constantAttr"/>
   </xs:attributeGroup>
 
   <!-- Operation Attributes -->
@@ -109,7 +109,7 @@
     <xs:attribute name="id" type="xs:string"/>
     <xs:attribute name="table" type="xs:string"/>
     <xs:attributeGroup ref="fieldAttr"/>
-    <xs:attributeGroup ref="staticAttr"/>
+    <xs:attributeGroup ref="constantAttr"/>
     <xs:attributeGroup ref="operationAttr"/>
   </xs:attributeGroup>
 

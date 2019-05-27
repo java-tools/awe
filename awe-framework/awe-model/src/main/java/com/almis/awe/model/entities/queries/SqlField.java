@@ -21,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Accessors(chain = true)
-@XStreamInclude({Static.class, Field.class, Case.class, Operation.class})
+@XStreamInclude({Constant.class, Field.class, Case.class, Operation.class})
 public abstract class SqlField extends OutputField {
 
   // Field id (database id)

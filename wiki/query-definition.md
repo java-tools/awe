@@ -14,7 +14,7 @@ Almis Web Engine > **[Basic Development Guide](basic-developer-guide.md)**
      * [Table element](#table-element)
      * [Field element](#field-element)
        * [Transform attribute](#transform-attribute)
-     * [Static element](#static-element)
+     * [Constant element](#constant-element)
      * [Operation element](#operation-element)     
        * [Operator attribute](#operator-attribute)       
      * [Case element](#case-element)
@@ -72,7 +72,7 @@ The full sql query structure is the following:
   ...
   <field id="[Field id]" table="[Table field]" alias="[Alias field]"/>
   <field variable="[Variable id]"/>
-  <static value="[Static value]" type="INTEGER"/>
+  <constant value="[Constant value]" type="INTEGER"/>
   <computed format="[Format]" alias="[Alias] transform="[Transform]"/>
   ...
   <computed format="[Format]" alias="[Alias] transform="[Transform]"/>
@@ -257,9 +257,9 @@ These are the possible values for the `transform` attribute:
 * **DECRYPT**: Decrypt a column value which is encrypted in the database
 * **ARRAY**: Split a string value with the string in `pattern` attribute
 
-### Static element
+### Constant element
 
-The *static* element has the following attributes:
+The *constant* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
@@ -278,7 +278,7 @@ The *operation* element allows to define operation between fields and will be re
 
 ```xml
 <operation operator="[operator]" alias="[alias]">
-  <static value="[static value]" />
+  <constant value="[constant value]" />
   <field id="[field name]" table="[field table]" />
   ...
 </field>
@@ -332,9 +332,9 @@ Concatenated field: `("Pro" + pro.Nam + "-Mod" + mod.Nam) as parent`
 
 ```xml
 <operation operator="CONCAT" alias="parent">
-  <static value="Pro" />
+  <constant value="Pro" />
   <field id="Nam" table="pro" />
-  <static value="-Mod" />
+  <constant value="-Mod" />
   <field id="Nam" table="mod" />
 </field>
 ```
@@ -344,7 +344,7 @@ Add 1 to a field: `(pro.Nam + 1) as parent`
 ```xml
 <operation operator="ADD" alias="parent">
   <field id="Nam" table="pro" />
-  <static value="1" type="INTEGER"/>
+  <constant value="1" type="INTEGER"/>
 </field>
 ```
 
@@ -587,8 +587,8 @@ The having structure is the next one, is the same as where element:
 The filter structure is as follows:
 
 ```xml
-<filter left-value="[Static value]" left-field="[Field 1]" left-table="[Field table 1]" left-query="[Query Id]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]" 
-        right-value="[Static value]" right-field="[Field 2]" right-table="[Field table 2]" right-query="[Query Id]" right-variable="[Variable Id]" ignorecase="[Ignorecase]" trim="[Trim]"/>
+<filter left-value="[Constant value]" left-field="[Field 1]" left-table="[Field table 1]" left-query="[Query Id]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]" 
+        right-value="[Constant value]" right-field="[Field 2]" right-table="[Field table 2]" right-query="[Query Id]" right-variable="[Variable Id]" ignorecase="[Ignorecase]" trim="[Trim]"/>
 ```
 
 > **NEW!** Now you can define a `left-operand` and a `right-operand` children to define the filters. 
