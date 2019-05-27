@@ -2245,4 +2245,14 @@
 
   <query id="testServiceByQualifier" service="testServiceByQualifier"/>
 
+  <!--<query id="testRowNumber">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <over alias="rowNumber">
+      <field function="ROW_NUMBER"/>
+      <order-by field="l1_nom" type="ASC"/>
+    </over>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>-->
+
 </queries>

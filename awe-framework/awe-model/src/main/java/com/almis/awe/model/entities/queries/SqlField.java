@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 /**
- * OutputField Class
+ * SqlField Class
  *
  * Used to parse the files Queries.xml and Maintain.xml with XStream
  * Superclass of Field and Computed class

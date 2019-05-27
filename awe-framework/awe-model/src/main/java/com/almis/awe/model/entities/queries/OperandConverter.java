@@ -103,9 +103,9 @@ public class OperandConverter implements Converter {
 
     // Add sqlfield attributes
     sqlField
-      .setId(reader.getAttribute(ID))
+      .setFunction(reader.getAttribute(FUNCTION))
       .setTable(reader.getAttribute(TABLE))
-      .setFunction(reader.getAttribute(FUNCTION));
+      .setId(reader.getAttribute(ID));
 
     return sqlField;
   }
