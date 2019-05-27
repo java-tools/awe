@@ -42,7 +42,7 @@
   <!-- Field Element -->
   <xs:element name="field" type="fieldType" />
 
-  <!-- Case Element -->
+  <!-- Constant Element -->
   <xs:element name="static" type="staticType" />
 
   <!-- Case Element -->
@@ -124,6 +124,7 @@
     <xs:attribute name="key" type="booleanEnum"/>
     <xs:attribute name="id" type="xs:string"/>
     <xs:attribute name="table" type="xs:string"/>
+    <xs:attribute name="function" type="functionTypeEnum"/>
   </xs:attributeGroup>
 
   <!-- Field Attributes -->

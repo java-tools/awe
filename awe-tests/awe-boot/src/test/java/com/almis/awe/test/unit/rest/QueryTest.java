@@ -2402,6 +2402,23 @@ public class QueryTest extends AweSpringRestTests {
     assertResultServiceJson(queryName, result, 10, 2, 7, 65);
   }
 
+  /**
+   * Test of launchAction method, of class ActionController.
+   * TODO: Uncomment when WINDOW functions are developed
+   * @throws Exception Test error
+   */
+  /*@Test
+  public void testRowNumber() throws Exception {
+    String queryName = "testRowNumber";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":12,\"rows\":[{\"Drv\":\"com.sybase.jdbc3.jdbc.SybDriver\"},{\"Drv\":\"com.microsoft.sqlserver.jdbc.SQLServerDriver\"},{\"Drv\":\"oracle.jdbc.driver.OracleDriver\"},{\"Drv\":\"oracle.jdbc.driver.OracleDriver\"},{\"Drv\":\"com.microsoft.sqlserver.jdbc.SQLServerDriver\"},{\"Drv\":\"com.sybase.jdbc3.jdbc.SybDriver\"},{\"Drv\":\"com.sybase.jdbc3.jdbc.SybDriver\"},{\"Drv\":\"com.microsoft.sqlserver.jdbc.SQLServerDriver\"},{\"Drv\":\"oracle.jdbc.driver.OracleDriver\"},{\"Drv\":\"oracle.jdbc.driver.OracleDriver\"},{\"Drv\":\"com.microsoft.sqlserver.jdbc.SQLServerDriver\"},{\"Drv\":\"com.sybase.jdbc3.jdbc.SybDriver\"}]}}},{\"type\":\"end-load\"}]";
+
+    String result = performRequest(queryName, variables, DATABASE);
+    logger.warn(result);
+    logger.warn(expected);
+    assertResultJson(queryName, result, 12);
+  }*/
+
   // *****************************************************************************************************************//
   // INITIAL LOAD TESTS
   // **************************************************************************************************************** //

@@ -195,12 +195,24 @@
 
   <!-- Function list -->
   <xs:simpleType name="functionTypeEnum">
+    <xs:union memberTypes="aggregationFunctions fieldFunctions"/>
+  </xs:simpleType>
+
+  <!-- Field function list -->
+  <xs:simpleType name="fieldFunctions">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TRUNCDATE" />
+      <xs:enumeration value="ROW_NUMBER" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Aggregation functions -->
+  <xs:simpleType name="aggregationFunctions">
     <xs:restriction base="xs:string">
       <xs:enumeration value="AVG" />
       <xs:enumeration value="CNT" />
       <xs:enumeration value="MAX" />
       <xs:enumeration value="MIN" />
-      <xs:enumeration value="TRUNCDATE" />
       <xs:enumeration value="SUM" />
     </xs:restriction>
   </xs:simpleType>

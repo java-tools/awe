@@ -13,10 +13,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.NullExpression;
 import com.querydsl.core.types.Ops;
 import com.querydsl.core.types.dsl.*;
-import com.querydsl.sql.RelationalPath;
-import com.querydsl.sql.RelationalPathBase;
-import com.querydsl.sql.SQLQuery;
-import com.querydsl.sql.SQLQueryFactory;
+import com.querydsl.sql.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -526,6 +523,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return Expressions.numberOperation(Long.class, Ops.AggOps.MIN_AGG, fieldExpression);
       case "TRUNCDATE":
         return Expressions.dateOperation(Date.class, Ops.DateTimeOps.DATE, fieldExpression);
+      case "ROW_NUMBER":
+        return SQLExpressions.rowNumber();
       case "SUM":
       default:
         return Expressions.numberOperation(Long.class, Ops.AggOps.SUM_AGG, fieldExpression);

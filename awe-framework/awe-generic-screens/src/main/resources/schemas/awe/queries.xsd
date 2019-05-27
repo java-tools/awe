@@ -30,7 +30,7 @@
   <!-- Field Element -->
   <xs:element name="field" type="fieldType" />
 
-  <!-- Case Element -->
+  <!-- Constant Element -->
   <xs:element name="static" type="staticType" />
 
   <!-- Case Element -->
@@ -159,7 +159,7 @@
 
   <!-- Field Type -->
   <xs:complexType name="fieldType">
-    <xs:attributeGroup ref="fieldQueryAttr" />
+    <xs:attributeGroup ref="fieldQueryAttr"/>
   </xs:complexType>
 
   <!-- Operation type -->
@@ -295,7 +295,7 @@
       <xs:element ref="totalize-by" />
       <xs:element ref="totalize-field" />
     </xs:choice>
-    <xs:attribute name="function" use="required" type="totalizeFunctionType" />
+    <xs:attribute name="function" use="required" type="aggregationFunctions" />
     <xs:attribute name="label" use="required" type="xs:string" />
     <xs:attribute name="field" use="required" type="xs:string" />
     <xs:attribute name="style" use="required" type="totalizeStyleType" />
@@ -307,17 +307,6 @@
   </xs:complexType>
 
   <!-- =================================== Restriction definitions ========================================= -->
-
-  <!-- Totalize Function Enumeration -->
-  <xs:simpleType name="totalizeFunctionType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="SUM" />
-      <xs:enumeration value="AVG" />
-      <xs:enumeration value="MAX" />
-      <xs:enumeration value="MIN" />
-      <xs:enumeration value="CNT" />
-    </xs:restriction>
-  </xs:simpleType>
 
   <!-- Totalize Style Enumeration -->
   <xs:simpleType name="totalizeStyleType">

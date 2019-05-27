@@ -219,7 +219,7 @@ The *field* element has the following attributes:
 | transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM`, `ROW_NUMBER` and `TRUNCDATE` (not standard) |
 | query | Optional | String | Is the query identifier to do a subquery  | **Note:** The query id must exist, and `table` and `id` attributes will be ignored |
 | variable | Optional | String | A variable identified to be used as field value | **Note:** If `variable` attribute is defined, `table` and `id` attributes will be ignored |
 
@@ -268,7 +268,7 @@ The *static* element has the following attributes:
 | transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM`, `ROW_NUMBER` and `TRUNCDATE` (not standard) |
 | value | Required | String | A static value to be used as field value |  |
 | type | Optional | String | Type of the value | The possible values are available [here](#variable-types) |
 
@@ -292,7 +292,7 @@ The *operation* element allows to define operation between fields and will be re
 | transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM`, `ROW_NUMBER` and `TRUNCDATE` (not standard) |
 
 #### Operator attribute
 
@@ -360,7 +360,7 @@ It has the same attributes as a [filter element](#filter-element) **plus** some 
 | transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM`, `ROW_NUMBER` and `TRUNCDATE` (not standard) |
 
 > **NEW!**: As described on [filter element](#filter-element), `left-operand` and `right-operand` can be defined with the
 > properties of `field`, `static`, `operation` or `case` as well. Same case for the `then` and `else` elements.

@@ -314,7 +314,6 @@ Publish javadoc & schemas:
 Start a new release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
-  allow_failure: false
   <<: *git_credentials
   script:
   ## Generate changelog
