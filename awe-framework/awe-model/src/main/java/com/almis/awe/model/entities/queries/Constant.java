@@ -58,9 +58,6 @@ public class Constant extends SqlField {
         break;
     }
 
-    // Add function if defined
-    field = getFunction() != null ? getFunction() + "(" + field + ")" : field;
-
-    return field + super.toString();
+    return applyFunctionString(field) + super.toString();
   }
 }

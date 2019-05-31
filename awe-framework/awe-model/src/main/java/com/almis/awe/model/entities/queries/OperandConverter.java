@@ -46,6 +46,18 @@ public class OperandConverter implements Converter {
   }
 
   /**
+   * Write a sql field
+   * @param field SQL field
+   * @param writer writer
+   * @param context context
+   */
+  private void writeField(SqlField field, HierarchicalStreamWriter writer, MarshallingContext context) {
+    writer.startNode(field.getClass().getSimpleName().toLowerCase());
+    context.convertAnother(field);
+    writer.endNode();
+  }
+
+  /**
    * Marshal operation
    * @param field
    * @param context
@@ -53,9 +65,7 @@ public class OperandConverter implements Converter {
   private void writeOperation(Operation field, HierarchicalStreamWriter writer, MarshallingContext context) {
     if (field.getOperandList() != null) {
       for (SqlField operand : field.getOperandList()) {
-        writer.startNode(operand.getClass().getSimpleName().toLowerCase());
-        context.convertAnother(operand);
-        writer.endNode();
+        writeField(operand, writer, context);
       }
     }
   }

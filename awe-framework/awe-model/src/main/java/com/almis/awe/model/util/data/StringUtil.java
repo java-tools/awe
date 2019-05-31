@@ -485,4 +485,15 @@ public final class StringUtil {
     }
     return parameterAsList;
   }
+
+  /**
+   * Shorten a text if longer than size
+   * @param text Text to shorten
+   * @param size Max text size
+   * @param replacement Text to replace the extra characters
+   * @return Shortened string
+   */
+  public static String shortenText(String text, Integer size, String replacement) {
+    return size > 0 && text.length() > size ? text.substring(0, size - replacement.length()) + replacement : text;
+  }
 }

@@ -2,6 +2,8 @@ package com.almis.awe.service.data.builder;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.queries.*;
+import com.almis.awe.model.entities.queries.Constant;
+import com.almis.awe.model.entities.queries.Operation;
 import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.type.UnionType;
 import com.almis.awe.model.util.data.DateUtil;
@@ -9,9 +11,7 @@ import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.NullExpression;
-import com.querydsl.core.types.Ops;
+import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.sql.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +94,17 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       fieldExpression = buildPath(field.getTable(), field.getId());
     }
 
+    return fieldExpression;
+  }
+
+  /**
+   * Apply function to field
+   * @param field
+   * @param fieldExpression
+   * @return Field expression with function applied
+   * @throws AWException
+   */
+  private Expression applyFunctionToField(SqlField field, Expression fieldExpression) throws AWException {
     // Apply function to field
     if (field.getFunction() != null) {
       try {
@@ -114,7 +125,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @return Expression field expression
    * @throws AWException Error retrieving field expression
    */
-  protected Expression getStaticExpression(Constant field) throws AWException {
+  protected Expression getConstantExpression(Constant field) throws AWException {
     ParameterType type = ParameterType.STRING;
     if (field.getType() != null) {
       type = ParameterType.valueOf(field.getType());
@@ -248,17 +259,23 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @return Expression concat expression
    */
   protected Expression getOperandExpression(SqlField operand) throws AWException {
+    Expression expression;
     if (operand instanceof Constant) {
-      return getStaticExpression((Constant) operand);
+      expression = getConstantExpression((Constant) operand);
     } else if (operand instanceof Field) {
-      return getFieldExpression((Field) operand);
+      expression = getFieldExpression((Field) operand);
     } else if (operand instanceof Operation) {
-      return getOperationExpression((Operation) operand);
+      expression = getOperationExpression((Operation) operand);
+    } else if (operand instanceof Over) {
+      expression = getOverExpression((Over) operand);
     } else if (operand instanceof Case) {
-      return getCaseExpression((Case) operand);
+      expression = getCaseExpression((Case) operand);
     } else {
       return null;
     }
+
+    // Apply function
+    return applyFunctionToField(operand, expression);
   }
 
   /**
@@ -302,6 +319,51 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     }
 
     return caseList == null ? caseElse : caseList.otherwise(caseElse);
+  }
+
+  /**
+   * Retrieve over expression
+   *
+   * @param field Field to apply the case when condition
+   * @return Expression caseWhen expression
+   */
+  protected Expression getOverExpression(Over field) throws AWException {
+    WindowOver overField = (WindowOver) getOperandExpression(field.getFieldList().get(0));
+    WindowFunction overFunction = overField.over();
+
+    // Add partition by aggregators
+    if (field.getPartitionByList() != null) {
+      for (PartitionBy partitionBy : field.getPartitionByList()) {
+        overFunction = overFunction.partitionBy(buildPath(partitionBy.getTable(), partitionBy.getField()));
+      }
+    }
+
+    // Add order by sorters
+    if (field.getOrderByList() != null) {
+      for (OrderBy orderBy : field.getOrderByList()) {
+        overFunction = overFunction.orderBy(getOrderByExpression(orderBy));
+      }
+    }
+
+    return overFunction;
+  }
+
+  /**
+   * Retrieve order by expression
+   * @param orderBy Order by
+   * @return Expression
+   */
+  protected OrderSpecifier getOrderByExpression(OrderBy orderBy) {
+    Order order = orderBy.getType() != null ? Order.valueOf(orderBy.getType().toUpperCase()) : Order.ASC;
+    OrderSpecifier orderSpecifier = new OrderSpecifier(order, buildPath(orderBy.getTable(), orderBy.getField()));
+    if (orderBy.getNulls() != null) {
+      if ("FIRST".equalsIgnoreCase(orderBy.getNulls())) {
+        orderSpecifier = orderSpecifier.nullsFirst();
+      } else {
+        orderSpecifier = orderSpecifier.nullsLast();
+      }
+    }
+    return orderSpecifier;
   }
 
   /**
@@ -514,20 +576,26 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   protected Expression getExpressionFunction(Expression fieldExpression, String function) {
     switch (function.toUpperCase()) {
       case "AVG":
-        return Expressions.numberOperation(Double.class, Ops.AggOps.AVG_AGG, fieldExpression);
+        return new WindowOver(Double.class, Ops.AggOps.AVG_AGG, fieldExpression);
       case "CNT":
-        return Expressions.numberOperation(Long.class, Ops.AggOps.COUNT_AGG, fieldExpression);
+        return new WindowOver(Long.class, Ops.AggOps.COUNT_AGG, fieldExpression);
+      case "LAG":
+        return SQLExpressions.lag(fieldExpression);
       case "MAX":
-        return Expressions.numberOperation(Long.class, Ops.AggOps.MAX_AGG, fieldExpression);
+        return new WindowOver(Long.class, Ops.AggOps.MAX_AGG, fieldExpression);
       case "MIN":
-        return Expressions.numberOperation(Long.class, Ops.AggOps.MIN_AGG, fieldExpression);
+        return new WindowOver(Long.class, Ops.AggOps.MIN_AGG, fieldExpression);
+      case "FIRST":
+        return SQLExpressions.firstValue(fieldExpression);
+      case "LAST":
+        return SQLExpressions.lastValue(fieldExpression);
       case "TRUNCDATE":
         return Expressions.dateOperation(Date.class, Ops.DateTimeOps.DATE, fieldExpression);
       case "ROW_NUMBER":
         return SQLExpressions.rowNumber();
       case "SUM":
       default:
-        return Expressions.numberOperation(Long.class, Ops.AggOps.SUM_AGG, fieldExpression);
+        return new WindowOver(Long.class, Ops.AggOps.SUM_AGG, fieldExpression);
     }
   }
 

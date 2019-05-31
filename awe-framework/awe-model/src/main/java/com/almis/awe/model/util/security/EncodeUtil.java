@@ -23,10 +23,6 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
-/*
- * File Imports
- */
-
 /**
  * EncodeUtil Class
  * Encode Utilities for awe

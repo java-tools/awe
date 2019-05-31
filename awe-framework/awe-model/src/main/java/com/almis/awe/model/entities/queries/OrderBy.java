@@ -4,8 +4,9 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Copyable;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
@@ -16,7 +17,8 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Pablo GARCIA - 28/JUN/2010
  */
-@Data
+@Getter
+@Setter
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Accessors(chain = true)
@@ -40,6 +42,11 @@ public class OrderBy implements Copyable {
   @XStreamAsAttribute
   private String type;
 
+  // Nulls treatment (FIRST, LAST)
+  @XStreamAlias("nulls")
+  @XStreamAsAttribute
+  private String nulls;
+
   @Override
   public OrderBy copy() throws AWException {
     return this.toBuilder().build();
@@ -48,6 +55,7 @@ public class OrderBy implements Copyable {
   @Override
   public String toString() {
     String fieldTable = getTable() != null ? getTable() + "." + getField() : getField();
-    return getType() != null ? fieldTable + " " + getType() : fieldTable;
+    String nullsValue = getNulls() != null ? " NULLS " + getNulls() : "";
+    return getType() != null ? fieldTable + " " + getType() + nullsValue: fieldTable;
   }
 }

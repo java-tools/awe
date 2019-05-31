@@ -15,7 +15,7 @@ public class AweSessionStorage {
    * Constructor
    */
   public AweSessionStorage() {
-    sessionStorage = Collections.synchronizedMap(new HashMap<String, Object>());
+    sessionStorage = Collections.synchronizedMap(new HashMap<>());
   }
 
   /**
