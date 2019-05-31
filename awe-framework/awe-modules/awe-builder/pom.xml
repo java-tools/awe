@@ -15,7 +15,6 @@
   <artifactId>awe-builder</artifactId>
 
   <properties>
-    <querydsl.version>4.1.4</querydsl.version>
     <!-- Sonar properties -->
     <application.folder>.</application.folder>
     <sonar.sources>src</sonar.sources>

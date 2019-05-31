@@ -21,7 +21,6 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.ParseException;
 import java.util.Date;
 
 import static com.almis.awe.model.type.CellDataType.*;
@@ -205,7 +204,7 @@ public class CellData implements Comparable<CellData>, Copyable {
       // Get value as date
       case STRING:
       default:
-        return DateUtil.web2Date(getStringValue());
+        return stringToDate(getStringValue());
     }
   }
 
@@ -215,12 +214,7 @@ public class CellData implements Comparable<CellData>, Copyable {
    * @return CellData value as Date
    */
   private Date stringToDate(String dateString) {
-    try {
-      return DateUtil.jsonDate(dateString);
-    } catch (ParseException exc) {
-      log.error("Parsing date {}", dateString, exc);
-    }
-    return null;
+    return DateUtil.autoDetectDateFormat(dateString);
   }
 
   /**

@@ -28,8 +28,35 @@
   ==============================================================================
   -->
 
+  <!-- Group By Element -->
+  <xs:element name="group-by" type="groupByType" />
+
+  <!-- Partition By Element -->
+  <xs:element name="partition-by" type="groupByType" />
+
+  <!-- Order By Element -->
+  <xs:element name="order-by" type="orderByType" />
+
   <!-- Variable Element -->
   <xs:element name="variable" type="variableType"/>
+
+  <!--
+  ==============================================================================
+  Group definitions
+  ==============================================================================
+  -->
+
+  <!-- Group By Element -->
+  <xs:complexType name="groupByType">
+    <xs:attributeGroup ref="orderAttr" />
+  </xs:complexType>
+
+  <!-- Order By Type -->
+  <xs:complexType name="orderByType">
+    <xs:attributeGroup ref="orderAttr" />
+    <xs:attribute name="type" type="orderType" />
+    <xs:attribute name="nulls" type="nullsType" />
+  </xs:complexType>
 
   <!--
   ==============================================================================
@@ -118,6 +145,11 @@
     <xs:attributeGroup ref="baseQueryAttr"/>
   </xs:attributeGroup>
 
+  <!-- Over Attributes -->
+  <xs:attributeGroup name="overQueryAttr">
+    <xs:attributeGroup ref="baseQueryAttr"/>
+  </xs:attributeGroup>
+
   <!-- Filter Attributes -->
   <xs:attributeGroup name="filterAttr">
     <xs:attribute name="condition" use="required" type="conditionEnum"/>
@@ -134,6 +166,12 @@
     <xs:attribute name="optional" type="booleanEnum"/>
     <xs:attribute name="query" type="xs:string"/>
     <xs:attribute name="type" type="valueTypeEnum"/>
+  </xs:attributeGroup>
+
+  <!-- Order Call Attributes -->
+  <xs:attributeGroup name="orderAttr">
+    <xs:attribute name="field" use="required" type="xs:string" />
+    <xs:attribute name="table" type="xs:string" />
   </xs:attributeGroup>
 
   <!--
@@ -247,6 +285,22 @@
       <xs:enumeration value="DIFF_WEEKS" />
       <xs:enumeration value="DIFF_MONTHS" />
       <xs:enumeration value="DIFF_YEARS" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Order Type Enumeration -->
+  <xs:simpleType name="orderType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ASC" />
+      <xs:enumeration value="DESC" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Nulls Type Enumeration -->
+  <xs:simpleType name="nullsType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FIRST" />
+      <xs:enumeration value="LAST" />
     </xs:restriction>
   </xs:simpleType>
 

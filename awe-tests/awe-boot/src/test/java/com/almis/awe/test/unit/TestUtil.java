@@ -1,19 +1,25 @@
 package com.almis.awe.test.unit;
 
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.model.component.AweSession;
+import com.almis.awe.model.component.AweSessionStorage;
 import com.almis.awe.model.dto.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
+import com.almis.awe.session.AweSessionDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockServletContext;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -27,6 +33,7 @@ import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,9 +44,13 @@ public class TestUtil extends ServiceConfig {
   @Autowired
   protected WebApplicationContext applicationContext;
 
+  @MockBean
+  private AweSessionDetails aweSessionDetails;
+
   protected MockMvc mockMvc;
   protected ObjectMapper objectMapper;
   protected MockHttpSession session;
+  protected String SESSION_ID = "16617f0d-97ee-4f6b-ad54-905d6ce3c328";
 
   public void setup() throws Exception {
     objectMapper = new ObjectMapper();
@@ -48,7 +59,7 @@ public class TestUtil extends ServiceConfig {
     ServletContextListener listener = new ContextLoaderListener(applicationContext);
     ServletContextEvent event = new ServletContextEvent(sc);
     listener.contextInitialized(event);
-    session = new MockHttpSession();
+    session = new MockHttpSession(null, SESSION_ID);
   }
 
   /**
@@ -59,9 +70,10 @@ public class TestUtil extends ServiceConfig {
    */
   protected String setParameter(String name, String value) throws Exception {
     MvcResult mvcResult = mockMvc.perform(post("/session/set/" + name)
-            .param("value", value)
-            .session(session))
-            .andReturn();
+      .header("Authorization", SESSION_ID)
+      .param("value", value)
+      .session(session))
+      .andReturn();
     return mvcResult.getResponse().getContentAsString();
   }
 
@@ -72,8 +84,9 @@ public class TestUtil extends ServiceConfig {
    */
   protected String getParameter(String name) throws Exception {
     MvcResult mvcResult = mockMvc.perform(get("/session/get/" + name)
-            .session(session))
-            .andReturn();
+      .header("Authorization", SESSION_ID)
+      .session(session))
+      .andReturn();
     return mvcResult.getResponse().getContentAsString();
   }
 
@@ -84,8 +97,9 @@ public class TestUtil extends ServiceConfig {
    */
   protected String removeParameter(String name) throws Exception {
     MvcResult mvcResult = mockMvc.perform(get("/session/remove/" + name)
-            .session(session))
-            .andReturn();
+      .header("Authorization", SESSION_ID)
+      .session(session))
+      .andReturn();
     return mvcResult.getResponse().getContentAsString();
   }
 
@@ -148,7 +162,7 @@ public class TestUtil extends ServiceConfig {
 
     String maintainName = method;
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .header("Authorization", SESSION_ID)
       .contentType(MediaType.APPLICATION_JSON)
       .content("{\"max\":30}")
       .accept(MediaType.APPLICATION_JSON))
@@ -175,7 +189,7 @@ public class TestUtil extends ServiceConfig {
     String maintainName = "loginUser";
 
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .header("Authorization", SESSION_ID)
       .contentType(MediaType.APPLICATION_JSON)
       .content("{\"max\":30}")
       .session(session)
@@ -203,7 +217,7 @@ public class TestUtil extends ServiceConfig {
 
     String maintainName = "logoutUser";
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+      .header("Authorization", SESSION_ID)
       .contentType(MediaType.APPLICATION_JSON)
       .content("{\"max\":30}")
       .session(session)

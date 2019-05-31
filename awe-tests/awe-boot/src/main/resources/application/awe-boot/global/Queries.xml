@@ -127,6 +127,7 @@
     <table id="AweModPro" />
     <field id="IdeModPro" />
     <constant value="1" alias="one" />
+    <order-by field="IdeModPro"/>
   </query>
 
   <query id="QueryStaticVariableInField">
@@ -366,6 +367,7 @@
         <filter left-field="Des" left-table="AweAppPar" condition="like" right-variable="var" />
       </and>
     </where>
+    <order-by field="IdeAweAppPar"/>
     <variable id="var" type="STRINGL" value="s" />
   </query>
 
@@ -374,9 +376,10 @@
     <field id="IdeAweAppPar" />
     <where>
       <and>
-        <filter left-field="Des" left-table="AweAppPar" condition="like" right-variable="var" />
+        <filter left-field="Des" left-table="AweAppPar" condition="like" right-variable="var" ignorecase="true"/>
       </and>
     </where>
+    <order-by field="IdeAweAppPar"/>
     <variable id="var" type="STRINGR" value="s" />
   </query>
 
@@ -385,9 +388,10 @@
     <field id="IdeAweAppPar" />
     <where>
       <and>
-        <filter left-field="Des" left-table="AweAppPar" condition="like" right-variable="var" />
+        <filter left-field="Des" left-table="AweAppPar" condition="like" right-variable="var" ignorecase="true"/>
       </and>
     </where>
+    <order-by field="IdeAweAppPar"/>
     <variable id="var" type="STRINGB" value="s" />
   </query>
 
@@ -1012,7 +1016,7 @@
   <query id="HavTstUni" public="true">
     <table id="AweThm" />
     <field id="act" alias="act" />
-    <field variable="one" function="SUM" alias="act" />
+    <field variable="one" function="SUM" alias="sumAct" />
     <group-by field="act" />
     <having>
       <and>
@@ -2153,9 +2157,18 @@
     <variable id="Nbk" type="INTEGER" value="1" />
   </query>
 
-  <query id="testCaseWhenElseDistinct" distinct="true">
+  <query id="testCaseWhenElseDistinct">
+    <table query="testCaseWhenElseDistinctSubquery" alias="t"/>
+    <field id="value" table="t"/>
+    <field id="label" table="t"/>
+    <field id="other" table="t"/>
+    <field id="another" table="t"/>
+    <order-by field="value" table="t" type="ASC" nulls="FIRST"/>
+  </query>
+
+  <query id="testCaseWhenElseDistinctSubquery" distinct="true">
     <table id="AweThm"/>
-    <case alias="Value">
+    <case alias="value">
       <when left-field="Nam" condition="like" right-variable="sunset"><then variable="1"/></when>
       <when left-field="Nam" condition="like" right-variable="sunny"><then variable="2"/></when>
       <when left-field="Nam" condition="eq" right-variable="purple-hills"><then variable="3"/></when>
@@ -2198,8 +2211,9 @@
       <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunset"/><then value="SUNSET"/></when>
       <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunny"/><then value="SUNNY"/></when>
       <when condition="eq"><left-operand id="Nam"/><right-operand variable="purple-hills"/><then value="PURPLE-HILLS"/></when>
-      <else value=""/>
+      <else value="other"/>
     </case>
+    <order-by field="Nam" type="ASC" nulls="FIRST"/>
     <variable id="sunset" type="STRING" value="sunset"/>
     <variable id="sunny" type="STRING" value="sunny"/>
     <variable id="purple-hills" type="STRING" value="purple-hills"/>
@@ -2245,14 +2259,96 @@
 
   <query id="testServiceByQualifier" service="testServiceByQualifier"/>
 
-  <!--<query id="testRowNumber">
+  <query id="testRowNumber">
     <table id="ope"/>
     <field id="l1_nom" alias="name"/>
     <over alias="rowNumber">
       <field function="ROW_NUMBER"/>
+    </over>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testNullIf">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="NULLIF" function="MAX" alias="nullif">
+      <field id="l1_nom"/>
+      <constant value="test"/>
+    </operation>
+    <group-by field="l1_nom"/>
+    <order-by field="l1_nom"/>
+  </query>
+
+  <query id="testSum1">
+    <table id="AweThm"/>
+    <constant value="1" type="LONG" function="SUM" alias="sum1"/>
+    <constant value="1" type="LONG" function="SUM" alias="sum1"/>
+    <group-by field="Nam"/>
+  </query>
+
+  <query id="testOverPartitionOrder">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <over alias="rowNumber">
+      <operation operator="NULLIF" function="MAX">
+        <field id="l1_nom"/>
+        <constant value="test"/>
+      </operation>
+      <partition-by field="l1_nom"/>
       <order-by field="l1_nom" type="ASC"/>
     </over>
     <order-by field="l1_nom" type="ASC"/>
-  </query>-->
+  </query>
+
+  <query id="testOverPartitionOrderOperation">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="MULT" alias="rowNumber">
+      <constant value="2" type="INTEGER"/>
+      <over>
+        <field function="ROW_NUMBER"/>
+        <order-by field="l1_nom" type="ASC"/>
+      </over>
+    </operation>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testRowNumberWithOperation">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="ADD" alias="rowNumber">
+      <constant value="1" type="INTEGER"/>
+      <over>
+        <field function="ROW_NUMBER"/>
+      </over>
+    </operation>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testDiffDates">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="DIFF_SECONDS" alias="diffSeconds">
+      <constant type="TIMESTAMP" value="28/10/1978 05:12:33.000"/>
+      <constant type="TIMESTAMP" value="28/10/1978 12:03:21.000"/>
+    </operation>
+    <operation operator="DIFF_DAYS" alias="diffDays">
+      <constant type="DATE" value="22/10/1978"/>
+      <constant type="DATE" value="28/10/1978"/>
+    </operation>
+    <operation operator="DIFF_WEEKS" alias="diffWeeks">
+      <constant type="DATE" value="22/10/1978"/>
+      <constant type="DATE" value="28/01/1979"/>
+    </operation>
+    <operation operator="DIFF_MONTHS" alias="diffMonths">
+      <constant type="DATE" value="22/10/1978"/>
+      <constant type="DATE" value="28/10/1999"/>
+    </operation>
+    <operation operator="DIFF_YEARS" alias="diffYears">
+      <constant type="DATE" value="22/10/1978"/>
+      <constant type="DATE" value="28/10/2012"/>
+    </operation>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
 
 </queries>

@@ -21,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Accessors(chain = true)
-@XStreamInclude({Constant.class, Field.class, Case.class, Operation.class})
+@XStreamInclude({Constant.class, Field.class, Case.class, Operation.class, Over.class})
 public abstract class SqlField extends OutputField {
 
   // Field id (database id)
@@ -65,7 +65,6 @@ public abstract class SqlField extends OutputField {
     return audit != null && audit;
   }
 
-
   @Override
   public String getIdentifier() {
     String identifier = super.getIdentifier();
@@ -73,5 +72,14 @@ public abstract class SqlField extends OutputField {
       identifier = id;
     }
     return identifier;
+  }
+
+  /**
+   * Apply function to field string
+   * @param field Field string
+   * @return Field with function
+   */
+  public String applyFunctionString(String field) {
+    return getFunction() != null ? getFunction() + "(" + field + ")" : field;
   }
 }

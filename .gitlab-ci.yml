@@ -5,7 +5,7 @@
 image: docker:latest
 
 variables:
-  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode -P!devtools"
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml -Dsettings.security=.m2/settings-security.xml --batch-mode -P!devtools,gitlab-ci"
   MAVEN_REPO_PATH: ".m2/repository"
   SAST_PULL_ANALYZER_IMAGES: "0"
   SAST_RUN_ANALYZER_TIMEOUT: 30m
@@ -13,7 +13,7 @@ variables:
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
   JACOCO_OPTS: "-DgenerateIntegrationReport=true -Dskip.selenium=false -Dkarma.launch.gitlab=true -Djava.debug=true"
   GENERAL_BROWSER_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false"
-  DEPLOY_OPTS: "-f awe-framework/pom.xml -DskipTests -Dskip.karma=true -Dskip.javadoc=false -Dbuild.environment=production"
+  DEPLOY_OPTS: "-f awe-framework/pom.xml -DskipTests -Dskip.javadoc=false -Dbuild.environment=production"
   CHROME_OPTS: "-Dbrowser=headless-chrome"
   FIREFOX_OPTS: "-Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
@@ -44,9 +44,24 @@ stages:
 #  - template: SAST.gitlab-ci.yml
 #  - template: Dependency-Scanning.gitlab-ci.yml
 
-# Testing extension
-.testing:
+# Database testing extension
+.database-testing:
   stage: test
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  allow_failure: false
+  script:
+    - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS test -Dskip.frontend=true -Dsurefire.suite=**/$DATABASE_TEST_SUITE
+  except:
+    - /^release/.*$/
+  artifacts:
+    reports:
+      junit:
+        - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
+
+# Browser testing extension
+.browser-testing:
+  stage: test
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   tags:
   - shared
   allow_failure: true
@@ -79,6 +94,7 @@ stages:
 # Kubernetes deployment
 .k8s_deploy:
   image: google/cloud-sdk
+  cache: {}
   stage: deploy
   script:
   - echo "$GOOGLE_KEY" > key.json
@@ -96,21 +112,6 @@ stages:
   - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
   - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
   - kubectl apply -f awe-tests/awe-boot/deployment.yaml
-# - echo "$GOOGLE_KEY" > key.json
-# - gcloud auth activate-service-account --key-file key.json
-# - gcloud config set compute/zone europe-west3-b
-# - gcloud config set project $KUBERNETES_PROJECT_ID
-# - gcloud config set container/use_client_certificate True
-# - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
-# - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
-# - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-# - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin
-# - kubectl config use-context default-system
-# - kubectl delete secret registry.gitlab.com
-# - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
-# - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
-# - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
-# - kubectl apply -f awe-tests/awe-boot/deployment.yaml --namespace=$CI_ENVIRONMENT_SLUG
 
 .git_credentials_template: &git_credentials
   before_script:
@@ -165,16 +166,45 @@ Build project:
 ##############################
 
 Chrome IT:
-  extends: .testing
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  extends: .browser-testing
   variables:
     BROWSER_OPTS: $CHROME_OPTS
 
 Firefox IT:
-  extends: .testing
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  extends: .browser-testing
   variables:
     BROWSER_OPTS: $FIREFOX_OPTS
+
+Oracle UT:
+  extends: .database-testing
+  variables:
+    ORACLE_ALLOW_REMOTE: "true"
+    RELAX_SECURITY: 1
+    DATABASE_TEST_SUITE: SpringOracleTestsSuite.class
+  services:
+    - epiclabs/docker-oracle-xe-11g
+
+MySQL UT:
+  extends: .database-testing
+  variables:
+    MYSQL_DATABASE: "awetestdb"
+    MYSQL_ROOT_PASSWORD: "$DATABASE_PASSWORD"
+    DATABASE_TEST_SUITE: SpringMysqlTestsSuite.class
+  services:
+    - mysql
+
+SQL Server UT:
+  extends: .database-testing
+  before_script:
+    - npm install
+    - node createDb.js "$DATABASE_PASSWORD"
+  variables:
+    MSSQL_HOST: microsoft-mssql-server-linux
+    ACCEPT_EULA: Y
+    SA_PASSWORD: "$DATABASE_PASSWORD"
+    DATABASE_TEST_SUITE: SpringSqlserverTestsSuite.class
+  services:
+    - microsoft/mssql-server-linux
 
 ##############################
 # Analysis stage
@@ -183,6 +213,7 @@ Firefox IT:
 Check Sonar:
   stage: analysis
   image: cfmanteiga/alpine-bash-curl-jq:latest
+  cache: {}
   script:
   - sonarUrl="https://sonarcloud.io/api/project_branches/list?project=AWE"
   - sonarBranches=`curl -s $sonarUrl`
@@ -213,6 +244,7 @@ Check Sonar:
 Publish docs:
   stage: site
   image: cfmanteiga/alpine-bash-curl-jq:latest
+  cache: {}
   script:
   - curl -H "$DINAMIQ_HEADERS" $DINAMIQ_URL
   only:
@@ -222,7 +254,7 @@ Generate javadoc & schemas:
   image: maven:3.5-jdk-8
   stage: site
   script:
-  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.main=true -Dskip.karma=true -Dbuild.environment=production -f awe-framework/pom.xml
+  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.main=true -Dskip.frontend=true -Dbuild.environment=production -f awe-framework/pom.xml
   artifacts:
     paths:
     - awe-framework/target/site/apidocs
@@ -237,6 +269,7 @@ Generate javadoc & schemas:
 
 Build package:
   stage: package
+  cache: {}
   services:
   - docker:dind
   tags:
@@ -294,6 +327,7 @@ Deploy production:
 
 Publish javadoc & schemas:
   stage: deploy
+  cache: {}
   dependencies:
   - Generate javadoc & schemas
   script:
@@ -313,6 +347,7 @@ Publish javadoc & schemas:
 
 Start a new release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
+  cache: {}
   stage: release
   <<: *git_credentials
   script:
@@ -336,6 +371,7 @@ Start a new release:
 
 Finish the release:
   image: maven:3.5-jdk-8
+  cache: {}
   stage: release
   allow_failure: false
   <<: *git_credentials

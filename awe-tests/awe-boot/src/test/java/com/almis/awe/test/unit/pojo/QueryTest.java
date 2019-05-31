@@ -18,8 +18,9 @@ public class QueryTest extends TestUtil {
 
   String expectedQuery = "SQL QUERY:\n" +
     "SELECT variable(fieldVariable) as alias1, fieldTable.fieldId, CONCAT(\"tutu\", \"lala\", ADD(field, 1), \"lolo\") as alias3, " +
-    "CASE WHEN (\"lala\" eq variable(lala)) THEN 1 WHEN (function(fieldTable.fieldId) eq \"lolo\") THEN 2 ELSE 0 as alias4 " +
-    "LEFT JOIN tableSchema.tableId joinTable ON ((fieldTable.fieldId like variable(lala)) <- [ignorecase, trim]) UNION all unionQuery " +
+    "CASE WHEN (\"lala\" eq variable(lala)) THEN 1 WHEN (function(fieldTable.fieldId) eq \"lolo\") THEN 2 ELSE 0 as alias4, " +
+    "MAX(ADD(tablex.fieldx, 2)) OVER (PARTITION BY fieldPartition ORDER BY fieldOrder) as alias5 LEFT JOIN tableSchema.tableId joinTable " +
+    "ON ((fieldTable.fieldId like variable(lala)) <- [ignorecase, trim]) UNION all unionQuery " +
     "WHERE ((CONCAT(\"tutu\", \"lala\", ADD(field, 1), \"lolo\") gt CASE WHEN (\"lala\" eq variable(lala)) THEN 1 " +
     "WHEN (function(fieldTable.fieldId) eq \"lolo\") THEN 2 ELSE 0) and (fieldTable.fieldId like variable(lala)) <- [ignorecase, trim] " +
     "and (min(leftTable.leftField) is not null ) <- [optional]) ORDER BY tableSort.fieldSort ASC GROUP BY tableGroup.fieldGroup";
@@ -72,7 +73,24 @@ public class QueryTest extends TestUtil {
           (SqlField) new Field().setVariable("fieldVariable").setAlias("alias1"),
           new Field().setTable("fieldTable").setId("fieldId"),
           (SqlField) concatOperation.copy().setAlias("alias3"),
-          (SqlField) caseExample.copy().setAlias("alias4")
+          (SqlField) caseExample.copy().setAlias("alias4"),
+          (SqlField) new Over()
+            .setFieldList(Arrays.asList(
+              new Operation()
+                .setOperator("ADD")
+                .setOperandList(Arrays.asList(
+                  new Field().setId("fieldx").setTable("tablex"),
+                  new Constant().setValue("2").setType("INTEGER")
+                ))
+                .setFunction("MAX")
+            ))
+            .setPartitionByList(Arrays.asList(
+              (PartitionBy) new PartitionBy().setField("fieldPartition")
+            ))
+            .setOrderByList(Arrays.asList(
+              new OrderBy().setField("fieldOrder")
+            ))
+            .setAlias("alias5")
         ))
         .setFilterGroup((FilterAnd) new FilterAnd()
           .setFilterList(Arrays.asList(
@@ -115,6 +133,7 @@ public class QueryTest extends TestUtil {
   public void testQuery() throws Exception {
     // Assert
     assertEquals(expectedQuery, query.toString());
+    assertEquals(" OVER ()", new Over().toString());
   }
 
   /**
@@ -177,6 +196,14 @@ public class QueryTest extends TestUtil {
       "    </when>\n" +
       "    <else value=\"0\" type=\"INTEGER\"/>\n" +
       "  </case>\n" +
+      "  <over alias=\"alias5\">\n" +
+      "    <operation function=\"MAX\" operator=\"ADD\">\n" +
+      "      <field id=\"fieldx\" table=\"tablex\"/>\n" +
+      "      <constant type=\"INTEGER\" value=\"2\"/>\n" +
+      "    </operation>\n" +
+      "    <partition-by field=\"fieldPartition\"/>\n" +
+      "    <order-by field=\"fieldOrder\"/>\n" +
+      "  </over>\n" +
       "  <join type=\"left\">\n" +
       "    <table id=\"tableId\" schema=\"tableSchema\" alias=\"joinTable\"/>\n" +
       "    <or>\n" +

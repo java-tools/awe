@@ -18,6 +18,7 @@ Almis Web Engine > **[Basic Development Guide](basic-developer-guide.md)**
      * [Operation element](#operation-element)     
        * [Operator attribute](#operator-attribute)       
      * [Case element](#case-element)
+     * [Over element](#over-element)
      * [Computed element](#computed-element)
      * [Compound element](#compound-element)
      * [Join element](#join-element)
@@ -390,6 +391,41 @@ will be generated as:
 </query>
 ```
 
+### Over element
+
+The *over* element allows to modelate **SQL window functions**. This element contains a field clause (`field`, `constant`, 
+`operation` or `case`) and some of `partition-by` or `order-by` clauses.
+
+| Attribute     | Use      | Type      |  Description                    |   Values                                           |
+| ------------- | ---------|-----------|---------------------------------|----------------------------------------------------|
+| alias | Optional | String | Alias of field. It used to describe the field |  |
+| noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
+| transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM`, `FIRST_VALUE`, `LAST_VALUE`, `LAG`, `ROW_NUMBER` and `TRUNCDATE` (not standard) |
+
+#### Over examples
+
+Over field: 
+
+```sql
+SELECT MAX(date) OVER (PARTITION BY name ORDER BY position ASC) as `maxValue` FROM tableId
+```
+
+will be generated as:
+
+```xml
+<query id="testOver">
+  <table id="tableId"/>
+  <over alias="maxValue">
+    <field id="date" function="MAX"/>
+    <partition-by field="name"/>
+    <order-by field="position" type="ASC"/>
+  </over>
+</query>
+```
+
 ### Computed element
 
 The *computed* element has the following attributes:
@@ -637,9 +673,10 @@ The *order by* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| field | **Required** | String | Field alias to order the results     |                                                    |
-| table | Optional | String | Table alias to order the results         |                                                    |
-| type | Optional | String | Is the order type                         | The possible values are `DESC` or `ASC`. By default is `ASC` |
+| field       | **Required** | String | Field alias to order the results     |                                                    |
+| table       | Optional | String | Table alias to order the result    |                                                    |
+| type        | Optional | String | Is the order type                  | The possible values are `DESC` or `ASC`. By default is `ASC` |
+| nulls       | Optional | String | Whether to sort the null fields    | The possible values are `FIRST` or `LAST`. By default depends on database type |
 
 ### Totalize element
 
@@ -795,7 +832,7 @@ You can view services xml structure in [this page](service-definition.md)
   <variable id="[Variable ID1]" type="[Variable type]" name="[Variable name 1]" />
   ...
   <variable id="[Variable IDn]" type="[Variable type]" name="[Variable name N]" />
-  <order-by field="[Order field]" table="[Order table]" type="[Order type]"/>
+  <order-by field="[Order field]" table="[Order table]" type="[Order type]" nulls="[Nulls first or last]"/>
 </query>
 ```
 

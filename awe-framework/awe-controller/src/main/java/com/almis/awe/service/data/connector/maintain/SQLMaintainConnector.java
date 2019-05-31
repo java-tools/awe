@@ -39,6 +39,9 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
   @Value("${awe.database.batch.max:100}")
   private Integer batchMax;
 
+  @Value("${awe.database.limit.log.size:0}")
+  private Integer logLimit;
+
   @Override
   public <T extends MaintainQuery> ServiceData launch(T query, DatabaseConnection databaseConnection, Map<String, QueryParameter> parameterMap) throws AWException {
     // Store service data
@@ -407,9 +410,12 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     String indexMessage = index == null ? "" : index.toString();
     String sql = StringUtil.toUnilineText(statement.getSQL().get(statement.getSQL().size() - 1).getSQL());
 
+    // Shorten sql clause
+    String sqlShortened = StringUtil.shortenText(sql, logLimit, "...");
+
     // Log operation
     getLogger().log(this.getClass(), Level.INFO, "{0}[{1} ({2})] [{3}] => {4} rows affected - Elapsed time: {5}s",
-            auditMessage, queryId, indexMessage, sql, updated, getLogger().getTotalTime(timeLapse));
+            auditMessage, queryId, indexMessage, sqlShortened, updated, getLogger().getTotalTime(timeLapse));
 
     return updated;
   }

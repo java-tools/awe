@@ -42,23 +42,11 @@
   <!-- Field Element -->
   <xs:element name="field" type="fieldType" />
 
-  <!-- Case Element -->
+  <!-- Constant Element -->
   <xs:element name="constant" type="constantType" />
 
-  <!-- Case Element -->
+  <!-- Operation Element -->
   <xs:element name="operation" type="operationType" />
-
-  <!-- Case Element -->
-  <xs:element name="case" type="caseType" />
-
-  <!-- Case When Element -->
-  <xs:element name="when" type="caseWhenType" />
-
-  <!-- Case Then Element -->
-  <xs:element name="then" type="operandType" />
-
-  <!-- Case Else Element -->
-  <xs:element name="else" type="operandType" />
 
   <!-- Filter Element -->
   <xs:element name="filter" type="filterType"/>
@@ -144,11 +132,6 @@
   <xs:attributeGroup name="operationMaintainAttr">
     <xs:attributeGroup ref="baseMaintainAttr"/>
     <xs:attributeGroup ref="operationAttr"/>
-  </xs:attributeGroup>
-
-  <!-- Case Attributes -->
-  <xs:attributeGroup name="caseMaintainAttr">
-    <xs:attributeGroup ref="baseMaintainAttr"/>
   </xs:attributeGroup>
 
   <!-- Server Call Attributes -->
@@ -293,9 +276,6 @@
       <xs:element ref="field" />
       <xs:element ref="constant" />
       <xs:element ref="operation" />
-      <xs:element ref="case" />
-      <xs:element ref="when" />
-      <xs:element ref="else" />
     </xs:choice>
     <xs:attributeGroup ref="operationMaintainAttr"/>
   </xs:complexType>
@@ -305,36 +285,12 @@
     <xs:attributeGroup ref="constantMaintainAttr" />
   </xs:complexType>
 
-  <!-- Case Else type -->
-  <xs:complexType name="caseType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="when" />
-      <xs:element ref="else" />
-    </xs:choice>
-    <xs:attributeGroup ref="caseMaintainAttr"/>
-  </xs:complexType>
-
   <!-- Include Target Type -->
   <xs:complexType name="includeTargetType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="variable"/>
     </xs:choice>
     <xs:attribute name="name" use="required" type="xs:string"/>
-  </xs:complexType>
-
-  <!-- Case Else type -->
-  <xs:complexType name="caseElseType">
-    <xs:attributeGroup ref="operandAttr"/>
-  </xs:complexType>
-
-  <!-- Case When type -->
-  <xs:complexType name="caseWhenType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="left-operand" />
-      <xs:element ref="right-operand" />
-      <xs:element ref="then" />
-    </xs:choice>
-    <xs:attributeGroup ref="filterAttr"/>
   </xs:complexType>
 
   <!-- Filter Type -->
@@ -352,7 +308,6 @@
       <xs:element ref="field" />
       <xs:element ref="constant" />
       <xs:element ref="operation" />
-      <xs:element ref="case" />
     </xs:choice>
     <xs:attributeGroup ref="operandAttr"/>
   </xs:complexType>

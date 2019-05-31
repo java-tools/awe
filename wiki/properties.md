@@ -445,6 +445,9 @@ Here you can define the database connection
 # Enable database
 awe.database.enabled=false
 
+# Limit log size (0 to disable)
+awe.database.limit.log.size=0
+
 # Datasource
 spring.datasource.jndi-name=
 # Datasource type - oracle, sqs, hsql, mysql

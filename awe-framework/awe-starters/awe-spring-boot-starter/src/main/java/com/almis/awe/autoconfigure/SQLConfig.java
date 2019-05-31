@@ -5,14 +5,15 @@ import com.almis.awe.component.AweRoutingDataSource;
 import com.almis.awe.listener.SpringSQLCloseListener;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.AweSession;
+import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.QueryService;
 import com.almis.awe.service.SessionService;
-import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.service.data.builder.SQLMaintainBuilder;
 import com.almis.awe.service.data.builder.SQLQueryBuilder;
 import com.almis.awe.service.data.connector.maintain.SQLMaintainConnector;
 import com.almis.awe.service.data.connector.query.SQLQueryConnector;
+import com.almis.awe.template.FixedOracleTemplates;
 import com.querydsl.sql.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -67,7 +68,7 @@ public class SQLConfig {
   @Bean
   @Scope("prototype")
   public Configuration oracleDatabaseConfiguration (LogUtil logger) {
-    return getConfiguration(new OracleTemplates(), logger);
+    return getConfiguration(new FixedOracleTemplates(), logger);
   }
 
   /**

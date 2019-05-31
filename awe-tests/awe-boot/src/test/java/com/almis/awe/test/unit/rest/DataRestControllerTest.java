@@ -1,6 +1,4 @@
-
 package com.almis.awe.test.unit.rest;
-
 
 import com.almis.awe.model.dto.ServiceData;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DataRestControllerTest extends AweSpringRestTests {
   @LocalServerPort
