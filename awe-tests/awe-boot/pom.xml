@@ -425,23 +425,6 @@
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
-            <version>${jacoco.version}</version>
-            <executions>
-              <execution>
-                <id>report-integration</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>report-aggregate</goal>
-                </goals>
-                <configuration>
-                  <dataFileIncludes>
-                    <dataFileInclude>target/jacoco.exec</dataFileInclude>
-                    <dataFileInclude>target/jacoco-it.exec</dataFileInclude>
-                  </dataFileIncludes>
-                  <outputDirectory>${jacoco.reportPaths}</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
           </plugin>
           <plugin>
             <groupId>org.springframework.boot</groupId>
@@ -469,6 +452,45 @@
                 <goals>
                   <goal>stop</goal>
                 </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- Coverage report profile -->
+    <profile>
+      <id>generate-coverage-report</id>
+      <activation>
+        <property>
+          <name>generateCoverageReport</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>report-integration</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>report-aggregate</goal>
+                </goals>
+                <configuration>
+                  <dataFileIncludes>
+                    <dataFileInclude>target/jacoco-all-ut.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-oracle-ut.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-sqlserver-ut.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-mysql-ut.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-chrome-it.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-firefox-it.exec</dataFileInclude>
+                  </dataFileIncludes>
+                  <outputDirectory>${jacoco.reportPaths}</outputDirectory>
+                </configuration>
               </execution>
             </executions>
           </plugin>

@@ -11,8 +11,9 @@ variables:
   SAST_RUN_ANALYZER_TIMEOUT: 30m
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME"
-  JACOCO_OPTS: "-DgenerateIntegrationReport=true -Dskip.selenium=false -Dkarma.launch.gitlab=true -Djava.debug=true"
-  GENERAL_BROWSER_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false"
+  SKIP_TESTS: "-DskipTests"
+  IT_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false -DgenerateIntegrationReport=true"
+  UT_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.frontend=true -DgenerateIntegrationReport=true"
   DEPLOY_OPTS: "-f awe-framework/pom.xml -DskipTests -Dskip.javadoc=false -Dbuild.environment=production"
   CHROME_OPTS: "-Dbrowser=headless-chrome"
   FIREFOX_OPTS: "-Dbrowser=headless-firefox"
@@ -33,105 +34,19 @@ cache:
 
 stages:
 - build
-- test
+- unit test
+- integration test
 - analysis
 - site
 - package
 - deploy
 - release
 
-#include:
-#  - template: SAST.gitlab-ci.yml
-#  - template: Dependency-Scanning.gitlab-ci.yml
-
-# Database testing extension
-.database-testing:
-  stage: test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
-  allow_failure: false
-  script:
-    - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS test -Dskip.frontend=true -Dsurefire.suite=**/$DATABASE_TEST_SUITE
-  except:
-    - /^release/.*$/
-  artifacts:
-    reports:
-      junit:
-        - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
-
-# Browser testing extension
-.browser-testing:
-  stage: test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
-  tags:
-  - shared
-  allow_failure: true
-  script:
-  - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $GENERAL_BROWSER_OPTS $BROWSER_OPTS
-  - search=`cat awe-tests/awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml`
-  - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
-  - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
-  - echo "$errors errors and $failures failures found"
-  - exitWithErrors=`echo $errors $failures | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
-  - exit $exitWithErrors
-  except:
-  - /^release/.*$/
-  artifacts:
-    paths:
-    - awe-tests/awe-boot/target/tests/
-    - awe-tests/awe-boot/target/surefire-reports/
-    reports:
-      junit:
-      - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
-    when: on_failure
-
-# Analysis extension
-.analyze:
-  tags:
-  - docker
-  except:
-  - /^release/.*$/
-
-# Kubernetes deployment
-.k8s_deploy:
-  image: google/cloud-sdk
-  cache: {}
-  stage: deploy
-  script:
-  - echo "$GOOGLE_KEY" > key.json
-  - gcloud auth activate-service-account --key-file key.json
-  - gcloud config set compute/zone $KUBE_ZONE
-  - gcloud config set project $KUBERNETES_PROJECT_ID
-  - gcloud config set container/use_client_certificate True
-  - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
-  - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
-  - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$CI_ENVIRONMENT_SLUG
-  - kubectl config use-context default-system
-  - kubectl delete secret registry.gitlab.com --ignore-not-found
-  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
-  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
-  - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
-  - kubectl apply -f awe-tests/awe-boot/deployment.yaml
-
-.git_credentials_template: &git_credentials
-  before_script:
-  ## Push git credentials
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-  - git config --global user.email no-reply@almis.com
-  - git config --global user.name "Gitlab CI"
-  - git remote set-url $CI_PROJECT_URL_SSH
-
 ##############################
 # Build stage
 ##############################
 
-Build project:
+.build:
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   stage: build
   cache:
@@ -141,60 +56,76 @@ Build project:
     - .m2/repository/
     - awe-framework/awe-client-angular/node_modules/
     - awe-framework/awe-modules/awe-tools/node_modules/
-  tags:
-  - shared
   script:
-  - mvn $MAVEN_CLI_OPTS clean install sonar:sonar $JACOCO_OPTS $SONAR_OPTS
-  - cat awe-tests/awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
+  - mvn $MAVEN_CLI_OPTS clean install $SKIP_TESTS
   retry: 2
+
+Compile project:
+  extends: .build
+  except:
+  - develop
+  - /^release/.*$/
+
+Build project:
+  extends: .build
   artifacts:
     paths:
     - awe-tests/awe-boot/target/awe-boot.war
-    - awe-tests/awe-boot/target/tests/
-    - awe-tests/awe-boot/target/coverage-reports/
+  only:
+  - develop
+
+##############################
+# Unit testing stage
+##############################
+
+# Unit testing extension
+.unit-testing:
+  stage: unit test
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  allow_failure: false
+  script:
+  - mvn $MAVEN_CLI_OPTS verify $UT_OPTS -Dsurefire.suite=**/$UNIT_TEST_SUITE
+  - cp awe-tests/awe-boot/target/jacoco.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
+  except:
+  - master
+  - tags
+  - /^release/.*$/
+  artifacts:
+    paths:
     - awe-tests/awe-boot/target/surefire-reports/
-    - awe-framework/awe-client-angular/target/reports/karma/
+    - awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
     reports:
       junit:
       - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
-      - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
-  except:
-  - /^release/.*$/
 
-##############################
-# Testing stage
-##############################
-
-Chrome IT:
-  extends: .browser-testing
+All UT:
+  extends: .unit-testing
   variables:
-    BROWSER_OPTS: $CHROME_OPTS
-
-Firefox IT:
-  extends: .browser-testing
-  variables:
-    BROWSER_OPTS: $FIREFOX_OPTS
+    UNIT_TEST_SUITE: AllTestsSuite.class
+    TEST_NAME: all
 
 Oracle UT:
-  extends: .database-testing
+  extends: .unit-testing
+  services:
+  - epiclabs/docker-oracle-xe-11g
   variables:
     ORACLE_ALLOW_REMOTE: "true"
-    RELAX_SECURITY: 1
-    DATABASE_TEST_SUITE: SpringOracleTestsSuite.class
-  services:
-    - epiclabs/docker-oracle-xe-11g
+    RELAX_SECURITY: "1"
+    UNIT_TEST_SUITE: SpringOracleTestsSuite.class
+    TEST_NAME: oracle
 
 MySQL UT:
-  extends: .database-testing
+  extends: .unit-testing
   variables:
     MYSQL_DATABASE: "awetestdb"
     MYSQL_ROOT_PASSWORD: "$DATABASE_PASSWORD"
-    DATABASE_TEST_SUITE: SpringMysqlTestsSuite.class
+    UNIT_TEST_SUITE: SpringMysqlTestsSuite.class
+    TEST_NAME: mysql
   services:
     - mysql
 
 SQL Server UT:
-  extends: .database-testing
+  extends: .unit-testing
   before_script:
     - npm install
     - node createDb.js "$DATABASE_PASSWORD"
@@ -202,19 +133,81 @@ SQL Server UT:
     MSSQL_HOST: microsoft-mssql-server-linux
     ACCEPT_EULA: Y
     SA_PASSWORD: "$DATABASE_PASSWORD"
-    DATABASE_TEST_SUITE: SpringSqlserverTestsSuite.class
+    UNIT_TEST_SUITE: SpringSqlserverTestsSuite.class
+    TEST_NAME: sqlserver
   services:
     - microsoft/mssql-server-linux
+
+Frontend UT:
+  stage: unit test
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  script:
+  - mvn -f awe-framework/awe-client-angular/pom.xml $MAVEN_CLI_OPTS test
+  artifacts:
+    paths:
+    - awe-framework/awe-client-angular/target/reports/karma/
+    reports:
+      junit:
+      - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
+  except:
+  - master
+  - tags
+  - /^release/.*$/
+
+##############################
+# Integration testing stage
+##############################
+
+# Browser testing extension
+.browser-testing:
+  stage: integration test
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  allow_failure: true
+  script:
+  - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $IT_OPTS $BROWSER_OPTS
+  - cp awe-tests/awe-boot/target/jacoco-it.exec awe-tests/awe-boot/target/jacoco-$TEST_NAME-it.exec
+  - search=`cat awe-tests/awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml`
+  - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
+  - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
+  - echo "$errors errors and $failures failures found"
+  - exitWithErrors=`echo $errors $failures | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
+  - exit $exitWithErrors
+  except:
+  - master
+  - tags
+  - /^release/.*$/
+  artifacts:
+    paths:
+    - awe-tests/awe-boot/target/surefire-reports/
+    - awe-tests/awe-boot/target/jacoco-${TEST_NAME}-it.exec
+    reports:
+      junit:
+      - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
+    when: always
+
+Firefox IT:
+  extends: .browser-testing
+  variables:
+    BROWSER_OPTS: $FIREFOX_OPTS
+    TEST_NAME: firefox
+
+Chrome IT:
+  extends: .browser-testing
+  variables:
+    BROWSER_OPTS: $CHROME_OPTS
+    TEST_NAME: chrome
 
 ##############################
 # Analysis stage
 ##############################
 
-Check Sonar:
+Launch Sonar:
   stage: analysis
-  image: cfmanteiga/alpine-bash-curl-jq:latest
-  cache: {}
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   script:
+  - mvn $MAVEN_CLI_OPTS verify -Dskip.frontend=true -DgenerateCoverageReport=true sonar:sonar $SKIP_TESTS $SONAR_OPTS
+  - cat awe-tests/awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
+  after_script:
   - sonarUrl="https://sonarcloud.io/api/project_branches/list?project=AWE"
   - sonarBranches=`curl -s $sonarUrl`
   - echo $sonarBranches
@@ -223,12 +216,24 @@ Check Sonar:
   - echo "Sonar has ended with a $sonarStatus status"
   - exitWithErrors=`echo $sonarStatus | sed -e 's/"//g' | awk '{printf ($1 != "OK")}'`
   - exit $exitWithErrors
+  artifacts:
+    paths:
+    - awe-tests/awe-boot/target/coverage-reports/
   except:
-  - master
-  - develop
-  - tags
-  - /^release/.*$/
+    - master
+    - tags
+    - /^release/.*$/
 
+#include:
+#  - template: SAST.gitlab-ci.yml
+#  - template: Dependency-Scanning.gitlab-ci.yml
+## Analysis extension
+#.analyze:
+#  tags:
+#  - docker
+#  except:
+#  - /^release/.*$/
+#
 #sast:
 #  stage: analysis
 #  extends: .analyze
@@ -254,7 +259,7 @@ Generate javadoc & schemas:
   image: maven:3.5-jdk-8
   stage: site
   script:
-  - mvn $MAVEN_CLI_OPTS install site -DskipTests -Dskip.main=true -Dskip.frontend=true -Dbuild.environment=production -f awe-framework/pom.xml
+  - mvn $MAVEN_CLI_OPTS install site $SKIP_TESTS -Dskip.main=true -Dskip.frontend=true -Dbuild.environment=production -f awe-framework/pom.xml
   artifacts:
     paths:
     - awe-framework/target/site/apidocs
@@ -304,6 +309,28 @@ Deploy Maven Central:
   only:
   - tags
 
+# Kubernetes deployment
+.k8s_deploy:
+  image: google/cloud-sdk
+  cache: {}
+  stage: deploy
+  script:
+  - echo "$GOOGLE_KEY" > key.json
+  - gcloud auth activate-service-account --key-file key.json
+  - gcloud config set compute/zone $KUBE_ZONE
+  - gcloud config set project $KUBERNETES_PROJECT_ID
+  - gcloud config set container/use_client_certificate True
+  - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
+  - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
+  - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
+  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$CI_ENVIRONMENT_SLUG
+  - kubectl config use-context default-system
+  - kubectl delete secret registry.gitlab.com --ignore-not-found
+  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
+  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
+  - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
+  - kubectl apply -f awe-tests/awe-boot/deployment.yaml
+
 Deploy staging:
   extends: .k8s_deploy
   environment:
@@ -344,6 +371,20 @@ Publish javadoc & schemas:
 ##############################
 # Release stage
 ##############################
+
+.git_credentials_template: &git_credentials
+  before_script:
+  ## Push git credentials
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+  - git config --global user.email no-reply@almis.com
+  - git config --global user.name "Gitlab CI"
+  - git remote set-url $CI_PROJECT_URL_SSH
 
 Start a new release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
