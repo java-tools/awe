@@ -6423,6 +6423,7 @@
       <span translate-multiple="HELP_BUTTON" class="text-xxs text-uppercase"></span>
     </h6><p class=" no-margin text-justify" translate-multiple="HELP_PRINT_BUTTON"></p>
   </div><div class="help-snippet padding-sm-vr no-padding-t">
+  </div><div class="help-snippet padding-sm-vr no-padding-t">
     <h6 class="text-info text-semibold text-sm">
       <i class="fa fa-bar-chart fa-fw"></i>
       <span class="text-bold text-uppercase" translate-multiple="SCREEN_TEXT_LINE_CHART"></span>

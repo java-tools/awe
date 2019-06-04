@@ -31,7 +31,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
      * @param {type} component Grid model
      * @returns {integer} Number of selected lines
      */
-    var getSelectedLines = function (component) {
+    const getSelectedLines = function (component) {
       var value;
       var model = component.model;
       if (model.selected === null) {
@@ -50,7 +50,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
      * @param {type} column
      * @returns {undefined}
      */
-    var getRowValue = function (model, row, column) {
+    const getRowValue = function (model, row, column) {
       var value = null;
       if (row === "footer" || (row > -1 && row < model.length)) {
         var cell = model[row][column];
@@ -70,7 +70,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
      * @param {type} columnName
      * @returns {undefined}
      */
-    var getHeader = function (headers, columnName) {
+    const getHeader = function (headers, columnName) {
       var selectedHeader = false;
       _.each(headers, function (header) {
         if (header.startColumnName === columnName) {
@@ -79,6 +79,20 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
       });
       return selectedHeader;
     };
+
+    /**
+     * Sanitize selected values (retrieve values from row id)
+     */
+    const sanitizeSelection = function(selection, data, component) {
+      let sanitized = [];
+      _.each(selection, function (row) {
+        var rowIndex = Control.getRowIndex(data, row, component.constants.ROW_IDENTIFIER);
+        if (rowIndex > -1) {
+          sanitized.push(data[rowIndex][component.constants.ROW_IDENTIFIER]);
+        }
+      });
+      return sanitized;
+    }
 
     /**
      * Grid constructor
@@ -984,6 +998,11 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
             }
             // Set selection
             var data = component.model.values;
+
+            // Sanitize selection
+            selection = sanitizeSelection(selection, data, component);
+
+            // Select rows
             _.each(selection, function (row) {
               var rowIndex = Control.getRowIndex(data, row, component.constants.ROW_IDENTIFIER);
               if (rowIndex > -1) {
@@ -994,6 +1013,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           // Call select rows event
           component.onSelectRows(selection);
         };
+
         /**
          * Reset the grid
          */

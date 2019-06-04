@@ -2762,7 +2762,7 @@ public class QueryTest extends AweSpringDatabaseTests {
     assertEquals(0, screenData.get("actions").size());
     assertEquals(0, screenData.get("messages").size());
     ArrayNode screenDataComponents = (ArrayNode) screenData.get("components");
-    assertEquals(26, screenDataComponents.size());
+    assertEquals(27, screenDataComponents.size());
     assertEquals("GrdChrPrn", screenData.get("screen").get("name").textValue());
     assertEquals("grid-and-chart", screenData.get("screen").get("option").textValue());
 

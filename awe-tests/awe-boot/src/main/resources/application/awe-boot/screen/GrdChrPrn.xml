@@ -21,6 +21,10 @@ and open the template in the editor.
       <button-action type="validate" />
       <button-action type="dialog" target="PrnOpt" />
     </button>
+    <button icon="rebel" id="ButtonSelectAll">
+      <button-action type="select-all-rows" target="GrdKeyLst"/>
+      <button-action type="server" server-action="maintain-silent" target-action="ServeNoParams" />
+    </button>
   </tag>
   <tag source="center">
     <tag type="div" style="expand" expandible="vertical">
