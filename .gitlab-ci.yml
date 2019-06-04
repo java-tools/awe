@@ -83,6 +83,7 @@ Build project:
   stage: unit test
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   allow_failure: false
+  dependencies: []
   script:
   - mvn $MAVEN_CLI_OPTS verify $UT_OPTS -Dsurefire.suite=**/$UNIT_TEST_SUITE
   - cp awe-tests/awe-boot/target/jacoco.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
@@ -163,6 +164,7 @@ Frontend UT:
   stage: integration test
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   allow_failure: true
+  dependencies: []
   script:
   - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $IT_OPTS $BROWSER_OPTS
   - cp awe-tests/awe-boot/target/jacoco-it.exec awe-tests/awe-boot/target/jacoco-$TEST_NAME-it.exec
@@ -204,6 +206,14 @@ Chrome IT:
 Launch Sonar:
   stage: analysis
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  dependencies:
+  - All UT
+  - Oracle UT
+  - SQL Server UT
+  - MySQL UT
+  - Frontend UT
+  - Firefox IT
+  - Chrome IT
   script:
   - mvn $MAVEN_CLI_OPTS verify -Dskip.frontend=true -DgenerateCoverageReport=true sonar:sonar $SKIP_TESTS $SONAR_OPTS
   - cat awe-tests/awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
@@ -250,6 +260,7 @@ Publish docs:
   stage: site
   image: cfmanteiga/alpine-bash-curl-jq:latest
   cache: {}
+  dependencies: []
   script:
   - curl -H "$DINAMIQ_HEADERS" $DINAMIQ_URL
   only:
@@ -275,6 +286,8 @@ Generate javadoc & schemas:
 Build package:
   stage: package
   cache: {}
+  dependencies:
+  - Build project
   services:
   - docker:dind
   tags:
@@ -293,6 +306,7 @@ Build package:
 Deploy snapshot:
   image: maven:3.5-jdk-8
   stage: deploy
+  dependencies: []
   script:
   - mvn $MAVEN_CLI_OPTS deploy $DEPLOY_OPTS
   only:
@@ -301,6 +315,7 @@ Deploy snapshot:
 Deploy Maven Central:
   image: maven:3.5-jdk-8
   stage: deploy
+  dependencies: []
   before_script:
   ## Add gpg key to sign
   - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
@@ -313,6 +328,7 @@ Deploy Maven Central:
 .k8s_deploy:
   image: google/cloud-sdk
   cache: {}
+  dependencies: []
   stage: deploy
   script:
   - echo "$GOOGLE_KEY" > key.json
@@ -389,6 +405,7 @@ Publish javadoc & schemas:
 Start a new release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   cache: {}
+  dependencies: []
   stage: release
   <<: *git_credentials
   script:
@@ -413,6 +430,7 @@ Start a new release:
 Finish the release:
   image: maven:3.5-jdk-8
   cache: {}
+  dependencies: []
   stage: release
   allow_failure: false
   <<: *git_credentials
