@@ -113,7 +113,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
    * Retrieve a new totalize line
    * @return New totalize line
    */
-  private Map<String, CellData> getNewLine() throws AWException {
+  private Map<String, CellData> getNewLine() {
     // Create new row
     Map<String, CellData> totalizeRow = new HashMap<>();
 
@@ -123,7 +123,6 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
       CellData cell = null;
 
       TransformCellProcessor transformProcessor = new TransformCellProcessor()
-              .setElements(getElements())
               .setField(field);
 
       columnIdentifier = transformProcessor.getColumnIdentifier();

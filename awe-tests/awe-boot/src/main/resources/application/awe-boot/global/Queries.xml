@@ -2351,4 +2351,37 @@
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
+  <query id="testServiceBeanParameter" service="testServiceBeanParameter">
+    <variable id="name" type="STRING" name="name"/>
+    <variable id="rotationPeriod" type="STRING" name="rotationPeriod"/>
+    <variable id="orbitalPeriod" type="STRING" name="orbitalPeriod"/>
+    <variable id="diameter" type="STRING" name="diameter"/>
+    <variable id="climate" type="STRING" name="climate"/>
+    <variable id="gravity" type="STRING" name="gravity"/>
+    <variable id="terrain" type="STRING" name="terrain"/>
+    <variable id="population" type="LONG" name="population"/>
+    <variable id="created" type="DATE" name="created"/>
+    <variable id="edited" type="DATE" name="edited"/>
+    <variable id="url" type="STRING" name="url"/>
+  </query>
+
+  <query id="testServiceBeanParameterList" service="testServiceBeanParameterList">
+    <variable id="name" type="STRING" name="name"/>
+    <variable id="rotationPeriod" type="STRING" name="rotationPeriod"/>
+    <variable id="orbitalPeriod" type="STRING" name="orbitalPeriod"/>
+    <variable id="diameter" type="STRING" name="diameter"/>
+    <variable id="climate" type="STRING" name="climate"/>
+    <variable id="gravity" type="STRING" name="gravity"/>
+    <variable id="terrain" type="STRING" name="terrain"/>
+    <variable id="population" type="LONG" name="population"/>
+    <variable id="created" type="DATE" name="created"/>
+    <variable id="edited" type="DATE" name="edited"/>
+    <variable id="url" type="STRING" name="url"/>
+  </query>
+
+  <query id="testServiceBeanListParameter" service="testServiceBeanListParameter">
+    <variable id="nameList" type="STRING" name="nameList"/>
+    <variable id="populationList" type="LONG" name="populationList"/>
+  </query>
+
 </queries>

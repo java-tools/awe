@@ -5,7 +5,10 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.util.data.DateUtil;
+import org.springframework.beans.PropertyAccessor;
+import org.springframework.beans.PropertyAccessorFactory;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -24,26 +27,42 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
    * @param paramsClassesToInvoke Classes to invoke
    * @throws AWException Error extracting parameters
    */
-  public void extractParameters(List<ServiceInputParameter> paramsFromXml, Map<String, Object> paramsMapFromRequest, Object[] paramsToInvoke, Class[] paramsClassesToInvoke) throws AWException {
+  void extractParameters(List<ServiceInputParameter> paramsFromXml, Map<String, Object> paramsMapFromRequest, Object[] paramsToInvoke, Class[] paramsClassesToInvoke) throws AWException {
     Integer iteratingParam = 0;
-    String paramNameToInvoke = "";
 
     // Add parameters into the parameter object list
     for (ServiceInputParameter param : paramsFromXml) {
-      if (param != null) {
-        paramNameToInvoke = param.getName();
-        if (param.isList()) {
-          paramsToInvoke[iteratingParam] = getParameterValueList(param, paramsMapFromRequest);
-          paramsClassesToInvoke[iteratingParam] = List.class;
-        } else {
-          Object paramValue = paramsMapFromRequest.get(paramNameToInvoke);
-          paramsToInvoke[iteratingParam] = getParameterValue(param, paramValue);
-          paramsClassesToInvoke[iteratingParam] = getParameterClass(param);
-        }
-        iteratingParam++;
+      extractParameter(param, paramsMapFromRequest, paramsToInvoke, paramsClassesToInvoke, iteratingParam++);
+    }
+  }
+
+  /**
+   * Extract parameters values
+   *
+   * @param parameter             XML parameter
+   * @param paramsMapFromRequest  Map parameters
+   * @param paramsToInvoke        Parameters to invoke
+   * @param paramsClassesToInvoke Classes to invoke
+   * @param index                 Parameter index
+   * @throws AWException Error extracting parameters
+   */
+  private void extractParameter(ServiceInputParameter parameter, Map<String, Object> paramsMapFromRequest, Object[] paramsToInvoke, Class[] paramsClassesToInvoke, Integer index) throws AWException {
+    if (parameter.getBeanClass() != null) {
+      Class beanClass = getParameterClass(parameter);
+      if (parameter.isList()) {
+        paramsToInvoke[index] = getParameterBeanListValue(beanClass, paramsMapFromRequest);
+        paramsClassesToInvoke[index] = List.class;
       } else {
-        throw new AWException(getLocale("ERROR_TITLE_WEB_SERVICE_CALL"),
-          getLocale("ERROR_MESSAGE_PARAMETER_NOT_FOUND", paramNameToInvoke));
+        paramsToInvoke[index] = getParameterBeanValue(beanClass, paramsMapFromRequest);
+        paramsClassesToInvoke[index] = beanClass;
+      }
+    } else {
+      if (parameter.isList()) {
+        paramsToInvoke[index] = getParameterListValue(parameter, paramsMapFromRequest);
+        paramsClassesToInvoke[index] = List.class;
+      } else {
+        paramsToInvoke[index] = getParameterValue(parameter, paramsMapFromRequest.get(parameter.getName()));
+        paramsClassesToInvoke[index] = getParameterClass(parameter);
       }
     }
   }
@@ -52,7 +71,7 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
    * Get parameter class
    * @param parameter Parameter
    */
-  public Class getParameterClass(ServiceInputParameter parameter) {
+  private Class getParameterClass(ServiceInputParameter parameter) {
     switch (ParameterType.valueOf(parameter.getType())) {
       case INTEGER:
         return Integer.class;
@@ -69,7 +88,11 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
       case BOOLEAN:
         return Boolean.class;
       case OBJECT:
-        return Object.class;
+        try {
+          return Class.forName(parameter.getBeanClass());
+        } catch (Exception exc) {
+          return Object.class;
+        }
       case STRING:
       default:
         return String.class;
@@ -79,25 +102,25 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
   /**
    * Extract parameters values
    *
-   * @param parameter             Parameter
-   * @param paramValue            Parameter value
+   * @param parameter      Parameter
+   * @param parameterValue Parameter value
    */
-  public Object getParameterValue(ServiceInputParameter parameter, Object paramValue) {
+  private Object getParameterValue(ServiceInputParameter parameter, Object parameterValue) {
     switch (ParameterType.valueOf(parameter.getType())) {
       case INTEGER:
       case LONG:
       case FLOAT:
       case DOUBLE:
       case BOOLEAN:
-        return "".equals(paramValue) ? null : paramValue;
+        return "".equals(parameterValue) ? null : parameterValue;
       case DATE:
       case TIME:
       case TIMESTAMP:
-        return "".equals(paramValue) ? null : DateUtil.web2Date((String) paramValue);
+        return "".equals(parameterValue) ? null : DateUtil.web2Date((String) parameterValue);
       case OBJECT:
       case STRING:
       default:
-        return paramValue;
+        return parameterValue;
     }
   }
 
@@ -108,7 +131,7 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
    * @param paramsMap map with parameters
    * @return Service call string
    */
-  public List<Object> getParameterValueList(ServiceInputParameter parameter, Map<String, Object> paramsMap) {
+  private List getParameterListValue(ServiceInputParameter parameter, Map<String, Object> paramsMap) {
 
     // Variable definition
     List parameterList = new ArrayList();
@@ -126,5 +149,77 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
       parameterList = new ArrayList();
     }
     return parameterList;
+  }
+
+  /**
+   * Retrieve parameter as bean value
+   * @param beanClass Bean class
+   * @param paramsMap Parameter map
+   * @param <T> Bean type
+   * @return Bean value
+   * @throws AWException
+   */
+  private <T> T getParameterBeanValue( Class<T> beanClass, Map<String, Object> paramsMap) throws AWException {
+    T parameterBean;
+    try {
+      // Generate row bean
+      parameterBean = beanClass.newInstance();
+    } catch (Exception exc) {
+      throw new AWException("Error converting datalist into a bean list", "Cannot create instance of " + beanClass.getSimpleName(), exc);
+    }
+
+    // Set field value if found in row
+    for (Field field : beanClass.getDeclaredFields()) {
+      if (paramsMap.containsKey(field.getName())) {
+        PropertyAccessor parameterBeanAccesor = PropertyAccessorFactory.forDirectFieldAccess(parameterBean);
+        parameterBeanAccesor.setPropertyValue(field.getName(), paramsMap.get(field.getName()));
+      }
+    }
+
+    return parameterBean;
+  }
+
+  /**
+   * Retrieve parameter as bean list value
+   * @param beanClass Bean class
+   * @param paramsMap Parameter map
+   * @param <T> Bean type
+   * @return Bean list
+   * @throws AWException
+   */
+  private <T> List<T> getParameterBeanListValue(Class<T> beanClass, Map<String, Object> paramsMap) throws AWException {
+    List<T> list = new ArrayList<>();
+    T parameterBean;
+
+    // Set field value if found in row
+    for (Field field : beanClass.getDeclaredFields()) {
+      if (paramsMap.containsKey(field.getName())) {
+        List valueList = (List) paramsMap.get(field.getName());
+
+        // Initialize list if first defined
+        if (list.size() < valueList.size()) {
+          for (int i = 0, t = valueList.size(); i < t; i++) {
+            // Initialize list
+            try {
+              // Generate row bean
+              parameterBean = beanClass.newInstance();
+              list.add(parameterBean);
+            } catch (Exception exc) {
+              throw new AWException("Error converting datalist into a bean list", "Cannot create instance of " + beanClass.getSimpleName(), exc);
+            }
+          }
+        }
+
+        // Store value in bean list
+        int index = 0;
+        for (Object value : valueList) {
+          T listBean = list.get(index++);
+          PropertyAccessor listBeanAccessor = PropertyAccessorFactory.forDirectFieldAccess(listBean);
+          listBeanAccessor.setPropertyValue(field.getName(), value);
+        }
+      }
+    }
+
+    return list;
   }
 }

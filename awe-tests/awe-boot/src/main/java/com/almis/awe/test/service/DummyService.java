@@ -8,6 +8,8 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.service.data.builder.EmailBuilder;
 import com.almis.awe.model.type.AnswerType;
+import com.almis.awe.test.bean.Planet;
+import com.almis.awe.test.bean.Planets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -309,5 +311,32 @@ public class DummyService extends ServiceConfig {
     }
 
     return serviceData;
+  }
+
+  /**
+   * Retrieve dummy data
+   * @param planet Planet bean
+   * @return Service data
+   */
+  public ServiceData getDummyData(Planet planet) {
+    return new ServiceData();
+  }
+
+  /**
+   * Retrieve dummy data
+   * @param planetList Planet bean list
+   * @return Service data
+   */
+  public ServiceData getDummyData(List<Planet> planetList) {
+    return new ServiceData();
+  }
+
+  /**
+   * Retrieve dummy data
+   * @param planets Planets bean
+   * @return Service data
+   */
+  public ServiceData getDummyData(Planets planets) {
+    return new ServiceData();
   }
 }
