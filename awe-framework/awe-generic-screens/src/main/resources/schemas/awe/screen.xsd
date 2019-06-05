@@ -1653,6 +1653,8 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="eq" />
       <xs:enumeration value="ne" />
+      <xs:enumeration value="contains" />
+      <xs:enumeration value="not contains" />
       <xs:enumeration value="ge" />
       <xs:enumeration value="le" />
       <xs:enumeration value="gt" />
