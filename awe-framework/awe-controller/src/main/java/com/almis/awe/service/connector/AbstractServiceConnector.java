@@ -188,26 +188,14 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
    * @throws AWException
    */
   private <T> List<T> getParameterBeanListValue(Class<T> beanClass, Map<String, Object> paramsMap) throws AWException {
-    List<T> list = new ArrayList<>();
-    T parameterBean;
+    List<T> list = null;
 
     // Set field value if found in row
     for (Field field : beanClass.getDeclaredFields()) {
       if (paramsMap.containsKey(field.getName())) {
         List valueList = (List) paramsMap.get(field.getName());
-
-        // Initialize list if first defined
-        if (list.size() < valueList.size()) {
-          for (int i = 0, t = valueList.size(); i < t; i++) {
-            // Initialize list
-            try {
-              // Generate row bean
-              parameterBean = beanClass.newInstance();
-              list.add(parameterBean);
-            } catch (Exception exc) {
-              throw new AWException("Error converting datalist into a bean list", "Cannot create instance of " + beanClass.getSimpleName(), exc);
-            }
-          }
+        if (list == null) {
+          list = initializeList(valueList, beanClass);
         }
 
         // Store value in bean list
@@ -221,5 +209,31 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
     }
 
     return list;
+  }
+
+  /**
+   * Initialize bean list
+   * @param valueList Value list
+   * @param beanClass Bean class
+   * @param <T>
+   * @return Initialized bean list
+   * @throws AWException
+   */
+  private <T> List<T> initializeList(List valueList, Class<T> beanClass) throws AWException {
+    List<T> beanList = new ArrayList<>();
+    // Initialize list if first defined
+    if (beanList.size() < valueList.size()) {
+      for (int i = 0, t = valueList.size(); i < t; i++) {
+        // Initialize list
+        try {
+          // Generate row bean
+          T parameterBean = beanClass.newInstance();
+          beanList.add(parameterBean);
+        } catch (Exception exc) {
+          throw new AWException("Error converting datalist into a bean list", "Cannot create instance of " + beanClass.getSimpleName(), exc);
+        }
+      }
+    }
+    return beanList;
   }
 }

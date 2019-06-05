@@ -217,7 +217,6 @@ Launch Sonar:
   script:
   - mvn $MAVEN_CLI_OPTS verify -Dskip.frontend=true -DgenerateCoverageReport=true sonar:sonar $SKIP_TESTS $SONAR_OPTS
   - cat awe-tests/awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
-  after_script:
   - sonarUrl="https://sonarcloud.io/api/project_branches/list?project=AWE"
   - sonarBranches=`curl -s $sonarUrl`
   - echo $sonarBranches
