@@ -110,7 +110,6 @@
   <!-- EMAIL DESTINATIONS -->
   <group id="EmlDst">
     <option label="ENUM_EML_DST_USR" value="EmlUsrLst" />
-    <!--Move to ALU <option label="ENUM_EML_DST_GRP" value="EmlGrpLst" /> -->
   </group>
 
   <!-- USERS-PROFILES BY MODULE -->
@@ -143,10 +142,6 @@
     <option label="hsql" value="hsql" />
     <option label="h2" value="h2" />
     <option label="mysql" value="mysql" />
-    <!--
-    <option label="teradata" value="teradata" />
-    <option label="postgre" value="postgre" />
-    -->
   </group>
 
   <!-- DATABASE DRIVERS TYPE -->
@@ -156,7 +151,7 @@
     <option label="ENUM_DRV_SYBASE" value="com.sybase.jdbc3.jdbc.SybDriver" />
     <option label="ENUM_DRV_HSQL" value="org.hsqldb.jdbc.JDBCDriver" />
     <option label="ENUM_DRV_H2" value="org.h2.Driver" />
-    <option label="ENUM_DRV_MYSQL" value="com.mysql.jdbc.Driver" />
+    <option label="ENUM_DRV_MYSQL" value="com.mysql.cj.jdbc.Driver" />
   </group>
 
   <!-- ENVIROMENTS -->

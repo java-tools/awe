@@ -119,6 +119,7 @@ The service parameter element are parameters passed from query or maintain to th
 | name        | **Required** | String    | Name of service parameter                | **Note:** Must be unique                      |
 | type        | **Required** | String    | Type of service parameter                | The possible values are: `STRING`, `INTEGER`, `FLOAT`, `DOUBLE`, `DATE`, `TIME` or `TIMESTAMP` |
 | value       | Optional     | String    | To set the parameter with a static value |                                               |
+| bean-class  | Optional     | String    | Manage parameter as a Java Bean          | Type must be `OBJECT`                         |
 
 ## **Java services**
 
@@ -152,9 +153,8 @@ Service definition with parameters
 Java class definition with parameters
 
 ```java
-package com.almis.awe.scheduler.controller;
-
-public class SchedulerController extends AWEController {
+@Service
+public class SchedulerService extends ServiceConfig {
   /**
    * Insert and schedule a new task
    *
@@ -162,10 +162,10 @@ public class SchedulerController extends AWEController {
    * @param sendStatus Status to send list
    * @param sendDestination Destination target list
    * @return ServiceData
-   * @throws AWException
    */
   public ServiceData insertSchedulerTask(Integer taskId, List<Integer> sendStatus, List<Integer> sendDestination) throws AWException {
-    return manager.insertSchedulerTask(taskId, sendStatus, sendDestination);
+    // Launch function
+    // ...
   } 
 }
 ```
@@ -182,20 +182,72 @@ Service definition without parameters
 Java class definition without parameters
 
 ```java
-package com.almis.awe.core.services.controller;
-
-public class ScreenController extends AWEController {
+@Service
+public class ScreenService extends ServiceConfig {
   /**
    * Initialize singleton with screens configurations info
    *
    */
   public void initScreenConfigurations() {
-    /* Variable definition */
-    ScreenManager mgr = new ScreenManager();
-
-    /* Launch function call */
-    mgr.initScreenConfigurations();
+    // Launch function
+    // ...
   } 
+}
+````
+
+Service definition with a bean parameter
+
+```xml
+<service id="testServiceBeanParameter">
+  <java classname="com.almis.awe.test.service.DummyService" method="getDummyData">
+    <service-parameter type="OBJECT" bean-class="com.almis.awe.test.bean.Planet"/>
+  </java>
+</service>
+```
+
+Java class definition with a bean parameter
+
+```java
+@Service
+public class DummyService extends ServiceConfig { 
+  /**
+   * Retrieve dummy data
+   * @param planet Planet bean
+   * @return Service data
+   */
+  public ServiceData getDummyData(Planet planet) {
+    ServiceData serviceData = new ServiceData();
+    // ...
+    return serviceData;
+  }
+}
+````
+
+Service definition with a bean parameter list
+
+```xml
+<service id="testServiceBeanParameterList">
+  <java classname="com.almis.awe.test.service.DummyService" method="getDummyData">
+    <service-parameter type="OBJECT" bean-class="com.almis.awe.test.bean.Planet" list="true"/>
+  </java>
+</service>
+```
+
+Java class definition with a bean parameter list
+
+```java
+@Service
+public class DummyService extends ServiceConfig { 
+  /**
+   * Retrieve dummy data
+   * @param planetList Planet bean list
+   * @return Service data
+   */
+  public ServiceData getDummyData(List<Planet> planetList) {
+    ServiceData serviceData = new ServiceData();
+    // ...
+    return serviceData;
+  }
 }
 ````
 
@@ -206,24 +258,21 @@ There is the procedure to set set query and maintain variable values in Java.
 **Java Service**
 
 ```java
-  import com.almis.awe.core.util.ContextUtil;
-
-  public class UserManager extends AWEManager { 
+  @Service
+  public class UserService extends ServiceConfig { 
 
     /**
      * Get user information
      *
-     * @param nif
+     * @param id User id
      * @return ServiceData
      */
     private ServiceData getUserData(String id) throws AWException {
       DataList userData = null;
       ServiceData srvDat = null;
 
-      ContextUtil.getContext().setParameter("opeId", id);
-      DataList userData = new DataController().launchQuery("getUserData");
-      
-      return userData.getServiceData();
+      getRequest().setParameter("opeId", id);
+      return getBean(QueryService.class).launchQuery("getUserData");
     }
   }
 

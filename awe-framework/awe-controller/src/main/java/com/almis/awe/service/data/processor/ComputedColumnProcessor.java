@@ -44,7 +44,6 @@ public class ComputedColumnProcessor implements ColumnProcessor {
     // Calculate transform
     if (computed.isTransform()) {
       transformProcessor = new TransformCellProcessor()
-              .setElements(getElements())
               .setField(computed);
     }
 
