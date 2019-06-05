@@ -820,6 +820,17 @@ aweApplication.factory('AweUtilities',
           return equals;
         },
         /**
+         * Compare if the second value is contained in the first value
+         * @param {string} value1
+         * @param {string} value2
+         * @returns {Boolean}
+         */
+        compareContainValues: function (value1, value2) {
+          let value1String = Utilities.isEmpty(value1) ? "" : String(value1).toUpperCase();
+          let value2String = Utilities.isEmpty(value2) ? "" : String(value2).toUpperCase();
+          return value1String.indexOf(value2String) > -1;
+        },
+        /**
          * Stop event propagation and default action
          * @param {Object} event
          * @return Object length

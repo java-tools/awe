@@ -131,7 +131,7 @@ The dependency elements are the definition of the *conditions* required to launc
 | id          | **Required** | String   | Component identifier     |  |
 | column      | Optional | String   | Column identifier of the component (appliable on grids) |  |
 | attribute   | Optional | String   | Attribute to check.          | See [attributes](#attributes) below. Default value is `selected` |
-| condition   | Optional | String   | Compare condition  | `eq` (equal), `ne` (not equal), `ge` (greater than or equal), `le` (less than or equal), `gt` (greater than), `lt` (less than), `in`, `is empty`, `is not empty` (default)|
+| condition   | Optional | String   | Compare condition  | See [dependency element conditions](#dependency-element-conditions). Default value is `is not empty`|
 | row         | Optional | String   | Row number from the grid to check the attribute | |
 | id2         | Optional | String   | Component identifier to compare |  |
 | column2     | Optional | String   | Column identifier of the component (appliable on grids) |                                               |
@@ -142,6 +142,20 @@ The dependency elements are the definition of the *conditions* required to launc
 | cancel      | Optional | Boolean  | Cancel the dependency if this element has not been checked (useful for mandatory events) | Default value is `false` |
 | alias       | Optional | String   | Name to apply to the dependency element. Useful for `launcher` dependency targets |  |
 | check-value | Optional | Boolean  | Check this element values (launch the dependency if this element changes) | Default value is `true` |
+
+#### Dependeny element conditions
+
+- `eq` Values are equal
+- `ne` Values are not equal
+- `contains` Value1 contains value2
+- `not contains` Value1 doesn't contain value2
+- `ge` Value1 is greater than or equal than value2
+- `le` Value1 is less than or equal than value2
+- `gt` Value1 is greater than value2
+- `lt` Value1 is less than value2
+- `in` Value1 is in value2 list
+- `is empty` Value1 is empty
+- `is not empty` Value1 is not empty
 
 ### Attributes
 

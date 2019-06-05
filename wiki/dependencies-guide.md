@@ -45,7 +45,7 @@ The difference between them is just that one is blocking whereas the other is no
 | ------------- |:-------------:| -----:|
 | Task          | The task that the dependency is going to execute    | **Required** |
 | Blocking      | Used to define if the dependency is going to be synchronous or asynchronous, and if it can cancel the synchronous dependencies execution stack | **Required** |
-|Order   | Synchronous dependency execution order, only needed if the `Blocking` option is set to `Yes`, otherwise it will be disabled |  **Required** |
+| Order         | Synchronous dependency execution order, only needed if the `Blocking` option is set to `Yes`, otherwise it will be disabled |  **Required** |
 
 ## Workflows
 
