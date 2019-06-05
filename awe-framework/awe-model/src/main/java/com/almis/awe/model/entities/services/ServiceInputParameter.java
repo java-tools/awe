@@ -41,6 +41,11 @@ public class ServiceInputParameter extends ServiceParameter {
   @XStreamAsAttribute
   private Boolean list;
 
+  // Parameter name
+  @XStreamAlias("bean-class")
+  @XStreamAsAttribute
+  private String beanClass;
+
   /**
    * Returns if is list
    * @return Is list
