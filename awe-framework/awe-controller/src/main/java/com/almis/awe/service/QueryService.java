@@ -129,7 +129,7 @@ public class QueryService extends ServiceConfig {
     ServiceData serviceData = getBean(QueueQueryConnector.class).onSubscriptionData(query, subscriptionData, parameterMap);
 
     // Add a client action to 'fill' a criterion or a grid
-    serviceData.addClientAction(new ClientAction("fill").setAddress(address).addParameter("data", new CellData(serviceData.getDataList())).setAsync(Boolean.TRUE));
+    serviceData.addClientAction(new ClientAction("fill").setAddress(address).addParameter("datalist", serviceData.getDataList()).setAsync(Boolean.TRUE));
 
     return serviceData;
   }

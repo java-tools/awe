@@ -1,6 +1,5 @@
 package com.almis.awe.test.unit.spring;
 
-import com.almis.awe.test.unit.builder.ScreenBuilderTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -13,7 +12,6 @@ import org.junit.runners.Suite;
   MenuServiceTest.class,
   TemplateControllerTest.class,
   UserServiceTest.class,
-  ScreenBuilderTest.class,
   UploadControllerTest.class
 })
 @RunWith(Suite.class)

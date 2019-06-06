@@ -4,17 +4,16 @@ import com.almis.awe.annotation.entities.audit.Audit;
 import com.almis.awe.annotation.entities.audit.AuditParams;
 import com.almis.awe.annotation.entities.util.Download;
 import com.almis.awe.annotation.util.SpringExpressionLanguageParser;
+import com.almis.awe.builder.client.DownloadActionBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.FileData;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ClientAction;
-import com.almis.awe.model.util.file.FileUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
@@ -31,28 +30,16 @@ import java.nio.file.Paths;
 @Aspect
 public class DownloadAnnotation {
 
-  @Value ("${application.base.path:/}")
+  @Value("${application.base.path:/}")
   private String applicationBasePath;
 
-  @Value ("${application.paths.temp:/temp/}")
+  @Value("${application.paths.temp:/temp/}")
   private String tempBasePath;
-
-  // Autowired services
-  private FileUtil fileUtil;
-
-  /**
-   * Autowired constructor
-   * @param fileUtil File utilities
-   */
-  @Autowired
-  public DownloadAnnotation(FileUtil fileUtil) {
-    this.fileUtil = fileUtil;
-  }
 
   /**
    * Pointcut for annotated methods
    */
-  @Pointcut ("execution(@com.almis.awe.annotation.entities.util.Download * *.*(..))")
+  @Pointcut("execution(@com.almis.awe.annotation.entities.util.Download * *.*(..))")
   void annotatedMethod() {
     //This is a pointcut for Audit annotations
   }
@@ -61,21 +48,17 @@ public class DownloadAnnotation {
    * GoTo annotation on methods
    *
    * @param proceedingJoinPoint Join point
-   *
    * @throws AWException Error on pointcut
    */
-  @Around ("com.almis.awe.annotation.aspect.DownloadAnnotation.annotatedMethod()")
+  @Around("com.almis.awe.annotation.aspect.DownloadAnnotation.annotatedMethod()")
   public Object goToMethodProcessor(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
     MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
     Download downloadAnnotation = org.springframework.core.annotation.AnnotationUtils.getAnnotation(methodSignature.getMethod(), Download.class);
 
     Object result = proceedingJoinPoint.proceed();
+    File file;
 
-    File file = null;
-    ClientAction downloadAction;
-    FileData fileData;
-
-    //Get file dynamically with Spring Expression Language
+    // Get file dynamically with Spring Expression Language
     try {
       file = new SpringExpressionLanguageParser(
         methodSignature.getParameterNames(),
@@ -101,19 +84,19 @@ public class DownloadAnnotation {
       }
     }
 
-    //Generate client action and return
+    // Generate client action and return
     if (file != null) {
-      fileData = new FileData(file.getName(), file.length(), "application/octet-stream");
+      FileData fileData = new FileData(file.getName(), file.length(), "application/octet-stream");
       fileData.setBasePath(file.getParent());
       fileData.setFileName(downloadAnnotation.name());
 
-      downloadAction = new ClientAction("get-file").addParameter("filename", fileUtil.fileDataToString(fileData));
+      DownloadActionBuilder actionBuilder = new DownloadActionBuilder(fileData);
 
-      //Return client action
+      // Return client action
       if (result instanceof ServiceData) {
-        return ((ServiceData) result).addClientAction(downloadAction);
+        return ((ServiceData) result).addClientAction(actionBuilder.build());
       } else if (result instanceof ClientAction) {
-        return downloadAction;
+        return actionBuilder.build();
       }
     }
 

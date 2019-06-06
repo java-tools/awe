@@ -2,7 +2,7 @@ Almis Web Engine > **[Advanced Development Guide](advanced-developer-guide.md)**
 
 ---
 
-# **REST API**
+# **AWE REST API Module**
 
 ## Table of Contents
 

@@ -1,5 +1,6 @@
 package com.almis.awe.test;
 
+import com.almis.awe.test.unit.builder.BuildersTestsSuite;
 import com.almis.awe.test.unit.categories.CIDatabaseTest;
 import com.almis.awe.test.unit.hsql.SpringHsqlTestsSuite;
 import com.almis.awe.test.unit.pojo.PojoTestsSuite;
@@ -18,7 +19,8 @@ import org.junit.runners.Suite.SuiteClasses;
   SpringBootTestsSuite.class,
   SpringRestTestsSuite.class,
   UtilitiesTestsSuite.class,
-  PojoTestsSuite.class
+  PojoTestsSuite.class,
+  BuildersTestsSuite.class
 })
 public class AllTestsSuite {
 }
