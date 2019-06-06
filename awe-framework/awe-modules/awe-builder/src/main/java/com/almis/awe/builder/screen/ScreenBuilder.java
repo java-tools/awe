@@ -1,5 +1,6 @@
 package com.almis.awe.builder.screen;
 
+import com.almis.awe.builder.client.ScreenActionBuilder;
 import com.almis.awe.builder.screen.base.AbstractElementBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweElements;
@@ -51,8 +52,7 @@ public class ScreenBuilder extends AbstractElementBuilder<ScreenBuilder, Screen>
     aweElements.setMenu(getMenuType(), menu);
 
     // Generate client action to retrieve screen
-    ClientAction clientAction = new ClientAction("screen")
-      .setTarget(screen.getId());
+    ClientAction clientAction = new ScreenActionBuilder(screen.getId()).build();
 
     return new ServiceData()
       .addClientAction(clientAction);

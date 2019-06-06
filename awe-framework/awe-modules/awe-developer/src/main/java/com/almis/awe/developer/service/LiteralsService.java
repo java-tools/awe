@@ -1,5 +1,7 @@
 package com.almis.awe.developer.service;
 
+import com.almis.awe.builder.client.SelectActionBuilder;
+import com.almis.awe.builder.client.grid.UpdateCellActionBuilder;
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.developer.comparator.CompareLocal;
 import com.almis.awe.developer.type.FormatType;
@@ -12,7 +14,6 @@ import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.Global;
 import com.almis.awe.model.entities.XMLFile;
-import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.entities.locale.Locales;
 import com.almis.awe.model.type.AnswerType;
@@ -20,7 +21,6 @@ import com.almis.awe.model.util.data.DataListUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -35,20 +35,14 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author agomez
- *
  */
 public class LiteralsService extends ServiceConfig {
 
   private static final String FILE_DESCRIPTION = "Application Locales";
-  private static final String SELECT = "select";
-  private static final String VALUES = "values";
 
   @Value("${extensions.xml:.xml}")
   private String xmlExtension;
@@ -77,8 +71,9 @@ public class LiteralsService extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param pathService Path service
-   * @param serializer Serializer
+   * @param serializer  Serializer
    */
   @Autowired
   public LiteralsService(PathService pathService, XStreamSerializer serializer) {
@@ -89,9 +84,9 @@ public class LiteralsService extends ServiceConfig {
   /**
    * Translate from one language to other
    *
-   * @param text Text to translate
+   * @param text         Text to translate
    * @param fromLanguage Source language
-   * @param toLanguage Target language
+   * @param toLanguage   Target language
    * @return Translation
    * @throws AWException Error translating text
    */
@@ -99,7 +94,7 @@ public class LiteralsService extends ServiceConfig {
     ServiceData serDat = new ServiceData();
     String result = getTranslation(text, fromLanguage, toLanguage);
 
-    String[] arr = { result };
+    String[] arr = {result};
     serDat.setData(arr);
 
     return serDat;
@@ -108,7 +103,7 @@ public class LiteralsService extends ServiceConfig {
   /**
    * Returns the locale match list for a string given the language
    *
-   * @param literal Code
+   * @param literal  Code
    * @param codeLang Language
    * @return Service
    * @throws AWException Error retrieving locale matches
@@ -149,12 +144,13 @@ public class LiteralsService extends ServiceConfig {
 
   /**
    * Save translation
+   *
    * @param formatSelector Format selector
-   * @param text Text
-   * @param markdown Markdown
-   * @param codeLang Language
-   * @param searchLang Language (search)
-   * @param code Code
+   * @param text           Text
+   * @param markdown       Markdown
+   * @param codeLang       Language
+   * @param searchLang     Language (search)
+   * @param code           Code
    * @return Translation stored
    * @throws AWException Error storing translation
    */
@@ -178,32 +174,19 @@ public class LiteralsService extends ServiceConfig {
     serviceData.setTitle(getElements().getLocale("OK_TITLE_LOCAL_UPDATED"));
     serviceData.setMessage(getElements().getLocale("OK_MESSAGE_LOCAL_UPDATED", code));
 
-    // Update translation grid
-    ClientAction updateCell = new ClientAction("update-cell");
-
     // Build address of cell
-    ComponentAddress address = new ComponentAddress(null, null, "report", null, "GrdTraLit", codeLang, "lite");
-    updateCell.setAddress(address);
-    updateCell.setAsync(true);
-    updateCell.setSilent(true);
-    updateCell.addParameter("data", new CellData(value));
+    ComponentAddress address = new ComponentAddress("report", "GrdTraLit", codeLang, "lite");
 
     // Add action to list
-    serviceData.addClientAction(updateCell);
+    serviceData.addClientAction(new UpdateCellActionBuilder(address, new CellData(value)).build());
 
     // If saved translation's language is the same as from searched, update locale list grid
     if (codeLang.equalsIgnoreCase(searchLang)) {
-      updateCell = new ClientAction("update-cell");
-
       // Build address of cell
-      address = new ComponentAddress(null, null, "report", null, "GrdStrLit", code, "lit");
-      updateCell.setAddress(address);
-      updateCell.setAsync(true);
-      updateCell.setSilent(true);
-      updateCell.addParameter("data", new CellData(value));
+      address = new ComponentAddress("report", "GrdStrLit", code, "lit");
 
       // Add action to list
-      serviceData.addClientAction(updateCell);
+      serviceData.addClientAction(new UpdateCellActionBuilder(address, new CellData(value)).build());
     }
 
     return serviceData;
@@ -213,8 +196,8 @@ public class LiteralsService extends ServiceConfig {
    * Save new literal
    *
    * @param codeLang Language
-   * @param code Code
-   * @param literal Text
+   * @param code     Code
+   * @param literal  Text
    * @return New literal created
    * @throws AWException Error creating new locale
    */
@@ -254,6 +237,7 @@ public class LiteralsService extends ServiceConfig {
 
   /**
    * Delete literal
+   *
    * @param code Code
    * @return Deletion message
    * @throws AWException Error deleting locale
@@ -278,14 +262,15 @@ public class LiteralsService extends ServiceConfig {
 
   /**
    * Returns using language
+   *
    * @return Used language
    */
-  public ServiceData getUsingLanguage()  {
+  public ServiceData getUsingLanguage() {
     getLogger().log(LiteralsService.class, Level.INFO, "getUsingLanguage");
     ServiceData serviceData = new ServiceData();
 
     String codeLang = getElements().getProperty("var.glb.lan");
-    String[] labval = { "ENUM_LAN_" + codeLang, codeLang.toLowerCase() };
+    String[] labval = {"ENUM_LAN_" + codeLang, codeLang.toLowerCase()};
     serviceData.setData(labval);
 
     return serviceData;
@@ -295,14 +280,13 @@ public class LiteralsService extends ServiceConfig {
    * Get markdown text of literal from file
    *
    * @param codeLang Language
-   * @param code code
+   * @param code     code
    * @return markdown text
    * @throws AWException Error retrieving markdown
    */
   public ServiceData getSelectedLocale(String codeLang, String code) throws AWException {
-    JsonNodeFactory factory = JsonNodeFactory.instance;
-    ArrayNode value = factory.arrayNode();
-    ArrayNode type = factory.arrayNode();
+    List<String> values = new ArrayList();
+    List<String> types = new ArrayList();
     FormatType format = FormatType.TEXT;
     ServiceData serviceData = new ServiceData();
 
@@ -313,48 +297,22 @@ public class LiteralsService extends ServiceConfig {
       for (Global global : globals) {
         if (global.getName().equalsIgnoreCase(code)) {
           if (global.getMarkdown() != null && !"".equals(global.getMarkdown())) {
-            value.add(global.getMarkdown());
+            values.add(global.getMarkdown());
             format = FormatType.MARKDOWN;
           } else {
-            value.add(global.getValue());
+            values.add(global.getValue());
             format = FormatType.TEXT;
           }
         }
       }
       // Store format
-      type.add(format.toString());
-
-      String selectAction = SELECT;
-      String valuesParameter = VALUES;
-      // Select text value action
-      ClientAction selectTextValue = new ClientAction(selectAction);
-      selectTextValue.addParameter(valuesParameter, new CellData(value));
-      selectTextValue.setTarget("litTxt");
-      selectTextValue.setAsync(true);
-
-      // Select markdown value action
-      ClientAction selectMarkdownValue = new ClientAction(selectAction);
-      selectMarkdownValue.addParameter(valuesParameter, new CellData(value));
-      selectMarkdownValue.setTarget("litMrk");
-      selectMarkdownValue.setAsync(true);
-
-      // Select format action
-      ClientAction selectFormat = new ClientAction(selectAction);
-      selectFormat.addParameter(valuesParameter, new CellData(type));
-      selectFormat.setTarget("FormatSelector");
-      selectFormat.setAsync(true);
-
-      // Select format action
-      ClientAction selectFlag = new ClientAction(selectAction);
-      selectFlag.addParameter(valuesParameter, new CellData(type));
-      selectFlag.setTarget("FlgStoLit");
-      selectFlag.setAsync(true);
+      types.add(format.toString());
 
       // Add actions to list
-      serviceData.addClientAction(selectTextValue);
-      serviceData.addClientAction(selectMarkdownValue);
-      serviceData.addClientAction(selectFormat);
-      serviceData.addClientAction(selectFlag);
+      serviceData.addClientAction(new SelectActionBuilder("litTxt", values).setAsync(true).build());
+      serviceData.addClientAction(new SelectActionBuilder("litMrk", values).setAsync(true).build());
+      serviceData.addClientAction(new SelectActionBuilder("FormatSelector", types).setAsync(true).build());
+      serviceData.addClientAction(new SelectActionBuilder("FlgStoLit", types).setAsync(true).build());
     }
 
     return serviceData;
@@ -364,36 +322,15 @@ public class LiteralsService extends ServiceConfig {
    * Switch the languages
    *
    * @param fromLanguage Source language
-   * @param toLanguage Target language
-   * @param fromTarget Source target
-   * @param toTarget Target target
+   * @param toLanguage   Target language
+   * @param fromTarget   Source target
+   * @param toTarget     Target target
    * @return Languages changed
    */
   public ServiceData switchLanguages(String fromLanguage, String toLanguage, String fromTarget, String toTarget) {
-    ServiceData serviceData = new ServiceData();
-    JsonNodeFactory factory = JsonNodeFactory.instance;
-    ArrayNode from = factory.arrayNode();
-    ArrayNode to = factory.arrayNode();
-
-    // Add the values
-    from.add(toLanguage);
-    to.add(fromLanguage);
-
-    // Select value action
-    ClientAction fromAction = new ClientAction(SELECT);
-    fromAction.addParameter(VALUES, new CellData(from));
-    fromAction.setTarget(fromTarget);
-
-    // Select format action
-    ClientAction toAction = new ClientAction(SELECT);
-    toAction.addParameter(VALUES, new CellData(to));
-    toAction.setTarget(toTarget);
-
-    // Add actions to list
-    serviceData.addClientAction(fromAction);
-    serviceData.addClientAction(toAction);
-
-    return serviceData;
+    return new ServiceData()
+      .addClientAction(new SelectActionBuilder(fromTarget, Arrays.asList(toLanguage)).build())
+      .addClientAction(new SelectActionBuilder(toTarget, Arrays.asList(fromLanguage)).build());
   }
 
   /**
@@ -401,7 +338,7 @@ public class LiteralsService extends ServiceConfig {
    *
    * @param literal  Locale
    * @param fromLang Source language
-   * @param toLang Target language
+   * @param toLang   Target language
    * @return Locale translated
    * @throws AWException Error translating locale
    */
@@ -421,11 +358,11 @@ public class LiteralsService extends ServiceConfig {
 
       if ("".equalsIgnoreCase(translation)) {
         throw new AWException(getElements().getLocale("ERROR_TITLE_RETRIEVING_TRANSLATION"),
-                getElements().getLocale("ERROR_MESSAGE_RETRIEVING_TRANSLATION", toLang, literal));
+          getElements().getLocale("ERROR_MESSAGE_RETRIEVING_TRANSLATION", toLang, literal));
       }
     } catch (IOException exc) {
       throw new AWException(getElements().getLocale("ERROR_TITLE_RETRIEVING_TRANSLATION"),
-              getElements().getLocale("ERROR_MESSAGE_RETRIEVING_TRANSLATION", toLang, literal), exc);
+        getElements().getLocale("ERROR_MESSAGE_RETRIEVING_TRANSLATION", toLang, literal), exc);
     }
 
     return translation;
@@ -436,7 +373,7 @@ public class LiteralsService extends ServiceConfig {
    * Search literal in file
    *
    * @param codeLang Language
-   * @param search Search string
+   * @param search   Search string
    * @return matches
    * @throws AWException Error finding string in file
    */
@@ -472,6 +409,7 @@ public class LiteralsService extends ServiceConfig {
 
   /**
    * Check if search string matches values
+   *
    * @param search Search string
    * @param values Values
    * @return Search string matches values
@@ -492,7 +430,7 @@ public class LiteralsService extends ServiceConfig {
   /**
    * Returns locale by the locale key and language code
    *
-   * @param code Code
+   * @param code     Code
    * @param codeLang Language
    * @return result Array of translations
    * @throws AWException Error retrieving locale
@@ -523,10 +461,10 @@ public class LiteralsService extends ServiceConfig {
   /**
    * Save modifications in file
    *
-   * @param codeLang Language
-   * @param code Code
-   * @param text Text
-   * @param markdown Markdown
+   * @param codeLang       Language
+   * @param code           Code
+   * @param text           Text
+   * @param markdown       Markdown
    * @param formatSelector Format
    * @throws AWException Error stroring locale
    */
@@ -534,7 +472,7 @@ public class LiteralsService extends ServiceConfig {
 
     // Read locale File List for a LANGUAGE
     Locales localesFromFile = readLocalesFromFile(codeLang);
-    if  (localesFromFile != null) {
+    if (localesFromFile != null) {
       List<Global> globals = localesFromFile.getLocales();
       for (Global global : globals) {
         if (code.equalsIgnoreCase(global.getName())) {
@@ -560,8 +498,8 @@ public class LiteralsService extends ServiceConfig {
    * Save new local in XML file
    *
    * @param codeLang Language
-   * @param code Code
-   * @param text Text
+   * @param code     Code
+   * @param text     Text
    * @throws AWException Error storing locale
    */
   private void storeNewLocale(String codeLang, String code, String text) throws AWException {
@@ -599,7 +537,7 @@ public class LiteralsService extends ServiceConfig {
    * Delete literal from file
    *
    * @param codeLang Language
-   * @param code Code
+   * @param code     Code
    * @throws AWException Error deleting locale
    */
   private void storeDeletedLocale(String codeLang, String code) throws AWException {
@@ -629,7 +567,7 @@ public class LiteralsService extends ServiceConfig {
    *
    * @param globals Globals
    */
-  private void fixMarkdown(List<Global> globals)  {
+  private void fixMarkdown(List<Global> globals) {
     // Fix markdown attribute
     for (Global global : globals) {
       if (global.getMarkdown() != null && global.getMarkdown().isEmpty()) {
@@ -657,8 +595,7 @@ public class LiteralsService extends ServiceConfig {
    * Read all XML files and return them
    *
    * @param fileClass File class
-   * @param path File path
-   *
+   * @param path      File path
    * @return Xml file object
    */
   private XMLFile readXmlFile(Class<? extends XMLFile> fileClass, String path) {
@@ -720,16 +657,16 @@ public class LiteralsService extends ServiceConfig {
       throw exc;
     } catch (Exception exc) {
       throw new AWException(getElements().getLocale("ERROR_TITLE_STORE_FILE"),
-              getElements().getLocale("ERROR_MESSAGE_STORE_FILE", fileName), exc);
+        getElements().getLocale("ERROR_MESSAGE_STORE_FILE", fileName), exc);
     }
   }
 
   /**
    * Returns the URL to make a call for translation to the API
    *
-   * @param literal Locale
+   * @param literal  Locale
    * @param fromLang Source language
-   * @param toLang Target language
+   * @param toLang   Target language
    * @return Url string
    * @throws IOException Error calling api
    */
@@ -738,9 +675,9 @@ public class LiteralsService extends ServiceConfig {
     /* GLOSBE */
     String encodedText = URLEncoder.encode(literal, StandardCharsets.UTF_8.toString());
     String url = new StringBuilder().append(translationApiUrl)
-            .append("?").append(keyParameter).append("=").append(translationApiKey)
-            .append("&").append(languageParameter).append("=").append(fromLang.toLowerCase()).append("-").append(toLang.toLowerCase())
-            .append("&").append(textParameter).append("=").append(encodedText).toString();
+      .append("?").append(keyParameter).append("=").append(translationApiKey)
+      .append("&").append(languageParameter).append("=").append(fromLang.toLowerCase()).append("-").append(toLang.toLowerCase())
+      .append("&").append(textParameter).append("=").append(encodedText).toString();
 
     URLConnection connection = new URL(url).openConnection();
 

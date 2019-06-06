@@ -1,7 +1,6 @@
 package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.annotation.entities.security.Hash;
-import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.FileData;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.util.file.FileUtil;
@@ -58,7 +57,7 @@ public class AnnotationTest extends AweSpringBootTests {
   public void checkCryptoAnnotations() throws Exception {
     // Crypto annotation on input parameters
     logger.warn("Check crypto annotations");
-    String encriptedTextUtil = EncodeUtil.encryptAes("Moderdonio",  "1234");
+    String encriptedTextUtil = EncodeUtil.encryptAes("Moderdonio", "1234");
     logger.warn("EncodeUtil => " + encriptedTextUtil);
     String encryptedText = annotationTestService.encryptText("Moderdonio");
     logger.warn("Annotation => " + encryptedText);
@@ -96,36 +95,38 @@ public class AnnotationTest extends AweSpringBootTests {
 
   @Test
   public void checkGoToAnnotation() {
-    //Test message audit | Symbolic, some Audit messages should appear on the log files
+    // Test message audit | Symbolic, some Audit messages should appear on the log files
     Assert.assertEquals("index", annotationTestService.testGoToAnnotation().getClientActionList().get(0).getTarget());
+
+    // Test message audit | Symbolic, some Audit messages should appear on the log files
+    Assert.assertEquals("index", annotationTestService.testGoToAnnotationClientAction().getTarget());
+
+    // Test message audit | Symbolic, some Audit messages should appear on the log files
+    Assert.assertEquals("default", annotationTestService.testGoToAnnotationWithoutScreen().getTarget());
+
+    // Test message audit | Symbolic, some Audit messages should appear on the log files
+    Assert.assertEquals("default", annotationTestService.testGoToAnnotationReturningString());
   }
 
   @Test
   public void checkDownloadAnnotation() throws Exception {
     String file = this.getClass().getClassLoader().getResource("application.properties").getFile();
 
-    //Create sample file
-    //Files.createFile(new java.io.File(applicationBasePath + File.separator + file).toPath());
-
     FileData fileData = new FileData(new java.io.File(file).getName(), new java.io.File(file).length(), "application/octet-stream");
     fileData.setBasePath(new File(file).getParent());
     fileData.setFileName("customName");
-    CellData fileDataCell = new CellData(fileUtil.fileDataToString(fileData));
+    String fileDataString = fileUtil.fileDataToString(fileData);
 
     ClientAction clientAction = annotationTestService.downloadFile();
-
-    Assert.assertEquals(fileDataCell, clientAction.getParameterMap().get("filename"));
+    Assert.assertEquals(fileDataString, clientAction.getParameterMap().get("filename"));
 
     ClientAction clientAction2 = annotationTestService.downloadFileNoParam();
-
-    Assert.assertEquals(fileDataCell, clientAction2.getParameterMap().get("filename"));
+    Assert.assertEquals(fileDataString, clientAction2.getParameterMap().get("filename"));
 
     ClientAction clientAction3 = annotationTestService.downloadFileFromVar(new File(file));
-
-    Assert.assertEquals(fileDataCell, clientAction3.getParameterMap().get("filename"));
+    Assert.assertEquals(fileDataString, clientAction3.getParameterMap().get("filename"));
 
     ClientAction clientAction4 = annotationTestService.downloadFileFromVarMixed(file);
-
-    Assert.assertEquals(fileDataCell, clientAction4.getParameterMap().get("filename"));
+    Assert.assertEquals(fileDataString, clientAction4.getParameterMap().get("filename"));
   }
 }
