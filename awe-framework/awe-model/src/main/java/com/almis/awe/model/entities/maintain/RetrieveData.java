@@ -3,7 +3,6 @@ package com.almis.awe.model.entities.maintain;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,20 +24,15 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Accessors(chain = true)
-@XStreamAlias("multiple")
-public class Multiple extends MaintainQuery {
-
-  // Audit table name
-  @XStreamAlias("grid")
-  @XStreamAsAttribute
-  private String grid;
+@XStreamAlias("retrieve-data")
+public class RetrieveData extends MaintainQuery {
 
   // Maintain type
   @XStreamOmitField
-  private static final MaintainType maintainType = MaintainType.MULTIPLE;
+  private static final MaintainType maintainType = MaintainType.RETRIEVE_DATA;
 
   @Override
-  public Multiple copy() throws AWException {
+  public RetrieveData copy() throws AWException {
     return this.toBuilder().build();
   }
 

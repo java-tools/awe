@@ -651,6 +651,25 @@ public class MaintainTest extends AweSpringDatabaseTests {
     logger.debug(result);
   }
 
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testRetrieveDataAndInsertAfter() throws Exception {
+    loginUser();
+
+    String maintainName = "testRetrieveDataAndInsertAfter";
+    String variables = "";
+    String expected = "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"INSERT\",\"rowsAffected\":1},{\"operationType\":\"INSERT\",\"rowsAffected\":1}]}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.debug(result);
+
+    // Clean the mess
+    cleanUp("CleanUp");
+  }
+
   // *****************************************************************************************************************//
   // EMAIL TESTS
   // **************************************************************************************************************** //

@@ -388,13 +388,12 @@ public class AweAutoConfiguration {
    * Report generator
    * @param reportDesigner Report designer
    * @param ade ADE Api
-   * @param fileUtil File util
    * @return Report generator bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public ReportGenerator reportGenerator(ReportDesigner reportDesigner, ADE ade, FileUtil fileUtil) {
-    return new ReportGenerator(reportDesigner, ade, fileUtil);
+  public ReportGenerator reportGenerator(ReportDesigner reportDesigner, ADE ade) {
+    return new ReportGenerator(reportDesigner, ade);
   }
 
   /**

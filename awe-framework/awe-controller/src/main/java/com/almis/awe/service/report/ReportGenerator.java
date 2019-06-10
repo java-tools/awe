@@ -38,7 +38,6 @@ public class ReportGenerator extends ServiceConfig {
   // Autowired services
   private ReportDesigner designer;
   private ADE adeAPI;
-  private FileUtil fileUtil;
 
   @Value("${settings.dataSuffix:.data}")
   private String dataSuffix;
@@ -53,13 +52,11 @@ public class ReportGenerator extends ServiceConfig {
    * Autowired constructor
    * @param reportDesigner Report designer
    * @param adeAPI ADE API
-   * @param fileUtil File util
    */
   @Autowired
-  public ReportGenerator(ReportDesigner reportDesigner, ADE adeAPI, FileUtil fileUtil) {
+  public ReportGenerator(ReportDesigner reportDesigner, ADE adeAPI) {
     this.designer = reportDesigner;
     this.adeAPI = adeAPI;
-    this.fileUtil = fileUtil;
   }
 
   /**
@@ -234,7 +231,7 @@ public class ReportGenerator extends ServiceConfig {
 
     // Generate client action with file data
     return new AsyncResult<>(new ClientAction("get-file")
-            .addParameter("filename", fileUtil.fileDataToString(fileData)));
+            .addParameter("filename", FileUtil.fileDataToString(fileData)));
 
   }
 }

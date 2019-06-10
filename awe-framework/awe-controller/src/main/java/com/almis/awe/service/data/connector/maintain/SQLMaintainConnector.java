@@ -77,9 +77,9 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
     // Variable definition
     long rowsUpdated;
-    boolean auditActive;
     boolean isBatch = query.isBatch();
 
+    AbstractSQLClause<?> queryBuilt = null;
     AbstractSQLClause<?> auditQueryBuilt = null;
 
     // Store service data
@@ -90,25 +90,12 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     // Initialize SQL query factory
     SQLQueryFactory queryFactory = new SQLQueryFactory(getConfiguration(connectionType), connectionProvider);
 
-    // Check if operation should be audited
-    auditActive = audit && query.getAuditTable() != null;
-
     // Get maintain builder
-    SQLMaintainBuilder builder = getBean(SQLMaintainBuilder.class);
-
-    // Build query
-    AbstractSQLClause<?> queryBuilt = builder.setMaintain(query)
-            .setVariableIndex(0)
-            .setOperation(MaintainBuildOperation.NO_BATCH)
-            .setFactory(queryFactory)
-            .setVariables(parameterMap)
-            .build();
-
-    if (auditActive) {
-      // Build AUDIT query
-      auditQueryBuilt = builder.setAudit(true)
-              .build();
-    }
+    SQLMaintainBuilder builder = getBean(SQLMaintainBuilder.class)
+      .setMaintain(query)
+      .setOperation(MaintainBuildOperation.NO_BATCH)
+      .setFactory(queryFactory)
+      .setVariables(parameterMap);
 
     // If we have a variable which is a list, generate a audit query for each value
     Integer indexMaintain = 0;
@@ -182,8 +169,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     boolean auditActive;
     boolean isBatch = query.isBatch();
 
-    AbstractSQLClause<?> queryBuilt;
-    AbstractSQLClause<?> auditQueryBuilt;
+    AbstractSQLClause<?> auditQueryBuilt = null;
 
     // Store service data
     ServiceData maintainOut = new ServiceData();
@@ -197,25 +183,18 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     auditActive = audit && query.getAuditTable() != null;
 
     // Get maintain builder
-    SQLMaintainBuilder builder = getBean(SQLMaintainBuilder.class);
-
-    // Build query
-    queryBuilt = builder.setMaintain(query)
-            .setOperation(MaintainBuildOperation.NO_BATCH)
-            .setFactory(queryFactory)
-            .setVariables(parameterMap)
-            .build();
+    SQLMaintainBuilder builder = getBean(SQLMaintainBuilder.class)
+      .setMaintain(query)
+      .setOperation(MaintainBuildOperation.NO_BATCH)
+      .setFactory(queryFactory)
+      .setVariables(parameterMap);
 
     // Launch as single operation
-    rowsUpdated = launchAsSingleOperation(queryBuilt, null, false, query.getId());
-    maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<String, QueryParameter>(parameterMap)));
+    rowsUpdated = launchAsSingleOperation(builder.build(), null, false, query.getId());
+    maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(parameterMap)));
 
     // Audit the operation
     if (auditActive && rowsUpdated > 0) {
-      // Build AUDIT query
-      auditQueryBuilt = builder.setAudit(true)
-              .build();
-
       // If we have a variable which is a list, generate a audit query for each value
       Integer indexAudit = 0;
       while (hasNext(query, indexAudit, true, parameterMap)) {
@@ -269,29 +248,20 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     auditActive = audit && query.getAuditTable() != null;
 
     // Get maintain builder
-    SQLMaintainBuilder builder = getBean(SQLMaintainBuilder.class);
-
-    // Generate query
-    AbstractSQLClause<?> queryBuilt = builder.setMaintain(query)
-            .setVariableIndex(query.getVariableIndex())
-            .setOperation(MaintainBuildOperation.NO_BATCH)
-            .setFactory(queryFactory)
-            .setVariables(parameterMap)
-            .build();
+    SQLMaintainBuilder builder = getBean(SQLMaintainBuilder.class).setMaintain(query)
+      .setVariableIndex(query.getVariableIndex())
+      .setOperation(MaintainBuildOperation.NO_BATCH)
+      .setFactory(queryFactory)
+      .setVariables(parameterMap);
 
     // Launch as single operation
-    rowsUpdated = launchAsSingleOperation(queryBuilt, null, false, query.getId());
+    rowsUpdated = launchAsSingleOperation(builder.build(), null, false, query.getId());
     maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(parameterMap)));
 
     // If AUDIT table is defined and operation has updated any rows, AUDIT the operation
     if (auditActive && rowsUpdated > 0) {
-      // Generate AUDIT query
-      queryBuilt = builder.setAudit(true)
-              .setOperation(MaintainBuildOperation.NO_BATCH)
-              .build();
-
       // Launch as single operation
-      rowsUpdated = launchAsSingleOperation(queryBuilt, null, true, query.getId());
+      rowsUpdated = launchAsSingleOperation(builder.setAudit(true).setOperation(MaintainBuildOperation.NO_BATCH).build(), null, true, query.getId());
       maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, new HashMap<>(parameterMap)));
     }
 
@@ -301,7 +271,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
   /**
    * Launch batch operation
    * @param index Index audit
-   * @param queryBuilt Query built
+   * @param previousQuery Previous query
    * @param builder Maintain builder
    * @param maintainOut Maintain output
    * @param query Maintain query
@@ -309,8 +279,9 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
    * @throws AWException
    * @return Query built
    */
-  private AbstractSQLClause<?> launchBatchOperation(int index, AbstractSQLClause<?> queryBuilt, SQLMaintainBuilder builder, ServiceData maintainOut, MaintainQuery query, boolean addIndex, boolean isAudit) throws AWException {
+  private AbstractSQLClause<?> launchBatchOperation(int index, AbstractSQLClause<?> previousQuery, SQLMaintainBuilder builder, ServiceData maintainOut, MaintainQuery query, boolean addIndex, boolean isAudit) throws AWException {
     Long rowsUpdated;
+    AbstractSQLClause<?> queryBuilt;
 
     // Batch block
     MaintainType maintainType = isAudit ? MaintainType.AUDIT : query.getMaintainType();
@@ -325,13 +296,13 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
         builder.setVariableIndex(index);
       }
 
-      queryBuilt = builder.build();
+      previousQuery = builder.build();
     }
 
     // Build query given the initial definition
     builder.setAudit(isAudit)
       .setOperation(MaintainBuildOperation.BATCH_INCREASING_ELEMENTS)
-      .setPreviousQuery(queryBuilt);
+      .setPreviousQuery(previousQuery);
 
     // Add index if defined
     if (addIndex) {
@@ -370,17 +341,16 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     MaintainType maintainType = isAudit ? MaintainType.AUDIT : query.getMaintainType();
 
     // Build query
-    builder.setAudit(isAudit)
+    builder
+      .setAudit(isAudit)
       .setOperation(MaintainBuildOperation.NO_BATCH);
 
     if (addIndex) {
       builder.setVariableIndex(index);
     }
 
-    AbstractSQLClause<?> queryBuilt = builder.build();
-
     // Launch as single operation
-    Long rowsUpdated = launchAsSingleOperation(queryBuilt, index, true, query.getId());
+    Long rowsUpdated = launchAsSingleOperation(builder.build(), index, isAudit, query.getId());
     maintainOut.addResultDetails(new MaintainResultDetails(maintainType, rowsUpdated, new HashMap<>(builder.getVariables())));
 
     // Restore query's initial definition
@@ -407,14 +377,14 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
     // Audit message
     String auditMessage = isAudit ? "[AUDIT] " : "";
-    String indexMessage = index == null ? "" : index.toString();
+    String indexMessage = index == null ? "" : " (" + index.toString() + ")";
     String sql = StringUtil.toUnilineText(statement.getSQL().get(statement.getSQL().size() - 1).getSQL());
 
     // Shorten sql clause
     String sqlShortened = StringUtil.shortenText(sql, logLimit, "...");
 
     // Log operation
-    getLogger().log(this.getClass(), Level.INFO, "{0}[{1} ({2})] [{3}] => {4} rows affected - Elapsed time: {5}s",
+    getLogger().log(this.getClass(), Level.INFO, "{0}[{1}{2}] [{3}] => {4} rows affected - Elapsed time: {5}s",
             auditMessage, queryId, indexMessage, sqlShortened, updated, getLogger().getTotalTime(timeLapse));
 
     return updated;

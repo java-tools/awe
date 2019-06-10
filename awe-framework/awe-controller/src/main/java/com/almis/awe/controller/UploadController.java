@@ -37,7 +37,6 @@ public class UploadController extends ServiceConfig {
 
   // Autowired services
   private FileService fileService;
-  private FileUtil fileUtil;
   private BroadcastService broadcastService;
 
   // Upload identifier
@@ -47,13 +46,11 @@ public class UploadController extends ServiceConfig {
   /**
    * Autowired constructor
    * @param fileService File service
-   * @param fileUtil File util
    * @param broadcastService Broadcast service
    */
   @Autowired
-  public UploadController(FileService fileService, FileUtil fileUtil, BroadcastService broadcastService) {
+  public UploadController(FileService fileService, BroadcastService broadcastService) {
     this.fileService = fileService;
-    this.fileUtil = fileUtil;
     this.broadcastService = broadcastService;
   }
 
@@ -91,7 +88,7 @@ public class UploadController extends ServiceConfig {
     broadcastService.broadcastMessageToUID(token, new ClientAction("file-uploaded")
       .setAsync(true)
       .setAddress(new ComponentAddress((ObjectNode) parameters.get(AweConstants.PARAMETER_ADDRESS)))
-      .addParameter("path", fileUtil.fileDataToString(fileData))
+      .addParameter("path", FileUtil.fileDataToString(fileData))
       .addParameter("name", fileData.getFileName())
       .addParameter("size", fileData.getFileSize())
       .addParameter("type", fileData.getMimeType()));

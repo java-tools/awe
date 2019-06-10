@@ -28,6 +28,78 @@
   ==============================================================================
   -->
 
+  <!-- Table Element -->
+  <xs:element name="table" type="tableType" />
+
+  <!-- Field Element -->
+  <xs:element name="field" type="fieldType" />
+
+  <!-- Constant Element -->
+  <xs:element name="constant" type="constantType" />
+
+  <!-- Case Element -->
+  <xs:element name="operation" type="operationType" />
+
+  <!-- Case Element -->
+  <xs:element name="case" type="caseType" />
+
+  <!-- Case When Element -->
+  <xs:element name="when" type="caseWhenType" />
+
+  <!-- Case Then Element -->
+  <xs:element name="then" type="operandType" />
+
+  <!-- Case Else Element -->
+  <xs:element name="else" type="operandType" />
+
+  <!-- Over Element -->
+  <xs:element name="over" type="overType" />
+
+  <!-- Filter Element -->
+  <xs:element name="filter" type="filterType"/>
+
+  <!-- And Element -->
+  <xs:element name="and" type="filterGroupType"/>
+
+  <!-- Or Element -->
+  <xs:element name="or" type="filterGroupType"/>
+
+  <!-- Left operand element -->
+  <xs:element name="left-operand" type="operandType" />
+
+  <!-- Right operand element -->
+  <xs:element name="right-operand" type="operandType" />
+
+  <!-- Query Element -->
+  <xs:element name="query" type="queryType" />
+
+  <!-- Computed Element -->
+  <xs:element name="computed" type="computedType" />
+
+  <!-- Compound Element -->
+  <xs:element name="compound" type="compoundType" />
+
+  <!-- Where Element -->
+  <xs:element name="where" type="whereType"/>
+
+  <!-- Having Element -->
+  <xs:element name="having" type="whereType"/>
+
+  <!-- Join Element -->
+  <xs:element name="join" type="joinType" />
+
+  <!-- Union Element -->
+  <xs:element name="union" type="unionType" />
+
+  <!-- Totalize element -->
+  <xs:element name="totalize" type="totalizeType" />
+
+  <!-- Totalize By Element -->
+  <xs:element name="totalize-by" type="totalizeElementType" />
+
+  <!-- Totalize Field Element -->
+  <xs:element name="totalize-field" type="totalizeElementType" />
+
   <!-- Group By Element -->
   <xs:element name="group-by" type="groupByType" />
 
@@ -45,6 +117,28 @@
   Group definitions
   ==============================================================================
   -->
+
+  <!-- Queries Group -->
+  <xs:group name="queryGroup">
+    <xs:choice>
+      <xs:element ref="table" />
+      <xs:element ref="computed" />
+      <xs:element ref="compound" />
+      <xs:element ref="field" />
+      <xs:element ref="constant" />
+      <xs:element ref="operation" />
+      <xs:element ref="case" />
+      <xs:element ref="over" />
+      <xs:element ref="join" />
+      <xs:element ref="union" />
+      <xs:element ref="variable" />
+      <xs:element ref="where" />
+      <xs:element ref="having" />
+      <xs:element ref="order-by" />
+      <xs:element ref="group-by" />
+      <xs:element ref="totalize" />
+    </xs:choice>
+  </xs:group>
 
   <!-- Group By Element -->
   <xs:complexType name="groupByType">
@@ -64,6 +158,170 @@
   ==============================================================================
   -->
 
+  <!-- Query Type -->
+  <xs:complexType name="queryType">
+    <xs:group ref="queryGroup" minOccurs="0" maxOccurs="unbounded" />
+    <xs:attributeGroup ref="queryBaseAttributes" />
+    <xs:attribute name="id" use="required" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Table Type -->
+  <xs:complexType name="tableType">
+    <xs:attributeGroup ref="tableQueryAttr" />
+  </xs:complexType>
+
+  <!-- Field Type -->
+  <xs:complexType name="fieldType">
+    <xs:attributeGroup ref="fieldQueryAttr"/>
+  </xs:complexType>
+
+  <!-- Operation type -->
+  <xs:complexType name="operationType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="field" />
+      <xs:element ref="constant" />
+      <xs:element ref="operation" />
+      <xs:element ref="case" />
+      <xs:element ref="over" />
+    </xs:choice>
+    <xs:attributeGroup ref="operationQueryAttr"/>
+  </xs:complexType>
+
+  <!-- Field Type -->
+  <xs:complexType name="constantType">
+    <xs:attributeGroup ref="constantQueryAttr" />
+  </xs:complexType>
+
+  <!-- Case Else type -->
+  <xs:complexType name="caseType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="when" />
+      <xs:element ref="else" />
+    </xs:choice>
+    <xs:attributeGroup ref="caseQueryAttr"/>
+  </xs:complexType>
+
+  <!-- Over type -->
+  <xs:complexType name="overType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="field" />
+      <xs:element ref="constant" />
+      <xs:element ref="operation" />
+      <xs:element ref="case" />
+      <xs:element ref="partition-by" />
+      <xs:element ref="order-by" />
+    </xs:choice>
+    <xs:attributeGroup ref="overQueryAttr"/>
+  </xs:complexType>
+
+  <!-- Operand Type -->
+  <xs:complexType name="operandType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="field" />
+      <xs:element ref="constant" />
+      <xs:element ref="operation" />
+      <xs:element ref="case" />
+      <xs:element ref="when" />
+      <xs:element ref="else" />
+    </xs:choice>
+    <xs:attributeGroup ref="operandAttr"/>
+  </xs:complexType>
+
+
+  <!-- FilterGroup Type -->
+  <xs:complexType name="filterGroupType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="filter"/>
+      <xs:element ref="or"/>
+      <xs:element ref="and"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- Where Type -->
+  <xs:complexType name="whereType">
+    <xs:choice minOccurs="1" maxOccurs="unbounded">
+      <xs:element ref="or"/>
+      <xs:element ref="and"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <!-- Compound type -->
+  <xs:complexType name="compoundType">
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:element ref="computed" />
+    </xs:sequence>
+    <xs:attribute name="alias" use="required" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Computed Element -->
+  <xs:complexType name="computedType">
+    <xs:attribute name="alias" use="required" type="xs:string" />
+    <xs:attribute name="format" use="required" />
+    <xs:attribute name="eval" type="booleanEnum" />
+    <xs:attribute name="nullValue" type="xs:string" />
+    <xs:attribute name="transform" type="transformType" />
+    <xs:attribute name="pattern" type="xs:string" />
+    <xs:attribute name="translate" type="xs:string" />
+    <xs:attribute name="label" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Case Else type -->
+  <xs:complexType name="caseElseType">
+    <xs:attributeGroup ref="operandAttr"/>
+  </xs:complexType>
+
+  <!-- Case When type -->
+  <xs:complexType name="caseWhenType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="left-operand" />
+      <xs:element ref="right-operand" />
+      <xs:element ref="then" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttr"/>
+  </xs:complexType>
+
+  <!-- Filter Type -->
+  <xs:complexType name="filterType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="left-operand" />
+      <xs:element ref="right-operand" />
+    </xs:choice>
+    <xs:attributeGroup ref="filterAttr"/>
+  </xs:complexType>
+
+  <!-- Join Element -->
+  <xs:complexType name="joinType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="table" />
+      <xs:element ref="or" />
+      <xs:element ref="and" />
+    </xs:choice>
+    <xs:attribute name="type" type="joinElementType" />
+  </xs:complexType>
+
+  <!-- Union Element -->
+  <xs:complexType name="unionType">
+    <xs:attribute name="query" use="required" type="xs:string" />
+    <xs:attribute name="type" type="unionElementType" />
+  </xs:complexType>
+
+  <!-- Totalize Type -->
+  <xs:complexType name="totalizeType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="totalize-by" />
+      <xs:element ref="totalize-field" />
+    </xs:choice>
+    <xs:attribute name="function" use="required" type="aggregationFunctions" />
+    <xs:attribute name="label" use="required" type="xs:string" />
+    <xs:attribute name="field" use="required" type="xs:string" />
+    <xs:attribute name="style" use="required" type="totalizeStyleType" />
+  </xs:complexType>
+
+  <!-- Totalize Element Type -->
+  <xs:complexType name="totalizeElementType">
+    <xs:attribute name="field" use="required" type="xs:string" />
+  </xs:complexType>
+
   <!-- Table Attributes -->
   <xs:attributeGroup name="tableAttr">
     <xs:attribute name="id" type="xs:string"/>
@@ -82,6 +340,16 @@
     <xs:attributeGroup ref="tableAttr"/>
   </xs:attributeGroup>
 
+  <xs:attributeGroup name="queryBaseAttributes">
+    <xs:attribute name="distinct" type="booleanEnum" />
+    <xs:attribute name="enumerated" type="xs:string" />
+    <xs:attribute name="service" type="xs:string" />
+    <xs:attribute name="queue" type="xs:string" />
+    <xs:attribute name="cacheable" type="booleanEnum" />
+    <xs:attribute name="managed-pagination" type="booleanEnum" />
+    <xs:attribute name="public" type="booleanEnum" />
+  </xs:attributeGroup>
+
   <!-- Base Field Attributes -->
   <xs:attributeGroup name="baseQueryAttr">
     <xs:attribute name="noprint" type="booleanEnum"/>
@@ -92,20 +360,23 @@
     <xs:attribute name="format-to" type="xs:string" />
     <xs:attribute name="alias" type="xs:string"/>
     <xs:attribute name="function" type="functionTypeEnum"/>
+    <xs:attribute name="audit" type="booleanEnum"/>
+    <xs:attribute name="key" type="booleanEnum"/>
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="table" type="xs:string"/>
   </xs:attributeGroup>
 
   <!-- Base Field Attributes -->
   <xs:attributeGroup name="fieldAttr">
     <xs:attribute name="query" type="xs:string"/>
     <xs:attribute name="variable" type="xs:string"/>
+    <xs:attribute name="sequence" type="xs:string"/>
   </xs:attributeGroup>
 
   <!-- Field Attributes -->
   <xs:attributeGroup name="fieldQueryAttr">
     <xs:attributeGroup ref="baseQueryAttr"/>
     <xs:attributeGroup ref="fieldAttr"/>
-    <xs:attribute name="id" type="xs:string"/>
-    <xs:attribute name="table" type="xs:string"/>
   </xs:attributeGroup>
 
   <!-- Constant Attributes -->
@@ -179,6 +450,31 @@
   Restriction definitions
   ==============================================================================
   -->
+
+  <!-- Totalize Style Enumeration -->
+  <xs:simpleType name="totalizeStyleType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TOTAL" />
+      <xs:enumeration value="SUBTOTAL" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Join Type Enumeration -->
+  <xs:simpleType name="joinElementType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FULL" />
+      <xs:enumeration value="INNER" />
+      <xs:enumeration value="LEFT" />
+      <xs:enumeration value="RIGHT" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Union Type Enumeration -->
+  <xs:simpleType name="unionElementType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ALL" />
+    </xs:restriction>
+  </xs:simpleType>
 
   <!-- Transformation type -->
   <xs:simpleType name="transformType">
