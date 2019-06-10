@@ -28,8 +28,6 @@ import lombok.experimental.SuperBuilder;
 @XStreamAlias("insert")
 public class Insert extends MaintainQuery {
 
-  private static final long serialVersionUID = 3682159721536717236L;
-
   // Maintain type
   @XStreamOmitField
   private static final MaintainType maintainType = MaintainType.INSERT;

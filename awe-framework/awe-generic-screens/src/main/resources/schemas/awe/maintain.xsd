@@ -36,39 +36,6 @@
     </xs:unique>
   </xs:element>
 
-  <!-- Table Element -->
-  <xs:element name="table" type="tableType"/>
-
-  <!-- Field Element -->
-  <xs:element name="field" type="fieldType" />
-
-  <!-- Constant Element -->
-  <xs:element name="constant" type="constantType" />
-
-  <!-- Operation Element -->
-  <xs:element name="operation" type="operationType" />
-
-  <!-- Filter Element -->
-  <xs:element name="filter" type="filterType"/>
-
-  <!-- And Element -->
-  <xs:element name="and" type="filterGroupType"/>
-
-  <!-- Or Element -->
-  <xs:element name="or" type="filterGroupType"/>
-
-  <!-- Left operand element -->
-  <xs:element name="left-operand" type="operandType" />
-
-  <!-- Right operand element -->
-  <xs:element name="right-operand" type="operandType" />
-
-  <!-- Where Element -->
-  <xs:element name="where" type="whereType"/>
-
-  <!-- Having Element -->
-  <xs:element name="having" type="whereType"/>
-
   <!-- Target element -->
   <xs:element name="target" type="targetType"/>
 
@@ -77,6 +44,9 @@
 
   <!-- Commit element -->
   <xs:element name="commit"/>
+
+  <!-- Retrieve data element -->
+  <xs:element name="retrieve-data" type="retrieveDataType"/>
 
   <!-- Multiple element -->
   <xs:element name="multiple" type="multipleType"/>
@@ -104,36 +74,6 @@
   Attribute Groups
   ==============================================================================
   -->
-
-  <!-- Base Field Attributes -->
-  <xs:attributeGroup name="baseMaintainAttr">
-    <xs:attribute name="alias" type="xs:string"/>
-    <xs:attribute name="audit" type="booleanEnum"/>
-    <xs:attribute name="key" type="booleanEnum"/>
-    <xs:attribute name="id" type="xs:string"/>
-    <xs:attribute name="table" type="xs:string"/>
-    <xs:attribute name="function" type="functionTypeEnum"/>
-  </xs:attributeGroup>
-
-  <!-- Field Attributes -->
-  <xs:attributeGroup name="fieldMaintainAttr">
-    <xs:attributeGroup ref="baseMaintainAttr"/>
-    <xs:attributeGroup ref="fieldAttr"/>
-    <xs:attribute name="sequence" type="xs:string"/>
-  </xs:attributeGroup>
-
-  <!-- Constant Attributes -->
-  <xs:attributeGroup name="constantMaintainAttr">
-    <xs:attributeGroup ref="baseMaintainAttr"/>
-    <xs:attributeGroup ref="constantAttr"/>
-  </xs:attributeGroup>
-
-  <!-- Operation Attributes -->
-  <xs:attributeGroup name="operationMaintainAttr">
-    <xs:attributeGroup ref="baseMaintainAttr"/>
-    <xs:attributeGroup ref="operationAttr"/>
-  </xs:attributeGroup>
-
   <!-- Server Call Attributes -->
   <xs:attributeGroup name="sqlAttr">
     <xs:attribute name="multiple" type="multipleRestriction"/>
@@ -160,6 +100,7 @@
       <xs:element ref="multiple"/>
       <xs:element ref="send-email"/>
       <xs:element ref="include-target"/>
+      <xs:element ref="retrieve-data"/>
     </xs:choice>
   </xs:group>
 
@@ -260,31 +201,6 @@
     <xs:attributeGroup ref="sqlAttr"/>
   </xs:complexType>
 
-  <!-- Table Type -->
-  <xs:complexType name="tableType">
-    <xs:attributeGroup ref="tableMaintainAttr"/>
-  </xs:complexType>
-
-  <!-- Field Type -->
-  <xs:complexType name="fieldType">
-    <xs:attributeGroup ref="fieldMaintainAttr" />
-  </xs:complexType>
-
-  <!-- Operation type -->
-  <xs:complexType name="operationType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="field" />
-      <xs:element ref="constant" />
-      <xs:element ref="operation" />
-    </xs:choice>
-    <xs:attributeGroup ref="operationMaintainAttr"/>
-  </xs:complexType>
-
-  <!-- Field Type -->
-  <xs:complexType name="constantType">
-    <xs:attributeGroup ref="constantMaintainAttr" />
-  </xs:complexType>
-
   <!-- Include Target Type -->
   <xs:complexType name="includeTargetType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -293,40 +209,10 @@
     <xs:attribute name="name" use="required" type="xs:string"/>
   </xs:complexType>
 
-  <!-- Filter Type -->
-  <xs:complexType name="filterType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="left-operand" />
-      <xs:element ref="right-operand" />
-    </xs:choice>
-    <xs:attributeGroup ref="filterAttr"/>
-  </xs:complexType>
-
-  <!-- Operand Type -->
-  <xs:complexType name="operandType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="field" />
-      <xs:element ref="constant" />
-      <xs:element ref="operation" />
-    </xs:choice>
-    <xs:attributeGroup ref="operandAttr"/>
-  </xs:complexType>
-
-  <!-- FilterGroup Type -->
-  <xs:complexType name="filterGroupType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="filter"/>
-      <xs:element ref="or"/>
-      <xs:element ref="and"/>
-    </xs:choice>
-  </xs:complexType>
-
-  <!-- Where Type -->
-  <xs:complexType name="whereType">
-    <xs:choice minOccurs="1" maxOccurs="unbounded">
-      <xs:element ref="or"/>
-      <xs:element ref="and"/>
-    </xs:choice>
+  <!-- Retrieve data type -->
+  <xs:complexType name="retrieveDataType">
+    <xs:group ref="queryGroup" minOccurs="0" maxOccurs="unbounded" />
+    <xs:attributeGroup ref="queryBaseAttributes" />
   </xs:complexType>
 
   <!--

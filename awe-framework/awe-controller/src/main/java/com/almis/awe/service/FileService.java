@@ -244,7 +244,7 @@ public class FileService extends ServiceConfig {
    */
   public ServiceData deleteFile() throws AWException {
     String fileName = getRequest().getParameterAsString("filename");
-    FileData fileData = fileUtil.stringToFileData(fileName);
+    FileData fileData = FileUtil.stringToFileData(fileName);
     return deleteFile(fileData);
   }
 
@@ -287,7 +287,7 @@ public class FileService extends ServiceConfig {
   public ServiceData getFileInfo() throws AWException {
     ServiceData serviceData = new ServiceData();
     String fileName = getRequest().getParameterAsString("filename");
-    FileData fileData = fileUtil.stringToFileData(fileName);
+    FileData fileData = FileUtil.stringToFileData(fileName);
 
     // Set variables
     serviceData

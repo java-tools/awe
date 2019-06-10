@@ -28,7 +28,6 @@ public class FileController extends ServiceConfig {
 
   // Autowired services
   private FileService fileService;
-  private FileUtil fileUtil;
   private LogUtil logger;
   private MaintainService maintainService;
 
@@ -39,9 +38,8 @@ public class FileController extends ServiceConfig {
    * @param maintainService Maintain service
    */
   @Autowired
-  public FileController(FileService fileService, FileUtil fileUtil, MaintainService maintainService, LogUtil logger) {
+  public FileController(FileService fileService, MaintainService maintainService, LogUtil logger) {
     this.fileService = fileService;
-    this.fileUtil = fileUtil;
     this.maintainService = maintainService;
     this.logger = logger;
   }
@@ -125,7 +123,7 @@ public class FileController extends ServiceConfig {
     getRequest().init(parameters, token);
 
     // Retrieve file
-    return fileService.downloadFile(fileUtil.stringToFileData(getRequest().getParameterAsString("filename")), getRequest().getParameter("d").asInt());
+    return fileService.downloadFile(FileUtil.stringToFileData(getRequest().getParameterAsString("filename")), getRequest().getParameter("d").asInt());
   }
 
   /**
@@ -167,7 +165,7 @@ public class FileController extends ServiceConfig {
     String filedata = getRequest().getParameterAsString("filename");
 
     // Retrieve file
-    return fileService.deleteFile(fileUtil.stringToFileData(filedata));
+    return fileService.deleteFile(FileUtil.stringToFileData(filedata));
   }
 
   /**

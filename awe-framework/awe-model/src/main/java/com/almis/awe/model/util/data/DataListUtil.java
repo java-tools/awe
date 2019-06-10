@@ -5,6 +5,9 @@ import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.CompareRow;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.SortColumn;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.springframework.beans.PropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 
@@ -283,6 +286,25 @@ public final class DataListUtil {
     }
 
     return columnData;
+  }
+
+  /**
+   * Retrieve a column data as QueryParameter
+   *
+   * @param list DataList
+   * @param columnName Column name (alias)
+   * @return Column object list
+   */
+  public static ArrayNode getColumnAsArrayNode(DataList list, String columnName) {
+    ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode();
+    ObjectMapper mapper = new ObjectMapper();
+
+    // Add alias row by row
+    for (Map<String, CellData> row : list.getRows()) {
+      arrayNode.add(mapper.valueToTree(row.get(columnName)));
+    }
+
+    return arrayNode;
   }
 
   /**

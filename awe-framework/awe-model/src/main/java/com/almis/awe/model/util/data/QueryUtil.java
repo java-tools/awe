@@ -3,6 +3,7 @@ package com.almis.awe.model.util.data;
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.dto.SortColumn;
 import com.almis.awe.model.entities.maintain.MaintainQuery;
@@ -140,6 +141,19 @@ public class QueryUtil extends ServiceConfig {
       if (!variableMap.containsKey(entry.getKey()) || (!isEmptyParameter(entry.getValue()))) {
         variableMap.put(entry.getKey(), entry.getValue());
       }
+    }
+  }
+
+  /**
+   * Prepare query variables if not defined previously
+   *
+   * @param dataList DataList
+   */
+  public void addDataListToRequestParameters(DataList dataList) {
+    // Get defined variables
+    List<String> columnList = DataListUtil.getColumnList(dataList);
+    for (String columnId : columnList) {
+      getRequest().getParameterList().set(columnId, DataListUtil.getColumnAsArrayNode(dataList, columnId));
     }
   }
 

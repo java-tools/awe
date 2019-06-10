@@ -18,6 +18,7 @@ Insert into AweKey (KeyNam, KeyVal) values ('AppParKey', 39);
 Insert into AweKey (KeyNam, KeyVal) values ('JmsKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ScrCnfKey', 0);
 Insert into AweKey (KeyNam, KeyVal) values ('ScrResKey', 0);
+Insert into AweKey (KeyNam, KeyVal) values ('MntTstKey', 1);
 
 -- Insert themes
 Insert into AweThm (IdeThm, Nam, Act) values ('1','sunset','1');

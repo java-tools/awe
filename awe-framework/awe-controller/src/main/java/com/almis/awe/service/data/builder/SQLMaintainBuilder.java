@@ -137,7 +137,6 @@ public class SQLMaintainBuilder extends SQLBuilder {
    */
   public SQLMaintainBuilder setVariableIndex(Integer variableIndex) {
     this.variableIndex = variableIndex;
-
     return this;
   }
 
@@ -315,7 +314,6 @@ public class SQLMaintainBuilder extends SQLBuilder {
   private String getSequence(String sequence) throws AWException {
 
     // SELECT KeyVal FROM AweKey WHERE KeyNam = ?
-
     SQLQuery<Long> getKey = getFactory().select(Expressions.numberPath(Long.class, "KeyVal")).from(buildPath("AweKey")).where(Expressions.stringPath("KeyNam").eq(sequence));
     List<Long> idsStored = getKey.fetch();
     if (idsStored.size() != 1) {
@@ -325,7 +323,6 @@ public class SQLMaintainBuilder extends SQLBuilder {
     Long id = idsStored.get(0);
 
     // UPDATE AweKey SET KeyVal = KeyVal + 1 WHERE KeyNam = ?
-
     SQLUpdateClause updateKey = getFactory()
             .update(new RelationalPathBase<>(Object.class, "", "", "AweKey"))
             .set(Expressions.numberPath(Long.class, "KeyVal"), id + 1)
@@ -465,9 +462,8 @@ public class SQLMaintainBuilder extends SQLBuilder {
    * Define sequence variable
    * @param field Field
    * @return sequence identifier
-   * @throws AWException Error retrieving variable value
    */
-  private String defineSequenceVariable(Field field) throws AWException {
+  private String defineSequenceVariable(Field field) {
     String sequenceIdentifier = field.getVariable() == null ? field.getId() : field.getVariable();
     if (getQuery().getVariableDefinition(sequenceIdentifier) == null) {
       Variable seqVariable = new Variable();
@@ -478,13 +474,13 @@ public class SQLMaintainBuilder extends SQLBuilder {
       seqVariable.setType("true".equalsIgnoreCase(getQuery().getMultiple()) ? MULTIPLE_SEQUENCE.toString() : SEQUENCE.toString());
       // If query is not multiple, sequence value is not going to change, we can calculate it
       if (ParameterType.valueOf(seqVariable.getType()) == SEQUENCE) {
-        parameter = new QueryParameter(JsonNodeFactory.instance.numberNode(Long.parseLong(getSequence(field.getSequence()))), false, SEQUENCE);
+        parameter = new QueryParameter(null, false, SEQUENCE);
       } else {
         parameter = new QueryParameter(JsonNodeFactory.instance.arrayNode(), true, MULTIPLE_SEQUENCE);
       }
       // We add the variable to the query's variable list
       if (getQuery().getVariableDefinitionList() == null) {
-        getQuery().setVariableDefinitionList(new ArrayList<Variable>());
+        getQuery().setVariableDefinitionList(new ArrayList<>());
       }
       getQuery().getVariableDefinitionList().add(seqVariable);
       variables.put(sequenceIdentifier, parameter);

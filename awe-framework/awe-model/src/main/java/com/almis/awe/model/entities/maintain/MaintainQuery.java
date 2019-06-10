@@ -26,7 +26,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Accessors(chain = true)
-@XStreamInclude({Serve.class, Insert.class, Update.class, Delete.class, Multiple.class, Commit.class, Email.class, Queue.class, IncludeTarget.class})
+@XStreamInclude({Serve.class, Insert.class, Update.class, Delete.class, RetrieveData.class, Multiple.class, Commit.class, Email.class, Queue.class, IncludeTarget.class})
 public abstract class MaintainQuery extends Query {
 
   private static final long serialVersionUID = 418621393719461416L;
