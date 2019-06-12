@@ -3,7 +3,7 @@
 
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
-  <version>4.0.8</version>
+  <version>4.1.0</version>
   <packaging>pom</packaging>
 
   <name>AWE (V${project.version})</name>
@@ -12,7 +12,7 @@
 
   <properties>
     <!-- Project versions -->
-    <revision>4.0.8</revision>
+    <revision>4.1.0</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
@@ -29,7 +29,6 @@
     <check.xml.directory>${project.basedir}/src/main/resources/application/</check.xml.directory>
 
     <!-- Jacoco configuration -->
-    <jacoco.version>0.8.2</jacoco.version>
     <jacoco.base.reports>${project.basedir}/../../awe-tests/awe-boot/target</jacoco.base.reports>
     <jacoco.reportPaths>${jacoco.base.reports}/coverage-reports</jacoco.reportPaths>
 
@@ -40,8 +39,7 @@
     <sonar.links.issue>https://gitlab.com/aweframework/awe/issues</sonar.links.issue>
     <sonar.links.scm>https://gitlab.com/aweframework/awe.git</sonar.links.scm>
     <sonar.junit.reportPath>${jacoco.base.reports}/surefire-reports</sonar.junit.reportPath>
-    <sonar.jacoco.reportPaths>${jacoco.base.reports}/jacoco.exec,${jacoco.base.reports}/jacoco-it.exec</sonar.jacoco.reportPaths>
-    <sonar.coverage.jacoco.xmlReportsPath>${jacoco.reportPaths}/jacoco.xml</sonar.coverage.jacoco.xmlReportsPath>
+    <sonar.coverage.jacoco.xmlReportPaths>${jacoco.reportPaths}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     <sonar.testExecutionReportPaths>
       ${project.basedir}/awe-framework/awe-client-angular/target/reports/karma/junit/javascriptUnitTests.xml
     </sonar.testExecutionReportPaths>

@@ -3,10 +3,6 @@
  */
 package com.almis.awe.model.util.file;
 
-/*
- * File Imports
- */
-
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
@@ -37,7 +33,7 @@ public class FileUtil extends ServiceConfig {
   private Integer maxFilesPerFolder;
 
   // Object mapper
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private static ObjectMapper objectMapper = new ObjectMapper();
 
   /**
    * Retrieves a previously uploaded file from upl path
@@ -75,12 +71,11 @@ public class FileUtil extends ServiceConfig {
    * @return Stringified filedata
    * @throws com.almis.awe.exception.AWException
    */
-  public String fileDataToString(FileData fileData) throws AWException {
+  public static String fileDataToString(FileData fileData) throws AWException {
     try {
       return EncodeUtil.encodeSymmetric(CompressionUtil.compress(StringUtil.compressJson(objectMapper.writeValueAsString(fileData))));
     } catch (IOException exc) {
-      throw new AWException(getLocale("ERROR_TITLE_READING_PARAMETERS"),
-              getLocale("ERROR_TITLE_READING_PARAMETER", fileData.getFileName()),  exc);
+      throw new AWException("Error encoding file into string", "There was an error trying to encode file data into string:\n" + fileData.getFileName(),  exc);
     }
   }
 
@@ -90,13 +85,12 @@ public class FileUtil extends ServiceConfig {
    * @return FileData
    * @throws com.almis.awe.exception.AWException
    */
-  public FileData stringToFileData(String fileStringEncoded) throws AWException {
+  public static FileData stringToFileData(String fileStringEncoded) throws AWException {
     try {
       String fileString = StringUtil.decompressJson(CompressionUtil.decompress(EncodeUtil.decodeSymmetricAsByteArray(fileStringEncoded)));
       return objectMapper.treeToValue(objectMapper.readTree(fileString), FileData.class);
     } catch (IOException exc) {
-      throw new AWException(getLocale("ERROR_TITLE_READING_PARAMETERS"),
-              getLocale("ERROR_TITLE_READING_PARAMETER", fileStringEncoded),  exc);
+      throw new AWException("Error decoding file from string", "There was an error trying to decode file data from string:\n" + fileStringEncoded,  exc);
     }
   }
 }

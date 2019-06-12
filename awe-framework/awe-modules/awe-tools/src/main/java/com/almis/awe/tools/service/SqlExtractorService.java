@@ -1,12 +1,14 @@
 package com.almis.awe.tools.service;
 
+import com.almis.awe.builder.client.FillActionBuilder;
+import com.almis.awe.builder.client.MessageActionBuilder;
+import com.almis.awe.builder.client.grid.ReplaceColumnsActionBuilder;
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
-import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.model.util.data.StringUtil;
@@ -96,12 +98,7 @@ public class SqlExtractorService extends ServiceConfig {
           serviceData = fillGrid(metaData, dataList);
         } else {
           // Create message action
-          ClientAction messageAction = new ClientAction("message");
-          messageAction.addParameter("type", new CellData(AnswerType.OK.toString()));
-          messageAction.addParameter("title", new CellData(getLocale(DATABASE_MESSAGE_TITLE)));
-          messageAction.addParameter("message", new CellData(getLocale("DATABASE_MESSAGE_RESPONSE_OK")));
-
-          serviceData.addClientAction(messageAction);
+          serviceData.addClientAction(new MessageActionBuilder(AnswerType.OK, getLocale(DATABASE_MESSAGE_TITLE), getLocale("DATABASE_MESSAGE_RESPONSE_OK")).build());
         }
       } catch (AWException exc) {
         throw new AWException(getLocale(DATABASE_MESSAGE_TITLE), getLocale("ERROR_MESSAGE_SELECT_RUN") + ": " + exc.getMessage(), exc);
@@ -313,11 +310,7 @@ public class SqlExtractorService extends ServiceConfig {
     columns.add(column);
 
     // Add columns to the multiselect grid
-    ClientAction addColumnsGrid = new ClientAction("replace-columns");
-    addColumnsGrid.setTarget(SELECTED_GRID);
-    addColumnsGrid.addParameter("columns", new CellData(columns));
-    serviceData.addClientAction(addColumnsGrid);
-    return serviceData;
+    return serviceData.addClientAction(new ReplaceColumnsActionBuilder(SELECTED_GRID, columns).build());
 
   }
 
@@ -334,22 +327,9 @@ public class SqlExtractorService extends ServiceConfig {
     ServiceData serviceData = new ServiceData();
 
     try {
-
-      // Build column structure
-      List<Column> columns = getColumnList(rsMetaData);
-      // Add columns to the multiselect grid
-      ClientAction addColumnsGrid = new ClientAction("replace-columns");
-      addColumnsGrid.setTarget(SELECTED_GRID);
-      addColumnsGrid.addParameter("columns", new CellData(columns));
-
-      // Fill Grid
-      ClientAction fillGrid = new ClientAction("fill");
-      fillGrid.setTarget(SELECTED_GRID);
-      fillGrid.addParameter("datalist", datalist);
-
       // Set variables
-      serviceData.addClientAction(addColumnsGrid);
-      serviceData.addClientAction(fillGrid);
+      serviceData.addClientAction(new ReplaceColumnsActionBuilder(SELECTED_GRID, getColumnList(rsMetaData)).build());
+      serviceData.addClientAction(new FillActionBuilder(SELECTED_GRID, datalist).build());
     } catch (AWException exc) {
       throw new AWException(getLocale("ERROR_TITLE_SESSION_EXPIRED"), getLocale("ERROR_MESSAGE_SESSION_EXPIRED"), exc);
     }

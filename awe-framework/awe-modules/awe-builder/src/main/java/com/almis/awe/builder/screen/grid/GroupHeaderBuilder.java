@@ -1,5 +1,6 @@
 package com.almis.awe.builder.screen.grid;
 
+import com.almis.awe.builder.screen.base.AbstractColumnBuilder;
 import com.almis.awe.builder.screen.base.AweBuilder;
 import com.almis.awe.model.entities.screen.component.grid.GroupHeader;
 import lombok.Getter;
@@ -32,10 +33,10 @@ public class GroupHeaderBuilder extends AweBuilder<GroupHeaderBuilder, GroupHead
   /**
    * Add column list
    *
-   * @param columnList
+   * @param columnBuilders
    * @return
    */
-  public GroupHeaderBuilder addColumnList(ColumnBuilder... columnBuilders) {
+  public GroupHeaderBuilder addColumnList(AbstractColumnBuilder... columnBuilders) {
     addAllElements(columnBuilders);
     return this;
   }

@@ -1,10 +1,10 @@
 package com.almis.awe.test.wrappers;
 
+import com.almis.awe.builder.client.chart.AddPointsActionBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ResponseWrapper;
 import com.almis.awe.model.dto.ServiceData;
-import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.model.util.data.DateUtil;
 
@@ -27,15 +27,11 @@ public class Topic implements ResponseWrapper {
 
     DataList dataList = new DataList();
     long dateMs = DateUtil.web2TimestampWithMs(getDate()).getTime();
-    DataListUtil.addColumn(dataList, "date", Arrays.asList(new Long[]{dateMs}));
-    DataListUtil.addColumn(dataList, "serie1", Arrays.asList(new Float[]{getSerie1()}));
-    DataListUtil.addColumn(dataList, "serie2", Arrays.asList(new Float[]{getSerie2()}));
+    DataListUtil.addColumn(dataList, "date", Arrays.asList(dateMs));
+    DataListUtil.addColumn(dataList, "serie1", Arrays.asList(getSerie1()));
+    DataListUtil.addColumn(dataList, "serie2", Arrays.asList(getSerie2()));
 
-    serviceData.addClientAction(new ClientAction("add-points")
-            .setAsync(true)
-            .setSilent(true)
-            .addParameter("data", dataList));
-    return serviceData;
+    return serviceData.addClientAction(new AddPointsActionBuilder("target", dataList).build());
   }
 
   /**

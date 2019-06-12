@@ -15,6 +15,7 @@ import com.almis.awe.model.type.RowType;
 import com.almis.awe.model.util.data.ListUtil;
 import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.service.data.connector.maintain.MaintainLauncher;
+import com.almis.awe.service.data.connector.query.QueryLauncher;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -261,14 +262,19 @@ public class MaintainService extends ServiceConfig {
     ServiceData result = new ServiceData();
     List<MaintainResultDetails> resultDetails = new ArrayList<>();
     StringBuilder messageBuilder = new StringBuilder();
+    Integer operationNumber = 1;
 
     for (MaintainQuery maintainQuery : queryList) {
+      maintainQuery.setId(maintainTarget.getName() + "-" + operationNumber++);
       if (maintainQuery instanceof Commit && manageConnection) {
         // If is a commit, launch it
         databaseConnection.getConnection().commit();
+      } else if (maintainQuery instanceof RetrieveData) {
+        QueryLauncher queryLauncher = getBean(QueryLauncher.class);
+        ServiceData serviceData = queryLauncher.launchQuery(maintainQuery, queryUtil.getParameters(null , "1", "0"));
+        queryUtil.addDataListToRequestParameters(serviceData.getDataList());
       } else {
         // Else launch the maintain or service action
-        maintainQuery.setId(maintainTarget.getName());
         queryUtil.addToVariableMap(parameterMap, maintainQuery);
         ServiceData resultingServiceData = maintainLauncher.launchMaintain(maintainQuery, databaseConnection, parameterMap);
 

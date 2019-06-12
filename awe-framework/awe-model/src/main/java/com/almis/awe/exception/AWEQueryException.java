@@ -1,6 +1,7 @@
 package com.almis.awe.exception;
 
 import com.almis.awe.model.type.AnswerType;
+import lombok.Getter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +16,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Pablo GARCIA - 24/JUN/2010
  */
+@Getter
 public class AWEQueryException extends AWException {
 
   private static final long serialVersionUID = -764683322805477265L;

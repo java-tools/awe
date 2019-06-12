@@ -305,7 +305,7 @@ pagination="true" => managed-pagination="true"
 ^(\s*<filter.*\s+)countertable(.*/>.*)$ => $1right-table$2
 ^(\s*<filter.*\s+)field(.*/>.*)$ => $1left-field$2
 ^(\s*<filter.*\s+)table(.*/>.*)$ => $1left-table$2
-^(\s*<)field(.*\s+value.*/>.*)$ => $1static$2
+^(\s*<)field(.*\s+value.*/>.*)$ => $1constant$2
 ```
 
 * Direct replacement:

@@ -122,10 +122,11 @@
 
   <!-- Service Parameter Type -->
   <xs:complexType name="serviceParameterType">
-    <xs:attribute name="name" use="required" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
     <xs:attribute name="type" use="required" type="serviceVariableRestriction"/>
     <xs:attribute name="value" type="xs:string"/>
     <xs:attribute name="list" type="booleanEnum"/>
+    <xs:attribute name="bean-class" type="xs:string"/>
   </xs:complexType>
 
   <!-- Service Variable Restriction -->

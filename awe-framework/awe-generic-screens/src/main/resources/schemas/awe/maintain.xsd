@@ -36,51 +36,6 @@
     </xs:unique>
   </xs:element>
 
-  <!-- Table Element -->
-  <xs:element name="table" type="tableType"/>
-
-  <!-- Field Element -->
-  <xs:element name="field" type="fieldType" />
-
-  <!-- Case Element -->
-  <xs:element name="static" type="staticType" />
-
-  <!-- Case Element -->
-  <xs:element name="operation" type="operationType" />
-
-  <!-- Case Element -->
-  <xs:element name="case" type="caseType" />
-
-  <!-- Case When Element -->
-  <xs:element name="when" type="caseWhenType" />
-
-  <!-- Case Then Element -->
-  <xs:element name="then" type="operandType" />
-
-  <!-- Case Else Element -->
-  <xs:element name="else" type="operandType" />
-
-  <!-- Filter Element -->
-  <xs:element name="filter" type="filterType"/>
-
-  <!-- And Element -->
-  <xs:element name="and" type="filterGroupType"/>
-
-  <!-- Or Element -->
-  <xs:element name="or" type="filterGroupType"/>
-
-  <!-- Left operand element -->
-  <xs:element name="left-operand" type="operandType" />
-
-  <!-- Right operand element -->
-  <xs:element name="right-operand" type="operandType" />
-
-  <!-- Where Element -->
-  <xs:element name="where" type="whereType"/>
-
-  <!-- Having Element -->
-  <xs:element name="having" type="whereType"/>
-
   <!-- Target element -->
   <xs:element name="target" type="targetType"/>
 
@@ -89,6 +44,9 @@
 
   <!-- Commit element -->
   <xs:element name="commit"/>
+
+  <!-- Retrieve data element -->
+  <xs:element name="retrieve-data" type="retrieveDataType"/>
 
   <!-- Multiple element -->
   <xs:element name="multiple" type="multipleType"/>
@@ -116,40 +74,6 @@
   Attribute Groups
   ==============================================================================
   -->
-
-  <!-- Base Field Attributes -->
-  <xs:attributeGroup name="baseMaintainAttr">
-    <xs:attribute name="alias" type="xs:string"/>
-    <xs:attribute name="audit" type="booleanEnum"/>
-    <xs:attribute name="key" type="booleanEnum"/>
-    <xs:attribute name="id" type="xs:string"/>
-    <xs:attribute name="table" type="xs:string"/>
-  </xs:attributeGroup>
-
-  <!-- Field Attributes -->
-  <xs:attributeGroup name="fieldMaintainAttr">
-    <xs:attributeGroup ref="baseMaintainAttr"/>
-    <xs:attributeGroup ref="fieldAttr"/>
-    <xs:attribute name="sequence" type="xs:string"/>
-  </xs:attributeGroup>
-
-  <!-- Static Attributes -->
-  <xs:attributeGroup name="staticMaintainAttr">
-    <xs:attributeGroup ref="baseMaintainAttr"/>
-    <xs:attributeGroup ref="staticAttr"/>
-  </xs:attributeGroup>
-
-  <!-- Operation Attributes -->
-  <xs:attributeGroup name="operationMaintainAttr">
-    <xs:attributeGroup ref="baseMaintainAttr"/>
-    <xs:attributeGroup ref="operationAttr"/>
-  </xs:attributeGroup>
-
-  <!-- Case Attributes -->
-  <xs:attributeGroup name="caseMaintainAttr">
-    <xs:attributeGroup ref="baseMaintainAttr"/>
-  </xs:attributeGroup>
-
   <!-- Server Call Attributes -->
   <xs:attributeGroup name="sqlAttr">
     <xs:attribute name="multiple" type="multipleRestriction"/>
@@ -176,6 +100,7 @@
       <xs:element ref="multiple"/>
       <xs:element ref="send-email"/>
       <xs:element ref="include-target"/>
+      <xs:element ref="retrieve-data"/>
     </xs:choice>
   </xs:group>
 
@@ -242,7 +167,7 @@
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element minOccurs="1" ref="table"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="field"/>
-      <xs:element minOccurs="0" maxOccurs="unbounded" ref="static"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="constant"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="operation"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="variable"/>
       <xs:element ref="where"/>
@@ -255,7 +180,7 @@
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element minOccurs="1" ref="table"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="field"/>
-      <xs:element minOccurs="0" maxOccurs="unbounded" ref="static"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="constant"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="operation"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="variable"/>
     </xs:choice>
@@ -268,49 +193,12 @@
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element minOccurs="1" ref="table"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="field"/>
-      <xs:element minOccurs="0" maxOccurs="unbounded" ref="static"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" ref="constant"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="operation"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" ref="variable"/>
       <xs:element ref="where"/>
     </xs:choice>
     <xs:attributeGroup ref="sqlAttr"/>
-  </xs:complexType>
-
-  <!-- Table Type -->
-  <xs:complexType name="tableType">
-    <xs:attributeGroup ref="tableMaintainAttr"/>
-  </xs:complexType>
-
-  <!-- Field Type -->
-  <xs:complexType name="fieldType">
-    <xs:attributeGroup ref="fieldMaintainAttr" />
-  </xs:complexType>
-
-  <!-- Operation type -->
-  <xs:complexType name="operationType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="field" />
-      <xs:element ref="static" />
-      <xs:element ref="operation" />
-      <xs:element ref="case" />
-      <xs:element ref="when" />
-      <xs:element ref="else" />
-    </xs:choice>
-    <xs:attributeGroup ref="operationMaintainAttr"/>
-  </xs:complexType>
-
-  <!-- Field Type -->
-  <xs:complexType name="staticType">
-    <xs:attributeGroup ref="staticMaintainAttr" />
-  </xs:complexType>
-
-  <!-- Case Else type -->
-  <xs:complexType name="caseType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="when" />
-      <xs:element ref="else" />
-    </xs:choice>
-    <xs:attributeGroup ref="caseMaintainAttr"/>
   </xs:complexType>
 
   <!-- Include Target Type -->
@@ -321,56 +209,10 @@
     <xs:attribute name="name" use="required" type="xs:string"/>
   </xs:complexType>
 
-  <!-- Case Else type -->
-  <xs:complexType name="caseElseType">
-    <xs:attributeGroup ref="operandAttr"/>
-  </xs:complexType>
-
-  <!-- Case When type -->
-  <xs:complexType name="caseWhenType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="left-operand" />
-      <xs:element ref="right-operand" />
-      <xs:element ref="then" />
-    </xs:choice>
-    <xs:attributeGroup ref="filterAttr"/>
-  </xs:complexType>
-
-  <!-- Filter Type -->
-  <xs:complexType name="filterType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="left-operand" />
-      <xs:element ref="right-operand" />
-    </xs:choice>
-    <xs:attributeGroup ref="filterAttr"/>
-  </xs:complexType>
-
-  <!-- Operand Type -->
-  <xs:complexType name="operandType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="field" />
-      <xs:element ref="static" />
-      <xs:element ref="operation" />
-      <xs:element ref="case" />
-    </xs:choice>
-    <xs:attributeGroup ref="operandAttr"/>
-  </xs:complexType>
-
-  <!-- FilterGroup Type -->
-  <xs:complexType name="filterGroupType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="filter"/>
-      <xs:element ref="or"/>
-      <xs:element ref="and"/>
-    </xs:choice>
-  </xs:complexType>
-
-  <!-- Where Type -->
-  <xs:complexType name="whereType">
-    <xs:choice minOccurs="1" maxOccurs="unbounded">
-      <xs:element ref="or"/>
-      <xs:element ref="and"/>
-    </xs:choice>
+  <!-- Retrieve data type -->
+  <xs:complexType name="retrieveDataType">
+    <xs:group ref="queryGroup" minOccurs="0" maxOccurs="unbounded" />
+    <xs:attributeGroup ref="queryBaseAttributes" />
   </xs:complexType>
 
   <!--

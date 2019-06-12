@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.almis.awe</groupId>
 		<artifactId>awe-modules</artifactId>
-		<version>4.0.8</version>
+		<version>4.1.0</version>
 		<relativePath>..</relativePath>
 	</parent>
 
@@ -16,7 +16,6 @@
 	<description>Awe Spring Rest Module</description>
 
 	<properties>
-		<querydsl.version>4.1.4</querydsl.version>
 		<swagger.version>2.9.2</swagger.version>
 		<!-- Sonar properties -->
 		<application.folder>.</application.folder>

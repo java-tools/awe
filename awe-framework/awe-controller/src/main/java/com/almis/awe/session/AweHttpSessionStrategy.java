@@ -1,9 +1,9 @@
 package com.almis.awe.session;
 
 import com.almis.awe.model.component.AweSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.session.Session;
 import org.springframework.session.web.http.CookieSerializer;
-import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.session.web.http.HttpSessionStrategy;
 import org.springframework.util.Assert;
 
@@ -25,7 +25,16 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
   private static final String SESSION_IDS_WRITTEN_ATTR = AweHttpSessionStrategy.class
           .getName().concat(".SESSIONS_WRITTEN_ATTR");
 
-  private CookieSerializer cookieSerializer = new DefaultCookieSerializer();
+  private CookieSerializer cookieSerializer;
+
+  /**
+   * Autowired constructor
+   * @param cookieSerializer Cookie serializer
+   */
+  @Autowired
+  public AweHttpSessionStrategy(CookieSerializer cookieSerializer) {
+    this.cookieSerializer = cookieSerializer;
+  }
 
   /**
    * The delimiter between a session alias and a session id when reading a cookie value.

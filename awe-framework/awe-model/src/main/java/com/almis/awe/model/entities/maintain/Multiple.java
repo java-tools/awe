@@ -28,8 +28,6 @@ import lombok.experimental.SuperBuilder;
 @XStreamAlias("multiple")
 public class Multiple extends MaintainQuery {
 
-  private static final long serialVersionUID = -9159746386649780828L;
-
   // Audit table name
   @XStreamAlias("grid")
   @XStreamAsAttribute

@@ -9,6 +9,7 @@ import com.almis.awe.annotation.entities.session.FromSession;
 import com.almis.awe.annotation.entities.session.ToSession;
 import com.almis.awe.annotation.entities.util.Download;
 import com.almis.awe.annotation.entities.util.GoTo;
+import com.almis.awe.builder.client.ScreenActionBuilder;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ClientAction;
 import org.springframework.stereotype.Service;
@@ -195,13 +196,43 @@ public class AnnotationTestService {
   }
 
   /**
+   * Test GoTo annotation
+   *
+   * @return
+   */
+  @GoTo (screenName = "index")
+  public ClientAction testGoToAnnotationClientAction() {
+    return new ClientAction();
+  }
+
+  /**
+   * Test GoTo annotation
+   *
+   * @return
+   */
+  @GoTo
+  public ClientAction testGoToAnnotationWithoutScreen() {
+    return new ClientAction("screen").setTarget("default");
+  }
+
+  /**
+   * Test GoTo annotation
+   *
+   * @return
+   */
+  @GoTo (screenName = "index")
+  public String testGoToAnnotationReturningString() {
+    return "default";
+  }
+
+  /**
    * Test Download annotation
    *
    * @return
    */
   @Download (value = "new java.io.File(new org.springframework.core.io.ClassPathResource(\"application.properties\").getFile())", name = "customName")
   public ClientAction downloadFile() {
-    return new ClientAction("screen");
+    return new ScreenActionBuilder().build();
   }
 
   /**
@@ -211,7 +242,7 @@ public class AnnotationTestService {
    */
   @Download (value = "new java.io.File(new org.springframework.core.io.ClassPathResource(\"application.properties\").getFile())", name = "customName")
   public ClientAction downloadFileNoParam() {
-    return new ClientAction("screen");
+    return new ScreenActionBuilder().build();
   }
 
   /**
@@ -221,7 +252,7 @@ public class AnnotationTestService {
    */
   @Download (value = "#downloadFile", name = "customName")
   public ClientAction downloadFileFromVar(File downloadFile) {
-    return new ClientAction("screen");
+    return new ScreenActionBuilder().build();
   }
 
   /**
@@ -231,6 +262,6 @@ public class AnnotationTestService {
    */
   @Download (value = "new java.io.File(#downloadFile)", name = "customName")
   public ClientAction downloadFileFromVarMixed(String downloadFile) {
-    return new ClientAction("screen");
+    return new ScreenActionBuilder().build();
   }
 }

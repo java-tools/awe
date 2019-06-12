@@ -4,6 +4,7 @@ import com.almis.awe.test.integration.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+@RunWith(Suite.class)
 @Suite.SuiteClasses({
   CRUDTestsIT.class,
   RegressionTestsIT.class,
@@ -11,6 +12,5 @@ import org.junit.runners.Suite;
   IntegrationTestsIT.class,
   PrintTestsIT.class,
 })
-@RunWith(Suite.class)
 public class AllTestsSuiteIT {
 }

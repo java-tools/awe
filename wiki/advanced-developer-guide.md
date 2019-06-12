@@ -15,8 +15,10 @@ Almis Web Engine > **[Home](../README.md)**
 * **[Overwriting actions](#overwriting-actions)**
 * **[New component development](#new-component-development)**
 * **[Style customization](#style-customization)**
-* **[AWE REST api](rest-api.md)**
 * **[F.A.Q.](#faq)**
+* **AWE Modules**
+  * **[AWE Builder module](awe-builder-module.md)**
+  * **[AWE REST module](awe-rest-module.md)**
 
 ---
 

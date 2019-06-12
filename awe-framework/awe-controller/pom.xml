@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-dependencies</artifactId>
-    <version>4.0.8</version>
+    <version>4.1.0</version>
     <relativePath>../awe-dependencies</relativePath>
   </parent>
 
@@ -16,7 +16,6 @@
   <description>Awe Spring Controller Module</description>
 
   <properties>
-    <querydsl.version>4.2.1</querydsl.version>
     <!-- Sonar properties -->
     <application.folder>.</application.folder>
     <sonar.sources>src</sonar.sources>
@@ -106,7 +105,6 @@
     <dependency>
       <groupId>com.querydsl</groupId>
       <artifactId>querydsl-sql</artifactId>
-      <version>${querydsl.version}</version>
       <exclusions>
         <exclusion>
           <groupId>com.google.guava</groupId>

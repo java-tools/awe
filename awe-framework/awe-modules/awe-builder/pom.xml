@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-modules</artifactId>
-    <version>4.0.8</version>
+    <version>4.1.0</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -15,7 +15,6 @@
   <artifactId>awe-builder</artifactId>
 
   <properties>
-    <querydsl.version>4.1.4</querydsl.version>
     <!-- Sonar properties -->
     <application.folder>.</application.folder>
     <sonar.sources>src</sonar.sources>

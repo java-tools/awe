@@ -9,8 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.core.util.datetime.FastDateFormat;
 
 /**
@@ -19,9 +18,8 @@ import org.apache.logging.log4j.core.util.datetime.FastDateFormat;
  *
  * @author Pablo GARCIA and Pablo Vidal - 13/JUL/2014
  */
+@Log4j2
 public final class DateUtil {
-
-  private static final Logger logger = LogManager.getLogger(DateUtil.class);
 
   /**
    * Private constructor to enclose the default one
@@ -176,7 +174,7 @@ public final class DateUtil {
         webDat = DATE_FORMAT_WEB.parse(date);
       }
     } catch (Exception exc) {
-      logger.error("[{0}] Error parsing WEB date to date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing WEB date to date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return sql Date */
@@ -199,7 +197,7 @@ public final class DateUtil {
       webDat = TIME_FORMAT_WEB.parse(date);
     } catch (Exception exc) {
       webDat = null;
-      logger.error("[{0}] Error parsing WEB TIME to date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing WEB TIME to date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return sql Date */
@@ -223,7 +221,7 @@ public final class DateUtil {
         webDat = TMST_FORMAT_WEB.parse(date);
       }
     } catch (Exception exc) {
-      logger.error("[{0}] Error parsing WEB TIMESTAMP to date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing WEB TIMESTAMP to date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return sql Date */
@@ -246,7 +244,7 @@ public final class DateUtil {
       webDat = TMST_FORMAT_WEB_MS.parse(date);
     } catch (Exception exc) {
       webDat = null;
-      logger.error("[{0}] Error parsing WEB TIMESTAMP WITH MS to date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing WEB TIMESTAMP WITH MS to date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return sql Date */
@@ -369,7 +367,7 @@ public final class DateUtil {
       outDat = DATE_FORMAT_WEB.format(webDat);
     } catch (Exception exc) {
       outDat = date;
-      logger.error("[{0}] Error parsing SQL date to WEB date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing SQL date to WEB date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return web date string */
@@ -443,7 +441,7 @@ public final class DateUtil {
       outDat = TIME_FORMAT_WEB.format(webDat);
     } catch (Exception exc) {
       outDat = date;
-      logger.error("[{0}] Error parsing SQL date to WEB TIME -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing SQL date to WEB TIME -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return web date string */
@@ -469,7 +467,7 @@ public final class DateUtil {
       outDat = TMST_FORMAT_WEB.format(webDat);
     } catch (Exception exc) {
       outDat = date;
-      logger.error("[{0}] Error parsing SQL date to WEB TIMESTAMP -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing SQL date to WEB TIMESTAMP -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return web date string */
@@ -495,7 +493,7 @@ public final class DateUtil {
       outDat = DATE_FORMAT_JS.format(webDat);
     } catch (Exception exc) {
       outDat = date;
-      logger.error("[{0}] Error parsing SQL date to JS date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing SQL date to JS date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return web date string */
@@ -514,7 +512,7 @@ public final class DateUtil {
       Date date = sql2JavaDate(val);
       dateMs = dat2DateMs(date);
     } catch (ParseException ex) {
-      logger.error("[{0}] Error parsing SQL date to Java date in milliseconds -{1}-", new Object[] { UTILITY_NAME }, ex);
+      log.error("[{}] Error parsing SQL date to Java date in milliseconds -{}-", UTILITY_NAME, ex);
     }
     return dateMs;
   }
@@ -538,7 +536,7 @@ public final class DateUtil {
       outDat = TMST_FORMAT_JS.format(webDat);
     } catch (Exception exc) {
       outDat = date;
-      logger.error("[{0}] Error parsing SQL date to JS TIMESTAMP -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing SQL date to JS TIMESTAMP -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return web date string */
@@ -561,7 +559,7 @@ public final class DateUtil {
       /* Parse initial date */
       outDat = DATE_FORMAT_WEB.format(webDat);
     } catch (Exception exc) {
-      logger.error("[{0}] Error parsing SQL date to WEB date -{1}-", new Object[] { UTILITY_NAME, date.toString() }, exc);
+      log.error("[{}] Error parsing SQL date to WEB date -{}-", UTILITY_NAME, date.toString(), exc);
     }
 
     /* Return web date string */
@@ -584,7 +582,7 @@ public final class DateUtil {
       /* Parse initial date */
       outDat = TIME_FORMAT_WEB.format(webDat);
     } catch (Exception exc) {
-      logger.error("[{0}] Error parsing SQL date to WEB TIME -{1}-", new Object[] { UTILITY_NAME, date.toString() }, exc);
+      log.error("[{}] Error parsing SQL date to WEB TIME -{}-", UTILITY_NAME, date.toString(), exc);
     }
 
     /* Return web date string */
@@ -607,7 +605,7 @@ public final class DateUtil {
       /* Parse initial date */
       outDat = TMST_FORMAT_WEB.format(webDat);
     } catch (Exception exc) {
-      logger.error("[{0}] Error parsing SQL date to WEB TIMESTAMP -{1}-", new Object[] { UTILITY_NAME, date.toString() }, exc);
+      log.error("[{}] Error parsing SQL date to WEB TIMESTAMP -{}-", UTILITY_NAME, date.toString(), exc);
     }
 
     /* Return web date string */
@@ -630,7 +628,7 @@ public final class DateUtil {
       /* Parse initial date */
       outDat = DATE_FORMAT_JS.format(webDat);
     } catch (Exception exc) {
-      logger.error("[{0}] Error parsing SQL date to JS date -{1}-", new Object[] { UTILITY_NAME, date.toString() }, exc);
+      log.error("[{}] Error parsing SQL date to JS date -{}-", UTILITY_NAME, date.toString(), exc);
     }
 
     /* Return web date string */
@@ -653,7 +651,7 @@ public final class DateUtil {
       /* Parse initial date */
       outDat = TMST_FORMAT_JS.format(webDat);
     } catch (Exception exc) {
-      logger.error("[{0}] Error parsing SQL date to JS TIMESTAMP -{1}-", new Object[] { UTILITY_NAME, date.toString() }, exc);
+      log.error("[{}] Error parsing SQL date to JS TIMESTAMP -{}-", UTILITY_NAME, date.toString(), exc);
     }
 
     /* Return web date string */
@@ -700,7 +698,7 @@ public final class DateUtil {
       outDat = TMST_FORMAT_WEB_MS.format(webDat);
 
     } catch (Exception exc) {
-      logger.error("[{0}] Error parsing SQL date to WEB TIMESTAMP WITH MS -{1}-", new Object[] { UTILITY_NAME, date.toString() }, exc);
+      log.error("[{}] Error parsing SQL date to WEB TIMESTAMP WITH MS -{}-", UTILITY_NAME, date.toString(), exc);
     }
 
     /* Return web date string */
@@ -725,7 +723,7 @@ public final class DateUtil {
       outDat = DATE_FORMAT_WBS.format(webDat);
     } catch (Exception exc) {
       outDat = date;
-      logger.error("[{0}] Error parsing WEB date to WBS date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing WEB date to WBS date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return web date string */
@@ -748,7 +746,7 @@ public final class DateUtil {
       outDat = DATE_FORMAT_WBS.format(date);
     } catch (Exception exc) {
       outDat = date.toString();
-      logger.error("[{0}] Error parsing date to WBS date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing date to WBS date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return web date string */
@@ -775,7 +773,7 @@ public final class DateUtil {
       outDat = DATE_FORMAT_RDB.format(webDat);
     } catch (Exception exc) {
       outDat = date;
-      logger.error("[{0}] Error parsing WEB date to RDB date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing WEB date to RDB date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return rdb date string in UPPERCASE */
@@ -801,7 +799,7 @@ public final class DateUtil {
       outDat = DATE_FORMAT_WEB.format(wbsDat);
     } catch (Exception exc) {
       outDat = date;
-      logger.error("[{0}] Error parsing WBS date to WEB date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing WBS date to WEB date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return web date string */
@@ -827,7 +825,7 @@ public final class DateUtil {
       outDat = DATE_FORMAT_JS.format(wbsDat);
     } catch (Exception exc) {
       outDat = date;
-      logger.error("[{0}] Error parsing WBS date to JS date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing WBS date to JS date -{}-", UTILITY_NAME, date , exc);
     }
 
     /* Return web date string */
@@ -876,12 +874,7 @@ public final class DateUtil {
    * @return Is an WBS date
    */
   public static boolean isWbsDate(String date) {
-    try {
-      DATE_FORMAT_WBS.parse(date);
-      return true;
-    } catch (Exception exc) {
-      return false;
-    }
+    return isXXX(date, DATE_FORMAT_WBS);
   }
 
   /**
@@ -891,27 +884,27 @@ public final class DateUtil {
    * @return Is an SQL date
    */
   public static boolean isSqlDate(String date) {
-    try {
-      TMST_FORMAT_SQL_MS.parse(date);
-      return true;
-    } catch (ParseException exc) {
-      return false;
-    }
+    return isXXX(date, TMST_FORMAT_SQL_MS);
   }
 
   /**
-   * Returns true if date is an WBS date
+   * Returns true if date is an Web timestamp
    *
    * @param date (Web service formatted)
    * @return Is an WBS date
    */
   public static boolean isWebTimestamp(String date) {
-    try {
-      TMST_FORMAT_WEB_MS.parse(date);
-      return true;
-    } catch (Exception exc) {
-      return false;
-    }
+    return isXXX(date, TMST_FORMAT_WEB);
+  }
+
+  /**
+   * Returns true if date is an Web date with milliseconds
+   *
+   * @param date (Web service formatted)
+   * @return Is an WBS date
+   */
+  public static boolean isWebTimestampWithMs(String date) {
+    return isXXX(date, TMST_FORMAT_WEB_MS);
   }
 
   /**
@@ -921,8 +914,18 @@ public final class DateUtil {
    * @return Is an WBS date
    */
   public static boolean isJsonDate(String date) {
+    return isXXX(date, JSON_DATE);
+  }
+
+  /**
+   * Returns true if date is an WBS date
+   *
+   * @param date (Web service formatted)
+   * @return Is an WBS date
+   */
+  private static boolean isXXX(String date, FastDateFormat format) {
     try {
-      JSON_DATE.parse(date);
+      format.parse(date);
       return true;
     } catch (Exception exc) {
       return false;
@@ -986,7 +989,7 @@ public final class DateUtil {
         date = cal.getTime();
       }
     } catch (ParseException ex) {
-      logger.error("Parsing error.", ex);
+      log.error("Parsing error.", ex);
     }
     return date;
   }
@@ -1016,7 +1019,7 @@ public final class DateUtil {
 
     } catch (Exception ex) {
       outDat = dateIn;
-      logger.error("[{0}] Error parsing generic date from {2} to {3} -{1}-", new Object[] { UTILITY_NAME, dateIn, formatFrom, formatTo }, ex);
+      log.error("[{}] Error parsing generic date from {2} to {3} -{}-", UTILITY_NAME, dateIn, formatFrom, formatTo, ex);
     }
 
     return outDat;
@@ -1048,7 +1051,7 @@ public final class DateUtil {
       outDat = DATE_FORMAT_WEB.format(webDat);
     } catch (Exception exc) {
       outDat = date;
-      logger.error("[{0}] Error parsing RDB date to WEB date -{1}-", new Object[] { UTILITY_NAME, date }, exc);
+      log.error("[{}] Error parsing RDB date to WEB date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return rdb date string in UPPERCASE */
@@ -1072,11 +1075,36 @@ public final class DateUtil {
       outDat = DATE_FORMAT_RDB.format(date);
     } catch (Exception exc) {
       outDat = date.toString();
-      logger.error("[{0}] Error parsing RDB date to WEB date -{1}-", new Object[] { UTILITY_NAME, date.toString() }, exc);
+      log.error("[{}] Error parsing RDB date to WEB date -{}-", UTILITY_NAME, date.toString(), exc);
     }
 
     /* Return rdb date string in UPPERCASE */
     return outDat.toUpperCase();
+  }
+
+  /**
+   * Autodetects date format and applies a format into java date
+   *
+   * @param dateString String date
+   * @return Date formatted
+   */
+  public static Date autoDetectDateFormat(String dateString) {
+    try {
+      if (isJsonDate(dateString)) {
+        return jsonDate(dateString);
+      } else if (isSqlDate(dateString)) {
+        return sql2JavaDate(dateString);
+      } else if (isWbsDate(dateString)) {
+        return wbs2JavaDate(dateString);
+      } else if (isWebTimestamp(dateString)) {
+        return web2Timestamp(dateString);
+      } else if (isWebTimestampWithMs(dateString)) {
+        return web2TimestampWithMs(dateString);
+      }
+    } catch (ParseException exc) {
+      log.error("Parsing date {}", dateString, exc);
+    }
+    return null;
   }
 
 }

@@ -20,7 +20,8 @@ public enum MaintainType {
   SERVE("S"),
   QUEUE("Q"),
   UPDATE("U"),
-  INCLUDE("T");
+  INCLUDE("T"),
+  RETRIEVE_DATA("G");
 
   private String key;
 

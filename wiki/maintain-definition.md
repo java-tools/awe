@@ -21,6 +21,7 @@ Almis Web Engine > **[Basic Development Guide](basic-developer-guide.md)**
 * **[Queue maintain](#queue-maintain)**
 * **[Email maintain](#email-maintain)**
 * **[Include target](#include-target)**
+* **[Retrieve data](#retrieve-data)** **NEW!**
 
 ---
 
@@ -68,7 +69,7 @@ The simplemaintain structure is the next one:
 
 ```
 
-> *Note:* [OPERATION] can be any of the following values, INSERT, DELETE, UPDATE, MULTIPLE, COMMIT, SEND-EMAIL, QUEUE or SERVE.
+> *Note:* [OPERATION] can be any of the following values: `insert`, `delete`, `update`, `multiple`, `commit`, `send-email`, `queue`, `serve` or `retrieve-data`.
 
 ### Maintain element
 
@@ -84,7 +85,8 @@ For even more simplify the development of maintain, not all elements are require
 | [commit](#commit)| Optional | Yes | Is used to do commit in database and store the changes  |
 | [serve](#service-maintain)| Optional | Yes | Is used to do operations with services (Java or Web services) |
 | [queue](#queue)| Optional | Yes | Is used to do operations with queues  |
-| [send-email](#send-email)| Optional | Yes | Serves to send e-mails  |
+| [send-email](#send-email)| Optional | Yes | Send an e-mails  |
+| [retrieve-data](#retrieve-data)| Optional | Yes | Retrieve data from SQL, services, enumerated or queues |
 | [table](#table-element)| Optional | No | Describes the table over the changes are done  |
 | [where](#where-element)| Optional | No | Defines the conditions that must be met to perform the operation. Is the `where` sql clause  |
 | [field](#field-element)| Optional | Yes|  It describes the **columns** of table over operate it  |
@@ -782,3 +784,58 @@ Include target has the following attributes:
   <include-target name="testDelete"/>
 </target>
 ```
+
+## **Retrieve data**
+
+Retrieve data target is useful to retrieve some data from a query (SQL, service, enumerated, etc.) 
+and send it to a maintain process.
+
+Retrieve data has the following xml structure:
+
+```xml
+<target name="[target_name]">
+  <retrieve-data service="[service_id]" enumerated="[enumerated_id]" queue="[queue_id]">
+    <table .../>
+    <field alias="[field_alias]"
+    <variable id="[variable_name]" type="[variable_type]" name="[parameter_name]" [[list="list"] 
+     [session="session_variable"] [value="static_value"] [property="property_value"]]/>
+    ... (more variables)
+  </retrieve-data>
+</target>
+```
+
+`retrieve-data` tag works as a query defined on queries.xml. Every retrieved column will be 
+stored as a parameter named as the column field alias.
+
+> **NOTE:** If you are using AWE sequences, you should consider to prioritize this way of 
+retrieving data for inserting it rather to `INSERT INTO SELECT` statements.
+
+#### **Retrieve data examples**
+
+```xml
+<target name="testRetrieveDataAndInsertAfter">
+  <retrieve-data>
+    <table id="Table1"/>
+    <field id="Field1" alias="name"/>
+    <field id="Field2" alias="screen"/>
+    <field id="Field3" alias="user"/>
+    <field id="Field4" alias="action"/>
+  </retrieve-data>
+  <insert multiple="true">
+    <table id="Table2"/>
+    <field id="User" variable="User"/>
+    <field id="Date" variable="Date"/>
+    <field id="Action" variable="Action"/>
+    <field id="Name" variable="Nam"/>
+    <field id="Active" variable="Active"/>
+    <variable id="User" type="STRING" name="user"/>
+    <variable id="Date" type="SYSTEM_DATE"/>
+    <variable id="Action" type="STRING" name="action"/>
+    <variable id="Name" type="STRING" name="name"/>
+    <variable id="Active" type="INTEGER" value="1"/>
+  </insert>
+</target>
+```
+
+This sample will retrieve a list of variables named `name`, `screen`, `user` and `action` 
+and will use them as input parameters for insert statement to `Table2`.

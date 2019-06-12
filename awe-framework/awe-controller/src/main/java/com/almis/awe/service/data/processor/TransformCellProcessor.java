@@ -1,8 +1,6 @@
 package com.almis.awe.service.data.processor;
 
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.component.AweContextAware;
-import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.entities.queries.OutputField;
 import com.almis.awe.model.type.CellDataType;
@@ -18,18 +16,8 @@ import java.util.Date;
 /**
  * TransformCellProcessor class
  */
-public class TransformCellProcessor implements CellProcessor, AweContextAware {
+public class TransformCellProcessor implements CellProcessor {
   private OutputField field;
-  private AweElements elements;
-
-  /**
-   * Set Awe Elements
-   * @return Awe Elements
-   */
-  public TransformCellProcessor setElements(AweElements elements) {
-    this.elements = elements;
-    return this;
-  }
 
   /**
    * Set transform field

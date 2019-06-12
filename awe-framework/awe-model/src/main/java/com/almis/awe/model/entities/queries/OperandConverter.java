@@ -27,8 +27,8 @@ public class OperandConverter implements Converter {
       Operation field = (Operation) source;
       writer.addAttribute(OPERATOR, field.getOperator());
       writeOperation(field, writer, context);
-    } else if (source instanceof Static) {
-      Static field = (Static) source;
+    } else if (source instanceof Constant) {
+      Constant field = (Constant) source;
       writer.addAttribute(VALUE, field.getValue());
       if (field.getType() != null) writer.addAttribute(TYPE, field.getType());
     } else if (source instanceof Field) {
@@ -46,6 +46,18 @@ public class OperandConverter implements Converter {
   }
 
   /**
+   * Write a sql field
+   * @param field SQL field
+   * @param writer writer
+   * @param context context
+   */
+  private void writeField(SqlField field, HierarchicalStreamWriter writer, MarshallingContext context) {
+    writer.startNode(field.getClass().getSimpleName().toLowerCase());
+    context.convertAnother(field);
+    writer.endNode();
+  }
+
+  /**
    * Marshal operation
    * @param field
    * @param context
@@ -53,9 +65,7 @@ public class OperandConverter implements Converter {
   private void writeOperation(Operation field, HierarchicalStreamWriter writer, MarshallingContext context) {
     if (field.getOperandList() != null) {
       for (SqlField operand : field.getOperandList()) {
-        writer.startNode(operand.getClass().getSimpleName().toLowerCase());
-        context.convertAnother(operand);
-        writer.endNode();
+        writeField(operand, writer, context);
       }
     }
   }
@@ -87,7 +97,7 @@ public class OperandConverter implements Converter {
         .setOperandList(getOperands(reader, context, new ArrayList<>()));
     } else if (reader.getAttribute(VALUE) != null) {
       // Convert to static
-      sqlField = new Static()
+      sqlField = new Constant()
         .setValue(reader.getAttribute(VALUE))
         .setType(reader.getAttribute(TYPE));
     } else if (reader.hasMoreChildren()) {
@@ -103,9 +113,9 @@ public class OperandConverter implements Converter {
 
     // Add sqlfield attributes
     sqlField
-      .setId(reader.getAttribute(ID))
+      .setFunction(reader.getAttribute(FUNCTION))
       .setTable(reader.getAttribute(TABLE))
-      .setFunction(reader.getAttribute(FUNCTION));
+      .setId(reader.getAttribute(ID));
 
     return sqlField;
   }

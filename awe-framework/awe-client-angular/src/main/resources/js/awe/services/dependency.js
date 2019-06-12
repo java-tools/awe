@@ -39,6 +39,12 @@ aweApplication.factory('Dependency',
           case "ne":
             output.value = !Utilities.compareEqualValues(value1, value2);
             break;
+          case "contains":
+            output.value = Utilities.compareContainValues(value1, value2);
+            break;
+          case "not contains":
+            output.value = !Utilities.compareContainValues(value1, value2);
+            break;
           case "ge":
             output.value = value1 >= value2;
             break;

@@ -1,9 +1,10 @@
 package com.almis.awe.test;
 
+import com.almis.awe.builder.client.chart.AddChartSeriesActionBuilder;
+import com.almis.awe.builder.client.chart.RemoveChartSeriesActionBuilder;
+import com.almis.awe.builder.client.chart.ReplaceChartSeriesActionBuilder;
 import com.almis.awe.config.ServiceConfig;
-import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.ServiceData;
-import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.screen.component.chart.ChartSerie;
 import com.almis.awe.model.entities.screen.component.chart.ChartSeriePoint;
 import com.almis.awe.model.util.security.EncodeUtil;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,7 +24,6 @@ import java.util.List;
 public class Chart extends ServiceConfig {
 
   private static final String SCREEN_TEST = "ChrLinTst";
-  private static final String SERIES = "series";
 
   /**
    * Test method to replace the series of chart
@@ -31,19 +32,9 @@ public class Chart extends ServiceConfig {
    * @return Service output
    */
   public ServiceData replaceSeriesChart(List<String> userList) {
-
-    // Init variables
-    ServiceData serviceData = new ServiceData();
-
-    // Create arrayNode of chart series
-    List<ChartSerie> serieList = getSerieList(userList);
-
     // Create action replace series of chart
-    serviceData.addClientAction(new ClientAction("replace-chart-series")
-      .setTarget(SCREEN_TEST)
-      .addParameter(SERIES, new CellData(serieList)));
-
-    return serviceData;
+    return new ServiceData()
+      .addClientAction(new ReplaceChartSeriesActionBuilder(SCREEN_TEST, getSerieList(userList)).build());
   }
 
   /**
@@ -86,19 +77,9 @@ public class Chart extends ServiceConfig {
    * @return Service output
    */
   public ServiceData addSeriesChart(List<String> userList) {
-
-    // Init variables
-    ServiceData serviceData = new ServiceData();
-
-    // Create arrayNode of chart series
-    List<ChartSerie> serieList = getSerieList(userList);
-
     // Create action replace series of chart
-    serviceData.addClientAction(new ClientAction("add-chart-series")
-      .setTarget(SCREEN_TEST)
-      .addParameter(SERIES, new CellData(serieList)));
-
-    return serviceData;
+    return new ServiceData()
+      .addClientAction(new AddChartSeriesActionBuilder(SCREEN_TEST, getSerieList(userList)).build());
   }
 
   /**
@@ -108,27 +89,9 @@ public class Chart extends ServiceConfig {
    * @return Service data
    */
   public ServiceData removeSeriesChart(List<String> userList) {
-
-    // Init variables
-    ServiceData serviceData = new ServiceData();
-
-    // Create arrayNode of chart series
-    List<ChartSerie> serieList = new ArrayList<>();
-
-    // Add json data of series
-    for (String user : userList) {
-      ChartSerie serie = new ChartSerie();
-      serie.setId(user);
-      // Add serie
-      serieList.add(serie);
-    }
-
     // Create action replace series of chart
-    serviceData.addClientAction(new ClientAction("remove-chart-series")
-      .setTarget(SCREEN_TEST)
-      .addParameter(SERIES, new CellData(serieList)));
-
-    return serviceData;
+    return new ServiceData()
+      .addClientAction(new RemoveChartSeriesActionBuilder(SCREEN_TEST, getSerieList(userList)).build());
   }
 
   /**
@@ -138,20 +101,7 @@ public class Chart extends ServiceConfig {
    */
   private List<String> builDummyMonthList() {
     // Dumy xAxis with months
-    List<String> months = new ArrayList<>();
-    months.add("Jan");
-    months.add("Feb");
-    months.add("Mar");
-    months.add("Apr");
-    months.add("May");
-    months.add("Jun");
-    months.add("Jul");
-    months.add("Aug");
-    months.add("Sep");
-    months.add("Oct");
-    months.add("Nov");
-    months.add("Dec");
-    return months;
+    return Arrays.asList("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
   }
 
 }

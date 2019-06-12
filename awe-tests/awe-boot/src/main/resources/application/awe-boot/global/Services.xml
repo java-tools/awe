@@ -37,7 +37,7 @@
   <service id="returnStringArrayTwoStringParams">
     <java classname="com.almis.awe.test.service.DummyService" method="returnStringArrayTwoStringParams">
       <service-parameter type="STRING" name="qryNam" />
-      <service-parameter type="STRING" name="fldLst" />
+      <service-parameter type="STRING" name="fldLst" list="true"/>
     </java>
   </service>
 
@@ -325,6 +325,24 @@
 
   <service id="testServiceByQualifier">
     <java classname="com.almis.awe.test.service.DummyQualifierService" method="getInstance" qualifier="CustomQualifierNameService"/>
+  </service>
+
+  <service id="testServiceBeanParameter">
+    <java classname="com.almis.awe.test.service.DummyService" method="getDummyData">
+      <service-parameter type="OBJECT" bean-class="com.almis.awe.test.bean.Planet"/>
+    </java>
+  </service>
+
+  <service id="testServiceBeanParameterList">
+    <java classname="com.almis.awe.test.service.DummyService" method="getDummyData">
+      <service-parameter type="OBJECT" bean-class="com.almis.awe.test.bean.Planet" list="true"/>
+    </java>
+  </service>
+
+  <service id="testServiceBeanListParameter">
+    <java classname="com.almis.awe.test.service.DummyService" method="getDummyData">
+      <service-parameter type="OBJECT" bean-class="com.almis.awe.test.bean.Planets"/>
+    </java>
   </service>
 
 </services>

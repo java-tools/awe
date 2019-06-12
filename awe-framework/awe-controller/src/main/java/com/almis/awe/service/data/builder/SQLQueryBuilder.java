@@ -380,7 +380,7 @@ public class SQLQueryBuilder extends SQLBuilder {
    * @param finalQuery SQLQuery created in build method
    * @throws AWException Order by statement generation error
    */
-  private void doOrderBy(SQLQuery<Tuple> finalQuery) throws AWException {
+  private void doOrderBy(SQLQuery<Tuple> finalQuery) {
     // Add component sorts
     Set<String> addedSorts = addComponentSorts(finalQuery);
 
@@ -394,17 +394,19 @@ public class SQLQueryBuilder extends SQLBuilder {
    * @return Added sorts
    * @throws AWException Error adding component sorts
    */
-  private Set<String> addComponentSorts(SQLQuery<Tuple> finalQuery) throws AWException {
+  private Set<String> addComponentSorts(SQLQuery<Tuple> finalQuery) {
     Set<String> addedSorts = new HashSet<>();
 
     // Add component sort first
     if (componentSortList != null) {
       for (SortColumn sort : componentSortList) {
-        Order order = Order.valueOf(sort.getDirection());
-        addedSorts.add(sort.getColumnId());
+        OrderBy orderBy = new OrderBy()
+          .setField(sort.getColumnId())
+          .setType(sort.getDirection());
 
         // Store
-        finalQuery.orderBy(new OrderSpecifier(order, buildPath(sort.getColumnId())));
+        addedSorts.add(sort.getColumnId());
+        finalQuery.orderBy(getOrderByExpression(orderBy));
       }
     }
 
@@ -417,16 +419,14 @@ public class SQLQueryBuilder extends SQLBuilder {
    * @param finalQuery Query
    * @throws AWException Error sorting
    */
-  private void addQuerySorts(Set<String> addedSorts, SQLQuery<Tuple> finalQuery) throws AWException {
+  private void addQuerySorts(Set<String> addedSorts, SQLQuery<Tuple> finalQuery) {
     // Add query sort
     if (getQuery().getOrderByList() != null) {
       for (OrderBy orderBy : getQuery().getOrderByList()) {
         if (!addedSorts.contains(orderBy.getField())) {
-          Order order = orderBy.getType() != null && orderBy.getType().equals(Order.DESC.toString()) ? Order.DESC : Order.ASC;
-
           // Add sort to added sorts
           addedSorts.add(orderBy.getField());
-          finalQuery.orderBy(new OrderSpecifier(order, buildPath(orderBy.getTable(), orderBy.getField())));
+          finalQuery.orderBy(getOrderByExpression(orderBy));
         }
       }
     }

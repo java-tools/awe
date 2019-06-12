@@ -1,5 +1,6 @@
 package com.almis.awe.builder.screen;
 
+import com.almis.awe.builder.client.ScreenActionBuilder;
 import com.almis.awe.builder.screen.base.AbstractElementBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweElements;
@@ -10,7 +11,6 @@ import com.almis.awe.model.entities.menu.Menu;
 import com.almis.awe.model.entities.menu.Option;
 import com.almis.awe.model.entities.screen.Screen;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -19,7 +19,6 @@ import lombok.experimental.Accessors;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @Accessors(chain = true)
 public class ScreenBuilder extends AbstractElementBuilder<ScreenBuilder, Screen> {
 
@@ -34,7 +33,6 @@ public class ScreenBuilder extends AbstractElementBuilder<ScreenBuilder, Screen>
    * Specific build that returns a service data with a screen client action.
    *
    * @return Client action with new screen generated
-   *
    * @throws AWException
    */
   public ServiceData buildClientAction(AweElements aweElements) throws AWException {
@@ -51,8 +49,7 @@ public class ScreenBuilder extends AbstractElementBuilder<ScreenBuilder, Screen>
     aweElements.setMenu(getMenuType(), menu);
 
     // Generate client action to retrieve screen
-    ClientAction clientAction = new ClientAction("screen")
-      .setTarget(screen.getId());
+    ClientAction clientAction = new ScreenActionBuilder(screen.getId()).build();
 
     return new ServiceData()
       .addClientAction(clientAction);
@@ -70,9 +67,8 @@ public class ScreenBuilder extends AbstractElementBuilder<ScreenBuilder, Screen>
   /**
    * Generate option menu
    *
-   * @param screen Screen
+   * @param screen      Screen
    * @param aweElements Awe Elements
-   *
    * @return
    */
   private Menu generateOptionMenu(Screen screen, AweElements aweElements) throws AWException {
@@ -94,8 +90,7 @@ public class ScreenBuilder extends AbstractElementBuilder<ScreenBuilder, Screen>
       .setTemplate(getTemplate())
       .setOnLoad(getOnLoad())
       .setOnUnload(getOnUnload())
-      .setTarget(getTarget())
-      .setLabel(getLabel());
+      .setTarget(getTarget());
 
     return screen;
   }
@@ -104,7 +99,6 @@ public class ScreenBuilder extends AbstractElementBuilder<ScreenBuilder, Screen>
    * Add tag
    *
    * @param tag
-   *
    * @return
    */
   public ScreenBuilder addTag(TagBuilder... tag) {
@@ -116,7 +110,6 @@ public class ScreenBuilder extends AbstractElementBuilder<ScreenBuilder, Screen>
    * Add message
    *
    * @param message
-   *
    * @return
    */
   public ScreenBuilder addMessage(MessageBuilder... message) {

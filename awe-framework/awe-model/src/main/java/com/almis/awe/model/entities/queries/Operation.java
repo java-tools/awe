@@ -57,10 +57,6 @@ public class Operation extends SqlField {
       }
     }
 
-    // Add function if defined
-    String field = operationBuilder.append(")").toString();
-    field = getFunction() != null ? getFunction() + "(" + field + ")" : field;
-
-    return field + super.toString();
+    return applyFunctionString(operationBuilder.append(")").toString()) + super.toString();
   }
 }

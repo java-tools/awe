@@ -445,6 +445,9 @@ Here you can define the database connection
 # Enable database
 awe.database.enabled=false
 
+# Limit log size (0 to disable)
+awe.database.limit.log.size=0
+
 # Datasource
 spring.datasource.jndi-name=
 # Datasource type - oracle, sqs, hsql, mysql
@@ -590,6 +593,14 @@ session.database.query=DbsAlsBySitModSel
 spring.session.store-type=HASH_MAP
 # Session timeout in seconds (30 min)
 server.session.timeout=1800
+
+########### COOKIE CONFIGURATION ###############
+# Session cookie name
+session.cookie.name=JSESSIONID
+# Session cookie path
+session.cookie.path=/
+# Session cookie domain name regexp
+session.cookie.domain.name.pattern=^.+?\.(\w+\.[a-z]+)$
 
 ########### REDIS CONFIGURATION ###############
 # redis host

@@ -5,7 +5,6 @@ import com.almis.awe.annotation.processor.locale.LocaleProcessor;
 import com.almis.awe.annotation.processor.session.SessionProcessor;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.AweSession;
-import com.almis.awe.model.util.file.FileUtil;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -78,13 +77,12 @@ public class AnnotationConfig {
 
   /**
    * Download Annotation
-   * @param fileUtil File utilities
    * @return Download Annotation bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public DownloadAnnotation downloadAnnotation(FileUtil fileUtil) {
-    return new DownloadAnnotation(fileUtil);
+  public DownloadAnnotation downloadAnnotation() {
+    return new DownloadAnnotation();
   }
 
   /**

@@ -19,26 +19,14 @@ import lombok.experimental.Accessors;
 public class ChartBuilder extends AbstractComponentBuilder<ChartBuilder, Chart> {
 
   private ChartType chartType;
-  private ServerAction serverAction;
   private Stacking stacking;
-  private InitialLoad initialLoad;
   private ChartAxis zoomType;
-  private Integer max;
-  private IconLoading iconLoading;
   private String formatDataLabels;
-  private String help;
-  private String helpImage;
-  private String label;
-  private String style;
   private String subtitle;
-  private String targetAction;
   private String theme;
-  private boolean autoload;
-  private Integer autorefresh;
   private boolean enableDataLabels;
   private boolean inverted;
   private boolean stockChart;
-  private boolean visible;
   private ChartLegendBuilder chartLegend;
   private ChartTooltipBuilder chartTooltip;
 
@@ -61,24 +49,12 @@ public class ChartBuilder extends AbstractComponentBuilder<ChartBuilder, Chart> 
       chart.setType(getChartType().toString());
     }
 
-    if (getServerAction() != null) {
-      chart.setServerAction(getServerAction().toString());
-    }
-
     if (getStacking() != null) {
       chart.setStacking(getStacking().toString());
     }
 
-    if (getInitialLoad() != null) {
-      chart.setInitialLoad(getInitialLoad().toString());
-    }
-
     if (getZoomType() != null) {
       chart.setZoomType(getZoomType().toString());
-    }
-
-    if (getIconLoading() != null) {
-      chart.setIconLoading(getIconLoading().toString());
     }
 
     if (getChartLegend() != null) {
@@ -95,7 +71,7 @@ public class ChartBuilder extends AbstractComponentBuilder<ChartBuilder, Chart> 
   /**
    * Add chart parameter list
    *
-   * @param chartSerie
+   * @param chartParameter
    * @return
    */
   public ChartBuilder addChartParameter(ChartParameterBuilder... chartParameter) {

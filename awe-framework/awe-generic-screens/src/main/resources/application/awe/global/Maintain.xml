@@ -184,7 +184,7 @@
       <variable id="Thm" type="INTEGER" name="Thm" />
       <variable id="Scr" type="STRING" name="Scr" />
       <variable id="Act" type="INTEGER" name="Act" />
-      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeMod" type="INTEGER"/>
     </insert>
     <multiple grid="MdlUsrLst" audit="HISAweModOpe">
       <table id="AweModOpe" />
@@ -193,7 +193,7 @@
       <field id="IdeOpe" variable="IdeOpe" />
       <field id="IdeThm" variable="IdeThm" />
       <variable id="IdeModOpe" type="INTEGER" name="IdeModOpe" />
-      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeMod" type="INTEGER"/>
       <variable id="IdeOpe" type="INTEGER" name="IdeOpe" />
       <variable id="IdeThm" type="INTEGER" name="IdeThm" />
     </multiple>
@@ -203,7 +203,7 @@
       <field id="IdeMod" variable="IdeMod" />
       <field id="IdePro" variable="IdePro" />
       <variable id="IdeModPro" type="INTEGER" name="IdeModPro" />
-      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeMod" type="INTEGER"/>
       <variable id="IdePro" type="INTEGER" name="IdePro" />
     </multiple>
     <multiple grid="MdlSitDbsLst" audit="HISAweSitModDbs">
@@ -214,7 +214,7 @@
       <field id="IdeDbs" variable="IdeDbs" />
       <field id="Ord" variable="Ord" />
       <variable id="IdeSitModDbs" type="INTEGER" name="IdeSitModDbs" />
-      <variable id="IdeMod" type="INTEGER" name="IdeMod" />
+      <variable id="IdeMod" type="INTEGER"/>
       <variable id="IdeSit" type="INTEGER" name="IdeSit" />
       <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
       <variable id="Ord" type="INTEGER" name="SitModOrd" />
@@ -1868,7 +1868,7 @@
   <target name="UpdSchTskWthCal" public="true">
     <update audit="HISAweSchTskLch">
       <table id="AweSchTskLch"/>
-      <static id="IdeCal" value=""/>
+      <constant id="IdeCal" value=""/>
       <where>
         <and>
           <filter left-field="IdeCal" condition="eq" right-variable="IdeCal"/>

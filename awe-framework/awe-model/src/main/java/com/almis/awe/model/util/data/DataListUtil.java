@@ -1,10 +1,17 @@
 package com.almis.awe.model.util.data;
 
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.CompareRow;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.SortColumn;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.springframework.beans.PropertyAccessor;
+import org.springframework.beans.PropertyAccessorFactory;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -223,6 +230,35 @@ public final class DataListUtil {
   }
 
   /**
+   * Return the datalist as bean list
+   */
+  public static <T> List<T> asBeanList(DataList dataList, Class<T> beanClass) throws AWException {
+    List<T> list = new ArrayList<>();
+    T rowBean;
+
+    for (Map<String, CellData> row : dataList.getRows()) {
+      try {
+        // Generate row bean
+        rowBean = beanClass.newInstance();
+      } catch (Exception exc) {
+        throw new AWException("Error converting datalist into a bean list", "Cannot create instance of " + beanClass.getSimpleName(), exc);
+      }
+
+      // Set field value if found in row
+      for (Field field : beanClass.getDeclaredFields()) {
+        if (row.containsKey(field.getName())) {
+          PropertyAccessor rowBeanAccesor = PropertyAccessorFactory.forDirectFieldAccess(rowBean);
+          rowBeanAccesor.setPropertyValue(field.getName(), row.get(field.getName()).getObjectValue());
+        }
+      }
+
+      // Store row bean
+      list.add(rowBean);
+    }
+    return list;
+  }
+
+  /**
    * Add a column with one row value
    *
    * @param list DataList
@@ -250,6 +286,25 @@ public final class DataListUtil {
     }
 
     return columnData;
+  }
+
+  /**
+   * Retrieve a column data as QueryParameter
+   *
+   * @param list DataList
+   * @param columnName Column name (alias)
+   * @return Column object list
+   */
+  public static ArrayNode getColumnAsArrayNode(DataList list, String columnName) {
+    ArrayNode arrayNode = JsonNodeFactory.instance.arrayNode();
+    ObjectMapper mapper = new ObjectMapper();
+
+    // Add alias row by row
+    for (Map<String, CellData> row : list.getRows()) {
+      arrayNode.add(mapper.valueToTree(row.get(columnName)));
+    }
+
+    return arrayNode;
   }
 
   /**

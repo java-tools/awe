@@ -14,10 +14,11 @@ Almis Web Engine > **[Basic Development Guide](basic-developer-guide.md)**
      * [Table element](#table-element)
      * [Field element](#field-element)
        * [Transform attribute](#transform-attribute)
-     * [Static element](#static-element)
+     * [Constant element](#constant-element)
      * [Operation element](#operation-element)     
        * [Operator attribute](#operator-attribute)       
      * [Case element](#case-element)
+     * [Over element](#over-element)
      * [Computed element](#computed-element)
      * [Compound element](#compound-element)
      * [Join element](#join-element)
@@ -72,7 +73,7 @@ The full sql query structure is the following:
   ...
   <field id="[Field id]" table="[Table field]" alias="[Alias field]"/>
   <field variable="[Variable id]"/>
-  <static value="[Static value]" type="INTEGER"/>
+  <constant value="[Constant value]" type="INTEGER"/>
   <computed format="[Format]" alias="[Alias] transform="[Transform]"/>
   ...
   <computed format="[Format]" alias="[Alias] transform="[Transform]"/>
@@ -219,7 +220,7 @@ The *field* element has the following attributes:
 | transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM`, `ROW_NUMBER` and `TRUNCDATE` (not standard) |
 | query | Optional | String | Is the query identifier to do a subquery  | **Note:** The query id must exist, and `table` and `id` attributes will be ignored |
 | variable | Optional | String | A variable identified to be used as field value | **Note:** If `variable` attribute is defined, `table` and `id` attributes will be ignored |
 
@@ -257,9 +258,9 @@ These are the possible values for the `transform` attribute:
 * **DECRYPT**: Decrypt a column value which is encrypted in the database
 * **ARRAY**: Split a string value with the string in `pattern` attribute
 
-### Static element
+### Constant element
 
-The *static* element has the following attributes:
+The *constant* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
@@ -268,7 +269,7 @@ The *static* element has the following attributes:
 | transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM`, `ROW_NUMBER` and `TRUNCDATE` (not standard) |
 | value | Required | String | A static value to be used as field value |  |
 | type | Optional | String | Type of the value | The possible values are available [here](#variable-types) |
 
@@ -278,7 +279,7 @@ The *operation* element allows to define operation between fields and will be re
 
 ```xml
 <operation operator="[operator]" alias="[alias]">
-  <static value="[static value]" />
+  <constant value="[constant value]" />
   <field id="[field name]" table="[field table]" />
   ...
 </field>
@@ -292,38 +293,39 @@ The *operation* element allows to define operation between fields and will be re
 | transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM`, `ROW_NUMBER` and `TRUNCDATE` (not standard) |
 
 #### Operator attribute
 
 These are the possible values for the `operator` attribute:
 
 * **CONCAT**: Concat some string fields
+* **NULLIF**: Set null if equals to second operand
 * **ADD**: Sum two fields
 * **SUB**: Substract two fields
 * **MULT**: Multiply two fields
 * **DIV**: Divide two fields
-* **"ADD_SECONDS**: Add seconds to a date field
-* **"ADD_MINUTES**: Add minutes to a date field
-* **"ADD_HOURS**: Add hours to a date field
-* **"ADD_DAYS**: Add days to a date field
-* **"ADD_WEEKS**: Add weeks to a date field
-* **"ADD_MONTHS**: Add months to a date field
-* **"ADD_YEARS**: Add years to a date field
-* **"DIFF_SECONDS**: Calculate the difference in seconds between two dates
-* **"DIFF_MINUTES**: Calculate the difference in minutes between two dates
-* **"DIFF_HOURS**: Calculate the difference in hours between two dates
-* **"DIFF_DAYS**: Calculate the difference in days between two dates
-* **"DIFF_WEEKS**: Calculate the difference in weeks between two dates
-* **"DIFF_MONTHS**: Calculate the difference in months between two dates
-* **"DIFF_YEARS**: Calculate the difference in years between two dates
-* **"SUB_SECONDS**: Substract seconds from a date field
-* **"SUB_MINUTES**: Substract minutes from a date field
-* **"SUB_HOURS**: Substract hours from a date field
-* **"SUB_DAYS**: Substract days from a date field
-* **"SUB_WEEKS**: Substract weeks from a date field
-* **"SUB_MONTHS**: Substract months from a date field
-* **"SUB_YEARS**: Substract years from a date field
+* **ADD_SECONDS**: Add seconds to a date field
+* **ADD_MINUTES**: Add minutes to a date field
+* **ADD_HOURS**: Add hours to a date field
+* **ADD_DAYS**: Add days to a date field
+* **ADD_WEEKS**: Add weeks to a date field
+* **ADD_MONTHS**: Add months to a date field
+* **ADD_YEARS**: Add years to a date field
+* **DIFF_SECONDS**: Calculate the difference in seconds between two dates
+* **DIFF_MINUTES**: Calculate the difference in minutes between two dates
+* **DIFF_HOURS**: Calculate the difference in hours between two dates
+* **DIFF_DAYS**: Calculate the difference in days between two dates
+* **DIFF_WEEKS**: Calculate the difference in weeks between two dates
+* **DIFF_MONTHS**: Calculate the difference in months between two dates
+* **DIFF_YEARS**: Calculate the difference in years between two dates
+* **SUB_SECONDS**: Substract seconds from a date field
+* **SUB_MINUTES**: Substract minutes from a date field
+* **SUB_HOURS**: Substract hours from a date field
+* **SUB_DAYS**: Substract days from a date field
+* **SUB_WEEKS**: Substract weeks from a date field
+* **SUB_MONTHS**: Substract months from a date field
+* **SUB_YEARS**: Substract years from a date field
 
 #### Operation examples
 
@@ -331,9 +333,9 @@ Concatenated field: `("Pro" + pro.Nam + "-Mod" + mod.Nam) as parent`
 
 ```xml
 <operation operator="CONCAT" alias="parent">
-  <static value="Pro" />
+  <constant value="Pro" />
   <field id="Nam" table="pro" />
-  <static value="-Mod" />
+  <constant value="-Mod" />
   <field id="Nam" table="mod" />
 </field>
 ```
@@ -343,7 +345,7 @@ Add 1 to a field: `(pro.Nam + 1) as parent`
 ```xml
 <operation operator="ADD" alias="parent">
   <field id="Nam" table="pro" />
-  <static value="1" type="INTEGER"/>
+  <constant value="1" type="INTEGER"/>
 </field>
 ```
 
@@ -359,7 +361,7 @@ It has the same attributes as a [filter element](#filter-element) **plus** some 
 | transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM` and `TRUNCDATE` (not standard) |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM`, `ROW_NUMBER` and `TRUNCDATE` (not standard) |
 
 > **NEW!**: As described on [filter element](#filter-element), `left-operand` and `right-operand` can be defined with the
 > properties of `field`, `static`, `operation` or `case` as well. Same case for the `then` and `else` elements.
@@ -386,6 +388,41 @@ will be generated as:
   <variable id="sunset" type="STRING" value="sunset"/>
   <variable id="sunny" type="STRING" value="sunny"/>
   <variable id="purple-hills" type="STRING" value="purple-hills"/>
+</query>
+```
+
+### Over element
+
+The *over* element allows to modelate **SQL window functions**. This element contains a field clause (`field`, `constant`, 
+`operation` or `case`) and some of `partition-by` or `order-by` clauses.
+
+| Attribute     | Use      | Type      |  Description                    |   Values                                           |
+| ------------- | ---------|-----------|---------------------------------|----------------------------------------------------|
+| alias | Optional | String | Alias of field. It used to describe the field |  |
+| noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
+| transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
+| function | Optional | String | To apply sql function to field|The possible values are: `AVG`, `CNT`, `MAX`, `MIN`, `SUM`, `FIRST_VALUE`, `LAST_VALUE`, `LAG`, `ROW_NUMBER` and `TRUNCDATE` (not standard) |
+
+#### Over examples
+
+Over field: 
+
+```sql
+SELECT MAX(date) OVER (PARTITION BY name ORDER BY position ASC) as `maxValue` FROM tableId
+```
+
+will be generated as:
+
+```xml
+<query id="testOver">
+  <table id="tableId"/>
+  <over alias="maxValue">
+    <field id="date" function="MAX"/>
+    <partition-by field="name"/>
+    <order-by field="position" type="ASC"/>
+  </over>
 </query>
 ```
 
@@ -586,8 +623,8 @@ The having structure is the next one, is the same as where element:
 The filter structure is as follows:
 
 ```xml
-<filter left-value="[Static value]" left-field="[Field 1]" left-table="[Field table 1]" left-query="[Query Id]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]" 
-        right-value="[Static value]" right-field="[Field 2]" right-table="[Field table 2]" right-query="[Query Id]" right-variable="[Variable Id]" ignorecase="[Ignorecase]" trim="[Trim]"/>
+<filter left-value="[Constant value]" left-field="[Field 1]" left-table="[Field table 1]" left-query="[Query Id]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]" 
+        right-value="[Constant value]" right-field="[Field 2]" right-table="[Field table 2]" right-query="[Query Id]" right-variable="[Variable Id]" ignorecase="[Ignorecase]" trim="[Trim]"/>
 ```
 
 > **NEW!** Now you can define a `left-operand` and a `right-operand` children to define the filters. 
@@ -636,9 +673,10 @@ The *order by* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| field | **Required** | String | Field alias to order the results     |                                                    |
-| table | Optional | String | Table alias to order the results         |                                                    |
-| type | Optional | String | Is the order type                         | The possible values are `DESC` or `ASC`. By default is `ASC` |
+| field       | **Required** | String | Field alias to order the results     |                                                    |
+| table       | Optional | String | Table alias to order the result    |                                                    |
+| type        | Optional | String | Is the order type                  | The possible values are `DESC` or `ASC`. By default is `ASC` |
+| nulls       | Optional | String | Whether to sort the null fields    | The possible values are `FIRST` or `LAST`. By default depends on database type |
 
 ### Totalize element
 
@@ -794,7 +832,7 @@ You can view services xml structure in [this page](service-definition.md)
   <variable id="[Variable ID1]" type="[Variable type]" name="[Variable name 1]" />
   ...
   <variable id="[Variable IDn]" type="[Variable type]" name="[Variable name N]" />
-  <order-by field="[Order field]" table="[Order table]" type="[Order type]"/>
+  <order-by field="[Order field]" table="[Order table]" type="[Order type]" nulls="[Nulls first or last]"/>
 </query>
 ```
 
