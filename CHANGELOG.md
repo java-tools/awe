@@ -1,3 +1,21 @@
+# Changelog for AWE 4.1.0
+*12/06/2019*
+
+- Allow to configure the session cookie. [MR #68](https://gitlab.com/aweframework/awe/merge_requests/68) (Pablo Javier García Mora)
+- Add new specific criteria builders for each criteria type, such as `TextBuilder` or `SuggestBuilder`. [MR #67](https://gitlab.com/aweframework/awe/merge_requests/67) (Pablo Javier García Mora)
+- Allow subqueries on a maintain process. [MR #66](https://gitlab.com/aweframework/awe/merge_requests/66) (Pablo Javier García Mora)
+- Add client actions utilities. [MR #65](https://gitlab.com/aweframework/awe/merge_requests/65) (Pablo Javier García Mora)
+- Allow sending object beans as parameters to Java Services. [MR #64](https://gitlab.com/aweframework/awe/merge_requests/64) (Pablo Javier García Mora)
+- Add a contains in conditions for dependencies.. [MR #63](https://gitlab.com/aweframework/awe/merge_requests/63) (Pablo Javier García Mora)
+- Add a method to DataListUtil to convert rows from `List<Map<String, CellData>>` into `List<Bean>`. [MR #62](https://gitlab.com/aweframework/awe/merge_requests/62) (Pablo Javier García Mora)
+- Fix `select-all-rows` action on grid element. [MR #61](https://gitlab.com/aweframework/awe/merge_requests/61) (Pablo Javier García Mora)
+- Improve pipeline process parallelizing tasks. [MR #60](https://gitlab.com/aweframework/awe/merge_requests/60) (Pablo Javier García Mora)
+- Add windows functions in SQL AWE 4.0. [MR #59](https://gitlab.com/aweframework/awe/merge_requests/59) (Pablo Javier García Mora)
+- Change `static` field name to `constant`. [MR #58](https://gitlab.com/aweframework/awe/merge_requests/58) (Pablo Javier García Mora)
+- Row Number. [MR #57](https://gitlab.com/aweframework/awe/merge_requests/57) (Pablo Javier García Mora)
+- Inherit all Spring boot tests from one class with `@SpringBootTests` to improve test speed. [MR #56](https://gitlab.com/aweframework/awe/merge_requests/56) (Pablo Javier García Mora)
+- The replace-columns client action is not working correctly. [MR #55](https://gitlab.com/aweframework/awe/merge_requests/55) (Pablo Javier García Mora)
+- Add a nullif operation to SQL engine. [MR #54](https://gitlab.com/aweframework/awe/merge_requests/54) (Pablo Javier García Mora)
 # Changelog for AWE 4.0.8
 *22/05/2019*
 
