@@ -1,6 +1,6 @@
 package com.almis.awe.builder.screen.accordion;
 
-import com.almis.awe.builder.screen.base.AbstractElementBuilder;
+import com.almis.awe.builder.screen.base.AweBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyBuilder;
 import com.almis.awe.model.entities.screen.component.panelable.Accordion;
 import lombok.Getter;
@@ -9,14 +9,13 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
- *
  * @author dfuentes
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-public class AccordionBuilder extends AbstractElementBuilder<AccordionBuilder, Accordion> {
+public class AccordionBuilder extends AweBuilder<AccordionBuilder, Accordion> {
 
   private boolean autocollapse = true;
   private String selected;

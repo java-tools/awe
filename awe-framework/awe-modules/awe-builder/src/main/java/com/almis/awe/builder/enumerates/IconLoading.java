@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.almis.awe.builder.enumerates;
 
 /**
- *
  * @author dfuentes
  */
 public enum IconLoading {
@@ -22,7 +16,7 @@ public enum IconLoading {
   SPINNER("spinner"),
   SQUARE("square"),
   SQUAREBAR("squarebar");
-  
+
   private final String value;
 
   IconLoading(String value) {

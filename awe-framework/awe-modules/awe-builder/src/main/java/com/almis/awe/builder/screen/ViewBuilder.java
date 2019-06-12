@@ -1,6 +1,6 @@
 package com.almis.awe.builder.screen;
 
-import com.almis.awe.builder.screen.base.AbstractElementBuilder;
+import com.almis.awe.builder.screen.base.AweBuilder;
 import com.almis.awe.model.entities.screen.View;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,14 +8,13 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
- *
  * @author dfuentes
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-public class ViewBuilder extends AbstractElementBuilder<ViewBuilder, View> {
+public class ViewBuilder extends AweBuilder<ViewBuilder, View> {
 
   private String name;
 

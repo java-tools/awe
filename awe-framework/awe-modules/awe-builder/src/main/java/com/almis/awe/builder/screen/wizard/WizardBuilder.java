@@ -1,6 +1,6 @@
 package com.almis.awe.builder.screen.wizard;
 
-import com.almis.awe.builder.screen.base.AbstractCriteriaBuilder;
+import com.almis.awe.builder.screen.base.AbstractComponentBuilder;
 import com.almis.awe.model.entities.screen.component.panelable.Wizard;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @Setter
 @NoArgsConstructor
 @Accessors(chain = true)
-public class WizardBuilder extends AbstractCriteriaBuilder<WizardBuilder, Wizard> {
+public class WizardBuilder extends AbstractComponentBuilder<WizardBuilder, Wizard> {
 
   @Override
   public Wizard build() {

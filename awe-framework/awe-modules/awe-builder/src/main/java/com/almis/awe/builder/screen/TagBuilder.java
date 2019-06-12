@@ -1,24 +1,22 @@
 package com.almis.awe.builder.screen;
 
 import com.almis.awe.builder.screen.base.AbstractTagBuilder;
+import com.almis.awe.builder.screen.component.TagAttributes;
 import com.almis.awe.model.entities.screen.Tag;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 
 /**
- *
  * @author dfuentes
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@Accessors(chain = true)
+@Getter(AccessLevel.PRIVATE)
 public class TagBuilder extends AbstractTagBuilder<TagBuilder, Tag> {
 
-  private String text;
-  private String source;
+  private TagAttributes tagAttributes;
+
+  public TagBuilder() {
+    this.tagAttributes = new TagAttributes(this);
+  }
 
   @Override
   public Tag build() {
@@ -27,8 +25,31 @@ public class TagBuilder extends AbstractTagBuilder<TagBuilder, Tag> {
 
   @Override
   public Tag build(Tag tag) {
-    return super.build(tag)
-      .setSource(getSource())
-      .setValue(getText());
+    tag = super.build(tag);
+    getTagAttributes().asTag(tag);
+
+    return tag;
+  }
+
+  /**
+   * Set source
+   *
+   * @param source source
+   * @return Builder
+   */
+  public TagBuilder setSource(String source) {
+    getTagAttributes().setSource(source);
+    return this;
+  }
+
+  /**
+   * Set text
+   *
+   * @param text text
+   * @return Builder
+   */
+  public TagBuilder setText(String text) {
+    getTagAttributes().setText(text);
+    return this;
   }
 }

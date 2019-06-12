@@ -13,6 +13,11 @@ Almis Web Engine > **[Advanced Development Guide](advanced-developer-guide.md)**
   * **[Grid action builders](#grid-action-builders)**
   * **[Chart action builders](#chart-action-builders)**
 * **[Screen builders](#screen-builders)**
+  * **[Screen builder](#screen-builder)**
+  * **[Component builders](#component-builders)**
+  * **[Criteria builders](#criteria-builders)**
+  * **[Grid and column builders](#grid-and-column-builders)**
+  * **[Chart builders](#chart-builders)**
 
 ##  **Introduction**
 
@@ -283,4 +288,206 @@ This sample sends `dataList` points to `"my-chart"` component.
 
 This set of builders is designed to generate java-defined screens instead of defining them in XML format.
 
-**WORK IN PROGRESS**
+### **Screen builder**
+
+The screen builder is the main builder in this set. It allows the developer to generate dinamically an 
+XML Screen structure:
+
+```java
+ScreenBuilder builder = new ScreenBuilder()
+  .setId(UUID.randomUUID().toString())
+  .addTag(new TagBuilder()
+    .setSource("buttons")
+    .setLabel("LABEL")
+    .setStyle("expand")
+    .setType("div")
+    .addChart(new ChartBuilder()
+      .setStockChart(true)
+      .setAutoload(true)
+      .setId("chart1")
+      .setAutorefresh(5)
+      .setEnableDataLabels(true)
+      .setFormatDataLabels("formatDataLabels")
+      .setIconLoading(IconLoading.CIRCLEBAR)
+      .setStacking(Stacking.PERCENT)
+      .setInverted(true)
+      .setMax(45)
+      .setTheme("chartTheme")
+      .setVisible(false)
+      .setSubtitle("SUBTITLE")
+      .setChartType(ChartType.BUBBLE)
+      .setZoomType(ChartAxis.Y_AXIS)
+      .setChartLegend(new ChartLegendBuilder()
+        .setChartLayout(ChartLayout.HORIZONTAL)
+        .setAlign(Align.CENTER)
+        .setEnabled(true)
+        .setFloating(true)
+        .setBorderWidth(2))
+      .setChartTooltip(new ChartTooltipBuilder()
+        .setCrosshairs(ChartAxis.ALL)
+        .setEnabled(true)
+        .setNumberDecimals(4)
+        .setPointFormat("pointFormat")
+        .setPrefix("pre")
+        .setSuffix("post")
+        .setDateFormat("yyyymmdd")
+        .setShared(true))
+      .addChartParameter(new ChartParameterBuilder()
+        .setDataType(DataType.DOUBLE)
+        .setName("parameterName")
+        .setValue("0.1213"))
+      .addChartSerieList(new ChartSerieBuilder()
+        .setDrillDown(true)
+        .setColor("red")
+        .setXAxis("xAxis")
+        .setYAxis("yAxis")
+        .setXValue("x")
+        .setYValue("y")
+        .setZValue("z")
+        .setDrillDownSerie("drilldownSerie"))
+      .addContextButton(new ContextButtonBuilder()
+        .setButtonType(ButtonType.BUTTON)
+        .setValue("value")
+        .setIcon("icon")
+        .setSize("sm")
+        .setLabel("LABEL"))
+      .addContextSeparator(new ContextSeparatorBuilder())
+      .addDependency(new DependencyBuilder()
+        .setFormule("formule")
+        .setInitial(true)
+        .setInvert(true)
+        .setLabel("LABEL")
+        .setServerAction(ServerAction.CONTROL)
+        .setSourceType(SourceType.QUERY)
+        .setTargetType(TargetType.ATTRIBUTE)
+        .setType(DependencyType.AND)
+        .setValue("value")
+        .addDependencyAction((DependencyActionBuilder) new DependencyActionBuilder()
+          .setServerAction(ServerAction.GET_SERVER_FILE)
+          .setTargetAction("TargetAction")
+          .setTarget("target")
+          .setAsynchronous(true)
+          .setContext("context")
+          .setType(Action.ADD_ROW)
+          .setSilent(true)
+          .setValue("value"))
+        .addDependencyElement(new DependencyElementBuilder()
+          .setAlias("alias")
+          .setId("id")
+          .setCancel(false)
+          .setView(com.almis.awe.builder.enumerates.View.REPORT)
+          .setAttribute(Attribute.CURRENT_ROW_VALUE)
+          .setColumn("column")
+          .setCondition(Condition.EQUALS)
+          .setAttribute2(Attribute.EDITABLE)
+          .setColumn2("column2")
+          .setEvent(Event.AFTER_ADD_ROW)
+          .setId2("id2")))
+      .addAxis(new AxisBuilder()
+        .setFormatterFunction(FormatterFunction.FORMAT_CURRENCY_MAGNITUDE)
+        .setType(AxisDataType.CATEGORY))
+      .addAxis(new AxisBuilder()
+        .setAllowDecimal(true))
+      .setChartType(ChartType.BUBBLE)));
+
+Screen screen = builder.build();
+```
+
+This builder has also a method that generates a client action ready to store the newly generated screen
+in the system and access into it:
+
+```java
+ServiceData serviceData = builder
+  .setMenuType("public")
+  .buildClientAction(getElements());
+```
+
+This method generates a [screen client action](#screen-action-builder) in the `public` menu 
+pointing to the screen generated within the builder.
+
+### **Component builders**
+
+For each component designed in AWE you have a `builder` to define its behaviour:
+
+- `TagBuilder`: Builds a `<tag>` component.
+- `WindowBuilder`: Builds a `<window>` component.
+- `DialogBuilder`: Builds a `<dialog>` component.
+- `IncludeBuilder`: Builds a `<include>` component.
+- `MenuContainerBuilder`: Builds a `<menu-container>` component.
+- `MessageBuilder`: Builds a `<message>` component.
+- `PivotTableBuilder`: Builds a `<pivot-table>` component.
+- `ResizableBuilder`: Builds a `<resizable>` component.
+- `TagListBuilder`: Builds a `<tag-list>` component.
+- `ViewBuilder`: Builds a `<view>` component.
+- `WidgetBuilder` and `WidgetParameterBuilder`: Builds a `<widget>` component.
+- `InfoBuilder`: Builds a `<info>` component.
+- `TabBuilder` and `TabContainerBuilder`: Builds a `<tab>` component.
+- `WizardBuilder` and `WizardPanelBuilder`: Builds a `<wizard>` component.
+- `ButtonBuilder` and `ButtonActionBuilders`: Builds `<button>` components.
+- `ContextButtonBuilder` and `ContextSeparatorBuilder`: Builds `<context-button>` components.
+- `DependencyBuilder`, `DependencyActionBuilder` and `DependencyElementBuilder`: Builds `<dependency>` components.
+
+### **Criteria builders**
+
+There is a builder for each criteria type defined on AWE:
+
+- `ButtonCheckboxCriteriaBuilder`: Builds a `<criteria>` component with `button-checkbox` component.
+- `ButtonRadioCriteriaBuilder`: Builds a `<criteria>` component with `button-radio` component.
+- `CalendarCriteriaBuilder`: Builds a `<criteria>` component with `date` component.
+- `CheckboxCriteriaBuilder`: Builds a `<criteria>` component with `checkbox` component.
+- `ColorpickerCriteriaBuilder`: Builds a `<criteria>` component with `color` component.
+- `FilteredCalendarCriteriaBuilder`: Builds a `<criteria>` component with `filtered-calendar` component.
+- `HiddenCriteriaBuilder`: Builds a `<criteria>` component with `hidden` component.
+- `MarkdownCriteriaBuilder`: Builds a `<criteria>` component with `markdown-editor` component.
+- `NumericCriteriaBuilder`: Builds a `<criteria>` component with `numeric` component.
+- `PasswordCriteriaBuilder`: Builds a `<criteria>` component with `password` component.
+- `RadioCriteriaBuilder`: Builds a `<criteria>` component with `radio` component.
+- `SelectCriteriaBuilder`: Builds a `<criteria>` component with `select` component.
+- `SelectMultipleCriteriaBuilder`: Builds a `<criteria>` component with `select-multiple` component.
+- `SuggestCriteriaBuilder`: Builds a `<criteria>` component with `suggest` component.
+- `SuggestMultipleCriteriaBuilder`: Builds a `<criteria>` component with `suggest-multiple` component.
+- `TextareaCriteriaBuilder`: Builds a `<criteria>` component with `textarea` component.
+- `TextCriteriaBuilder`: Builds a `<criteria>` component with `text` component.
+- `TextViewCriteriaBuilder`: Builds a `<criteria>` component with `text-view` component.
+- `TimeCriteriaBuilder`: Builds a `<criteria>` component with `time` component.
+- `UploaderCriteriaBuilder`: Builds a `<criteria>` component with `uploader` component.
+
+### **Grid and column builders**
+
+There are a couple of builders for grid elements:
+
+- `GridBuilder`: Builds a `<grid>` component.
+- `GroupHeaderBuilder`: Builds a `<group-header>` component.
+
+And a builder for each column type:
+
+- `CalendarColumnBuilder`: Builds a column with `date` component.
+- `CheckboxColumnBuilder`: Builds a column with `checkbox` component.
+- `ColorpickerColumnBuilder`: Builds a column with `color` component.
+- `FilteredCalendarColumnBuilder`: Builds a column with `filtered-calendar` component.
+- `MarkdownColumnBuilder`: Builds a column with `markdown-editor` component.
+- `NumericColumnBuilder`: Builds a column with `numeric` component.
+- `PasswordColumnBuilder`: Builds a column with `password` component.
+- `SelectColumnBuilder`: Builds a column with `select` component.
+- `SelectMultipleColumnBuilder`: Builds a column with `select-multiple` component.
+- `SuggestColumnBuilder`: Builds a column with `suggest` component.
+- `SuggestMultipleColumnBuilder`: Builds a column with `suggest-multiple` component.
+- `TextareaColumnBuilder`: Builds a column with `textarea` component.
+- `TextColumnBuilder`: Builds a column with `text` component.
+- `TextViewColumnBuilder`: Builds a column with `text-view` component.
+- `TimeColumnBuilder`: Builds a column with `time` component.
+- `UploaderColumnBuilder`: Builds a column with `uploader` component.
+- `IconColumnBuilder`: Builds a column with `icon` component.
+- `ImageColumnBuilder`: Builds a column with `image` component.
+- `ProgressColumnBuilder`: Builds a column with `progress` component.
+
+### **Chart builders**
+
+There are also a list of builders for chart components:
+
+- `AxisBuilder`: Builds chart axis data.
+- `ChartBuilder`: Builds a chart component.
+- `ChartLegendBuilder`: Builds chart legend data.
+- `ChartParameterBuilder`: Builds chart parameter data.
+- `ChartSerieBuilder`: Builds chart serie data.
+- `ChartTooltipBuilder`: Builds chart tooltip data.

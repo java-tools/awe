@@ -1,91 +1,107 @@
 package com.almis.awe.builder.screen.base;
 
+import com.almis.awe.builder.enumerates.Expandible;
+import com.almis.awe.builder.screen.component.ElementAttributes;
 import com.almis.awe.model.entities.Element;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * @author dfuentes
  */
-@Getter
+@Getter(AccessLevel.PRIVATE)
+@Accessors(chain = true)
 public abstract class AbstractElementBuilder<T, I extends Element> extends AweBuilder<T, I> {
 
-  private String label;
-  private String title;
-  private String style;
-  private String type;
-  private String help;
-  private String helpImage;
+  private ElementAttributes attributes;
+
+  public AbstractElementBuilder() {
+    this.attributes = new ElementAttributes(this);
+  }
 
   @Override
-  public I build(I element) {
-    super.build(element)
-      .setLabel(getLabel())
-      .setTitle(getTitle())
-      .setStyle(getStyle())
-      .setType(getType())
-      .setHelp(getHelp())
-      .setHelpImage(getHelpImage());
+  public I build(I tag) {
+    tag = super.build(tag);
+    getAttributes().asElement(tag);
 
-    return element;
+    return tag;
   }
 
   /**
-   * Set the label
+   * Set label
+   *
    * @param label Label
-   * @return This
+   * @return Builder
    */
   public T setLabel(String label) {
-    this.label = label;
+    getAttributes().setLabel(label);
     return (T) this;
   }
 
   /**
-   * Set the title
-   * @param title title
-   * @return This
+   * Set title
+   *
+   * @param title Title
+   * @return Builder
    */
   public T setTitle(String title) {
-    this.title = title;
+    getAttributes().setTitle(title);
     return (T) this;
   }
 
   /**
-   * Set the style
-   * @param style style
-   * @return This
+   * Set style (classes)
+   *
+   * @param style Style
+   * @return Builder
    */
   public T setStyle(String style) {
-    this.style = style;
+    getAttributes().setStyle(style);
     return (T) this;
   }
 
   /**
-   * Set the type
+   * Set type
+   *
    * @param type Type
-   * @return This
+   * @return Builder
    */
   public T setType(String type) {
-    this.type = type;
+    getAttributes().setType(type);
     return (T) this;
   }
 
   /**
-   * Set the help label
-   * @param help  Help label
-   * @return This
+   * Set help label
+   *
+   * @param help Help label
+   * @return Builder
    */
   public T setHelp(String help) {
-    this.help = help;
+    getAttributes().setHelp(help);
     return (T) this;
   }
 
   /**
-   * Set the helpImage
-   * @param helpImage helpImage
-   * @return This
+   * Set help image
+   *
+   * @param helpImage Help image
+   * @return Builder
    */
   public T setHelpImage(String helpImage) {
-    this.helpImage = helpImage;
+    getAttributes().setHelpImage(helpImage);
+    return (T) this;
+  }
+
+  /**
+   * Set expandible
+   *
+   * @param expandible Expandible
+   * @return Builder
+   */
+  public T setExpandible(Expandible expandible) {
+    getAttributes().setExpandible(expandible);
     return (T) this;
   }
 }
