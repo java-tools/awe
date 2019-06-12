@@ -16,15 +16,17 @@
 - Inherit all Spring boot tests from one class with `@SpringBootTests` to improve test speed. [MR #56](https://gitlab.com/aweframework/awe/merge_requests/56) (Pablo Javier García Mora)
 - The replace-columns client action is not working correctly. [MR #55](https://gitlab.com/aweframework/awe/merge_requests/55) (Pablo Javier García Mora)
 - Add a nullif operation to SQL engine. [MR #54](https://gitlab.com/aweframework/awe/merge_requests/54) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.0.8
 *22/05/2019*
 
-- WIP: Add an attribute to services which allows to call beans from its qualifier name. [MR #53](https://gitlab.com/aweframework/awe/merge_requests/53) (Pablo Vidal Otero)
-- WIP: Add spring boot dev tools to AWE. [MR #52](https://gitlab.com/aweframework/awe/merge_requests/52) (Pablo Vidal Otero)
+- Add an attribute to services which allows to call beans from its qualifier name. [MR #53](https://gitlab.com/aweframework/awe/merge_requests/53) (Pablo Vidal Otero)
+- Add spring boot dev tools to AWE. [MR #52](https://gitlab.com/aweframework/awe/merge_requests/52) (Pablo Vidal Otero)
 - Remove limit to suggest and select components queries if there's no `max` attribute defined. [MR #51](https://gitlab.com/aweframework/awe/merge_requests/51) (Pablo Javier García Mora)
 - The replace-columns client action is not working correctly. [MR #50](https://gitlab.com/aweframework/awe/merge_requests/50) (Pablo Javier García Mora)
 - Improve SQL fields to allow operations (improve also where clauses) [HAS IMPACTS]. [MR #49](https://gitlab.com/aweframework/awe/merge_requests/49) (Pablo Javier García Mora)
 - Manage beans with lombok. [MR #48](https://gitlab.com/aweframework/awe/merge_requests/48) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.0.7
 *29/04/2019*
 
