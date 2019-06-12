@@ -10,7 +10,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
- *
  * @author dfuentes
  */
 @Getter

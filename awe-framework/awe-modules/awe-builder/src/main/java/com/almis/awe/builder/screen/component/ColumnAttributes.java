@@ -1,23 +1,18 @@
-package com.almis.awe.builder.screen.grid;
+package com.almis.awe.builder.screen.component;
 
 import com.almis.awe.builder.enumerates.Align;
 import com.almis.awe.builder.enumerates.DataType;
-import com.almis.awe.builder.screen.base.AbstractCriteriaBuilder;
+import com.almis.awe.builder.screen.base.AbstractAttributes;
+import com.almis.awe.builder.screen.base.AbstractColumnBuilder;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-/**
- * @author dfuentes
- */
 @Getter
 @Setter
-@NoArgsConstructor
 @Accessors(chain = true)
-public class ColumnBuilder extends AbstractCriteriaBuilder<ColumnBuilder, Column> {
-
+public class ColumnAttributes<B extends AbstractColumnBuilder> extends AbstractAttributes<B> {
   private Align align;
   private DataType dataType;
   private String formatOptions;
@@ -32,14 +27,19 @@ public class ColumnBuilder extends AbstractCriteriaBuilder<ColumnBuilder, Column
   private Integer charLength;
   private Integer width;
 
-  @Override
-  public Column build() {
-    return build(new Column());
+  public ColumnAttributes(B builder) {
+    super(builder);
   }
 
-  @Override
-  public Column build(Column column) {
-    super.build(column)
+  /**
+   * Build attributes in column
+   *
+   * @param element column
+   * @param <E>
+   * @return Element with attributes
+   */
+  public <E extends Column> E asColumn(E element) {
+    E column = (E) element
       .setFormatOptions(getFormatOptions())
       .setFormatter(getFormatter())
       .setField(getSortField())
@@ -61,5 +61,15 @@ public class ColumnBuilder extends AbstractCriteriaBuilder<ColumnBuilder, Column
     }
 
     return column;
+  }
+
+  /**
+   * Retrieve builder
+   *
+   * @return Builder
+   */
+  @Override
+  public B builder() {
+    return parent;
   }
 }

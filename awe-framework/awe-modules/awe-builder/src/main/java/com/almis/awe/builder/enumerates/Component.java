@@ -16,6 +16,8 @@ public enum Component {
   NUMERIC("numeric"),
   PASSWORD("password"),
   PROGRESS("progress"),
+  ICON("icon"),
+  IMAGE("image"),
   RADIO("radio"),
   SELECT("select"),
   SELECT_MULTIPLE("select-multiple"),

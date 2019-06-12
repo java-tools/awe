@@ -1,7 +1,5 @@
 package com.almis.awe.builder.screen.base;
 
-
-import com.almis.awe.builder.enumerates.Expandible;
 import com.almis.awe.builder.interfaces.IBuilderInitializer;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Element;
@@ -23,7 +21,6 @@ public abstract class AweBuilder<T, I extends Element> implements IBuilderInitia
 
   private T parent;
   private String id;
-  private Expandible expandible;
   private List<AweBuilder> elementList = new ArrayList<>();
 
   /**
@@ -31,14 +28,6 @@ public abstract class AweBuilder<T, I extends Element> implements IBuilderInitia
    */
   public AweBuilder() {
     this.parent = setParent();
-  }
-
-  /**
-   * Retrieve builder
-   * @return Builder
-   */
-  public T builder() {
-    return (T) this;
   }
 
   @Override
@@ -50,10 +39,6 @@ public abstract class AweBuilder<T, I extends Element> implements IBuilderInitia
   public I build(I element) {
     element
       .setId(getId());
-
-    if (getExpandible() != null) {
-      element.setExpand(getExpandible().toString());
-    }
 
     for (AweBuilder aweBuilder : getElementList()) {
       addElement(element, aweBuilder.build());
@@ -76,16 +61,6 @@ public abstract class AweBuilder<T, I extends Element> implements IBuilderInitia
       throw new AWException("The id '" + id + "' is not valid.");
     }
     return parent;
-  }
-
-  /**
-   * Set the expandible flag
-   * @param expandible Expandible flag
-   * @return This
-   */
-  public T setExpandible(Expandible expandible) {
-    this.expandible = expandible;
-    return (T) this;
   }
 
   /**

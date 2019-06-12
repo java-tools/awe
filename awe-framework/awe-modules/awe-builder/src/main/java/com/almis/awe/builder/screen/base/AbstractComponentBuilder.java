@@ -1,162 +1,246 @@
 package com.almis.awe.builder.screen.base;
 
+import com.almis.awe.builder.enumerates.Expandible;
+import com.almis.awe.builder.enumerates.IconLoading;
 import com.almis.awe.builder.enumerates.InitialLoad;
 import com.almis.awe.builder.enumerates.ServerAction;
+import com.almis.awe.builder.screen.component.ComponentAttributes;
+import com.almis.awe.builder.screen.component.ElementAttributes;
 import com.almis.awe.builder.screen.context.ContextSeparatorBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyBuilder;
 import com.almis.awe.model.entities.screen.component.Component;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 /**
- *
  * @author dfuentes
  */
-@Getter
-public abstract class AbstractComponentBuilder<T, I extends Component> extends AbstractElementBuilder<T, I> {
+@Getter(AccessLevel.PRIVATE)
+public abstract class AbstractComponentBuilder<T, I extends Component> extends AweBuilder<T, I> {
 
-  private InitialLoad initialLoad;
-  private boolean loadAll;
-  private ServerAction serverAction;
-  private Integer max;
-  private String icon;
-  private String size;
-  private String targetAction;
-  private boolean autoload;
-  private Integer autorefresh;
-  private boolean visible;
-  private String name;
+  private ElementAttributes elementAttributes;
+  private ComponentAttributes componentAttributes;
+
+  public AbstractComponentBuilder() {
+    this.elementAttributes = new ElementAttributes(this);
+    this.componentAttributes = new ComponentAttributes(this);
+  }
 
   @Override
   public I build(I component) {
-    super.build(component)
-      .setName(getName())
-      .setMax(getMax())
-      .setIcon(getIcon())
-      .setSize(getSize())
-      .setTargetAction(getTargetAction())
-      .setAutoload(isAutoload())
-      .setAutorefresh(getAutorefresh())
-      .setLoadAll(isLoadAll())
-      .setVisible(isVisible());
-
-    if (getInitialLoad() != null) {
-      component.setInitialLoad(getInitialLoad().toString());
-    }
-
-    if (getServerAction() != null) {
-      component.setServerAction(getServerAction().toString());
-    }
-
+    component = super.build(component);
+    getElementAttributes().asElement(component);
+    getComponentAttributes().asComponent(component);
     return component;
   }
 
   /**
-   * Set the initialLoad flag
-   * @param initialLoad initialLoad flag
-   * @return This
+   * Set label
+   *
+   * @param label Label
+   * @return Builder
    */
-  public T setInitialLoad(InitialLoad initialLoad) {
-    this.initialLoad = initialLoad;
+  public T setLabel(String label) {
+    getElementAttributes().setLabel(label);
     return (T) this;
   }
 
   /**
-   * Set the loadAll flag
-   * @param loadAll loadAll flag
-   * @return This
+   * Set title
+   *
+   * @param title Title
+   * @return Builder
    */
-  public T setLoadAll(boolean loadAll) {
-    this.loadAll = loadAll;
+  public T setTitle(String title) {
+    getElementAttributes().setTitle(title);
     return (T) this;
   }
 
   /**
-   * Set the server action
-   * @param serverAction server action
-   * @return This
+   * Set style (classes)
+   *
+   * @param style Style
+   * @return Builder
    */
-  public T setServerAction(ServerAction serverAction) {
-    this.serverAction = serverAction;
+  public T setStyle(String style) {
+    getElementAttributes().setStyle(style);
     return (T) this;
   }
 
   /**
-   * Set the max
-   * @param max max
-   * @return This
+   * Set type
+   *
+   * @param type Type
+   * @return Builder
    */
-  public T setMax(Integer max) {
-    this.max = max;
+  public T setType(String type) {
+    getElementAttributes().setType(type);
     return (T) this;
   }
 
   /**
-   * Set the icon
-   * @param icon icon
-   * @return This
+   * Set help label
+   *
+   * @param help Help label
+   * @return Builder
    */
-  public T setIcon(String icon) {
-    this.icon = icon;
+  public T setHelp(String help) {
+    getElementAttributes().setHelp(help);
     return (T) this;
   }
 
   /**
-   * Set the size
-   * @param size size
-   * @return This
+   * Set help image
+   *
+   * @param helpImage Help image
+   * @return Builder
    */
-  public T setSize(String size) {
-    this.size = size;
+  public T setHelpImage(String helpImage) {
+    getElementAttributes().setHelpImage(helpImage);
     return (T) this;
   }
 
   /**
-   * Set the target action
-   * @param targetAction target action
-   * @return This
+   * Set expandible
+   *
+   * @param expandible Expandible
+   * @return Builder
    */
-  public T setTargetAction(String targetAction) {
-    this.targetAction = targetAction;
+  public T setExpandible(Expandible expandible) {
+    getElementAttributes().setExpandible(expandible);
     return (T) this;
   }
 
+
   /**
-   * Set the autoload flag
-   * @param autoload autoload flag
-   * @return This
+   * Set autoload
+   *
+   * @param autoload Is autoload
+   * @return Builder
    */
   public T setAutoload(boolean autoload) {
-    this.autoload = autoload;
+    getComponentAttributes().setAutoload(autoload);
     return (T) this;
   }
 
   /**
-   * Set the autorefresh time
-   * @param autorefresh autorefresh time in seconds
-   * @return This
+   * Set autorefresh time in seconds
+   *
+   * @param autorefresh Autorefresh time in seconds
+   * @return Builder
    */
   public T setAutorefresh(Integer autorefresh) {
-    this.autorefresh = autorefresh;
+    getComponentAttributes().setAutorefresh(autorefresh);
     return (T) this;
   }
 
   /**
-   * Set the visible flag
-   * @param visible visible flag
-   * @return This
+   * Set icon
+   *
+   * @param icon Icon
+   * @return Builder
    */
-  public T setVisible(boolean visible) {
-    this.visible = visible;
+  public T setIcon(String icon) {
+    getComponentAttributes().setIcon(icon);
     return (T) this;
   }
 
   /**
-   * Set the name
-   * @param name name
-   * @return This
+   * Set initial load
+   *
+   * @param initialLoad Initial load
+   * @return Builder
+   */
+  public T setInitialLoad(InitialLoad initialLoad) {
+    getComponentAttributes().setInitialLoad(initialLoad);
+    return (T) this;
+  }
+
+  /**
+   * Set load all
+   *
+   * @param loadAll Load all
+   * @return Builder
+   */
+  public T setLoadAll(boolean loadAll) {
+    getComponentAttributes().setLoadAll(loadAll);
+    return (T) this;
+  }
+
+  /**
+   * Set max rows per page
+   *
+   * @param max max rows per page
+   * @return Builder
+   */
+  public T setMax(Integer max) {
+    getComponentAttributes().setMax(max);
+    return (T) this;
+  }
+
+  /**
+   * Set component name
+   *
+   * @param name component name
+   * @return Builder
    */
   public T setName(String name) {
-    this.name = name;
+    getComponentAttributes().setName(name);
+    return (T) this;
+  }
+
+  /**
+   * Set component size
+   *
+   * @param size component size
+   * @return Builder
+   */
+  public T setSize(String size) {
+    getComponentAttributes().setSize(size);
+    return (T) this;
+  }
+
+  /**
+   * Set server action
+   *
+   * @param serverAction server action
+   * @return Builder
+   */
+  public T setServerAction(ServerAction serverAction) {
+    getComponentAttributes().setServerAction(serverAction);
+    return (T) this;
+  }
+
+  /**
+   * Set target action
+   *
+   * @param targetAction target action
+   * @return Builder
+   */
+  public T setTargetAction(String targetAction) {
+    getComponentAttributes().setTargetAction(targetAction);
+    return (T) this;
+  }
+
+  /**
+   * Set visible
+   *
+   * @param visible Visible
+   * @return Builder
+   */
+  public T setVisible(boolean visible) {
+    getComponentAttributes().setVisible(visible);
+    return (T) this;
+  }
+
+  /**
+   * Set loading icon
+   *
+   * @param icon
+   * @return
+   */
+  public T setIconLoading(IconLoading icon) {
+    getComponentAttributes().setIconLoading(icon);
     return (T) this;
   }
 

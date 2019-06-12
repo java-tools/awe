@@ -14,7 +14,6 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @Accessors(chain = true)
 public abstract class AbstractChartBuilder<T extends AbstractChartBuilder, I extends AbstractChart> extends AweBuilder<T, I> {
-
   /**
    * Add chart parameter
    *

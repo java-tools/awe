@@ -4,7 +4,6 @@ import com.almis.awe.builder.screen.*;
 import com.almis.awe.builder.screen.accordion.AccordionBuilder;
 import com.almis.awe.builder.screen.button.ButtonBuilder;
 import com.almis.awe.builder.screen.chart.ChartBuilder;
-import com.almis.awe.builder.screen.criteria.CriteriaBuilder;
 import com.almis.awe.builder.screen.grid.GridBuilder;
 import com.almis.awe.builder.screen.info.InfoBuilder;
 import com.almis.awe.builder.screen.info.InfoButtonBuilder;
@@ -13,19 +12,16 @@ import com.almis.awe.builder.screen.tab.TabBuilder;
 import com.almis.awe.builder.screen.widget.WidgetBuilder;
 import com.almis.awe.builder.screen.wizard.WizardBuilder;
 import com.almis.awe.model.entities.Element;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
- *
  * @author dfuentes
  */
-@Getter
-@Setter
+@Getter(AccessLevel.PRIVATE)
 @Accessors(chain = true)
 public abstract class AbstractTagBuilder<T, I extends Element> extends AbstractElementBuilder<T, I> {
-
   /**
    * Add tag
    *
@@ -76,7 +72,7 @@ public abstract class AbstractTagBuilder<T, I extends Element> extends AbstractE
    * @param criteria
    * @return
    */
-  public T addCriteria(CriteriaBuilder... criteria) {
+  public T addCriteria(AbstractCriteriaBuilder... criteria) {
     addAllElements(criteria);
     return (T) this;
   }

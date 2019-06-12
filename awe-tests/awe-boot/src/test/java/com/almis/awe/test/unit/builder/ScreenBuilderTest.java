@@ -11,13 +11,12 @@ import com.almis.awe.builder.screen.button.ButtonBuilder;
 import com.almis.awe.builder.screen.chart.*;
 import com.almis.awe.builder.screen.context.ContextButtonBuilder;
 import com.almis.awe.builder.screen.context.ContextSeparatorBuilder;
-import com.almis.awe.builder.screen.criteria.CriteriaBuilder;
+import com.almis.awe.builder.screen.criteria.CheckboxCriteriaBuilder;
+import com.almis.awe.builder.screen.criteria.FilteredCalendarCriteriaBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyActionBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyElementBuilder;
-import com.almis.awe.builder.screen.grid.ColumnBuilder;
-import com.almis.awe.builder.screen.grid.GridBuilder;
-import com.almis.awe.builder.screen.grid.GroupHeaderBuilder;
+import com.almis.awe.builder.screen.grid.*;
 import com.almis.awe.builder.screen.info.InfoBuilder;
 import com.almis.awe.builder.screen.info.InfoButtonBuilder;
 import com.almis.awe.builder.screen.info.InfoCriteriaBuilder;
@@ -98,7 +97,8 @@ public class ScreenBuilderTest {
    */
   @Test
   public void build() throws Exception {
-    ScreenBuilder builder = new ScreenBuilder()
+    ScreenBuilder builder = new ScreenBuilder();
+    builder
       .setId(UUID.randomUUID().toString())
       .setKeepCriteria(true)
       .setTarget("initial_target")
@@ -478,7 +478,6 @@ public class ScreenBuilderTest {
           .setSize("sm")
           .setId("button1")
           .addButtonAction(new ButtonActionBuilder()
-            .setServerAction(ServerAction.MAINTAIN)
             .setTargetAction("targetAction1")
             .setAsynchronous(true)
             .setTarget("target1")
@@ -494,7 +493,8 @@ public class ScreenBuilderTest {
             .setTarget("target2")
             .setValue("buttonValue2")
             .setContext("home")
-            .setType(Action.SERVER))));
+            .setType(Action.SERVER))
+        ));
 
     Screen screen = builder.build();
     Button button = (Button) screen.getElementList().get(0).getElementList().get(0);
@@ -503,7 +503,7 @@ public class ScreenBuilderTest {
     assertEquals("button1", button.getId());
 
     ButtonAction buttonAction = (ButtonAction) button.getElementList().get(0);
-    assertTrue(ServerAction.MAINTAIN.equalsStr(buttonAction.getServerAction()));
+    assertNull(buttonAction.getServerAction());
     assertTrue(Action.ADD_CLASS.equalsStr(buttonAction.getType()));
     assertEquals("targetAction1", buttonAction.getTargetAction());
     assertEquals("target1", buttonAction.getTarget());
@@ -598,7 +598,7 @@ public class ScreenBuilderTest {
             .setTargetType(TargetType.ATTRIBUTE)
             .setType(DependencyType.AND)
             .setValue("value")
-            .addDependencyAction(new DependencyActionBuilder()
+            .addDependencyAction((DependencyActionBuilder) new DependencyActionBuilder()
               .setServerAction(ServerAction.GET_SERVER_FILE)
               .setTargetAction("TargetAction")
               .setTarget("target")
@@ -680,7 +680,7 @@ public class ScreenBuilderTest {
 
     ContextButton contextButton = (ContextButton) chart.getElementList().get(2);
     assertEquals("LABEL", contextButton.getLabel());
-    assertTrue(ButtonType.BUTTON.equalsStr(contextButton.getType()));
+    assertTrue(ButtonType.BUTTON.equalsStr(contextButton.getButtonType()));
     assertEquals("icon", contextButton.getIcon());
     assertEquals("sm", contextButton.getSize());
     assertEquals("value", contextButton.getValue());
@@ -735,84 +735,116 @@ public class ScreenBuilderTest {
         .setSource("buttons")
         .setStyle("expand")
         .setType("div")
-        .addCriteria(new CriteriaBuilder()
-          .setIcon("criterion_icon")
-          .setSize("sm")
-          .setAreaRows(3)
-          .setAutoload(false)
-          .setAutorefresh(5)
-          .setCapitalize(true)
-          .setChecked(true)
-          .setCheckEmpty(true)
-          .setCheckInitial(true)
-          .setCheckTarget("checkTarget")
-          .setComponent(Component.CHECKBOX)
-          .setDateFormat("dd/mm/yyyy")
-          .setDateShowTodayButton(true)
-          .setDateViewMode(DateViewMode.MONTHS)
-          .setDestination("destination")
-          .setGroup("group")
-          .setLeftLabel(20)
-          .setNumberFormat("numberFormat")
-          .setPlaceholder("placeholder")
-          .setPrintable(Printable.EXCEL)
-          .setReadonly(true)
-          .setStrict(true)
-          .setProperty("proper.ty")
-          .setShowFutureDates(true)
-          .setShowSlider(false)
-          .setShowWeekends(true)
-          .setUnit("unit1")
-          .setValidation("required")
-          .setVariable("variable1")
-          .setVisible(true)
-          .setTimeout(10)
-          .setSpecific("specific")
-          .setSession("sessionVariable")
-          .setOptional(true)
-          .setMessage("MESSAGE")
-          .setValue("asada")
-          .setId("criterion1")));
+        .addCriteria(
+          new CheckboxCriteriaBuilder()
+            .setChecked(true)
+            .setGroup("group")
+            .setIcon("criterion_icon")
+            .setSize("sm")
+            .setAutoload(false)
+            .setAutorefresh(5)
+            .setCapitalize(true)
+            .setCheckEmpty(true)
+            .setCheckInitial(true)
+            .setLeftLabel(20)
+            .setPlaceholder("placeholder")
+            .setPrintable(Printable.EXCEL)
+            .setReadonly(true)
+            .setProperty("proper.ty")
+            .setUnit("unit1")
+            .setValidation("required")
+            .setVariable("variable1")
+            .setVisible(true)
+            .setSpecific("specific")
+            .setSession("sessionVariable")
+            .setMessage("MESSAGE")
+            .setValue("asada")
+            .setId("criterion1"),
+          new FilteredCalendarCriteriaBuilder()
+            .setDateFormat("dd/mm/yyyy")
+            .setDateShowTodayButton(true)
+            .setDateViewMode(DateViewMode.MONTHS)
+            .setIcon("criterion_icon")
+            .setSize("lg")
+            .setAutoload(false)
+            .setAutorefresh(5)
+            .setCapitalize(true)
+            .setCheckEmpty(true)
+            .setCheckInitial(true)
+            .setLeftLabel(20)
+            .setPlaceholder("placeholder")
+            .setPrintable(Printable.EXCEL)
+            .setReadonly(true)
+            .setProperty("proper.ty")
+            .setShowFutureDates(true)
+            .setShowWeekends(true)
+            .setUnit("unit1")
+            .setValidation("required")
+            .setVariable("variable1")
+            .setVisible(true)
+            .setSpecific("specific")
+            .setSession("sessionVariable")
+            .setMessage("MESSAGE")
+            .setValue("dddd")
+            .setId("criterion2")));
 
     Screen screen = builder.build();
     Criteria criterion = (Criteria) screen.getElementList().get(0).getElementList().get(0);
+    Criteria criterion2 = (Criteria) screen.getElementList().get(0).getElementList().get(1);
     assertEquals("criterion_icon", criterion.getIcon());
     assertEquals("sm", criterion.getSize());
-    assertSame(3, criterion.getAreaRows());
     assertSame(false, criterion.isAutoload());
     assertSame(5, criterion.getAutorefresh());
     assertSame(true, criterion.isCapitalize());
     assertSame(true, criterion.isChecked());
     assertSame(true, criterion.isCheckEmpty());
     assertSame(true, criterion.isCheckInitial());
-    assertEquals("checkTarget", criterion.getCheckTarget());
     assertEquals(criterion.getComponentType(), Component.CHECKBOX.toString());
-    assertEquals("dd/mm/yyyy", criterion.getDateFormat());
-    assertSame(true, criterion.isShowTodayButton());
-    assertEquals(criterion.getDateViewMode(), DateViewMode.MONTHS.toString());
-    assertEquals("destination", criterion.getDestination());
     assertEquals("group", criterion.getGroup());
     assertSame(20, criterion.getLeftLabel());
-    assertEquals("numberFormat", criterion.getNumberFormat());
     assertEquals("placeholder", criterion.getPlaceholder());
     assertEquals(criterion.getPrintable(), Printable.EXCEL.toString());
     assertSame(true, criterion.isReadonly());
     assertSame(true, criterion.isStrict());
     assertEquals("proper.ty", criterion.getProperty());
-    assertSame(true, criterion.isShowFutureDates());
-    assertSame(false, criterion.isShowSlider());
-    assertSame(true, criterion.isShowWeekends());
     assertEquals("unit1", criterion.getUnit());
     assertEquals("required", criterion.getValidation());
     assertEquals("variable1", criterion.getVariable());
     assertSame(true, criterion.isVisible());
-    assertSame(10, criterion.getTimeout());
     assertEquals("specific", criterion.getSpecific());
     assertEquals("sessionVariable", criterion.getSession());
-    assertSame(true, criterion.isOptional());
     assertEquals("MESSAGE", criterion.getMessage());
     assertEquals("asada", criterion.getValue());
     assertEquals("criterion1", criterion.getId());
+
+    assertEquals("criterion_icon", criterion2.getIcon());
+    assertEquals("lg", criterion2.getSize());
+    assertSame(false, criterion2.isAutoload());
+    assertSame(5, criterion2.getAutorefresh());
+    assertSame(true, criterion2.isCapitalize());
+    assertSame(true, criterion2.isCheckEmpty());
+    assertSame(true, criterion2.isCheckInitial());
+    assertEquals(criterion2.getComponentType(), Component.FILTERED_CALENDAR.toString());
+    assertEquals("dd/mm/yyyy", criterion2.getDateFormat());
+    assertSame(true, criterion2.isShowTodayButton());
+    assertEquals(criterion2.getDateViewMode(), DateViewMode.MONTHS.toString());
+    assertSame(20, criterion2.getLeftLabel());
+    assertEquals("placeholder", criterion2.getPlaceholder());
+    assertEquals(criterion2.getPrintable(), Printable.EXCEL.toString());
+    assertSame(true, criterion2.isReadonly());
+    assertEquals("proper.ty", criterion2.getProperty());
+    assertSame(true, criterion2.isShowFutureDates());
+    assertSame(false, criterion2.isShowSlider());
+    assertSame(true, criterion2.isShowWeekends());
+    assertEquals("unit1", criterion2.getUnit());
+    assertEquals("required", criterion2.getValidation());
+    assertEquals("variable1", criterion2.getVariable());
+    assertSame(true, criterion2.isVisible());
+    assertEquals("specific", criterion2.getSpecific());
+    assertEquals("sessionVariable", criterion2.getSession());
+    assertEquals("MESSAGE", criterion2.getMessage());
+    assertEquals("dddd", criterion2.getValue());
+    assertEquals("criterion2", criterion2.getId());
   }
 
   /**
@@ -857,33 +889,36 @@ public class ScreenBuilderTest {
           .setTreeLeaf("treeLeaf")
           .addGroupHeader(new GroupHeaderBuilder()
             .setLabel("LABEL1")
-            .addColumnList(new ColumnBuilder()
+            .addColumnList(new CheckboxColumnBuilder()
               .setIcon("criterion_icon")
               .setAutorefresh(5)
+              .setAlign(Align.CENTER)
               .setChecked(true)
               .setCheckInitial(true)
-              .setComponent(Component.CHECKBOX)
-              .setDateFormat("dd/mm/yyyy")
-              .setDateShowTodayButton(true)
-              .setDateViewMode(DateViewMode.MONTHS)
-              .setNumberFormat("numberFormat")
               .setPrintable(Printable.EXCEL)
               .setReadonly(true)
-              .setStrict(true)
-              .setShowFutureDates(true)
-              .setShowWeekends(true)
               .setUnit("unit1")
               .setValidation("required")
               .setVisible(true)
-              .setOptional(true)
               .setValue("asada")
-              .setId("column1")))
+              .setId("column1"),
+            new CalendarColumnBuilder()
+              .setDateFormat("dd/mm/yyyy")
+              .setDateShowTodayButton(true)
+              .setDateViewMode(DateViewMode.MONTHS)
+              .setShowFutureDates(true)
+              .setDataType(DataType.STRING)
+              .setShowWeekends(true)
+              .setPrintable(Printable.ALL)
+              .setId("column2")
+            ))
           .setId("grid1")));
 
     Screen screen = builder.build();
     Grid grid = (Grid) screen.getElementList().get(0).getElementList().get(0);
     GroupHeader header = grid.getGroupHeaderModel().get(0);
     Column column = (Column) header.getElementList().get(0);
+    Column column2 = (Column) header.getElementList().get(1);
 
     assertSame(true, grid.isTreegrid());
     assertSame(true, grid.isAutoload());
@@ -917,21 +952,22 @@ public class ScreenBuilderTest {
     assertSame(5, column.getAutorefresh());
     assertSame(true, column.isChecked());
     assertSame(true, column.isCheckInitial());
-    assertEquals(Component.CHECKBOX.toString(), column.getComponentType());
-    assertEquals("dd/mm/yyyy", column.getDateFormat());
-    assertSame(true, column.isShowTodayButton());
-    assertEquals(DateViewMode.MONTHS.toString(), column.getDateViewMode());
-    assertEquals("numberFormat", column.getNumberFormat());
     assertEquals(Printable.EXCEL.toString(), column.getPrintable());
     assertSame(true, column.isReadonly());
-    assertSame(true, column.isStrict());
-    assertSame(true, column.isShowFutureDates());
-    assertSame(true, column.isShowWeekends());
+    assertSame(true, column.isReadonly());
     assertEquals("unit1", column.getUnit());
     assertEquals("required", column.getValidation());
     assertSame(true, column.isVisible());
-    assertSame(true, column.isOptional());
     assertEquals("asada", column.getValue());
+    assertEquals(Component.CHECKBOX.toString(), column.getComponentType());
+
+    assertEquals(Component.DATE.toString(), column2.getComponentType());
+    assertEquals("dd/mm/yyyy", column2.getDateFormat());
+    assertSame(true, column2.isShowTodayButton());
+    assertEquals(DateViewMode.MONTHS.toString(), column2.getDateViewMode());
+    assertEquals(Printable.ALL.toString(), column2.getPrintable());
+    assertSame(true, column2.isShowFutureDates());
+    assertSame(true, column2.isShowWeekends());
   }
 
   /**

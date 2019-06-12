@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.almis.awe.builder.screen;
 
 import com.almis.awe.builder.screen.accordion.AccordionBuilder;
+import com.almis.awe.builder.screen.base.AbstractComponentBuilder;
 import com.almis.awe.builder.screen.button.ButtonBuilder;
 import com.almis.awe.builder.screen.chart.ChartBuilder;
-import com.almis.awe.builder.screen.base.AbstractComponentBuilder;
-import com.almis.awe.builder.screen.criteria.CriteriaBuilder;
 import com.almis.awe.builder.screen.grid.GridBuilder;
 import com.almis.awe.builder.screen.info.InfoBuilder;
 import com.almis.awe.builder.screen.info.InfoButtonBuilder;
@@ -18,19 +12,12 @@ import com.almis.awe.builder.screen.tab.TabBuilder;
 import com.almis.awe.builder.screen.widget.WidgetBuilder;
 import com.almis.awe.builder.screen.wizard.WizardBuilder;
 import com.almis.awe.model.entities.screen.component.TagList;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 
 /**
  * Build a tag list
+ *
  * @author dfuentes
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@Accessors(chain = true)
 public class TagListBuilder extends AbstractComponentBuilder<TagListBuilder, TagList> {
 
   @Override
@@ -88,7 +75,7 @@ public class TagListBuilder extends AbstractComponentBuilder<TagListBuilder, Tag
    * @param criteria
    * @return
    */
-  public TagListBuilder addCriteria(CriteriaBuilder... criteria) {
+  public TagListBuilder addCriteria(AbstractComponentBuilder... criteria) {
     addAllElements(criteria);
     return this;
   }

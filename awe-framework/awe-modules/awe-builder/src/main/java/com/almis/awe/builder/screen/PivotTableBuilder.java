@@ -24,10 +24,9 @@ public class PivotTableBuilder extends AbstractComponentBuilder<PivotTableBuilde
   private TotalRowPlacement totalRowPlacement;
   private String aggregationField;
   private String decimalSeparator;
-  private String targetAction;
   private String thousandSeparator;
-  private String cols;
   private Integer decimalNumbers;
+  private String cols;
   private String rows;
 
   @Override
