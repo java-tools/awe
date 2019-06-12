@@ -594,6 +594,14 @@ spring.session.store-type=HASH_MAP
 # Session timeout in seconds (30 min)
 server.session.timeout=1800
 
+########### COOKIE CONFIGURATION ###############
+# Session cookie name
+session.cookie.name=JSESSIONID
+# Session cookie path
+session.cookie.path=/
+# Session cookie domain name regexp
+session.cookie.domain.name.pattern=^.+?\.(\w+\.[a-z]+)$
+
 ########### REDIS CONFIGURATION ###############
 # redis host
 spring.redis.host=
