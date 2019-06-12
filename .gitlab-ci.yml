@@ -89,8 +89,6 @@ Build project:
   - mvn $MAVEN_CLI_OPTS verify $UT_OPTS -Dsurefire.suite=**/$UNIT_TEST_SUITE
   - cp awe-tests/awe-boot/target/jacoco.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
   except:
-  - master
-  - tags
   - /^release/.*$/
   artifacts:
     paths:
@@ -152,8 +150,6 @@ Frontend UT:
       junit:
       - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
   except:
-  - master
-  - tags
   - /^release/.*$/
 
 ##############################
@@ -176,8 +172,6 @@ Frontend UT:
   - exitWithErrors=`echo $errors $failures | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
   - exit $exitWithErrors
   except:
-  - master
-  - tags
   - /^release/.*$/
   artifacts:
     paths:
@@ -222,8 +216,6 @@ Launch Sonar:
     paths:
     - awe-tests/awe-boot/target/coverage-reports/
   except:
-    - master
-    - tags
     - /^release/.*$/
 
 #include:
@@ -263,8 +255,6 @@ Check Sonar:
   - exitWithErrors=`echo $sonarStatus | sed -e 's/"//g' | awk '{printf ($1 != "OK")}'`
   - exit $exitWithErrors
   except:
-  - master
-  - tags
   - /^release/.*$/
 
 ##############################
