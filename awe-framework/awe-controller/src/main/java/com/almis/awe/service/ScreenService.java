@@ -46,8 +46,9 @@ public class ScreenService extends ServiceConfig {
 
   /**
    * Autowired constructor
-   * @param menuService Menu service
-   * @param maintainService Maintain service
+   *
+   * @param menuService              Menu service
+   * @param maintainService          Maintain service
    * @param screenComponentGenerator Screen component generator
    */
   @Autowired
@@ -129,7 +130,7 @@ public class ScreenService extends ServiceConfig {
   /**
    * Generates screen data
    *
-   * @param screen Screen object
+   * @param screen   Screen object
    * @param optionId Option identifier
    * @return Screen data
    * @throws AWException Error retrieving menu
@@ -160,6 +161,7 @@ public class ScreenService extends ServiceConfig {
 
   /**
    * Update parameter list with stored parameters
+   *
    * @param storedParameters Stored parameters
    */
   private void updateParameterList(ObjectNode storedParameters, Screen screen) {
@@ -168,7 +170,7 @@ public class ScreenService extends ServiceConfig {
 
     ObjectNode requestParameters = getRequest().getParameterList();
     List<String> baseAttributes = Arrays.asList(AweConstants.PARAMETER_VIEW,
-            AweConstants.PARAMETER_OPTION, AweConstants.JSON_SCREEN);
+      AweConstants.PARAMETER_OPTION, AweConstants.JSON_SCREEN);
 
     // Keep basic values in stored parameters
     for (String attribute : baseAttributes) {
@@ -183,8 +185,8 @@ public class ScreenService extends ServiceConfig {
 
   /**
    * Add components to Screen Data
-   * 
-   * @param data Screen data
+   *
+   * @param data         Screen data
    * @param componentMap Component map
    */
   private void addComponentsToScreenData(ScreenData data, Map<String, ScreenComponent> componentMap) {
@@ -197,9 +199,9 @@ public class ScreenService extends ServiceConfig {
 
   /**
    * Add messages to Screen Data
-   * 
+   *
    * @param screen Screen object
-   * @param data Screen data
+   * @param data   Screen data
    */
   private void addMessagesToScreenData(Screen screen, ScreenData data) {
     // Generate messages
@@ -212,9 +214,9 @@ public class ScreenService extends ServiceConfig {
 
   /**
    * Add screen info to Screen Data
-   * 
-   * @param screen Screen object
-   * @param data Screen data
+   *
+   * @param screen   Screen object
+   * @param data     Screen data
    * @param optionId Option identifier
    */
   private void addScreenInformationToScreenData(Screen screen, ScreenData data, String optionId) {
@@ -266,18 +268,21 @@ public class ScreenService extends ServiceConfig {
    * Stores the last screen criteria if keep last screen criteria is true
    */
   private void storeLastScreenCriteria() {
-    String lastScreen = getSession().getParameter(String.class, AweConstants.SESSION_LAST_SCREEN);
+    AweSession session = getSession();
+    if (session.isAuthenticated()) {
+      String lastScreen = session.getParameter(String.class, AweConstants.SESSION_LAST_SCREEN);
 
-    // Get last screen if stored
-    if (lastScreen != null) {
-      // Set parameters to get'em cached
-      setScreenParameters(lastScreen);
+      // Get last screen if stored
+      if (lastScreen != null) {
+        // Set parameters to get'em cached
+        setScreenParameters(lastScreen);
+      }
     }
   }
 
   /**
    * Retrieve screen parameters and add them to cache
-   * 
+   *
    * @param optionName Option name
    * @return Option parameters
    */
@@ -297,21 +302,24 @@ public class ScreenService extends ServiceConfig {
     }
 
     // Log screen parameters
-    getLogger().log(ScreenService.class, Level.INFO, "Screen parameters retrieved - Session: {0} - {1} - {2}", session.getSessionId(), keepCriteriaKey, screenParameters.toString());
+    getLogger().log(ScreenService.class, Level.INFO, "Screen parameters retrieved - {0} - {1}", keepCriteriaKey, screenParameters.toString());
     return screenParameters;
   }
 
   /**
    * Retrieve screen parameters and add them to cache
-   * 
+   *
    * @param optionName Option name
    */
   private void setScreenParameters(String optionName) {
+    AweSession session = getSession();
     // Log screen parameters
-    String keepCriteriaKey = AweConstants.SESSION_KEEP_CRITERIA_HEADER + optionName;
-    ObjectNode screenParameters = getRequest().getParametersSafe();
-    getSession().setParameter(keepCriteriaKey, screenParameters);
-    getLogger().log(ScreenService.class, Level.INFO, "Screen parameters set - Session: {0} - {1} - {2}", getSession().getSessionId(), keepCriteriaKey, screenParameters.toString());
+    if (session.isAuthenticated()) {
+      String keepCriteriaKey = AweConstants.SESSION_KEEP_CRITERIA_HEADER + optionName;
+      ObjectNode screenParameters = getRequest().getParametersSafe();
+      session.setParameter(keepCriteriaKey, screenParameters);
+      getLogger().log(ScreenService.class, Level.INFO, "Screen parameters set - {0} - {1}", keepCriteriaKey, screenParameters.toString());
+    }
   }
 
   /**
@@ -322,21 +330,23 @@ public class ScreenService extends ServiceConfig {
   private void storeCurrentScreen(String option, Screen screen) {
     AweSession session = getSession();
 
-    // Store last screen in session
-    session.setParameter(AweConstants.SESSION_LAST_SCREEN, session.getParameter(AweConstants.SESSION_STORE_SCREEN_CRITERIA));
+    if (session.isAuthenticated()) {
+      // Store last screen in session
+      session.setParameter(AweConstants.SESSION_LAST_SCREEN, session.getParameter(AweConstants.SESSION_STORE_SCREEN_CRITERIA));
 
-    // Store option name in session
-    session.setParameter(AweConstants.SESSION_CURRENT_SCREEN, option);
+      // Store option name in session
+      session.setParameter(AweConstants.SESSION_CURRENT_SCREEN, option);
 
-    // Store screen option if keep criteria
-    session.setParameter(AweConstants.SESSION_STORE_SCREEN_CRITERIA, screen.isKeepCriteria() ? option : null);
+      // Store screen option if keep criteria
+      session.setParameter(AweConstants.SESSION_STORE_SCREEN_CRITERIA, screen.isKeepCriteria() ? option : null);
+    }
   }
 
   /**
    * Get screen component list names
-   * 
+   *
    * @param screenId Screen identifier
-   * @param suggest Written suggest
+   * @param suggest  Written suggest
    * @return Screen component list
    * @throws AWException Error retrieving screen element list
    */
@@ -379,7 +389,7 @@ public class ScreenService extends ServiceConfig {
 
   /**
    * Get screen attribute list names
-   * 
+   *
    * @param suggest Written suggest
    * @return Screen component list
    * @throws AWException Error retrieving screen element list

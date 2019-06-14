@@ -1,10 +1,8 @@
 package com.almis.awe.model.component;
 
 import com.almis.awe.model.messages.AweMessage;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,36 +10,23 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpSession;
-import java.util.Date;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
  * Created by dfuentes on 13/04/2017.
  */
-public class AweSession {
-  private HttpSession session;
-  private Authentication authentication;
+@Log4j2
+public class AweSession implements Serializable {
+  private transient Authentication authentication;
   public static final String ROLE = "ROLE_";
   private AweSessionStorage sessionStorage;
-  private Logger logger = LogManager.getLogger(AweSession.class);
 
   /**
    * Autowired constructor
-   *
-   * @param session null if not instantiated with @Autowired
    */
-  @Autowired
-  public AweSession(HttpSession session) {
-    this.session = session;
-
-    if (this.session == null) {
-      ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-      this.session = attr.getRequest().getSession(true);
-    }
-
+  public AweSession() {
     // Merged with spring security
     SecurityContext securityContext = SecurityContextHolder.getContext();
     Authentication contextAuthentication = securityContext.getAuthentication();
@@ -72,34 +57,7 @@ public class AweSession {
    * @return Session id
    */
   public String getSessionId() {
-    return session.getId();
-  }
-
-  /**
-   * Get session creation date
-   *
-   * @return session creation date
-   */
-  public Date getSessionCreationDate() {
-    return new Date(session.getCreationTime());
-  }
-
-  /**
-   * Set maximum inactive time interval in seconds
-   *
-   * @param seconds Maximum inactive time interval in seconds
-   */
-  public void setMaximumInactiveTimeInterval(int seconds) {
-    session.setMaxInactiveInterval(seconds);
-  }
-
-  /**
-   * Get maximum inactive time interval in seconds
-   *
-   * @return Maximum inactive time interval
-   */
-  public int getMaximumInactiveTimeInterval() {
-    return session.getMaxInactiveInterval();
+    return RequestContextHolder.currentRequestAttributes().getSessionId();
   }
 
   /**
@@ -165,7 +123,7 @@ public class AweSession {
    */
   public void setParameter(String name, Object value) {
     sessionStorage.store(name, value);
-    logger.log(Level.TRACE, new AweMessage("Attribute added (session: {0}): {1} = {2} ", getSessionId(), name, value));
+    log.log(Level.TRACE, new AweMessage("Attribute added: {} = {} ", name, value));
   }
 
   /**
@@ -176,7 +134,7 @@ public class AweSession {
    */
   public Object getParameter(String name) {
     Object value = sessionStorage.retrieve(name);
-    logger.log(Level.TRACE, new AweMessage("Attribute retrieved (session: {0}): {1} = {2}", getSessionId(), name, value));
+    log.log(Level.TRACE, new AweMessage("Attribute retrieved: {} = {}", name, value));
     return value;
   }
 
@@ -190,7 +148,7 @@ public class AweSession {
    */
   public <T> T getParameter(Class<T> clazz, String name) {
     T value = sessionStorage.retrieve(clazz, name);
-    logger.log(Level.TRACE, new AweMessage("Attribute retrieved (session: {0}): {1} = {2}", getSessionId(), name, value));
+    log.log(Level.TRACE, new AweMessage("Attribute retrieved: {} = {}", name, value));
     return value;
   }
 
@@ -201,7 +159,7 @@ public class AweSession {
    */
   public void removeParameter(String name) {
     sessionStorage.remove(name);
-    logger.log(Level.TRACE, new AweMessage("Attribute removed (session: {0}): {1}", getSessionId(), name));
+    log.log(Level.TRACE, new AweMessage("Attribute removed: {}", name));
   }
 
   /**

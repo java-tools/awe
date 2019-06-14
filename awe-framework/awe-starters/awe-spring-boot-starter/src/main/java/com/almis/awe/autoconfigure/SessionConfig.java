@@ -16,7 +16,6 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.session.web.http.HttpSessionStrategy;
 import org.springframework.web.context.annotation.SessionScope;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,12 +43,13 @@ public class SessionConfig {
   @Bean
   @ConditionalOnMissingBean
   @SessionScope
-  AweSession aweSession(HttpSession httpSession) {
-    return new AweSession(httpSession);
+  AweSession aweSession() {
+    return new AweSession();
   }
 
   /**
    * Cookie serializer
+   *
    * @return
    */
   @Bean
@@ -75,6 +75,7 @@ public class SessionConfig {
 
   /**
    * Session service
+   *
    * @return Session service bean
    */
   @Bean
@@ -85,9 +86,10 @@ public class SessionConfig {
 
   /**
    * Session details
+   *
    * @param aweClientTracker Awe Client tracker
-   * @param queryService Query service
-   * @param connectedUsers Connected user list
+   * @param queryService     Query service
+   * @param connectedUsers   Connected user list
    * @return Session details bean
    */
   @Bean

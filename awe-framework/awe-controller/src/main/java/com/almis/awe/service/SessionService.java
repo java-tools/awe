@@ -1,6 +1,7 @@
 package com.almis.awe.service;
 
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.model.component.AweSession;
 
 /**
  * Session service
@@ -14,16 +15,12 @@ public class SessionService extends ServiceConfig {
    * @return Session parameter
    */
   public Object getSessionParameter(String name) {
-    return getSession().getParameter(name);
-  }
-
-  /**
-   * Store session parameter
-   * @param name Parameter name
-   * @param value Parameter value
-   */
-  public void setSessionParameter(String name, Object value) {
-    getSession().setParameter(name, value);
+    AweSession session = getSession();
+    if (isSessionValid(session)) {
+      return session.getParameter(name);
+    } else {
+      return null;
+    }
   }
 
   /**
@@ -32,6 +29,13 @@ public class SessionService extends ServiceConfig {
    * @param value Parameter value
    */
   public void setSessionParameter(String name, String value) {
-    getSession().setParameter(name, value);
+    AweSession session = getSession();
+    if (isSessionValid(session)) {
+      session.setParameter(name, value);
+    }
+  }
+
+  private boolean isSessionValid(AweSession session) {
+    return session != null;
   }
 }

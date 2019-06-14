@@ -175,6 +175,7 @@ Frontend UT:
   - /^release/.*$/
   artifacts:
     paths:
+    - awe-tests/awe-boot/target/tests/
     - awe-tests/awe-boot/target/surefire-reports/
     - awe-tests/awe-boot/target/jacoco-${TEST_NAME}-it.exec
     reports:

@@ -1,6 +1,7 @@
 package com.almis.awe.session;
 
 import com.almis.awe.model.component.AweSession;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.session.Session;
 import org.springframework.session.web.http.CookieSerializer;
@@ -23,12 +24,13 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
 
   private static final String DEFAULT_DELIMITER = "|";
   private static final String SESSION_IDS_WRITTEN_ATTR = AweHttpSessionStrategy.class
-          .getName().concat(".SESSIONS_WRITTEN_ATTR");
+    .getName().concat(".SESSIONS_WRITTEN_ATTR");
 
   private CookieSerializer cookieSerializer;
 
   /**
    * Autowired constructor
+   *
    * @param cookieSerializer Cookie serializer
    */
   @Autowired
@@ -64,7 +66,7 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
    * @param request Servlet request
    * @return Session alias
    */
-  public String getCurrentSessionAlias(HttpServletRequest request, Session session) {
+  public String getCurrentSessionAlias(HttpServletRequest request, AweSession session) {
     return getConnectionId(request, session);
   }
 
@@ -81,8 +83,8 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
   /**
    * On new session creation
    *
-   * @param session Session
-   * @param request Servlet request
+   * @param session  Session
+   * @param request  Servlet request
    * @param response Servlet response
    */
   public void onNewSession(Session session, HttpServletRequest request,
@@ -90,8 +92,10 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
     if (request.isRequestedSessionIdValid()) {
       onInvalidateSession(request, response);
     } else {
+      AweSession aweSession = session.getAttribute("scopedTarget.aweSession");
       Set<String> sessionIdsWritten = getSessionIdsWritten(request);
-      String sessionAlias = getCurrentSessionAlias(request, session);
+      String sessionAlias = getCurrentSessionAlias(request, aweSession);
+      String authorizationHeader = getAuthorizationHeader(request);
 
       if (sessionAlias == null) {
         return;
@@ -100,16 +104,17 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
       if (sessionIdsWritten.contains(session.getId())) {
         return;
       }
-      sessionIdsWritten.add(session.getId());
 
+      // Remove authorization header from session set and add new session alias
       Set<String> sessionIds = getSessionIds(request);
-      sessionIds.add(session.getId());
+      if (!authorizationHeader.equalsIgnoreCase(sessionAlias) || !sessionIds.contains(sessionAlias)) {
+        sessionIdsWritten.remove(authorizationHeader);
+        sessionIds.remove(authorizationHeader);
+        sessionIdsWritten.add(sessionAlias);
+        sessionIds.add(sessionAlias);
 
-      // Check if AweSession is authenticathed, and if so, write cookie value
-      AweSession aweSession = session.getAttribute("scopedTarget.aweSession");
-      if (aweSession != null && aweSession.isAuthenticated()) {
-        String cookieValue = createSessionCookieValue(sessionIds);
-        this.cookieSerializer.writeCookieValue(new CookieSerializer.CookieValue(request, response, cookieValue));
+        // Write cookie with session ids
+        this.cookieSerializer.writeCookieValue(new CookieSerializer.CookieValue(request, response, createSessionCookieValue(sessionIds)));
       }
     }
   }
@@ -120,10 +125,10 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
    * @param request Servlet request
    * @return Session Id List
    */
-  @SuppressWarnings ("unchecked")
+  @SuppressWarnings("unchecked")
   private Set<String> getSessionIdsWritten(HttpServletRequest request) {
     Set<String> sessionsWritten = (Set<String>) request
-            .getAttribute(SESSION_IDS_WRITTEN_ATTR);
+      .getAttribute(SESSION_IDS_WRITTEN_ATTR);
     if (sessionsWritten == null) {
       sessionsWritten = new HashSet<>();
       request.setAttribute(SESSION_IDS_WRITTEN_ATTR, sessionsWritten);
@@ -138,23 +143,13 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
    * @return Session cookie value
    */
   private String createSessionCookieValue(Set<String> sessionIds) {
-    if (sessionIds.isEmpty()) {
-      return "";
-    }
-
-    StringBuilder builder = new StringBuilder();
-    for (String alias : sessionIds) {
-      builder.append(alias);
-      builder.append(this.serializationDelimiter);
-    }
-    builder.deleteCharAt(builder.length() - 1);
-    return builder.toString();
+    return StringUtils.join(sessionIds, serializationDelimiter);
   }
 
   /**
    * Invalidate session
    *
-   * @param request Servlet request
+   * @param request  Servlet request
    * @param response Servlet response
    */
   public void onInvalidateSession(HttpServletRequest request,
@@ -211,10 +206,10 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
   public Set<String> getSessionIds(HttpServletRequest request) {
     List<String> cookieValues = this.cookieSerializer.readCookieValues(request);
     String sessionCookieValue = cookieValues.isEmpty() ? ""
-            : cookieValues.iterator().next();
+      : cookieValues.iterator().next();
     Set<String> result = new HashSet<>();
     StringTokenizer tokens = new StringTokenizer(sessionCookieValue,
-            this.deserializationDelimiter);
+      this.deserializationDelimiter);
     while (tokens.hasMoreTokens()) {
       String alias = tokens.nextToken();
       result.add(alias);
@@ -223,14 +218,24 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
   }
 
   /**
-   * Get alias from current request
+   * Get session connection id
+   *
+   * @return Connection id
+   */
+  public String getConnectionId(HttpServletRequest request, AweSession session) {
+    if (session != null && session.isAuthenticated()) {
+      return request.getSession().getId();
+    } else {
+      return getAuthorizationHeader(request);
+    }
+  }
+
+  /**
+   * Get authorization header from current request
+   *
    * @return Comet UUID
    */
-  public String getConnectionId(HttpServletRequest request, Session session) {
-    if (session != null) {
-      return session.getId();
-    } else {
-      return request.getHeader(SESSION_CONNECTION_HEADER);
-    }
+  public String getAuthorizationHeader(HttpServletRequest request) {
+    return request.getHeader(SESSION_CONNECTION_HEADER);
   }
 }

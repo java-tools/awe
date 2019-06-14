@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * Manage settings request
  */
 @RestController
-@RequestMapping ("/settings")
+@RequestMapping("/settings")
 public class SettingsController extends ServiceConfig {
 
   // Autowired services

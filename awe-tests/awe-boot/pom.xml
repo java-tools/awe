@@ -128,6 +128,11 @@
       </exclusions>
     </dependency>
 
+    <dependency>
+      <groupId>org.springframework.session</groupId>
+      <artifactId>spring-session-jdbc</artifactId>
+    </dependency>
+
     <!-- JDBC Drivers -->
     <dependency>
       <groupId>org.hsqldb</groupId>

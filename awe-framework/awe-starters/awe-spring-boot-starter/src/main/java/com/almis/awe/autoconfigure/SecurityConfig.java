@@ -8,6 +8,7 @@ import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.security.accessbean.LoginAccessControl;
+import com.almis.awe.security.handler.AweLogoutHandler;
 import com.almis.awe.security.authentication.encoder.Ripemd160PasswordEncoder;
 import com.almis.awe.security.authentication.filter.JsonAuthenticationFilter;
 import com.almis.awe.service.AccessService;
@@ -161,6 +162,9 @@ public class SecurityConfig extends ServiceConfig {
   @Value ("${security.headers.frameOptions.sameOrigin:true}")
   private boolean sameOrigin;
 
+  @Value("${session.cookie.name:JSESSIONID}")
+  private String cookieName;
+
   /**
    * Second configuration class for spring security
    */
@@ -184,17 +188,9 @@ public class SecurityConfig extends ServiceConfig {
         .addFilterAt(getBean(JsonAuthenticationFilter.class), UsernamePasswordAuthenticationFilter.class)
         .formLogin().permitAll()
         .and()
-        .logout().logoutUrl("/action/logout").clearAuthentication(true)
-        .addLogoutHandler((request, response, authentication) ->  {
-          initRequest(request);
-          aweSessionDetails.onBeforeLogout();
-        })
-        .logoutSuccessHandler((request, response, authentication) -> {
-          initRequest(request);
-          aweSessionDetails.onLogoutSuccess();
-          request.getRequestDispatcher("/action/logoutRedirect").forward(request, response);
-        })
-        .deleteCookies("SESSION").invalidateHttpSession(true);
+        .logout().logoutUrl("/action/logout")
+        .deleteCookies(cookieName)
+        .addLogoutHandler(new AweLogoutHandler(aweSessionDetails));
 
       if (sameOrigin) {
         http.headers().frameOptions().sameOrigin();
