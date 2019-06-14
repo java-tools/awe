@@ -1,5 +1,8 @@
 package com.almis.awe.model.component;
 
+import com.almis.awe.model.dto.CellData;
+
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +11,8 @@ import java.util.Set;
 /**
  * Created by pgarcia
  */
-public class AweSessionStorage {
-  private Map<String, Object> sessionStorage;
+public class AweSessionStorage implements Serializable {
+  private Map<String, CellData> sessionStorage;
 
   /**
    * Constructor
@@ -25,7 +28,7 @@ public class AweSessionStorage {
    * @param value Parameter value
    */
   public void store(String name, Object value) {
-    sessionStorage.put(name, value);
+    sessionStorage.put(name, new CellData(value));
   }
 
   /**
@@ -35,7 +38,7 @@ public class AweSessionStorage {
    * @return Parameter value
    */
   public Object retrieve(String name) {
-    return sessionStorage.get(name);
+    return sessionStorage.get(name) == null ? null : sessionStorage.get(name).getObjectValue();
   }
 
   /**
