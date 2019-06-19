@@ -1,4 +1,4 @@
-import { aweApplication } from "./../../awe";
+import {aweApplication} from "./../../awe";
 import "angular-ui-grid";
 import "./components";
 import "./editable";
@@ -32,8 +32,8 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
      * @returns {integer} Number of selected lines
      */
     const getSelectedLines = function (component) {
-      var value;
-      var model = component.model;
+      let value;
+      let model = component.model;
       if (model.selected === null) {
         value = 0;
       } else {
@@ -83,7 +83,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
     /**
      * Sanitize selected values (retrieve values from row id)
      */
-    const sanitizeSelection = function(selection, data, component) {
+    const sanitizeSelection = function (selection, data, component) {
       let sanitized = [];
       _.each(selection, function (row) {
         var rowIndex = Control.getRowIndex(data, row, component.constants.ROW_IDENTIFIER);
@@ -92,7 +92,23 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         }
       });
       return sanitized;
-    }
+    };
+
+    /**
+     * Retrieve row identifier
+     * @param component Component
+     * @param row Row identifier
+     * @param move Displacement
+     * @returns {*}
+     */
+    const getRowIdentifier = function (component, row, move) {
+      let model = component.model.values, index, value = null;
+      if (!Utilities.isEmpty(row)) {
+        index = Control.getRowIndex(model, row, component.constants.ROW_IDENTIFIER);
+        value = index >= Math.max(move * -1, 0) && index < Math.min(model.length - move, model.length) ? model[index + move][component.constants.ROW_IDENTIFIER] : null;
+      }
+      return value;
+    };
 
     /**
      * Grid constructor
@@ -114,29 +130,29 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         /**
          * Retrieve current row value
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @param {string} row Row
          * @returns {mixed} Current row value
          */
-        currentRowValue: function (component, column, row) {
-          var index = Control.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
-          return getRowValue(component.model.values, index, column);
+        currentRowValue: function (comp, column, row) {
+          var index = Control.getRowIndex(comp.model.values, row, comp.constants.ROW_IDENTIFIER);
+          return getRowValue(comp.model.values, index, column);
         },
         /**
          * Retrieve the value for the column of the previous row to the selected
          * one
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @param {string} row Row
          * @returns {mixed} Selected row value
          */
-        prevCurrentRowValue: function (component, column, row) {
-          var model = component.model.values, index, value = null;
-          var prevRow = this.prevCurrentRow(component, column, row);
+        prevCurrentRowValue: function (comp, column, row) {
+          var model = comp.model.values, index, value = null;
+          var prevRow = this.prevCurrentRow(comp, column, row);
           if (prevRow !== null) {
-            index = Control.getRowIndex(model, prevRow, component.constants.ROW_IDENTIFIER);
+            index = Control.getRowIndex(model, prevRow, comp.constants.ROW_IDENTIFIER);
             value = getRowValue(model, index, column);
           }
           return value;
@@ -144,16 +160,16 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         /**
          * Retrieve the value for the column of the next row to the selected one
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @param {string} row Row
          * @returns {mixed} Selected row value
          */
-        nextCurrentRowValue: function (component, column, row) {
-          var model = component.model.values, index, value = null;
-          var nextRow = this.nextCurrentRow(component, column, row);
+        nextCurrentRowValue: function (comp, column, row) {
+          var model = comp.model.values, index, value = null;
+          var nextRow = this.nextCurrentRow(comp, column, row);
           if (nextRow !== null) {
-            index = Control.getRowIndex(model, nextRow, component.constants.ROW_IDENTIFIER);
+            index = Control.getRowIndex(model, nextRow, comp.constants.ROW_IDENTIFIER);
             value = getRowValue(model, index, column);
           }
           return value;
@@ -161,29 +177,29 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         /**
          * Retrieve the value for the column of the selected row
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @returns {mixed} Selected row value
          */
-        selectedRowValue: function (component, column) {
-          var model = component.model.values;
-          var selectedRow = this.selectedRow(component);
-          var index = Control.getRowIndex(model, selectedRow, component.constants.ROW_IDENTIFIER);
+        selectedRowValue: function (comp, column) {
+          var model = comp.model.values;
+          var selectedRow = this.selectedRow(comp);
+          var index = Control.getRowIndex(model, selectedRow, comp.constants.ROW_IDENTIFIER);
           return getRowValue(model, index, column);
         },
         /**
          * Retrieve the value for the column of the previous row to the selected
          * one
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @returns {mixed} Selected row value
          */
-        prevRowValue: function (component, column) {
-          var model = component.model.values, index, value = null;
-          var prevRow = this.prevRow(component);
+        prevRowValue: function (comp, column) {
+          var model = comp.model.values, index, value = null;
+          var prevRow = this.prevRow(comp);
           if (prevRow !== null) {
-            index = Control.getRowIndex(model, prevRow, component.constants.ROW_IDENTIFIER);
+            index = Control.getRowIndex(model, prevRow, comp.constants.ROW_IDENTIFIER);
             value = getRowValue(model, index, column);
           }
           return value;
@@ -191,15 +207,15 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         /**
          * Retrieve the value for the column of the next row to the selected one
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @returns {mixed} Selected row value
          */
-        nextRowValue: function (component, column) {
-          var model = component.model.values, index, value = null;
-          var nextRow = this.nextRow(component);
+        nextRowValue: function (comp, column) {
+          var model = comp.model.values, index, value = null;
+          var nextRow = this.nextRow(comp);
           if (nextRow !== null) {
-            index = Control.getRowIndex(model, nextRow, component.constants.ROW_IDENTIFIER);
+            index = Control.getRowIndex(model, nextRow, comp.constants.ROW_IDENTIFIER);
             value = getRowValue(model, index, column);
           }
           return value;
@@ -207,150 +223,128 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         /**
          * Retrieve the value for the column of the footer
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @returns {mixed} Footer value
          */
-        footerValue: function (component, column) {
-          return getRowValue(component.model, "footer", column);
+        footerValue: function (comp, column) {
+          return getRowValue(comp.model, "footer", column);
         },
         /**
          * Retrieve the current row identifier
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @param {string} row Row
          * @returns {string} Row identifier
          */
-        currentRow: function (component, column, row) {
-          return row;
+        currentRow: function (comp, column, row) {
+          return getRowIdentifier(comp, row, 0);
         },
         /**
          * Retrieve the previous to the selected row identifier
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @param {string} row Row
          * @returns {string} Row identifier
          */
-        prevCurrentRow: function (component, column, row) {
-          var model = component.model.values, index, value = null;
-          if (row !== null) {
-            index = Control.getRowIndex(model, row, component.constants.ROW_IDENTIFIER);
-            value = index > 0 ? model[index - 1][component.constants.ROW_IDENTIFIER] : null;
-          }
-          return value;
+        prevCurrentRow: function (comp, column, row) {
+          return getRowIdentifier(comp, row, -1);
         },
         /**
          * Retrieve the next to the selected row identifier
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @param {string} row Row
          * @returns {string} Row identifier
          */
-        nextCurrentRow: function (component, column, row) {
-          var model = component.model.values, index, value = null;
-          if (row !== null) {
-            index = Control.getRowIndex(model, row, component.constants.ROW_IDENTIFIER);
-            value = index > -1 && index < model.length - 1 ? model[index + 1][component.constants.ROW_IDENTIFIER] : null;
-          }
-          return value;
+        nextCurrentRow: function (comp, column, row) {
+          return getRowIdentifier(comp, row, 1);
         },
         /**
          * Retrieve the selected row identifier
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @returns {string} Row identifier
          */
-        selectedRow: function (component) {
-          return component.getSelectedRow();
+        selectedRow: function (comp) {
+          return comp.getSelectedRow();
         },
         /**
          * Retrieve the previous to the selected row identifier
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @returns {string} Row identifier
          */
-        prevRow: function (component) {
-          var model = component.model.values, index, value = null;
-          var selectedRow = this.selectedRow(component);
-          if (selectedRow !== null) {
-            index = Control.getRowIndex(model, selectedRow, component.constants.ROW_IDENTIFIER);
-            value = index > 0 ? model[index - 1][component.constants.ROW_IDENTIFIER] : null;
-          }
-          return value;
+        prevRow: function (comp) {
+          return getRowIdentifier(comp, comp.getSelectedRow(), -1);
         },
         /**
          * Retrieve the next to the selected row identifier
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @returns {string} Row identifier
          */
-        nextRow: function (component) {
-          var model = component.model.values, index, value = null;
-          var selectedRow = this.selectedRow(component);
-          if (selectedRow !== null) {
-            index = Control.getRowIndex(model, selectedRow, component.constants.ROW_IDENTIFIER);
-            value = index > -1 && index < model.length - 1 ? model[index + 1][component.constants.ROW_IDENTIFIER] : null;
-          }
-          return value;
+        nextRow: function (comp) {
+          return getRowIdentifier(comp, comp.getSelectedRow(), 1);
         },
         /**
          * Retrieve total number of rows
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @returns {integer} Number of rows
          */
-        totalRows: function (component) {
-          return component.model.records;
+        totalRows: function (comp) {
+          return comp.model.records;
         },
         /**
          * Retrieve if column is empty or not
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @returns {boolean} Column is empty
          */
-        emptyDataColumn: function (component, column) {
-          var filledRows = component.getFilledRows(column);
-          return filledRows === 0 ? true : null;
+        emptyDataColumn: function (comp, column) {
+          var filledRows = comp.getFilledRows(column);
+          return filledRows === 0;
         },
         /**
          * Retrieve if column has data or not
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @returns {boolean} Column has data
          */
-        hasDataColumn: function (component, column) {
-          var totalRows = component.getTotalRows();
-          var filledRows = component.getFilledRows(column);
-          return totalRows >= filledRows && filledRows > 0 ? true : null;
+        hasDataColumn: function (comp, column) {
+          var totalRows = comp.getTotalRows();
+          var filledRows = comp.getFilledRows(column);
+          return totalRows >= filledRows && filledRows > 0;
         },
         /**
          * Retrieve if column is full (all cells with data) or not
          *
-         * @param {object} component Grid component
+         * @param {string} comp Component
          * @param {string} column Column
          * @returns {boolean} Column is full
          */
-        fullDataColumn: function (component, column) {
-          var totalRows = component.getTotalRows();
-          var filledRows = component.getFilledRows(column);
-          return totalRows === filledRows ? true : null;
+        fullDataColumn: function (comp, column) {
+          var totalRows = comp.getTotalRows();
+          var filledRows = comp.getFilledRows(column);
+          return totalRows === filledRows;
         },
         /**
          * Retrieve modified lines on multioperation grids
          *
-         * @param {type} component
+         * @param {string} comp Component
          * @returns {integer}
          */
-        modifiedRows: function (component) {
-          var modifiedRows = getSelectedLines(component);
-          if (component.getExtraData) {
-            var data = component.getExtraData();
-            modifiedRows = data[component.address.component];
+        modifiedRows: function (comp) {
+          let modifiedRows = getSelectedLines(comp);
+          if (comp.getExtraData) {
+            let data = comp.getExtraData();
+            modifiedRows = data[comp.address.component];
           }
           return modifiedRows;
         },
@@ -380,7 +374,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
          * @param uiGridViewport Viewport
          * @param scrollHandler Scroll handler
          */
-        component.customScroller = function(uiGridViewport, scrollHandler) {
+        component.customScroller = function (uiGridViewport, scrollHandler) {
           uiGridViewport.on('scroll', (event) => {
             component.repositionSaveButton();
             scrollHandler(event);
@@ -389,22 +383,20 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
 
         /**
          * Initialize grid layers
-         *
-         * @param {type} elem Grid elem
          */
-        component.initLayers = function (elem) {
+        component.initLayers = function () {
           component.layers = {};
           // Calculate layers
-          component.layers["grid"] = elem;
-          component.layers["gridNode"] = elem.find(".ui-grid");
-          component.layers["footer"] = elem.find(".ui-grid-footer-cell-row");
-          component.layers["content"] = elem.find(".ui-grid-canvas");
-          component.layers["header"] = elem.find(".ui-grid-header");
-          component.layers["clickout"] = elem.find('.ui-grid-viewport');
-          component.layers["contentWrapper"] = elem.find('.ui-grid-contents-wrapper');
-          component.layers["container"] = elem.find('.ui-grid-render-container-body');
+          component.layers["grid"] = component.element;
+          component.layers["gridNode"] = component.element.find(".ui-grid");
+          component.layers["footer"] = component.element.find(".ui-grid-footer-cell-row");
+          component.layers["content"] = component.element.find(".ui-grid-canvas");
+          component.layers["header"] = component.element.find(".ui-grid-header");
+          component.layers["clickout"] = component.element.find('.ui-grid-viewport');
+          component.layers["contentWrapper"] = component.element.find('.ui-grid-contents-wrapper');
+          component.layers["container"] = component.element.find('.ui-grid-render-container-body');
           setTimeout(function () {
-            component.layers["save"] = elem.find('.save-button');
+            component.layers["save"] = component.element.find('.save-button');
           });
           component.scope.gridOptions.layers = component.layers;
         };
@@ -490,7 +482,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
          */
         component.getCellObject = function (cellValue) {
           var cellObject = cellValue;
-          if (cellValue === null) {
+          if (Utilities.isEmpty(cellValue)) {
             cellObject = {
               value: null,
               label: ""
@@ -503,7 +495,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           } else if (angular.isArray(cellValue)) {
             cellObject = {
               value: cellValue,
-              label: cellValue.split(", ")
+              label: cellValue.join(", ")
             };
           } else if ("value" in cellObject && !("label" in cellObject)) {
             cellObject.label = cellObject.value;
@@ -519,22 +511,22 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
          * @returns {object} Grid cell
          */
         component.getCell = function (value) {
-          var cell;
-          if (Utilities.isEmpty(value)) {
-            cell = {};
-            cell[component.constants.CELL_VALUE] = "";
-            cell[component.constants.CELL_LABEL] = "";
-            cell[component.constants.CELL_TITLE] = "";
-            cell[component.constants.CELL_STYLE] = "";
-          } else if (typeof value === "object") {
-            cell = value;
-          } else {
-            cell = {};
-            cell[component.constants.CELL_VALUE] = value;
-            cell[component.constants.CELL_LABEL] = value;
-            cell[component.constants.CELL_TITLE] = value;
-            cell[component.constants.CELL_STYLE] = "";
-          }
+          let cell = component.getCellObject(value);
+          let constants = component.constants;
+          let checkList = [
+            constants.CELL_VALUE,
+            constants.CELL_LABEL,
+            constants.CELL_TITLE,
+            constants.CELL_STYLE,
+            constants.CELL_ICON
+          ];
+
+          _.each(checkList, (attribute) => {
+            if (!(attribute in cell)) {
+              cell[attribute] = "";
+            }
+          });
+
           return cell;
         };
 
@@ -735,7 +727,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
                 case "progress":
                 case "numeric":
                   if (component.getApi) {
-                    var componentApi = component.getApi(address);
+                    let componentApi = component.getApi(address);
                     if (componentApi && componentApi.getVisibleValue) {
                       data = componentApi.getVisibleValue();
                     }
@@ -743,12 +735,12 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
                   break;
                 case "checkbox":
                   data = component.getCellData(row[address.column], component.constants.CELL_VALUE);
-                  data = data == "0" ? false : true;
+                  data = String(data) !== "0";
                   break;
                 case "image":
                   data = component.getCellData(row[address.column], component.constants.CELL_IMAGE);
                   break;
-                case "image":
+                case "icon":
                   data = component.getCellData(row[address.column], component.constants.CELL_ICON);
                   break;
                 case "password":
@@ -794,7 +786,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
          * @return {String} Selected row
          */
         component.getSelectedRow = function () {
-          var selected = component.model.selected;
+          let selected = component.model.selected;
           return angular.isArray(selected) && selected.length > 0 ? selected[0] : null;
         };
         /**
@@ -819,13 +811,6 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           return selectedRowData;
         };
         /**
-         * Update the model
-         */
-        component.updateModel = function () {
-          // Update model
-          component.updateModelAndSelectRows();
-        };
-        /**
          * Update the model and select rows
          */
         component.updateModelAndSelectRows = function () {
@@ -844,9 +829,9 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
          * @param {type} data
          */
         component.updateCell = function (rowId, columnId, data) {
-          var value = null, style = null;
-          var model = {};
-          if (typeof data === "object") {
+          let value = null, style = null;
+          let model = {};
+          if (data != null && typeof data === "object") {
             value = "value" in data ? data.value : null;
             style = "style" in data ? data.style : null;
             model.selected = value;
@@ -856,22 +841,21 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
             model.selected = value;
           }
 
-          if (!Utilities.isEmpty(value)) {
-            // Calculate rowIndex
-            var rowIndex = Control.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
-
+          // Calculate rowIndex
+          let rowIndex = Control.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
+          if (rowIndex > -1) {
             // Update value data
             component.model.values[rowIndex][columnId] = data;
 
             // Publish model changed
-            var address = _.cloneDeep(component.address);
+            let address = _.cloneDeep(component.address);
             address.column = columnId;
             address.row = rowId;
             Control.publishModelChanged(address, model);
-          }
 
-          // Update cell specific
-          component.updateCellSpecific(rowId, columnId, value, style);
+            // Update cell specific
+            component.updateCellSpecific(rowId, columnId, value, style);
+          }
         };
         /**
          * On update cell data
@@ -947,13 +931,13 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
          * @param {string} column Column to check
          */
         component.getFilledRows = function (column) {
-          var filledRows = 0;
+          let filledRows = 0;
           // For each row, check the cell value
           _.each(component.model.values, function (row) {
             // Retrieve cell value
-            var cellValue = component.getCellData(row[column], component.constants.CELL_VALUE);
+            let cellValue = component.getCellData(row[column], component.constants.CELL_VALUE);
             // Add 1 to filledRows if cell is not empty
-            filledRows += cellValue !== null && cellValue !== "" ? 1 : 0;
+            filledRows += Utilities.isEmpty(cellValue) ? 0 : 1;
           });
           return filledRows;
         };
@@ -1531,7 +1515,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
                 component.hideColumn(dependency.column);
               }
               break;
-              // Hide column if update
+            // Hide column if update
             case "hideColumn":
               if (update) {
                 component.hideColumn(dependency.column);
@@ -1539,7 +1523,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
                 component.showColumn(dependency.column);
               }
               break;
-              // Change column label
+            // Change column label
             case "columnLabel":
               component.changeColumnLabel(dependency.column, value);
               break;
