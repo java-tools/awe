@@ -348,8 +348,8 @@ aweApplication.factory('AweUtilities',
           var value = null;
 
           /* Replace formule parameters */
-          _.each(values, function (value, valueId) {
-            formule = formule.replace(new RegExp("\\[" + valueId + "\\]", "ig"), value);
+          _.each(values, function (parameter, parameterId) {
+            formule = formule.replace(new RegExp("\\[" + parameterId + "\\]", "ig"), parameter);
           });
           formule = formule.replace(new RegExp("#", "ig"), "\"");
 

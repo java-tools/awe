@@ -119,7 +119,7 @@ public abstract class ServiceConfig implements ApplicationContextAware {
    * @return Locale text
    */
   public String getLocale(String locale, String... parameters) {
-    return getElements().getLocale(locale, parameters);
+    return getElements().getLocale(locale, (Object[]) parameters);
   }
 
   /**
