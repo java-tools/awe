@@ -43,7 +43,7 @@ public class SpecificSecurityConfig extends ServiceConfig {
   @Value ("${security.headers.frameOptions.sameOrigin:true}")
   private boolean sameOrigin;
 
-  @Value("${session.cookie.name:JSESSIONID}")
+  @Value("${session.cookie.name:AWESESSIONID}")
   private String cookieName;
 
   /**

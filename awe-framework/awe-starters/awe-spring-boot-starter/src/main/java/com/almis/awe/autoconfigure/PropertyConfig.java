@@ -10,6 +10,7 @@ import org.springframework.core.annotation.Order;
 
 /**
  * Initialize properties
+ *
  * @author pgarcia
  */
 @Configuration
@@ -29,6 +30,7 @@ public class PropertyConfig {
 
   /**
    * Web number options
+   *
    * @return Web number options bean
    */
   @Bean
@@ -39,6 +41,7 @@ public class PropertyConfig {
 
   /**
    * Web chart options
+   *
    * @return Web chart options bean
    */
   @Bean
@@ -50,6 +53,7 @@ public class PropertyConfig {
 
   /**
    * Web pivot options
+   *
    * @return Web pivot options bean
    */
   @Bean
@@ -60,6 +64,7 @@ public class PropertyConfig {
 
   /**
    * Web tooltip options
+   *
    * @return Web tooltip options bean
    */
   @Bean
@@ -70,11 +75,12 @@ public class PropertyConfig {
 
   /**
    * Web settings
+   *
    * @return Web settings bean
    */
   @Bean
   @ConditionalOnMissingBean
   public WebSettings webSettings() {
-    return new WebSettings();
+    return WebSettings.builder().build();
   }
 }

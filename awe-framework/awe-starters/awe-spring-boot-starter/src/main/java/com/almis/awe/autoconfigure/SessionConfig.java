@@ -26,7 +26,7 @@ import java.util.Set;
 @EnableSpringHttpSession
 public class SessionConfig {
 
-  @Value("${session.cookie.name:JSESSIONID}")
+  @Value("${session.cookie.name:AWESESSIONID}")
   private String cookieName;
 
   @Value("${session.cookie.path:/}")

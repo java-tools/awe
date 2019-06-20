@@ -1,5 +1,8 @@
 package com.almis.awe.model.settings;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -7,23 +10,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * 
  * @author pgarcia
  */
+@Getter
+@Setter
+@Accessors(chain = true)
 @ConfigurationProperties(prefix = "settings.chart.options")
 public class WebChartOptions {
-
   private Integer limitPointsSerie;
-
-  /**
-   * @return the limitPointsSerie
-   */
-  public Integer getLimitPointsSerie() {
-    return limitPointsSerie;
-  }
-
-  /**
-   * @param limitPointsSerie the limitPointsSerie to set
-   */
-  public void setLimitPointsSerie(Integer limitPointsSerie) {
-    this.limitPointsSerie = limitPointsSerie;
-  }
-
 }
