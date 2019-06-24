@@ -170,6 +170,9 @@ Actions which works over components in the screen.
 | `reload-language`      | Reload the language searching for changes                                  | `criteria`          |
 | `next-step`            | Move to the next step of the wizard                                        | `wizard`            |
 | `prev-step`            | Move to the previous step of the wizard                                    | `wizard`            |
+| `first-step`           | Move to the first step of the wizard                                       | `wizard`            |
+| `last-step`            | Move to the last step of the wizard                                        | `wizard`            |
+| `nth-step`             | Move to the nth step of the wizard                                         | `wizard`            |
 
 #### Component attributes
 

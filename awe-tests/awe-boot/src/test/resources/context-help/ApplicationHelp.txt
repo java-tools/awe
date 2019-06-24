@@ -7113,6 +7113,12 @@
   </div><div class="help-snippet padding-sm-vr no-padding-t">
     <h6 class="text-default text-semibold text-sm">
       <i class="fa fa-youtube-play fa-fw"></i>
+      <span class="text-bold text-uppercase" translate-multiple="BUTTON_LAST"></span>
+      <span translate-multiple="HELP_BUTTON" class="text-xxs text-uppercase"></span>
+    </h6>
+  </div><div class="help-snippet padding-sm-vr no-padding-t">
+    <h6 class="text-default text-semibold text-sm">
+      <i class="fa fa-youtube-play fa-fw"></i>
       <span class="text-bold text-uppercase" translate-multiple="BUTTON_NEXT"></span>
       <span translate-multiple="HELP_BUTTON" class="text-xxs text-uppercase"></span>
     </h6>
@@ -7159,6 +7165,12 @@
   </div><div class="help-snippet padding-sm-vr no-padding-t">
     <h6 class="text-default text-semibold text-sm">
       <i class="fa fa-youtube-play fa-fw"></i>
+      <span class="text-bold text-uppercase" translate-multiple="BUTTON_NTH"></span>
+      <span translate-multiple="HELP_BUTTON" class="text-xxs text-uppercase"></span>
+    </h6>
+  </div><div class="help-snippet padding-sm-vr no-padding-t">
+    <h6 class="text-default text-semibold text-sm">
+      <i class="fa fa-youtube-play fa-fw"></i>
       <span class="text-bold text-uppercase" translate-multiple="BUTTON_PREVIOUS"></span>
       <span translate-multiple="HELP_BUTTON" class="text-xxs text-uppercase"></span>
     </h6>
@@ -7177,6 +7189,12 @@
   <div class="help-snippet padding-sm-vr no-padding-t">
   </div><div class="help-snippet padding-sm-vr no-padding-t">
   </div><div class="help-snippet padding-sm-vr no-padding-t">
+  </div><div class="help-snippet padding-sm-vr no-padding-t">
+    <h6 class="text-default text-semibold text-sm">
+      <i class="fa fa-youtube-play fa-fw"></i>
+      <span class="text-bold text-uppercase" translate-multiple="BUTTON_FIRST"></span>
+      <span translate-multiple="HELP_BUTTON" class="text-xxs text-uppercase"></span>
+    </h6>
   </div><div class="help-snippet padding-sm-vr no-padding-t">
     <h6 class="text-default text-semibold text-sm">
       <i class="fa fa-youtube-play fa-fw"></i>

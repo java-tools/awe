@@ -10,7 +10,10 @@
   <locale name="BUTTON_ADD_COLUMNS" value="Add columns"/>
   <locale name="BUTTON_ADD_SERIES" value="Add serie"/>
   <locale name="BUTTON_CONFIRM_EMPTY" value="Confirm (check empty)"/>
+  <locale name="BUTTON_FIRST" value="First"/>
+  <locale name="BUTTON_LAST" value="Last"/>
   <locale name="BUTTON_NEW_CHILD" value="Child row"/>
+  <locale name="BUTTON_NTH" value="Nth"/>
   <locale name="BUTTON_PAUSE" value="Pause"/>
   <locale name="BUTTON_PLAY" value="Play"/>
   <locale name="BUTTON_RELOAD" value="Reload"/>

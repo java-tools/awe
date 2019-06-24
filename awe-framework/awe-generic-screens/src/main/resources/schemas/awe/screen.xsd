@@ -1179,6 +1179,9 @@
       <xs:enumeration value="change-language" />
       <xs:enumeration value="next-step" />
       <xs:enumeration value="prev-step" />
+      <xs:enumeration value="first-step" />
+      <xs:enumeration value="last-step" />
+      <xs:enumeration value="nth-step" />
       <xs:enumeration value="disable-dependencies" />
       <xs:enumeration value="enable-dependencies" />
       <xs:enumeration value="start-load" />

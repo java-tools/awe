@@ -60,6 +60,17 @@ public abstract class AbstractActionBuilder<T extends AbstractActionBuilder, I e
   }
 
   /**
+   * Set label
+   *
+   * @param label label
+   * @return Builder
+   */
+  public T setLabel(String label) {
+    getActionAttributes().setLabel(label);
+    return (T) this;
+  }
+
+  /**
    * Set context
    *
    * @param context context
