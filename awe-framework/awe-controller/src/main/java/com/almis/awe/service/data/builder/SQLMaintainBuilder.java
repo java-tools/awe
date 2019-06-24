@@ -366,7 +366,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
     List paths = new ArrayList<>();
 
     for (SqlField field : getQuery().getSqlFieldList()) {
-      if (!field.isAudit()) {
+      if (field.isNotAudit()) {
         paths.add(buildPath(field.getTable(), field.getId(), field.getAlias()));
       }
     }
@@ -412,7 +412,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
     List<Expression> values = new ArrayList<>();
 
     for (SqlField field : getQuery().getSqlFieldList()) {
-      if (!field.isAudit()) {
+      if (field.isNotAudit()) {
         // Field as sequence
         if (field instanceof Field && ((Field) field).getSequence() != null) {
           values.add(calculateSequence((Field) field, getVariableIndex()));

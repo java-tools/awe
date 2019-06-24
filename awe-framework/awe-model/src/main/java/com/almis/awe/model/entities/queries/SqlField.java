@@ -62,7 +62,15 @@ public abstract class SqlField extends OutputField {
    * @return Is audit
    */
   public boolean isAudit() {
-    return audit != null && audit;
+    return audit == null || audit;
+  }
+
+  /**
+   * Returns if is not audit
+   * @return Is not audit
+   */
+  public boolean isNotAudit() {
+    return audit == null || !audit;
   }
 
   @Override

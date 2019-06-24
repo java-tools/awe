@@ -214,10 +214,10 @@
   <target name="SimpleSingleInsertAudit">
     <insert audit="HISAweDbs">
       <table id="HISAweDbs"/>
-      <field id="HISope" variable="user"/>
-      <field id="HISdat" variable="date"/>
-      <constant id="HISact" value="i"/>
-      <constant id="Des" value="AWEBOOT-TEST"/>
+      <field id="HISope" variable="user" audit="false"/>
+      <field id="HISdat" variable="date" audit="false"/>
+      <constant id="HISact" value="i" audit="false"/>
+      <constant id="Des" value="AWEBOOT-TEST" audit="false"/>
       <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true"/>
       <constant id="Als" value="AWEBOOT-TEST" audit="true"/>
       <variable id="user" type="STRING" session="user"/>
@@ -242,7 +242,7 @@
   <target name="SingleUpdateWithVariableListAudit">
     <update multiple="audit" audit="HISAweDbs">
       <table id="HISAweDbs"/>
-      <field id="HISdat" variable="date"/>
+      <field id="HISdat" variable="date" audit="false"/>
       <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true"/>
       <where>
         <and>
@@ -257,7 +257,7 @@
   <target name="SingleUpdateWithVariableListAuditBatched">
     <update multiple="audit" audit="HISAweDbs" batch="true">
       <table id="HISAweDbs"/>
-      <field id="HISdat" variable="date"/>
+      <field id="HISdat" variable="date" audit="false"/>
       <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true"/>
       <where>
         <and>
@@ -286,7 +286,7 @@
   <target name="MultipleUpdateAudit">
     <update multiple="true" audit="HISAweDbs">
       <table id="HISAweDbs"/>
-      <field id="HISdat" variable="date"/>
+      <field id="HISdat" variable="date" audit="false"/>
       <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true"/>
       <where>
         <and>
@@ -301,7 +301,7 @@
   <target name="MultipleUpdateAuditBatched">
     <update multiple="true" audit="HISAweDbs" batch="true">
       <table id="HISAweDbs"/>
-      <field id="HISdat" variable="date"/>
+      <field id="HISdat" variable="date" audit="false"/>
       <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true"/>
       <where>
         <and>
