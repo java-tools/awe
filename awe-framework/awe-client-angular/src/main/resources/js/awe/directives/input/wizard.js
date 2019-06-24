@@ -1,267 +1,231 @@
-import { aweApplication } from "./../../awe";
-import { ClientActions } from "../../data/actions";
+import {aweApplication} from "./../../awe";
+import {ClientActions} from "../../data/actions";
 import "../wizardpanel";
+import "../../services/panelable";
+
+// Template
+const template =
+`<div class="wizard wizard-{{::size}} expand expandible-vertical" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+ <awe-context-menu ng-cloak></awe-context-menu>
+ <div class="{{::criterionClass}} expand expandible-vertical">
+  <div class="wizard-wrapper">
+    <ul class="wizard-steps" ng-class="{disabled:isDisabled()}">
+      <li ng-class="{'active':model.selectedIndex === $index, 'completed':model.selectedIndex > $index}" ng-repeat="wizard in model.values track by wizard.value" ng-click="clickTab(wizard.value)">
+        <span class="wizard-step-number">{{$index + 1}}</span>
+        <span class="wizard-step-caption">
+          <span translate-multiple="{{::controller.label}}"></span> {{$index + 1}}
+          <span class="wizard-step-description" translate-multiple="{{::wizard.label}}"></span>
+        </span>
+        </li>
+      </ul>
+    </div>
+    <div ng-transclude class="wizard-content wizard-panel wizard-panel-{{::size}} expand expandible-vertical"></div>
+  </div>
+</div>`;
 
 // Wizard directive
-aweApplication.directive('aweInputWizard',
-  ['ServerData', 'Criterion', 'AweUtilities', 'Storage', '$translate', 'AweSettings',
-    function (serverData, Criterion, Utilities, Storage, $translate, $settings) {
+aweApplication
+  .controller('WizardController', ["$scope", "$element", "Panelable", "AweUtilities",
+    function ($scope, $element, Panelable, $utilities) {
+      let $ctrl = this;
 
+      // Initialize criterion
+      let component = new Panelable($scope, $scope.wizardId, $element);
+      if (!component.asPanelable()) return false;
+
+      // Select first option in case of selected is null
+      component.model.selectedIndex = component.model.selected ? component.findIndex(component.model.selected) : 0;
+
+      // Animation variables (retrieve from $settings)
+      let animationTime = 300;
+      let useCSS3Animation = true;
+      let minStepWidth = 200;
+
+      // Define variables for resize
+      let steps, stepContainer, prevWidth, stepWidth;
+
+      /******************************************************************************
+       * CONTROLLER METHODS
+       *****************************************************************************/
+
+      /**
+       * Event on click tab
+       * @param {type} value
+       */
+      $ctrl.selectTab = function (value) {
+        // Retrieve the selected tab
+        component.model.selected = value;
+        component.model.selectedIndex = component.findIndex(value);
+        component.modelChange();
+        // If move steps, move the current step viewer
+        if (component.moveSteps) {
+          moveStepsTo(component.model.selectedIndex);
+        }
+        // Broadcast a resize
+        $utilities.publishDelayedFromScope("resize-action", {}, $scope);
+      };
+
+      /**
+       * Check if wizard panel is active
+       * @param id panel identifier
+       * @returns {*|boolean}
+       */
+      $ctrl.isActive = (id) => component.isActive(id);
+
+      /******************************************************************************
+       * SCOPE METHODS
+       *****************************************************************************/
+
+      /**
+       * Event on click tab
+       * @param {type} value
+       */
+      $scope.clickTab = function (value) {
+        let index = component.findIndex(value);
+        if (index < component.model.selectedIndex) {
+          $ctrl.selectTab(value);
+        }
+      };
+
+      /******************************************************************************
+       * PRIVATE METHODS
+       *****************************************************************************/
+
+      /**
+       * Resize wizard steps
+       */
+      function initSteps() {
+        // Retrieve step container (once)
+        if (!stepContainer) {
+          stepContainer = $element.find('.wizard-steps');
+        }
+        // Retrieve steps (once)
+        if (!steps) {
+          steps = stepContainer.children();
+        }
+      }
+
+      /**
+       * Resize wizard steps
+       */
+      function resize() {
+        // Retrieve wizard width
+        let width = $element.width();
+
+        // Check if width has changed
+        if (width !== prevWidth) {
+          // Initialize steps
+          initSteps();
+
+          // Calculate step width
+          stepWidth = steps[0].offsetWidth;
+
+          // Retrieve step width
+          if (stepWidth <= minStepWidth) {
+            component.moveSteps = true;
+            moveStepsTo(component.model.selectedIndex);
+          } else {
+            component.moveSteps = false;
+            stepContainer.animate({left: 0});
+          }
+
+          // Store previous width
+          prevWidth = width;
+        }
+      }
+
+      /**
+       * Move steps to the selected index
+       * @param {int} position Move the steps to show the position
+       */
+      function moveStepsTo(position) {
+        // Initialize steps
+        initSteps();
+
+        // Retrieve wizard width
+        let width = $element.width();
+
+        // Retrieve step width
+        let containerWidth = stepWidth * steps.length;
+        let containerLeft = width / 2 - ((stepWidth * position) + (stepWidth / 2));
+        containerLeft = Math.min(containerLeft, 0);
+        containerLeft = Math.max(width - containerWidth, containerLeft);
+        let animation = {left: containerLeft};
+        $utilities.animate(useCSS3Animation, stepContainer, animation, animationTime);
+      }
+
+      /******************************************************************************
+       * COMPONENT METHODS
+       *****************************************************************************/
+
+      /**
+       * Go to next tab
+       */
+      component.next = function () {
+        let nextTab = component.model.selectedIndex + 1;
+        if (nextTab < component.model.values.length) {
+          $ctrl.selectTab(component.model.values[nextTab].value);
+        }
+      };
+      /**
+       * Go to previous tab
+       */
+      component.prev = function () {
+        let nextTab = component.model.selectedIndex - 1;
+        if (nextTab >= 0) {
+          $ctrl.selectTab(component.model.values[nextTab].value);
+        }
+      };
+
+      /**
+       * Move steps to the first tab
+       */
+      component.first = function () {
+        let values = component.model.values;
+        if (values.length > 0) {
+          $ctrl.selectTab(component.model.values[0].value);
+        }
+      };
+
+      /**
+       * Move steps to the last tab
+       */
+      component.last = function () {
+        let values = component.model.values;
+        if (values.length > 0) {
+          $ctrl.selectTab(values[values.length - 1].value);
+        }
+      };
+
+      /**
+       * Move steps to the nth tab
+       * @param parameters Action parameters
+       */
+      component.nth = function (parameters) {
+        $ctrl.selectTab(parameters.value);
+      };
+
+      /******************************************************************************
+       * EVENT LISTENERS
+       *****************************************************************************/
+      component.listeners = component.listeners || {};
+      // Capture event for element resize
+      component.listeners['resize'] = $scope.$on("resize", resize);
+      component.listeners['resize-action'] = $scope.$on("resize-action", resize);
+      // Action listener definition
+      $utilities.defineActionListeners(component.listeners, ClientActions.wizard, $scope, component);
+    }])
+  .directive('aweInputWizard',
+    function () {
       return {
         restrict: 'E',
         replace: true,
         transclude: true,
-        templateUrl: function () {
-          return serverData.getAngularTemplateUrl('input/wizard');
-        },
+        template: template,
         scope: {
           'wizardId': '@inputWizardId'
         },
-        controller: ["$scope", function ($scope) {
-            // Initialize criterion
-            let component = new Criterion($scope, $scope.wizardId, $scope.element);
-            if (!component.asCriterion()) {
-              // If criterion is wrong, cancel initialization
-              return false;
-            }
-
-            // Select first option in case of selected is null
-            component.model.selected = component.model.values[0].value;
-            component.model.selectedIndex = 0;
-            let controller = this;
-
-            // Animation variables (retrieve from $settings)
-            let animationTime = 300;
-            let useCSS3Animation = true;
-            let minStepWidth = 200;
-
-            // Define variables for resize
-            let steps, stepContainer, prevWidth, stepWidth;
-
-            /******************************************************************************
-             * COMPONENT METHODS
-             *****************************************************************************/
-
-            /**
-             * Extra data function (To be overwritten on complex directives)
-             * @returns {Object} Data from criteria
-             */
-            component.getPrintData = function () {
-              // Initialize data
-              let data = component.getData();
-              if (component.controller.printable) {
-                data[component.address.component + $settings.get("dataSuffix")] = {
-                  text: component.getVisibleValue(),
-                  all: component.model.values
-                };
-              }
-              return data;
-            };
-
-            /**
-             * Retrieves visible value for the selector
-             * @returns {string} visible value
-             */
-            component.getVisibleValue = function () {
-              return getSelectedLabel(component.model.selected, component.model.values);
-            };
-
-            /**
-             * Get selected label
-             * @param {String} selected Model
-             * @param {Array} valueList Model
-             * @return {String} label
-             */
-            function getSelectedLabel(selected, valueList) {
-              let label = selected;
-              _.each(valueList, function (value) {
-                if (String(selected) === String(value.value)) {
-                  label = $translate.instant(String(value.label));
-                }
-              });
-              return label;
-            }
-
-            /******************************************************************************
-             * CONTROLLER METHODS
-             *****************************************************************************/
-
-            /**
-             * Check if tab pane is active
-             * @param {String} identifier Panel identifier
-             * @returns {boolean} Panel is active
-             */
-            this.isActive = function (identifier) {
-              return identifier === component.model.selected;
-            };
-
-            /**
-             * Event on click tab
-             * @param {type} value
-             */
-            this.selectTab = function (value) {
-              // Retrieve the selected tab
-              component.model.selected = value;
-              component.model.selectedIndex = findIndex(value);
-              component.modelChange();
-              // If move steps, move the current step viewer
-              if (component.moveSteps) {
-                component.moveStepsTo(component.model.selectedIndex);
-              }
-              // Broadcast a resize
-              Utilities.publishDelayedFromScope("resize-action", {}, $scope);
-            };
-
-
-            /******************************************************************************
-             * SCOPE METHODS
-             *****************************************************************************/
-
-            /**
-             * Event on click tab
-             * @param {type} value
-             */
-            $scope.clickTab = function (value) {
-              let index = findIndex(value);
-              if (index < component.model.selectedIndex) {
-                controller.selectTab(value);
-              }
-            };
-            /**
-             * Check if wizard tab is disabled
-             * @returns {boolean} Wizard tab is disabled
-             */
-            $scope.isDisabled = function () {
-              return Storage.get("actions-running") || $scope.$root.loading ||
-                (component.controller && component.controller.disabled);
-            };
-
-
-            /******************************************************************************
-             * PRIVATE METHODS
-             *****************************************************************************/
-
-            /**
-             * Find the index of the selected value
-             * @param {type} value
-             * @returns {number} index
-             */
-            function findIndex(value) {
-              let index = 0;
-              _.each(component.model.values, function (valueObject, valueIndex) {
-                if (valueObject.value === value) {
-                  index = valueIndex;
-                }
-              });
-              return index;
-            }
-
-            /**
-             * Resize wizard steps
-             */
-            function initSteps() {
-              // Retrieve step container (once)
-              if (!stepContainer) {
-                stepContainer = $scope.element.find('.wizard-steps');
-              }
-              // Retrieve steps (once)
-              if (!steps) {
-                steps = stepContainer.children();
-              }
-            }
-
-            /**
-             * Resize wizard steps
-             */
-            function resize() {
-              // Retrieve wizard width
-              let width = $scope.element.width();
-
-              // Check if width has changed
-              if (width !== prevWidth) {
-                // Initialize steps
-                initSteps();
-
-                // Calculate step width
-                stepWidth = steps[0].offsetWidth;
-
-                // Retrieve step width
-                if (stepWidth <= minStepWidth) {
-                  component.moveSteps = true;
-                  component.moveStepsTo(component.model.selectedIndex);
-                } else {
-                  component.moveSteps = false;
-                  stepContainer.animate({left: 0});
-                }
-
-                // Store previous width
-                prevWidth = width;
-              }
-            }
-
-            /******************************************************************************
-             * COMPONENT METHODS
-             *****************************************************************************/
-
-            // Disable reset and restore
-            component.onReset = Utilities.noop;
-            component.onRestore = Utilities.noop;
-
-            /**
-             * Go to next tab
-             */
-            component.next = function () {
-              let nextTab = component.model.selectedIndex + 1;
-              if (nextTab < component.model.values.length) {
-                controller.selectTab(component.model.values[nextTab].value);
-              }
-            };
-            /**
-             * Go to previous tab
-             */
-            component.prev = function () {
-              let nextTab = component.model.selectedIndex - 1;
-              if (nextTab >= 0) {
-                controller.selectTab(component.model.values[nextTab].value);
-              }
-            };
-            /**
-             * Move steps to the selected index
-             * @param {int} position Move the steps to show the position
-             */
-            component.moveStepsTo = function (position) {
-              // Initialize steps
-              initSteps();
-
-              // Retrieve wizard width
-              let width = $scope.element.width();
-
-              // Retrieve step width
-              let containerWidth = stepWidth * steps.length;
-              let containerLeft = width / 2 - ((stepWidth * position) + (stepWidth / 2));
-              containerLeft = Math.min(containerLeft, 0);
-              containerLeft = Math.max(width - containerWidth, containerLeft);
-              let animation = {left: containerLeft};
-              if (useCSS3Animation) {
-                Utilities.animateCSS(stepContainer, animation, animationTime);
-              } else {
-                Utilities.animateJavascript(stepContainer, animation, animationTime);
-              }
-            };
-
-            /******************************************************************************
-             * EVENT LISTENERS
-             *****************************************************************************/
-            component.listeners = component.listeners || {};
-            // Capture event for element resize
-            component.listeners['resize'] = $scope.$on("resize", resize);
-            component.listeners['resize-action'] = $scope.$on("resize-action", resize);
-            // Action listener definition
-            Utilities.defineActionListeners(component.listeners, ClientActions.wizard, $scope, component);
-          }],
-        link: function (scope, elem) {
-          scope.element = elem;
-        }
+        controller: 'WizardController'
       };
     }
-  ]);
+  );

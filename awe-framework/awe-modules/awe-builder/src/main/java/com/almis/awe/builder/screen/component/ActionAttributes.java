@@ -5,10 +5,12 @@ import com.almis.awe.builder.enumerates.ServerAction;
 import com.almis.awe.builder.screen.base.AbstractAttributes;
 import com.almis.awe.builder.screen.base.AweBuilder;
 import com.almis.awe.model.entities.screen.component.action.AbstractAction;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@Data
+@Getter
+@Setter
 @Accessors(chain = true)
 public class ActionAttributes<B extends AweBuilder> extends AbstractAttributes<B> {
   private Action type;
@@ -19,6 +21,7 @@ public class ActionAttributes<B extends AweBuilder> extends AbstractAttributes<B
   private String target;
   private String context;
   private String value;
+  private String label;
 
   public ActionAttributes(B builder) {
     super(builder);
@@ -38,7 +41,8 @@ public class ActionAttributes<B extends AweBuilder> extends AbstractAttributes<B
       .setTargetAction(getTargetAction())
       .setTarget(getTarget())
       .setValue(getValue())
-      .setScreenContext(getContext());
+      .setScreenContext(getContext())
+      .setLabel(getLabel());
 
     if (getType() != null) {
       action.setType(getType().toString());

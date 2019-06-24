@@ -595,7 +595,22 @@ aweApplication.factory('AweUtilities',
           }
         },
         /**
-         * Animate a
+         * Animate
+         * @param {boolean} withCss Animate with css
+         * @param {object} node
+         * @param {object} animation
+         * @param {number} time
+         * @param {function} endFunction
+         */
+        animate: function (withCss, node, animation, time, endFunction) {
+          if (withCss) {
+            Utilities.animateCSS(node, animation, time, endFunction);
+          } else {
+            Utilities.animateJavascript(node, animation, time, endFunction);
+          }
+        },
+        /**
+         * Animate with css
          * @param {type} node
          * @param {type} animation
          * @param {type} time
@@ -618,7 +633,7 @@ aweApplication.factory('AweUtilities',
           }
         },
         /**
-         * Animate a
+         * Animate with Javascript
          * @param {type} node
          * @param {type} animation
          * @param {type} time

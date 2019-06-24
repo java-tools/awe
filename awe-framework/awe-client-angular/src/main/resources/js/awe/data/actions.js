@@ -72,7 +72,10 @@ export const ClientActions = {
   // Available wizard actions
   wizard: {
     "next-step": {method: "next"},
-    "prev-step": {method: "prev"}
+    "prev-step": {method: "prev"},
+    "first-step": {method: "first"},
+    "last-step": {method: "last"},
+    "nth-step": {method: "nth"}
   },
   // Available pivot table actions
   pivot: {

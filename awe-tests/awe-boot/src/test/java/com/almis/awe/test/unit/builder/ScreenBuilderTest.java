@@ -484,6 +484,7 @@ public class ScreenBuilderTest {
             .setSilent(true)
             .setValue("buttonValue1")
             .setContext("home")
+            .setLabel("label")
             .setType(Action.ADD_CLASS))
           .addButtonAction(new ButtonActionBuilder()
             .setServerAction(ServerAction.MAINTAIN_ASYNC)
@@ -511,6 +512,7 @@ public class ScreenBuilderTest {
     assertSame(true, buttonAction.isSilent());
     assertEquals("buttonValue1", buttonAction.getValue());
     assertEquals("home", buttonAction.getScreenContext());
+    assertEquals("label", buttonAction.getLabel());
 
     buttonAction = (ButtonAction) button.getElementList().get(1);
     assertTrue(ServerAction.MAINTAIN_ASYNC.equalsStr(buttonAction.getServerAction()));

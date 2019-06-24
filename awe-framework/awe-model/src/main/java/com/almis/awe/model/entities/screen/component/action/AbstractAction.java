@@ -123,6 +123,16 @@ public abstract class AbstractAction extends Element {
       actionValues.put("target", getTarget());
     }
 
+    // Add value
+    if (getValue() != null) {
+      actionValues.put("value", getValue());
+    }
+
+    // Add label
+    if (getLabel() != null) {
+      actionValues.put("label", getLabel());
+    }
+
     // Add action name
     if (getServerAction() != null) {
       actionValues.put("serverAction", getServerAction());
