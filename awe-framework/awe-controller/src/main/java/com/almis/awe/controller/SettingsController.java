@@ -78,7 +78,7 @@ public class SettingsController extends ServiceConfig {
    * @param cookieDomain Cookie domain pattern
    * @return Controller
    */
-  @Value("${application.cookie.pattern:^.+?\\.(\\w+\\.[a-z]+)$}")
+  @Value("${application.cookie.pattern:}")
   public SettingsController setCookieDomain(String cookieDomain) {
     this.cookieDomain = cookieDomain;
     return this;
@@ -148,7 +148,8 @@ public class SettingsController extends ServiceConfig {
    */
   private void generateApplicationCookie(HttpServletRequest request, HttpServletResponse response) {
     if (!cookieName.isEmpty() && !findCookie(request.getCookies(), cookieName)) {
-      Cookie cookie = new Cookie(cookieName, UUID.randomUUID().toString());
+      String uuid = UUID.randomUUID().toString();
+      Cookie cookie = new Cookie(cookieName, uuid.substring(0, uuid.lastIndexOf('-')));
       cookie.setHttpOnly(true);
       cookie.setSecure(request.isSecure());
       cookie.setPath(cookiePath);
