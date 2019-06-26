@@ -1,3 +1,14 @@
+# Changelog for AWE 4.1.1
+*26/06/2019*
+
+- Add more ClientActionBuilders. [MR #76](https://gitlab.com/aweframework/awe/merge_requests/76) (Pablo Javier García Mora)
+- Allow to use spring-session or not. Document it. [MR #75](https://gitlab.com/aweframework/awe/merge_requests/75) (Pablo Javier García Mora)
+- Fix application cookie issue. [MR #74](https://gitlab.com/aweframework/awe/merge_requests/74) (Pablo Javier García Mora)
+- Maintain with audit table. [MR #73](https://gitlab.com/aweframework/awe/merge_requests/73) (Pablo Javier García Mora)
+- Add `first-step`, `last-step` and `nth-step` actions to `wizard` component. [MR #72](https://gitlab.com/aweframework/awe/merge_requests/72) (Pablo Javier García Mora)
+- Generate a global cookie for clustered environments. [MR #71](https://gitlab.com/aweframework/awe/merge_requests/71) (Pablo Javier García Mora)
+- Add karma tests for grid services. [MR #70](https://gitlab.com/aweframework/awe/merge_requests/70) (Pablo Javier García Mora)
+- Define session cookie even if user is not logged in. [MR #69](https://gitlab.com/aweframework/awe/merge_requests/69) (Pablo Javier García Mora)
 # Changelog for AWE 4.1.0
 *12/06/2019*
 
