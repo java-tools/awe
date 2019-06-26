@@ -10,6 +10,7 @@ Almis Web Engine > **[Home](../README.md)**
 * **[Modules](modules.md)**
 * **[Properties](properties.md)**
 * **[Application options](application-options.md)**
+* **[Session](session-configuration.md)**
 
 ---
 

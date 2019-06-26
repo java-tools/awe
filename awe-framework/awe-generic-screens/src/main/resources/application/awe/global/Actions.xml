@@ -33,12 +33,12 @@
 
   <!-- LOGIN ACTION -->
   <action id="login" format="HTML">
-    <call service="login"/>
+    <call service="logout" />
   </action>
 
   <!-- LOGIN ACTION -->
   <action id="loginRedirect" format="JSON">
-    <call service="login" />
+    <call service="login"/>
     <answer type="ok">
       <response>
         <type>end-load</type>
@@ -82,6 +82,7 @@
   <action id="logout" format="HTML">
     <call service="logout" />
   </action>
+
 
   <!-- LOGOUT ACTION -->
   <action id="logoutRedirect" format="JSON">

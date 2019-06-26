@@ -1,19 +1,16 @@
 package com.almis.awe.test.configuration;
 
 import com.almis.awe.config.ServiceConfig;
-import com.almis.awe.model.util.log.LogUtil;
+import com.almis.awe.security.authentication.filter.JsonAuthenticationFilter;
 import com.almis.awe.security.handler.AweLogoutHandler;
-import com.almis.awe.session.AweSessionDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -25,26 +22,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpecificSecurityConfig extends ServiceConfig {
 
   // Autowired services
-  private AweSessionDetails aweSessionDetails;
+  private SessionRegistry sessionRegistry;
 
-  /**
-   * Autowired constructor
-   * @param sessionDetails Session details
-   * @param logger Logger
-   */
-  @Autowired
-  public SpecificSecurityConfig(AweSessionDetails sessionDetails, LogUtil logger) {
-    this.aweSessionDetails = sessionDetails;
-  }
-
-  @Autowired
-  private UsernamePasswordAuthenticationFilter authenticationFilter;
-
-  @Value ("${security.headers.frameOptions.sameOrigin:true}")
+  @Value("${security.headers.frameOptions.sameOrigin:true}")
   private boolean sameOrigin;
 
   @Value("${session.cookie.name:AWESESSIONID}")
   private String cookieName;
+
+  /**
+   * Autowired constructor
+   * @param sessionRegistry Session registry
+   */
+  @Autowired
+  public SpecificSecurityConfig(SessionRegistry sessionRegistry) {
+    this.sessionRegistry = sessionRegistry;
+  }
 
   /**
    * Second configuration class for spring security
@@ -66,23 +59,19 @@ public class SpecificSecurityConfig extends ServiceConfig {
         .authorizeRequests()
         .and()
         // Add a filter to parse login parameters
-        .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterAt(getBean(JsonAuthenticationFilter.class), UsernamePasswordAuthenticationFilter.class)
         .formLogin().permitAll()
         .and()
         .logout().logoutUrl("/action/logout")
         .deleteCookies(cookieName)
-        .addLogoutHandler(new AweLogoutHandler(aweSessionDetails))
+        .addLogoutHandler(getBean(AweLogoutHandler.class))
         .and()
-        .sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());
+        .sessionManagement()
+        .maximumSessions(1).sessionRegistry(sessionRegistry);
 
       if (sameOrigin) {
         http.headers().frameOptions().sameOrigin();
       }
     }
-  }
-
-  @Bean
-  public SessionRegistry sessionRegistry() {
-    return new SessionRegistryImpl();
   }
 }

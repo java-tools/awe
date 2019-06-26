@@ -110,11 +110,14 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
       if (!authorizationHeader.equalsIgnoreCase(sessionAlias) || !sessionIds.contains(sessionAlias)) {
         sessionIdsWritten.remove(authorizationHeader);
         sessionIds.remove(authorizationHeader);
-        sessionIdsWritten.add(sessionAlias);
-        sessionIds.add(sessionAlias);
 
-        // Write cookie with session ids
-        this.cookieSerializer.writeCookieValue(new CookieSerializer.CookieValue(request, response, createSessionCookieValue(sessionIds)));
+        if (aweSession.isAuthenticated()) {
+          sessionIdsWritten.add(sessionAlias);
+          sessionIds.add(sessionAlias);
+
+          // Write cookie with session ids
+          this.cookieSerializer.writeCookieValue(new CookieSerializer.CookieValue(request, response, createSessionCookieValue(sessionIds)));
+        }
       }
     }
   }
@@ -158,8 +161,8 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
     String requestedAlias = getCurrentSessionAlias(request, null);
     sessionIds.remove(requestedAlias);
 
-    String cookieValue = createSessionCookieValue(sessionIds);
-    this.cookieSerializer.writeCookieValue(new CookieSerializer.CookieValue(request, response, cookieValue));
+    // Write cookie
+    cookieSerializer.writeCookieValue(new CookieSerializer.CookieValue(request, response, createSessionCookieValue(sessionIds)));
   }
 
   /**

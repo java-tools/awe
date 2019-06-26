@@ -8,9 +8,9 @@ import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.security.accessbean.LoginAccessControl;
-import com.almis.awe.security.handler.AweLogoutHandler;
 import com.almis.awe.security.authentication.encoder.Ripemd160PasswordEncoder;
 import com.almis.awe.security.authentication.filter.JsonAuthenticationFilter;
+import com.almis.awe.security.handler.AweLogoutHandler;
 import com.almis.awe.service.AccessService;
 import com.almis.awe.service.MenuService;
 import com.almis.awe.service.QueryService;
@@ -190,7 +190,7 @@ public class SecurityConfig extends ServiceConfig {
         .and()
         .logout().logoutUrl("/action/logout")
         .deleteCookies(cookieName)
-        .addLogoutHandler(new AweLogoutHandler(aweSessionDetails));
+        .addLogoutHandler(getBean(AweLogoutHandler.class));
 
       if (sameOrigin) {
         http.headers().frameOptions().sameOrigin();
@@ -298,6 +298,16 @@ public class SecurityConfig extends ServiceConfig {
       ldapAuthenticationProvider.setUserDetailsContextMapper(ldapAweUserDetailsMapper(userDAO));
 
       return ldapAuthenticationProvider;
+    }
+
+    /**
+     * Retrieve a logout handler
+     * @param sessionDetails Session details
+     * @return Logout handler
+     */
+    @Bean
+    public AweLogoutHandler logoutHandler(AweSessionDetails sessionDetails) {
+      return new AweLogoutHandler(sessionDetails);
     }
 
     /**
