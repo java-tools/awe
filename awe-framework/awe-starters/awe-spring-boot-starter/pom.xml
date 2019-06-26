@@ -50,6 +50,13 @@
       <optional>true</optional>
     </dependency>
 
+    <!-- Session -->
+    <dependency>
+      <groupId>org.springframework.session</groupId>
+      <artifactId>spring-session</artifactId>
+      <optional>true</optional>
+    </dependency>
+
     <!-- Mail -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

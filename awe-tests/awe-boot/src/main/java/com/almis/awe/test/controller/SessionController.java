@@ -6,9 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.session.MapSession;
+import org.springframework.session.Session;
+import org.springframework.session.SessionRepository;
+import org.springframework.session.web.http.SessionRepositoryFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -31,6 +36,7 @@ public class SessionController {
 
   @Autowired
   private SessionRegistry sessionRegistry;
+
 
   /**
    * Set session parameter
@@ -84,9 +90,8 @@ public class SessionController {
    */
   @GetMapping("/invalidate")
   @ResponseBody
-  public String invalidate() {
+  public String invalidate(HttpServletRequest request) throws Exception {
 
-    // Remove parameter
     List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
     for (Object principal : allPrincipals) {
       List<SessionInformation> sessionList = sessionRegistry.getAllSessions(principal, false);

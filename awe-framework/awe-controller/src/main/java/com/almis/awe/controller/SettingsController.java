@@ -8,16 +8,13 @@ import com.almis.awe.model.type.LaunchPhaseType;
 import com.almis.awe.service.InitService;
 import com.almis.awe.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
 
 /**
  * Manage settings request
@@ -30,9 +27,6 @@ public class SettingsController extends ServiceConfig {
   private Environment environment;
   private MenuService menuService;
   private InitService initService;
-  private String cookieName;
-  private String cookiePath;
-  private String cookieDomain;
 
   /**
    * Initialize controller
@@ -46,42 +40,6 @@ public class SettingsController extends ServiceConfig {
     this.environment = environment;
     this.menuService = menuService;
     this.initService = initService;
-  }
-
-  /**
-   * Set application cookie name
-   *
-   * @param cookieName Cookie name
-   * @return Controller
-   */
-  @Value("${application.cookie.name:}")
-  public SettingsController setCookieName(String cookieName) {
-    this.cookieName = cookieName == null ? "" : cookieName;
-    return this;
-  }
-
-  /**
-   * Set application cookie path
-   *
-   * @param cookiePath Cookie path
-   * @return Controller
-   */
-  @Value("${application.cookie.path:/}")
-  public SettingsController setCookiePath(String cookiePath) {
-    this.cookiePath = cookiePath;
-    return this;
-  }
-
-  /**
-   * Set application cookie domain pattern
-   *
-   * @param cookieDomain Cookie domain pattern
-   * @return Controller
-   */
-  @Value("${application.cookie.pattern:}")
-  public SettingsController setCookieDomain(String cookieDomain) {
-    this.cookieDomain = cookieDomain;
-    return this;
   }
 
   /**
@@ -101,9 +59,6 @@ public class SettingsController extends ServiceConfig {
 
     // Overwrite settings parameters
     overwriteSettingParameters(settings);
-
-    // Generate cookie if defined
-    generateApplicationCookie(request, response);
 
     // Handle initial redirection
     handleInitialRedirection(settings, request);
@@ -141,24 +96,6 @@ public class SettingsController extends ServiceConfig {
   }
 
   /**
-   * Generate application cookie if defined
-   *
-   * @param request  Request
-   * @param response Response
-   */
-  private void generateApplicationCookie(HttpServletRequest request, HttpServletResponse response) {
-    if (!cookieName.isEmpty() && !findCookie(request.getCookies(), cookieName)) {
-      String uuid = UUID.randomUUID().toString();
-      Cookie cookie = new Cookie(cookieName, uuid.substring(0, uuid.lastIndexOf('-')));
-      cookie.setHttpOnly(true);
-      cookie.setSecure(request.isSecure());
-      cookie.setPath(cookiePath);
-      cookie.setDomain(cookieDomain);
-      response.addCookie(cookie);
-    }
-  }
-
-  /**
    * Handle initial redirection
    *
    * @param settings Web settings
@@ -175,22 +112,5 @@ public class SettingsController extends ServiceConfig {
     } else {
       settings.setReloadCurrentScreen(false);
     }
-  }
-
-  /**
-   * Find if cookie is already defined
-   *
-   * @param cookieJar Cookie list
-   * @param cookieId  Cookie id
-   * @return found
-   */
-  private boolean findCookie(Cookie[] cookieJar, String cookieId) {
-    if (cookieJar == null) return false;
-    for (Cookie cookie : cookieJar) {
-      if (cookieId.equalsIgnoreCase(cookie.getName())) {
-        return true;
-      }
-    }
-    return false;
   }
 }

@@ -5,6 +5,7 @@ com.almis.awe.autoconfigure.TaskConfig,\
 com.almis.awe.autoconfigure.EmailConfig,\
 com.almis.awe.autoconfigure.JmsConfig,\
 com.almis.awe.autoconfigure.SessionConfig,\
+com.almis.awe.autoconfigure.SpringSessionConfig,\
 com.almis.awe.autoconfigure.SQLConfig,\
 com.almis.awe.autoconfigure.SecurityConfig,\
 com.almis.awe.autoconfigure.SerializerConfig,\
