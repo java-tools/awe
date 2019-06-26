@@ -10,12 +10,12 @@ aweApplication.directive('aweForm',
      * @param {Service} ServerData Server data
      * @param {Service} Control Control service
      * @param {Service} Control Control service
-     * @param {Service} ActionController ActionController service
+     * @param {Service} $actionController ActionController service
      * @param {Service} $settings AWE $settings
      * @param {Service} Utilities AWE Utilities
      * @param {Service} Validator Validator service
      */
-    function (ServerData, Control, ActionController, $settings, Utilities, Validator) {
+    function (ServerData, Control, $actionController, $settings, Utilities, Validator) {
 
       /**
        * Retrieve reseteable scopes
@@ -97,13 +97,7 @@ aweApplication.directive('aweForm',
           var errorList = Validator.validateNode($base);
 
           // Check if validation has been sucessful
-          if (errorList.length === 0) {
-            // If is ok, accept the action
-            action.accept();
-            // If validation is not ok, reject the action
-          } else {
-            action.reject();
-          }
+          $actionController.finishAction(action, errorList.length === 0);
         },
         /**
          * Show validation error
@@ -120,7 +114,7 @@ aweApplication.directive('aweForm',
         setValid: function (action) {
           var target = action.attr("callbackTarget");
           Control.launchApiMethod(target, "changeValidation", ["invalid", false]);
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Set a criterion as invalid
@@ -136,7 +130,7 @@ aweApplication.directive('aweForm',
             }, true]);
           Control.launchApiMethod(target, "validate", []);
           // Accept the current action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Retrieve parameters and send them to the server
@@ -203,7 +197,7 @@ aweApplication.directive('aweForm',
           Control.changeModelAttribute(address, model, true);
 
           // Finish action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Update controller with action values
@@ -212,19 +206,20 @@ aweApplication.directive('aweForm',
         updateController: function (action) {
           // Retrieve parameters
           let parameters = _.cloneDeep(action.attr("parameters"));
-          let data = parameters.datalist;
-          let values = data.rows;
+          let data = parameters.datalist || {};
+          let values = data.rows || {};
           let address = action.attr("callbackTarget");
-          let attribute = action.attr("parameters").attribute;
+          let attribute = parameters.attribute;
+          let value = parameters.value || values[0].value;
           delete data.rows;
 
           // Change controller
           let attributes = {};
-          attributes[attribute] = values[0].value;
+          attributes[attribute] = value;
           Control.changeControllerAttribute(address, attributes);
 
           // Finish action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Update model with action values
@@ -240,7 +235,7 @@ aweApplication.directive('aweForm',
           Control.changeModelAttribute(address, {selected: values}, true);
 
           // Finish action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Reset view selected values
@@ -258,7 +253,7 @@ aweApplication.directive('aweForm',
           });
 
           // Finish action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Restore view selected values
@@ -276,7 +271,7 @@ aweApplication.directive('aweForm',
           });
 
           // Finish action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Restore view selected values with target
@@ -294,7 +289,7 @@ aweApplication.directive('aweForm',
           });
 
           // Finish action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Destroy all views
@@ -302,7 +297,7 @@ aweApplication.directive('aweForm',
          */
         logout: function (action) {
           // Close following actions
-          ActionController.deleteStack();
+          $actionController.deleteStack();
 
           // Zombie action (to accept server actions)
           action.attr("alive", true);
@@ -346,11 +341,11 @@ aweApplication.directive('aweForm',
             confirmAction.parameters = {'target': targetMessage};
 
             // Send action confirm
-            ActionController.addActionList([confirmAction], false, {address: target, context: context});
+            $actionController.addActionList([confirmAction], false, {address: target, context: context});
           }
 
           // Accept action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Check if model hasn't been modified
@@ -382,11 +377,11 @@ aweApplication.directive('aweForm',
             confirmAction.parameters = {'target': targetMessage};
 
             // Send action confirm
-            ActionController.addActionList([confirmAction], false, {address: target, context: context});
+            $actionController.addActionList([confirmAction], false, {address: target, context: context});
           }
 
           // Accept action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Check if model has empty data
@@ -418,10 +413,10 @@ aweApplication.directive('aweForm',
             confirmAction.parameters = {'target': targetMessage};
 
             // Send action confirm
-            ActionController.addActionList([confirmAction], false, {address: target, context: context});
+            $actionController.addActionList([confirmAction], false, {address: target, context: context});
           }
           // Accept action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Set a static value for an element
@@ -436,7 +431,7 @@ aweApplication.directive('aweForm',
          * Cancel all actions of the current stack
          */
         cancel: function () {
-          ActionController.deleteStack();
+          $actionController.deleteStack();
         }
       };
       const Form = {

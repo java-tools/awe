@@ -165,7 +165,7 @@ aweApplication.factory('Ajax',
             data.async = data.async || action.attr("async");
 
             // Finish call action
-            action.accept();
+            $actionController.acceptAction(action);
 
             // Add action list
             if (angular.isArray(data)) {

@@ -1,9 +1,10 @@
 import {aweApplication} from "./../awe";
+import _ from "lodash";
 
 // Action controller
 aweApplication.service('ActionController',
   ['Storage', 'AweUtilities', 'Action',
-    function (Storage, Utilities, Action) {
+    function (Storage, $utilities, Action) {
 
       // Define controller
       let $ctrl = this;
@@ -59,7 +60,7 @@ aweApplication.service('ActionController',
         let firstAction = true;
 
         // If data is empty, exit
-        if (Utilities.isNull(data)) {
+        if ($utilities.isNull(data)) {
           return;
         }
 
@@ -92,7 +93,7 @@ aweApplication.service('ActionController',
         $ctrl.runNext();
 
         // Return promise which tells if queue is empty
-        $ctrl.active = $ctrl.active === null ? Utilities.q.defer() : $ctrl.active;
+        $ctrl.active = $ctrl.active === null ? $utilities.q.defer() : $ctrl.active;
         return $ctrl.active.promise;
       };
 
@@ -217,7 +218,7 @@ aweApplication.service('ActionController',
        */
       $ctrl.enableButtons = function () {
         // Set actions running to false
-        Utilities.timeout(function () {
+        $utilities.timeout(function () {
           Storage.put("actions-running", false);
         });
 
@@ -233,7 +234,7 @@ aweApplication.service('ActionController',
        */
       $ctrl.disableButtons = function () {
         Storage.put("actions-running", true);
-        Utilities.publish("disable-buttons");
+        $utilities.publish("disable-buttons");
       };
 
       /**
@@ -314,6 +315,81 @@ aweApplication.service('ActionController',
         };
         // Send action send message
         $ctrl.addActionList([messageAction], false, {address: {view: $scope.view}, context: $scope.context});
+      };
+
+      /**
+       * Finish an action
+       * @param {Object} action Action
+       * @param {boolean} accept Accept action or not
+       */
+      $ctrl.finishAction = function (action, accept) {
+        if (accept) {
+          action.accept();
+        } else {
+          action.reject();
+        }
+      };
+
+      /**
+       * Accept an action
+       * @param {Object} action Action
+       */
+      $ctrl.acceptAction = function (action) {
+        action.accept();
+      };
+
+      /**
+       * Reject an action
+       * @param {Object} action Action
+       */
+      $ctrl.rejectAction = function (action) {
+        action.reject();
+      };
+
+      /**
+       * Abort an action
+       * @param {Object} action Action
+       */
+      $ctrl.abortAction = function (action) {
+        action.abort();
+      };
+
+      /**
+       * Define a list of action listeners
+       * @param {type} listeners
+       * @param {type} actions
+       * @param {type} scope
+       * @param {type} executor
+       */
+      $ctrl.defineActionListeners = function (listeners, actions, scope, executor) {
+        _.each(actions, function (actionOptions, actionId) {
+          listeners[actionId] = scope.$on("/action/" + actionId, function (event, action) {
+            actionOptions["service"] = executor;
+            actionOptions["scope"] = scope;
+            $ctrl.resolveAction(action, actionOptions);
+          });
+        });
+      };
+
+      /**
+       * Resolve the action if matches
+       * @param {type} action
+       * @param {object} parameters
+       */
+      $ctrl.resolveAction = function (action, parameters) {
+        let scope = parameters.scope || {};
+        let component = scope.component || {};
+        let address = component.address || {};
+        let check = parameters.check || false;
+
+        // Launch action
+        if ($utilities.checkAddress(action.attr("callbackTarget"), address, check)) {
+          // Launch method
+          parameters.service[parameters.method](action.attr("parameters"), scope, action.attr("callbackTarget"));
+
+          // Finish action
+          $ctrl.acceptAction(action);
+        }
       };
     }
   ]);

@@ -56,13 +56,13 @@ aweApplication.factory("Screen",
             $state.go(state.to, state.parameters, {reload: false, inherit: true, notify: true, location: true});
 
             // Finish screen action
-            action.accept();
+            $actionController.acceptAction(action);
           } else if ($settings.get("reloadCurrentScreen")) {
             // Location is the same: reload
             $screen.reload(action);
           } else {
             // Finish action
-            action.accept();
+            $actionController.acceptAction(action);
           }
         },
         /**
@@ -74,7 +74,7 @@ aweApplication.factory("Screen",
           $state.go($state.current, {}, {reload: false, inherit: true, notify: true, location: false});
 
           // Finish screen action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Return to the previous screen
@@ -82,7 +82,7 @@ aweApplication.factory("Screen",
          */
         back: function (action) {
           // Finish screen action
-          action.accept();
+          $actionController.acceptAction(action);
 
           // Go to the previous screen
           $window.history.back();
@@ -108,7 +108,7 @@ aweApplication.factory("Screen",
           }
 
           // Finish screen action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Wait x milliseconds
@@ -121,7 +121,7 @@ aweApplication.factory("Screen",
 
           $utilities.timeout(function() {
             // Finish action
-            action.accept();
+            $actionController.acceptAction(action);
           }, time);
         },
         /**
@@ -145,7 +145,7 @@ aweApplication.factory("Screen",
           }
 
           // Finish screen action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Load screen data
@@ -165,7 +165,7 @@ aweApplication.factory("Screen",
           }
 
           // Close action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Open screen dialog
@@ -184,7 +184,7 @@ aweApplication.factory("Screen",
          */
         closeDialog: function (action) {
           // Close action
-          action.accept();
+          $actionController.acceptAction(action);
 
           // Close dialog
           $utilities.timeout(function () {
@@ -197,7 +197,7 @@ aweApplication.factory("Screen",
          */
         closeDialogAndCancel: function (action) {
           // Close action
-          action.accept();
+          $actionController.acceptAction(action);
 
           // Close dialog
           $utilities.timeout(function () {
@@ -217,7 +217,7 @@ aweApplication.factory("Screen",
           }
 
           // Close action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Get file from server
@@ -261,7 +261,7 @@ aweApplication.factory("Screen",
           $dependencyController.toggleDependencies(enabled);
 
           // Close action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Add Class
@@ -293,7 +293,7 @@ aweApplication.factory("Screen",
           $(tagSelector)[method](targetClass);
 
           // Close action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Print the current screen
@@ -303,7 +303,7 @@ aweApplication.factory("Screen",
           $window.print();
 
           // Close action
-          action.accept();
+          $actionController.acceptAction(action);
         },
         /**
          * Close the current window
@@ -311,7 +311,7 @@ aweApplication.factory("Screen",
          */
         closeWindow: function (action) {
           // Close action
-          action.accept();
+          $actionController.acceptAction(action);
 
           // Call window close
           $window.close();

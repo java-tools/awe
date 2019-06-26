@@ -81,7 +81,38 @@ List<String> values = new ArrayList();
 serviceData.addClientAction(new SelectActionBuilder("my-select", values).build());
 ```
 
+Alternate usage:
+
+```java
+serviceData.addClientAction(new SelectActionBuilder("my-select", value1, value2, ... valueN).build());
+```
+
 This sample sends a list of selected values to `"my-select"` component.
+
+####  **`filter` action builder**
+
+This action calls a component to reload itself:
+
+Usage:
+
+```java
+serviceData.addClientAction(new FilterActionBuilder("my-grid").build());
+```
+
+This sample tells `"my-grid"` component to reload its data.
+
+####  **`update-controller` action builder**
+
+This action triggers a change of attribute inside a component:
+
+Usage:
+
+```java
+// ...
+serviceData.addClientAction(new UpdateControllerActionBuilder("my-select", "optional", false).build());
+```
+
+This sample changes the `optional` attribute on `"my-select"` component to `false`.
 
 ####  **`message` action builder**
 
@@ -197,6 +228,42 @@ serviceData.addClientAction(new ReplaceColumnsActionBuilder("my-grid", columnLis
 
 This sample replaces all columns on the `"my-grid"` grid.
 
+####  **`show-columns` action builder**
+
+This action show some columns on a grid.
+
+Usage:
+
+```java
+List<String> columnIdList = new ArrayList<>();
+//...
+serviceData.addClientAction(new ShowColumnsActionBuilder("my-grid", columnIdList).build());
+```
+
+Alternate usage:
+
+```java
+serviceData.addClientAction(new ShowColumnsActionBuilder("my-grid", "column1", "column2", ... "columnN").build());
+```
+
+####  **`hide-columns` action builder**
+
+This action hide some columns on a grid.
+
+Usage:
+
+```java
+List<String> columnIdList = new ArrayList<>();
+//...
+serviceData.addClientAction(new HideColumnsActionBuilder("my-grid", columnIdList).build());
+```
+
+Alternate usage:
+
+```java
+serviceData.addClientAction(new HideColumnsActionBuilder("my-grid", "column1", "column2", ... "columnN").build());
+```
+
 ####  **`update-cell` action builder**
 
 This action updates a grid cell data.
@@ -238,6 +305,12 @@ List<ChartSerie> serieList = new ArrayList<>();
 serviceData.addClientAction(new AddChartSeriesActionBuilder("my-chart", serieList).build());
 ```
 
+Alternate usage:
+
+```java
+serviceData.addClientAction(new AddChartSeriesActionBuilder("my-chart", serie1, serie2, ... serieN).build());
+```
+
 This sample adds a list of series on the `"my-chart"` chart.
 
 ####  **`replace-chart-series` action builder**
@@ -250,6 +323,12 @@ Usage:
 List<ChartSerie> serieList = new ArrayList<>();
 //...
 serviceData.addClientAction(new ReplaceChartSeriesActionBuilder("my-chart", serieList).build());
+```
+
+Alternate usage:
+
+```java
+serviceData.addClientAction(new ReplaceChartSeriesActionBuilder("my-chart", serie1, serie2, ... serieN).build());
 ```
 
 This sample replaces all series on the `"my-chart"` chart.
@@ -265,6 +344,13 @@ List<ChartSerie> serieList = new ArrayList<>();
 //...
 serviceData.addClientAction(new RemoveChartSeriesActionBuilder("my-chart", serieList).build());
 ```
+
+Alternate usage:
+
+```java
+serviceData.addClientAction(new RemoveChartSeriesActionBuilder("my-chart", serie1, serie2, ... serieN).build());
+```
+
 
 This sample remove all series defined on serieList from the `"my-chart"` chart.
 

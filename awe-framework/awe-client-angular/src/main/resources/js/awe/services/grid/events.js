@@ -3,15 +3,15 @@ import { ClientActions } from "../../data/actions";
 
 // Grid events service
 aweApplication.factory('GridEvents',
-  ['ActionController', 'AweUtilities', 'Control', '$translate',
+  ['ActionController', 'Control', '$translate',
     /**
      * Grid generic methods
      *
-     * @param {service} ActionController Action controller service
-     * @param {service} Utilities Awe utilities service
+     * @param {service} $actionController Action controller service
      * @param {service} Control Awe control service
+     * @param {service} $translate Translate service
      */
-    function (ActionController, Utilities, Control, $translate) {
+    function ($actionController, Control, $translate) {
       /**
        * Add a row
        * @param {Object} parameters Action parameters
@@ -33,7 +33,7 @@ aweApplication.factory('GridEvents',
         };
 
         // Send action list
-        ActionController.addActionList([afterAddRow], true, {address: component.address, context: component.context});
+        $actionController.addActionList([afterAddRow], true, {address: component.address, context: component.context});
 
         // Store event
         component.storeEvent('add-row');
@@ -80,7 +80,7 @@ aweApplication.factory('GridEvents',
           });
 
           // Action listener definition
-          Utilities.defineActionListeners(component.listeners, ClientActions.grid.commons, component.scope, GridEvents);
+          $actionController.defineActionListeners(component.listeners, ClientActions.grid.commons, component.scope, GridEvents);
         },
         /**
          * Map base actions
@@ -95,7 +95,7 @@ aweApplication.factory('GridEvents',
          * @param {object} component
          */
         mapTreeActions: function (component) {
-          Utilities.defineActionListeners(component.listeners, ClientActions.grid.tree, component.scope, GridEvents);
+          $actionController.defineActionListeners(component.listeners, ClientActions.grid.tree, component.scope, GridEvents);
         },
         /**
          * Map editable actions
@@ -103,7 +103,7 @@ aweApplication.factory('GridEvents',
          * @param {object} component
          */
         mapEditableActions: function (component) {
-          Utilities.defineActionListeners(component.listeners, ClientActions.grid.editable, component.scope, GridEvents);
+          $actionController.defineActionListeners(component.listeners, ClientActions.grid.editable, component.scope, GridEvents);
         },
         /**
          * Reset grid
@@ -142,7 +142,7 @@ aweApplication.factory('GridEvents',
           actions.push(validate);
 
           // Send action list
-          ActionController.addActionList(actions, false, {address: component.address, context: component.context});
+          $actionController.addActionList(actions, false, {address: component.address, context: component.context});
         },
         /**
          * Before save row
@@ -164,7 +164,7 @@ aweApplication.factory('GridEvents',
           actions.push(saveRow);
 
           // Send action list
-          ActionController.addActionList(actions, true, {address: component.address, context: component.context});
+          $actionController.addActionList(actions, true, {address: component.address, context: component.context});
 
           // Store event
           component.storeEvent('before-save-row');
@@ -184,7 +184,7 @@ aweApplication.factory('GridEvents',
           var afterSaveRow = {type: 'after-save-row', silent: true};
 
           // Send action list
-          ActionController.addActionList([afterSaveRow], true, {address: component.address, context: component.context});
+          $actionController.addActionList([afterSaveRow], true, {address: component.address, context: component.context});
 
           // Store event
           component.storeEvent('save-row');
@@ -215,7 +215,7 @@ aweApplication.factory('GridEvents',
           var cancelRow = {type: 'cancel-row', silent: true};
 
           // Send action list
-          ActionController.addActionList([disableDependencies, cancelRow, enableDependencies], true, {address: component.address, context: component.context});
+          $actionController.addActionList([disableDependencies, cancelRow, enableDependencies], true, {address: component.address, context: component.context});
 
           // Store event
           component.storeEvent('before-cancel-row');
@@ -235,7 +235,7 @@ aweApplication.factory('GridEvents',
           var afterCancelRow = {type: 'after-cancel-row', silent: true};
 
           // Send action list
-          ActionController.addActionList([afterCancelRow], true, {address: component.address, context: component.context});
+          $actionController.addActionList([afterCancelRow], true, {address: component.address, context: component.context});
 
           // Store event
           component.storeEvent('cancel-row');
@@ -272,7 +272,7 @@ aweApplication.factory('GridEvents',
           var afterDeleteRow = {type: 'after-delete-row', silent: true};
 
           // Send action list
-          ActionController.addActionList([afterDeleteRow], true, {address: component.address, context: component.context});
+          $actionController.addActionList([afterDeleteRow], true, {address: component.address, context: component.context});
 
           // Store event
           component.storeEvent('delete-row');
@@ -696,7 +696,7 @@ aweApplication.factory('GridEvents',
           };
 
           // Send action send message
-          ActionController.addActionList([messageAction, cancelAction], false, {address: component.address, context: component.context});
+          $actionController.addActionList([messageAction, cancelAction], false, {address: component.address, context: component.context});
         }
       };
       return GridEvents;

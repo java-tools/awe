@@ -3,7 +3,7 @@ import { aweApplication } from "./../awe";
 // Locals service
 aweApplication.factory('AweLocals',
   ['AweSettings', 'ActionController', '$rootScope', 'AweUtilities', '$translate', 'Connection',
-    function ($settings, actionController, $rootScope, Utilities, $translate, Connection) {
+    function ($settings, $actionController, $rootScope, Utilities, $translate, Connection) {
 
       // Locals repository
 
@@ -57,7 +57,7 @@ aweApplication.factory('AweLocals',
           language = language.toLowerCase();
 
           // Finish locals action
-          action.accept();
+          $actionController.acceptAction(action);
 
           // Store data
           locals[language] = parameters;
@@ -79,7 +79,7 @@ aweApplication.factory('AweLocals',
             $translate.refresh();
           }
         }
-        action.accept();
+        $actionController.acceptAction(action);
       });
 
       // Launch local functions
@@ -99,7 +99,7 @@ aweApplication.factory('AweLocals',
             var parameters = {language: language};
             parameters[$settings.get("serverActionKey")] = "get-locals";
             var getLocals = {type: 'server', parameters: parameters};
-            actionController.addActionList([getLocals], false, {address: {}, context: ""});
+            $actionController.addActionList([getLocals], false, {address: {}, context: ""});
           }
         }
 

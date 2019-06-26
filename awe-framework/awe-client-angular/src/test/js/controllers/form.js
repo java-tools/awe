@@ -109,7 +109,7 @@ describe('awe-framework/awe-client-angular/src/test/js/controllers/form.js', fun
       spyOn($serverData, "getFormValues");
       spyOn($serverData, "getFileData").and.returnValue({});
       spyOn($utilities, "downloadFile");
-      spyOn($control, "getAddressApi")
+      spyOn($control, "getAddressApi");
 
       // Run
       launchFormAction("server-download", "serverDownload", {parameters:{message:{message: "This field is required", id: "cod_usr", uid: "6a2bda7a-03dd-8106-d906-ecd029f5c6fa"}}});
@@ -138,13 +138,44 @@ describe('awe-framework/awe-client-angular/src/test/js/controllers/form.js', fun
       expect($control.getAddressApi).toHaveBeenCalled();
     });
 
+    // Call update-controller action
+    it('should call an update-controller action', function() {
+      // Prepare
+      defineForm();
+      spyOn($control, "changeControllerAttribute").and.returnValue({});
+      spyOn($actionController, "acceptAction").and.returnValue({});
+
+      // Run
+      launchFormAction("update-controller", "updateController", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{attribute: "lala", datalist: {rows:[{value: "tutu"}]}}});
+      launchFormAction("update-controller", "updateController", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{attribute: "lele", value: "lolo"}});
+
+      // Assert
+      expect($control.changeControllerAttribute.calls.allArgs()).toEqual([
+        [undefined, {"loading": true}],
+        [{view: "base", component:"tutu"}, {"lala": "tutu"}],
+        [{view: "base", component:"tutu"}, {"lele": "lolo"}]
+      ]);
+      expect($actionController.acceptAction.calls.count()).toBe(2);
+    });
+
     // Call validate action
-    /*it('should call a validate action', function(done) {
-      return callFormAction("validate", "validate", {parameters:{}}, true, true, true, done);
+    it('should call a validate action', function() {
+      // Prepare
+      defineForm();
+      spyOn($validator, "validateNode").and.returnValues([], ["error1", "error2"]);
+      spyOn($actionController, "finishAction").and.returnValue({});
+
+      // Run
+      launchFormAction("validate", "validate", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{}});
+      launchFormAction("validate", "validate", {target:"tutu", address:{view: "base", component:"tutu"}, parameters:{}});
+
+      // Assert
+      expect($validator.validateNode).toHaveBeenCalled();
+      expect($actionController.finishAction).toHaveBeenCalledTimes(2);
     });
 
     // Call setValid action
-    it('should call a set-valid action', function(done) {
+    /*it('should call a set-valid action', function(done) {
       return callFormAction("set-valid", "setValid", {parameters:{}}, false, true, true, done);
     });
 
@@ -163,19 +194,9 @@ describe('awe-framework/awe-client-angular/src/test/js/controllers/form.js', fun
       return callFormAction("server-print", "serverPrint", {parameters:{}}, true, true, false, done);
     });
 
-    // Call server-download action
-    it('should call a server-download action', function(done) {
-      return callFormAction("server-download", "serverDownload", {parameters:{}}, true, true, false, done);
-    });
-
     // Call fill action
     it('should call a fill action', function(done) {
       return callFormAction("fill", "fill", {parameters:{}}, true, true, false, done);
-    });
-
-    // Call update-controller action
-    it('should call an update-controller action', function(done) {
-      return callFormAction("update-controller", "updateController", {parameters:{}}, true, true, false, done);
     });
 
     // Call select action

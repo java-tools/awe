@@ -5,8 +5,8 @@ import "PivotTable";
 
 // Pivot table plugin
 aweApplication.directive('uiPivotTable',
-  ['AweSettings', 'AweUtilities',
-    function ($settings, Utilities) {
+  ['AweSettings', 'AweUtilities', 'ActionController',
+    function ($settings, $utilities, $actionController) {
 
       return {
         restrict: 'A',
@@ -186,10 +186,10 @@ aweApplication.directive('uiPivotTable',
           let listeners = {};
 
           // Action listener definition
-          Utilities.defineActionListeners(listeners, ClientActions.pivot, scope, scope);
+          $actionController.defineActionListeners(listeners, ClientActions.pivot, scope, scope);
 
           // Action listener definition
-          Utilities.defineModelChangeListeners(listeners, {
+          $utilities.defineModelChangeListeners(listeners, {
             scope: scope,
             check: ["values"],
             service: scope,
@@ -209,7 +209,7 @@ aweApplication.directive('uiPivotTable',
             destroyPlugin();
 
             // Clear listeners
-            Utilities.clearListeners(listeners);
+            $utilities.clearListeners(listeners);
           }
 
           // Observe destroy event

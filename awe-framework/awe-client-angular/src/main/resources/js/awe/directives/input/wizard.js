@@ -25,8 +25,8 @@ const template =
 
 // Wizard directive
 aweApplication
-  .controller('WizardController', ["$scope", "$element", "Panelable", "AweUtilities",
-    function ($scope, $element, Panelable, $utilities) {
+  .controller('WizardController', ["$scope", "$element", "Panelable", "AweUtilities", "ActionController",
+    function ($scope, $element, Panelable, $utilities, $actionController) {
       let $ctrl = this;
 
       // Initialize criterion
@@ -213,7 +213,7 @@ aweApplication
       component.listeners['resize'] = $scope.$on("resize", resize);
       component.listeners['resize-action'] = $scope.$on("resize-action", resize);
       // Action listener definition
-      $utilities.defineActionListeners(component.listeners, ClientActions.wizard, $scope, component);
+      $actionController.defineActionListeners(component.listeners, ClientActions.wizard, $scope, component);
     }])
   .directive('aweInputWizard',
     function () {

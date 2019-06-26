@@ -32,12 +32,32 @@ public class ReplaceChartSeriesActionBuilder extends ChartSeriesActionBuilder<Re
   }
 
   /**
+   * Constructor with target and column list
+   *
+   * @param target Target
+   * @param series Serie list
+   */
+  public ReplaceChartSeriesActionBuilder(String target, ChartSerie... series) {
+    super(TYPE, target, series);
+  }
+
+  /**
    * Constructor with address and column list
    *
    * @param address Target
    * @param series  Serie list
    */
   public ReplaceChartSeriesActionBuilder(ComponentAddress address, List<ChartSerie> series) {
+    super(TYPE, address, series);
+  }
+
+  /**
+   * Constructor with address and column list
+   *
+   * @param address Target
+   * @param series  Serie list
+   */
+  public ReplaceChartSeriesActionBuilder(ComponentAddress address, ChartSerie... series) {
     super(TYPE, address, series);
   }
 }

@@ -32,12 +32,33 @@ public class AddColumnsActionBuilder extends ColumnsActionBuilder<AddColumnsActi
   }
 
   /**
+   * Constructor with target and column list
+   *
+   * @param target Target
+   * @param columns Column list
+   */
+  public AddColumnsActionBuilder(String target, Column... columns) {
+    super(TYPE, target, columns);
+  }
+
+
+  /**
    * Constructor with address and column list
    *
    * @param address Target
    * @param columns Column list
    */
   public AddColumnsActionBuilder(ComponentAddress address, List<Column> columns) {
+    super(TYPE, address, columns);
+  }
+
+  /**
+   * Constructor with address and column list
+   *
+   * @param address Target
+   * @param columns Column list
+   */
+  public AddColumnsActionBuilder(ComponentAddress address, Column... columns) {
     super(TYPE, address, columns);
   }
 }

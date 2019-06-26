@@ -2,7 +2,7 @@ import { aweApplication } from "./../awe";
 
 // Application controller
 aweApplication.controller('AppController',
-  ['$scope', '$log', 'LoadingBar', 'ServerData', 'Storage', 'AweUtilities', 'AweSettings',
+  ['$scope', '$log', 'LoadingBar', 'ServerData', 'Storage', 'AweUtilities', 'AweSettings', 'ActionController',
     /**
      * Control the base application behaviour
      * @param {object} $scope
@@ -13,7 +13,7 @@ aweApplication.controller('AppController',
      * @param {object} $utilities
      * @param {object} $settings
      */
-    function ($scope, $log, $loadingBar, $serverData, $storage, $utilities, $settings) {
+    function ($scope, $log, $loadingBar, $serverData, $storage, $utilities, $settings, $actionController) {
       // Define controller
       let $ctrl = this;
 
@@ -180,7 +180,7 @@ aweApplication.controller('AppController',
         $utilities.timeout(function () {
           resizeAction();
           // Finish screen action
-          action.accept();
+          $actionController.acceptAction(action);
         }, delay);
       });
 

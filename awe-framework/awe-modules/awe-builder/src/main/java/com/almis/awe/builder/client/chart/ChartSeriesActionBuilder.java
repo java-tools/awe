@@ -13,6 +13,8 @@ import java.util.List;
  */
 public abstract class ChartSeriesActionBuilder<T> extends ClientActionBuilder<T> {
 
+  private static final String SERIES = "series";
+
   /**
    * Empty constructor
    * @param type Type
@@ -31,7 +33,20 @@ public abstract class ChartSeriesActionBuilder<T> extends ClientActionBuilder<T>
   public ChartSeriesActionBuilder(String type, String target, List<ChartSerie> series) {
     setType(type);
     setTarget(target);
-    addParameter("series", series);
+    addParameter(SERIES, series);
+  }
+
+  /**
+   * Constructor with target and column list
+   *
+   * @param type Type
+   * @param target Target
+   * @param series Serie list
+   */
+  public ChartSeriesActionBuilder(String type, String target, ChartSerie... series) {
+    setType(type);
+    setTarget(target);
+    addParameter(SERIES, series);
   }
 
   /**
@@ -44,6 +59,19 @@ public abstract class ChartSeriesActionBuilder<T> extends ClientActionBuilder<T>
   public ChartSeriesActionBuilder(String type, ComponentAddress address, List<ChartSerie> series) {
     setType(type);
     setAddress(address);
-    addParameter("series", series);
+    addParameter(SERIES, series);
+  }
+
+  /**
+   * Constructor with address and column list
+   *
+   * @param type Type
+   * @param address Target
+   * @param series  Serie list
+   */
+  public ChartSeriesActionBuilder(String type, ComponentAddress address, ChartSerie... series) {
+    setType(type);
+    setAddress(address);
+    addParameter(SERIES, series);
   }
 }
