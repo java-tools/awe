@@ -2,8 +2,8 @@ import { aweApplication } from "./../awe";
 
 // Map directive
 aweApplication.directive('aweMap',
-  ['ServerData', 'Component', 'AweUtilities',
-    function (serverData, Component, Utilities) {
+  ['ServerData', 'Component', 'AweUtilities', 'ActionController',
+    function (serverData, Component, Utilities, $actionController) {
       return {
         restrict: 'E',
         replace: true,
@@ -126,7 +126,7 @@ aweApplication.directive('aweMap',
               }
             }
             // Finish action
-            action.accept();
+            $actionController.acceptAction(action);
           };
 
           // Capture polyline action

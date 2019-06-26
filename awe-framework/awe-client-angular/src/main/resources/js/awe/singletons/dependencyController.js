@@ -2,14 +2,14 @@ import { aweApplication } from "./../awe";
 
 // Dependency controller
 aweApplication.service('DependencyController',
-  ['$log', 'AweUtilities', 'Dependency',
+  ['$log', 'AweUtilities', 'Dependency', 'ActionController',
     /**
      * Dependency generic methods
      * @param {Service} $log
      * @param {Service} Utilities
      * @param {Service} Dependency
      */
-    function ($log, Utilities, Dependency) {
+    function ($log, Utilities, Dependency, $actionController) {
 
       // Dependencies are active
       this.activeDependencies = true;
@@ -246,7 +246,7 @@ aweApplication.service('DependencyController',
         dependency.finish();
 
         // Close action
-        action.accept();
+        $actionController.acceptAction(action);
       };
     }
   ]);

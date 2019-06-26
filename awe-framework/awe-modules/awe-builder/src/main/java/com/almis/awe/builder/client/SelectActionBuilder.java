@@ -12,6 +12,7 @@ import java.util.List;
 public class SelectActionBuilder extends ClientActionBuilder<SelectActionBuilder> {
 
   private static final String TYPE = "select";
+  private static final String VALUES = "values";
 
   /**
    * Empty constructor
@@ -29,7 +30,19 @@ public class SelectActionBuilder extends ClientActionBuilder<SelectActionBuilder
   public SelectActionBuilder(String target, List values) {
     setType(TYPE)
       .setTarget(target)
-      .addParameter("values", values);
+      .addParameter(VALUES, values);
+  }
+
+  /**
+   * Constructor with target and value list
+   *
+   * @param target Target
+   * @param values Value list
+   */
+  public SelectActionBuilder(String target, Object... values) {
+    setType(TYPE)
+      .setTarget(target)
+      .addParameter(VALUES, values);
   }
 
   /**
@@ -41,6 +54,18 @@ public class SelectActionBuilder extends ClientActionBuilder<SelectActionBuilder
   public SelectActionBuilder(ComponentAddress address, List values) {
     setType(TYPE)
       .setAddress(address)
-      .addParameter("values", values);
+      .addParameter(VALUES, values);
+  }
+
+  /**
+   * Constructor with address and list values
+   *
+   * @param address Target
+   * @param values  Value list
+   */
+  public SelectActionBuilder(ComponentAddress address, Object... values) {
+    setType(TYPE)
+      .setAddress(address)
+      .addParameter(VALUES, values);
   }
 }

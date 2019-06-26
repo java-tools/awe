@@ -3,8 +3,8 @@ import download from "downloadjs";
 
 // Downloader directive
 aweApplication.directive('downloader',
-  ['AweUtilities', 'LoadingBar', 'AweSettings', '$http',
-    function ($utilities, LoadingBar, $settings, $http) {
+  ['AweUtilities', 'LoadingBar', 'AweSettings', '$http', 'ActionController',
+    function ($utilities, LoadingBar, $settings, $http, $actionController) {
       return {
         scope: {
           file: '=',
@@ -66,7 +66,7 @@ aweApplication.directive('downloader',
 
           // On file downloaded, abort the promise
           scope.$on("/action/file-downloaded/" + scope.file.index, function (event, action) {
-            action.accept();
+            $actionController.acceptAction(action);
             onSuccess();
           });
         }

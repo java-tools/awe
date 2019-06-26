@@ -497,22 +497,6 @@ aweApplication.factory('AweUtilities',
         /**
          * Define a list of action listeners
          * @param {type} listeners
-         * @param {type} actions
-         * @param {type} scope
-         * @param {type} executor
-         */
-        defineActionListeners: function (listeners, actions, scope, executor) {
-          _.each(actions, function (actionOptions, actionId) {
-            listeners[actionId] = scope.$on("/action/" + actionId, function (event, action) {
-              actionOptions["service"] = executor;
-              actionOptions["scope"] = scope;
-              Utilities.resolveAction(action, actionOptions);
-            });
-          });
-        },
-        /**
-         * Define a list of action listeners
-         * @param {type} listeners
          * @param {type} parameters
          */
         defineModelChangeListeners: function (listeners, parameters) {
@@ -575,24 +559,6 @@ aweApplication.factory('AweUtilities',
             launch = _.isEqual(address1, address2);
           }
           return launch;
-        },
-        /**
-         * Resolve the action if matches
-         * @param {type} action
-         * @param {object} parameters
-         */
-        resolveAction: function (action, parameters) {
-          var scope = parameters.scope || {};
-          var check = parameters.check || false;
-
-          // Launch action
-          if (Utilities.checkAddress(action.attr("callbackTarget"), scope.component.address || {}, check)) {
-            // Launch method
-            parameters.service[parameters.method](action.attr("parameters"), scope, action.attr("callbackTarget"));
-
-            // Finish action
-            action.accept();
-          }
         },
         /**
          * Animate

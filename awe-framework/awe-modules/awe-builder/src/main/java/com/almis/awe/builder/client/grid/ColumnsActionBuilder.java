@@ -13,6 +13,8 @@ import java.util.List;
  */
 public abstract class ColumnsActionBuilder<T> extends ClientActionBuilder<T> {
 
+  public static final String COLUMNS = "columns";
+
   /**
    * Empty constructor
    * @param type Type
@@ -28,10 +30,36 @@ public abstract class ColumnsActionBuilder<T> extends ClientActionBuilder<T> {
    * @param target Target
    * @param columns Column list
    */
-  public ColumnsActionBuilder(String type, String target, List<Column> columns) {
+  public ColumnsActionBuilder(String type, String target, List columns) {
     setType(type);
     setTarget(target);
-    addParameter("columns", columns);
+    addParameter(COLUMNS, columns);
+  }
+
+  /**
+   * Constructor with target and column list
+   *
+   * @param type Type
+   * @param target Target
+   * @param columns Column list
+   */
+  public ColumnsActionBuilder(String type, String target, Column... columns) {
+    setType(type);
+    setTarget(target);
+    addParameter(COLUMNS, columns);
+  }
+
+  /**
+   * Constructor with target and column list
+   *
+   * @param type Type
+   * @param target Target
+   * @param columns Column list
+   */
+  public ColumnsActionBuilder(String type, String target, String... columns) {
+    setType(type);
+    setTarget(target);
+    addParameter(COLUMNS, columns);
   }
 
   /**
@@ -41,9 +69,35 @@ public abstract class ColumnsActionBuilder<T> extends ClientActionBuilder<T> {
    * @param address Target
    * @param columns Column list
    */
-  public ColumnsActionBuilder(String type, ComponentAddress address, List<Column> columns) {
+  public ColumnsActionBuilder(String type, ComponentAddress address, List columns) {
     setType(type);
     setAddress(address);
-    addParameter("columns", columns);
+    addParameter(COLUMNS, columns);
+  }
+
+  /**
+   * Constructor with address and column list
+   *
+   * @param type Type
+   * @param address Target
+   * @param columns Column list
+   */
+  public ColumnsActionBuilder(String type, ComponentAddress address, Column... columns) {
+    setType(type);
+    setAddress(address);
+    addParameter(COLUMNS, columns);
+  }
+
+  /**
+   * Constructor with address and column list
+   *
+   * @param type Type
+   * @param address Target
+   * @param columns Column list
+   */
+  public ColumnsActionBuilder(String type, ComponentAddress address, String... columns) {
+    setType(type);
+    setAddress(address);
+    addParameter(COLUMNS, columns);
   }
 }

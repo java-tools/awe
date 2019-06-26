@@ -36,7 +36,7 @@ export const templateSelectorColumn =
 
 // Selector service
 aweApplication.factory('Selector',
-  ['Control', 'Criterion', '$translate', 'AweUtilities', 'AweSettings',
+  ['Control', 'Criterion', '$translate', 'AweUtilities', 'AweSettings', 'ActionController',
     /**
      * Criterion generic methods
      * @param {object} Control
@@ -44,8 +44,9 @@ aweApplication.factory('Selector',
      * @param {object} $translate
      * @param {object} Utilities Awe Utilities
      * @param {object} $settings Awe $settings
+     * @param {object} $actionController Action controller
      */
-    function (Control, Criterion, $translate, Utilities, $settings) {
+    function (Control, Criterion, $translate, Utilities, $settings, $actionController) {
       /**
        * Format select data
        * @param {Array} values
@@ -439,7 +440,7 @@ aweApplication.factory('Selector',
               Utilities.timeout.cancel(timer);
               // Abort last action if alive
               if (selector.lastAction) {
-                selector.lastAction.abort();
+                $actionController.abortAction(selector.lastAction);
               }
               timer = Utilities.timeout(function () {
                 searchCallback = query.callback;

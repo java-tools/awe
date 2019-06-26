@@ -13,12 +13,12 @@ aweApplication.factory('Uploader',
      * @param {object} Criterion
      * @param {object} $settings
      * @param {object} Upload
-     * @param {object} ActionController
+     * @param {object} $actionController
      * @param {object} ServerData
      * @param {object} $utilities
      * @param {object} $translate
      */
-    function (Criterion, $settings, Upload, ActionController, ServerData, $utilities, $translate) {
+    function (Criterion, $settings, Upload, $actionController, ServerData, $utilities, $translate) {
       /**
        * Uploader constructor
        * @param {Scope} scope Numeric scope
@@ -67,7 +67,7 @@ aweApplication.factory('Uploader',
           component.scope.validate = function(file) {
             if (file.size > $settings.get("uploadMaxSize")) {
               // Send error message
-              ActionController.sendMessage(component.scope, 'error', 'ERROR_TITLE_FILE_UPLOAD', $translate.instant('ERROR_MESSAGE_SIZE_LIMIT', { elementSize: $utilities.getSizeString(file.size), maxSize: $utilities.getSizeString($settings.get("uploadMaxSize"))}));
+              $actionController.sendMessage(component.scope, 'error', 'ERROR_TITLE_FILE_UPLOAD', $translate.instant('ERROR_MESSAGE_SIZE_LIMIT', { elementSize: $utilities.getSizeString(file.size), maxSize: $utilities.getSizeString($settings.get("uploadMaxSize"))}));
 
               // Return not valid
               return false;
@@ -137,7 +137,7 @@ aweApplication.factory('Uploader',
               deleteValues["destination"] = destination;
 
               var serverAction = ServerData.getServerAction(component.address, deleteValues, true, true);
-              ActionController.addActionList([serverAction], false, {address: component.address, context: component.context});
+              $actionController.addActionList([serverAction], false, {address: component.address, context: component.context});
             });
           };
 
@@ -253,7 +253,7 @@ aweApplication.factory('Uploader',
               var fileInfo = {type: "file-info"};
               fileInfo["filename"] = component.model.selected;
               var serverAction = ServerData.getServerAction(component.address, fileInfo, true, true);
-              ActionController.addActionList([serverAction], false, {address: component.address, context: component.context});
+              $actionController.addActionList([serverAction], false, {address: component.address, context: component.context});
             } else {
               if (!component.model.selected) {
                 component.clearUploader();
@@ -273,7 +273,7 @@ aweApplication.factory('Uploader',
           component.listeners = component.listeners || {};
 
           // Action listener definition
-          $utilities.defineActionListeners(component.listeners, ClientActions.uploader, component.scope, component);
+          $actionController.defineActionListeners(component.listeners, ClientActions.uploader, component.scope, component);
 
           // Action listener definition
           $utilities.defineModelChangeListeners(component.listeners, {scope: component.scope, check: ["selected"], service: component, method: "onModelChanged"});

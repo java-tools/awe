@@ -3,7 +3,7 @@ import {ClientActions} from "../data/actions";
 
 // Manage the message calls
 aweApplication.controller("MessageController",
-  ['$scope', 'AweSettings', 'AweUtilities', 'Control',
+  ['$scope', 'AweSettings', 'AweUtilities', 'Control', 'ActionController',
     /**
      * Control screen data
      * @param {object} $scope
@@ -11,7 +11,7 @@ aweApplication.controller("MessageController",
      * @param {object} $utilities
      * @param {object} $control Control service
      */
-    function ($scope, $settings, $utilities, $control) {
+    function ($scope, $settings, $utilities, $control, $actionController) {
       let $ctrl = this;
 
       // Define scope alerts
@@ -26,7 +26,7 @@ aweApplication.controller("MessageController",
       $ctrl.closeAlert = function (index) {
         var alert = $ctrl.alerts.splice(index, 1)[0];
         if (alert && "action" in alert) {
-          alert.action.accept();
+          $actionController.acceptAction(alert.action);
           if ("timer" in alert) {
             $utilities.timeout.cancel(alert.timer);
           }
@@ -107,7 +107,7 @@ aweApplication.controller("MessageController",
           message.target.popover('destroy');
           // Finish action if alive
           if (message.action.isAlive()) {
-            message.action.accept();
+            $actionController.acceptAction(message.action);
           }
         }
         $ctrl.popover = null;

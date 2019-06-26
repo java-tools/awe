@@ -3,7 +3,7 @@ import { aweApplication } from "./../../awe";
 // Log viewer
 aweApplication.directive('aweLogViewer',
   ['ServerData', 'AweUtilities', 'AweSettings', 'Component', 'ActionController',
-    function (serverData, $utilities, $settings, Component, ActionController) {
+    function (serverData, $utilities, $settings, Component, $actionController) {
 
       return {
         restrict: 'E',
@@ -61,7 +61,7 @@ aweApplication.directive('aweLogViewer',
             let serverAction = serverData.getServerAction(this.address, values, isAsync, isSilent);
 
             // Send action list
-            ActionController.addActionList([serverAction], false, {address: this.address, context: this.context});
+            $actionController.addActionList([serverAction], false, {address: this.address, context: this.context});
           };
 
           // On log delta, print log and scroll down
@@ -84,7 +84,7 @@ aweApplication.directive('aweLogViewer',
             }
 
             // Accept action
-            action.accept();
+            $actionController.acceptAction(action);
           });
 
           /**
