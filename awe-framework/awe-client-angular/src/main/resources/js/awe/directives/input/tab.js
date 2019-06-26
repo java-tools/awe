@@ -1,148 +1,111 @@
-import { aweApplication } from "./../../awe";
+import {aweApplication} from "./../../awe";
 import "../plugins/uiTabdrop";
 import "../tabcontainer";
+import "../../services/panelable";
+
+// Template
+const template =
+`<div class="tab-container tab-container-{{::size}} expand expandible-vertical" ng-class="{'maximized': maximized, 'maximizing': maximizing, 'resizing resizeTarget': panelResizing, 'expand': isExpandible || maximized}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+    <awe-context-menu ng-cloak></awe-context-menu>
+    <div class="{{::criterionClass}} expand expandible-vertical">
+      <ul class="nav nav-tabs" ui-tabdrop ng-class="{disabled:isDisabled()}">
+          <li ng-class="{'active':$parent.model.selected === tab.value}" ng-repeat="tab in model.values track by tab.value"
+              ng-attr-id="tab-{{::tab.value}}">
+          <a ng-click="clickTab(tab.value)">
+            <i ng-if="::tab.icon" class="panel-title-icon fa fa-{{::tab.icon}}"></i>
+            <span translate-multiple="{{::tab.label}}"></span>
+          </a>
+        </li>
+        <li ng-if="::maximize" class="maximize-handler pull-right active">
+          <a>
+            <button role="button" type="button" class="maximize-button" aria-hidden="true" ng-click="togglePanel()" title="{{togglePanelText| translate}}">
+              <i class="fa {{iconMaximized ? 'fa-compress' : 'fa-expand'}}"></i>
+            </button>
+          </a>
+        </li>
+      </ul>
+      <div ng-transclude class="tab-content maximize-content expand expandible-vertical"></div>
+    </div>
+  </div>`;
 
 // Tab directive
-aweApplication.directive('aweInputTab',
-  ['ServerData', 'Criterion', 'AweUtilities', 'Storage', 'Maximize', '$translate', 'AweSettings',
-    function (serverData, Criterion, Utilities, Storage, Maximize, $translate, $settings) {
+aweApplication
+  .controller('TabController', ["$scope", "$element", "Panelable", "AweUtilities", "Maximize",
+    function ($scope, $element, Panelable, $utilities, Maximize) {
+      // Initialize criterion
+      let $ctrl = this;
 
+      // Initialize criterion
+      let component = new Panelable($scope, $scope.tabId, $element);
+      if (!component.asPanelable()) return false;
+
+      /******************************************************************************
+      * CONTROLLER METHODS
+      *****************************************************************************/
+
+      /**
+      * Event on click tab
+      * @param {type} value
+      */
+      $ctrl.selectTab = function (value) {
+        component.model.selected = value;
+        component.modelChange();
+
+        function resizeAction() {
+          $utilities.publishFromScope("resize-action", {}, $scope);
+        }
+
+        $utilities.timeout(resizeAction);
+        $utilities.timeout(resizeAction, 250);
+      };
+
+      /**
+      * Check if tab is active
+      * @param id Tab identifier
+      * @returns {*|boolean}
+      */
+      $ctrl.isActive = (id) => component.isActive(id);
+
+      /******************************************************************************
+      * COMPONENT METHODS
+      *****************************************************************************/
+
+      // Controller variables
+      component.scope.isExpandible = true;
+      component.expandDirection = "vertical";
+
+      /******************************************************************************
+      * SCOPE METHODS
+      *****************************************************************************/
+
+      /**
+      * Event on click tab
+      * @param {type} value
+      */
+      $scope.clickTab = function (value) {
+        if (!$scope.isDisabled()) {
+          $ctrl.selectTab(value);
+        }
+      };
+
+      /******************************************************************************
+      * INIT MAXIMIZE
+      *****************************************************************************/
+
+      if (component.controller.maximize) {
+        Maximize.initMaximize($scope, $element);
+      }
+    }])
+  .directive('aweInputTab',
+    function () {
       return {
         restrict: 'E',
         replace: true,
         transclude: true,
-        templateUrl: function () {
-          return serverData.getAngularTemplateUrl('input/tab');
-        },
+        template: template,
         scope: {
-          'criterionId': '@inputTabId'
+          'tabId': '@inputTabId'
         },
-        controller: ["$scope", function ($scope) {
-            // Initialize criterion
-            let controller = this;
-            let component = new Criterion($scope, $scope.criterionId, $scope.element);
-            if (!component.asCriterion()) {
-              // If criterion is wrong, cancel initialization
-              return false;
-            }
-
-            // Select first option in case of selected is null
-            if (!component.model.selected && component.model.values.length > 0) {
-              component.model.selected = component.model.values[0].value;
-            }
-
-            /******************************************************************************
-             * COMPONENT METHODS
-             *****************************************************************************/
-
-            /**
-             * Extra data function (To be overwritten on complex directives)
-             * @returns {Object} Data from criteria
-             */
-            component.getPrintData = function () {
-              // Initialize data
-              var data = component.getData();
-              if (component.controller.printable) {
-                data[component.address.component + $settings.get("dataSuffix")] = {
-                  text: component.getVisibleValue(),
-                  all: component.model.values
-                };
-              }
-              return data;
-            };
-
-            /**
-             * Retrieves visible value for the selector
-             * @returns {string} visible value
-             */
-            component.getVisibleValue = function () {
-              return getSelectedLabel(component.model.selected, component.model.values);
-            };
-
-            /**
-             * Get selected label
-             * @param {String} selected Model
-             * @param {Array} valueList Model
-             * @return {String} label
-             */
-             function getSelectedLabel(selected, valueList) {
-              let label = selected;
-              _.each(valueList, function (value) {
-                if (String(selected) === String(value.value)) {
-                  label = $translate.instant(String(value.label));
-                }
-              });
-              return label;
-            }
-
-            /******************************************************************************
-             * CONTROLLER METHODS
-             *****************************************************************************/
-
-            /**
-             * Check if tab pane is active
-             * @param {String} identifier Panel identifier
-             * @returns {boolean} Panel is active
-             */
-            this.isActive = function (identifier) {
-              return identifier === $scope.component.model.selected;
-            };
-
-            /**
-             * Event on click tab
-             * @param {type} value
-             */
-            this.selectTab = function (value) {
-              component.model.selected = value;
-              component.modelChange();
-              function resizeAction() {
-                Utilities.publishFromScope("resize-action", {}, $scope);
-              }
-              Utilities.timeout(resizeAction);
-              Utilities.timeout(resizeAction, 250);
-            };
-
-            /******************************************************************************
-             * COMPONENT METHODS
-             *****************************************************************************/
-
-            // Disable reset and restore
-            component.onReset = Utilities.noop;
-            component.onRestore = Utilities.noop;
-            // Controller variables
-            component.scope.isExpandible = true;
-            component.expandDirection = "vertical";
-
-            /******************************************************************************
-             * SCOPE METHODS
-             *****************************************************************************/
-
-            /**
-             * Event on click tab
-             * @param {type} value
-             */
-            $scope.clickTab = function (value) {
-              if (!$scope.isDisabled()) {
-                controller.selectTab(value);
-              }
-            };
-            /**
-             * Check if tab is disabled
-             * @returns {boolean} tab is disabled
-             */
-            $scope.isDisabled = function () {
-              return Storage.get("actions-running") || $scope.$root.loading ||
-                (component.controller && component.controller.disabled);
-            };
-          }],
-        link: function (scope, elem) {
-          scope.element = elem;
-
-          // Define maximize options
-          if (scope.component.controller.maximize) {
-            Maximize.initMaximize(scope, elem);
-          }
-        }
+        controller: 'TabController'
       };
-    }
-  ]);
+    });

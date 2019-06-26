@@ -5,7 +5,7 @@ import "../directives/plugins/uiModal";
 // Dialog service
 aweApplication.factory('Dialog',
   ['ActionController', 'AweUtilities', 'Control', 'AweSettings', 'Button',
-    function (ActionController, Utilities, Control, $settings, Button) {
+    function ($actionController, $utilities, Control, $settings, Button) {
       /**
        * Numeric constructor
        * @param {Scope} scope Numeric scope
@@ -56,7 +56,7 @@ aweApplication.factory('Dialog',
            */
           component.scope.click = function (e) {
             // Cancel event propagation
-            Utilities.stopPropagation(e, true);
+            $utilities.stopPropagation(e, true);
           };
 
           /**
@@ -65,7 +65,7 @@ aweApplication.factory('Dialog',
            */
           component.scope.onClick = function (event) {
             // Cancel event propagation
-            Utilities.stopPropagation(event, true);
+            $utilities.stopPropagation(event, true);
             component.pendingActions = false;
             // Load dialog model (if not loaded yet)
             var actions = [];
@@ -85,7 +85,7 @@ aweApplication.factory('Dialog',
             actions.push({type: 'get-model'});
 
             // Launch action list
-            ActionController.addActionList(actions, true, {address: component.address, context: component.context});
+            $actionController.addActionList(actions, true, {address: component.address, context: component.context});
             component.storeEvent('click');
           };
 
@@ -164,7 +164,7 @@ aweApplication.factory('Dialog',
           component.listeners = component.listeners || {};
 
           // Action listener definition
-          Utilities.defineActionListeners(component.listeners, ClientActions.dialog, component.scope, component);
+          $actionController.defineActionListeners(component.listeners, ClientActions.dialog, component.scope, component);
 
           // Return initialization
           return true;

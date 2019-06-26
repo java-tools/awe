@@ -22,17 +22,13 @@ aweApplication.controller("ScreenController",
        * Whether to show actions or not
        * @returns {Boolean}
        */
-      $ctrl.showActions = function () {
-        return $settings.get("actionsStack") > 0;
-      };
+      $ctrl.showActions = () => $settings.get("actionsStack") > 0;
 
       /**
        * Show action information
        * @param {object} action
        */
-      $ctrl.showInfo = function (action) {
-        console.info(action);
-      };
+      $ctrl.showInfo = (action) => console.info(action);
 
       // Sync stack lists
       $ctrl.syncStacks = $actionController.actionStackList;
@@ -42,24 +38,18 @@ aweApplication.controller("ScreenController",
 
       // Define listeners
       _.each(ClientActions.screen, function (actionOptions, actionId) {
-        $scope.$on("/action/" + actionId, function (event, action) {
-          return $screen[actionOptions.method](action);
-        });
+        $scope.$on("/action/" + actionId, (event, action) => $screen[actionOptions.method](action));
       });
       // On model change launch dependency
-      $scope.$on("modelChanged", function (event, launchers) {
-        $dependencyController.checkAndLaunch(launchers);
-      });
+      $scope.$on("modelChanged", (event, launchers) => $dependencyController.checkAndLaunch(launchers));
+
       // On screen compiled
-      $scope.$on('compiled', function (event, view) {
-        $dependencyController.start(view);
-      });
+      $scope.$on('compiled', (event, view) => $dependencyController.start(view));
+
       // On cell compiled
-      $scope.$on('initialize-cell', function (event, address) {
-        $dependencyController.restart(address);
-      });
+      $scope.$on('initialize-cell', (event, address) => $dependencyController.restart(address));
+
       // Unload dependencies
-      $scope.$on("unload", function (event, view) {
-        $dependencyController.unregisterView(view);
-      });
+      $scope.$on("unload", (event, view) => $dependencyController.unregisterView(view));
+
     }]);

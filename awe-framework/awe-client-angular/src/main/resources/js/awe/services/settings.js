@@ -3,7 +3,7 @@ import { DefaultSettings } from "../data/options";
 
 // $settings service
 aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtilities', '$http', '$location', '$rootScope', '$state', '$injector',
-  function ($storage, $translate, $log, $utilities, $http, $location, $scope, $state, $injector ) {
+  function ($storage, $translate, $log, $utilities, $http, $location, $scope, $state, $injector) {
     let tokenKey = "token";
     let initialize = $utilities.q.defer();
     const $settings = {

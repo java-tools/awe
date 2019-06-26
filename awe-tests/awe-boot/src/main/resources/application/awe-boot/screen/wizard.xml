@@ -40,6 +40,9 @@
           </tag>
           <tag type="div" style="panel-footer">
             <tag type="div" style="pull-right">
+              <button label="BUTTON_LAST" icon="arrow-circle-o-right" id="LastStep2">
+                <button-action type="last-step" target="wizardTest"/>
+              </button>
               <button label="BUTTON_NEXT" icon="chevron-circle-right" id="FwStep2" style="btn-primary">
                 <button-action type="validate" target="WizardStep1"/>
                 <button-action type="next-step" target="wizardTest"/>
@@ -91,6 +94,9 @@
           </tag>
           <tag type="div" style="panel-footer">
             <tag type="div" style="pull-right">
+              <button label="BUTTON_NTH" icon="arrow-circle-o-left" id="NthStep">
+                <button-action type="nth-step" target="wizardTest" value="WizardStep2"/>
+              </button>
               <button label="BUTTON_PREVIOUS" icon="chevron-circle-left" id="BkStep2">
                 <button-action type="prev-step" target="wizardTest"/>
               </button>
@@ -114,6 +120,9 @@
           </tag>
           <tag type="div" style="panel-footer">
             <tag type="div" style="pull-right">
+              <button label="BUTTON_FIRST" icon="arrow-circle-o-left" id="FirstStep2">
+                <button-action type="first-step" target="wizardTest"/>
+              </button>
               <button label="BUTTON_PREVIOUS" icon="chevron-circle-left" id="BkStep3">
                 <button-action type="prev-step" target="wizardTest"/>
               </button>

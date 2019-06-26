@@ -20,6 +20,7 @@ public abstract class ServiceConfig implements ApplicationContextAware {
 
   /**
    * Autowired application context
+   *
    * @param context application context
    */
   @Autowired
@@ -29,11 +30,13 @@ public abstract class ServiceConfig implements ApplicationContextAware {
 
   /**
    * Get application context
+   *
    * @return context
    */
   protected ApplicationContext getApplicationContext() {
     return context;
   }
+
   /**
    * Returns instantiated elements
    *
@@ -60,6 +63,7 @@ public abstract class ServiceConfig implements ApplicationContextAware {
 
   /**
    * Check if bean is defined
+   *
    * @param bean Bean class
    * @return Bean
    */
@@ -69,8 +73,9 @@ public abstract class ServiceConfig implements ApplicationContextAware {
 
   /**
    * Retrieve a bean
+   *
    * @param clazz Bean class
-   * @param <T> Bean
+   * @param <T>   Bean
    * @return Bean
    */
   public <T> T getBean(Class<T> clazz) {
@@ -79,6 +84,7 @@ public abstract class ServiceConfig implements ApplicationContextAware {
 
   /**
    * Retrieve a bean
+   *
    * @param beanId Bean identifier
    * @return Bean
    */
@@ -97,6 +103,7 @@ public abstract class ServiceConfig implements ApplicationContextAware {
 
   /**
    * Retrieve locale
+   *
    * @param locale Locale identifier
    * @return Locale text
    */
@@ -106,16 +113,18 @@ public abstract class ServiceConfig implements ApplicationContextAware {
 
   /**
    * Retrieve locale with parameter
-   * @param locale Locale identifier
+   *
+   * @param locale     Locale identifier
    * @param parameters Parameter
    * @return Locale text
    */
   public String getLocale(String locale, String... parameters) {
-    return getElements().getLocale(locale, parameters);
+    return getElements().getLocale(locale, (Object[]) parameters);
   }
 
   /**
    * Retrieve property
+   *
    * @param property Property identifier
    * @return Property value
    */
@@ -125,9 +134,10 @@ public abstract class ServiceConfig implements ApplicationContextAware {
 
   /**
    * Retrieve property of a determined class
-   * @param <T> Return value class
+   *
+   * @param <T>      Return value class
    * @param property Property identifier
-   * @param clazz Property class
+   * @param clazz    Property class
    * @return Property value
    */
   public <T> T getProperty(String property, Class<T> clazz) {
@@ -136,6 +146,7 @@ public abstract class ServiceConfig implements ApplicationContextAware {
 
   /**
    * Retrieve logger
+   *
    * @return Logger
    */
   public LogUtil getLogger() {

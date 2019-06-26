@@ -53,9 +53,10 @@ public class AweSessionDetails extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param aweClientTracker awe client tracker
-   * @param queryService query service
-   * @param connectedUsers set of connected users
+   * @param queryService     query service
+   * @param connectedUsers   set of connected users
    */
   @Autowired
   public AweSessionDetails(AweClientTracker aweClientTracker, QueryService queryService, Map<String, Set<String>> connectedUsers) {
@@ -66,6 +67,7 @@ public class AweSessionDetails extends ServiceConfig {
 
   /**
    * Manage login success
+   *
    * @param authentication Authentication
    */
   public void onLoginSuccess(Authentication authentication) {
@@ -102,16 +104,18 @@ public class AweSessionDetails extends ServiceConfig {
 
   /**
    * Manage login failure
+   *
    * @param exc Authentication exception
    */
   public void onLoginFailure(AuthenticationException exc) {
+    AweSession session = getSession();
     String username = getRequest().getParameterAsString(usernameParameter);
     if (exc instanceof UsernameNotFoundException) {
-      getSession().setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_USER"), getLocale("ERROR_MESSAGE_INVALID_USER", username), exc));
+      session.setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_USER"), getLocale("ERROR_MESSAGE_INVALID_USER", username), exc));
     } else if (exc instanceof BadCredentialsException) {
-      getSession().setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_CREDENTIALS"), getLocale("ERROR_MESSAGE_INVALID_CREDENTIALS", username), exc));
+      session.setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_CREDENTIALS"), getLocale("ERROR_MESSAGE_INVALID_CREDENTIALS", username), exc));
     } else {
-      getSession().setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_CREDENTIALS"), exc.getMessage(), exc));
+      session.setParameter(SESSION_FAILURE, new AWException(getLocale("ERROR_TITLE_INVALID_CREDENTIALS"), exc.getMessage(), exc));
     }
   }
 
@@ -138,6 +142,9 @@ public class AweSessionDetails extends ServiceConfig {
   public void onLogoutSuccess() {
     AweSession session = getSession();
 
+    // Call oBeforeLogout
+    onBeforeLogout();
+
     // Remove from session
     session.removeParameter(SESSION_USER_DETAILS);
     session.removeParameter(SESSION_LAST_LOGIN);
@@ -153,9 +160,11 @@ public class AweSessionDetails extends ServiceConfig {
 
   /**
    * Store user details
+   *
    * @throws AWException User storage failed
    */
   private void initializeSessionVariables() throws AWException {
+    AweSession session = getSession();
     if (sessionParameters != null) {
       for (String parameter : sessionParameters) {
         if (!parameter.isEmpty()) {
@@ -164,7 +173,7 @@ public class AweSessionDetails extends ServiceConfig {
           DataList queryData = queryOutput.getDataList();
           if (queryData != null && !queryData.getRows().isEmpty()) {
             Map<String, CellData> row = queryData.getRows().get(0);
-            getSession().setParameter(parameter, row.get(AweConstants.JSON_VALUE_PARAMETER).getStringValue());
+            session.setParameter(parameter, row.get(AweConstants.JSON_VALUE_PARAMETER).getStringValue());
           }
         }
       }
@@ -193,7 +202,7 @@ public class AweSessionDetails extends ServiceConfig {
     String profileInitialScreen = userDetails.getProfileInitialScreen();
 
     // Specific language (from less to more specific)
-    language = userDetails.getLanguage().isEmpty() ? language : userDetails.getLanguage().substring(0,2).toLowerCase();
+    language = userDetails.getLanguage().isEmpty() ? language : userDetails.getLanguage().substring(0, 2).toLowerCase();
 
     // Specific restriction (from less to more specific)
     theme = profileTheme.isEmpty() ? theme : profileTheme;

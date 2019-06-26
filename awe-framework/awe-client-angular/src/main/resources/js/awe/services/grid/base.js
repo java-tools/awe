@@ -28,6 +28,7 @@ aweApplication.factory('GridBase',
         this.id = id;
         this.element = element;
         this.component = new Component(this.scope, this.id);
+        this.component.element = element;
         this.component.currentPage = 1;
         this.component.grid = this;
         this.sorting = [];
@@ -150,7 +151,7 @@ aweApplication.factory('GridBase',
             // End initialization
             Utilities.timeout(function () {
               // Initialize grid layers
-              component.initLayers(grid.element);
+              component.initLayers();
               // Initialize grid measures
               initMeasures();
               // Report changed columns
@@ -382,7 +383,7 @@ aweApplication.factory('GridBase',
             // Create data for the row (empty)
             var rowData = data || {};
             newId = data && data.id ? data.id : "new-row-" + component.addedRows;
-            component.addedRows++
+            component.addedRows++;
             data[component.constants.ROW_IDENTIFIER] = newId;
             // Generate new row
             var rowIndex = component.model.values.length;

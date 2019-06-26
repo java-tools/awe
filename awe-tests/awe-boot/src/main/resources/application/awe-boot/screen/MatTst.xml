@@ -146,7 +146,8 @@
           <column label="PARAMETER_DIALOG" name="Dialog" sort-field="Dialog" align="center" icon="plus-circle" component="dialog" dialog="dialogo-modal" server-action="data-silent"
             target-action="ModalDialog" charlength="12">
             <dependency target-type="show" initial="true">
-              <dependency-element id="GrdEdi" attribute="selectedRow" condition="eq" id2="GrdEdi" attribute2="currentRow" />
+              <dependency-element id="GrdEdi" attribute="selectedRows" condition="eq" value="1" />
+              <dependency-element id="GrdEdi" attribute="selectedRow" condition="eq" id2="GrdEdi" attribute2="currentRow"/>
             </dependency>
           </column>
           <button label="BUTTON_NEW" icon="plus-circle" id="ButGrdEdiAdd">
@@ -379,6 +380,7 @@
             <column label="PARAMETER_DIALOG" name="TreeDialog" sort-field="TreeDialog" align="center" icon="plus-circle" component="dialog" dialog="dialogo-modal" server-action="data-silent"
               target-action="ModalDialog" charlength="12">
               <dependency target-type="show" initial="true">
+                <dependency-element id="TreGrdEdi" attribute="selectedRows" condition="eq" value="1" />
                 <dependency-element id="TreGrdEdi" attribute="selectedRow" condition="eq" id2="TreGrdEdi" attribute2="currentRow" />
               </dependency>
             </column>

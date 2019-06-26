@@ -1,10 +1,8 @@
 package com.almis.awe.model.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,11 +10,9 @@ import java.util.Date;
  *
  * @author pvidal
  */
-@Getter
-@Setter
-@ToString
+@Data
 @Builder
-public class User {
+public class User implements Serializable {
 
   // User ID (IdeOpe)
   private Integer userID;

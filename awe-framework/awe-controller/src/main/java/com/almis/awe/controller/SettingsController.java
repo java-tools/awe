@@ -14,49 +14,65 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Manage settings request
  */
 @RestController
-@RequestMapping ("/settings")
+@RequestMapping("/settings")
 public class SettingsController extends ServiceConfig {
 
   // Autowired services
   private Environment environment;
   private MenuService menuService;
   private InitService initService;
-  private final WebSettings settings;
 
   /**
    * Initialize controller
+   *
    * @param environment Environment
    * @param menuService Menu service
    * @param initService Init service
-   * @param settings Web settings
    */
   @Autowired
-  public SettingsController(Environment environment, MenuService menuService, InitService initService, WebSettings settings) {
+  public SettingsController(Environment environment, MenuService menuService, InitService initService) {
     this.environment = environment;
     this.menuService = menuService;
     this.initService = initService;
-    this.settings = settings;
   }
 
   /**
    * Retrieve application settings
    *
-   * @param request Servlet request
+   * @param request  Servlet request
+   * @param response Servlet response
    * @return WebSettings
    * @throws AWException Error generating settings
    */
   @PostMapping
-  public WebSettings getSettings(HttpServletRequest request) throws AWException {
+  public WebSettings getSettings(HttpServletRequest request, HttpServletResponse response) throws AWException {
+    WebSettings settings = getBean(WebSettings.class).toBuilder().build();
 
     // Launch client start service
     initService.launchPhaseServices(LaunchPhaseType.CLIENT_START);
 
     // Overwrite settings parameters
+    overwriteSettingParameters(settings);
+
+    // Handle initial redirection
+    handleInitialRedirection(settings, request);
+
+    // Retrieve settings
+    return settings;
+  }
+
+  /**
+   * Overwrite setting parameters
+   *
+   * @param settings Settings
+   */
+  private void overwriteSettingParameters(WebSettings settings) {
     if (getSession().getParameter(String.class, AweConstants.SESSION_LANGUAGE) != null) {
       settings.setLanguage(getSession().getParameter(String.class, AweConstants.SESSION_LANGUAGE));
     } else {
@@ -77,8 +93,16 @@ public class SettingsController extends ServiceConfig {
     } else {
       settings.setCometUID(null);
     }
+  }
 
-    // Handle initial redirection
+  /**
+   * Handle initial redirection
+   *
+   * @param settings Web settings
+   * @param request  Request
+   * @throws AWException Error handling redirection
+   */
+  private void handleInitialRedirection(WebSettings settings, HttpServletRequest request) throws AWException {
     String referer = request.getHeader("referer");
     String origin = request.getHeader("origin");
     String basePath = origin + request.getContextPath() + AweConstants.FILE_SEPARATOR;
@@ -88,6 +112,5 @@ public class SettingsController extends ServiceConfig {
     } else {
       settings.setReloadCurrentScreen(false);
     }
-    return settings;
   }
 }

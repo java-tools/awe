@@ -10,6 +10,7 @@ import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.security.accessbean.LoginAccessControl;
 import com.almis.awe.security.authentication.encoder.Ripemd160PasswordEncoder;
 import com.almis.awe.security.authentication.filter.JsonAuthenticationFilter;
+import com.almis.awe.security.handler.AweLogoutHandler;
 import com.almis.awe.service.AccessService;
 import com.almis.awe.service.MenuService;
 import com.almis.awe.service.QueryService;
@@ -161,6 +162,9 @@ public class SecurityConfig extends ServiceConfig {
   @Value ("${security.headers.frameOptions.sameOrigin:true}")
   private boolean sameOrigin;
 
+  @Value("${session.cookie.name:AWESESSIONID}")
+  private String cookieName;
+
   /**
    * Second configuration class for spring security
    */
@@ -184,17 +188,9 @@ public class SecurityConfig extends ServiceConfig {
         .addFilterAt(getBean(JsonAuthenticationFilter.class), UsernamePasswordAuthenticationFilter.class)
         .formLogin().permitAll()
         .and()
-        .logout().logoutUrl("/action/logout").clearAuthentication(true)
-        .addLogoutHandler((request, response, authentication) ->  {
-          initRequest(request);
-          aweSessionDetails.onBeforeLogout();
-        })
-        .logoutSuccessHandler((request, response, authentication) -> {
-          initRequest(request);
-          aweSessionDetails.onLogoutSuccess();
-          request.getRequestDispatcher("/action/logoutRedirect").forward(request, response);
-        })
-        .deleteCookies("SESSION").invalidateHttpSession(true);
+        .logout().logoutUrl("/action/logout")
+        .deleteCookies(cookieName)
+        .addLogoutHandler(getBean(AweLogoutHandler.class));
 
       if (sameOrigin) {
         http.headers().frameOptions().sameOrigin();
@@ -302,6 +298,16 @@ public class SecurityConfig extends ServiceConfig {
       ldapAuthenticationProvider.setUserDetailsContextMapper(ldapAweUserDetailsMapper(userDAO));
 
       return ldapAuthenticationProvider;
+    }
+
+    /**
+     * Retrieve a logout handler
+     * @param sessionDetails Session details
+     * @return Logout handler
+     */
+    @Bean
+    public AweLogoutHandler logoutHandler(AweSessionDetails sessionDetails) {
+      return new AweLogoutHandler(sessionDetails);
     }
 
     /**

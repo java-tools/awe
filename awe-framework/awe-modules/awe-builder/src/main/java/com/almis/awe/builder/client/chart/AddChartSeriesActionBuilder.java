@@ -22,7 +22,7 @@ public class AddChartSeriesActionBuilder extends ChartSeriesActionBuilder<AddCha
   }
 
   /**
-   * Constructor with target and column list
+   * Constructor with target and chart serie list
    *
    * @param target Target
    * @param series Serie list
@@ -32,12 +32,32 @@ public class AddChartSeriesActionBuilder extends ChartSeriesActionBuilder<AddCha
   }
 
   /**
-   * Constructor with address and column list
+   * Constructor with target and chart serie array
+   *
+   * @param target Target
+   * @param series Serie list
+   */
+  public AddChartSeriesActionBuilder(String target, ChartSerie... series) {
+    super(TYPE, target, series);
+  }
+
+  /**
+   * Constructor with address and chart serie list
    *
    * @param address Target
    * @param series  Serie list
    */
   public AddChartSeriesActionBuilder(ComponentAddress address, List<ChartSerie> series) {
+    super(TYPE, address, series);
+  }
+
+  /**
+   * Constructor with address and chart serie array
+   *
+   * @param address Target
+   * @param series  Serie list
+   */
+  public AddChartSeriesActionBuilder(ComponentAddress address, ChartSerie... series) {
     super(TYPE, address, series);
   }
 }

@@ -138,15 +138,12 @@ aweApplication.factory('GridMultioperation',
             component.hideContextMenu();
 
             // Get selected row
-            var selectedRow = component.getSelectedRow();
-
-            // Get selected row
-            var selectedRow = component.getSelectedRows();
+            let selectedRow = component.getSelectedRows();
 
             // If selectedRow is not null, remove row
             _.each(selectedRow, function (row) {
               // Calculate rowIndex
-              var rowIndex = Control.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
+              let rowIndex = Control.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
 
               // If row has been added previously, delete row
               if (component.model.values[rowIndex][component.constants.ROW_TYPE_NAME] === component.constants.ROW_ACTIONS.INSERT.value) {

@@ -348,8 +348,8 @@ aweApplication.factory('AweUtilities',
           var value = null;
 
           /* Replace formule parameters */
-          _.each(values, function (value, valueId) {
-            formule = formule.replace(new RegExp("\\[" + valueId + "\\]", "ig"), value);
+          _.each(values, function (parameter, parameterId) {
+            formule = formule.replace(new RegExp("\\[" + parameterId + "\\]", "ig"), parameter);
           });
           formule = formule.replace(new RegExp("#", "ig"), "\"");
 
@@ -497,22 +497,6 @@ aweApplication.factory('AweUtilities',
         /**
          * Define a list of action listeners
          * @param {type} listeners
-         * @param {type} actions
-         * @param {type} scope
-         * @param {type} executor
-         */
-        defineActionListeners: function (listeners, actions, scope, executor) {
-          _.each(actions, function (actionOptions, actionId) {
-            listeners[actionId] = scope.$on("/action/" + actionId, function (event, action) {
-              actionOptions["service"] = executor;
-              actionOptions["scope"] = scope;
-              Utilities.resolveAction(action, actionOptions);
-            });
-          });
-        },
-        /**
-         * Define a list of action listeners
-         * @param {type} listeners
          * @param {type} parameters
          */
         defineModelChangeListeners: function (listeners, parameters) {
@@ -577,25 +561,22 @@ aweApplication.factory('AweUtilities',
           return launch;
         },
         /**
-         * Resolve the action if matches
-         * @param {type} action
-         * @param {object} parameters
+         * Animate
+         * @param {boolean} withCss Animate with css
+         * @param {object} node
+         * @param {object} animation
+         * @param {number} time
+         * @param {function} endFunction
          */
-        resolveAction: function (action, parameters) {
-          var scope = parameters.scope || {};
-          var check = parameters.check || false;
-
-          // Launch action
-          if (Utilities.checkAddress(action.attr("callbackTarget"), scope.component.address || {}, check)) {
-            // Launch method
-            parameters.service[parameters.method](action.attr("parameters"), scope, action.attr("callbackTarget"));
-
-            // Finish action
-            action.accept();
+        animate: function (withCss, node, animation, time, endFunction) {
+          if (withCss) {
+            Utilities.animateCSS(node, animation, time, endFunction);
+          } else {
+            Utilities.animateJavascript(node, animation, time, endFunction);
           }
         },
         /**
-         * Animate a
+         * Animate with css
          * @param {type} node
          * @param {type} animation
          * @param {type} time
@@ -618,7 +599,7 @@ aweApplication.factory('AweUtilities',
           }
         },
         /**
-         * Animate a
+         * Animate with Javascript
          * @param {type} node
          * @param {type} animation
          * @param {type} time

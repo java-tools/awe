@@ -134,6 +134,16 @@ application.parameter.view=view
 application.parameter.component=component
 
 ################################################
+# Application cookie (for clustered environments)
+################################################
+# Application cookie
+#application.cookie.name=JSESSIONID
+# Cookie path
+#application.cookie.path=/
+# Cookie domain pattern
+#application.cookie.domain=^.+?\.(\w+\.[a-z]+)$
+
+################################################
 # Screen configuration
 ################################################
 # Home screen name
@@ -596,7 +606,7 @@ server.session.timeout=1800
 
 ########### COOKIE CONFIGURATION ###############
 # Session cookie name
-session.cookie.name=JSESSIONID
+session.cookie.name=AWESESSIONID
 # Session cookie path
 session.cookie.path=/
 # Session cookie domain name regexp

@@ -3,8 +3,8 @@ import { ClientActions } from "../data/actions";
 
 // Menu directive
 aweApplication.directive('aweMenu',
-  ['ServerData', 'Component', '$document', '$window', '$filter', '$location', 'AweUtilities',
-    function (serverData, Component, $document, $window, $filter, $location, Utilities) {
+  ['ServerData', 'Component', '$document', '$window', '$filter', '$location', 'AweUtilities', 'ActionController',
+    function (serverData, Component, $document, $window, $filter, $location, Utilities, $actionController) {
       return {
         restrict: 'E',
         replace: false,
@@ -142,7 +142,7 @@ aweApplication.directive('aweMenu',
 
             // Finish screen action
             if (action) {
-              action.accept();
+              $actionController.acceptAction(action);
             }
           };
 
@@ -159,7 +159,7 @@ aweApplication.directive('aweMenu',
               node.addClass('collapse');
             }
             // Finish action
-            action.accept();
+            $actionController.acceptAction(action);
           };
 
           /**
@@ -170,7 +170,7 @@ aweApplication.directive('aweMenu',
             let parameters = action.attr("parameters");
             scope.options = parameters.options;
             // Finish action
-            action.accept();
+            $actionController.acceptAction(action);
           };
 
           /******************************************************************************

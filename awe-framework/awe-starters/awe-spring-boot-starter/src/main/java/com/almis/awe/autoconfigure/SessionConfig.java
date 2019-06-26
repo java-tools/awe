@@ -4,19 +4,12 @@ import com.almis.awe.model.component.AweClientTracker;
 import com.almis.awe.model.component.AweSession;
 import com.almis.awe.service.QueryService;
 import com.almis.awe.service.SessionService;
-import com.almis.awe.session.AweHttpSessionStrategy;
 import com.almis.awe.session.AweSessionDetails;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
-import org.springframework.session.web.http.CookieSerializer;
-import org.springframework.session.web.http.DefaultCookieSerializer;
-import org.springframework.session.web.http.HttpSessionStrategy;
 import org.springframework.web.context.annotation.SessionScope;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,17 +17,7 @@ import java.util.Set;
  * Created by dfuentes on 17/07/2017.
  */
 @Configuration
-@EnableSpringHttpSession
 public class SessionConfig {
-
-  @Value("${session.cookie.name:JSESSIONID}")
-  private String cookieName;
-
-  @Value("${session.cookie.path:/}")
-  private String cookiePath;
-
-  @Value("${session.cookie.domain.name.pattern:^.+?\\.(\\w+\\.[a-z]+)$}")
-  private String cookieDomainNamePattern;
 
   /**
    * Session strategy
@@ -44,37 +27,13 @@ public class SessionConfig {
   @Bean
   @ConditionalOnMissingBean
   @SessionScope
-  AweSession aweSession(HttpSession httpSession) {
-    return new AweSession(httpSession);
-  }
-
-  /**
-   * Cookie serializer
-   * @return
-   */
-  @Bean
-  @ConditionalOnMissingBean
-  public CookieSerializer cookieSerializer() {
-    DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-    serializer.setCookieName(cookieName);
-    serializer.setCookiePath(cookiePath);
-    serializer.setDomainNamePattern(cookieDomainNamePattern);
-    return serializer;
-  }
-
-  /**
-   * Session strategy
-   *
-   * @return Session strategy
-   */
-  @Bean
-  @ConditionalOnMissingBean
-  HttpSessionStrategy httpSessionStrategy(CookieSerializer cookieSerializer) {
-    return new AweHttpSessionStrategy(cookieSerializer);
+  AweSession aweSession() {
+    return new AweSession();
   }
 
   /**
    * Session service
+   *
    * @return Session service bean
    */
   @Bean
@@ -85,9 +44,10 @@ public class SessionConfig {
 
   /**
    * Session details
+   *
    * @param aweClientTracker Awe Client tracker
-   * @param queryService Query service
-   * @param connectedUsers Connected user list
+   * @param queryService     Query service
+   * @param connectedUsers   Connected user list
    * @return Session details bean
    */
   @Bean

@@ -188,7 +188,7 @@
     </insert>
     <multiple grid="MdlUsrLst" audit="HISAweModOpe">
       <table id="AweModOpe" />
-      <field id="IdeModOpe" sequence="ModOpeKey" key="true" />
+      <field id="IdeModOpe" sequence="ModOpeKey" variable="IdeModOpe" key="true" />
       <field id="IdeMod" variable="IdeMod" />
       <field id="IdeOpe" variable="IdeOpe" />
       <field id="IdeThm" variable="IdeThm" />
@@ -199,7 +199,7 @@
     </multiple>
     <multiple grid="MdlPrfLst" audit="HISAweModPro">
       <table id="AweModPro" />
-      <field id="IdeModPro" sequence="ModProKey" key="true" />
+      <field id="IdeModPro" sequence="ModProKey" variable="IdeModPro" key="true" />
       <field id="IdeMod" variable="IdeMod" />
       <field id="IdePro" variable="IdePro" />
       <variable id="IdeModPro" type="INTEGER" name="IdeModPro" />
@@ -208,7 +208,7 @@
     </multiple>
     <multiple grid="MdlSitDbsLst" audit="HISAweSitModDbs">
       <table id="AweSitModDbs" />
-      <field id="IdeSitModDbs" sequence="SitModDbsKey" key="true" />
+      <field id="IdeSitModDbs" sequence="SitModDbsKey" variable="IdeSitModDbs" key="true" />
       <field id="IdeMod" variable="IdeMod" />
       <field id="IdeSit" variable="IdeSit" />
       <field id="IdeDbs" variable="IdeDbs" />
@@ -341,7 +341,7 @@
     </insert>
     <multiple audit="HISAweSitModDbs" grid="SitModDbsLst">
       <table id="AweSitModDbs" />
-      <field id="IdeSitModDbs" sequence="SitModDbsKey" key="true" />
+      <field id="IdeSitModDbs" variable="IdeSitModDbs" sequence="SitModDbsKey" key="true" />
       <field id="IdeSit" variable="IdeSit" />
       <field id="IdeMod" variable="IdeMod" />
       <field id="IdeDbs" variable="IdeDbs" />
@@ -420,13 +420,14 @@
   <target name="ProNew">
     <insert audit="HISAwePro">
       <table id="AwePro" />
-      <field id="IdePro" sequence="ProKey" />
+      <field id="IdePro" sequence="ProKey" variable="IdePro"/>
       <field id="Acr" variable="Acr" />
       <field id="Nam" variable="Nam" />
       <field id="IdeThm" variable="IdeThm" />
       <field id="ScrIni" variable="ScrIni" />
       <field id="Res" variable="Res" />
       <field id="Act" variable="Act" />
+      <variable id="IdePro" type="INTEGER"/>
       <variable id="Acr" type="STRINGN" name="Acr" />
       <variable id="Nam" type="STRINGN" name="Nam" />
       <variable id="IdeThm" type="INTEGER" name="IdeThm" />
@@ -642,8 +643,9 @@
   <target name="ThmNew">
     <insert audit="HISAweThm">
       <table id="AweThm" />
-      <field id="IdeThm" sequence="ThmKey" />
+      <field id="IdeThm" sequence="ThmKey" variable="IdeThm"/>
       <field id="Nam" variable="Nam" />
+      <variable id="IdeThm" type="INTEGER"/>
       <variable id="Nam" type="STRINGN" name="Nam" />
     </insert>
   </target>
@@ -711,7 +713,7 @@
     </insert>
     <multiple audit="HISAweSitModDbs" grid="SitModDbsLst">
       <table id="AweSitModDbs" />
-      <field id="IdeSitModDbs" sequence="SitModDbsKey" key="true" />
+      <field id="IdeSitModDbs" sequence="SitModDbsKey" variable="IdeSitModDbs" key="true" />
       <field id="IdeSit" variable="IdeSit" />
       <field id="IdeMod" variable="IdeMod" />
       <field id="IdeDbs" variable="IdeDbs" />

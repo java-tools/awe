@@ -1,5 +1,6 @@
 package com.almis.awe.model.component;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Observable;
  *
  * @author Pablo GARCIA - 03/Aug/2017
  */
-public class AweClientTracker extends Observable {
+public class AweClientTracker extends Observable implements Serializable {
 
   private String lastScreen = "";
 

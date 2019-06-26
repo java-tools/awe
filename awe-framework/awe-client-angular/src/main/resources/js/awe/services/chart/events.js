@@ -2,12 +2,8 @@ import { aweApplication } from "./../../awe";
 import { ClientActions } from "../../data/actions";
 
 // Chart events service
-aweApplication.factory('ChartEvents', ['AweUtilities',
-  /**
-   * Chart generic methods
-   * @param {Service} Utilities
-   */
-  function (Utilities) {
+aweApplication.factory('ChartEvents', ['AweUtilities', 'ActionController',
+  function ($utilities, $actionController) {
 
     /*********
      * EVENTS
@@ -17,7 +13,7 @@ aweApplication.factory('ChartEvents', ['AweUtilities',
         /**
          * Event listeners
          */
-        Utilities.defineActionListeners(component.listeners, ClientActions.chart, component.scope, ChartEvents);
+        $actionController.defineActionListeners(component.listeners, ClientActions.chart, component.scope, ChartEvents);
 
         // Capture reset scope action
         component.listeners['resetScope'] = component.scope.$on('reset-scope', function (event, view) {
@@ -43,7 +39,7 @@ aweApplication.factory('ChartEvents', ['AweUtilities',
             case 3:
               // Right click
               // Cancel event propagation
-              Utilities.stopPropagation(event, true);
+              $utilities.stopPropagation(event, true);
               component.showContextMenu(event);
               break;
             default:

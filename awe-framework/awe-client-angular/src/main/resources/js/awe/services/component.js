@@ -10,10 +10,10 @@ aweApplication.factory('Component',
      * @param {object} $settings Awe $settings
      * @param {object} Utilities Awe utilities
      * @param {object} ServerData Server data calls
-     * @param {object} ActionController Action controller
+     * @param {object} $actionController Action controller
      * @param {object} $log Log
      */
-    function (Control, $settings, Utilities, ServerData, ActionController, $log) {
+    function (Control, $settings, Utilities, ServerData, $actionController, $log) {
 
       /**
        * Destroys autorefresh timer
@@ -142,7 +142,7 @@ aweApplication.factory('Component',
             component.listeners = component.listeners || {};
 
             // Action listener definition
-            Utilities.defineActionListeners(component.listeners, ClientActions.component, component.scope, component);
+            $actionController.defineActionListeners(component.listeners, ClientActions.component, component.scope, component);
 
             // Clean objects on destroy | unload
             component.listeners['destroy'] = component.scope.$on("$destroy", destroy);
@@ -418,10 +418,10 @@ aweApplication.factory('Component',
 
           // Generate server action
           var actionScope = {address: this.address, context: this.context};
-          var serverAction = ActionController.generateAction(ServerData.getServerAction(this.address, values, isAsync, isSilent), actionScope, isSilent, isAsync);
+          var serverAction = $actionController.generateAction(ServerData.getServerAction(this.address, values, isAsync, isSilent), actionScope, isSilent, isAsync);
 
           // Send action list
-          ActionController.addActionList([serverAction], false, actionScope);
+          $actionController.addActionList([serverAction], false, actionScope);
 
           // Return server action to cancel it
           return serverAction;

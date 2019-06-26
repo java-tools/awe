@@ -23,7 +23,7 @@ aweApplication.controller("DownloadController",
       $ctrl.startDownload = function(file) {
         file.index = $ctrl.downloads.length;
         $ctrl.downloads.push(file);
-      }
+      };
 
       /**
        * Remove the download from list
@@ -34,7 +34,7 @@ aweApplication.controller("DownloadController",
           $ctrl.downloads.splice(file.index, 1);
           // If action exists, accept it
           if (file.action) {
-            file.action.accept();
+            $actionController.acceptAction(file.action);
           }
         });
       };

@@ -10,12 +10,6 @@
       <service-parameter type="STRING" name="value" />
     </java>
   </service>
-  <service id="storeSessionObject">
-    <java classname="com.almis.awe.service.SessionService" method="setSessionParameter">
-      <service-parameter type="STRING" name="name" />
-      <service-parameter type="OBJECT" name="value" />
-    </java>
-  </service>
   <service id="changeLanguage">
     <java classname="com.almis.awe.service.LocaleService" method="changeLanguage">
       <service-parameter type="STRING" name="language" />

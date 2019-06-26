@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-dependencies</artifactId>
-    <version>4.1.0</version>
+    <version>4.1.1</version>
     <relativePath>../awe-dependencies</relativePath>
   </parent>
 
@@ -132,6 +132,12 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-jms</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.session</groupId>
+      <artifactId>spring-session</artifactId>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>

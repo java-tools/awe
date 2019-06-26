@@ -4,7 +4,7 @@ import "./../services/dialog";
 // Dialog directive
 aweApplication.directive('aweDialog',
   ['ServerData', 'Component', 'ActionController', 'AweUtilities',
-    function (serverData, Component, ActionController, Utilities) {
+    function (serverData, Component, $actionController, Utilities) {
       return {
         restrict: 'E',
         transclude: true,
@@ -38,7 +38,7 @@ aweApplication.directive('aweDialog',
               Utilities.publishDelayedFromScope("modalChange", true, scope);
 
               // Add new modal action stack
-              ActionController.addStack();
+              $actionController.addStack();
 
               // Load dialog model (if not loaded yet)
               var actions = [];
@@ -46,7 +46,7 @@ aweApplication.directive('aweDialog',
               actions.push({type: 'resize', parameters: {delay: 200}});
 
               // Launch action list
-              ActionController.addActionList(actions, true, {address: component.address, context: component.context});
+              $actionController.addActionList(actions, true, {address: component.address, context: component.context});
             }
           };
           /**
@@ -60,13 +60,10 @@ aweApplication.directive('aweDialog',
               // Launch close dialog delayed
               Utilities.timeout(function() {
                 // Remove modal action stack
-                ActionController.removeStack();
+                $actionController.removeStack();
                 // Close dialog action
-                if (component.controller.accept) {
-                  component.controller.openAction.accept();
-                } else {
-                  component.controller.openAction.reject();
-                }
+                $actionController.finishAction(component.controller.openAction, component.controller.accept);
+
                 // Set default action on accept
                 component.controller.accept = component.controller.acceptOnClose;
                 component.isOpened = false;

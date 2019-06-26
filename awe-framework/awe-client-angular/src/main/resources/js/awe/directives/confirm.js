@@ -3,8 +3,8 @@ import "../services/dialog";
 
 // Confirm directive
 aweApplication.directive('aweConfirm',
-  ['ServerData', 'AweSettings',
-    function (ServerData, $settings) {
+  ['ServerData', 'AweSettings', 'ActionController',
+    function (ServerData, $settings, $actionController) {
       return {
         restrict: 'E',
         templateUrl: function () {
@@ -34,11 +34,7 @@ aweApplication.directive('aweConfirm',
               scope.closeConfirm = function () {
                 // Cancel action
                 if (scope.confirmAction) {
-                  if (accepted) {
-                    scope.confirmAction.accept();
-                  } else {
-                    scope.confirmAction.reject();
-                  }
+                  $actionController.finishAction(scope.confirmAction, accepted);
                 }
                 scope.confirmAction = null;
                 accepted = false;
