@@ -1,5 +1,6 @@
 package com.almis.awe.tools.service;
 
+import com.almis.awe.model.util.file.FileUtil;
 import com.almis.awe.tools.filemanager.enums.FileModeEnum;
 import com.almis.awe.tools.filemanager.utils.ZipFileUtil;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -35,7 +36,7 @@ public class FileManagerService implements InitializingBean {
   private static final String RESULT = "result";
   private static final String ITEMS = "items";
   private static final String NEW_PATH = "newPath";
-  private static final String ERROR_PATH = "Error getting fileManager path";
+  private static final String ERROR_PATH = "Error getting fileManager path: {}";
 
   // Logger
   private Logger logger = LogManager.getLogger(FileManagerService.class);
@@ -129,7 +130,7 @@ public class FileManagerService implements InitializingBean {
   public File downloadAsZipFile(String[] toFilename, String[] items) throws IOException {
 
     // Build empty zip file in tmp path
-    Path zipFileName = Paths.get(tempPath, fixUntrustedPath(toFilename));
+    Path zipFileName = Paths.get(tempPath, FileUtil.fixUntrustedPath(toFilename));
 
     // Add repository path to files
     List<String> fileList = new ArrayList<>();
@@ -164,7 +165,7 @@ public class FileManagerService implements InitializingBean {
         throw new IOException("file size = 0");
       } else {
         for (MultipartFile file : files) {
-          File f = Paths.get(repositoryBasePath, fixUntrustedPath(destination),file.getOriginalFilename()).toFile();
+          File f = Paths.get(repositoryBasePath, FileUtil.fixUntrustedPath(destination), FileUtil.sanitizeFileName(file.getOriginalFilename())).toFile();
           if (!write(file, f)) {
             logger.error("Error uploading file");
             throw new IOException("write error");
@@ -766,14 +767,14 @@ public class FileManagerService implements InitializingBean {
 
     // Check basedir
     if (!baseDirPath.isAbsolute()) {
-      logger.error(ERROR_PATH + baseDirPath);
+      logger.error(ERROR_PATH, baseDirPath);
       throw new IllegalArgumentException("FileManager: base path must be absolute");
     }
 
     // Check file manager path
-    Path fileManagerPath = Paths.get(fixUntrustedPath(strFileManagerPath));
+    Path fileManagerPath = Paths.get(FileUtil.fixUntrustedPath(strFileManagerPath));
     if (fileManagerPath.isAbsolute()) {
-      logger.error(ERROR_PATH + fileManagerPath);
+      logger.error(ERROR_PATH, fileManagerPath);
       throw new IllegalArgumentException("FileManager: path must be relative");
     }
 
@@ -789,18 +790,5 @@ public class FileManagerService implements InitializingBean {
     }
 
     return resolvedPath;
-  }
-
-  /**
-   * Fix an untrusted path
-   * @param paths Untrusted paths
-   * @return Normalized path
-   */
-  private String fixUntrustedPath(String... paths) {
-    List<String> fixedPaths = new ArrayList();
-    for (String path : paths) {
-      fixedPaths.add(path.replaceAll("\\.\\.(\\\\|\\/)", ""));
-    }
-    return Paths.get(".", fixedPaths.toArray(new String[0])).normalize().toString();
   }
 }

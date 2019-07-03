@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * FileUtil Class
@@ -92,5 +95,27 @@ public class FileUtil extends ServiceConfig {
     } catch (IOException exc) {
       throw new AWException("Error decoding file from string", "There was an error trying to decode file data from string:\n" + fileStringEncoded,  exc);
     }
+  }
+
+  /**
+   * Sanitize filename
+   * @param filename Filename
+   * @return Sanitized filename
+   */
+  public static String sanitizeFileName(String filename) {
+    return filename == null ? "" : filename.replaceAll(".*(\\\\|\\/)(.*)", "$2");
+  }
+
+  /**
+   * Fix an untrusted path
+   * @param paths Untrusted paths
+   * @return Normalized path
+   */
+  public static String fixUntrustedPath(String... paths) {
+    List<String> fixedPaths = new ArrayList();
+    for (String path : paths) {
+      fixedPaths.add(path.replaceAll("\\.\\.(\\\\|\\/)", ""));
+    }
+    return Paths.get(".", fixedPaths.toArray(new String[0])).normalize().toString();
   }
 }
