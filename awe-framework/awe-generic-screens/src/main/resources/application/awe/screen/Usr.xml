@@ -26,7 +26,6 @@
       </dependency>
     </button>
     <button label="BUTTON_UPDATE" icon="edit" id="ButUpd" help="HELP_UPDATE_BUTTON">
-      <!--<button-action type="check-one-selected" target="GrdUsrLst"/>-->
       <button-action type="screen" target="update-user" />
       <dependency target-type="disable" initial="true">
         <dependency-element id="GrdUsrLst" condition="ne" value="1" />

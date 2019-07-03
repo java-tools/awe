@@ -593,9 +593,10 @@ aweApplication.factory('Selector',
           component.onPluginChange = function (item) {
             processChangeEvent(component, item);
           };
+
           // Initialization (for suggest on columns)
-          let model = Control.getAddressModel(component.address);
-          if (checkSelectedValue(model)) {
+          let defaultModel = Control.getAddressModel(component.address);
+          if (checkSelectedValue(defaultModel)) {
             // Store options (on
             let initialModelChanged = component.scope.$on("modelChanged", function (event, launchers) {
               let changes = Utilities.modelChanged(component, launchers);
@@ -609,12 +610,13 @@ aweApplication.factory('Selector',
             });
           } else {
             if (selector.multiple) {
-              filterSuggestModel(model);
+              filterSuggestModel(defaultModel);
             }
             if (selector.initializable) {
               component.scope.initialized = true;
             }
           }
+
           /******************************************************************************
            * EVENT LISTENERS
            *****************************************************************************/

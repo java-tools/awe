@@ -38,7 +38,6 @@
         <tag type="div">
           <criteria component="hidden" id="IdeSrv" variable="Ide"/>
           <criteria label="PARAMETER_NAME" component="text" id="Nom" style="col-xs-12 col-sm-6 col-lg-4" validation="required"/>
-          <!--<criteria label="PARAMETER_PASSWD" component="password" id="UsrPass" style="col-xs-12 col-sm-6" validation="required"/>-->
           <criteria label="PARAMETER_SERVER" component="text" id="Hst" style="col-xs-12 col-sm-6 col-lg-4" validation="required">
             <dependency initial="true" source-type="value" target-type="input" value="localhost">
               <dependency-element id="Pro" condition="eq" value="folder"/>

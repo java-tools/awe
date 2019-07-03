@@ -1,6 +1,21 @@
 import { aweApplication } from "./../../awe";
 import Slider from "bootstrap-slider";
 
+// Util functions to set options
+//-----------------------------------------------------------------------------------------------------
+/**
+ * Set float value
+ * @param {object} options Options object
+ * @param {type} key
+ * @param {type} value
+ * @param {type} defaultValue
+ * @returns {object} Options updates
+ */
+function setFloatOption(options, key, value, defaultValue) {
+  options[key] = value ? parseFloat(value) : defaultValue;
+  return options;
+}
+
 // Slider plugin
 aweApplication.directive('uiSlider',
   ['Control', 'AweSettings', 'AweUtilities',
@@ -27,32 +42,6 @@ aweApplication.directive('uiSlider',
           // Slider definition
           let mySlider;
 
-          // Util functions to set options
-          //-----------------------------------------------------------------------------------------------------
-          /**
-           * Set float value
-           * @param {object} options Options object
-           * @param {type} key
-           * @param {type} value
-           * @param {type} defaultValue
-           * @returns {object} Options updates
-           */
-          function setFloatOption(options, key, value, defaultValue) {
-            options[key] = value ? parseFloat(value) : defaultValue;
-            return options;
-          }
-          /**
-           * Set boolean value
-           * @param {object} options Options object
-           * @param {type} key
-           * @param {type} value
-           * @param {type} defaultValue
-           * @returns {object} Options updates
-           */
-          function setBooleanOption(options, key, value, defaultValue) {
-            options[key] = value ? String(value) === 'true' : defaultValue;
-            return options;
-          }
           //------------------------------------------------------------------------------------------------------
 
           // Watch for numeric options changes
@@ -78,10 +67,7 @@ aweApplication.directive('uiSlider',
 
               // Check if numeric criteria is readonly
               if (scope.$parent.controller) {
-                let readonly = scope.$parent.controller.readonly;
-                if (readonly) {
-                  setBooleanOption(opts, "enabled", false, false);
-                }
+                opts.enabled = !scope.$parent.controller.readonly;
               }
 
               if (initialized) {

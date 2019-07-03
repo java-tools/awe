@@ -16,7 +16,7 @@ public class RestSecurityConfiguration {
    */
   @Configuration
   @Order (1)
-  public static class RestSecurityConfigurationImpl extends WebSecurityConfigurerAdapter {
+  public class RestSecurityConfigurationImpl extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
