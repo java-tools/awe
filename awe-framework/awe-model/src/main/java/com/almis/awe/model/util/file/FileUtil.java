@@ -1,6 +1,3 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.util.file;
 
 import com.almis.awe.config.ServiceConfig;
@@ -12,6 +9,8 @@ import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.MimeType;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -95,6 +94,15 @@ public class FileUtil extends ServiceConfig {
     } catch (IOException exc) {
       throw new AWException("Error decoding file from string", "There was an error trying to decode file data from string:\n" + fileStringEncoded,  exc);
     }
+  }
+
+  /**
+   * Extract safely content type
+   * @param file Multipart file
+   * @return Sanitized filename
+   */
+  public static String extractContentType(MultipartFile file) {
+    return MimeType.valueOf(file.getContentType()).toString();
   }
 
   /**

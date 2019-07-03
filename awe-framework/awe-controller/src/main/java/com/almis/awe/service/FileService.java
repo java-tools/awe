@@ -20,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.converter.ContentTypeResolver;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -213,7 +214,7 @@ public class FileService extends ServiceConfig {
     try {
       if (!file.isEmpty()) {
         // Store file
-        fileData = new FileData(FileUtil.sanitizeFileName(file.getOriginalFilename()), file.getSize(), file.getContentType(), folder);
+        fileData = new FileData(FileUtil.sanitizeFileName(file.getOriginalFilename()), file.getSize(), FileUtil.extractContentType(file), folder);
         fileData.setBasePath(uploadBaseFolder);
 
         // Generate file path
