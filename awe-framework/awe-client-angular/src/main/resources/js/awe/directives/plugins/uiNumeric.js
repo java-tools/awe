@@ -1,6 +1,28 @@
 import { aweApplication } from "./../../awe";
 import "autonumeric";
 
+
+/**
+ * Process numeric options
+ * @param options Object
+ * @return Options processed
+ */
+function processNumericOptions(options) {
+  let optionsProcess = options;
+
+  // Change attribute names
+  if ("min" in options) {
+    optionsProcess.vMin = options.min;
+  }
+  if ("max" in options) {
+    optionsProcess.vMax = options.max;
+  }
+  if ("precision" in options) {
+    optionsProcess.mDec = Math.floor(options.precision);
+  }
+  return optionsProcess;
+}
+
 // Numeric plugin
 aweApplication.directive('uiNumeric',
   ['AweSettings', 'AweUtilities', 'Control',
@@ -86,27 +108,6 @@ aweApplication.directive('uiNumeric',
                 initWatch();
               }
             }
-          }
-
-          /**
-           * Process numeric options
-           * @param options Object
-           * @return Options processed
-           */
-          function processNumericOptions(options) {
-            let optionsProcess = options;
-
-            // Change attribute names
-            if ("min" in options) {
-              optionsProcess.vMin = options.min;
-            }
-            if ("max" in options) {
-              optionsProcess.vMax = options.max;
-            }
-            if ("precision" in options) {
-              optionsProcess.mDec = Math.floor(options.precision);
-            }
-            return optionsProcess;
           }
 
           /**

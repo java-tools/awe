@@ -453,27 +453,27 @@ aweApplication.factory('Chart',
             return component.attributeMethods[attribute](component);
           };
           var processParameters = function (parameters) {
-            var chartOptions;
+            var options;
             switch (typeof parameters) {
               case "string":
-                chartOptions = Utilities.evalJSON(parameters);
+                options = Utilities.evalJSON(parameters);
                 break;
               case "object":
-                chartOptions = parameters;
+                options = parameters;
                 break;
               default:
-                chartOptions = {};
+                options = {};
             }
-            return chartOptions;
+            return options;
           };
           /**
            * Check what parameters have changed and apply the changes to the chart
            * @param {object} parameters
            */
           component.checkParametersChanged = function (parameters) {
-            var chartOptions = processParameters(parameters.chartOptions);
-            if ("zoom" in chartOptions) {
-              component.changeZoom(chartOptions.zoom);
+            var options = processParameters(parameters.chartOptions);
+            if ("zoom" in options) {
+              component.changeZoom(options.zoom);
             }
           };
           /**
@@ -522,8 +522,8 @@ aweApplication.factory('Chart',
             for (var j in chart.series) {
               var series = chart.series[j];
               for (var i in series.data) {
-                (function (i) {
-                  var point = series.data[i];
+                (function (index) {
+                  var point = series.data[index];
                   if (point.graphic) {
                     point.graphic.on('dblclick', function (event) {
                       event.preventDefault();

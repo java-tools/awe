@@ -59,8 +59,8 @@ aweApplication.directive('downloader',
             url: scope.file.url,
             data: data,
             responseType: 'arraybuffer'
-          }).success((data, status, headers)  => {
-            download(new Blob([data], {type:headers("Content-Type")}), headers("Filename"), headers("Content-Type"));
+          }).success((response, status, headers)  => {
+            download(new Blob([response], {type:headers("Content-Type")}), headers("Filename"), headers("Content-Type"));
             onSuccess();
           }).error(onFail);
 

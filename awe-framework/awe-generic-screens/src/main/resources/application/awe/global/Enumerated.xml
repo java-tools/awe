@@ -305,12 +305,8 @@
     <option label="ENUM_EXECUTE_MAINTAIN" value="1"/>
   </group>
   <group id="conType">
-    <!--<option label="CONNECTION_TYPE_HTTP" value="http"/>-->
-    <!--<option label="CONNECTION_TYPE_HTTPS" value="https"/>-->
     <option label="CONNECTION_TYPE_FTP" value="ftp"/>
     <option label="CONNECTION_TYPE_FOLDER" value="folder"/>
-    <!--<option label="CONNECTION_TYPE_SSH" value="ssh"/>-->
-
   </group>
   <group id="RptTyp">
     <option label="ENUM_REPEAT_SECONDS" value="0"/>

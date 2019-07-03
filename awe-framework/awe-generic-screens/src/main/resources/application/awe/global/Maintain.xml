@@ -494,7 +494,6 @@
       <field id="Act" variable="Act" audit="true" />
       <where>
         <and>
-          <!--<filter field="IdePro" condition="eq" variable="IdePro"/>-->
           <filter left-field="IdePro" condition="in" right-variable="IdePro" />
         </and>
       </where>
@@ -1459,18 +1458,6 @@
       <variable id="ExeDte"  type="DATE" name="schExeDate" />
       <variable id="ExeTim" type="STRING" name="schExeTime" />
     </insert>
-
-    <!--
-    <delete>
-      <table id="AweSchTskPar"/>
-      <where>
-        <and>
-          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
-        </and>
-      </where>
-      <variable id="IdeTsk" type="INTEGER" name="IdeTsk"/>
-    </delete>
-    -->
 
     <multiple grid="ParameterList">
       <table id="AweSchTskPar" />

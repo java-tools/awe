@@ -1,5 +1,4 @@
 angular.module('FileManagerApp').config([ 'fileManagerConfigProvider', '$httpProvider', '$provide', function(config, $httpProvider, $provide) {
-  var defaults = config.$get();
   config.set({
     appName : 'angular-filemanager',
     breadcrumbName : 'Root path',
@@ -22,8 +21,6 @@ angular.module('FileManagerApp').config([ 'fileManagerConfigProvider', '$httpPro
   // We override the upload method so all files are sent in an array and not as independent arguments with name file-xxx
   $provide.decorator('apiHandler', [ '$delegate', '$q', 'Upload', function apiHandlerDecorator($delegate, $q, Upload) {
 
-    var upload = $delegate.prototype.upload;
-
     function newUpload(apiUrl, destination, files) {
       var self = this;
       var deferred = $q.defer();
@@ -41,10 +38,10 @@ angular.module('FileManagerApp').config([ 'fileManagerConfigProvider', '$httpPro
               url: apiUrl,
               data: data,
               arrayKey: ''
-          }).then(function (data) {
-              self.prototype.deferredHandler(data.data, deferred, data.status);
-          }, function (data) {
-              self.prototype.deferredHandler(data.data, deferred, data.status, 'Unknown error uploading files');
+          }).then(function (response) {
+              self.prototype.deferredHandler(response.data, deferred, data.status);
+          }, function (response) {
+              self.prototype.deferredHandler(response.data, deferred, data.status, 'Unknown error uploading files');
           }, function (evt) {
               self.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total)) - 1;
           })['finally'](function() {

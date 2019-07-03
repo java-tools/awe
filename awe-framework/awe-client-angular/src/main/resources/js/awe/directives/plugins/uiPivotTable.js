@@ -130,23 +130,22 @@ aweApplication.directive('uiPivotTable',
           /**
            * Change current sorters
            * @param {object} parameters
-           * @param {object} scope
+           * @param {object} $scope
            */
-          scope.onSetSorters = function (parameters, scope) {
+          scope.onSetSorters = function (parameters, $scope) {
             if ("sorters" in parameters) {
               // Get points data from action
               let sorters = parameters.sorters;
               // Add points
-              scope.sorters = sorters;
+              $scope.sorters = sorters;
             }
           };
 
           /**
            * Set group colum names
            * @param {object} parameters
-           * @param {object} scope
            */
-          scope.onSetCols = function (parameters, scope) {
+          scope.onSetCols = function (parameters) {
             if ("cols" in parameters) {
               // Get colum names
               let columns = parameters.cols ? parameters.cols.split(',') : [];
@@ -158,9 +157,8 @@ aweApplication.directive('uiPivotTable',
           /**
            * Set group rows names
            * @param {object} parameters
-           * @param {object} scope
            */
-          scope.onSetRows = function (parameters, scope) {
+          scope.onSetRows = function (parameters) {
             if ("rows" in parameters) {
               // Get rows names
               let rows = parameters.rows ? parameters.rows.split(',') : [];
