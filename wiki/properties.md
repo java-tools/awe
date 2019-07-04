@@ -134,16 +134,6 @@ application.parameter.view=view
 application.parameter.component=component
 
 ################################################
-# Application cookie (for clustered environments)
-################################################
-# Application cookie
-#application.cookie.name=JSESSIONID
-# Cookie path
-#application.cookie.path=/
-# Cookie domain pattern
-#application.cookie.domain=^.+?\.(\w+\.[a-z]+)$
-
-################################################
 # Screen configuration
 ################################################
 # Home screen name

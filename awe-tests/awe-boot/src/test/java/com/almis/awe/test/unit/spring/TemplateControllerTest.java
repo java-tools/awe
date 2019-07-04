@@ -207,7 +207,6 @@ public class TemplateControllerTest extends AweSpringBootTests {
     ObjectNode expectedJson = (ObjectNode) objectMapper.readTree(expected);
     MvcResult mvcResult = templateTestPost("/settings", "application/json", "{\"view\":\"base\"}", status().isOk())
       .andExpect(content().json(expected))
-      .andExpect(cookie().doesNotExist("JSESSIONID"))
       .andReturn();
 
     String result = mvcResult.getResponse().getContentAsString();
