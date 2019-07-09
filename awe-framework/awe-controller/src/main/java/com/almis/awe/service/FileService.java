@@ -213,7 +213,7 @@ public class FileService extends ServiceConfig {
     try {
       if (!file.isEmpty()) {
         // Store file
-        fileData = new FileData(file.getOriginalFilename(), file.getSize(), file.getContentType(), folder);
+        fileData = new FileData(FileUtil.sanitizeFileName(file.getOriginalFilename()), file.getSize(), FileUtil.extractContentType(file), folder);
         fileData.setBasePath(uploadBaseFolder);
 
         // Generate file path

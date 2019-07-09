@@ -1,3 +1,10 @@
+# Changelog for AWE 4.1.2
+*09/07/2019*
+
+- Error in editable grids when you modify a cell with empty value.. [MR #80](https://gitlab.com/aweframework/awe/merge_requests/80) (Pablo Vidal Otero)
+- Upgrade spring boot version to last 1.x. [MR #79](https://gitlab.com/aweframework/awe/merge_requests/79) (Pablo Javier García Mora)
+- Fix some sonar issues. [MR #78](https://gitlab.com/aweframework/awe/merge_requests/78) (Pablo Javier García Mora)
+- Remove actuator libraries from AWE starters. [MR #77](https://gitlab.com/aweframework/awe/merge_requests/77) (Pablo Javier García Mora)
 # Changelog for AWE 4.1.1
 *26/06/2019*
 

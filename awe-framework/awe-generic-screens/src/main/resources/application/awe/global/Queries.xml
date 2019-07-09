@@ -2431,13 +2431,11 @@
     <where>
       <and>
         <filter left-field="Ide" left-table="Tsk" condition="eq" right-variable="Ide" optional="true" />
-        <!--<filter field="Sta" condition="eq" variable="Sta" optional="true" />-->
         <filter left-field="TypLch" left-table="Tsk" condition="eq" right-variable="TypLch" optional="true" />
         <filter left-field="Act" left-table="Tsk" condition="eq" right-variable="active" optional="true" />
       </and>
     </where>
     <variable id="Ide" type="INTEGER" name="CrtTsk" />
-    <!--<variable id="Sta" type="INTEGER" name="CrtSta" />-->
     <variable id="TypLch" type="INTEGER" name="CrtLch" />
     <variable id="active" type="INTEGER" name="CrtAct" />
   </query>

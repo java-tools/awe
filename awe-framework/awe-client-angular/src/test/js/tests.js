@@ -14,3 +14,4 @@ import './filters/tests.js';
 import './components/tests.js';
 import './services/tests.js';
 import './singletons/tests.js';
+import './plugins/tests.js';

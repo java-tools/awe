@@ -13,21 +13,9 @@
     <criteria label="PARAMETER_DESCRIPTION" component="textarea" id="Des" style="col-xs-9"/>
     <criteria label="PARAMETER_ACTIVE" component="select" id="Act" style="col-xs-4 col-sm-3" initial-load="enum" target-action="Es1Es0" validation="required" value="1"/>
     <criteria label="PARAMETER_STORE_EXECUTION" component="numeric" id="NumStoExe" style="col-xs-4 col-sm-3" property="sch.max.stored.executions"/>
-    <!--  <dependency source-type="formule" initial="true" target-type="input" formule="10">
-        <dependency-element id="NumStoExe" condition="is empty"/>
-      </dependency>
-    </criteria>-->
     <criteria label="PARAMETER_TIMEOUT" component="numeric" id="TimOutExe" style="col-xs-4 col-sm-3"/>
     <criteria label="PARAMETER_EXECUTE" component="select" id="TypExe" initial-load="enum" target-action="ExeTyp" style="col-xs-6 col-sm-3" validation="required" />
-    <!--<criteria label="PARAMETER_EXECUTE_AT" component="suggest" server-action="data" target-action="SchSrvSug" id="IdeSrvExe" style="col-xs-6 col-sm-3">
-      <dependency initial="true" target-type="set-readonly">
-        <dependency-element id="TypExe" condition="eq" value="1"/>
-      </dependency>
-    </criteria>-->
     <criteria label="PARAMETER_EXECUTE_PATH" component="hidden" id="CmdExePth" style="col-xs-12 col-sm-3">
-      <!--<dependency initial="true" target-type="show">
-        <dependency-element id="TypExe" condition="eq" value="0"/>
-      </dependency>-->
       <dependency initial="true" >
         <dependency-element id="TypExe" condition="eq" value="1"/>
         <dependency-action type="reset" target="CmdExePth"/>
@@ -39,7 +27,6 @@
         <dependency >
           <dependency-element id="TypExe"/>
           <dependency-action type="reset" target="ParameterList"/>
-          <!--<dependency-action type="reset" target="executionCommand"/>-->
         </dependency>
         <dependency source-type="launcher" initial="true" target-type="input" target-action="maintainVal">
           <dependency-element id="TypExe" condition="eq" value="1"/>
@@ -79,9 +66,6 @@
           <dependency-element id="TypExe" condition="eq" value="1"/>
           <dependency-action type="reset" target="command"/>
         </dependency>
-        <!--<dependency source-type="formule" target-type="input" formule="'[command]'.replace('\\', '/');" initial="true">
-          <dependency-element id="command" alias="command"/>
-        </dependency>-->
       </criteria>
     </tag>
     <criteria label="PARAMETER_LAUNCH_DEPENDENCIES_WARN" component="checkbox" id="LchDepWrn" style="col-xs-12 no-label"/>

@@ -36,7 +36,6 @@
             <button-action type="server" server-action="maintain-silent" target-action="DelSqlCol" />
           </button>
           <button id="ButSch" label="BUTTON_RUN" type="submit" help="HELP_SEARCH_BUTTON" icon="play">
-            <!-- <button-action type="server" server-action="data" target-action="selectExtract"/> -->
             <button-action type="filter" target="selectGrid" />
           </button>
         </tag>

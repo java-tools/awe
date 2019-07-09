@@ -10,6 +10,9 @@ package com.almis.awe.model.entities.screen.component.chart;
  */
 public class ChartConstants {
 
+  // Private constructor
+  private ChartConstants() {}
+
   // Chart constant
   // ----------------------------------------------------------
   // Chart types contants

@@ -13,18 +13,18 @@ aweApplication.directive('aweMap',
         scope: {
           'mapId': '@'
         },
-        link: function (scope, elem, attr) {
+        link: function ($scope, elem, attr) {
           // Init as component
-          var component = new Component(scope, scope.mapId);
+          var component = new Component($scope, $scope.mapId);
           if (!component.asComponent()) {
             // If component initialization is wrong, cancel initialization
             return false;
           }
 
-          scope.showRoute = false;
+          $scope.showRoute = false;
 
           // Initial map $settings
-          _.merge(scope, {
+          _.merge($scope, {
             map: {
               control: {},
               center: {
@@ -69,13 +69,13 @@ aweApplication.directive('aweMap',
             }, 500);
           };
 
-          drawPoints(scope);
+          drawPoints($scope);
 
           // Draw truck routes
           var drawPolyline = function (routePoints,
             startLat, startLon) {
             var points = [];
-            scope.showRoute = true;
+            $scope.showRoute = true;
             for (var num in routePoints) {
               if (routePoints[num].Lat !== null && routePoints[num].Lon !== null) {
                 var loc = {
@@ -85,14 +85,14 @@ aweApplication.directive('aweMap',
                 points.push(loc);
               }
             }
-            _.merge(scope.map, {
+            _.merge($scope.map, {
               center: {
                 latitude: startLat,
                 longitude: startLon
               },
               zoom: 8
             });
-            scope.polylines = [{
+            $scope.polylines = [{
                 id: 1,
                 path: points,
                 stroke: {
@@ -130,14 +130,14 @@ aweApplication.directive('aweMap',
           };
 
           // Capture polyline action
-          scope.$on('/action/polyline', function (event, action) {
+          $scope.$on('/action/polyline', function (event, action) {
             return polyline(action);
           });
 
           // Marker on click event
-          scope.onMarkerClicked = function (marker) {
+          $scope.onMarkerClicked = function (marker) {
             marker.showWindow = true;
-            scope.$apply();
+            $scope.$apply();
           };
         }
       };

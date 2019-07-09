@@ -211,7 +211,7 @@ public class SeleniumUtilities {
       messageSanitized = messageSanitized.length() > 180 ? messageSanitized.substring(0, 180) : messageSanitized;
       String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
       Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
-      logger.error(message, throwable);
+      logger.error(message, (Object) throwable);
       logger.error("Storing screenshot at: " + path);
 
       // Now you can do whatever you need to do with it, for example copy somewhere
