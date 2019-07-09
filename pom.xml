@@ -3,7 +3,7 @@
 
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
-  <version>4.1.2-SNAPSHOT</version>
+  <version>4.1.2</version>
   <packaging>pom</packaging>
 
   <name>AWE (V${project.version})</name>
