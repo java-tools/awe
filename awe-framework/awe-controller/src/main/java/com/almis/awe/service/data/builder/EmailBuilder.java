@@ -98,7 +98,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get current encoding
    *
-   * @return
+   * @return encoding
    */
   public String getEncoding() {
     return encoding;
@@ -107,9 +107,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set email content encoding
    *
-   * @param encoding
+   * @param encoding encoding
    *
-   * @return
+   * @return email builder with encoding
    */
   public EmailBuilder setEncoding(String encoding) {
     this.encoding = encoding;
@@ -119,7 +119,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get message content type
    *
-   * @return
+   * @return email content type
    */
   public String getEmailContentType() {
     return emailContentType;
@@ -128,9 +128,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set email content type
    *
-   * @param emailContentType
+   * @param emailContentType email content type
    *
-   * @return
+   * @return email builder with content type
    */
   public EmailBuilder setEmailContentType(String emailContentType) {
     this.emailContentType = emailContentType;
@@ -140,7 +140,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get mail sender
    *
-   * @return
+   * @return mail sender
    */
   public JavaMailSender getMailSender() {
     return mailSender;
@@ -149,8 +149,8 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set mail sender
    *
-   * @param mailSender
-   * @return
+   * @param mailSender mail sender
+   * @return set mail sender
    */
   public EmailBuilder setMailSender(JavaMailSender mailSender) {
     this.mailSender = mailSender;
@@ -160,7 +160,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get from
    *
-   * @return
+   * @return get <code>from</code> address
    */
   public InternetAddress getFrom() {
     return from;
@@ -169,9 +169,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set from
    *
-   * @param from
+   * @param from <code>from</code> address
    *
-   * @return
+   * @return set from address
    */
   public EmailBuilder setFrom(InternetAddress from) {
     this.from = from;
@@ -181,7 +181,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get sender, by default same as from
    *
-   * @return
+   * @return get sender
    */
   public InternetAddress getSender() {
     return sender == null ? getFrom() : sender;
@@ -190,9 +190,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set sender, by default same as from
    *
-   * @param sender
+   * @param sender sender address
    *
-   * @return
+   * @return set sender address
    */
   public EmailBuilder setSender(InternetAddress sender) {
     this.sender = sender;
@@ -202,7 +202,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get ReplyTo
    *
-   * @return
+   * @return get replyTo
    */
   public List<InternetAddress> getReplyTo() {
     return replyTo;
@@ -211,9 +211,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * add replyTo
    *
-   * @param replyTo
+   * @param replyTo email replyTo
    *
-   * @return
+   * @return add replyTo
    */
   public EmailBuilder addReplyTo(InternetAddress replyTo) {
     this.replyTo.add(replyTo);
@@ -223,9 +223,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set replyTo
    *
-   * @param replyTo
+   * @param replyTo replyTo
    *
-   * @return
+   * @return setReplyTo
    */
   public EmailBuilder setReplyTo(List<InternetAddress> replyTo) {
     this.replyTo = replyTo;
@@ -235,7 +235,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get to
    *
-   * @return
+   * @return get <code>To:</code> address list
    */
   public List<InternetAddress> getTo() {
     return to;
@@ -244,9 +244,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Add to
    *
-   * @param to
+   * @param to To address
    *
-   * @return
+   * @return add To clause
    */
   public EmailBuilder addTo(InternetAddress to) {
     this.to.add(to);
@@ -256,9 +256,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set to
    *
-   * @param to
+   * @param to To clause
    *
-   * @return
+   * @return set <code>To:</code> address list
    */
   public EmailBuilder setTo(List<InternetAddress> to) {
     this.to = to;
@@ -268,7 +268,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get cc
    *
-   * @return
+   * @return get <code>CC</code> clause
    */
   public List<InternetAddress> getCc() {
     return cc;
@@ -277,9 +277,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Add cc
    *
-   * @param cc
+   * @param cc <code>CC</code> address
    *
-   * @return
+   * @return add <code>CC</code> address
    */
   public EmailBuilder addCc(InternetAddress cc) {
     this.cc.add(cc);
@@ -289,9 +289,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set cc
    *
-   * @param cc
+   * @param cc <code>CC</code> address
    *
-   * @return
+   * @return add <code>CC</code> address
    */
   public EmailBuilder setCc(List<InternetAddress> cc) {
     this.cc = cc;
@@ -301,7 +301,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get cco
    *
-   * @return
+   * @return <code>CCO</code> address
    */
   public List<InternetAddress> getCco() {
     return cco;
@@ -310,9 +310,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Add cco
    *
-   * @param cco
+   * @param cco <code>CCO</code> address
    *
-   * @return
+   * @return add <code>CCO</code> address
    */
   public EmailBuilder addCco(InternetAddress cco) {
     this.cco.add(cco);
@@ -322,9 +322,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set cco
    *
-   * @param cco
+   * @param cco <code>CCO</code> address
    *
-   * @return
+   * @return add <code>CCO</code> address
    */
   public EmailBuilder setCco(List<InternetAddress> cco) {
     this.cco = cco;
@@ -334,7 +334,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get message type
    *
-   * @return
+   * @return email message type
    */
   public EmailMessageType getMessageType() {
     return messageType;
@@ -343,9 +343,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set message type
    *
-   * @param messageType
+   * @param messageType email message type
    *
-   * @return
+   * @return set email message type
    */
   public EmailBuilder setMessageType(EmailMessageType messageType) {
     this.messageType = messageType;
@@ -355,7 +355,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get subject
    *
-   * @return
+   * @return get email subject
    */
   public String getSubject() {
     return subject;
@@ -364,9 +364,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set subject
    *
-   * @param subject
+   * @param subject subject
    *
-   * @return
+   * @return set subject
    */
   public EmailBuilder setSubject(String subject) {
     this.subject = subject;
@@ -376,7 +376,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Get body
    *
-   * @return
+   * @return get email body
    */
   public String getBody() {
     return body;
@@ -385,9 +385,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set body
    *
-   * @param body
+   * @param body email body
    *
-   * @return
+   * @return set email body
    */
   public EmailBuilder setBody(String body) {
     this.body = body;
@@ -397,7 +397,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * get Attachment files
    *
-   * @return
+   * @return get file attachments
    */
   public Map<String, File> getAttachments() {
     return attachments;
@@ -406,8 +406,8 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Add attachment file
    *
-   * @param attachment
-   * @param name
+   * @param name name of attachment
+   * @param attachment file attachment
    *
    * @return
    */
@@ -419,9 +419,9 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set attachment files
    *
-   * @param attachments
+   * @param attachments file attachment map
    *
-   * @return
+   * @return set attachment
    */
   public EmailBuilder setAttachments(Map<String, File> attachments) {
     this.attachments = attachments;
@@ -487,8 +487,8 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Send email to recipients synchronously
    *
-   * @param message
-   * @throws com.almis.awe.exception.AWException
+   * @param message Mime message
+   * @throws AWException AWE exception
    */
   protected void send(final MimeMessage message) throws AWException {
     try {
@@ -541,8 +541,8 @@ public class EmailBuilder extends ServiceConfig {
    * Append attachments
    *
    * @param multipart Attachments
-   * @throws javax.mail.MessagingException
-   * @throws java.io.IOException
+   * @throws javax.mail.MessagingException Message exception
+   * @throws java.io.IOException IO exception
    */
   protected void generateMultipartAttachments(Multipart multipart) throws MessagingException, IOException {
     for (String fileName : getAttachments().keySet()) {
@@ -573,7 +573,7 @@ public class EmailBuilder extends ServiceConfig {
   /**
    * Set email recipients
    *
-   * @param message
+   * @param message Mime message
    *
    * @throws MessagingException
    */

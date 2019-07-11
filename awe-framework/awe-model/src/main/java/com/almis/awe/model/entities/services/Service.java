@@ -60,7 +60,7 @@ public class Service implements XMLNode, Copyable {
   /**
    * Stores the defined service
    *
-   * @param type
+   * @param type service type
    */
   public void setType(ServiceType type) {
     // Initialize type array if needed

@@ -22,7 +22,7 @@ public class CompareRow implements Comparator<Map<String, CellData>> {
   /**
    * Constructor with sort list
    *
-   * @param sortList
+   * @param sortList sorted list
    */
   public CompareRow(List<SortColumn> sortList) {
     this.sortList = sortList;

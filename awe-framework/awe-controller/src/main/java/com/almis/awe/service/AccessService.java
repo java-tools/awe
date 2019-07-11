@@ -44,7 +44,7 @@ public class AccessService extends ServiceConfig {
   /**
    * Autowired constructor
    *
-   * @param menuService
+   * @param menuService menu service
    */
   @Autowired
   public AccessService(MenuService menuService) {

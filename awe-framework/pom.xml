@@ -26,6 +26,29 @@
     <module>awe-boot-archetype</module>
   </modules>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+        <version>${plugin-lombok.version}</version>
+        <configuration>
+          <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+          <outputDirectory>${project.build.directory}/delombok</outputDirectory>
+          <addOutputDirectory>false</addOutputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>delombok</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
   <reporting>
     <plugins>
       <plugin>
@@ -33,6 +56,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <show>public</show>
+          <sourcepath>${project.build.directory}/delombok</sourcepath>
           <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
         </configuration>
         <reportSets>

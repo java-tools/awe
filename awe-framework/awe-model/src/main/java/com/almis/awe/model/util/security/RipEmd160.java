@@ -56,7 +56,7 @@ public final class RipEmd160 {
    * Constructs a Encode util object for encryption
    *
    * @param password Master password
-   * @throws AWException
+   * @throws AWException AWE exception
    */
   public RipEmd160(String password) throws AWException {
 
@@ -301,7 +301,7 @@ public final class RipEmd160 {
    * @param text     String to be decrypted
    * @param encoding Text encoding
    * @return String decrypted
-   * @throws AWException
+   * @throws AWException AWE exception
    */
   public String decrypt(String text, String encoding) throws AWException {
 
@@ -325,7 +325,7 @@ public final class RipEmd160 {
    * @param text     String to be decrypted
    * @param encoding Text encoding
    * @return String encrypted
-   * @throws AWException
+   * @throws AWException AWE exception
    */
   public String encrypt(String text, String encoding) throws AWException {
 
@@ -362,7 +362,7 @@ public final class RipEmd160 {
     for (outItr = 0; outItr < outByt.length; outItr++) {
       String outChr = Integer.toHexString(outByt[outItr]);
       outChr = outChr.length() < C2 ? "0" + outChr : outChr;
-      outChr = outChr.length() > C2 ? outChr.substring(outChr.length() - C2, outChr.length()) : outChr;
+      outChr = outChr.length() > C2 ? outChr.substring(outChr.length() - C2) : outChr;
       outChr = "00".equals(outChr) ? "1j" : outChr;
       stringBuilder.append(outChr);
     }

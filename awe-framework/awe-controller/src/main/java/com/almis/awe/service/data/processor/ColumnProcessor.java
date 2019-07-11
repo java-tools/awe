@@ -12,15 +12,15 @@ import java.util.Map;
 public interface ColumnProcessor {
   /**
    * Process row to retrieve a CellData
-   * @param row
-   * @return
-   * @throws AWException
+   * @param row datalist row
+   * @return processed CellData
+   * @throws AWException AWE exception
    */
   CellData process(Map<String, CellData> row) throws AWException;
 
   /**
    * Get column identifier
-   * @return
+   * @return column identifier
    */
   String getColumnIdentifier();
 }

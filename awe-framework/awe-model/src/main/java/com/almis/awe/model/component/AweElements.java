@@ -873,9 +873,9 @@ public class AweElements {
 
   /**
    * Retrieve a property value reading as a class
-   *
-   * @param propertyIdentifier Property identifier
+   * @param propertyIdentifier propertyIdentifier Property identifier
    * @param tClass Class to read the property value
+   * @param <T> property class
    * @return Selected locale
    */
   public<T> T getProperty(String propertyIdentifier, Class<T> tClass) {

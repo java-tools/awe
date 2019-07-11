@@ -22,15 +22,15 @@ public enum AnswerType {
   private String value;
 
   /* Constructor */
-  private AnswerType(String value) {
+  AnswerType(String value) {
     this.value = value;
   }
 
   /**
    * Retrieve enumerated value
    *
-   * @param value
-   * @return
+   * @param value enumerated value
+   * @return Answer type
    */
   public static AnswerType getEnum(String value) {
     for (AnswerType enumerated : values()) {

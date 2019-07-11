@@ -94,6 +94,7 @@ public abstract class Element implements XMLNode, Copyable {
   /**
    * Returns the children element list
    *
+   * @param <T> element list
    * @return Children List
    */
   @JsonIgnore
@@ -101,12 +102,13 @@ public abstract class Element implements XMLNode, Copyable {
     return elementList == null ? Collections.emptyList() : (List<T>) elementList;
   }
 
-
   /**
    * Add an element to the list
    *
-   * @param <T> Element type
    * @param element element to add
+   * @param <T> element object type
+   * @param <G> return element type
+   * @return element
    */
   public <T extends Element, G extends Element> G addElement(T element) {
     if (elementList == null) {
@@ -206,7 +208,7 @@ public abstract class Element implements XMLNode, Copyable {
   /**
    * Returns the children element list of a desired TYPE
    *
-   * @param <T>
+   * @param <T> element class type
    * @param elementClassList Element class
    * @return Children List
    */
@@ -217,7 +219,7 @@ public abstract class Element implements XMLNode, Copyable {
   /**
    * Returns the children element list of a desired TYPE
    *
-   * @param <T>
+   * @param <T> element class type
    * @param elementClassList element class
    * @param processDialog    flag to check dialog elements
    * @return Children List
@@ -249,7 +251,7 @@ public abstract class Element implements XMLNode, Copyable {
   /**
    * Returns the children element list of a desired TYPE
    *
-   * @param <T>
+   * @param <T> element class type
    * @param elementClassList element class
    * @return Children List
    */

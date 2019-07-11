@@ -3,13 +3,13 @@
  */
 package com.almis.awe.service.data.processor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TotalizeRowProcessor class
@@ -19,8 +19,8 @@ public class TotalizeRowProcessor implements RowProcessor {
 
   /**
    * Set totalize list
-   * @param totalizeList
-   * @return
+   * @param totalizeList totalize list
+   * @return totalize row processor
    */
   public TotalizeRowProcessor setTotalizeList(List<TotalizeColumnProcessor> totalizeList) {
     this.totalizeList = totalizeList;
@@ -29,9 +29,9 @@ public class TotalizeRowProcessor implements RowProcessor {
 
   /**
    * Process row list
-   * @param rowList
-   * @return
-   * @throws AWException
+   * @param rowList row list
+   * @return processed row list
+   * @throws AWException AWE exception
    */
   public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) throws AWException {
     List<Map<String, CellData>> totalizedList = new ArrayList<>();
@@ -56,9 +56,9 @@ public class TotalizeRowProcessor implements RowProcessor {
 
   /**
    * Add subtotals
-   * @param row
-   * @param processedList
-   * @throws AWException
+   * @param row row of datalist
+   * @param processedList processed list
+   * @throws AWException AWE exception
    */
   private void addSubtotals(Map<String, CellData> row, List<Map<String, CellData>> processedList) throws AWException {
     // For each total processor

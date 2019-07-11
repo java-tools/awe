@@ -40,7 +40,7 @@ public class Wizard extends Panelable {
   /**
    * Retrieve component tag
    *
-   * @return
+   * @return <code>wizard</code> tag
    */
   @Override
   public String getComponentType() {

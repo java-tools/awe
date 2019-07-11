@@ -43,7 +43,7 @@
     <plugin-jar.version>3.1.0</plugin-jar.version>
     <plugin-ant.version>1.8</plugin-ant.version>
     <plugin-flatten-maven.version>1.1.0</plugin-flatten-maven.version>
-    <plugin-javadoc.version>3.0.1</plugin-javadoc.version>
+    <plugin-javadoc.version>3.1.1</plugin-javadoc.version>
     <plugin-resources.version>3.1.0</plugin-resources.version>
     <plugin-lombok.version>${lombok.version}.0</plugin-lombok.version>
     <!-- Karma configuration -->

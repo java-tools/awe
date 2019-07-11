@@ -30,7 +30,7 @@ public class QueryParameter implements Copyable {
   /**
    * Copy constructor
    *
-   * @param other
+   * @param other QueryParameter object
    */
   public QueryParameter(QueryParameter other) {
     if (other != null) {

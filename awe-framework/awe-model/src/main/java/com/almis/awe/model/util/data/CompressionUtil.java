@@ -26,9 +26,9 @@ public final class CompressionUtil {
 
   /**
    * Compress a string
-   * @param string
-   * @return
-   * @throws com.almis.awe.exception.AWException
+   * @param string String to compress
+   * @return String compressed
+   * @throws AWException AWE exception
    */
   public static byte[] compress(String string) throws AWException {
     try (ByteArrayOutputStream os = new ByteArrayOutputStream(string.length());
@@ -44,9 +44,9 @@ public final class CompressionUtil {
 
   /**
    * Decompress a string
-   * @param compressed
-   * @return
-   * @throws AWException
+   * @param compressed string compressed
+   * @return String decompress
+   * @throws AWException AWE exception
    */
   public static String decompress(byte[] compressed) throws AWException {
     try (ByteArrayInputStream bis = new ByteArrayInputStream(compressed);

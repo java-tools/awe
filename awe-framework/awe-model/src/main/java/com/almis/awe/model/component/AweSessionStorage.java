@@ -44,9 +44,9 @@ public class AweSessionStorage implements Serializable {
   /**
    * Returns parameter value casted to the given class
    *
-   * @param <T>
    * @param clazz Parameter class
    * @param name  Parameter name
+   * @param <T> Parameter class type
    * @return Parameter value
    */
   public <T> T retrieve(Class<T> clazz, String name) {

@@ -58,13 +58,13 @@ public final class Crypto {
     /**
      * Encode with pbkdf
      *
-     * @param password
-     * @param salt
-     * @param iterationCount
-     * @param dkLen
-     * @return
-     * @throws InvalidKeyException
-     * @throws NoSuchAlgorithmException
+     * @param password password
+     * @param salt salt
+     * @param iterationCount iteration count
+     * @param dkLen dk length
+     * @return encoded key
+     * @throws InvalidKeyException Invalid key exception
+     * @throws NoSuchAlgorithmException No such algorithm exception
      */
     public static String pbkdf2(String password, String salt, int iterationCount, int dkLen) throws InvalidKeyException, NoSuchAlgorithmException {
 
@@ -338,6 +338,8 @@ public final class Crypto {
      *
      * @param message Message to hash
      * @param algorithm algorithm to use
+     * @param salt salt of algorithm
+     * @param encoding charset encoding
      * @return Hash
      * @throws AWException No such algorithm
      */
@@ -520,9 +522,9 @@ public final class Crypto {
      *
      * @param plaintext Text to encrypt
      * @return encrypted text
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
-     * @throws InvalidKeyException
+     * @throws IllegalBlockSizeException illegal block size exception
+     * @throws BadPaddingException bad padding exception
+     * @throws InvalidKeyException invalid key exception
      */
     public String encrypt(String plaintext) throws IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
       if (plaintext.length() == 0) {
@@ -537,11 +539,11 @@ public final class Crypto {
      * Decrypt text
      *
      * @param ciphertext Encrypted text
-     * @param encoding
+     * @param encoding encoding
      * @return Decrypted text
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
-     * @throws InvalidKeyException
+     * @throws IllegalBlockSizeException illegal block size exception
+     * @throws BadPaddingException bad padding exception
+     * @throws InvalidKeyException invalid key exception
      */
     public String decrypt(String ciphertext, String encoding) throws IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
       if (ciphertext.length() == 0) {

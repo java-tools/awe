@@ -38,8 +38,8 @@ public class QueueListener extends ServiceConfig implements MessageListener {
   /**
    * Autowired constructor
    *
-   * @param queryService
-   * @param broadcastService
+   * @param queryService query service
+   * @param broadcastService broadcast service
    */
   @Autowired
   public QueueListener(QueryService queryService, BroadcastService broadcastService) {

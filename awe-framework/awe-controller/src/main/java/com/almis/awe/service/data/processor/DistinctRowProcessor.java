@@ -5,8 +5,8 @@ package com.almis.awe.service.data.processor;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
-import com.almis.awe.model.dto.SortColumn;
 import com.almis.awe.model.dto.CompareRow;
+import com.almis.awe.model.dto.SortColumn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +21,8 @@ public class DistinctRowProcessor implements RowProcessor {
 
   /**
    * Set distinct list
-   * @param distinctList
-   * @return
+   * @param distinctList distinct list
+   * @return distinct row processor
    */
   public DistinctRowProcessor setDistinctList(List<SortColumn> distinctList) {
     this.distinctList = distinctList;
@@ -31,9 +31,9 @@ public class DistinctRowProcessor implements RowProcessor {
 
   /**
    * Process row list
-   * @param rowList
-   * @return
-   * @throws AWException
+   * @param rowList row list
+   * @return row list processed
+   * @throws AWException AWE exception
    */
   public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) throws AWException {
     CompareRow comparator = new CompareRow(this.distinctList);

@@ -5,7 +5,6 @@ package com.almis.awe.model.dto;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.actions.ClientAction;
-import com.almis.awe.model.entities.queries.Variable;
 import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.model.util.data.ListUtil;
@@ -75,7 +74,8 @@ public class ServiceData implements Serializable {
   /**
    * Copy constructor
    *
-   * @param other
+   * @param other ServiceData object
+   * @throws AWException AWE exception
    */
   public ServiceData(ServiceData other) throws AWException {
     this.valid = other.valid;

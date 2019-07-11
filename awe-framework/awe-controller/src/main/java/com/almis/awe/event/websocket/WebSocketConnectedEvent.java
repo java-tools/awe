@@ -19,7 +19,7 @@ public class WebSocketConnectedEvent implements ApplicationListener<SessionConne
 
   /**
    * Autowired constructor
-   * @param logger
+   * @param logger LogUtil service
    */
   @Autowired
   public WebSocketConnectedEvent(LogUtil logger) {
@@ -29,7 +29,7 @@ public class WebSocketConnectedEvent implements ApplicationListener<SessionConne
   /**
    * On event launched
    * 
-   * @param event
+   * @param event websocket event
    */
   @Override
   public void onApplicationEvent(SessionConnectedEvent event) {

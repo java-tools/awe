@@ -71,7 +71,7 @@ public class FileUtil extends ServiceConfig {
    * Transform fileData into a string
    * @param fileData File Data
    * @return Stringified filedata
-   * @throws com.almis.awe.exception.AWException
+   * @throws AWException AWE exception
    */
   public static String fileDataToString(FileData fileData) throws AWException {
     try {
@@ -85,7 +85,7 @@ public class FileUtil extends ServiceConfig {
    * Transform fileData into a string
    * @param fileStringEncoded File String encoded
    * @return FileData
-   * @throws com.almis.awe.exception.AWException
+   * @throws AWException AWE exception
    */
   public static FileData stringToFileData(String fileStringEncoded) throws AWException {
     try {

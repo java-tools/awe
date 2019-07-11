@@ -468,8 +468,8 @@ public final class StringUtil {
   /**
    * Get parameter as string list
    *
-   * @param parameter
-   * @return
+   * @param parameter parameter
+   * @return parameter list
    */
   public static List<String> asList(JsonNode parameter) {
     List<String> parameterAsList = new ArrayList<>();

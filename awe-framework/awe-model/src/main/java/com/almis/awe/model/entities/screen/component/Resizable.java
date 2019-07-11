@@ -47,7 +47,7 @@ public class Resizable extends Component {
   /**
    * Retrieve component tag (to be overriden)
    *
-   * @return
+   * @return get <code>resizable</code> tag
    */
   @Override
   public String getComponentTag() {

@@ -4,7 +4,10 @@ import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class AweHttpServletRequestWrapper extends HttpServletRequestWrapper {
   private final String body;
@@ -12,7 +15,7 @@ public class AweHttpServletRequestWrapper extends HttpServletRequestWrapper {
   /**
    * Constructor
    * @param request Servlet request
-   * @throws IOException
+   * @throws IOException IO exception
    */
   public AweHttpServletRequestWrapper(HttpServletRequest request) throws IOException {
     // So that other request method behave just like before

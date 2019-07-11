@@ -56,7 +56,7 @@ public class MaintainService extends ServiceConfig {
   /**
    * Launch maintain action (from services)
    * @return Service data
-   * @throws AWException
+   * @throws AWException AWE exception
    */
   public ServiceData launchMaintainAction() throws AWException {
     return launchMaintain(getRequest().getTargetAction());
@@ -148,6 +148,7 @@ public class MaintainService extends ServiceConfig {
    * Get database connection
    * @param alias Alias
    * @return Database connection
+   * @throws AWException AWE exception
    */
   public DatabaseConnection getDatabaseConnection(String alias) throws AWException {
     return getBean(AweDatabaseContextHolder.class).getDatabaseConnection(alias);
@@ -157,6 +158,7 @@ public class MaintainService extends ServiceConfig {
    * Get database connection
    * @param dataSource Datasource
    * @return Database connection
+   * @throws AWException AWE exception
    */
   public DatabaseConnection getDatabaseConnection(DataSource dataSource) throws AWException {
     return getBean(AweDatabaseContextHolder.class).getDatabaseConnection(dataSource);
@@ -165,6 +167,7 @@ public class MaintainService extends ServiceConfig {
   /**
    * Get current database connection
    * @return Database connection
+   * @throws AWException AWE exception
    */
   public DatabaseConnection getCurrentDatabaseConnection() throws AWException {
     return getBean(AweDatabaseContextHolder.class).getDatabaseConnection(getCurrentDataSource());

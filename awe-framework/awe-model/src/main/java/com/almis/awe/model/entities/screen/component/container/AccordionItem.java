@@ -35,7 +35,7 @@ public class AccordionItem extends Container {
   /**
    * Retrieve component tag (to be overriden)
    *
-   * @return
+   * @return component tag
    */
   @Override
   public String getComponentTag() {

@@ -613,7 +613,7 @@ public final class EncodeUtil {
    *
    * @param text Text to decode
    * @return Text decoded
-   * @throws java.io.UnsupportedEncodingException
+   * @throws java.io.UnsupportedEncodingException unsupported encoding exception
    */
   public static String base64Decode(String text) throws UnsupportedEncodingException {
     return new String(Base64.decodeBase64(text.getBytes()), encoding);
@@ -634,7 +634,7 @@ public final class EncodeUtil {
    *
    * @param text Text to decode
    * @return Text decoded
-   * @throws java.io.UnsupportedEncodingException
+   * @throws java.io.UnsupportedEncodingException unsupported encoding exception
    */
   public static String base64Decode(byte[] text) throws UnsupportedEncodingException {
     return new String(Base64.decodeBase64(text), encoding);

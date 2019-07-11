@@ -68,9 +68,9 @@ public enum CellDataType implements Serializable {
   /**
    * Get enumerated property key
    *
-   * @param type
-   * @param precision
-   * @param scale
+   * @param type celldata type
+   * @param precision numeric precision
+   * @param scale numeric scale
    * @return Property key (if defined)
    */
   public static CellDataType convertSQLType(int type, int precision, int scale) {

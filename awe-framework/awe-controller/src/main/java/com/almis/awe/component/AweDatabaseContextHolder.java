@@ -237,6 +237,7 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
 
   /**
    * Get current database connection
+   * @param dataSource  datasource
    * @return Database connection
    * @throws AWException error retrieving connection or database type
    */

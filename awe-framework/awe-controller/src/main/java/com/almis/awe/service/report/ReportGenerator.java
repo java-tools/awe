@@ -164,13 +164,13 @@ public class ReportGenerator extends ServiceConfig {
   }
 
   /**
-   * Generate report format
+   * Generate report format (Async)
    *
-   * @param builderService
-   * @param format
-   * @param fileName
-   * @return 
-   * @throws com.almis.awe.exception.AWException 
+   * @param builderService template export builder
+   * @param format format
+   * @param fileName file name
+   * @return  future with generate report action
+   * @throws AWException AWE exception
    */
   @Async("threadPoolTaskExecutor")
   public Future<ClientAction> generateReportFormat(TemplateExporterBuilderService builderService, String format, String fileName) throws AWException {

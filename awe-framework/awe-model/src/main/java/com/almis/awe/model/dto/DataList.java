@@ -55,7 +55,7 @@ public class DataList implements Serializable {
   /**
    * Copy constructor
    *
-   * @param other
+   * @param other datalist
    */
   public DataList(DataList other) {
     this.total = other.total;

@@ -79,10 +79,9 @@ public class Dialog extends Component {
 
   /**
    * Returns the children element list of a desired TYPE
-   *
-   * @param <T>
    * @param processDialog    flag to check dialog elements
-   * @param elementClassList Element class
+   * @param elementClassList element class
+   * @param <T> element type
    * @return Children List
    */
   @Override

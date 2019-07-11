@@ -27,7 +27,8 @@ public class MaintainResultDetails implements Copyable {
   /**
    * Copy constructor
    *
-   * @param other
+   * @param other MaintainResultDetails object
+   * @throws AWException AWE exception
    */
   public MaintainResultDetails(MaintainResultDetails other) throws AWException {
     this.operationType = other.operationType;

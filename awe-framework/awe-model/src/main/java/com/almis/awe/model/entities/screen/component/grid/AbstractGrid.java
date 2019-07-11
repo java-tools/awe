@@ -170,7 +170,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
   /**
    * Retrieve component tag
    *
-   * @return
+   * @return <code>grid</code> tag
    */
   @Override
   public String getComponentType() {

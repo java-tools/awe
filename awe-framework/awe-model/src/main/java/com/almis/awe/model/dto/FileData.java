@@ -31,7 +31,7 @@ public final class FileData implements Serializable {
   /**
    * Copy constructor
    *
-   * @param other
+   * @param other fileData object
    */
   public FileData(FileData other) {
     this.fileName = other.fileName;
@@ -154,8 +154,8 @@ public final class FileData implements Serializable {
   /**
    * Set base path
    *
-   * @param basePath
-   * @return
+   * @param basePath base path
+   * @return file data
    */
   public FileData setBasePath(String basePath) {
     this.basePath = basePath;
@@ -175,7 +175,7 @@ public final class FileData implements Serializable {
    * Set relative path
    *
    * @param relativePath Relative path
-   * @return
+   * @return file data
    */
   public FileData setRelativePath(String relativePath) {
     this.relativePath = relativePath;

@@ -76,7 +76,7 @@ public class Accordion extends Panelable {
   /**
    * Retrieve component tag (to be overriden)
    *
-   * @return
+   * @return <code>accordion</code> tag
    */
   @Override
   public String getComponentTag() {

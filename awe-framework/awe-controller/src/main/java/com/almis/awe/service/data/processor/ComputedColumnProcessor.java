@@ -155,7 +155,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
   /**
    * Process row
    * @param row Data row
-   * @throws com.almis.awe.exception.AWException
+   * @throws AWException AWE exception
    */
   public CellData process(Map<String, CellData> row) throws AWException {
 
@@ -237,13 +237,13 @@ public class ComputedColumnProcessor implements ColumnProcessor {
       if (evaluated == null) {
         evaluatedExpression.setNull();
       } else if (evaluated instanceof Integer) {
-        evaluatedExpression.setValue((Integer) evaluated);
+        evaluatedExpression.setValue(evaluated);
       } else if (evaluated instanceof Float) {
-        evaluatedExpression.setValue((Float) evaluated);
+        evaluatedExpression.setValue(evaluated);
       } else if (evaluated instanceof Long) {
-        evaluatedExpression.setValue((Long) evaluated);
+        evaluatedExpression.setValue(evaluated);
       } else if (evaluated instanceof Double) {
-        evaluatedExpression.setValue((Double) evaluated);
+        evaluatedExpression.setValue(evaluated);
       } else {
         evaluatedExpression.setValue(String.valueOf(evaluated));
       }

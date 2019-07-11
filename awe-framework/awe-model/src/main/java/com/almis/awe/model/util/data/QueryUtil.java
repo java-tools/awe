@@ -92,6 +92,7 @@ public class QueryUtil extends ServiceConfig {
    *
    * @param variables  Variable map
    * @param parameters Parameter list
+   * @param index Index
    * @return Query parameter map
    * @throws AWException Error generating variables
    */
@@ -224,6 +225,7 @@ public class QueryUtil extends ServiceConfig {
    * Prepare query variables if not defined previously
    *
    * @param parameters Parameters
+   * @param alias Query alias
    * @param page  Page number
    * @param max   Max elements per page
    * @return Query parameter map
@@ -337,7 +339,7 @@ public class QueryUtil extends ServiceConfig {
    * @param variableId Variable id
    * @param parseList Try to parse parameter as list
    * @return Parameter as JSON
-   * @throws AWException
+   * @throws AWException Error retrieving variable value
    */
   public JsonNode getParameter(String stringValue, JsonNode parameter, ParameterType type, String variableId, boolean parseList) throws AWException {
     JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
@@ -469,7 +471,9 @@ public class QueryUtil extends ServiceConfig {
    * Finds out if a variable value is a list
    *
    * @param variable Variable
+   * @param parameters Parameters
    * @return isList
+   * @throws AWException AWE exception
    */
   public boolean variableIsList(@NotNull Variable variable, ObjectNode parameters) throws AWException {
     boolean list = false;

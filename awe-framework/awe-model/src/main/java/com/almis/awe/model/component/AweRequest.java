@@ -47,6 +47,7 @@ public class AweRequest {
    *
    * @param targetId Action target
    * @param parameters Servlet request
+   * @param token token
    */
   public void init(String targetId, ObjectNode parameters, String token) {
     // Set target action
@@ -63,6 +64,7 @@ public class AweRequest {
    * Initialize parameters
    *
    * @param parameters Request parameters
+   * @param token token
    */
   public void init(ObjectNode parameters, String token) {
     // Read parameters
