@@ -949,7 +949,6 @@ public final class DateUtil {
    *
    * @param date JSON date
    * @return Date OBJECT
-   * @throws ParseException Parse error
    */
   public static String jsonDate(Date date) {
     /* Return web date string */

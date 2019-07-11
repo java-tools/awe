@@ -31,7 +31,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven-javadoc-plugin.version}</version>
         <configuration>
           <show>public</show>
           <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
@@ -49,12 +48,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>${maven-site-plugin.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>${maven-project-info-reports-plugin.version}</version>
         <reportSets>
           <reportSet>
             <reports>
