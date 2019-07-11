@@ -727,6 +727,70 @@ public class QueryTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of filter condition exists in query. Result is OK
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDatabaseQueryFilterExistsOK() throws Exception {
+    String queryName = "testExistsOK";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"abs\":1,\"name\":\"donald\",\"id\":1},{\"abs\":1,\"name\":\"jaimito\",\"id\":2},{\"abs\":1,\"name\":\"jorgito\",\"id\":3},{\"abs\":1,\"name\":\"juanito\",\"id\":4},{\"abs\":1,\"name\":\"test\",\"id\":5}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    logger.warn(result);
+    assertResultJson(queryName, result, 5);
+  }
+
+  /**
+   * Test of filter condition exists in query. Result is KO
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDatabaseQueryFilterExistsKO() throws Exception {
+    String queryName = "testExistsKO";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    logger.warn(result);
+    assertResultJson(queryName, result, 0);
+  }
+
+  /**
+   * Test of filter condition exists in query. Result is OK
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDatabaseQueryFilterNotExistsOK() throws Exception {
+    String queryName = "testNotExistsOK";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"name\":\"donald\",\"id\":1},{\"name\":\"jaimito\",\"id\":2},{\"name\":\"jorgito\",\"id\":3},{\"name\":\"juanito\",\"id\":4},{\"name\":\"test\",\"id\":5}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    logger.warn(result);
+    assertResultJson(queryName, result, 5);
+  }
+
+  /**
+   * Test of filter condition exists in query. Result is KO
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDatabaseQueryFilterNotExistsKO() throws Exception {
+    String queryName = "testNotExistsKO";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    logger.warn(result);
+    assertResultJson(queryName, result, 0);
+  }
+
+  /**
    * Test of launchAction method, of class ActionController.
    *
    * @throws Exception Test error

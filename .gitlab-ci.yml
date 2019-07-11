@@ -222,6 +222,7 @@ Launch Sonar:
 #include:
 #  - template: SAST.gitlab-ci.yml
 #  - template: Dependency-Scanning.gitlab-ci.yml
+#
 ## Analysis extension
 #.analyze:
 #  tags:
@@ -276,7 +277,7 @@ Generate javadoc & schemas:
   image: maven:3.5-jdk-8
   stage: site
   script:
-  - mvn $MAVEN_CLI_OPTS install site $SKIP_TESTS -Dskip.javadoc=false -Dskip.main=true -Dskip.frontend=true -Dbuild.environment=production -f awe-framework/pom.xml
+  - mvn $MAVEN_CLI_OPTS install site javadoc:aggregate $SKIP_TESTS -Dskip.javadoc=false -Dskip.main=true -Dskip.frontend=true -Dbuild.environment=production -f awe-framework/pom.xml
   artifacts:
     paths:
     - awe-framework/target/site/apidocs

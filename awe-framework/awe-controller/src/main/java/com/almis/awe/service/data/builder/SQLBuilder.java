@@ -575,6 +575,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   protected Expression getExpressionFunction(Expression fieldExpression, String function) {
     switch (function.toUpperCase()) {
+      case "ABS":
+        return Expressions.asNumber(fieldExpression).abs();
       case "AVG":
         return new WindowOver(Double.class, Ops.AggOps.AVG_AGG, fieldExpression);
       case "CNT":
@@ -704,6 +706,10 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return getFilterLike(ignoreCase, firstOperand, secondOperand);
       case "not like":
         return Expressions.booleanOperation(Ops.NOT, getFilterLike(ignoreCase, firstOperand, secondOperand));
+      case "exists":
+        return getFilterExists(firstOperand, secondOperand);
+      case "not exists":
+        return Expressions.booleanOperation(Ops.NOT, getFilterExists(firstOperand, secondOperand));
       case "eq":
         return getFilterEq(ignoreCase, firstOperand, secondOperand);
       case "ne":
@@ -760,6 +766,17 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     } else {
       return Expressions.booleanOperation(Ops.LIKE, firstOperand, secondOperand);
     }
+  }
+
+  /**
+   * Get filter EXISTS
+   * @param firstOperand First operand
+   * @param secondOperand Second operand
+   * @return Boolean operation
+   */
+  private BooleanOperation getFilterExists(Expression firstOperand, Expression secondOperand) {
+    Expression operand = firstOperand instanceof SQLQuery ? firstOperand : secondOperand;
+    return Expressions.booleanOperation(Ops.EXISTS, operand);
   }
 
   /**

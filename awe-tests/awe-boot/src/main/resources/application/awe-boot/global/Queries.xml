@@ -2384,4 +2384,57 @@
     <variable id="populationList" type="LONG" name="populationList"/>
   </query>
 
+  <query id="testExistsOK">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <constant value="-1" type="INTEGER" alias="abs" function="ABS"/>
+    <where>
+      <filter condition="exists" query="testExistsSubqueryOK"/>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testExistsKO">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <where>
+      <filter condition="exists"><left-operand query="testExistsSubqueryKO"/></filter>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testNotExistsOK">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <where>
+      <filter condition="not exists" query="testExistsSubqueryKO"/>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testNotExistsKO">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <where>
+      <filter condition="not exists"><right-operand query="testExistsSubqueryOK"/></filter>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testExistsSubqueryOK">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <where>
+      <filter left-field="l1_nom" condition="is not null"/>
+    </where>
+  </query>
+
+  <query id="testExistsSubqueryKO">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <where>
+      <filter left-field="l1_nom" condition="is null"/>
+    </where>
+  </query>
+
 </queries>
