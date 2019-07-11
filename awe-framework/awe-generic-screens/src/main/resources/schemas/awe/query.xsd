@@ -240,6 +240,7 @@
   <!-- Where Type -->
   <xs:complexType name="whereType">
     <xs:choice minOccurs="1" maxOccurs="unbounded">
+      <xs:element ref="filter"/>
       <xs:element ref="or"/>
       <xs:element ref="and"/>
     </xs:choice>
@@ -513,6 +514,8 @@
       <xs:enumeration value="is not null" />
       <xs:enumeration value="like" />
       <xs:enumeration value="not like" />
+      <xs:enumeration value="exists" />
+      <xs:enumeration value="not exists" />
     </xs:restriction>
   </xs:simpleType>
   
@@ -535,6 +538,7 @@
   <!-- Field function list -->
   <xs:simpleType name="fieldFunctions">
     <xs:restriction base="xs:string">
+      <xs:enumeration value="ABS" />
       <xs:enumeration value="TRUNCDATE" />
       <xs:enumeration value="ROW_NUMBER" />
     </xs:restriction>
@@ -548,6 +552,9 @@
       <xs:enumeration value="MAX" />
       <xs:enumeration value="MIN" />
       <xs:enumeration value="SUM" />
+      <xs:enumeration value="FIRST_VALUE" />
+      <xs:enumeration value="LAST_VALUE" />
+      <xs:enumeration value="LAG" />
     </xs:restriction>
   </xs:simpleType>
 

@@ -90,6 +90,8 @@ For even more simplify the development of maintain, not all elements are require
 | [table](#table-element)| Optional | No | Describes the table over the changes are done  |
 | [where](#where-element)| Optional | No | Defines the conditions that must be met to perform the operation. Is the `where` sql clause  |
 | [field](#field-element)| Optional | Yes|  It describes the **columns** of table over operate it  |
+| [constant](#constant-element)| Optional | Yes| Constant field to update the table |
+| [operation](#operation-element)| Optional | Yes| Operation field to update the table  |
 | [variable](#variable-element)| Optional | Yes | Are parameters passed to maintains |
 
 #### Target element
@@ -142,22 +144,7 @@ The element where has the following structure:
 
 #### Filter element
 
-Filter element has the following attributes:
-
-| Attribute   | Use      | Type      |  Description                    |   Values                                           |
-| ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| field | Optional | String | Is a field we want to filter inside a filter group |  |
-| condition | **Required** | String | The comparison condition of the filter  | **Note:** You can use  the standar `sql operators`. See [this page](http://www.w3schools.com/sql/sql_where.asp) for more info |
-| variable | Optional  | String | Is the variable identifier to compare |  |
-| table | Optional  | String | Is the table name (or alias) of the filter field |  |
-| counterfield | Optional  | Is the field to compare the first field (Used to do joins between tables) |  |
-| countertable | Optional  | Is the table name of counterfield (Used to do joins between tables) |  |
-| query | Optional  | String | query identifier to compare to the field value (Subquery) | **Note:** The query id must exist |
-| ignorecase| Optional  | Boolean | `TRIM` and `UPCASE` will be applied to both elements in the filter |  |
-| trim| Optional  | Boolean | TRIM will be applied to both elements in the filter |  |
-| value | Optional  | String | Compare with an input static string |  |
-| optional| Optional  | Boolean | if true, and variable is empty, filter is not applied | **Note:** Only apply in query filters |
-
+Filter element behaviour is the same as [query filter element](query-definition.md#filter-element).
 
 #### Field element
 
@@ -172,8 +159,38 @@ Field element in maintains has the following attributes:
 | key | Optional | Boolean | If field is a table key, this value must be set as `true` | **Note:** Only apply in `multiple` maintains |
 | audit | Optional | Boolean | **ONLY** record this field on the audit table. **Note:** If this attribute is set to `true` this field will **NOT** be recorded on the table | Default value is `false` |
 | variable | Optional | String | Used to set the input field with one variable value |  |
-| value | Optional | String | Used to set the input field with one static value |  |
 | query | Optional | String | Is the query identifier to do a subquery  | **Note:** The query id must exist |
+
+#### Constant element
+
+The *constant* element has the following attributes:
+
+| Attribute   | Use      | Type      |  Description                    |   Values                                           |
+| ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
+| id | **Required** | String | Name of field |  **Note:** Is the real column name of table in data base            |
+| table | Optional | String | Table name of field |  |
+| function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](query-definition.md#field-functions) |
+| value | Required | String | A static value to be used as field value |  |
+| type | Optional | String | Type of the value | The possible values are available [here](#variable-types) |
+
+#### Operation element
+
+The *operation* element allows to define operation between fields and will be resolved as SQL clauses:
+
+```xml
+<operation operator="[operator]" alias="[alias]">
+  <constant value="[constant value]" />
+  <field id="[field name]" table="[field table]" />
+  ...
+</field>
+```
+
+| Attribute   | Use      | Type      |  Description                    |   Values                                           |
+| ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
+| id | **Required** | String | Name of field |  **Note:** Is the real column name of table in data base            |
+| table | Optional | String | Table name of field |  |
+| operator    | Required | String    | Operator of the operation       | See [operator attribute](query-definition.md#operator-attribute)      |
+| function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](query-definition.md#field-functions) |
 
 #### Variable element
 
