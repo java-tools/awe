@@ -60,8 +60,10 @@ aweApplication.factory('Column',
             component.model.selected = component.model.selected !== '' ? component.model.selected : null;
             if (component.model.selected) {
               component.model.values = [{value: component.model.selected, label: component.model.selected}];
-              component.modelChange();
+            } else {
+              component.model.values = [{value: null, label: ""}];
             }
+            component.modelChange();
           };
 
           /**

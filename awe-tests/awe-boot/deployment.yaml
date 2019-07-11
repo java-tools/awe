@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: awe-boot-__CI_ENVIRONMENT_SLUG__
+  annotations:
+    app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
+    app.gitlab.com/app: awe-boot-__CI_ENVIRONMENT_SLUG__
   labels:
     app: __CI_ENVIRONMENT_SLUG__
 spec:
@@ -11,6 +14,9 @@ spec:
       app: __CI_ENVIRONMENT_SLUG__
   template:
     metadata:
+      annotations:
+        app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
+        app.gitlab.com/app: awe-boot-__CI_ENVIRONMENT_SLUG__
       labels:
         app: __CI_ENVIRONMENT_SLUG__
     spec:
