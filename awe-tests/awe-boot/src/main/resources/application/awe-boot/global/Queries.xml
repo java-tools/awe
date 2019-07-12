@@ -2437,4 +2437,18 @@
     </where>
   </query>
 
+  <query id="testCoalesce">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="COALESCE" alias="nameNotNull">
+      <field id="l1_trt"/>
+      <constant type="NULL"/>
+      <field id="l1_nom"/>
+    </operation>
+    <where>
+      <filter condition="eq" ignorecase="true"><left-operand id="l1_nom"/><right-operand value="test"/></filter>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
 </queries>

@@ -312,6 +312,7 @@ These are the possible values for the `operator` attribute:
 
 * **CONCAT**: Concat some string fields
 * **NULLIF**: Set null if equals to second operand
+* **COALESCE**: Given a set of fields, returns the first one which is **NOT NULL**
 * **ADD**: Sum two fields
 * **SUB**: Substract two fields
 * **MULT**: Multiply two fields
