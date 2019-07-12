@@ -8,6 +8,7 @@ import com.almis.awe.builder.client.chart.ReplaceChartSeriesActionBuilder;
 import com.almis.awe.builder.client.css.AddCssClassActionBuilder;
 import com.almis.awe.builder.client.css.RemoveCssClassActionBuilder;
 import com.almis.awe.builder.client.grid.*;
+import com.almis.awe.builder.enumerates.RowPosition;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.FileData;
@@ -17,10 +18,14 @@ import com.almis.awe.model.entities.screen.component.chart.ChartSerie;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.model.util.file.FileUtil;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -57,6 +62,9 @@ public class ClientActionBuilderTest {
     ChartSerie.builder().id("serie3").build(),
     ChartSerie.builder().id("serie4").build(),
     ChartSerie.builder().id("serie5").build()};
+
+  private Map<String, Object> rowMap = new HashMap<>();
+  private ObjectNode rowNode = JsonNodeFactory.instance.objectNode();
 
   // Component address
   ComponentAddress address = new ComponentAddress("view", "component", "row", "column");
@@ -341,6 +349,154 @@ public class ClientActionBuilderTest {
     assertArrayEquals(new String[]{"column1", "column2"}, (String[]) addressedActionArray.getParameters().get("columns"));
 
     checkSimpleClientActionBuilder("hide-columns", new HideColumnsActionBuilder());
+  }
+
+  /**
+   * Build an add-row action with ClientActionBuilder
+   */
+  @Test
+  public void testAddRowAction() {
+    ClientAction action = new AddRowActionBuilder(null, "testGrid").build();
+    ClientAction actionTop = new AddRowActionBuilder(RowPosition.TOP, "testGrid").build();
+    ClientAction actionBottom = new AddRowActionBuilder(RowPosition.BOTTOM, "testGrid", rowMap).build();
+    ClientAction actionUp = new AddRowActionBuilder(RowPosition.UP, "testGrid", rowNode).build();
+    ClientAction actionDown = new AddRowActionBuilder(RowPosition.DOWN, "testGrid", rowMap).build();
+
+    // Assertions
+    assertEquals("add-row", action.getType());
+    assertEquals("testGrid", action.getTarget());
+    assertEquals(0, action.getParameters().size());
+
+    assertEquals("add-row-top", actionTop.getType());
+    assertEquals("testGrid", actionTop.getTarget());
+    assertEquals(0, actionTop.getParameters().size());
+
+    assertEquals("add-row", actionBottom.getType());
+    assertEquals("testGrid", actionBottom.getTarget());
+    assertEquals(rowMap, actionBottom.getParameters().get("row"));
+
+    assertEquals("add-row-up", actionUp.getType());
+    assertEquals("testGrid", actionUp.getTarget());
+    assertEquals(rowNode, actionUp.getParameters().get("row"));
+
+    assertEquals("add-row-down", actionDown.getType());
+    assertEquals("testGrid", actionDown.getTarget());
+    assertEquals(rowMap, actionDown.getParameters().get("row"));
+
+    checkSimpleClientActionBuilder("add-row", new AddRowActionBuilder());
+  }
+
+  /**
+   * Build a copy-row action with ClientActionBuilder
+   */
+  @Test
+  public void testCopyRowAction() {
+    ClientAction action = new CopyRowActionBuilder(null, "testGrid").build();
+    ClientAction actionTop = new CopyRowActionBuilder(RowPosition.TOP, "testGrid").build();
+    ClientAction actionBottom = new CopyRowActionBuilder(RowPosition.BOTTOM, "testGrid").build();
+    ClientAction actionUp = new CopyRowActionBuilder(RowPosition.UP, "testGrid").build();
+    ClientAction actionDown = new CopyRowActionBuilder(RowPosition.DOWN, "testGrid", "rowId").build();
+
+    // Assertions
+    assertEquals("copy-row", action.getType());
+    assertEquals("testGrid", action.getTarget());
+
+    assertEquals("copy-row-top", actionTop.getType());
+    assertEquals("testGrid", actionTop.getTarget());
+
+    assertEquals("copy-row", actionBottom.getType());
+    assertEquals("testGrid", actionBottom.getTarget());
+
+    assertEquals("copy-row-up", actionUp.getType());
+    assertEquals("testGrid", actionUp.getTarget());
+
+    assertEquals("copy-row-down", actionDown.getType());
+    assertEquals("testGrid", actionDown.getTarget());
+    assertEquals("rowId", actionDown.getParameters().get("selectedRow"));
+
+    checkSimpleClientActionBuilder("copy-row", new CopyRowActionBuilder());
+  }
+
+  /**
+   * Build an update-row action with ClientActionBuilder
+   */
+  @Test
+  public void testUpdateRowAction() {
+    ClientAction actionNode = new UpdateRowActionBuilder("testGrid", rowNode).build();
+    ClientAction actionMap = new UpdateRowActionBuilder("testGrid", rowMap).build();
+    ClientAction actionNodeRow = new UpdateRowActionBuilder("testGrid", "rowId", rowNode).build();
+    ClientAction actionMapRow = new UpdateRowActionBuilder("testGrid", "rowId", rowMap).build();
+
+    // Assertions
+    assertEquals("update-row", actionNode.getType());
+    assertEquals("testGrid", actionNode.getTarget());
+    assertEquals(rowNode, actionNode.getParameters().get("row"));
+
+    assertEquals("update-row", actionMap.getType());
+    assertEquals("testGrid", actionMap.getTarget());
+    assertEquals(rowMap, actionMap.getParameters().get("row"));
+
+    assertEquals("update-row", actionNodeRow.getType());
+    assertEquals("testGrid", actionNodeRow.getTarget());
+    assertEquals("rowId", actionNodeRow.getParameters().get("rowId"));
+    assertEquals(rowNode, actionNodeRow.getParameters().get("row"));
+
+    assertEquals("update-row", actionMapRow.getType());
+    assertEquals("testGrid", actionMapRow.getTarget());
+    assertEquals("rowId", actionMapRow.getParameters().get("rowId"));
+    assertEquals(rowMap, actionMapRow.getParameters().get("row"));
+
+    checkSimpleClientActionBuilder("update-row", new UpdateRowActionBuilder());
+  }
+
+  /**
+   * Build an delete-row action with ClientActionBuilder
+   */
+  @Test
+  public void testDeleteRowAction() {
+    ClientAction action = new DeleteRowActionBuilder("testGrid").build();
+    ClientAction actionRow = new DeleteRowActionBuilder("testGrid", "rowId").build();
+
+    // Assertions
+    assertEquals("delete-row", action.getType());
+    assertEquals("testGrid", action.getTarget());
+    assertEquals(0, action.getParameters().size());
+
+    assertEquals("delete-row", actionRow.getType());
+    assertEquals("testGrid", actionRow.getTarget());
+    assertEquals("rowId", actionRow.getParameters().get("rowId"));
+
+    checkSimpleClientActionBuilder("delete-row", new DeleteRowActionBuilder());
+  }
+
+  /**
+   * Build a select-all-rows action with ClientActionBuilder
+   */
+  @Test
+  public void testSelectAllRowsAction() {
+    ClientAction action = new SelectAllRowsActionBuilder("testGrid").build();
+
+    // Assertions
+    assertEquals("select-all-rows", action.getType());
+    assertEquals("testGrid", action.getTarget());
+    assertEquals(0, action.getParameters().size());
+
+    checkSimpleClientActionBuilder("select-all-rows", new SelectAllRowsActionBuilder());
+  }
+
+  /**
+   * Build an unselect-all-rows action with ClientActionBuilder
+   */
+  @Test
+  public void testUnselectAllRowsAction() {
+    ClientAction action = new UnselectAllRowsActionBuilder("testGrid").build();
+
+    // Assertions
+    assertEquals("unselect-all-rows", action.getType());
+    assertEquals("testGrid", action.getTarget());
+    assertEquals(0, action.getParameters().size());
+
+    checkSimpleClientActionBuilder("unselect-all-rows", new UnselectAllRowsActionBuilder());
   }
 
   /**

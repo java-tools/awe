@@ -7,13 +7,13 @@ import com.almis.awe.model.entities.screen.component.grid.Column;
 import java.util.List;
 
 /**
- * Replace columns action builder
+ * Columns action builder
  *
  * @author pgarcia
  */
-public abstract class ColumnsActionBuilder<T> extends ClientActionBuilder<T> {
+abstract class ColumnsActionBuilder<T> extends ClientActionBuilder<T> {
 
-  public static final String COLUMNS = "columns";
+  private static final String COLUMNS = "columns";
 
   /**
    * Empty constructor
