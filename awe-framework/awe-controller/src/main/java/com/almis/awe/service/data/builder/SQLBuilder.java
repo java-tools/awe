@@ -217,6 +217,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return result;
       case "NULLIF":
         return Expressions.simpleOperation(Object.class, Ops.NULLIF, operands);
+      case "COALESCE":
+        return new Coalesce(operands);
       case "ADD":
       case "SUB":
       case "MULT":

@@ -791,6 +791,22 @@ public class QueryTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of coalesce operation
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDatabaseOperationCoalesce() throws Exception {
+    String queryName = "testCoalesce";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"nameNotNull\":\"test\",\"name\":\"test\",\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    logger.warn(result);
+    assertResultJson(queryName, result, 1);
+  }
+
+  /**
    * Test of launchAction method, of class ActionController.
    *
    * @throws Exception Test error
