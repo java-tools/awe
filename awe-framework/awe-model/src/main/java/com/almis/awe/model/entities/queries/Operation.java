@@ -57,6 +57,6 @@ public class Operation extends SqlField {
       }
     }
 
-    return applyFunctionString(operationBuilder.append(")").toString()) + super.toString();
+    return applyFieldModifiers(operationBuilder.append(")").toString()) + super.toString();
   }
 }

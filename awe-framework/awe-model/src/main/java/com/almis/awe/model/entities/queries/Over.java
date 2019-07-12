@@ -79,6 +79,6 @@ public class Over extends SqlField {
         .append(StringUtils.join(getOrderByList(), ", "));
     }
 
-    return applyFunctionString(builder.append(")").toString()) + super.toString();
+    return applyFieldModifiers(builder.append(")").toString()) + super.toString();
   }
 }

@@ -221,6 +221,7 @@ The *field* element has the following attributes:
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
+| cast  | Optional | String | Change the field format | The possible values are `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 | query | Optional | String | Is the query identifier to do a subquery  | **Note:** The query id must exist, and `table` and `id` attributes will be ignored |
 | variable | Optional | String | A variable identified to be used as field value | **Note:** If `variable` attribute is defined, `table` and `id` attributes will be ignored |
 
@@ -281,6 +282,7 @@ The *constant* element has the following attributes:
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
+| cast  | Optional | String | Change the field format | The possible values are `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 | value | Required | String | A static value to be used as field value |  |
 | type | Optional | String | Type of the value | The possible values are available [here](#variable-types) |
 
@@ -305,6 +307,7 @@ The *operation* element allows to define operation between fields and will be re
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
+| cast  | Optional | String | Change the field format | The possible values are `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 
 #### Operator attribute
 
@@ -374,6 +377,7 @@ It has the same attributes as a [filter element](#filter-element) **plus** some 
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
+| cast  | Optional | String | Change the field format | The possible values are `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 
 > **NEW!**: As described on [filter element](#filter-element), `left-operand` and `right-operand` can be defined with the
 > properties of `field`, `static`, `operation` or `case` as well. Same case for the `then` and `else` elements.
@@ -416,6 +420,7 @@ The *over* element allows to modelate **SQL window functions**. This element con
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [over functions](#over-functions) |
+| cast  | Optional | String | Change the field format | The possible values are `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 
 #### Over functions
 
@@ -670,7 +675,6 @@ The *filter* element has the following attributes:
 | left-field | Optional | String | The name of a column |  |
 | left-table | Optional | String | The name of the table that *field* belongs to |  |
 | left-variable | Optional | String | The id of a variable |  |
-| value      | Optional | String | A static value to compare with (left side) |  |
 | type       | Optional | String | The type of values stored in columns being compared | `NUMBER`, `DECIMAL_NUMBER`, `DATE`, `TIME`,	`STRING` (default) |
 | condition  | **Required** | String | The condition of the comparison | See [comparison conditions](#comparison-conditions) |
 | right-field | Optional | String | The name of a column |  |
