@@ -264,6 +264,115 @@ Alternate usage:
 serviceData.addClientAction(new HideColumnsActionBuilder("my-grid", "column1", "column2", ... "columnN").build());
 ```
 
+#### **`add-row` action builder**
+
+This action adds a row to the grid. Depending on selected row you can decide where to add the new row:
+
+- `TOP`: As the first line of the grid.
+- `BOTTOM`: As the last line of the grid (default).
+- `UP`: Over the selected row.
+- `DOWN`: Below the selected row.
+
+Usage:
+
+```java
+Map<String, Object> rowData = new HashMap<>();
+//...
+serviceData.addClientAction(new AddRowActionBuilder(RowPosition.TOP, "my-grid", rowData).build());
+```
+
+Alternate usage:
+
+```java
+ObjectNode rowData = JsonNodeFactory.instance.objectNode();
+//...
+serviceData.addClientAction(new AddRowActionBuilder(RowPosition.DOWN, "my-grid", rowData).build());
+```
+
+#### **`copy-row` action builder**
+
+This action copies a row to the grid. Depending on selected row you can decide where to add the new row:
+
+- `TOP`: As the first line of the grid.
+- `BOTTOM`: As the last line of the grid (default).
+- `UP`: Over the selected row.
+- `DOWN`: Below the selected row.
+
+Usage:
+
+```java
+serviceData.addClientAction(new CopyRowActionBuilder(RowPosition.TOP, "my-grid").build());
+```
+
+You also can define the row you want to copy from:
+
+```java
+serviceData.addClientAction(new CopyRowActionBuilder(RowPosition.BOTTOM, "my-grid", "my-row").build());
+```
+
+#### **`update-row` action builder**
+
+This action updates the selected row.
+
+Usage:
+
+```java
+Map<String, Object> rowData = new HashMap<>();
+//...
+serviceData.addClientAction(new UpdateRowActionBuilder("my-grid", rowData).build());
+```
+
+Alternate usage:
+
+```java
+ObjectNode rowData = JsonNodeFactory.instance.objectNode();
+//...
+serviceData.addClientAction(new UpdateRowActionBuilder("my-grid", rowData).build());
+```
+
+You also can define the row you want to update:
+
+```java
+serviceData.addClientAction(new DeleteRowActionBuilder("my-grid", "my-row", rowData).build());
+```
+
+#### **`delete-row` action builder**
+
+This action deletes the selected row.
+
+Usage:
+
+```java
+serviceData.addClientAction(new DeleteRowActionBuilder("my-grid").build());
+```
+
+You also can define the row you want to delete:
+
+```java
+serviceData.addClientAction(new DeleteRowActionBuilder("my-grid", "my-row").build());
+```
+
+#### **`select-all-rows` action builder**
+
+This action selects all rows in the grid.
+
+Usage:
+
+```java
+serviceData.addClientAction(new SelectAllRowsActionBuilder("my-grid").build());
+```
+
+#### **`unselect-all-rows` action builder**
+
+This action unselects all rows in the grid.
+
+Usage:
+
+```java
+serviceData.addClientAction(new UnselectAllRowsActionBuilder("my-grid").build());
+```
+
+
 ####  **`update-cell` action builder**
 
 This action updates a grid cell data.
