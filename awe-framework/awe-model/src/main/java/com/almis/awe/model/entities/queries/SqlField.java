@@ -39,6 +39,11 @@ public abstract class SqlField extends OutputField {
   @XStreamAsAttribute
   private String function;
 
+  // Cast to the field
+  @XStreamAlias("cast")
+  @XStreamAsAttribute
+  private String cast;
+
   // Defined if field is for audit only
   @XStreamAlias("audit")
   @XStreamAsAttribute
@@ -83,11 +88,12 @@ public abstract class SqlField extends OutputField {
   }
 
   /**
-   * Apply function to field string
+   * Apply field modifiers to field string
    * @param field Field string
    * @return Field with function
    */
-  public String applyFunctionString(String field) {
-    return getFunction() != null ? getFunction() + "(" + field + ")" : field;
+  public String applyFieldModifiers(String field) {
+    String castField = getCast() != null ? "CAST (" + field + " AS " + getCast() + ")" : field;
+    return getFunction() != null ? getFunction() + "(" + castField + ")" : castField;
   }
 }

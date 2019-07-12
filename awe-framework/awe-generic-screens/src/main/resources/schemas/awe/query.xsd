@@ -361,6 +361,7 @@
     <xs:attribute name="format-to" type="xs:string" />
     <xs:attribute name="alias" type="xs:string"/>
     <xs:attribute name="function" type="functionTypeEnum"/>
+    <xs:attribute name="cast" type="castType"/>
     <xs:attribute name="audit" type="booleanEnum"/>
     <xs:attribute name="key" type="booleanEnum"/>
     <xs:attribute name="id" type="xs:string"/>
@@ -533,6 +534,16 @@
   <!-- Function list -->
   <xs:simpleType name="functionTypeEnum">
     <xs:union memberTypes="aggregationFunctions fieldFunctions"/>
+  </xs:simpleType>
+
+  <!-- Cast list -->
+  <xs:simpleType name="castType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="INTEGER" />
+      <xs:enumeration value="LONG" />
+      <xs:enumeration value="FLOAT" />
+      <xs:enumeration value="DOUBLE" />
+    </xs:restriction>
   </xs:simpleType>
 
   <!-- Field function list -->

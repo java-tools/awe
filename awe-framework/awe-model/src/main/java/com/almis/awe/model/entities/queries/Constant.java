@@ -58,6 +58,6 @@ public class Constant extends SqlField {
         break;
     }
 
-    return applyFunctionString(field) + super.toString();
+    return applyFieldModifiers(field) + super.toString();
   }
 }
