@@ -258,6 +258,14 @@ awe.jms.service.timeout=10000
 awe.jms.message.time.to.live=0
 
 ################################################
+# REST configuration properties
+################################################
+# Connection timeout
+rest.connection.timeout=5
+# Request timeout
+rest.request.timeout=5
+
+################################################
 # Logger properties
 ################################################
 # Base paths where logs will be defined

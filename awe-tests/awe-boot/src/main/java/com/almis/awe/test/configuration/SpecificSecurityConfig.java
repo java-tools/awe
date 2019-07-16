@@ -56,15 +56,11 @@ public class SpecificSecurityConfig extends ServiceConfig {
     protected void configure(HttpSecurity http) throws Exception {
       http
         .csrf().disable()
-        .authorizeRequests()
+        .authorizeRequests().antMatchers("css/**", "js/**", "images/**", "fonts/**").permitAll()
         .and()
         // Add a filter to parse login parameters
         .addFilterAt(getBean(JsonAuthenticationFilter.class), UsernamePasswordAuthenticationFilter.class)
-        .formLogin().permitAll()
-        .and()
-        .logout().logoutUrl("/action/logout")
-        .deleteCookies(cookieName)
-        .addLogoutHandler(getBean(AweLogoutHandler.class))
+        .logout().logoutUrl("/action/logout").deleteCookies(cookieName).addLogoutHandler(getBean(AweLogoutHandler.class))
         .and()
         .sessionManagement()
         .maximumSessions(1).sessionRegistry(sessionRegistry);

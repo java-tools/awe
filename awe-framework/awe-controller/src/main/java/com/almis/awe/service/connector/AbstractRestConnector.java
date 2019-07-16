@@ -15,13 +15,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -39,14 +36,17 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
   // Autowired services
   private LogUtil logger;
+  private ClientHttpRequestFactory requestFactory;
 
   /**
    * Autowired constructor
    * @param logger Logger
+   * @param requestFactory Request factory
    */
   @Autowired
-  public AbstractRestConnector(LogUtil logger) {
+  public AbstractRestConnector(LogUtil logger, ClientHttpRequestFactory requestFactory) {
     this.logger = logger;
+    this.requestFactory = requestFactory;
   }
 
   /**
@@ -64,11 +64,6 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
     UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(url);
 
     // Define request manager
-    CloseableHttpClient httpClient = HttpClients.custom()
-      .setSSLHostnameVerifier(new NoopHostnameVerifier())
-      .build();
-    HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-    requestFactory.setHttpClient(httpClient);
     RestTemplate restTemplate = new RestTemplate(requestFactory);
 
     // Define request object
@@ -82,7 +77,7 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
     if (service.getParameterList() != null) {
       urlParameters = new HashMap<>();
 
-      Pattern pattern = Pattern.compile("\\{([\\w]+)\\}");
+      Pattern pattern = Pattern.compile("\\{([\\w]+)}");
       Matcher matcher = pattern.matcher(url);
 
       while (matcher.find()) {
