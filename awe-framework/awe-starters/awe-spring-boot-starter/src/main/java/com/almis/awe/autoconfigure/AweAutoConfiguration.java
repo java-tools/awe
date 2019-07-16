@@ -35,6 +35,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -424,23 +425,25 @@ public class AweAutoConfiguration {
   /**
    * Microservice connector
    * @param logUtil logger
+   * @param requestFactory Request factory
    * @return Microservice connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public MicroserviceConnector microserviceConnector(LogUtil logUtil) {
-    return new MicroserviceConnector(logUtil);
+  public MicroserviceConnector microserviceConnector(LogUtil logUtil, ClientHttpRequestFactory requestFactory) {
+    return new MicroserviceConnector(logUtil, requestFactory);
   }
 
   /**
    * REST connector
    * @param logUtil logger
+   * @param requestFactory Request factory
    * @return REST connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public RestConnector restConnector(LogUtil logUtil) {
-    return new RestConnector(logUtil);
+  public RestConnector restConnector(LogUtil logUtil, ClientHttpRequestFactory requestFactory) {
+    return new RestConnector(logUtil, requestFactory);
   }
 
   /**
