@@ -14,9 +14,17 @@ import java.io.*;
 public class XStreamSerializer {
 
   // Xml Xstream factory
-  @Autowired
   private XStreamMarshaller xmlXStreamMarshaller;
   private final Logger logger = LogManager.getLogger(this.getClass());
+
+  /**
+   * Autowired constructor
+   * @param xStreamMarshaller Marshaller
+   */
+  @Autowired
+  public XStreamSerializer(XStreamMarshaller xStreamMarshaller) {
+    this.xmlXStreamMarshaller = xStreamMarshaller;
+  }
 
   /**
    * Serialize an object to the given OutputStream as pretty-printed XML

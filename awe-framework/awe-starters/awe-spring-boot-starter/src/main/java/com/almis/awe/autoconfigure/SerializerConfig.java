@@ -1,20 +1,19 @@
 package com.almis.awe.autoconfigure;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-
 import com.almis.awe.model.component.XStreamSerializer;
+import com.thoughtworks.xstream.io.naming.NoNameCoder;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
-import com.thoughtworks.xstream.io.naming.NoNameCoder;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 
 /**
  * Initialize serializer beans
- * 
+ *
  * @author pgarcia
  */
 @Configuration
@@ -26,8 +25,8 @@ public class SerializerConfig {
    */
   @Bean
   @ConditionalOnMissingBean
-  public XStreamSerializer xStreamSerializer() {
-    return new XStreamSerializer();
+  public XStreamSerializer xStreamSerializer(XStreamMarshaller xStreamMarshaller) {
+    return new XStreamSerializer(xStreamMarshaller);
   }
 
   /**
@@ -45,7 +44,7 @@ public class SerializerConfig {
 
   /**
    * Get Javascript management Engine
-   * 
+   *
    * @return Javascript engine
    */
   @Bean
