@@ -582,7 +582,7 @@
   <query id="TransformArray">
     <table id="ope" />
     <field id="l1_nom" alias="nombre" />
-    <constant value="1,2,3,4,5,6" alias="array" transform="ARRAY" pattern="," />
+    <constant value="1,2,3,4,5,6" alias="list" transform="ARRAY" pattern="," />
     <order-by field="l1_nom" type="ASC"/>
   </query>
 

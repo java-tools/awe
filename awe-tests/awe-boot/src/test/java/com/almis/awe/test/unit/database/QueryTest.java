@@ -1708,9 +1708,11 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testDatabaseTransformArray() throws Exception {
     String queryName = "TransformArray";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"array\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"juanito\"},{\"array\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"jaimito\"},{\"array\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"test\"},{\"array\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"jorgito\"},{\"array\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"donald\"}]}}},{\"type\":\"end-load\"}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"list\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"juanito\"},{\"list\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"jaimito\"},{\"list\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"test\"},{\"list\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"jorgito\"},{\"list\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"donald\"}]}}},{\"type\":\"end-load\"}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
+    logger.warn(result);
+    logger.warn(expected);
     assertQueryResultJson(queryName, result, 5);
   }
 
@@ -2576,7 +2578,7 @@ public class QueryTest extends AweSpringDatabaseTests {
     String variables = "";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":16,\"rows\":[{\"sum1\":1,\"id\":1},{\"sum1\":1,\"id\":2},{\"sum1\":1,\"id\":3},{\"sum1\":1,\"id\":4},{\"sum1\":1,\"id\":5},{\"sum1\":1,\"id\":6},{\"sum1\":1,\"id\":7},{\"sum1\":1,\"id\":8},{\"sum1\":1,\"id\":9},{\"sum1\":1,\"id\":10},{\"sum1\":1,\"id\":11},{\"sum1\":1,\"id\":12},{\"sum1\":1,\"id\":13},{\"sum1\":1,\"id\":14},{\"sum1\":1,\"id\":15},{\"sum1\":1,\"id\":16}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
-    String result = performRequest(queryName, variables, DATABASE);
+    String result = performRequest(queryName, variables, DATABASE, expected);
     logger.warn(result);
     logger.warn(expected);
     assertResultJson(queryName, result, 16);
