@@ -353,6 +353,7 @@
 
   <!-- Base Field Attributes -->
   <xs:attributeGroup name="baseQueryAttr">
+    <xs:attributeGroup ref="allFieldsAttr"/>
     <xs:attribute name="noprint" type="booleanEnum"/>
     <xs:attribute name="transform" type="transformType"/>
     <xs:attribute name="pattern" type="xs:string"/>
@@ -360,12 +361,16 @@
     <xs:attribute name="format-from" type="xs:string"/>
     <xs:attribute name="format-to" type="xs:string" />
     <xs:attribute name="alias" type="xs:string"/>
-    <xs:attribute name="function" type="functionTypeEnum"/>
-    <xs:attribute name="cast" type="castType"/>
     <xs:attribute name="audit" type="booleanEnum"/>
     <xs:attribute name="key" type="booleanEnum"/>
+  </xs:attributeGroup>
+
+  <!-- AllFieldsAttr -->
+  <xs:attributeGroup name="allFieldsAttr">
     <xs:attribute name="id" type="xs:string"/>
     <xs:attribute name="table" type="xs:string"/>
+    <xs:attribute name="function" type="functionTypeEnum"/>
+    <xs:attribute name="cast" type="castType"/>
   </xs:attributeGroup>
 
   <!-- Base Field Attributes -->
@@ -406,8 +411,7 @@
 
   <!-- Operand Attributes -->
   <xs:attributeGroup name="operandAttr">
-    <xs:attribute name="id" type="xs:string"/>
-    <xs:attribute name="table" type="xs:string"/>
+    <xs:attributeGroup ref="allFieldsAttr"/>
     <xs:attributeGroup ref="fieldAttr"/>
     <xs:attributeGroup ref="constantAttr"/>
     <xs:attributeGroup ref="operationAttr"/>
