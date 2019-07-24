@@ -512,6 +512,8 @@ security.json.parameter=p
 security.default.restriction=general
 # Spring role prefix
 security.role.prefix=ROLE_
+# XML parser allowed paths
+xml.parser.allowed.paths=java.*,com.almis.awe.model.entities.**
 
 ################################################
 # Authentication
