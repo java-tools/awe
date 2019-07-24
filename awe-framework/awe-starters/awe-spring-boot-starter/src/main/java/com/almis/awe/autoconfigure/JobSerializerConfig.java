@@ -4,10 +4,12 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.NoTypePermission;
 import com.thoughtworks.xstream.security.NullPermission;
 import com.thoughtworks.xstream.security.PrimitiveTypePermission;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Initialize serializer beans
@@ -21,7 +23,9 @@ public class JobSerializerConfig {
    * Serializer initialization
    * @param marshaller Marshaller
    */
-  public JobSerializerConfig(XStreamMarshaller marshaller) {
+  public JobSerializerConfig(XStreamMarshaller marshaller,
+                             @Value("${xml.parser.allowed.paths:java.*,com.almis.awe.model.entities.**}")
+                             String[] allowedPaths) {
     XStream xstream = marshaller.getXStream();
 
     // clear out existing permissions and set own ones
@@ -33,8 +37,6 @@ public class JobSerializerConfig {
     xstream.allowTypeHierarchy(Collection.class);
 
     // allow any type from the same package
-    xstream.allowTypesByWildcard(new String[] {
-      "java.*", "com.almis.awe.model.entities.**"
-    });
+    xstream.allowTypesByWildcard(allowedPaths);
   }
 }
