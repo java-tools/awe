@@ -46,7 +46,7 @@ public class BroadcastService extends ServiceConfig {
    * Broadcast an action list
    * @param actionList Action list to broadcast
    */
-  private void broadcastMessage(ClientAction... actionList) {
+  public void broadcastMessage(ClientAction... actionList) {
     logger.log(BroadcastService.class, Level.INFO, "Broadcasting message to all connected customers: {0} actions", actionList.length);
     brokerMessagingTemplate.convertAndSend("/topic/broadcast", actionList);
   }
@@ -69,6 +69,38 @@ public class BroadcastService extends ServiceConfig {
       Set<String> sessions = connectedUsers.get(user);
       for (String cometUID: sessions) {
         broadcastMessageToUID(cometUID, actionList);
+      }
+    }
+  }
+
+  /**
+   * Broadcast an action to some users
+   * @param action Action to broadcast
+   * @param users User list
+   */
+  public void broadcastMessageToUsers(ClientAction action, String... users) {
+    for (String user : users) {
+      if (connectedUsers.containsKey(user)) {
+        Set<String> sessions = connectedUsers.get(user);
+        for (String cometUID : sessions) {
+          broadcastMessageToUID(cometUID, action);
+        }
+      }
+    }
+  }
+
+  /**
+   * Broadcast an action list to some users
+   * @param actions Action list to broadcast
+   * @param users User list
+   */
+  public void broadcastMessageToUsers(List<ClientAction> actions, String... users) {
+    for (String user : users) {
+      if (connectedUsers.containsKey(user)) {
+        Set<String> sessions = connectedUsers.get(user);
+        for (String cometUID : sessions) {
+          broadcastMessageToUID(cometUID, actions);
+        }
       }
     }
   }
