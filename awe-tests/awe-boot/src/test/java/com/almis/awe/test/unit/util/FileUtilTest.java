@@ -15,8 +15,8 @@ public class FileUtilTest {
 
   @Test
   public void fixUntrustedPath() {
-    assertEquals("allala\\tutu.zip", FileUtil.fixUntrustedPath("allala/../tutu.zip"));
-    assertEquals("allala\\tutu\\alalal\\asdaas\\epa.txt", FileUtil.fixUntrustedPath("allala/../tutu\\../../", "alalal\\../asdaas\\../epa.txt"));
+    assertEquals("allala/tutu.zip", FileUtil.fixUntrustedPath("allala/../tutu.zip"));
+    assertEquals("allala/tutu/alalal/asdaas/epa.txt", FileUtil.fixUntrustedPath("allala/../tutu/../../", "alalal/../asdaas/../epa.txt"));
     assertEquals("", FileUtil.fixUntrustedPath());
   }
 }
