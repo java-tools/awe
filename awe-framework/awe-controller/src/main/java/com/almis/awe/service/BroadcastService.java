@@ -56,7 +56,7 @@ public class BroadcastService extends ServiceConfig {
    * @param actionList Action list to broadcast
    */
   public void broadcastMessage(List<ClientAction> actionList) {
-    broadcastMessage(actionList.toArray(new ClientAction[actionList.size()]));
+    broadcastMessage(actionList.toArray(new ClientAction[0]));
   }
 
   /**
@@ -74,18 +74,22 @@ public class BroadcastService extends ServiceConfig {
   }
 
   /**
+   * Broadcast an action list to a user
+   * @param user User
+   * @param actionList Action list to broadcast
+   */
+  public void broadcastMessageToUser(String user, List<ClientAction> actionList) {
+    broadcastMessageToUser(user, actionList.toArray(new ClientAction[0]));
+  }
+
+  /**
    * Broadcast an action to some users
    * @param action Action to broadcast
    * @param users User list
    */
   public void broadcastMessageToUsers(ClientAction action, String... users) {
     for (String user : users) {
-      if (connectedUsers.containsKey(user)) {
-        Set<String> sessions = connectedUsers.get(user);
-        for (String cometUID : sessions) {
-          broadcastMessageToUID(cometUID, action);
-        }
-      }
+      broadcastMessageToUser(user, action);
     }
   }
 
@@ -96,22 +100,8 @@ public class BroadcastService extends ServiceConfig {
    */
   public void broadcastMessageToUsers(List<ClientAction> actions, String... users) {
     for (String user : users) {
-      if (connectedUsers.containsKey(user)) {
-        Set<String> sessions = connectedUsers.get(user);
-        for (String cometUID : sessions) {
-          broadcastMessageToUID(cometUID, actions);
-        }
-      }
+      broadcastMessageToUser(user, actions);
     }
-  }
-
-  /**
-   * Broadcast an action list to a user
-   * @param user User
-   * @param actionList Action list to broadcast
-   */
-  public void broadcastMessageToUser(String user, List<ClientAction> actionList) {
-    broadcastMessageToUser(user, actionList.toArray(new ClientAction[actionList.size()]));
   }
 
   /**
@@ -130,7 +120,7 @@ public class BroadcastService extends ServiceConfig {
    * @param actionList Action list to broadcast
    */
   public void broadcastMessageToUID(String cometUID, List<ClientAction> actionList) {
-    broadcastMessageToUID(cometUID, actionList.toArray(new ClientAction[actionList.size()]));
+    broadcastMessageToUID(cometUID, actionList.toArray(new ClientAction[0]));
   }
 
   /**
