@@ -1,3 +1,15 @@
+# Changelog for AWE 4.1.3
+*31/07/2019*
+
+- Sorting for a different sort-field than the one in the column name doesn't work on a non load-all grid with component. [MR #89](https://gitlab.com/aweframework/awe/merge_requests/89) (Pablo Javier García Mora)
+- Allow to configure xml parser allowed paths. [MR #88](https://gitlab.com/aweframework/awe/merge_requests/88) (Pablo Javier García Mora)
+- Operands doesn't allow functions nor cast attributes. [MR #87](https://gitlab.com/aweframework/awe/merge_requests/87) (Pablo Javier García Mora)
+- Fix XStream security. [MR #86](https://gitlab.com/aweframework/awe/merge_requests/86) (Pablo Javier García Mora)
+- Allow to configure REST requests timeout. [MR #85](https://gitlab.com/aweframework/awe/merge_requests/85) (Pablo Javier García Mora)
+- Add new client action builders on grid, such as `add-row` or `remove-row`. [MR #84](https://gitlab.com/aweframework/awe/merge_requests/84) (Pablo Javier García Mora)
+- Allow to cast fields on SQL queries. [MR #83](https://gitlab.com/aweframework/awe/merge_requests/83) (Pablo Javier García Mora)
+- SQL - Add `COALESCE` operation. [MR #82](https://gitlab.com/aweframework/awe/merge_requests/82) (Pablo Javier García Mora)
+- Add `exists` and `not exists` conditions to query filters and add `ABS` function. [MR #81](https://gitlab.com/aweframework/awe/merge_requests/81) (Pablo Javier García Mora)
 # Changelog for AWE 4.1.2
 *09/07/2019*
 
