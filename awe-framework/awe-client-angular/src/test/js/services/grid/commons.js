@@ -49,7 +49,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
     component: "text",
     summaryType: "SUM",
     enableFiltering: true,
-    index: "lala",
+    sortField: "lala",
     charlength: 20,
     sortable: true,
     sendable: true
@@ -59,7 +59,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
     hidden: false,
     summaryType: "SUM",
     sortable: false,
-    index: "lala",
+    sortField: "lala",
     charlength: 20,
     sendable: true
   },{
@@ -67,7 +67,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
     hidden: true,
     summaryType: "SUM",
     sortable: false,
-    index: "lala",
+    sortField: "lala",
     charlength: 20
   }]);
 
@@ -118,11 +118,11 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
       component: "text",
       summaryType: "SUM",
       enableFiltering: true,
-      index: "lala",
+      sortField: "lala",
       charlength: 20,
       sortable: true
     };
-    let column3 = {id: "tutu", hidden: true, summaryType: "SUM", sortable: false, index: "lala", charlength: 20};
+    let column3 = {id: "tutu", hidden: true, summaryType: "SUM", sortable: false, sortField: "lala", charlength: 20};
     let commons = new GridCommons(component);
     commons.init();
 
