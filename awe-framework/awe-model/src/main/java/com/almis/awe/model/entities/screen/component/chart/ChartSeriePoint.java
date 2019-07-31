@@ -20,12 +20,12 @@ public class ChartSeriePoint implements Copyable {
   /**
    * Copy constructor
    *
-   * @param other
+   * @param seriePoint series point
    */
-  public ChartSeriePoint(ChartSeriePoint other) {
-    if (other.positionPoint != null) {
+  public ChartSeriePoint(ChartSeriePoint seriePoint) {
+    if (seriePoint.positionPoint != null) {
       this.positionPoint = new ArrayList<>();
-      for (JsonNode point : other.positionPoint) {
+      for (JsonNode point : seriePoint.positionPoint) {
         this.positionPoint.add(point.deepCopy());
       }
     }
@@ -34,8 +34,8 @@ public class ChartSeriePoint implements Copyable {
   /**
    * Constructor two dimension point
    *
-   * @param xPoint
-   * @param yPoint
+   * @param xPoint X point
+   * @param yPoint Y point
    */
   public ChartSeriePoint(JsonNode xPoint, JsonNode yPoint) {
     this.positionPoint = new ArrayList<>();
@@ -46,9 +46,9 @@ public class ChartSeriePoint implements Copyable {
   /**
    * Constructor range point
    *
-   * @param xPoint
-   * @param yPoint
-   * @param zPoint
+   * @param xPoint X point
+   * @param yPoint Y point
+   * @param zPoint Z point
    */
   public ChartSeriePoint(JsonNode xPoint, JsonNode yPoint, JsonNode zPoint) {
     this.positionPoint = new ArrayList<>();
@@ -58,6 +58,8 @@ public class ChartSeriePoint implements Copyable {
   }
 
   /**
+   * Get position point
+   *
    * @return the positionPoint
    */
   @JsonValue
@@ -66,6 +68,8 @@ public class ChartSeriePoint implements Copyable {
   }
 
   /**
+   * Set position point
+   *
    * @param positionPoint the positionPoint to set
    */
   public void setPositionPoint(List<JsonNode> positionPoint) {

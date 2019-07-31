@@ -582,7 +582,7 @@
   <query id="TransformArray">
     <table id="ope" />
     <field id="l1_nom" alias="nombre" />
-    <constant value="1,2,3,4,5,6" alias="array" transform="ARRAY" pattern="," />
+    <constant value="1,2,3,4,5,6" alias="list" transform="ARRAY" pattern="," />
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
@@ -2382,6 +2382,106 @@
   <query id="testServiceBeanListParameter" service="testServiceBeanListParameter">
     <variable id="nameList" type="STRING" name="nameList"/>
     <variable id="populationList" type="LONG" name="populationList"/>
+  </query>
+
+  <query id="testExistsOK">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <constant value="-1" type="INTEGER" alias="abs" function="ABS"/>
+    <where>
+      <filter condition="exists" query="testExistsSubqueryOK"/>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testExistsKO">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <where>
+      <filter condition="exists"><left-operand query="testExistsSubqueryKO"/></filter>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testNotExistsOK">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <where>
+      <filter condition="not exists" query="testExistsSubqueryKO"/>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testNotExistsKO">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <where>
+      <filter condition="not exists"><right-operand query="testExistsSubqueryOK"/></filter>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testExistsSubqueryOK">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <where>
+      <filter left-field="l1_nom" condition="is not null"/>
+    </where>
+  </query>
+
+  <query id="testExistsSubqueryKO">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <where>
+      <filter left-field="l1_nom" condition="is null"/>
+    </where>
+  </query>
+
+  <query id="testCoalesce">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="COALESCE" alias="nameNotNull">
+      <field id="l1_trt"/>
+      <constant type="NULL"/>
+      <field id="l1_nom"/>
+    </operation>
+    <where>
+      <filter condition="eq" ignorecase="true"><left-operand id="l1_nom"/><right-operand value="test"/></filter>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testCastToNumber">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="ADD" alias="castToInteger">
+      <constant value="12" cast="INTEGER"/>
+      <constant value="2" type="INTEGER"/>
+      <field id="IdeOpe"/>
+      <constant value="4" type="DOUBLE" cast="INTEGER"/>
+    </operation>
+    <operation operator="MULT" alias="castToLong">
+      <constant value="12" cast="LONG"/>
+      <constant value="2" type="INTEGER" cast="LONG"/>
+      <field id="IdeOpe" cast="LONG"/>
+      <constant value="4" type="LONG"/>
+    </operation>
+    <operation operator="DIV" alias="castToFloat">
+      <constant value="12" cast="FLOAT"/>
+      <constant value="2" type="INTEGER" cast="FLOAT"/>
+      <field id="IdeOpe" cast="FLOAT"/>
+      <constant value="4" type="FLOAT"/>
+    </operation>
+    <operation operator="SUB" alias="castToDouble">
+      <constant value="12" cast="DOUBLE"/>
+      <constant value="2" type="INTEGER" cast="DOUBLE"/>
+      <field id="IdeOpe" cast="DOUBLE"/>
+      <constant value="4.1" type="DOUBLE"/>
+    </operation>
+    <where>
+      <filter condition="eq" ignorecase="true"><left-operand id="l1_nom"/><right-operand value="test"/></filter>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
   </query>
 
 </queries>

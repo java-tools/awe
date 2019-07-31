@@ -40,7 +40,7 @@ public class TransformCellProcessor implements CellProcessor {
   /**
    * Process cell
    * @param cell cell to be processed
-   * @throws com.almis.awe.exception.AWException
+   * @throws AWException AWE exception
    */
   public CellData process(CellData cell) throws AWException {
     String transformed = cell.getStringValue();

@@ -63,6 +63,6 @@ public class Case extends SqlField {
       builder.append(" ELSE ").append(getCaseElse().toString());
     }
 
-    return applyFunctionString(builder.toString()) + super.toString();
+    return applyFieldModifiers(builder.toString()) + super.toString();
   }
 }

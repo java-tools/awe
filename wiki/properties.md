@@ -258,6 +258,14 @@ awe.jms.service.timeout=10000
 awe.jms.message.time.to.live=0
 
 ################################################
+# REST configuration properties
+################################################
+# Connection timeout
+rest.connection.timeout=5
+# Request timeout
+rest.request.timeout=5
+
+################################################
 # Logger properties
 ################################################
 # Base paths where logs will be defined
@@ -504,6 +512,8 @@ security.json.parameter=p
 security.default.restriction=general
 # Spring role prefix
 security.role.prefix=ROLE_
+# XML parser allowed paths
+xml.parser.allowed.paths=java.*,com.almis.awe.model.entities.**
 
 ################################################
 # Authentication

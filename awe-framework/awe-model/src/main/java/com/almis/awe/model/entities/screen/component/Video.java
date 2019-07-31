@@ -71,7 +71,7 @@ public class Video extends Component {
   /**
    * Returns controls value for the video
    *
-   * @return String
+   * @return controls
    */
   public String getControls() {
     return controls != null && !controls.equals("") ? controls : "true";
@@ -80,7 +80,7 @@ public class Video extends Component {
   /**
    * Stores the controls value for the video
    *
-   * @param controls
+   * @param controls video controls
    */
   public void setControls(String controls) {
     this.controls = controls;
@@ -89,7 +89,7 @@ public class Video extends Component {
   /**
    * Returns the src attribute value
    *
-   * @return String
+   * @return src attribute
    */
   public String getSrc() {
     return src;
@@ -98,7 +98,7 @@ public class Video extends Component {
   /**
    * Stores the source attribute value
    *
-   * @param src
+   * @param src source attribute
    */
   public void setSrc(String src) {
     this.src = src;
@@ -107,7 +107,7 @@ public class Video extends Component {
   /**
    * Returns the poster attribute value
    *
-   * @return String
+   * @return poster attribute
    */
   public String getPoster() {
     return poster;
@@ -116,7 +116,7 @@ public class Video extends Component {
   /**
    * Stores the poster attribute value
    *
-   * @param poster
+   * @param poster poster attribute
    */
   public void setPoster(String poster) {
     this.poster = poster;
@@ -125,7 +125,7 @@ public class Video extends Component {
   /**
    * Returns the autoplay attribute value
    *
-   * @return String
+   * @return autoplay
    */
   public String getAutoplay() {
     return autoplay;
@@ -134,7 +134,7 @@ public class Video extends Component {
   /**
    * Stores the autoplay attribute value
    *
-   * @param autoplay
+   * @param autoplay autoplay attribute
    */
   public void setAutoplay(String autoplay) {
     this.autoplay = autoplay;
@@ -152,7 +152,7 @@ public class Video extends Component {
   /**
    * Stores the preload attribute value
    *
-   * @param preload
+   * @param preload preload attribute
    */
   public void setPreload(String preload) {
     this.preload = preload;
@@ -179,7 +179,7 @@ public class Video extends Component {
   /**
    * Retrieve component tag
    *
-   * @return
+   * @return <code>video</code> tag
    */
   @Override
   public String getComponentTag() {

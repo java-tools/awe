@@ -326,6 +326,26 @@ public class SeleniumUtilities {
   }
 
   /**
+   * Retrieve header column selector in xpath
+   * @param gridId Grid id
+   * @param columnId Column id
+   * @return Css parent selector
+   */
+  private String getHeaderSelectorXpath(String gridId, String columnId) {
+    return containsGridOrTreeGrid(gridId) + "//*[contains(@class, 'ui-grid-header-cell-row')]//*[contains(@column-id, '" + columnId + "')]";
+  }
+
+  /**
+   * Retrieve grid scroll zone
+   * @param gridId Grid identifier
+   * @return Scroll zone
+   */
+  private By getGridScrollZone(String gridId) {
+    return By.xpath(containsGridOrTreeGrid(gridId) + "//*[contains(@class, 'ui-grid-render-container-body')]//*[contains(@class, 'ui-grid-render-container')]//*[contains(@class, 'ui-grid-viewport')]");
+  }
+
+
+  /**
    * Retrieve parent selector in xpath
    * @param gridId Grid id
    * @return Css parent selector
@@ -1567,6 +1587,32 @@ public class SeleniumUtilities {
    */
   protected void saveRow(String gridId) {
     saveRowFromSelector(getGridScopeCss(gridId)+ " .grid-row-save:not([disabled])");
+  }
+
+
+  /**
+   * Scroll grid
+   * @param gridId Grid identifier
+   * @param horizontal Horizontal scroll in pixels
+   * @param vertical Vertical scroll in pixels
+   */
+  protected void scrollGrid(String gridId, int horizontal, int vertical) {
+    JavascriptExecutor js = ((JavascriptExecutor) driver);
+    WebElement grid = driver.findElement(getGridScrollZone(gridId));
+    js.executeScript("arguments[0].scrollTo(arguments[1], arguments[2]);", grid, horizontal, vertical);
+  }
+
+  /**
+   * Click on column header
+   * @param gridId Grid identifier
+   * @param columnId Column identifier
+   */
+  protected void sortGrid(String gridId, String columnId) {
+    // Click on header
+    clickRowFromSelector(getHeaderSelectorXpath(gridId, columnId));
+
+    // Wait for loading bar
+    waitForLoadingGrid();
   }
 
   /**

@@ -1273,7 +1273,6 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
 
           // Calculate fields with components
           if ("component" in column) {
-            column.sortField = column.index || column.id;
             column.enableFiltering = false;
             column.cellTemplate = "<div class=\"ui-grid-cell-contents component {{col.cellClass}}\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-" + column.component +
               " cell-address='{\"hash\":\"{{row.uid}}\", \"view\":\"" + component.address.view + "\", \"component\":\"" + component.address.component + "\", \"row\":\"{{row.entity." +

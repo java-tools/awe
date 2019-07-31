@@ -12,7 +12,8 @@ import org.junit.runners.Suite;
   MenuServiceTest.class,
   TemplateControllerTest.class,
   UserServiceTest.class,
-  UploadControllerTest.class
+  UploadControllerTest.class,
+  BroadcastServiceTest.class
 })
 @RunWith(Suite.class)
 public class SpringBootTestsSuite {

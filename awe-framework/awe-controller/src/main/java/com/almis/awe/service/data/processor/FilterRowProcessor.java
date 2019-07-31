@@ -1,11 +1,11 @@
 package com.almis.awe.service.data.processor;
 
+import com.almis.awe.exception.AWException;
+import com.almis.awe.model.dto.CellData;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.almis.awe.exception.AWException;
-import com.almis.awe.model.dto.CellData;
 
 /**
  * TotalizeRowProcessor class
@@ -15,8 +15,8 @@ public class FilterRowProcessor implements RowProcessor {
 
   /**
    * Set filter map
-   * @param filterMap
-   * @return
+   * @param filterMap filter map
+   * @return filter row processor
    */
   public FilterRowProcessor setFilterMap(Map<String, String> filterMap) {
     this.filterMap = filterMap;
@@ -25,9 +25,9 @@ public class FilterRowProcessor implements RowProcessor {
 
   /**
    * Process row list
-   * @param rowList
-   * @return
-   * @throws AWException
+   * @param rowList row list
+   * @return row list processed
+   * @throws AWException AWE exception
    */
   public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) throws AWException {
     List<Map<String, CellData>> newRows = new ArrayList<>();

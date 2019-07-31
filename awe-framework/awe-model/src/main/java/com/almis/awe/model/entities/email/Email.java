@@ -96,7 +96,7 @@ public class Email implements XMLNode, Copyable {
   /**
    * Get email wildcard to replace
    *
-   * @return
+   * @return wildcard pattern
    */
   public static Pattern getWildcard() {
     return wildcard;

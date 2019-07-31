@@ -9,9 +9,11 @@ com.almis.awe.autoconfigure.SpringSessionConfig,\
 com.almis.awe.autoconfigure.SQLConfig,\
 com.almis.awe.autoconfigure.SecurityConfig,\
 com.almis.awe.autoconfigure.SerializerConfig,\
+com.almis.awe.autoconfigure.JobSerializerConfig,\
 com.almis.awe.autoconfigure.TemplateConfig,\
 com.almis.awe.autoconfigure.WebsocketConfig,\
 com.almis.awe.autoconfigure.MicroserviceConfig,\
+com.almis.awe.autoconfigure.RestConfig,\
 com.almis.awe.controller.ActionController,\
 com.almis.awe.controller.FileController,\
 com.almis.awe.controller.InitController,\

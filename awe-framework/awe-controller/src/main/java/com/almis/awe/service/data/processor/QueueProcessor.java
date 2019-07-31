@@ -38,7 +38,7 @@ public class QueueProcessor extends ServiceConfig {
 
   /**
    * Autowired constructor
-   * @param serializer
+   * @param serializer serializer
    */
   @Autowired
   public QueueProcessor(XStreamSerializer serializer) {
@@ -222,8 +222,8 @@ public class QueueProcessor extends ServiceConfig {
    * @param response Response
    * @param message Message
    * @param dataList Datalist
-   * @throws AWException
-   * @throws JMSException
+   * @throws AWException AWE exception
+   * @throws JMSException JMS exception
    */
   private void retrieveParameterValues(ResponseMessage response, MapMessage message, DataList dataList) throws AWException, JMSException {
     // For each parameter retrieve text value
@@ -249,8 +249,8 @@ public class QueueProcessor extends ServiceConfig {
    * @param parameter Parameter
    * @param message Message
    * @param dataList Data list
-   * @throws AWException
-   * @throws JMSException
+   * @throws AWException AWE exception
+   * @throws JMSException JMS exception
    */
   private void retrieveParameterList(MessageParameter parameter, MapMessage message, DataList dataList) throws AWException, JMSException {
     // Generate an array
@@ -292,8 +292,8 @@ public class QueueProcessor extends ServiceConfig {
    * @param serviceData Service data
    * @param response Response
    * @param message Message
-   * @throws AWException
-   * @throws JMSException
+   * @throws AWException AWE exception
+   * @throws JMSException JMS exception
    */
   private void setMessageStatus(ServiceData serviceData, ResponseMessage response, MapMessage message) throws AWException, JMSException {
     // Type of response

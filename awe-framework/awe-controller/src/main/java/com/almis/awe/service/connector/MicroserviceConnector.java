@@ -9,6 +9,7 @@ import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.util.log.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 
 import java.util.ArrayList;
@@ -26,10 +27,11 @@ public class MicroserviceConnector extends AbstractRestConnector {
   /**
    * Autowired constructor
    * @param logger Logger
+   * @param requestFactory Request factory
    */
   @Autowired
-  public MicroserviceConnector(LogUtil logger) {
-    super(logger);
+  public MicroserviceConnector(LogUtil logger, ClientHttpRequestFactory requestFactory) {
+    super(logger, requestFactory);
   }
 
   @Override

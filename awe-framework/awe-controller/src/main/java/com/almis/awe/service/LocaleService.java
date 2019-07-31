@@ -20,7 +20,7 @@ public class LocaleService extends ServiceConfig {
    * Change language to locales
    *
    * @param language New language
-   * @return
+   * @return change language
    */
   @CacheRemove(cacheName = "locale")
   public ServiceData changeLanguage(String language) {
@@ -31,8 +31,8 @@ public class LocaleService extends ServiceConfig {
   /**
    * Generate json object with application locals
    *
-   * @return
-   * @throws AWException
+   * @return get application locales
+   * @throws AWException AWE exception
    */
   public ServiceData getApplicationLocales() throws AWException {
     try {
@@ -57,8 +57,8 @@ public class LocaleService extends ServiceConfig {
   /**
    * Retrieve application locales
    * 
-   * @param language
-   * @return
+   * @param language language
+   * @return Map with application locales
    */
   private Map<String, Map<String, String>> getApplicationLocales(String language) {
 

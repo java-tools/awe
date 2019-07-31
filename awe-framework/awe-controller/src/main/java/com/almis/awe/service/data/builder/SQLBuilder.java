@@ -1,9 +1,9 @@
 package com.almis.awe.service.data.builder;
 
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.entities.queries.*;
 import com.almis.awe.model.entities.queries.Constant;
 import com.almis.awe.model.entities.queries.Operation;
+import com.almis.awe.model.entities.queries.*;
 import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.type.UnionType;
 import com.almis.awe.model.util.data.DateUtil;
@@ -119,6 +119,27 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   }
 
   /**
+   * Apply cast to field
+   * @param field
+   * @param fieldExpression
+   * @return Field expression with function applied
+   * @throws AWException
+   */
+  private Expression applyCastToField(SqlField field, Expression fieldExpression) throws AWException {
+    // Apply function to field
+    if (field.getCast() != null) {
+      try {
+        fieldExpression = getExpressionCast(fieldExpression, field.getCast());
+      } catch (Exception exc) {
+        throw new AWException(getElements().getLocale("ERROR_TITLE_PARSING_FIELD"),
+          getElements().getLocale("ERROR_MESSAGE_PARSING_FIELD", field.toString()), exc);
+      }
+    }
+
+    return fieldExpression;
+  }
+
+  /**
    * Retrieve field expression
    *
    * @param field
@@ -204,24 +225,27 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   protected Expression generateOperationExpression(Operation operation, Expression... operands) {
     Expression substractExpression = Expressions.constant(-1);
+    Expression result;
     switch (operation.getOperator()) {
       case "CONCAT":
-        Expression result = null;
+        result = null;
         for (Expression operand : operands) {
-          if (result == null) {
-            result = operand;
-          } else {
-            result = Expressions.stringOperation(Ops.CONCAT, result, operand);
-          }
+          result = result == null ? operand : Expressions.stringOperation(Ops.CONCAT, result, operand);
         }
         return result;
       case "NULLIF":
         return Expressions.simpleOperation(Object.class, Ops.NULLIF, operands);
+      case "COALESCE":
+        return new Coalesce(operands);
       case "ADD":
       case "SUB":
       case "MULT":
       case "DIV":
-        return Expressions.numberOperation(Long.class, Ops.valueOf(operation.getOperator()), operands);
+        result = null;
+        for (Expression operand : operands) {
+          result = result == null ? operand : Expressions.numberOperation(Long.class, Ops.valueOf(operation.getOperator()), result, operand);
+        }
+        return result;
       case "ADD_SECONDS":
       case "ADD_MINUTES":
       case "ADD_HOURS":
@@ -274,8 +298,11 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       return null;
     }
 
+    // Apply cast
+    Expression castedField = applyCastToField(operand, expression);
+
     // Apply function
-    return applyFunctionToField(operand, expression);
+    return applyFunctionToField(operand, castedField);
   }
 
   /**
@@ -575,6 +602,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   protected Expression getExpressionFunction(Expression fieldExpression, String function) {
     switch (function.toUpperCase()) {
+      case "ABS":
+        return Expressions.asNumber(fieldExpression).abs();
       case "AVG":
         return new WindowOver(Double.class, Ops.AggOps.AVG_AGG, fieldExpression);
       case "CNT":
@@ -596,6 +625,27 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       case "SUM":
       default:
         return new WindowOver(Long.class, Ops.AggOps.SUM_AGG, fieldExpression);
+    }
+  }
+
+  /**
+   * Add cast to expression
+   *
+   * @param fieldExpression Current field expression
+   * @param cast Function
+   * @return Expression
+   */
+  protected Expression getExpressionCast(Expression fieldExpression, String cast) {
+    switch (cast.toUpperCase()) {
+      case "LONG":
+        return Expressions.asString(fieldExpression).castToNum(Long.class);
+      case "FLOAT":
+        return Expressions.asString(fieldExpression).castToNum(Float.class);
+      case "DOUBLE":
+        return Expressions.asString(fieldExpression).castToNum(Double.class);
+      case "INTEGER":
+      default:
+        return Expressions.asString(fieldExpression).castToNum(Integer.class);
     }
   }
 
@@ -704,6 +754,10 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return getFilterLike(ignoreCase, firstOperand, secondOperand);
       case "not like":
         return Expressions.booleanOperation(Ops.NOT, getFilterLike(ignoreCase, firstOperand, secondOperand));
+      case "exists":
+        return getFilterExists(firstOperand, secondOperand);
+      case "not exists":
+        return Expressions.booleanOperation(Ops.NOT, getFilterExists(firstOperand, secondOperand));
       case "eq":
         return getFilterEq(ignoreCase, firstOperand, secondOperand);
       case "ne":
@@ -760,6 +814,17 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     } else {
       return Expressions.booleanOperation(Ops.LIKE, firstOperand, secondOperand);
     }
+  }
+
+  /**
+   * Get filter EXISTS
+   * @param firstOperand First operand
+   * @param secondOperand Second operand
+   * @return Boolean operation
+   */
+  private BooleanOperation getFilterExists(Expression firstOperand, Expression secondOperand) {
+    Expression operand = firstOperand instanceof SQLQuery ? firstOperand : secondOperand;
+    return Expressions.booleanOperation(Ops.EXISTS, operand);
   }
 
   /**

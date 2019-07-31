@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 
 /**
  * Created by pgarcia on 07/04/2017.
- * @param <T>
+ * @param <T> type of ContextAwareCallable
  */
 public class ContextAwareCallable<T> implements Callable<T> {
   private Callable<T> task;
@@ -16,8 +16,8 @@ public class ContextAwareCallable<T> implements Callable<T> {
   /**
    * Constructor
    *
-   * @param task
-   * @param context
+   * @param task task
+   * @param context context
    */
   public ContextAwareCallable(Callable<T> task, RequestAttributes context) {
     this.task = task;
@@ -25,10 +25,10 @@ public class ContextAwareCallable<T> implements Callable<T> {
   }
 
   /**
-   * Call
+   * Call function
    *
-   * @return
-   * @throws Exception
+   * @return launch ContextAwareCallable
+   * @throws Exception exception
    */
   @Override
   public T call() throws Exception {

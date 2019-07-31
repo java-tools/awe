@@ -15,15 +15,15 @@ import com.almis.awe.model.dto.CellData;
 public interface CellProcessor {
   /**
    * Process cell to retrieve a CellData
-   * @param cell
-   * @return
-   * @throws AWException
+   * @param cell cellData
+   * @return  processed cellData
+   * @throws AWException AWE exception
    */
   CellData process(CellData cell) throws AWException;
 
   /**
    * Get column identifier
-   * @return
+   * @return column identifier
    */
   String getColumnIdentifier();
 }

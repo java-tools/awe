@@ -231,6 +231,11 @@ public final class DataListUtil {
 
   /**
    * Return the datalist as bean list
+   * @param dataList datalist
+   * @param beanClass bean class
+   * @param <T> class type
+   * @return bean list
+   * @throws AWException AWE exception
    */
   public static <T> List<T> asBeanList(DataList dataList, Class<T> beanClass) throws AWException {
     List<T> list = new ArrayList<>();

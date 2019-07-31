@@ -51,8 +51,9 @@ public class Action implements XMLNode, Copyable {
   /**
    * Returns an answer given its type
    *
-   * @param type
+   * @param type answer type
    * @return List of action answers
+   * @throws AWException AWE exception
    */
   public Answer getAnswer(AnswerType type) throws AWException {
     return getAnswer(type.toString());
@@ -61,8 +62,9 @@ public class Action implements XMLNode, Copyable {
   /**
    * Returns an answer given its type
    *
-   * @param type
+   * @param type type
    * @return List of action answers
+   * @throws AWException AWE exception
    */
   public Answer getAnswer(String type) throws AWException {
 

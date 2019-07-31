@@ -20,7 +20,7 @@ public class AweLogoutHandler extends SecurityContextLogoutHandler {
   /**
    * Constructor
    *
-   * @param sessionDetails
+   * @param sessionDetails session details
    */
   public AweLogoutHandler(AweSessionDetails sessionDetails) {
     this.sessionDetails = sessionDetails;

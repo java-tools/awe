@@ -240,6 +240,7 @@
   <!-- Where Type -->
   <xs:complexType name="whereType">
     <xs:choice minOccurs="1" maxOccurs="unbounded">
+      <xs:element ref="filter"/>
       <xs:element ref="or"/>
       <xs:element ref="and"/>
     </xs:choice>
@@ -352,6 +353,7 @@
 
   <!-- Base Field Attributes -->
   <xs:attributeGroup name="baseQueryAttr">
+    <xs:attributeGroup ref="allFieldsAttr"/>
     <xs:attribute name="noprint" type="booleanEnum"/>
     <xs:attribute name="transform" type="transformType"/>
     <xs:attribute name="pattern" type="xs:string"/>
@@ -359,11 +361,16 @@
     <xs:attribute name="format-from" type="xs:string"/>
     <xs:attribute name="format-to" type="xs:string" />
     <xs:attribute name="alias" type="xs:string"/>
-    <xs:attribute name="function" type="functionTypeEnum"/>
     <xs:attribute name="audit" type="booleanEnum"/>
     <xs:attribute name="key" type="booleanEnum"/>
+  </xs:attributeGroup>
+
+  <!-- AllFieldsAttr -->
+  <xs:attributeGroup name="allFieldsAttr">
     <xs:attribute name="id" type="xs:string"/>
     <xs:attribute name="table" type="xs:string"/>
+    <xs:attribute name="function" type="functionTypeEnum"/>
+    <xs:attribute name="cast" type="castType"/>
   </xs:attributeGroup>
 
   <!-- Base Field Attributes -->
@@ -404,8 +411,7 @@
 
   <!-- Operand Attributes -->
   <xs:attributeGroup name="operandAttr">
-    <xs:attribute name="id" type="xs:string"/>
-    <xs:attribute name="table" type="xs:string"/>
+    <xs:attributeGroup ref="allFieldsAttr"/>
     <xs:attributeGroup ref="fieldAttr"/>
     <xs:attributeGroup ref="constantAttr"/>
     <xs:attributeGroup ref="operationAttr"/>
@@ -513,6 +519,8 @@
       <xs:enumeration value="is not null" />
       <xs:enumeration value="like" />
       <xs:enumeration value="not like" />
+      <xs:enumeration value="exists" />
+      <xs:enumeration value="not exists" />
     </xs:restriction>
   </xs:simpleType>
   
@@ -532,9 +540,20 @@
     <xs:union memberTypes="aggregationFunctions fieldFunctions"/>
   </xs:simpleType>
 
+  <!-- Cast list -->
+  <xs:simpleType name="castType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="INTEGER" />
+      <xs:enumeration value="LONG" />
+      <xs:enumeration value="FLOAT" />
+      <xs:enumeration value="DOUBLE" />
+    </xs:restriction>
+  </xs:simpleType>
+
   <!-- Field function list -->
   <xs:simpleType name="fieldFunctions">
     <xs:restriction base="xs:string">
+      <xs:enumeration value="ABS" />
       <xs:enumeration value="TRUNCDATE" />
       <xs:enumeration value="ROW_NUMBER" />
     </xs:restriction>
@@ -548,6 +567,9 @@
       <xs:enumeration value="MAX" />
       <xs:enumeration value="MIN" />
       <xs:enumeration value="SUM" />
+      <xs:enumeration value="FIRST_VALUE" />
+      <xs:enumeration value="LAST_VALUE" />
+      <xs:enumeration value="LAG" />
     </xs:restriction>
   </xs:simpleType>
 
@@ -556,6 +578,7 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="CONCAT" />
       <xs:enumeration value="NULLIF" />
+      <xs:enumeration value="COALESCE" />
       <xs:enumeration value="ADD" />
       <xs:enumeration value="SUB" />
       <xs:enumeration value="MULT" />

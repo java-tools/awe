@@ -28,9 +28,9 @@ public class ReportService extends ServiceConfig {
 
   /**
    * Autowired constructor
-   * @param queryService
-   * @param menuService
-   * @param reportGenerator
+   * @param queryService query service
+   * @param menuService menu service
+   * @param reportGenerator report generator
    */
   @Autowired
   public ReportService(QueryService queryService, MenuService menuService, ReportGenerator reportGenerator) {

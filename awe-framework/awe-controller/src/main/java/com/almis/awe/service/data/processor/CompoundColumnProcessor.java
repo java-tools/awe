@@ -3,20 +3,20 @@
  */
 package com.almis.awe.service.data.processor;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweContextAware;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.QueryParameter;
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.queries.Compound;
 import com.almis.awe.model.entities.queries.Computed;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Computed column class
@@ -29,7 +29,8 @@ public class CompoundColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Set Awe Elements
-   * @return
+   * @param elements awe elements
+   * @return compound column processor
    */
   public CompoundColumnProcessor setElements(AweElements elements) {
     this.elements = elements;
@@ -39,8 +40,8 @@ public class CompoundColumnProcessor implements ColumnProcessor, AweContextAware
   /**
    * Set variable map
    * 
-   * @param variableMap
-   * @return
+   * @param variableMap map with variable values
+   * @return compound column processor
    */
   public CompoundColumnProcessor setVariableMap(Map<String, QueryParameter> variableMap) {
     this.variableMap = variableMap;
@@ -73,7 +74,7 @@ public class CompoundColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Retrieve column identifier
-   * @return
+   * @return column identifier
    */
   public String getColumnIdentifier() {
     return compound.getIdentifier();
@@ -81,7 +82,7 @@ public class CompoundColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Process row
-   * @param row
+   * @param row datalist row
    */
   public CellData process(Map<String, CellData> row) throws AWException {
     CellData compoundCell = new CellData();

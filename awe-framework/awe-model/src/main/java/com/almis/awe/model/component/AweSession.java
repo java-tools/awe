@@ -141,9 +141,9 @@ public class AweSession implements Serializable {
   /**
    * Returns parameter value casted to the given class
    *
-   * @param <T>
    * @param clazz Parameter class
-   * @param name  Parameter name
+   * @param name Parameter name
+   * @param <T> class parameter type
    * @return Parameter value
    */
   public <T> T getParameter(Class<T> clazz, String name) {
@@ -193,8 +193,8 @@ public class AweSession implements Serializable {
   /**
    * Set session authentication
    *
-   * @param authentication
-   * @return
+   * @param authentication {@link Authentication}
+   * @return AWE session
    */
   public AweSession setAuthentication(Authentication authentication) {
     this.authentication = authentication;

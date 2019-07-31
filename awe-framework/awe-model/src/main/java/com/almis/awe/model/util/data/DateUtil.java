@@ -3,14 +3,14 @@ package com.almis.awe.model.util.data;
 /*
  * File Imports
  */
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.core.util.datetime.FastDateFormat;
+
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.core.util.datetime.FastDateFormat;
 
 /**
  * DateUtil Class
@@ -949,7 +949,6 @@ public final class DateUtil {
    *
    * @param date JSON date
    * @return Date OBJECT
-   * @throws ParseException Parse error
    */
   public static String jsonDate(Date date) {
     /* Return web date string */

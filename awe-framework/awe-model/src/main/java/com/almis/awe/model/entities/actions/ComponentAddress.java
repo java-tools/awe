@@ -35,7 +35,7 @@ public class ComponentAddress implements Serializable {
   /**
    * Copy constructor
    *
-   * @param other
+   * @param other ComponentAddress object
    */
   public ComponentAddress(ComponentAddress other) {
     this.application = other.application;

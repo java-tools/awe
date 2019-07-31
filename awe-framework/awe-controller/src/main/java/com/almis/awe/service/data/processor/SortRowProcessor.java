@@ -1,14 +1,13 @@
 package com.almis.awe.service.data.processor;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import com.almis.awe.model.dto.SortColumn;
-
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.CompareRow;
+import com.almis.awe.model.dto.SortColumn;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * TotalizeRowProcessor class
@@ -18,8 +17,8 @@ public class SortRowProcessor implements RowProcessor {
 
   /**
    * Set sort list
-   * @param sortList
-   * @return
+   * @param sortList sort list
+   * @return sort row processor
    */
   public SortRowProcessor setSortList(List<SortColumn> sortList) {
     this.sortList = sortList;
@@ -28,9 +27,9 @@ public class SortRowProcessor implements RowProcessor {
 
   /**
    * Process row list
-   * @param rowList
-   * @return
-   * @throws AWException
+   * @param rowList row list
+   * @return row list processed
+   * @throws AWException AWE exception
    */
   public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) throws AWException {
     Collections.sort(rowList, new CompareRow(sortList));

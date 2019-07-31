@@ -51,7 +51,7 @@ public class Tab extends Panelable {
   /**
    * Retrieve component tag
    *
-   * @return
+   * @return <code>tab</code> tag
    */
   @Override
   public String getComponentType() {

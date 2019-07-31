@@ -34,8 +34,8 @@ public class FileController extends ServiceConfig {
   /**
    * Autowired constructor
    * @param fileService File service
-   * @param fileUtil File util
    * @param maintainService Maintain service
+   * @param logger Logger service
    */
   @Autowired
   public FileController(FileService fileService, MaintainService maintainService, LogUtil logger) {

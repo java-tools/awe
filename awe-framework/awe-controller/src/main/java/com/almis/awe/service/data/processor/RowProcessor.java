@@ -6,11 +6,11 @@
 package com.almis.awe.service.data.processor;
 
 
-import java.util.List;
-import java.util.Map;
-
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Row list process interface
@@ -18,9 +18,9 @@ import com.almis.awe.model.dto.CellData;
 public interface RowProcessor {
   /**
    * Process row list
-   * @param rowList
-   * @return
-   * @throws AWException
+   * @param rowList row list
+   * @return row list processed
+   * @throws AWException AWE exception
    */
   List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) throws AWException;
 }

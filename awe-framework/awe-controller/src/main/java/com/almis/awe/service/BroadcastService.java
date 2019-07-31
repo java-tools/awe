@@ -46,7 +46,7 @@ public class BroadcastService extends ServiceConfig {
    * Broadcast an action list
    * @param actionList Action list to broadcast
    */
-  private void broadcastMessage(ClientAction... actionList) {
+  public void broadcastMessage(ClientAction... actionList) {
     logger.log(BroadcastService.class, Level.INFO, "Broadcasting message to all connected customers: {0} actions", actionList.length);
     brokerMessagingTemplate.convertAndSend("/topic/broadcast", actionList);
   }
@@ -56,7 +56,7 @@ public class BroadcastService extends ServiceConfig {
    * @param actionList Action list to broadcast
    */
   public void broadcastMessage(List<ClientAction> actionList) {
-    broadcastMessage(actionList.toArray(new ClientAction[actionList.size()]));
+    broadcastMessage(actionList.toArray(new ClientAction[0]));
   }
 
   /**
@@ -79,7 +79,29 @@ public class BroadcastService extends ServiceConfig {
    * @param actionList Action list to broadcast
    */
   public void broadcastMessageToUser(String user, List<ClientAction> actionList) {
-    broadcastMessageToUser(user, actionList.toArray(new ClientAction[actionList.size()]));
+    broadcastMessageToUser(user, actionList.toArray(new ClientAction[0]));
+  }
+
+  /**
+   * Broadcast an action to some users
+   * @param action Action to broadcast
+   * @param users User list
+   */
+  public void broadcastMessageToUsers(ClientAction action, String... users) {
+    for (String user : users) {
+      broadcastMessageToUser(user, action);
+    }
+  }
+
+  /**
+   * Broadcast an action list to some users
+   * @param actions Action list to broadcast
+   * @param users User list
+   */
+  public void broadcastMessageToUsers(List<ClientAction> actions, String... users) {
+    for (String user : users) {
+      broadcastMessageToUser(user, actions);
+    }
   }
 
   /**
@@ -98,7 +120,7 @@ public class BroadcastService extends ServiceConfig {
    * @param actionList Action list to broadcast
    */
   public void broadcastMessageToUID(String cometUID, List<ClientAction> actionList) {
-    broadcastMessageToUID(cometUID, actionList.toArray(new ClientAction[actionList.size()]));
+    broadcastMessageToUID(cometUID, actionList.toArray(new ClientAction[0]));
   }
 
   /**

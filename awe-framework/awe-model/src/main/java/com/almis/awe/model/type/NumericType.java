@@ -22,15 +22,15 @@ public enum NumericType {
   private String value;
 
   /* Constructor */
-  private NumericType(String value) {
+  NumericType(String value) {
     this.value = value;
   }
 
   /**
    * Retrieve enumerated value
    *
-   * @param value
-   * @return
+   * @param value numeric value
+   * @return NumericType enum
    */
   public static NumericType getEnum(String value) {
     for (NumericType enumerated : values()) {

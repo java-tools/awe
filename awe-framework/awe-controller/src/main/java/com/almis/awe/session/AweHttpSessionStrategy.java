@@ -64,6 +64,7 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
    * Get current session alias
    *
    * @param request Servlet request
+   * @param session awe session
    * @return Session alias
    */
   public String getCurrentSessionAlias(HttpServletRequest request, AweSession session) {
@@ -223,7 +224,9 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
   /**
    * Get session connection id
    *
-   * @return Connection id
+   * @param request Http servlet request
+   * @param session awe session
+   * @return connection ID
    */
   public String getConnectionId(HttpServletRequest request, AweSession session) {
     if (session != null && session.isAuthenticated()) {
@@ -235,7 +238,7 @@ public class AweHttpSessionStrategy implements HttpSessionStrategy {
 
   /**
    * Get authorization header from current request
-   *
+   * @param request  Http servlet request
    * @return Comet UUID
    */
   public String getAuthorizationHeader(HttpServletRequest request) {

@@ -17,8 +17,8 @@ public interface XMLFile extends Serializable {
 
   /**
    * Returns the element list iterator
-   *
+   * @param <T> element type
    * @return element list iterator
    */
-  public <T extends XMLNode> List<T> getBaseElementList();
+  <T extends XMLNode> List<T> getBaseElementList();
 }

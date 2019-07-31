@@ -20,7 +20,7 @@ public class AnnotationUtils {
    * @throws AWException Error proceeding join point
    */
   public static <T> T processJoinPoint(ProceedingJoinPoint proceedingJoinPoint) throws AWException {
-    return processJoinPoint(proceedingJoinPoint, null);
+    return processJoinPoint(proceedingJoinPoint, (Object[]) null);
   }
 
   /**

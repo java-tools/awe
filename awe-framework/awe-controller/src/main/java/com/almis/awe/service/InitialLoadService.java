@@ -39,7 +39,7 @@ public class InitialLoadService {
    * Launch initial load runner
    * @param initializationData Initialization data
    * @return Future service data
-   * @throws AWException
+   * @throws AWException AWE exception
    */
   @Async("threadPoolTaskExecutor")
   public Future<ServiceData> launchInitialLoad(AweThreadInitialization initializationData) throws AWException {

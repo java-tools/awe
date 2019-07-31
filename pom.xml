@@ -3,7 +3,7 @@
 
   <groupId>com.almis.awe</groupId>
   <artifactId>awe-parent</artifactId>
-  <version>4.1.2</version>
+  <version>4.1.3</version>
   <packaging>pom</packaging>
 
   <name>AWE (V${project.version})</name>
@@ -12,7 +12,7 @@
 
   <properties>
     <!-- Project versions -->
-    <revision>4.1.2</revision>
+    <revision>4.1.3</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
@@ -55,7 +55,7 @@
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <maven-source-plugin.version>2.4</maven-source-plugin.version>
     <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-    <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
     <plugin-resources.version>3.1.0</plugin-resources.version>
     <plugin-archetype.version>3.0.1</plugin-archetype.version>
     <plugin-site.version>3.5.1</plugin-site.version>
@@ -63,6 +63,7 @@
     <plugin-dependency.version>3.0.2</plugin-dependency.version>
     <plugin-xml-maven.version>1.0</plugin-xml-maven.version>
     <gitflow-maven-plugin.version>1.12.0</gitflow-maven-plugin.version>
+    <plugin-lombok.version>1.18.6.0</plugin-lombok.version>
 
     <!-- Build environment -->
     <build.environment>development</build.environment>
@@ -146,6 +147,13 @@
               <goals>
                 <goal>jar</goal>
               </goals>
+            </execution>
+            <execution>
+              <id>aggregate</id>
+              <goals>
+                <goal>aggregate</goal>
+              </goals>
+              <phase>site</phase>
             </execution>
           </executions>
         </plugin>

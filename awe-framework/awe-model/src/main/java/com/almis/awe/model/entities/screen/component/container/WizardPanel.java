@@ -40,7 +40,7 @@ public class WizardPanel extends Container {
   /**
    * Retrieve component tag (to be overriden)
    *
-   * @return
+   * @return <code>wizard-panel</code> tag
    */
   @Override
   public String getComponentTag() {

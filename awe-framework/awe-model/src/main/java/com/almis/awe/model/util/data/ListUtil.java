@@ -29,6 +29,7 @@ public final class ListUtil {
    * @param element Element to copy
    * @param <T>     Element class
    * @return Copy of element
+   * @throws AWException AWE exception
    */
   public static <T extends Copyable> T copyElement(T element) throws AWException {
     return element == null ? null : element.copy();
@@ -162,11 +163,12 @@ public final class ListUtil {
 
   /**
    * Deserialize list
-   *
-   * @param in  Input stream
-   * @param <T> Class
-   * @throws IOException            Error accessing to IO
-   * @throws ClassNotFoundException Class not found
+   * @param in Input stream
+   * @param clazz class
+   * @param <T> class type
+   * @return deserialize list
+   * @throws IOException IO exception
+   * @throws ClassNotFoundException Class not found exception
    */
   public static <T> List<T> readList(ObjectInputStream in, Class<T> clazz) throws IOException, ClassNotFoundException {
     int size = in.readInt();
@@ -203,10 +205,11 @@ public final class ListUtil {
 
   /**
    * Deserialize list
-   *
-   * @param in  Input stream
-   * @param <T> Class
-   * @throws IOException            Error accessing to IO
+   * @param in Input stream
+   * @param clazz Class
+   * @param <T> type class
+   * @return Map
+   * @throws IOException Error accessing to IO
    * @throws ClassNotFoundException Class not found
    */
   public static <T> Map<String, T> readMap(ObjectInputStream in, Class<T> clazz) throws IOException, ClassNotFoundException {

@@ -501,7 +501,7 @@ public class Chart extends AbstractChart {
 
   /**
    * Is a stacking chart
-   * @return
+   * @return if is stack
    */
   public boolean isStacking() {
     return getStacking() != null;

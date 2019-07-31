@@ -20,7 +20,7 @@ public class TranslateCellProcessor implements CellProcessor, AweContextAware {
    *
    * @param field Output field
    * @return TranslateCellProcessor
-   * @throws com.almis.awe.exception.AWException
+   * @throws AWException AWE exception
    */
   public TranslateCellProcessor setField(OutputField field) throws AWException {
     this.field = field;
@@ -30,8 +30,8 @@ public class TranslateCellProcessor implements CellProcessor, AweContextAware {
 
   /**
    * Set Awe Elements (Set in first place always)
-   *
-   * @return
+   * @param elements awe elements
+   * @return translate cell processor
    */
   public TranslateCellProcessor setElements(AweElements elements) {
     this.elements = elements;
@@ -41,7 +41,7 @@ public class TranslateCellProcessor implements CellProcessor, AweContextAware {
   /**
    * Retrieve Awe Elements
    *
-   * @return
+   * @return AWE elements
    */
   private AweElements getElements() {
     if (elements == null) {
@@ -53,7 +53,7 @@ public class TranslateCellProcessor implements CellProcessor, AweContextAware {
   /**
    * Retrieve column identifier
    *
-   * @return
+   * @return column identifier
    */
   public String getColumnIdentifier() {
     return field.getIdentifier();
@@ -62,8 +62,8 @@ public class TranslateCellProcessor implements CellProcessor, AweContextAware {
   /**
    * Process cell
    *
-   * @param cell
-   * @throws com.almis.awe.exception.AWException
+   * @param cell cell data
+   * @throws AWException AWE exception
    */
   public CellData process(CellData cell) throws AWException {
     // Get value

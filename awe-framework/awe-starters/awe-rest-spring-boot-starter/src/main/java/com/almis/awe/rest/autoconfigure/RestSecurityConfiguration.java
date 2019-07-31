@@ -20,14 +20,11 @@ public class RestSecurityConfiguration {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      http.antMatcher("/api/**")
-              .authorizeRequests()
-              .anyRequest().authenticated()
-              .and()
-              .httpBasic() //With an special header 'Authentication: Basic <Base64(user:password)>'
-              .and()
-              .csrf()
-              .disable();
+      http.csrf().disable()
+        .antMatcher("/api/**").authorizeRequests()
+        .anyRequest().authenticated().and()
+        // With an special header 'Authentication: Basic <Base64(user:password)>'
+        .httpBasic();
     }
   }
 }

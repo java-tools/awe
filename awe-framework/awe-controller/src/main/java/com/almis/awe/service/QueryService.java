@@ -435,6 +435,7 @@ public class QueryService extends ServiceConfig {
    * @param enumeratedId Enumerated id
    * @param value Enumerated value
    * @return Enumerated label
+   * @throws AWException AWE exception
    */
   public String findLabel(String enumeratedId, String value) throws AWException {
     return getElements().getEnumerated(enumeratedId).findLabel(value);

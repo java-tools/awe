@@ -59,6 +59,6 @@ public class Field extends SqlField {
       field = getTable() != null ? getTable() + "." + getId() : getId();
     }
 
-    return applyFunctionString(field) + super.toString();
+    return applyFieldModifiers(field) + super.toString();
   }
 }

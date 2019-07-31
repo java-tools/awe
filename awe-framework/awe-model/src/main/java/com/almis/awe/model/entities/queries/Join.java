@@ -47,7 +47,7 @@ public class Join implements Copyable {
   /**
    * Retrieve join type as TYPE
    *
-   * @return
+   * @return Join type
    */
   public JoinType getJoinType() {
     return type == null ? JoinType.INNER : JoinType.valueOf(type);

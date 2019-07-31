@@ -18,7 +18,7 @@ public final class SpringSQLCloseListener extends SQLBaseListener {
 
   /**
    * Autowired constructor
-   * @param logger
+   * @param logger Log util service
    */
   @Autowired
   public SpringSQLCloseListener(LogUtil logger) {

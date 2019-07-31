@@ -14,9 +14,17 @@ import java.io.*;
 public class XStreamSerializer {
 
   // Xml Xstream factory
-  @Autowired
   private XStreamMarshaller xmlXStreamMarshaller;
   private final Logger logger = LogManager.getLogger(this.getClass());
+
+  /**
+   * Autowired constructor
+   * @param xStreamMarshaller Marshaller
+   */
+  @Autowired
+  public XStreamSerializer(XStreamMarshaller xStreamMarshaller) {
+    this.xmlXStreamMarshaller = xStreamMarshaller;
+  }
 
   /**
    * Serialize an object to the given OutputStream as pretty-printed XML
@@ -61,15 +69,16 @@ public class XStreamSerializer {
    * (Xml to Reader (Object))
    *
    * @param wrapperClass Class with XStream annotations
-   * @param reader       Reader for deserialize
+   * @param reader Reader for deserialize
+   * @param <T> Object deserialize type
    * @return Object deserialize
    */
   public <T> T getObjectFromXml(Class<T> wrapperClass, Reader reader) {
     T object = null;
     try {
-      // Proccess annotations
+      // Process annotations
       xmlXStreamMarshaller.getXStream().processAnnotations(wrapperClass);
-      // Marshall objecto to Xml
+      // Marshall object to Xml
       object = (T) xmlXStreamMarshaller.unmarshalReader(reader);
     } catch (IOException | XmlMappingException exc) {
       logger.error("[XStreamSerializer] The object {} cannot be deserialized", wrapperClass.getCanonicalName(), exc);
@@ -83,6 +92,7 @@ public class XStreamSerializer {
    *
    * @param wrapperClass Class with XStream annotations
    * @param inputStream  InputStream for deserialize
+   * @param <T> Object deserialize type
    * @return Object deserialize
    */
   public <T> T getObjectFromXml(Class<T> wrapperClass, InputStream inputStream) {
