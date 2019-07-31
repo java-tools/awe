@@ -244,6 +244,54 @@ public class RegressionTestsIT extends SeleniumUtilities {
     checkLogin("test", "test", "span.info-text", "Manager (test)");
   }
 
+  /**
+   * Sort a grid using a component column
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t010_sortComponentColumn() throws Exception {
+    // Title
+    setTestTitle("Sort a grid using a component column");
+
+    // Go to screen
+    gotoScreen("tools","users");
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Suggest on column selector
+    suggest("CrtUsr", "test", "test");
+
+    // Search and wait
+    searchAndWait();
+
+    // Scroll grid to the right
+    scrollGrid("GrdUsrLst", 10000, 0);
+
+    // Sort by a component field
+    sortGrid("GrdUsrLst", "StaIco");
+
+    // Expect not to have an error message
+    checkMessageMissing("danger");
+
+    // Sort by a component field
+    sortGrid("GrdUsrLst", "BlkIco");
+
+    // Expect not to have an error message
+    checkMessageMissing("danger");
+
+    // Sort by a component field
+    sortGrid("GrdUsrLst", "LanTxt");
+
+    // Expect not to have an error message
+    checkMessageMissing("danger");
+
+    // Sort by a component field
+    sortGrid("GrdUsrLst", "LanImg");
+
+    // Expect not to have an error message
+    checkMessageMissing("danger");
+  }
 
   /**
    * Suggest delayed
