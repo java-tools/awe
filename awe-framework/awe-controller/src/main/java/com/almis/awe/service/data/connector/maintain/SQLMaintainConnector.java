@@ -48,16 +48,17 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     ServiceData mntOut;
     final Connection connection = databaseConnection.getConnection();
     Provider<Connection> connProvider = () -> connection;
+    Configuration configurationBean = (Configuration) getBean(databaseConnection.getConfigurationBean());
 
     // Multiple (multiple maintain + multiple AUDIT)
     if ("true".equalsIgnoreCase(query.getMultiple())) {
-      mntOut = launchMultipleMaintain(query, connProvider, databaseConnection.getConnectionType(), parameterMap);
+      mntOut = launchMultipleMaintain(query, connProvider, configurationBean, parameterMap);
       // Multiple for AUDIT (single maintain + multiple AUDIT)
     } else if ("audit".equalsIgnoreCase(query.getMultiple())) {
-      mntOut = launchMultipleAudit(query, connProvider, databaseConnection.getConnectionType(), parameterMap);
+      mntOut = launchMultipleAudit(query, connProvider, configurationBean, parameterMap);
       // Simple (single maintain + single AUDIT)
     } else {
-      mntOut = launchSingleMaintain(query, connProvider, databaseConnection.getConnectionType(), parameterMap);
+      mntOut = launchSingleMaintain(query, connProvider, configurationBean, parameterMap);
     }
 
     return mntOut;
@@ -68,12 +69,12 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
    *
    * @param query              Maintain Query
    * @param connectionProvider Connection provider
-   * @param connectionType     Connection type
+   * @param configurationBean  Configuration bean
    * @param parameterMap       Parameter map
    * @return Maintain output
    * @throws AWException Error launching maintain
    */
-  private ServiceData launchMultipleMaintain(MaintainQuery query, Provider<Connection> connectionProvider, String connectionType, Map<String, QueryParameter> parameterMap) throws AWException {
+  private ServiceData launchMultipleMaintain(MaintainQuery query, Provider<Connection> connectionProvider, Configuration configurationBean, Map<String, QueryParameter> parameterMap) throws AWException {
 
     // Variable definition
     long rowsUpdated;
@@ -88,7 +89,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     maintainOut.getResultDetails();
 
     // Initialize SQL query factory
-    SQLQueryFactory queryFactory = new SQLQueryFactory(getConfiguration(connectionType), connectionProvider);
+    SQLQueryFactory queryFactory = new SQLQueryFactory(configurationBean, connectionProvider);
 
     // Get maintain builder
     SQLMaintainBuilder builder = getBean(SQLMaintainBuilder.class)
@@ -157,12 +158,12 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
    *
    * @param query              Maintain query
    * @param connectionProvider Connection provider
-   * @param connectionType     Connection type
+   * @param configurationBean  Configuration bean
    * @param parameterMap       Parameter map
    * @return Maintain output
    * @throws AWException Error launching multiple audit
    */
-  private ServiceData launchMultipleAudit(MaintainQuery query, Provider<Connection> connectionProvider, String connectionType, Map<String, QueryParameter> parameterMap) throws AWException {
+  private ServiceData launchMultipleAudit(MaintainQuery query, Provider<Connection> connectionProvider, Configuration configurationBean, Map<String, QueryParameter> parameterMap) throws AWException {
 
     // Variable definition
     Long rowsUpdated;
@@ -177,7 +178,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     maintainOut.getResultDetails();
 
     // Initialize SQL query factory
-    SQLQueryFactory queryFactory = new SQLQueryFactory(getConfiguration(connectionType), connectionProvider);
+    SQLQueryFactory queryFactory = new SQLQueryFactory(configurationBean, connectionProvider);
 
     // Check if operation should be audited
     auditActive = audit && query.getAuditTable() != null;
@@ -226,12 +227,12 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
    *
    * @param query              Maintain query
    * @param connectionProvider Connection provider
-   * @param connectionType     Connection type
+   * @param configurationBean  Configuration bean
    * @param parameterMap       Parameter map
    * @return Maintain output
    * @throws AWException Maintain error
    */
-  private ServiceData launchSingleMaintain(MaintainQuery query, Provider<Connection> connectionProvider, String connectionType, Map<String, QueryParameter> parameterMap) throws AWException {
+  private ServiceData launchSingleMaintain(MaintainQuery query, Provider<Connection> connectionProvider, Configuration configurationBean, Map<String, QueryParameter> parameterMap) throws AWException {
     // Variable definition
     Long rowsUpdated;
     boolean auditActive = false;
@@ -242,7 +243,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     maintainOut.getResultDetails();
 
     // Initialize SQL query factory
-    SQLQueryFactory queryFactory = new SQLQueryFactory(getConfiguration(connectionType), connectionProvider);
+    SQLQueryFactory queryFactory = new SQLQueryFactory(configurationBean, connectionProvider);
 
     // Check if operation should be audited
     auditActive = audit && query.getAuditTable() != null;
@@ -437,18 +438,4 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
         break;
     }
   }
-
-  /**
-   * Get query configuration
-   *
-   * @param type Database type
-   * @return Configuration
-   */
-  private Configuration getConfiguration(String type) {
-    Configuration config = (Configuration) getBean(type + "DatabaseConfiguration");
-    config.setUseLiterals(true);
-
-    return config;
-  }
-
 }

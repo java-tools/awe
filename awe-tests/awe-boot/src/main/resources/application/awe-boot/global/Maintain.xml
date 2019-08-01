@@ -318,8 +318,7 @@
       <table id="HISAweDbs"/>
       <where>
         <and>
-          <filter left-field="Des" condition="like"
-                  right-variable="variable"/>
+          <filter left-field="Des" condition="like" right-variable="variable"/>
         </and>
       </where>
       <variable type="STRINGR" id="variable" value="AWEBOOT-TEST"/>
@@ -331,12 +330,21 @@
       <table id="AweThm"/>
       <where>
         <and>
-          <filter left-field="Nam" condition="like"
-                  right-variable="variable"/>
+          <filter left-field="Nam" condition="like" right-variable="variable"/>
         </and>
       </where>
       <variable type="STRINGR" id="variable" value="AWEBOOT-TEST"/>
     </delete>
+    <update>
+      <table id="AweKey"/>
+      <constant id="KeyVal" value="19" type="INTEGER"/>
+      <where>
+        <and>
+          <filter left-field="KeyNam" condition="eq" right-variable="sequence"/>
+        </and>
+      </where>
+      <variable type="STRING" id="sequence" value="ThmKey"/>
+    </update>
   </target>
 
   <target name="CleanUpScreenConfiguration">
