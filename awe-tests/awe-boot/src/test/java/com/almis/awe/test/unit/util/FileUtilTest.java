@@ -3,7 +3,9 @@ package com.almis.awe.test.unit.util;
 import com.almis.awe.model.util.file.FileUtil;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.nio.file.Paths;
+
+import static org.junit.Assert.assertEquals;
 
 public class FileUtilTest {
 
@@ -15,8 +17,8 @@ public class FileUtilTest {
 
   @Test
   public void fixUntrustedPath() {
-    assertEquals("allala/tutu.zip", FileUtil.fixUntrustedPath("allala/../tutu.zip"));
-    assertEquals("allala/tutu/alalal/asdaas/epa.txt", FileUtil.fixUntrustedPath("allala/../tutu/../../", "alalal/../asdaas/../epa.txt"));
+    assertEquals(Paths.get("allala", "tutu.zip").toString(), FileUtil.fixUntrustedPath("allala/..\\tutu.zip"));
+    assertEquals(Paths.get("allala", "tutu", "alalal" , "asdaas" , "epa.txt").toString(), FileUtil.fixUntrustedPath("allala/../tutu\\../../", "/alalal\\../asdaas/../epa.txt"));
     assertEquals("", FileUtil.fixUntrustedPath());
   }
 }

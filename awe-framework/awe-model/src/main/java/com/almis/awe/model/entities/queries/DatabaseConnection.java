@@ -49,4 +49,8 @@ public class DatabaseConnection {
     }
     return connection;
   }
+
+  public String getConfigurationBean() {
+    return getConnectionType() + "DatabaseConfiguration";
+  }
 }

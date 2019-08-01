@@ -14,13 +14,17 @@ import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.type.RowType;
 import com.almis.awe.model.util.data.ListUtil;
 import com.almis.awe.model.util.data.QueryUtil;
+import com.almis.awe.service.data.builder.SQLMaintainBuilder;
 import com.almis.awe.service.data.connector.maintain.MaintainLauncher;
 import com.almis.awe.service.data.connector.query.QueryLauncher;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.querydsl.sql.Configuration;
+import com.querydsl.sql.SQLQueryFactory;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
+import javax.inject.Provider;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -219,6 +223,51 @@ public class MaintainService extends ServiceConfig {
         DataSourceUtils.releaseConnection(databaseConnection.getConnection(), databaseConnection.getDataSource());
       }
     }
+  }
+
+  /**
+   * Retrieve next sequence value (and increase sequence)
+   * @param sequence Sequence identifier
+   * @return Sequence value
+   * @throws AWException
+   */
+  public Integer getNextSequenceValue(String sequence) throws AWException {
+    return getNextSequenceValue(sequence, getCurrentDatabaseConnection());
+  }
+
+  /**
+   * Retrieve next sequence value (and increase sequence)
+   * @param sequence Sequence identifier
+   * @param databaseAlias Database alias
+   * @return Sequence value
+   * @throws AWException
+   */
+  public Integer getNextSequenceValue(String sequence, String databaseAlias) throws AWException {
+    return getNextSequenceValue(sequence, getDatabaseConnection(databaseAlias));
+  }
+
+  /**
+   * Retrieve next sequence value (and increase sequence)
+   * @param sequence Sequence identifier
+   * @param databaseConnection Database alias
+   * @return Sequence value
+   * @throws AWException
+   */
+  public Integer getNextSequenceValue(String sequence, DatabaseConnection databaseConnection) throws AWException {
+    final Connection connection = databaseConnection.getConnection();
+    Provider<Connection> connProvider = () -> connection;
+    Configuration configuration = (Configuration) getBean(databaseConnection.getConfigurationBean());
+
+    // Get maintain builder
+    Integer result =  Integer.valueOf(getBean(SQLMaintainBuilder.class)
+      .setFactory(new SQLQueryFactory(configuration, connProvider))
+      .getSequence(sequence));
+
+    // Release connection
+    DataSourceUtils.releaseConnection(databaseConnection.getConnection(), databaseConnection.getDataSource());
+
+    // Retrieve result
+    return result;
   }
 
   /**
