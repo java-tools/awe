@@ -350,9 +350,7 @@ public class QueryService extends ServiceConfig {
 
     // If query has data, retrieve a validation error
     if (serviceData.getDataList().getRecords() > 0) {
-      serviceData.setType(AnswerType.ERROR);
-      serviceData.setTitle(getLocale("ERROR_TITLE_CRITERIA_VALIDATION"));
-      serviceData.setMessage(getLocale("ERROR_MESSAGE_UNIQUE_CRITERIA"));
+      throw new AWException(getLocale("ERROR_TITLE_CRITERIA_VALIDATION"), getLocale("ERROR_MESSAGE_UNIQUE_CRITERIA"));
     }
     return serviceData;
   }
