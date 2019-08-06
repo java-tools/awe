@@ -146,7 +146,7 @@ aweApplication.factory('ValidationRules',
        * @returns {unresolved}
        */
       let formatMessage = function (message, parameters) {
-        let messageFormatted = $translate.instant(message);
+        let messageFormatted = $translate.instant(message || "");
         _.each(parameters.values, function (value, key) {
           let formattedValue = value;
           if (!$utilities.isEmpty(value) && value._isAMomentObject) {
@@ -320,7 +320,7 @@ aweApplication.factory('ValidationRules',
           return $utilities.isEmpty(parameters.values.value1) || $utilities.isEmpty(parameters.values.value2) || passed ? null : error;
         },
         invalid: function (parameters) {
-          return $utilities.isEmpty(parameters.values.value2) || !parameters.values.value2 ? null : {
+          return {
             message: formatMessage(parameters.message, parameters)
           };
         }
