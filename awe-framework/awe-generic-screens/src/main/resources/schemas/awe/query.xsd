@@ -564,6 +564,7 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="AVG" />
       <xs:enumeration value="CNT" />
+      <xs:enumeration value="CNT_DISTINCT" />
       <xs:enumeration value="MAX" />
       <xs:enumeration value="MIN" />
       <xs:enumeration value="SUM" />

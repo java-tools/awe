@@ -189,6 +189,7 @@
     <field id="IdeSitModDbs" alias="Min" function="MIN" />
     <field id="IdeDbs" alias="Avg" function="AVG" />
     <field id="IdeDbs" alias="Cnt" function="CNT" />
+    <field id="Ord" alias="CntDst" function="CNT_DISTINCT" />
     <field id="Ord" alias="Sum" function="SUM" />
   </query>
 
