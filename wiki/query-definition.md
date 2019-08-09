@@ -237,6 +237,7 @@ The *field* element has the following attributes:
 - `ABS`: Absolute value
 - `AVG`: Average of values 
 - `CNT`: Count values
+- `CNT_DISTINCT`: Count distinct values
 - `MAX`: Max value
 - `MIN`: Min value
 - `SUM`: Sum values
@@ -426,6 +427,7 @@ The *over* element allows to modelate **SQL window functions**. This element con
 
 - `AVG`: Average of values 
 - `CNT`: Count values
+- `CNT_DISTINCT`: Count distinct values
 - `MAX`: Max value
 - `MIN`: Min value
 - `SUM`: Sum values

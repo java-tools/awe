@@ -243,7 +243,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testDatabaseQueryFieldFunctions() throws Exception {
     String queryName = "TestFieldFunctions";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"Sum\":24,\"Max\":2584,\"Avg\":10.16666666666666666666666666666666666667,\"Cnt\":12,\"Min\":60}]}}},{\"type\":\"end-load\"}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"Sum\":24,\"Max\":2584,\"Avg\":10.16666666666666666666666666666666666667,\"CntDst\":3\"Cnt\":12,\"Min\":60}]}}},{\"type\":\"end-load\"}]";
 
     String result = performRequest(queryName, variables, DATABASE);
     logger.debug(expected);
@@ -257,6 +257,7 @@ public class QueryTest extends AweSpringDatabaseTests {
       assertEquals(2584, component.get("Max").asInt());
       assertEquals(10, component.get("Avg").asInt());
       assertEquals(12, component.get("Cnt").asInt());
+      assertEquals(3, component.get("CntDst").asInt());
       assertEquals(60, component.get("Min").asInt());
       logger.debug(component.toString());
     }

@@ -608,6 +608,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return new WindowOver(Double.class, Ops.AggOps.AVG_AGG, fieldExpression);
       case "CNT":
         return new WindowOver(Long.class, Ops.AggOps.COUNT_AGG, fieldExpression);
+      case "CNT_DISTINCT":
+        return new WindowOver(Long.class, Ops.AggOps.COUNT_DISTINCT_AGG, fieldExpression);
       case "LAG":
         return SQLExpressions.lag(fieldExpression);
       case "MAX":
