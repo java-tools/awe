@@ -98,21 +98,26 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   }
 
   /**
+   * Retrieve field expression from table, field and function
+   * @param table table
+   * @param field field
+   * @param function function
+   * @return Field expression
+   */
+  protected Expression getSimpleFieldExpression(String table, String field, String function)  {
+    return applyFunctionToField(function, buildPath(table, field));
+  }
+
+  /**
    * Apply function to field
-   * @param field
+   * @param function Function to apply
    * @param fieldExpression
    * @return Field expression with function applied
-   * @throws AWException
    */
-  private Expression applyFunctionToField(SqlField field, Expression fieldExpression) throws AWException {
+  private Expression applyFunctionToField(String function, Expression fieldExpression) {
     // Apply function to field
-    if (field.getFunction() != null) {
-      try {
-        fieldExpression = getExpressionFunction(fieldExpression, field.getFunction());
-      } catch (Exception exc) {
-        throw new AWException(getElements().getLocale("ERROR_TITLE_PARSING_FIELD"),
-          getElements().getLocale("ERROR_MESSAGE_PARSING_FIELD", field.toString()), exc);
-      }
+    if (function != null) {
+      fieldExpression = getExpressionFunction(fieldExpression, function);
     }
 
     return fieldExpression;
@@ -123,17 +128,11 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @param field
    * @param fieldExpression
    * @return Field expression with function applied
-   * @throws AWException
    */
-  private Expression applyCastToField(SqlField field, Expression fieldExpression) throws AWException {
+  private Expression applyCastToField(SqlField field, Expression fieldExpression) {
     // Apply function to field
     if (field.getCast() != null) {
-      try {
-        fieldExpression = getExpressionCast(fieldExpression, field.getCast());
-      } catch (Exception exc) {
-        throw new AWException(getElements().getLocale("ERROR_TITLE_PARSING_FIELD"),
-          getElements().getLocale("ERROR_MESSAGE_PARSING_FIELD", field.toString()), exc);
-      }
+      fieldExpression = getExpressionCast(fieldExpression, field.getCast());
     }
 
     return fieldExpression;
@@ -302,7 +301,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     Expression castedField = applyCastToField(operand, expression);
 
     // Apply function
-    return applyFunctionToField(operand, castedField);
+    return applyFunctionToField(operand.getFunction(), castedField);
   }
 
   /**
@@ -382,7 +381,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   protected OrderSpecifier getOrderByExpression(OrderBy orderBy) {
     Order order = orderBy.getType() != null ? Order.valueOf(orderBy.getType().toUpperCase()) : Order.ASC;
-    OrderSpecifier orderSpecifier = new OrderSpecifier(order, buildPath(orderBy.getTable(), orderBy.getField()));
+    OrderSpecifier orderSpecifier = new OrderSpecifier(order, getSimpleFieldExpression(orderBy.getTable(), orderBy.getField(), orderBy.getFunction()));
     if (orderBy.getNulls() != null) {
       if ("FIRST".equalsIgnoreCase(orderBy.getNulls())) {
         orderSpecifier = orderSpecifier.nullsFirst();
@@ -622,6 +621,14 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return SQLExpressions.lastValue(fieldExpression);
       case "TRUNCDATE":
         return Expressions.dateOperation(Date.class, Ops.DateTimeOps.DATE, fieldExpression);
+      case "SECOND":
+      case "MINUTE":
+      case "HOUR":
+      case "MONTH":
+      case "YEAR":
+        return Expressions.dateOperation(Integer.class, Ops.DateTimeOps.valueOf(function.toUpperCase()), fieldExpression);
+      case "DAY":
+        return Expressions.dateOperation(Integer.class, Ops.DateTimeOps.DAY_OF_MONTH, fieldExpression);
       case "ROW_NUMBER":
         return SQLExpressions.rowNumber();
       case "SUM":

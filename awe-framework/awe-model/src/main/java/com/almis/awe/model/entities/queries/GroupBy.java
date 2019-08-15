@@ -37,6 +37,11 @@ public class GroupBy implements Copyable {
   @XStreamAsAttribute
   private String table;
 
+  // Function of the field to group by
+  @XStreamAlias("function")
+  @XStreamAsAttribute
+  private String function;
+
   @Override
   public GroupBy copy() throws AWException {
     return this.toBuilder().build();
@@ -44,6 +49,7 @@ public class GroupBy implements Copyable {
 
   @Override
   public String toString() {
-    return getTable() != null ? getTable() + "." + getField() : getField();
+    String fieldTable = getTable() != null ? getTable() + "." + getField() : getField();
+    return getFunction() != null ? getFunction() + "(" + fieldTable + ")" : fieldTable;
   }
 }

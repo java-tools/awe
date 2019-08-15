@@ -273,6 +273,39 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
+  public void testDatabaseQueryFieldDateFunctions() throws Exception {
+    String queryName = "TestFieldDateFunctions";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"Sum\":24,\"Max\":2584,\"Avg\":10.16666666666666666666666666666666666667,\"CntDst\":3\"Cnt\":12,\"Min\":60}]}}},{\"type\":\"end-load\"}]";
+
+    String result = performRequest(queryName, variables, DATABASE);
+    logger.debug(expected);
+
+    ArrayNode dataListRows = assertResultJson(queryName, result, 1);
+
+    // Test all keys
+    for (JsonNode element : dataListRows) {
+      ObjectNode component = (ObjectNode) element;
+      assertEquals(1978, component.get("year").asInt());
+      assertEquals(10, component.get("month").asInt());
+      assertEquals(23, component.get("day").asInt());
+      assertEquals(15, component.get("hour").asInt());
+      assertEquals(6, component.get("minute").asInt());
+      assertEquals(21, component.get("second").asInt());
+      logger.debug(component.toString());
+    }
+
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("-------------------------------------------");
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
   public void testDatabaseQuerySubqueryInField() throws Exception {
     String queryName = "SubqueryInField";
     String variables = "";

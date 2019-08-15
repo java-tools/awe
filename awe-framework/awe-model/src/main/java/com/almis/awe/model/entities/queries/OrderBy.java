@@ -37,6 +37,11 @@ public class OrderBy implements Copyable {
   @XStreamAsAttribute
   private String table;
 
+  // Function of the field
+  @XStreamAlias("function")
+  @XStreamAsAttribute
+  private String function;
+
   // Order type (ASC, DESC)
   @XStreamAlias("type")
   @XStreamAsAttribute
@@ -56,6 +61,7 @@ public class OrderBy implements Copyable {
   public String toString() {
     String fieldTable = getTable() != null ? getTable() + "." + getField() : getField();
     String nullsValue = getNulls() != null ? " NULLS " + getNulls() : "";
-    return getType() != null ? fieldTable + " " + getType() + nullsValue: fieldTable;
+    String functionField = getFunction() != null ? getFunction() + "(" + fieldTable + ")" + nullsValue : fieldTable + nullsValue;
+    return getType() != null ? functionField + " " + getType() : functionField;
   }
 }
