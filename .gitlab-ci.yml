@@ -110,6 +110,7 @@ Oracle UT:
   - epiclabs/docker-oracle-xe-11g
   variables:
     ORACLE_ALLOW_REMOTE: "true"
+    ORACLE_PASSWORD: "$DATABASE_PASSWORD"
     RELAX_SECURITY: "1"
     UNIT_TEST_SUITE: SpringOracleTestsSuite.class
     TEST_NAME: oracle
