@@ -294,6 +294,55 @@ public class RegressionTestsIT extends SeleniumUtilities {
   }
 
   /**
+   * Sort a grid using a component column
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t011_suggestRepeatsValues() throws Exception {
+    // Title
+    setTestTitle("Check that suggested values are not repeated");
+
+    // Go to screen
+    gotoScreen("tools","themes");
+
+    // Wait for button
+    clickButton("ButRst");
+
+    // Click on suggest
+    click("[criterion-id='CrtNam'] .select2-choice");
+
+    // Pause
+    pause(1000);
+
+    // Write text
+    writeText(By.cssSelector("#select2-drop input.select2-input"), "a");
+
+    // Pause
+    pause(1000);
+
+    // Write text
+    writeText(By.cssSelector("#select2-drop input.select2-input"), "s");
+
+    // Pause
+    pause(1000);
+
+    // Write text
+    writeText(By.cssSelector("#select2-drop input.select2-input"), "p");
+
+    // Pause
+    pause(1000);
+
+    // Check there's one result
+    checkVisible(".select2-result:first-child");
+
+    // Check there's only one result
+    checkNotVisible(".select2-result:not(:first-child)");
+
+    // Click selector
+    selectResult("asp");
+  }
+
+  /**
    * Suggest delayed
    * @param selector Selector
    * @param search1 Search on first case
