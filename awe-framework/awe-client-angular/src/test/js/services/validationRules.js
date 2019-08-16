@@ -365,11 +365,11 @@ describe('awe-framework/awe-client-angular/src/test/js/services/validationRules.
 
   // Invalid validation
   it('should launch a invalid validation not active', function() {
-    testValidation("invalid", "test", "", null);
+    testValidation("invalid", "test", "", {message: ""});
   });
 
   // Invalid validation
   it('should launch a invalid validation active', function() {
-    testValidation("invalid", "test", {value: true, message: "Invalid validation for {value1}"}, {message: "Invalid validation for test"});
+    testValidation("invalid", "test", {message: "Invalid validation for {value1}"}, {message: "Invalid validation for test"});
   });
 });

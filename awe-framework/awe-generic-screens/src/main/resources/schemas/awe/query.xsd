@@ -449,6 +449,7 @@
   <xs:attributeGroup name="orderAttr">
     <xs:attribute name="field" use="required" type="xs:string" />
     <xs:attribute name="table" type="xs:string" />
+    <xs:attribute name="function" type="functionTypeEnum" />
   </xs:attributeGroup>
 
   <!--
@@ -556,6 +557,12 @@
       <xs:enumeration value="ABS" />
       <xs:enumeration value="TRUNCDATE" />
       <xs:enumeration value="ROW_NUMBER" />
+      <xs:enumeration value="YEAR" />
+      <xs:enumeration value="MONTH" />
+      <xs:enumeration value="DAY" />
+      <xs:enumeration value="HOUR" />
+      <xs:enumeration value="MINUTE" />
+      <xs:enumeration value="SECOND" />
     </xs:restriction>
   </xs:simpleType>
 
@@ -564,6 +571,7 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="AVG" />
       <xs:enumeration value="CNT" />
+      <xs:enumeration value="CNT_DISTINCT" />
       <xs:enumeration value="MAX" />
       <xs:enumeration value="MIN" />
       <xs:enumeration value="SUM" />

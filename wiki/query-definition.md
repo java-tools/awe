@@ -237,11 +237,18 @@ The *field* element has the following attributes:
 - `ABS`: Absolute value
 - `AVG`: Average of values 
 - `CNT`: Count values
+- `CNT_DISTINCT`: Count distinct values
 - `MAX`: Max value
 - `MIN`: Min value
 - `SUM`: Sum values
 - `ROW_NUMBER`: Row number
 - `TRUNCDATE` (not standard): Truncate date
+- `YEAR`: Retrieve year from date
+- `MONTH`: Retrieve month from date
+- `DAY`: Retrieve day from date
+- `HOUR`: Retrieve hours from date
+- `MINUTE`: Retrieve minutes from date
+- `SECOND`: Retrieve seconds from date
 
 #### Transform attribute
 
@@ -426,6 +433,7 @@ The *over* element allows to modelate **SQL window functions**. This element con
 
 - `AVG`: Average of values 
 - `CNT`: Count values
+- `CNT_DISTINCT`: Count distinct values
 - `MAX`: Max value
 - `MIN`: Min value
 - `SUM`: Sum values
@@ -709,6 +717,7 @@ The *group by* element has the following attributes:
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
 | field | **Required** | String | Field alias to group the results     |                                                    |
 | table | Optional | String | Table alias to group the results         |                                                    |
+| function | Optional | String | Function to apply to the field        |The possible values are defined in [field functions](#field-functions)|
 
 ### Order by element
 
@@ -718,6 +727,7 @@ The *order by* element has the following attributes:
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
 | field       | **Required** | String | Field alias to order the results     |                                                    |
 | table       | Optional | String | Table alias to order the result    |                                                    |
+| function    | Optional | String | Function to apply to the field        |The possible values are defined in [field functions](#field-functions)|
 | type        | Optional | String | Is the order type                  | The possible values are `DESC` or `ASC`. By default is `ASC` |
 | nulls       | Optional | String | Whether to sort the null fields    | The possible values are `FIRST` or `LAST`. By default depends on database type |
 

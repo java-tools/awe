@@ -134,6 +134,7 @@ public class SQLConfig {
   private Configuration getConfiguration(SQLTemplates templates, LogUtil logger) {
     Configuration configuration = new Configuration(templates);
     configuration.addListener(new SpringSQLCloseListener(logger));
+    configuration.setUseLiterals(true);
     return configuration;
   }
 

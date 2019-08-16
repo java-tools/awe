@@ -212,6 +212,7 @@ aweApplication.factory('Component',
               var model = Control.getAddressModel(component.address);
               if (model) {
                 _.merge(model, data);
+                model.values = _.uniqBy(model.values, 'value');
 
                 // If selected in data, update selected values
                 if ("selected" in data) {

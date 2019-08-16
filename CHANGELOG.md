@@ -1,3 +1,12 @@
+# Changelog for AWE 4.1.4
+*16/08/2019*
+
+- Suggest showing several same options due to not refreshing model. [MR #94](https://gitlab.com/aweframework/awe/merge_requests/94) (Pablo Javier García Mora)
+- Add functions to retrieve parts from dates in SQL (`YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, `SECOND`). [MR #93](https://gitlab.com/aweframework/awe/merge_requests/93) (Pablo Javier García Mora)
+- Add a new field function: COUNT_DISTINCT. [MR #92](https://gitlab.com/aweframework/awe/merge_requests/92) (Pablo Javier García Mora)
+- Unique action not working correctly. [MR #91](https://gitlab.com/aweframework/awe/merge_requests/91) (Pablo Javier García Mora)
+- Add a method to retrieve a sequence value once updated. [MR #90](https://gitlab.com/aweframework/awe/merge_requests/90) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.1.3
 *31/07/2019*
 
@@ -10,6 +19,7 @@
 - Allow to cast fields on SQL queries. [MR #83](https://gitlab.com/aweframework/awe/merge_requests/83) (Pablo Javier García Mora)
 - SQL - Add `COALESCE` operation. [MR #82](https://gitlab.com/aweframework/awe/merge_requests/82) (Pablo Javier García Mora)
 - Add `exists` and `not exists` conditions to query filters and add `ABS` function. [MR #81](https://gitlab.com/aweframework/awe/merge_requests/81) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.1.2
 *09/07/2019*
 
@@ -17,6 +27,7 @@
 - Upgrade spring boot version to last 1.x. [MR #79](https://gitlab.com/aweframework/awe/merge_requests/79) (Pablo Javier García Mora)
 - Fix some sonar issues. [MR #78](https://gitlab.com/aweframework/awe/merge_requests/78) (Pablo Javier García Mora)
 - Remove actuator libraries from AWE starters. [MR #77](https://gitlab.com/aweframework/awe/merge_requests/77) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.1.1
 *26/06/2019*
 
@@ -28,6 +39,7 @@
 - Generate a global cookie for clustered environments. [MR #71](https://gitlab.com/aweframework/awe/merge_requests/71) (Pablo Javier García Mora)
 - Add karma tests for grid services. [MR #70](https://gitlab.com/aweframework/awe/merge_requests/70) (Pablo Javier García Mora)
 - Define session cookie even if user is not logged in. [MR #69](https://gitlab.com/aweframework/awe/merge_requests/69) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.1.0
 *12/06/2019*
 
@@ -39,7 +51,7 @@
 - Add a contains in conditions for dependencies.. [MR #63](https://gitlab.com/aweframework/awe/merge_requests/63) (Pablo Javier García Mora)
 - Add a method to DataListUtil to convert rows from `List<Map<String, CellData>>` into `List<Bean>`. [MR #62](https://gitlab.com/aweframework/awe/merge_requests/62) (Pablo Javier García Mora)
 - Fix `select-all-rows` action on grid element. [MR #61](https://gitlab.com/aweframework/awe/merge_requests/61) (Pablo Javier García Mora)
-- Improve pipeline process parallelizing tasks. [MR #60](https://gitlab.com/aweframework/awe/merge_requests/60) (Pablo Javier García Mora)
+- Improve pipeline process parallelling tasks. [MR #60](https://gitlab.com/aweframework/awe/merge_requests/60) (Pablo Javier García Mora)
 - Add windows functions in SQL AWE 4.0. [MR #59](https://gitlab.com/aweframework/awe/merge_requests/59) (Pablo Javier García Mora)
 - Change `static` field name to `constant`. [MR #58](https://gitlab.com/aweframework/awe/merge_requests/58) (Pablo Javier García Mora)
 - Row Number. [MR #57](https://gitlab.com/aweframework/awe/merge_requests/57) (Pablo Javier García Mora)

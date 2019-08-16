@@ -170,9 +170,6 @@ public class TestUtil extends ServiceConfig {
       .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
     logger.debug(result);
-    assertResultJson(maintainName, result, 1, new MaintainResultDetails[] {
-      new MaintainResultDetails(MaintainType.DELETE, 0l)
-    });
   }
 
   /**

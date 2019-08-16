@@ -55,7 +55,7 @@ l1_uti number(5), --- unused
 l1_opr char(6), --- unused
 l1_dat DATE, --- Last connection date
 imp_nom char(32) DEFAULT 'none',
-dat_mod date, --- User update date
+dat_mod timestamp, --- User update date
 l1_psd date, --- Date of password expiration
 l1_lan char(3), --- User language
 l1_sgn number(5), --- User signed

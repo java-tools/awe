@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 /**
  * FileUtil Class
@@ -120,9 +121,11 @@ public class FileUtil extends ServiceConfig {
    * @return Normalized path
    */
   public static String fixUntrustedPath(String... paths) {
-    List<String> fixedPaths = new ArrayList();
+    List<String> fixedPaths = new ArrayList<>();
     for (String path : paths) {
-      fixedPaths.add(path.replaceAll("\\.\\.(\\\\|\\/)", ""));
+      fixedPaths.add(path
+        .replaceAll("\\.\\.[\\\\/]", "")
+        .replaceAll("[\\\\/]", Matcher.quoteReplacement(File.separator)));
     }
     return Paths.get(".", fixedPaths.toArray(new String[0])).normalize().toString();
   }

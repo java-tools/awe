@@ -2,6 +2,7 @@ package com.almis.awe.test.unit.database;
 
 import com.almis.awe.model.dto.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
+import com.almis.awe.service.MaintainService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static org.junit.Assert.assertSame;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -173,6 +175,24 @@ public class MaintainTest extends AweSpringDatabaseTests {
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
       new MaintainResultDetails(MaintainType.INSERT, 1l)
     });
+
+    // Clean the mess
+    cleanUp("CleanUpSequence");
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testGetNextSequence() throws Exception {
+    // Clean the mess
+    cleanUp("CleanUpSequence");
+    MaintainService maintainService = getBean(MaintainService.class);
+
+    Integer sequenceValue = maintainService.getNextSequenceValue("ThmKey");
+    assertSame(20, sequenceValue);
 
     // Clean the mess
     cleanUp("CleanUpSequence");
