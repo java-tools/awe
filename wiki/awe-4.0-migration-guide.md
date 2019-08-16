@@ -25,7 +25,7 @@ Almis Web Engine > **[Home](../README.md)**
 >      * test
 >          * *java* -> JUnit Tests
 >          * *resources* -> Test properties
->          * selenium -> Selenium suites
+>          * *selenium* -> Selenium suites
 
 ##  **Maven**
 
@@ -292,6 +292,12 @@ condition="gte" => condition="ge"
 pagination="true" => managed-pagination="true"
 ```
 
+  * `control-empty-cancel` action to `control-unique-cancel` action:
+
+```regexp
+control-empty-cancel => control-unique-cancel
+```
+
 ###  **Query & Maintain**
 
 * Regular expressions
@@ -328,7 +334,67 @@ condition="NOT IN" => condition="not in"
 ```
 
 * Variable identifiers can't be used in field aliases.
-* CASE and CONCAT definitions
+* CASE and CONCAT definitions must be defined now with the new AWE `<case>` and `<operation>` tags. See more at [Query Definitions](query-definition.md).
+* Static values must be defined as `<constant>` tags
+* AWE now offers more flexibility generating queries and filters:
+
+````xml
+  <query id="testRowNumber">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <over alias="rowNumber">
+      <field function="ROW_NUMBER"/>
+    </over>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testCoalesce">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="COALESCE" alias="nameNotNull">
+      <field id="l1_trt"/>
+      <constant type="NULL"/>
+      <field id="l1_nom"/>
+    </operation>
+    <where>
+      <filter condition="eq" ignorecase="true"><left-operand id="l1_nom"/><right-operand value="test"/></filter>
+    </where>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testCaseWhenElse">
+    <table id="AweThm"/>
+    <case alias="value">
+      <when left-field="Nam" condition="eq" right-variable="sunset"><then value="1" type="INTEGER"/></when>
+      <when left-field="Nam" condition="eq" right-variable="sunny"><then value="2" type="INTEGER"/></when>
+      <when left-field="Nam" condition="eq" right-variable="purple-hills"><then value="3" type="INTEGER"/></when>
+      <else value="0" type="INTEGER"/>
+    </case>
+    <case alias="label">
+      <when condition="eq"><left-operand id="Nam"/><right-operand value="sunset"/><then value="SUNSET"/></when>
+      <when condition="eq"><left-operand id="Nam"/><right-operand value="sunny"/><then value="SUNNY"/></when>
+      <when condition="eq"><left-operand id="Nam"/><right-operand value="purple-hills"/><then value="PURPLE-HILLS"/></when>
+      <else value="other"/>
+    </case>
+    <order-by field="Nam" type="ASC" nulls="FIRST"/>
+  </query>
+
+  <query id="TestFieldDateFunctions">
+    <table id="ope" alias="awe" />
+    <field id="dat_mod" table="awe" alias="year" function="YEAR" />
+    <field id="dat_mod" table="awe" alias="month" function="MONTH" />
+    <field id="dat_mod" alias="day" function="DAY" />
+    <field id="dat_mod" alias="hour" function="HOUR" />
+    <field id="dat_mod" alias="minute" function="MINUTE" />
+    <field id="dat_mod" alias="second" function="SECOND" />
+    <where>
+      <filter left-field="l1_nom" condition="eq" ignorecase="true">
+        <right-operand value="test"/>
+      </filter>
+    </where>
+    <order-by field="dat_mod" table="awe" function="YEAR"/>
+  </query>
+````
 
 ###  **Services**
 
@@ -337,52 +403,52 @@ condition="NOT IN" => condition="not in"
 Examples:
 ```xml
   <service id="simpleGETMicroservice">
-    <microservice name="alu-microservice" method="GET" endpoint="/invoke" />
+    <microservice name="alu-microservice" method="GET" endpoint="/invoke"  content-type="JSON"/>
   </service>
   
   <service id="simpleGETMicroservice2">
-    <microservice name="alu-microservice2" method="GET" endpoint="/invoke" />
+    <microservice name="alu-microservice2" method="GET" endpoint="/invoke"  content-type="JSON"/>
   </service>
   
   <service id="simpleGETMicroserviceWithWrapper">
-    <microservice name="alu-microservice" method="GET" endpoint="/invoke" wrapper="com.almis.awe.test.service.dto.ServiceDataWrapper" />
+    <microservice name="alu-microservice" method="GET" endpoint="/invoke" wrapper="com.almis.awe.test.service.dto.ServiceDataWrapper"  content-type="JSON"/>
   </service>
   
   <service id="simpleGETMicroserviceWithParameter">
-    <microservice name="alu-microservice" method="GET" endpoint="/invoke">
+    <microservice name="alu-microservice" method="GET" endpoint="/invoke" content-type="JSON">
       <service-parameter name="param1" type="STRING"/>
     </microservice>
   </service>
   
   <service id="simpleGETMicroserviceWithWildcard">
-    <microservice name="alu-microservice" method="GET" endpoint="/invoke/{param1}">
+    <microservice name="alu-microservice" method="GET" endpoint="/invoke/{param1}" content-type="JSON">
       <service-parameter name="param1" type="STRING"/>
     </microservice>
   </service>
   
   <service id="simpleGETMicroserviceWithWildcardAndParameter">
-    <microservice name="alu-microservice" method="GET" endpoint="/invoke/{param1}">
+    <microservice name="alu-microservice" method="GET" endpoint="/invoke/{param1}" content-type="JSON">
       <service-parameter name="param1" type="STRING"/>
       <service-parameter name="param2" type="STRING"/>
     </microservice>
   </service>
   
   <service id="simplePOSTMicroserviceWithParameters">
-    <microservice name="alu-microservice" method="POST" endpoint="/invoke">
+    <microservice name="alu-microservice" method="POST" endpoint="/invoke" content-type="JSON">
       <service-parameter name="param1" type="STRING"/>
       <service-parameter name="param2" type="STRING"/>
     </microservice>
   </service>
   
   <service id="simplePUTMicroserviceWithParameters">
-    <microservice name="alu-microservice" method="PUT" endpoint="/invoke">
+    <microservice name="alu-microservice" method="PUT" endpoint="/invoke" content-type="JSON">
       <service-parameter name="param1" type="STRING"/>
       <service-parameter name="param2" type="STRING"/>
     </microservice>
   </service>
   
   <service id="simpleDELETEMicroserviceWithWildcard">
-    <microservice name="alu-microservice" method="DELETE" endpoint="/invoke/{param1}">
+    <microservice name="alu-microservice" method="DELETE" endpoint="/invoke/{param1}" content-type="JSON">
       <service-parameter name="param1" type="STRING"/>
     </microservice>
   </service>
@@ -447,6 +513,23 @@ AweConstants.PARAMETER_MAX => AweConstants.COMPONENT_MAX
   logger.log(Level.INFO, "[{}] No books defined for this treatment", treatment.getID());
 ```
 
+* Alternate logger: Lombok
+
+ 1. Add `@Log4j2` annotation on top of the class:
+ 
+ ```java
+@Log4j2
+public MyClass {
+  ...
+} 
+```
+ 
+ 2. Use lombok logger:
+ 
+```java
+  log.error("My error message {}", moreInformationInVariables, exception);
+```
+
 ### AWE packages
 
 * There are **two main packages** in **AWE 4.0**: `awe-spring-boot-starter` and `awe-model`. 
@@ -497,7 +580,7 @@ AweConstants.PARAMETER_MAX => AweConstants.COMPONENT_MAX
   getProperty("var.trt.thd.sug.tim", 100);
 ```
 
-* Anyway it's more legible to retrive properties the Spring way:
+* Anyway it's more legible and faster to retrieve properties the Spring way:
 
 ```java
   @Value("${var.trt.thd.sug.tim:100}")
@@ -518,6 +601,12 @@ AweConstants.PARAMETER_MAX => AweConstants.COMPONENT_MAX
 
 ```java
   getRequest().getParameter(AweConstants.PARAMETER_MAX).textValue();
+```
+
+or
+
+```java
+  getRequest().getParameterAsString(AweConstants.PARAMETER_MAX);
 ```
 
 * You can also add some variables to the request:
@@ -563,6 +652,26 @@ public class MyClass implements Copyable {
 }
 ```
 
+or use Lombok:
+
+```java
+@Data
+@Builder(toBuilder = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
+public class MyClass {
+  private String myProp1;
+  private String myProp2;
+}
+```
+
+... and clone it with the builder:
+
+```java
+MyClass myNewClass = myOldClass.toBuilder().build();
+```
+
 * Remove from beans all methods which uses any external class. 
   A bean only should have methods which interact over their own fields.
 
@@ -574,6 +683,12 @@ serviceData.addClientAction(new ClientAction("fill")
    .setAddress(address)
    .addParameter("datalist", datalist)
    .setAsync(true));
+```
+
+... but it's simpler to use the new ClientAction builders:
+
+```java
+serviceData.addClientAction(new FillActionBuilder(address, datalist).setAsync(true).build());
 ```
 
 ### `FileData` bean has now a new implementation:
