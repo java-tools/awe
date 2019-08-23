@@ -13,6 +13,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
@@ -588,16 +589,16 @@ public class EmailBuilder extends ServiceConfig {
     }
 
     // Set to
-    message.setRecipients(MimeMessage.RecipientType.TO, getTo().toArray(new InternetAddress[getTo().size()]));
+    message.setRecipients(Message.RecipientType.TO, getTo().toArray(new InternetAddress[getTo().size()]));
 
     // Set cc
     if (!getCc().isEmpty()) {
-      message.setRecipients(MimeMessage.RecipientType.CC, getCc().toArray(new InternetAddress[getCc().size()]));
+      message.setRecipients(Message.RecipientType.CC, getCc().toArray(new InternetAddress[getCc().size()]));
     }
 
     // Set Cco
     if (!getCco().isEmpty()) {
-      message.setRecipients(MimeMessage.RecipientType.BCC, getCco().toArray(new InternetAddress[getCco().size()]));
+      message.setRecipients(Message.RecipientType.BCC, getCco().toArray(new InternetAddress[getCco().size()]));
     }
   }
 }
