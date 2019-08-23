@@ -21,11 +21,15 @@ import java.io.*;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
-import java.nio.file.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
+import java.nio.file.*;
 import java.nio.file.attribute.*;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * File Manager service
@@ -115,7 +119,7 @@ public class FileManagerService implements InitializingBean {
    * @return File
    */
   public File downloadFile(String path, String preview) {
-    logger.debug("doGet: {} download file: {} preview: {}", path, BooleanUtils.toBoolean(preview));
+    logger.debug("doGet: download file: {} preview: {}", path, BooleanUtils.toBoolean(preview));
     return resolvePath(basePath, path).toFile();
   }
 
@@ -134,7 +138,7 @@ public class FileManagerService implements InitializingBean {
 
     // Add repository path to files
     List<String> fileList = new ArrayList<>();
-    for (String file : Arrays.asList(items)) {
+    for (String file : items) {
       // Check path
       fileList.add(resolvePath(basePath, file).toString());
     }
@@ -516,7 +520,7 @@ public class FileManagerService implements InitializingBean {
 
       if (content != null) {
         logger.debug("Save file into path: {} content: isNotBlank {}, size {}", path, StringUtils.isNotBlank(content), content.length());
-        Files.write(path, content.getBytes("utf-8"), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+        Files.write(path, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
       } else {
         logger.debug("Content from path: {} file is empty", path);
       }
