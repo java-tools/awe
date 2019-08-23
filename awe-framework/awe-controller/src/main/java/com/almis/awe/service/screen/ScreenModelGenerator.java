@@ -71,7 +71,7 @@ public class ScreenModelGenerator extends ServiceConfig {
    * @return Screen configuration thread
    */
   AweThreadInitialization getScreenConfigurationThread() {
-    return new AweThreadInitialization().setParameters(getRequest().getParametersSafe().put(AweConstants.COMPONENT_MAX, "0")).setTarget(AweConstants.SCREEN_CONFIGURATION_QUERY);
+    return new AweThreadInitialization().setParameters(getRequest().getParametersSafe()).setTarget(AweConstants.SCREEN_CONFIGURATION_QUERY);
   }
 
   /**

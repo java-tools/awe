@@ -143,7 +143,7 @@ public class MenuService extends ServiceConfig {
       screenRestrictionGenerator.applyModuleRestriction(module, menu);
 
       // Get restrictions
-      ServiceData queryOutput = queryService.launchPrivateQuery(AweConstants.SCREEN_RESTRICTION_QUERY, "1", "0");
+      ServiceData queryOutput = queryService.launchPrivateQuery(AweConstants.SCREEN_RESTRICTION_QUERY);
       DataList queryRestrictions = queryOutput.getDataList();
 
       // Apply restrictions
@@ -485,7 +485,7 @@ public class MenuService extends ServiceConfig {
    */
   public boolean checkOptionAddress(String address) throws AWException {
     // Step 1: Check if option is private
-    String optionId = address.startsWith(AweConstants.JSON_SCREEN) ? address.substring(address.lastIndexOf('/') + 1) : null;
+    String optionId = address.startsWith(AweConstants.JSON_SCREEN) ? address.substring(address.lastIndexOf('/') + 1, address.length()) : null;
     if (address.startsWith(AweConstants.JSON_SCREEN + "/" + AweConstants.PRIVATE_MENU)) {
       return getSession().isAuthenticated() && isAvailableOption(optionId, AweConstants.PRIVATE_MENU);
     } else if (address.startsWith(AweConstants.JSON_SCREEN + "/"))  {
@@ -616,7 +616,7 @@ public class MenuService extends ServiceConfig {
     baseRestrictions.setRecords(baseRestrictions.getRows().size());
 
     // Step 3: Get database restrictions and apply profile restrictions if it doesn't exist
-    ServiceData serviceData = queryService.launchPrivateQuery(AweConstants.SCREEN_DATABASE_RESTRICTION_QUERY, "1", "0");
+    ServiceData serviceData = queryService.launchPrivateQuery(AweConstants.SCREEN_DATABASE_RESTRICTION_QUERY);
     DataList databaseRestrictions = serviceData.getDataList();
 
     // Step 4: Merge datalists
