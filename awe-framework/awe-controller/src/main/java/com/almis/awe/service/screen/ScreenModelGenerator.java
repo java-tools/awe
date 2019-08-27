@@ -83,9 +83,10 @@ public class ScreenModelGenerator extends ServiceConfig {
   void addMenuTarget(List<AweThreadInitialization> initializationList, Component component) {
     // Set initialization list
     initializationList.add(new AweThreadInitialization()
-      .setTarget(AweConstants.SCREEN_RESTRICTION_QUERY)
-      .setComponentId(component.getElementKey())
-      .setInitialLoadType(LoadType.MENU));
+            .setTarget(AweConstants.SCREEN_RESTRICTION_QUERY)
+            .setParameters(getRequest().getParametersSafe().put(AweConstants.COMPONENT_MAX, "0"))
+            .setComponentId(component.getElementKey())
+            .setInitialLoadType(LoadType.MENU));
   }
 
   /**
