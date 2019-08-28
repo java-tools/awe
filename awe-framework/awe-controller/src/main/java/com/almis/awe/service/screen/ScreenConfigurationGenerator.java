@@ -75,6 +75,8 @@ public class ScreenConfigurationGenerator extends ServiceConfig {
       case VISIBLE:
         if (component instanceof Column) {
           myAccessor.setPropertyValue(AttributeRestrictionType.HIDDEN.toString(), String.valueOf(!Boolean.parseBoolean(value)));
+        } else {
+            myAccessor.setPropertyValue(attribute, value);
         }
         break;
       case REQUIRED:
