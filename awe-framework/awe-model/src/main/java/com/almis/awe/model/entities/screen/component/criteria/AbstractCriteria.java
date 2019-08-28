@@ -326,7 +326,7 @@ public abstract class AbstractCriteria extends Component {
    */
   @JsonGetter("required")
   public boolean isRequiredConverter() {
-    return getValidation() != null && getValidation().contains("required:true");
+    return getValidation() != null && getValidation().contains("required");
   }
 
   /**
