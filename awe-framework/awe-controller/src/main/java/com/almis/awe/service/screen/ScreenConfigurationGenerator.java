@@ -27,7 +27,7 @@ public class ScreenConfigurationGenerator extends ServiceConfig {
    * Store screen target data in components
    * @param configurationTask Screen configuration future
    * @param screen Screen bean
-   * @throws AWException
+   * @throws AWException Awe exception
    */
   void applyScreenConfiguration(Future<ServiceData> configurationTask, Screen screen) throws AWException {
     // Retrieve screen configuration if defined
@@ -64,14 +64,10 @@ public class ScreenConfigurationGenerator extends ServiceConfig {
    * @param attribute Attribute to change
    * @param value Value to set
    * @param component Component to change
-   * @return Reinitialize component initial load or not
    */
   private void applyRule(String attribute, String value, Component component) {
     // Get accessor
     PropertyAccessor myAccessor = PropertyAccessorFactory.forDirectFieldAccess(component);
-
-    // Set property value
-    myAccessor.setPropertyValue(attribute, value);
 
     // Manage special cases
     switch (AttributeRestrictionType.getEnum(attribute)) {
@@ -79,9 +75,17 @@ public class ScreenConfigurationGenerator extends ServiceConfig {
       case VISIBLE:
         if (component instanceof Column) {
           myAccessor.setPropertyValue(AttributeRestrictionType.HIDDEN.toString(), String.valueOf(!Boolean.parseBoolean(value)));
+        } else {
+            myAccessor.setPropertyValue(attribute, value);
         }
         break;
+      case REQUIRED:
+        myAccessor.setPropertyValue(AttributeRestrictionType.VALIDATION.toString(), String.format("{required:%b}", Boolean.parseBoolean(value)));
+        break;
       default:
+        // Set property value
+        myAccessor.setPropertyValue(attribute, value);
+        break;
     }
   }
 }
