@@ -4,7 +4,6 @@ import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.component.Component;
 import com.almis.awe.model.entities.screen.component.button.AbstractButton;
-import com.almis.awe.model.entities.screen.component.button.Button;
 import com.almis.awe.model.entities.screen.component.grid.AbstractGrid;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.entities.screen.component.panelable.Panelable;
@@ -327,7 +326,7 @@ public abstract class AbstractCriteria extends Component {
    */
   @JsonGetter("required")
   public boolean isRequiredConverter() {
-    return getValidation() != null && getValidation().contains("required");
+    return getValidation() != null && getValidation().contains("required:true");
   }
 
   /**
