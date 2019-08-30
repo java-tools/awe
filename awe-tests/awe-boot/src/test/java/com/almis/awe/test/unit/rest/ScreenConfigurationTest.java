@@ -4,9 +4,6 @@ import com.almis.awe.annotation.entities.session.FromSession;
 import com.almis.awe.annotation.entities.session.ToSession;
 import com.almis.awe.model.dto.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
 import org.junit.After;
 import org.junit.Assert;
@@ -15,9 +12,7 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertTrue;
@@ -33,11 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Log4j2
 public class ScreenConfigurationTest extends AweSpringRestTests {
 
-  private SimpleDateFormat sdfDate;
-  private String textController;
-  private String textModel;
-  private String buttonController;
-  private String criteriaTestLeft;
+  private static final String AUTHORIZATION_HEADER = "410e0604-84d7-4cf1-9d28-4a6ddcf97d34";
   private String screenParameters;
 
   /**
@@ -51,15 +42,6 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
 
     // Update user
     loginUser();
-
-    // Initialize date and files
-    sdfDate = new SimpleDateFormat("dd/MM/yyyy");
-
-    // Read json files
-    criteriaTestLeft = readFileAsText("screen-data/criteriaTestLeft.json");
-    buttonController = readFileAsText("screen-data/buttonController.json");
-    textController = readFileAsText("screen-data/textController.json");
-    textModel = readFileAsText("screen-data/textModel.json");
 
     // Initialize parameters
     screenParameters = "{\"s\":\"e6144dad-6e67-499e-b74a-d1e600732e11\",\"option\":\"criteria-test-left\",\"view\":\"report\",\"TxtRea\":\"15:06:23\"}";
@@ -91,7 +73,7 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
     String maintainName = "updateScreenConfiguration";
     String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"" + operation + "\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     MvcResult mvcResult = mockMvc.perform(post("/action/maintain/" + maintainName)
-      .header("Authorization", "410e0604-84d7-4cf1-9d28-4a6ddcf97d34")
+      .header("Authorization", AUTHORIZATION_HEADER)
       .contentType(MediaType.APPLICATION_JSON)
       .content("{\"module\":\"Test\",\"language\":\"en\",\"RefreshTime\":null,\"site\":\"Madrid\",\"database\":\"awemadora01\",\"theme\":\"sunset\",\"SetAutoload\":\"0\",\"GrdScrCnf\":1,\"GrdScrCnf.data\":{\"max\":30,\"page\":1,\"sort\":[]},\"IdeAweScrCnf\":[\"\"],\"IdeAweScrCnf.selected\":null,\"Scr\":[\"" + screen + "\"],\"Scr.selected\":null,\"IdeOpe\":[\"\"],\"IdeOpe.selected\":null,\"IdePro\":[\"\"],\"IdePro.selected\":null,\"Nam\":[\"" + component + "\"],\"Nam.selected\":null,\"Atr\":[\"" + attribute + "\"],\"Atr.selected\":null,\"Val\":[\"" + value + "\"],\"Val.selected\":null,\"Act\":[\"1\"],\"Act.selected\":null,\"GrdScrCnf-id\":[\"new-row-1\"],\"GrdScrCnf-RowTyp\":[\"" + operation + "\"],\"PrnScr\":\"ScrCnf\",\"CrtScr\":null,\"UsrPrn\":null,\"ActPrn\":\"2\",\"FmtPrn\":\"PDF\",\"CrtAct\":null,\"CrtUsr\":null,\"DblFmtPrn\":\"0\",\"TypPrn\":\"1\",\"CrtPro\":null,\"max\":30}")
       .accept(MediaType.APPLICATION_JSON))
@@ -105,89 +87,6 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
     });
   }
 
-  /**
-   * Test of screen restriction
-   *
-   * @throws Exception Test error
-   */
-  private void testButtonRestriction(String attribute, JsonNode value) throws Exception {
-    // Add restriction
-    addRestriction("INSERT", "CrtTstLeft", "ButBck", attribute, value.asText());
-
-    // Define button controller
-    ObjectNode buttonControllerObject = (ObjectNode) objectMapper.readTree(buttonController);
-    buttonControllerObject.set(attribute, value);
-    String buttonControllerUpdated = buttonControllerObject.toString();
-
-    // Check screen
-    Date date = new Date();
-    String expected = addVariables(criteriaTestLeft, date, buttonControllerUpdated, textController, textModel);
-    MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
-      .contentType(MediaType.APPLICATION_JSON)
-      .content(screenParameters)
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().json(expected))
-      .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
-    logger.debug(result);
-    logger.debug(expected);
-  }
-
-  /**
-   *  Test of restricted value list
-   *
-   * @param values restricted values
-   *
-   * @throws Exception Test error
-   */
-  private void testCriterionRestrictedValues(JsonNode values) throws Exception {
-    // Add restriction
-    addRestriction("INSERT", "CrtTstLeft", "SelRea", "restrictedValueList", values.asText());
-
-    // Check screen
-    Date date = new Date();
-    MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-            .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(screenParameters)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.records", is(Collections.singletonList(1))))
-            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].label", is(Collections.singletonList("ENUM_YES"))))
-            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].value", is(Collections.singletonList("1"))))
-            .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
-    logger.info(result);
-  }
-
-  /**
-   * Test of screen restriction
-   *
-   * @throws Exception Test error
-   */
-  private void testCriterionRestriction(String attribute, JsonNode value) throws Exception {
-    // Add restriction
-    addRestriction("INSERT", "CrtTstLeft", "Txt", attribute, value.asText());
-
-    // Define text controller
-    ObjectNode textControllerObject = (ObjectNode) objectMapper.readTree(textController);
-    textControllerObject.set(attribute, value);
-    String textControllerUpdated = textControllerObject.toString();
-
-    // Check screen
-    Date date = new Date();
-    String expected = addVariables(criteriaTestLeft, date, buttonController, textControllerUpdated, textModel);
-    MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
-      .contentType(MediaType.APPLICATION_JSON)
-      .content(screenParameters)
-      .accept(MediaType.APPLICATION_JSON))
-      .andExpect(status().isOk())
-      .andExpect(content().json(expected))
-      .andReturn();
-  }
 
   /**
    * Test of screen restriction - Hide criterion
@@ -196,7 +95,10 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @Test
   public void testRestrictVisibility() throws Exception {
-    testButtonRestriction("visible", JsonNodeFactory.instance.booleanNode(false));
+    // Add restriction
+    addRestriction("INSERT", "CrtTstLeft", "ButBck", "visible", "false");
+    // Check screen
+    checkAttributeComponent("ButBck", "visible", false);
   }
 
   /**
@@ -206,7 +108,20 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @Test
   public void testRestrictedValues() throws Exception {
-    testCriterionRestrictedValues(JsonNodeFactory.instance.textNode("0"));
+
+    addRestriction("INSERT", "CrtTstLeft", "SelRea", "restrictedValueList", "0");
+
+    // Check screen
+    MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
+            .header("Authorization", AUTHORIZATION_HEADER)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(screenParameters)
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.records", is(Collections.singletonList(1))))
+            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].label", is(Collections.singletonList("ENUM_YES"))))
+            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].value", is(Collections.singletonList("1"))))
+            .andReturn();
   }
 
   /**
@@ -216,7 +131,10 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @Test
   public void testChangeLabel() throws Exception {
-    testButtonRestriction("label", JsonNodeFactory.instance.textNode("Tira patraaaaas"));
+    // Add restriction
+    addRestriction("INSERT", "CrtTstLeft", "Txt", "label", "Tira patraaaaas");
+    // Check screen
+    checkAttributeComponent("Txt", "label", "Tira patraaaaas");
   }
 
   /**
@@ -226,7 +144,10 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @Test
   public void testSetReadonly() throws Exception {
-    testButtonRestriction("readonly", JsonNodeFactory.instance.booleanNode(true));
+    // Add restriction
+    addRestriction("INSERT", "CrtTstLeft", "Txt", "readonly", "true");
+    // Check screen
+    checkAttributeComponent("Txt", "readonly", true);
   }
 
   /**
@@ -236,7 +157,10 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @Test
   public void testOptional() throws Exception {
-    testButtonRestriction("optional", JsonNodeFactory.instance.booleanNode(true));
+    // Add restriction
+    addRestriction("INSERT", "CrtTstLeft", "Txt", "optional", "true");
+    // Check screen
+    checkAttributeComponent("Txt", "optional", true);
   }
 
   /**
@@ -246,7 +170,11 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @Test
   public void testPrintable() throws Exception {
-    testButtonRestriction("printable", JsonNodeFactory.instance.booleanNode(false));
+    // Add restriction
+    addRestriction("INSERT", "CrtTstLeft", "ButBck",  "printable", "false");
+
+    // Check screen
+    checkAttributeComponent("ButBck", "printable", false);
   }
 
   /**
@@ -256,7 +184,11 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @Test
   public void testChecked() throws Exception {
-    testButtonRestriction("checked", JsonNodeFactory.instance.booleanNode(true));
+    // Add restriction
+    addRestriction("INSERT", "CrtTstLeft", "ButBck",  "checked", "true");
+
+    // Check screen
+    checkAttributeComponent("ButBck", "checked", true);
   }
 
   /**
@@ -266,7 +198,11 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @Test
   public void testHelpLabel() throws Exception {
-    testButtonRestriction("help", JsonNodeFactory.instance.textNode("Ayudaaaaaaaaaaaaaaaa!"));
+    // Add restriction
+    addRestriction("INSERT", "CrtTstLeft", "ButBck",  "help", "Ayudaaaaaaaaaaaaaaaa");
+
+    // Check screen
+    checkAttributeComponent("ButBck", "help", "Ayudaaaaaaaaaaaaaaaa");
   }
 
   /**
@@ -276,7 +212,11 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @Test
   public void testStyle() throws Exception {
-    testButtonRestriction("style", JsonNodeFactory.instance.textNode("claseDeLaMuerte otraClaseChula"));
+    // Add restriction
+    addRestriction("INSERT", "CrtTstLeft", "ButBck", "style", "claseDeLaMuerte otraClaseChula");
+
+    // Check screen
+    checkAttributeComponent("ButBck", "style", "claseDeLaMuerte otraClaseChula");
   }
 
   /**
@@ -290,36 +230,19 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
     addRestriction("INSERT", "CrtTstLeft", "Txt", "initialLoad", "value");
     addRestriction("INSERT", "CrtTstLeft", "Txt", "targetAction", "TestComponentInitialLoadValue");
 
-    // Text model
-    String textModelUpdated = "{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}],\"page\":1,\"total\":1,\"records\":1}";
-
-    // Check screen
-    Date date = new Date();
-    String expected = addVariables(criteriaTestLeft, date, buttonController, textController, textModelUpdated);
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-      .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
+      .header("Authorization", AUTHORIZATION_HEADER)
       .contentType(MediaType.APPLICATION_JSON)
       .content(screenParameters)
       .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
-      .andExpect(content().json(expected))
+      .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'Txt')].controller.initialLoad", is(Collections.singletonList("value"))))
+      .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'Txt')].controller.targetAction", is(Collections.singletonList("TestComponentInitialLoadValue"))))
+      .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'Txt')].model.records", is(Collections.singletonList(1))))
       .andReturn();
-  }
 
-  /**
-   * Add variables to the json data
-   *
-   * @param jsonData Json data
-   * @return Json data with date and time
-   */
-  private String addVariables(String jsonData, Date date, String buttonControllerData, String textControllerData, String textModelData) {
-    String currentDate = sdfDate.format(date);
-    return jsonData
-      .replace("{{currentDate}}", currentDate)
-      .replace("{{currentTime}}", "15:06:23")
-      .replace("{{buttonController}}", buttonControllerData)
-      .replace("{{textController}}", textControllerData)
-      .replace("{{textModel}}", textModelData);
+    String result = mvcResult.getResponse().getContentAsString();
+    logger.debug(result);
   }
 
   // *****************************************************************************************************************//
@@ -392,6 +315,30 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
 
     Assert.assertEquals("fromSessionValue", fromSessionMethodAnnotation());
     Assert.assertEquals("fromSessionValue", fromSessionParameterAnnotation("session"));
+  }
+
+  /**
+   * Perform screen data action to check Json controller attributes
+   *
+   * @param componentID component ID
+   * @param attribute component attribute
+   * @param value attribute value
+   * @throws Exception UnsupportedEncodingException exception
+   */
+  private void checkAttributeComponent(String componentID, String attribute, Object value) throws Exception {
+
+    // Get screen action and check attribute
+    MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
+            .header("Authorization", AUTHORIZATION_HEADER)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(screenParameters)
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath(String.format("$[0].parameters.screenData.components[?(@.id == '%s')].controller.%s", componentID, attribute), is(Collections.singletonList(value))))
+            .andReturn();
+
+    String result = mvcResult.getResponse().getContentAsString();
+    logger.debug(result);
   }
 
   /**
