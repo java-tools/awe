@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
+import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,11 +17,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 /**
  * Class used for testing queries through ActionController
@@ -133,6 +135,34 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
   }
 
   /**
+   *  Test of restricted value list
+   *
+   * @param restrictedValueList restricted value list
+   * @param values restricted values
+   *
+   * @throws Exception Test error
+   */
+  private void testCriterionRestrictedValues(String restrictedValueList, JsonNode values) throws Exception {
+    // Add restriction
+    addRestriction("INSERT", "CrtTstLeft", "SelRea", restrictedValueList, values.asText());
+
+    // Check screen
+    Date date = new Date();
+    MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
+            .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(screenParameters)
+            .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.records", CoreMatchers.is(Arrays.asList(1))))
+            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].label", CoreMatchers.is(Arrays.asList("ENUM_YES"))))
+            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].value", CoreMatchers.is(Arrays.asList("1"))))
+            .andReturn();
+    String result = mvcResult.getResponse().getContentAsString();
+    logger.info(result);
+  }
+
+  /**
    * Test of screen restriction
    *
    * @throws Exception Test error
@@ -170,6 +200,16 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
   @Test
   public void testRestrictVisibility() throws Exception {
     testButtonRestriction("visible", JsonNodeFactory.instance.booleanNode(false));
+  }
+
+  /**
+   * Test of screen restriction - Restricted values of criterion
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testRestrictedValues() throws Exception {
+    testCriterionRestrictedValues("restrictedValueList", JsonNodeFactory.instance.textNode("0"));
   }
 
   /**
@@ -382,7 +422,7 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @FromSession(name = "param")
   private String fromSessionMethodAnnotation() {
-    return new String();
+    return "";
   }
 
   /**
