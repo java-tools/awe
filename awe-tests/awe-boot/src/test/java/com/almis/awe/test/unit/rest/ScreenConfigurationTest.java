@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
-import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,9 +16,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -100,7 +101,7 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
     String result = mvcResult.getResponse().getContentAsString();
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.valueOf(operation), 1l)
+      new MaintainResultDetails(MaintainType.valueOf(operation), 1L)
     });
   }
 
@@ -137,14 +138,13 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
   /**
    *  Test of restricted value list
    *
-   * @param restrictedValueList restricted value list
    * @param values restricted values
    *
    * @throws Exception Test error
    */
-  private void testCriterionRestrictedValues(String restrictedValueList, JsonNode values) throws Exception {
+  private void testCriterionRestrictedValues(JsonNode values) throws Exception {
     // Add restriction
-    addRestriction("INSERT", "CrtTstLeft", "SelRea", restrictedValueList, values.asText());
+    addRestriction("INSERT", "CrtTstLeft", "SelRea", "restrictedValueList", values.asText());
 
     // Check screen
     Date date = new Date();
@@ -154,9 +154,9 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
             .content(screenParameters)
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.records", CoreMatchers.is(Arrays.asList(1))))
-            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].label", CoreMatchers.is(Arrays.asList("ENUM_YES"))))
-            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].value", CoreMatchers.is(Arrays.asList("1"))))
+            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.records", is(Collections.singletonList(1))))
+            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].label", is(Collections.singletonList("ENUM_YES"))))
+            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].value", is(Collections.singletonList("1"))))
             .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
     logger.info(result);
@@ -187,9 +187,6 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
       .andExpect(status().isOk())
       .andExpect(content().json(expected))
       .andReturn();
-    String result = mvcResult.getResponse().getContentAsString();
-    // logger.debug(result);
-    // logger.debug(expected);
   }
 
   /**
@@ -209,7 +206,7 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    */
   @Test
   public void testRestrictedValues() throws Exception {
-    testCriterionRestrictedValues("restrictedValueList", JsonNodeFactory.instance.textNode("0"));
+    testCriterionRestrictedValues(JsonNodeFactory.instance.textNode("0"));
   }
 
   /**
@@ -339,10 +336,10 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
     setParameter("parameter3", "value3");
     setParameter("parameter4", "value4");
 
-    Assert.assertTrue(getParameter("parameter1").equals("value1"));
-    Assert.assertTrue(getParameter("parameter2").equals("value2"));
-    Assert.assertTrue(getParameter("parameter3").equals("value3"));
-    Assert.assertTrue(getParameter("parameter4").equals("value4"));
+    Assert.assertEquals("value1", getParameter("parameter1"));
+    Assert.assertEquals("value2", getParameter("parameter2"));
+    Assert.assertEquals("value3", getParameter("parameter3"));
+    Assert.assertEquals("value4", getParameter("parameter4"));
   }
 
   /**
@@ -355,10 +352,10 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
     setParameter("parameter3", "value2");
     setParameter("parameter4", "value1");
 
-    Assert.assertTrue(getParameter("parameter1").equals("value4"));
-    Assert.assertTrue(getParameter("parameter2").equals("value3"));
-    Assert.assertTrue(getParameter("parameter3").equals("value2"));
-    Assert.assertTrue(getParameter("parameter4").equals("value1"));
+    Assert.assertEquals("value4", getParameter("parameter1"));
+    Assert.assertEquals("value3", getParameter("parameter2"));
+    Assert.assertEquals("value2", getParameter("parameter3"));
+    Assert.assertEquals("value1", getParameter("parameter4"));
   }
 
   /**
@@ -374,10 +371,10 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
     removeParameter("parameter3");
     removeParameter("parameter4");
 
-    Assert.assertTrue(getParameter("parameter1").isEmpty());
-    Assert.assertTrue(getParameter("parameter2").isEmpty());
-    Assert.assertTrue(getParameter("parameter3").isEmpty());
-    Assert.assertTrue(getParameter("parameter4").isEmpty());
+    assertTrue(getParameter("parameter1").isEmpty());
+    assertTrue(getParameter("parameter2").isEmpty());
+    assertTrue(getParameter("parameter3").isEmpty());
+    assertTrue(getParameter("parameter4").isEmpty());
   }
 
   /**
