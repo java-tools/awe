@@ -297,6 +297,9 @@ public class ScreenModelGenerator extends ServiceConfig {
       ServiceData componentTargetOutput = futureData.get();
       DataList componentData = (DataList) componentTargetOutput.getVariableMap().get(AweConstants.ACTION_DATA).getObjectValue();
 
+      // Apply restricted value list
+      applyRestrictedValueList(component, componentData);
+
       // Add all client actions generated
       data.getActions().addAll(componentTargetOutput.getClientActionList());
 
@@ -318,6 +321,25 @@ public class ScreenModelGenerator extends ServiceConfig {
       String errorMessage = getLocale("ERROR_MESSAGE_RETRIEVING_INITIAL_DATA_COMPONENT", target);
       data.addError(new AWException(errorMessage, exc));
       getLogger().log(ScreenModelGenerator.class, Level.ERROR, errorMessage, exc);
+    }
+  }
+
+  /**
+   * Apply restricted value list from screen configuration
+   *
+   * @param component Component
+   * @param componentData Component data
+   */
+  private void applyRestrictedValueList(ScreenComponent component, DataList componentData) {
+    // Retrieve restricted values from configuration
+    AbstractCriteria criteriaComponent = component.getController() instanceof AbstractCriteria ? (AbstractCriteria) component.getController() : null;
+    if (criteriaComponent != null && criteriaComponent.getRestrictedValueList() != null) {
+      String[] restrictedValueList = criteriaComponent.getRestrictedValueList().trim().split(AweConstants.COMMA_SEPARATOR);
+      for (String restrictedValue : restrictedValueList) {
+        // Update componentData
+        componentData.getRows().removeIf(n -> (n.get(AweConstants.JSON_VALUE_PARAMETER).getStringValue().equalsIgnoreCase(restrictedValue)));
+        componentData.setRecords(componentData.getRows().size());
+      }
     }
   }
 

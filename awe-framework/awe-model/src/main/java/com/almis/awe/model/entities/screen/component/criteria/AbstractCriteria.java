@@ -215,6 +215,11 @@ public abstract class AbstractCriteria extends Component {
   @XStreamOmitField
   private String defaultValue;
 
+  // Restricted VALUES from screen configuration
+  @JsonIgnore
+  @XStreamOmitField
+  private String restrictedValueList;
+
   /**
    * Returns if criteria is checked
    * @return criteria is checked
