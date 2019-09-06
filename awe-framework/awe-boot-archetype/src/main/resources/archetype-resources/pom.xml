@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-starter-parent</artifactId>
-    <version>\${project.version}</version>
+    <version>${project.version}</version>
     <relativePath />
   </parent>
 
@@ -20,6 +20,7 @@
     <!-- Application maven properties -->
     <java.version>1.8</java.version>
     <application.name>\${artifactId} V\${version}</application.name>
+    <application.acronym>\${artifactId}</application.acronym>
 
     <!-- Build properties -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
