@@ -1,18 +1,19 @@
 package com.almis.awe.model.util.data;
 
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.dto.CellData;
-import com.almis.awe.model.dto.CompareRow;
-import com.almis.awe.model.dto.DataList;
-import com.almis.awe.model.dto.SortColumn;
+import com.almis.awe.model.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.springframework.beans.PropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
+import org.springframework.expression.spel.ast.MethodReference;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
 
 /**
  * DataList Class
@@ -25,7 +26,8 @@ public final class DataListUtil {
   /**
    * Private constructor to hide the implicit one
    */
-  private DataListUtil() {}
+  private DataListUtil() {
+  }
 
   /**
    * Get a copy of dataList object
@@ -45,9 +47,9 @@ public final class DataListUtil {
   /**
    * Returns the value data by (rowNumber, hashKey)
    *
-   * @param list DataList
+   * @param list      DataList
    * @param rowNumber Row number
-   * @param key Column name
+   * @param key       Column name
    * @return Single Value Data
    */
   public static String getData(DataList list, Integer rowNumber, String key) {
@@ -67,8 +69,8 @@ public final class DataListUtil {
   /**
    * Returns the cellData value by (rowNumber, columnName)
    *
-   * @param list DataList
-   * @param rowNumber Row number
+   * @param list       DataList
+   * @param rowNumber  Row number
    * @param columnName Column name
    * @return Single cellData
    */
@@ -79,7 +81,7 @@ public final class DataListUtil {
   /**
    * Returns the HasMap Row by (rowNumber)
    *
-   * @param list DataList
+   * @param list      DataList
    * @param rowNumber Row number
    * @return Single Hash Map
    */
@@ -90,15 +92,15 @@ public final class DataListUtil {
   /**
    * Retrieve the row index for an identifier
    *
-   * @param list DataList
+   * @param list             DataList
    * @param columnIdentifier Column identifier
-   * @param rowIdentifier Row identifier
+   * @param rowIdentifier    Row identifier
    * @return Row index
    */
   public static int getRowIndex(DataList list, String columnIdentifier, Object rowIdentifier) {
     // Init variables
     int index = 0;
-    for (Map<String, CellData> row: list.getRows()) {
+    for (Map<String, CellData> row : list.getRows()) {
       CellData cell = row.get(columnIdentifier);
       if (cell != null && cell.getObjectValue().equals(rowIdentifier)) {
         return index;
@@ -112,8 +114,8 @@ public final class DataListUtil {
   /**
    * Set column Name and it's value per line
    *
-   * @param list DataList
-   * @param columnName Column name (alias)
+   * @param list         DataList
+   * @param columnName   Column name (alias)
    * @param defaultValue Default value
    */
   public static void addColumn(DataList list, String columnName, String defaultValue) {
@@ -137,9 +139,9 @@ public final class DataListUtil {
   /**
    * Copy column from other datalist
    *
-   * @param target Target datalist
+   * @param target           Target datalist
    * @param targetColumnName Target column
-   * @param source Source datalist
+   * @param source           Source datalist
    * @param sourceColumnName Source column
    */
   public static void copyColumn(DataList target, String targetColumnName, DataList source, String sourceColumnName) {
@@ -148,7 +150,8 @@ public final class DataListUtil {
 
   /**
    * Rename column in datalist
-   * @param dataList DataList
+   *
+   * @param dataList         DataList
    * @param sourceColumnName Source column name
    * @param targetColumnName Target column name
    */
@@ -164,8 +167,8 @@ public final class DataListUtil {
   /**
    * Set column Name and it's value per line
    *
-   * @param list Datalist
-   * @param columnName Column name (alias)
+   * @param list         Datalist
+   * @param columnName   Column name (alias)
    * @param columnValues List with column values
    */
   public static void addColumn(DataList list, String columnName, List<?> columnValues) {
@@ -191,10 +194,10 @@ public final class DataListUtil {
   /**
    * Set column Name and it's value per line
    *
-   * @param list DataList
-   * @param column Column name
+   * @param list      DataList
+   * @param column    Column name
    * @param rowNumber Row number
-   * @param cell Cell data
+   * @param cell      Cell data
    */
   private static void addCellToRow(DataList list, String column, Integer rowNumber, CellData cell) {
     // If size is lower or equal than current rowId, add one row
@@ -212,7 +215,7 @@ public final class DataListUtil {
   /**
    * Returns the datalist as a string array
    *
-   * @param dataList Datalist
+   * @param dataList   Datalist
    * @param columnList Column order
    * @return DataList as a string array
    */
@@ -231,9 +234,10 @@ public final class DataListUtil {
 
   /**
    * Return the datalist as bean list
-   * @param dataList datalist
+   *
+   * @param dataList  datalist
    * @param beanClass bean class
-   * @param <T> class type
+   * @param <T>       class type
    * @return bean list
    * @throws AWException AWE exception
    */
@@ -266,9 +270,9 @@ public final class DataListUtil {
   /**
    * Add a column with one row value
    *
-   * @param list DataList
+   * @param list       DataList
    * @param columnName Column name (alias)
-   * @param cellValue Cell value
+   * @param cellValue  Cell value
    */
   public static void addColumnWithOneRow(DataList list, String columnName, Object cellValue) {
     // Add cell to row
@@ -278,7 +282,7 @@ public final class DataListUtil {
   /**
    * Retrieve a column data
    *
-   * @param list DataList
+   * @param list       DataList
    * @param columnName Column name (alias)
    * @return Column object list
    */
@@ -296,7 +300,7 @@ public final class DataListUtil {
   /**
    * Retrieve a column data as QueryParameter
    *
-   * @param list DataList
+   * @param list       DataList
    * @param columnName Column name (alias)
    * @return Column object list
    */
@@ -315,7 +319,7 @@ public final class DataListUtil {
   /**
    * Sort datalist
    *
-   * @param list DataList to sort
+   * @param list     DataList to sort
    * @param sortList Sort by field list
    */
   public static void sort(DataList list, List<SortColumn> sortList) {
@@ -325,8 +329,8 @@ public final class DataListUtil {
   /**
    * Sort datalist
    *
-   * @param list DataList to sort
-   * @param columnId Sort by field list
+   * @param list      DataList to sort
+   * @param columnId  Sort by field list
    * @param direction Sort direction
    */
   public static void sort(DataList list, String columnId, String direction) {
@@ -339,22 +343,58 @@ public final class DataListUtil {
   /**
    * Remove the rows whose column value is distinct to the value
    *
-   * @param list DataList to filter
+   * @param list   DataList to filter
    * @param column column to check
-   * @param value value to check
+   * @param value  value to check
    */
   public static void filter(DataList list, String column, String value) {
+    filter(list, new FilterColumn(column, value));
+  }
+
+  /**
+   * Remove the rows whose column value is distinct to the value
+   *
+   * @param list          DataList to filter
+   * @param filterColumns columns to check
+   */
+  public static void filter(DataList list, FilterColumn... filterColumns) {
+    filterDataList(list, String::equalsIgnoreCase, filterColumns);
+  }
+
+  /**
+   * Remove the rows whose column value doesn't contains the defined values
+   *
+   * @param list          DataList to filter
+   * @param filterColumns columns to check
+   */
+  public static void filterContains(DataList list, FilterColumn... filterColumns) {
+    filterDataList(list, (String a, String b) -> a.toUpperCase().contains(b.toUpperCase()), filterColumns);
+  }
+
+  /**
+   * Filter a DataList
+   *
+   * @param list          DataList to filter
+   * @param comparator    Comparator
+   * @param filterColumns Columns to filter
+   */
+  private static void filterDataList(DataList list, BiPredicate<String, String> comparator, FilterColumn... filterColumns) {
     List<Map<String, CellData>> newRows = new ArrayList<>();
     for (Map<String, CellData> row : list.getRows()) {
-      if (row.containsKey(column)) {
-        CellData cell = row.get(column);
-        if (cell.getStringValue().equalsIgnoreCase(value)) {
-          newRows.add(row);
+      boolean add = false;
+      for (FilterColumn filterColumn : filterColumns) {
+        if (row.containsKey(filterColumn.getColumnId()) && comparator.test(row.get(filterColumn.getColumnId()).getStringValue().toUpperCase(), filterColumn.getValue().toUpperCase())) {
+          add = true;
         }
+      }
+
+      if (add) {
+        newRows.add(row);
       }
     }
     // Set the new list
     list.setRows(newRows);
+    list.setRecords(newRows.size());
   }
 
   /**
@@ -380,13 +420,13 @@ public final class DataListUtil {
   /**
    * Keeps only distinct values of given fields
    *
-   * @param list DataList
+   * @param list        DataList
    * @param sortColumns Sort by field list
    */
   public static void distinct(DataList list, List<SortColumn> sortColumns) {
     CompareRow comparator = new CompareRow(sortColumns);
     List<Map<String, CellData>> newRows = new ArrayList<>();
-    for (Map<String, CellData> row: list.getRows()) {
+    for (Map<String, CellData> row : list.getRows()) {
       if (!in(newRows, row, comparator)) {
         newRows.add((Map<String, CellData>) ((HashMap<String, CellData>) row).clone());
       }
@@ -400,7 +440,7 @@ public final class DataListUtil {
   /**
    * Check if a row is inside another list
    *
-   * @param list Row list
+   * @param list       Row list
    * @param rowToCheck row to check
    * @param comparator row comparator
    */
