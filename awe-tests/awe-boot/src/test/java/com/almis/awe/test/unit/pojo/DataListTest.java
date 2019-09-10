@@ -1,6 +1,7 @@
 package com.almis.awe.test.unit.pojo;
 
 import com.almis.awe.model.dto.DataList;
+import com.almis.awe.model.dto.FilterColumn;
 import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.model.util.data.DateUtil;
 import com.almis.awe.service.data.builder.DataListBuilder;
@@ -9,6 +10,7 @@ import com.almis.awe.test.unit.TestUtil;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +38,69 @@ public class DataListTest extends TestUtil {
 
     // Run
     DataList output = builder.build();
+
+    // Assert
+    assertEquals(3, output.getRows().size());
+    assertEquals(3L, output.getRecords());
+  }
+
+  /**
+   * Test of check public addresses
+   * @throws Exception Test error
+   */
+  @Test
+  public void testBuilderFilterListDataList() throws Exception {
+    // Prepare
+    DataListBuilder builder = new DataListBuilder();
+    builder.addColumn("test1", Arrays.asList("value1", "value2", "asdzz3", "val", "aaaaa5", "tutu"), "STRING");
+    builder.addColumn("test2", Arrays.asList("asasa1", "value2", "asdzz3", "val", "value5"), "STRING");
+    builder.addColumn("test3", Arrays.asList("asasa1", "value2", "value3", "val", "aaaaa5", "lere"), "STRING");
+    builder.filter(Arrays.asList(new FilterColumn("test2", "as")));
+
+    // Run
+    DataList output = builder.build();
+
+    // Assert
+    assertEquals(2, output.getRows().size());
+    assertEquals(2L, output.getRecords());
+  }
+
+  /**
+   * Test of check data list utilities
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDataListUtilFilterDataList() throws Exception {
+    // Prepare
+    DataListBuilder builder = new DataListBuilder();
+    builder.addColumn("test1", Arrays.asList("value1", "value2", "asdzz3", "val", "aaaaa5", "tutu"), "STRING");
+    builder.addColumn("test2", Arrays.asList("asasa1", "value2", "asdzz3", "val", "value5"), "STRING");
+    builder.addColumn("test3", Arrays.asList("asasa1", "value2", "value3", "val", "aaaaa5", "lere"), "STRING");
+
+    // Run
+    DataList output = builder.build();
+    DataListUtil.filter(output, new FilterColumn("test2", "value2"), new FilterColumn("test1", "val"));
+
+    // Assert
+    assertEquals(2, output.getRows().size());
+    assertEquals(2L, output.getRecords());
+  }
+
+  /**
+   * Test of check data list utilities
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDataListUtilFilterContainsDataList() throws Exception {
+    // Prepare
+    DataListBuilder builder = new DataListBuilder();
+    builder.addColumn("test1", Arrays.asList("value1", "value2", "asdzz3", "val", "aaaaa5", "tutu"), "STRING");
+    builder.addColumn("test2", Arrays.asList("asasa1", "value2", "asdzz3", "val", "value5"), "STRING");
+    builder.addColumn("test3", Arrays.asList("asasa1", "value2", "value3", "val", "aaaaa5", "lere"), "STRING");
+
+    // Run
+    DataList output = builder.build();
+    DataListUtil.filterContains(output, new FilterColumn("test2", "val"));
 
     // Assert
     assertEquals(3, output.getRows().size());

@@ -4,6 +4,7 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
+import com.almis.awe.model.dto.FilterColumn;
 import com.almis.awe.model.dto.SortColumn;
 import com.almis.awe.model.entities.Global;
 import com.almis.awe.model.entities.queries.Field;
@@ -25,7 +26,7 @@ import static com.almis.awe.model.constant.AweConstants.*;
 
 /**
  * DataList Builder
- *
+ * <p>
  * Builder class to generate DataLists
  *
  * @author Pablo GARCIA - 20/MAR/2017
@@ -53,7 +54,7 @@ public class DataListBuilder extends ServiceConfig {
   private Expression<?> projection = null;
   private List<SortColumn> sortList = null;
   private List<SortColumn> distinctList = null;
-  private Map<String, String> filterMap = null;
+  private List<FilterColumn> filterList = null;
   private List<TotalizeColumnProcessor> totalizeList = null;
   private List<ComputedColumnProcessor> computedList = null;
   private List<TransformCellProcessor> transformList = null;
@@ -238,10 +239,10 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Add a column to datalist
-   * 
+   *
    * @param columnId Column id
-   * @param data Column data
-   * @param type Column data type
+   * @param data     Column data
+   * @param type     Column data type
    * @return DataListBuilder
    */
   public DataListBuilder addColumn(String columnId, List<? extends Object> data, String type) {
@@ -272,7 +273,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Set datalist page
-   * 
+   *
    * @param page Page number
    * @return DataListBuilder
    */
@@ -283,7 +284,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Set datalist max records per page
-   * 
+   *
    * @param max Max elements per page
    * @return DataListBuilder
    */
@@ -294,7 +295,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Set datalist records
-   * 
+   *
    * @param records Total records
    * @return DataListBuilder
    */
@@ -305,7 +306,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Get datalist page
-   * 
+   *
    * @return records
    */
   private long getPage() {
@@ -314,7 +315,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Get datalist records
-   * 
+   *
    * @return records
    */
   private long getRecords() {
@@ -323,7 +324,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Get datalist records
-   * 
+   *
    * @return records
    */
   private long getTotalPages() {
@@ -332,7 +333,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Set datalist max records per page
-   * 
+   *
    * @param sortList Sort field list
    * @return DataListBuilder
    */
@@ -344,23 +345,35 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Filter datalist
-   * 
+   *
    * @param column Column name
-   * @param value filter value
+   * @param value  filter value
    * @return DataListBuilder
    */
   public DataListBuilder filter(String column, String value) {
-    if (this.filterMap == null) {
-      this.filterMap = new HashMap<>();
+    if (this.filterList == null) {
+      this.filterList = new ArrayList<>();
     }
-    this.filterMap.put(column, value);
+    this.filterList.add(new FilterColumn(column, value));
+    this.filter = true;
+    return this;
+  }
+
+  /**
+   * Filter datalist
+   *
+   * @param filterList Filter list
+   * @return DataListBuilder
+   */
+  public DataListBuilder filter(List<FilterColumn> filterList) {
+    this.filterList = filterList;
     this.filter = true;
     return this;
   }
 
   /**
    * Set datalist max records per page
-   * 
+   *
    * @param distinctList Sort field list
    * @return DataListBuilder
    */
@@ -372,7 +385,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Generate identifiers
-   * 
+   *
    * @return DataListBuilder
    */
   public DataListBuilder generateIdentifiers() {
@@ -382,7 +395,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Totalize the datalist
-   * 
+   *
    * @param totalizeList Totalize list
    * @return DataListBuilder
    */
@@ -394,7 +407,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Build datalist
-   * 
+   *
    * @return DataListBuilder
    * @throws AWException Error building datalist
    */
@@ -416,7 +429,6 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Extract data
-   *
    */
   private void extractData() {
     dataList = dataList == null ? new DataList() : dataList;
@@ -457,7 +469,7 @@ public class DataListBuilder extends ServiceConfig {
   private void transformData() throws AWException {
 
     // Filter the list
-    if (filter && filterMap != null) {
+    if (filter && filterList != null) {
       doFilter();
     }
 
@@ -527,11 +539,8 @@ public class DataListBuilder extends ServiceConfig {
     Integer rowNumber = 1;
     for (Global option : enumQueryResult) {
 
-      HashMap<String, CellData> row = new HashMap<>();
-
-      if (rowNumber != null) {
-        row.put(DATALIST_IDENTIFIER, new CellData(rowNumber));
-      }
+      Map<String, CellData> row = new HashMap<>();
+      row.put(DATALIST_IDENTIFIER, new CellData(rowNumber));
 
       if (option.getLabel() != null) {
         row.put(JSON_LABEL_PARAMETER, new CellData(option.getLabel()));
@@ -552,7 +561,7 @@ public class DataListBuilder extends ServiceConfig {
    */
   private void generateFromColumnListResult() {
     List<Map<String, CellData>> rowList = new ArrayList<>();
-    for (Map.Entry<String,List<CellData>> columnListEntry : columnList.entrySet()) {
+    for (Map.Entry<String, List<CellData>> columnListEntry : columnList.entrySet()) {
       int rowIndex = 0;
       for (CellData cellData : columnListEntry.getValue()) {
         Map<String, CellData> row;
@@ -576,7 +585,6 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Generate datalist data from service query result
-   *
    */
   private void generateFromServiceQueryResult() {
     Integer totalRows = 0;
@@ -613,7 +621,7 @@ public class DataListBuilder extends ServiceConfig {
    * @param rowIndex Row number
    * @return Row data
    */
-  private HashMap<String, CellData> generateFieldValues(Integer rowIndex)  {
+  private HashMap<String, CellData> generateFieldValues(Integer rowIndex) {
     // Variable definition */
     HashMap<String, CellData> row = new HashMap<>();
     Integer columnIndex = 0;
@@ -662,7 +670,7 @@ public class DataListBuilder extends ServiceConfig {
    * Remove the rows whose column value is distinct to the value
    */
   private void doFilter() throws AWException {
-    dataList.setRows(new FilterRowProcessor().setFilterMap(filterMap).process(dataList.getRows()));
+    dataList.setRows(new FilterRowProcessor().setFilterList(filterList).process(dataList.getRows()));
   }
 
   /**
@@ -688,7 +696,7 @@ public class DataListBuilder extends ServiceConfig {
     List<Map<String, CellData>> rows = dataList.getRows();
     if (max > 0 && rows.size() > max) {
       // Avoid off bounds
-      page = page > getTotalPages() ? getTotalPages() : page;
+      page = Math.min(page, getTotalPages());
       page = page < 1 ? 1 : page;
 
       // Calculate start and end rows
@@ -704,7 +712,7 @@ public class DataListBuilder extends ServiceConfig {
    * Generate computes, data, compounds and identifiers
    */
   private void doEvaluate() throws AWException {
-    Integer rowIndex = 1;
+    int rowIndex = 1;
     for (Map<String, CellData> row : dataList.getRows()) {
       // Transform data for this row
       if (translate) {
@@ -740,7 +748,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Generate compute columns
-   * 
+   *
    * @param row Row to process
    */
   private void doComputes(Map<String, CellData> row) throws AWException {
@@ -753,7 +761,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Generate transformations on columns
-   * 
+   *
    * @param row Row to process
    */
   private void doTransforms(Map<String, CellData> row) throws AWException {
@@ -765,7 +773,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Generate translations on columns
-   * 
+   *
    * @param row Row to process
    */
   private void doTranslates(Map<String, CellData> row) throws AWException {
@@ -777,7 +785,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Generate compound columns
-   * 
+   *
    * @param row Row to process
    */
   private void doCompounds(Map<String, CellData> row) throws AWException {
@@ -790,7 +798,7 @@ public class DataListBuilder extends ServiceConfig {
 
   /**
    * Remove noPrint fields
-   * 
+   *
    * @param row Row to process
    */
   private void doNoPrint(Map<String, CellData> row) {

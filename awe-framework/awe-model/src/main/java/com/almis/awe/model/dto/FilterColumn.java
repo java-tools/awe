@@ -7,28 +7,28 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Data;
 
 /**
- * SortColumn Class
+ * FilterColumn Class
  *
- * Bean class with sort column definition
+ * Bean class with filter column definition
  *
  *
  * @author Pablo GARCIA - 18/Jan/2016
  */
 @Data
-public class SortColumn {
+public class FilterColumn {
 
   private String columnId;
-  private String direction;
+  private String value;
 
   /**
    * Constructor
    *
    * @param field     Field to sort
-   * @param direction Direction (ASC, DESC)
+   * @param value     Value to filter
    */
-  public SortColumn(String field, String direction) {
+  public FilterColumn(String field, String value) {
     this.columnId = field;
-    this.direction = direction != null ? direction.toUpperCase() : null;
+    this.value = value;
   }
 
   /**
@@ -36,8 +36,8 @@ public class SortColumn {
    *
    * @param sortColumn Column to be sorted
    */
-  public SortColumn(ObjectNode sortColumn) {
+  public FilterColumn(ObjectNode sortColumn) {
     this.columnId = sortColumn.get("id").asText();
-    this.direction = sortColumn.get("direction").asText().toUpperCase();
+    this.value = sortColumn.get("value").asText();
   }
 }
