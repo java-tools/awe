@@ -22,7 +22,7 @@ import java.util.List;
 
 /**
  * Dialog Class
- *
+ * <p>
  * Used to parse a dialog tag with XStream
  * Generates a dialog structure with header, center and footing
  *
@@ -79,13 +79,14 @@ public class Dialog extends Component {
 
   /**
    * Returns the children element list of a desired TYPE
+   *
    * @param processDialog    flag to check dialog elements
    * @param elementClassList element class
-   * @param <T> element type
+   * @param <T>              element type
    * @return Children List
    */
   @Override
-  public <T> List<T> getElementsByType(Boolean processDialog, Class<T>... elementClassList) {
+  public <T> List<T> getElementsByType(boolean processDialog, Class<T>... elementClassList) {
     if (processDialog) {
       return super.getElementsByType(processDialog, elementClassList);
     } else {

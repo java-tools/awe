@@ -6,7 +6,6 @@ import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.FilterColumn;
 import com.almis.awe.model.util.data.DataListUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +17,7 @@ public class FilterRowProcessor implements RowProcessor {
 
   /**
    * Set filter list
+   *
    * @param filterList filter list
    * @return filter row processor
    */
@@ -28,6 +28,7 @@ public class FilterRowProcessor implements RowProcessor {
 
   /**
    * Process row list
+   *
    * @param rowList row list
    * @return row list processed
    * @throws AWException AWE exception

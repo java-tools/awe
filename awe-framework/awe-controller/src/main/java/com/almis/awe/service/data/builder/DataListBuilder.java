@@ -661,7 +661,7 @@ public class DataListBuilder extends ServiceConfig {
   /**
    * Sort datalist
    */
-  private void doSort() throws AWException {
+  private void doSort() {
     // Set rows and records
     dataList.setRows(new SortRowProcessor().setSortList(sortList).process(dataList.getRows()));
   }
@@ -669,14 +669,14 @@ public class DataListBuilder extends ServiceConfig {
   /**
    * Remove the rows whose column value is distinct to the value
    */
-  private void doFilter() throws AWException {
+  private void doFilter() {
     dataList.setRows(new FilterRowProcessor().setFilterList(filterList).process(dataList.getRows()));
   }
 
   /**
    * Keeps only distinct values of given fields
    */
-  private void doDistinct() throws AWException {
+  private void doDistinct() {
     // Set rows and records
     dataList.setRows(new DistinctRowProcessor().setDistinctList(distinctList).process(dataList.getRows()));
   }

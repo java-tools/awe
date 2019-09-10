@@ -39,7 +39,7 @@ public class LogUtil {
   private String defaultLogLevel;
 
   @Value("${application.log.users.enabled:false}")
-  private Boolean logUsersEnabled;
+  private boolean logUsersEnabled;
 
   @Value("${spring.datasource.jndi-name:}")
   private String defaultDatasource;

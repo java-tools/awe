@@ -25,6 +25,7 @@ import javax.jms.Message;
 import javax.jms.TextMessage;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class QueueProcessor extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param serializer serializer
    */
   @Autowired
@@ -47,8 +49,9 @@ public class QueueProcessor extends ServiceConfig {
 
   /**
    * Parse queue message
+   *
    * @param response Response
-   * @param message Message
+   * @param message  Message
    * @return Service data
    * @throws AWException Error parsing response
    */
@@ -63,18 +66,18 @@ public class QueueProcessor extends ServiceConfig {
             serviceData = parseMapMessage(response, (MapMessage) message);
             break;
           case TEXT:
-            default:
+          default:
             serviceData = parseTextMessage(response, (TextMessage) message);
         }
       } else {
         throw new AWException(getLocale("ERROR_TITLE_PARSING_RESPONSE_MESSAGE"),
-                getLocale("ERROR_MESSAGE_PARSING_RESPONSE_MESSAGE"));
+          getLocale("ERROR_MESSAGE_PARSING_RESPONSE_MESSAGE"));
       }
     } catch (AWException exc) {
       throw exc;
     } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_PARSING_RESPONSE_MESSAGE"),
-              getLocale("ERROR_MESSAGE_PARSING_RESPONSE_MESSAGE"), exc);
+        getLocale("ERROR_MESSAGE_PARSING_RESPONSE_MESSAGE"), exc);
     }
 
     // Retrieve message parsed as datalist
@@ -83,8 +86,9 @@ public class QueueProcessor extends ServiceConfig {
 
   /**
    * Parse text message parameters
+   *
    * @param response Response
-   * @param message Message
+   * @param message  Message
    * @return Service data
    * @throws AWException Error parsing message as text
    */
@@ -107,7 +111,7 @@ public class QueueProcessor extends ServiceConfig {
       }
     } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_PARSING_MESSAGE_TEXT_PARAMETERS"),
-              getLocale("ERROR_MESSAGE_PARSING_MESSAGE_TEXT_PARAMETERS"), exc);
+        getLocale("ERROR_MESSAGE_PARSING_MESSAGE_TEXT_PARAMETERS"), exc);
     }
 
     return serviceData;
@@ -115,8 +119,9 @@ public class QueueProcessor extends ServiceConfig {
 
   /**
    * Retrieve parameter values
+   *
    * @param response Response
-   * @param message Message
+   * @param message  Message
    * @param dataList Datalist
    */
   private void retrieveParameterValues(ResponseMessage response, String message, DataList dataList) {
@@ -168,8 +173,9 @@ public class QueueProcessor extends ServiceConfig {
 
   /**
    * Parse map message parameters
+   *
    * @param response Response
-   * @param message Message
+   * @param message  Message
    * @return Service data
    * @throws AWException Error parsing map message
    */
@@ -211,7 +217,7 @@ public class QueueProcessor extends ServiceConfig {
       throw exc;
     } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_PARSING_MESSAGE_MAP_PARAMETERS"),
-              getLocale("ERROR_MESSAGE_PARSING_MESSAGE_MAP_PARAMETERS"), exc);
+        getLocale("ERROR_MESSAGE_PARSING_MESSAGE_MAP_PARAMETERS"), exc);
     }
 
     return serviceData;
@@ -219,10 +225,11 @@ public class QueueProcessor extends ServiceConfig {
 
   /**
    * Retrieve parameter values
+   *
    * @param response Response
-   * @param message Message
+   * @param message  Message
    * @param dataList Datalist
-   * @throws AWException AWE exception
+   * @throws AWException  AWE exception
    * @throws JMSException JMS exception
    */
   private void retrieveParameterValues(ResponseMessage response, MapMessage message, DataList dataList) throws AWException, JMSException {
@@ -246,10 +253,11 @@ public class QueueProcessor extends ServiceConfig {
 
   /**
    * Retrieve parameter list
+   *
    * @param parameter Parameter
-   * @param message Message
-   * @param dataList Data list
-   * @throws AWException AWE exception
+   * @param message   Message
+   * @param dataList  Data list
+   * @throws AWException  AWE exception
    * @throws JMSException JMS exception
    */
   private void retrieveParameterList(MessageParameter parameter, MapMessage message, DataList dataList) throws AWException, JMSException {
@@ -261,14 +269,8 @@ public class QueueProcessor extends ServiceConfig {
       // Parse list as arraylist
       list = (List<Object>) value;
     } else if (value instanceof Object[]) {
-      // Cast value
-      Object[] valueList = (Object[]) value;
-
       // Read list values
-      for (Integer listIndex = 0, size = valueList.length; listIndex < size; listIndex++) {
-        // Read queue value and add it into the list
-        list.add(valueList[listIndex]);
-      }
+      list = Arrays.asList((Object[]) value);
     } else if (value == null) {
       // Read value list size
       Integer size = message.getInt(parameter.getName());
@@ -289,10 +291,11 @@ public class QueueProcessor extends ServiceConfig {
 
   /**
    * Set message status
+   *
    * @param serviceData Service data
-   * @param response Response
-   * @param message Message
-   * @throws AWException AWE exception
+   * @param response    Response
+   * @param message     Message
+   * @throws AWException  AWE exception
    * @throws JMSException JMS exception
    */
   private void setMessageStatus(ServiceData serviceData, ResponseMessage response, MapMessage message) throws AWException, JMSException {
@@ -368,7 +371,7 @@ public class QueueProcessor extends ServiceConfig {
     // Parse message as Object (mapping all attributes to object attributes)
     String currentKey = null;
     try {
-      List<String> mapKeys =  Collections.list(message.getMapNames());
+      List<String> mapKeys = Collections.list(message.getMapNames());
       PropertyAccessor myAccessor = PropertyAccessorFactory.forDirectFieldAccess(responseWrapper);
       for (String key : mapKeys) {
         currentKey = key;
