@@ -427,11 +427,6 @@ Start a new release:
   - git commit -m "Generated CHANGELOG"
   ## Generate release
   - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true
-  ## Update property on release
-  - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
-  - git add ./pom.xml
-  - git commit -m "Updated revision property on release"
-  - git push --set-upstream origin release/$NEW_VERSION
   only:
   - develop
   when: manual
@@ -450,12 +445,6 @@ Finish the release:
   ## Push master and tags
   - git checkout master
   - git push --follow-tags
-  ## Update property on develop
-  - git checkout develop
-  - mvn $MAVEN_CLI_OPTS xml:transform --non-recursive
-  - git add ./pom.xml
-  - git commit -m "Updated revision property on develop"
-  - git push
   ## Delete remote branch
   - git push --delete origin $CI_COMMIT_REF_NAME
   only:
