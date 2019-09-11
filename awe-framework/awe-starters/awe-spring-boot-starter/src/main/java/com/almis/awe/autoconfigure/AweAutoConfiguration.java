@@ -1,9 +1,11 @@
 package com.almis.awe.autoconfigure;
 
 import com.almis.ade.api.ADE;
+import com.almis.awe.dao.InitialLoadDao;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.component.XStreamSerializer;
+import com.almis.awe.model.dao.AweElementsDao;
 import com.almis.awe.model.util.data.NumericUtil;
 import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.model.util.file.FileUtil;
@@ -76,14 +78,39 @@ public class AweAutoConfiguration {
 
   /**
    * Awe Elements
-   * @param serializer XStream serializer
    * @param logger Logger
    * @return Awe Elements bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public AweElements aweElements(XStreamSerializer serializer, LogUtil logger) {
-    return new AweElements(serializer, context, logger);
+  public AweElements aweElements(LogUtil logger, AweElementsDao elementsDao) {
+    return new AweElements(context, logger, elementsDao);
+  }
+
+  /////////////////////////////////////////////
+  // DAO
+  /////////////////////////////////////////////
+
+  /**
+   * Awe Elements DAO
+   * @param serializer XStream serializer
+   * @return Awe Elements bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public AweElementsDao aweElementsDao(XStreamSerializer serializer) {
+    return new AweElementsDao(serializer, context);
+  }
+
+  /**
+   * Initial load DAO
+   * @param queryService Query service
+   * @return Initial load DATA ACCESS OBJECT
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public InitialLoadDao initialLoadDao(QueryService queryService) {
+    return new InitialLoadDao(queryService);
   }
 
   /////////////////////////////////////////////
@@ -195,29 +222,18 @@ public class AweAutoConfiguration {
   }
 
   /**
-   * Initial load service
-   * @param queryService Query service
-   * @return Initial load service bean
-   */
-  @Bean
-  @ConditionalOnMissingBean
-  public InitialLoadService initialLoadService(QueryService queryService) {
-    return new InitialLoadService(queryService);
-  }
-
-  /**
    * Menu service
    * @param queryService Query service
    * @param screenRestrictionGenerator Screen Restriction generator
    * @param screenComponentGenerator Screen component generator
-   * @param initialLoadService Initial load service
+   * @param initialLoadDao Initial load service
    * @return Menu service bean
    */
   @Bean
   @ConditionalOnMissingBean
   public MenuService menuService(QueryService queryService, ScreenRestrictionGenerator screenRestrictionGenerator,
-                                 ScreenComponentGenerator screenComponentGenerator, InitialLoadService initialLoadService) {
-    return new MenuService(queryService, screenRestrictionGenerator, screenComponentGenerator, initialLoadService);
+                                 ScreenComponentGenerator screenComponentGenerator, InitialLoadDao initialLoadDao) {
+    return new MenuService(queryService, screenRestrictionGenerator, screenComponentGenerator, initialLoadDao);
   }
 
   /**
@@ -355,14 +371,14 @@ public class AweAutoConfiguration {
   /**
    * Screen model generator
    * @param screenRestrictionGenerator Screen restriction generator
-   * @param initialLoadService Initial load service
+   * @param initialLoadDao Initial load service
    * @return Screen model generator bean
    */
   @Bean
   @ConditionalOnMissingBean
   public ScreenModelGenerator screenModelGenerator(ScreenRestrictionGenerator screenRestrictionGenerator,
-                                                   InitialLoadService initialLoadService) {
-    return new ScreenModelGenerator(screenRestrictionGenerator, initialLoadService);
+                                                   InitialLoadDao initialLoadDao) {
+    return new ScreenModelGenerator(screenRestrictionGenerator, initialLoadDao);
   }
 
   /**
@@ -370,15 +386,15 @@ public class AweAutoConfiguration {
    * @param request Request
    * @param screenModelGenerator Screen model
    * @param screenConfigurationGenerator Screen configuration
-   * @param initialLoadService Initial load service
+   * @param initialLoadDao Initial load service
    * @return Screen component generator bean
    */
   @Bean
   @ConditionalOnMissingBean
   public ScreenComponentGenerator screenComponentGenerator(AweRequest request, ScreenModelGenerator screenModelGenerator,
                                                            ScreenConfigurationGenerator screenConfigurationGenerator,
-                                                           InitialLoadService initialLoadService) {
-    return new ScreenComponentGenerator(request, screenModelGenerator, screenConfigurationGenerator, initialLoadService);
+                                                           InitialLoadDao initialLoadDao) {
+    return new ScreenComponentGenerator(request, screenModelGenerator, screenConfigurationGenerator, initialLoadDao);
   }
 
   /////////////////////////////////////////////

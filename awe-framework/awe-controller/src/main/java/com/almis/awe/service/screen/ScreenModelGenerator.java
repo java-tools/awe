@@ -19,7 +19,7 @@ import com.almis.awe.model.entities.screen.data.ScreenComponent;
 import com.almis.awe.model.entities.screen.data.ScreenData;
 import com.almis.awe.model.type.InputType;
 import com.almis.awe.model.type.LoadType;
-import com.almis.awe.service.InitialLoadService;
+import com.almis.awe.dao.InitialLoadDao;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
@@ -40,7 +40,7 @@ public class ScreenModelGenerator extends ServiceConfig {
 
   // Autowired services
   private ScreenRestrictionGenerator screenRestrictionGenerator;
-  private InitialLoadService initialLoadService;
+  private InitialLoadDao initialLoadDao;
 
   @Value("${settings.dataSuffix:.data}")
   private String dataSuffix;
@@ -48,12 +48,12 @@ public class ScreenModelGenerator extends ServiceConfig {
   /**
    * Autowired constructor
    * @param screenRestrictionGenerator Screen restriction generator
-   * @param initialLoadService Initial load service
+   * @param initialLoadDao Initial load service
    */
   @Autowired
-  public ScreenModelGenerator(ScreenRestrictionGenerator screenRestrictionGenerator, InitialLoadService initialLoadService) {
+  public ScreenModelGenerator(ScreenRestrictionGenerator screenRestrictionGenerator, InitialLoadDao initialLoadDao) {
     this.screenRestrictionGenerator = screenRestrictionGenerator;
-    this.initialLoadService = initialLoadService;
+    this.initialLoadDao = initialLoadDao;
   }
 
   /**
@@ -171,7 +171,7 @@ public class ScreenModelGenerator extends ServiceConfig {
     // Generate a thread for each initialization
     for (AweThreadInitialization initializationData : initializationList) {
       // Launch
-      Future<ServiceData> taskResult = initialLoadService.launchInitialLoad(initializationData);
+      Future<ServiceData> taskResult = initialLoadDao.launchInitialLoad(initializationData);
 
       // If load type is screen, store screen results in list, otherwise store in a component map
       if (LoadType.MENU.equals(initializationData.getInitialLoadType())) {

@@ -1,6 +1,7 @@
 package com.almis.awe.service;
 
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.dao.InitialLoadDao;
 import com.almis.awe.exception.AWESessionException;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
@@ -54,7 +55,7 @@ public class MenuService extends ServiceConfig {
   private QueryService queryService;
   private ScreenRestrictionGenerator screenRestrictionGenerator;
   private ScreenComponentGenerator screenComponentGenerator;
-  private InitialLoadService initialLoadService;
+  private InitialLoadDao initialLoadDao;
 
   private static final String ERROR_TITLE_SCREEN_NOT_DEFINED = "ERROR_TITLE_SCREEN_NOT_DEFINED";
 
@@ -63,15 +64,15 @@ public class MenuService extends ServiceConfig {
    * @param queryService Query service
    * @param screenRestrictionGenerator Screen restriction generator
    * @param screenComponentGenerator Screen component generator
-   * @param initialLoadService Initial load service
+   * @param initialLoadDao Initial load service
    */
   @Autowired
   public MenuService(QueryService queryService, ScreenRestrictionGenerator screenRestrictionGenerator,
-                     ScreenComponentGenerator screenComponentGenerator, InitialLoadService initialLoadService) {
+                     ScreenComponentGenerator screenComponentGenerator, InitialLoadDao initialLoadDao) {
     this.queryService = queryService;
     this.screenRestrictionGenerator = screenRestrictionGenerator;
     this.screenComponentGenerator = screenComponentGenerator;
-    this.initialLoadService = initialLoadService;
+    this.initialLoadDao = initialLoadDao;
   }
 
   /**
@@ -315,7 +316,7 @@ public class MenuService extends ServiceConfig {
     for (Panelable panelable : panelableList) {
       if (panelable.getInitialLoad() != null) {
         // Launch
-        Future<ServiceData> taskResult = initialLoadService.launchInitialLoad(new AweThreadInitialization()
+        Future<ServiceData> taskResult = initialLoadDao.launchInitialLoad(new AweThreadInitialization()
                         .setInitialLoadType(LoadType.valueOf(panelable.getInitialLoad().toUpperCase()))
                         .setTarget(panelable.getTargetAction()));
         resultMap.put(panelable, taskResult);

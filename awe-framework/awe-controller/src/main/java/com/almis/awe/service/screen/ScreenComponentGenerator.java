@@ -18,7 +18,7 @@ import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.entities.screen.component.grid.Grid;
 import com.almis.awe.model.entities.screen.data.*;
-import com.almis.awe.service.InitialLoadService;
+import com.almis.awe.dao.InitialLoadDao;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -40,7 +40,7 @@ public class ScreenComponentGenerator extends ServiceConfig {
   private AweRequest aweRequest;
   private ScreenModelGenerator screenModelGenerator;
   private ScreenConfigurationGenerator screenConfigurationGenerator;
-  private InitialLoadService initialLoadService;
+  private InitialLoadDao initialLoadDao;
 
   @Value("${settings.dataSuffix:.data}")
   private String dataSuffix;
@@ -50,15 +50,15 @@ public class ScreenComponentGenerator extends ServiceConfig {
    * @param request Request
    * @param screenModelGenerator Screen model generator
    * @param screenConfigurationGenerator Screen configuration generator
-   * @param initialLoadService Initial load service
+   * @param initialLoadDao Initial load service
    */
   @Autowired
   public ScreenComponentGenerator(AweRequest request, ScreenModelGenerator screenModelGenerator,
-                                  ScreenConfigurationGenerator screenConfigurationGenerator, InitialLoadService initialLoadService) {
+                                  ScreenConfigurationGenerator screenConfigurationGenerator, InitialLoadDao initialLoadDao) {
     this.aweRequest = request;
     this.screenModelGenerator = screenModelGenerator;
     this.screenConfigurationGenerator = screenConfigurationGenerator;
-    this.initialLoadService = initialLoadService;
+    this.initialLoadDao = initialLoadDao;
   }
 
   /**
@@ -87,7 +87,7 @@ public class ScreenComponentGenerator extends ServiceConfig {
 
     try {
       // Launch configuration thread first
-      Future<ServiceData> configurationResult = initialLoadService.launchInitialLoad(screenConfigurationThread);
+      Future<ServiceData> configurationResult = initialLoadDao.launchInitialLoad(screenConfigurationThread);
 
       // Apply screen configuration
       screenConfigurationGenerator.applyScreenConfiguration(configurationResult, screen);

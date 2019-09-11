@@ -21,14 +21,11 @@ import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Future;
 
 /**
  * Generate the component controllers of the screen
@@ -50,8 +47,9 @@ public class ReportGenerator extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param reportDesigner Report designer
-   * @param adeAPI ADE API
+   * @param adeAPI         ADE API
    */
   @Autowired
   public ReportGenerator(ReportDesigner reportDesigner, ADE adeAPI) {
@@ -117,15 +115,15 @@ public class ReportGenerator extends ServiceConfig {
     try {
       // Generate file
       return adeAPI
-              .printBean()
-              .withJasper()
-              .buildAndExport(printBean)
-              .withName(fileName)
-              .withPath(StringUtil.getAbsolutePath(reportsPath, applicationBasePath))
-              .withDataSource(new JREmptyDataSource());
+        .printBean()
+        .withJasper()
+        .buildAndExport(printBean)
+        .withName(fileName)
+        .withPath(StringUtil.getAbsolutePath(reportsPath, applicationBasePath))
+        .withDataSource(new JREmptyDataSource());
     } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_GENERATING_DOCUMENT_DATA"),
-              getLocale("ERROR_MESSAGE_GENERATING_DOCUMENT_DATA"), exc);
+        getLocale("ERROR_MESSAGE_GENERATING_DOCUMENT_DATA"), exc);
     }
   }
 
@@ -138,26 +136,9 @@ public class ReportGenerator extends ServiceConfig {
    */
   private ServiceData generateReportFormats(TemplateExporterBuilderService builderService, List<String> formats, String fileName) throws AWException {
     ServiceData serviceData = new ServiceData();
-    List<Future<ClientAction>> resultList = new ArrayList<>();
+    String basePath = StringUtil.getAbsolutePath(reportsPath, applicationBasePath);
     for (String format : formats) {
-      resultList.add(generateReportFormat(builderService, format, fileName));
-    }
-
-    // Retrieve results
-    for (Future<ClientAction> result : resultList) {
-      while (true) {
-        if (result.isDone()) {
-          try {
-            serviceData.addClientAction(result.get());
-          } catch (Exception exc) {
-            serviceData.addClientAction(new ClientAction("message")
-                    .addParameter(AweConstants.ACTION_MESSAGE_TYPE_ATTRIBUTE, "error")
-                    .addParameter(AweConstants.ACTION_MESSAGE_TITLE_ATTRIBUTE, getLocale("ERROR_TITLE_GENERATING_DOCUMENT"))
-                    .addParameter(AweConstants.ACTION_MESSAGE_DESCRIPTION_ATTRIBUTE, exc.getMessage()));
-          }
-          break;
-        }
-      }
+      serviceData.addClientAction(generateReportFormat(builderService, format, fileName, basePath));
     }
 
     return serviceData;
@@ -169,13 +150,12 @@ public class ReportGenerator extends ServiceConfig {
    * @param builderService template export builder
    * @param format format
    * @param fileName file name
+   * @param basePath base path
    * @return  future with generate report action
    * @throws AWException AWE exception
    */
-  @Async("threadPoolTaskExecutor")
-  public Future<ClientAction> generateReportFormat(TemplateExporterBuilderService builderService, String format, String fileName) throws AWException {
+  public ClientAction generateReportFormat(TemplateExporterBuilderService builderService, String format, String fileName, String basePath) throws AWException {
     String mimeType;
-    String basePath = StringUtil.getAbsolutePath(reportsPath, applicationBasePath);
     String fullFileName = fileName;
 
     try {
@@ -218,8 +198,11 @@ public class ReportGenerator extends ServiceConfig {
           break;
       }
     } catch (Exception exc) {
-      throw new AWException(getLocale("ERROR_TITLE_GENERATING_DOCUMENT"),
-              getLocale("ERROR_MESSAGE_GENERATING_DOCUMENT"), exc);
+      getLogger().log(ReportGenerator.class, Level.ERROR, "Error generating report file ({0}): {1}{2}", exc, format, basePath, fullFileName);
+      return new ClientAction("message")
+        .addParameter("type", "error")
+        .addParameter("title", getLocale("ERROR_TITLE_GENERATING_DOCUMENT"))
+        .addParameter("message", "ERROR_MESSAGE_GENERATING_DOCUMENT");
     }
 
     // Generate file data
@@ -230,8 +213,8 @@ public class ReportGenerator extends ServiceConfig {
     getLogger().log(ReportGenerator.class, Level.DEBUG, "Report file ({0}) generated: {1}{2}", mimeType, basePath, fullFileName);
 
     // Generate client action with file data
-    return new AsyncResult<>(new ClientAction("get-file")
-            .addParameter("filename", FileUtil.fileDataToString(fileData)));
+    return new ClientAction("get-file")
+      .addParameter("filename", FileUtil.fileDataToString(fileData));
 
   }
 }
