@@ -2342,6 +2342,18 @@
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
+  <query id="testPowerOfFieldOperation">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="POWER" alias="powerField">
+      <constant value="2" type="INTEGER"/>
+      <over>
+        <field function="ROW_NUMBER"/>
+      </over>
+    </operation>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
   <query id="testDiffDates">
     <table id="ope"/>
     <field id="l1_nom" alias="name"/>

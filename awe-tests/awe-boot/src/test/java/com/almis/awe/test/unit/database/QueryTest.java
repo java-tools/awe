@@ -1,14 +1,14 @@
 package com.almis.awe.test.unit.database;
 
 import com.almis.awe.component.AweDatabaseContextHolder;
-import com.almis.awe.exception.AWException;
 import com.almis.awe.test.unit.categories.CIDatabaseTest;
 import com.almis.awe.test.unit.categories.NotCIDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
-import org.junit.*;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 import org.springframework.http.MediaType;
@@ -1005,7 +1005,7 @@ public class QueryTest extends AweSpringDatabaseTests {
     assertEquals(10, dataListRows.size());
 
     ObjectNode endLoad = (ObjectNode) resultList.get(1);
-    assertEquals("end-load", endLoad.get("type").textValue());;
+    assertEquals("end-load", endLoad.get("type").textValue());
 
     // Test all keys
     for (JsonNode element : dataListRows) {
@@ -2589,6 +2589,21 @@ public class QueryTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of POWER operation of one field
+   * @throws Exception Test error
+   */
+  @Test
+  public void testPowerOfFieldOperation() throws Exception {
+    assumeTrue(isInMemoryDatabase());
+    String queryName = "testPowerOfFieldOperation";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"powerField\":2.0,\"name\":\"donald\",\"id\":1},{\"powerField\":4.0,\"name\":\"jaimito\",\"id\":2},{\"powerField\":8.0,\"name\":\"jorgito\",\"id\":3},{\"powerField\":16.0,\"name\":\"juanito\",\"id\":4},{\"powerField\":32.0,\"name\":\"test\",\"id\":5}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertResultJson(queryName, result, 5);
+  }
+
+  /**
    * Test of launchAction method, of class ActionController.
    * @throws Exception Test error
    */
@@ -3059,8 +3074,8 @@ public class QueryTest extends AweSpringDatabaseTests {
 
   /**
    * Check if current database is an in memory database
-   * @return
-   * @throws Exception
+   * @return <code>true</code> if is memory database
+   * @throws Exception {@link Exception}
    */
   private boolean isInMemoryDatabase() throws Exception {
     List<String> validDatabases = Arrays.asList("hsql", "h2");
