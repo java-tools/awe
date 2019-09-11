@@ -1,8 +1,9 @@
-package com.almis.awe.service;
+package com.almis.awe.dao;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.screen.data.AweThreadInitialization;
+import com.almis.awe.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -21,7 +22,7 @@ import static com.almis.awe.model.type.LoadType.ENUM;
  *
  * @author Pablo GARCIA - 20/MAR/2017
  */
-public class InitialLoadService {
+public class InitialLoadDao {
 
   // Autowired services
   private QueryService queryService;
@@ -31,7 +32,7 @@ public class InitialLoadService {
    * @param queryService Query service
    */
   @Autowired
-  public InitialLoadService(QueryService queryService) {
+  public InitialLoadDao(QueryService queryService) {
     this.queryService = queryService;
   }
 
