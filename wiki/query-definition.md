@@ -327,6 +327,7 @@ These are the possible values for the `operator` attribute:
 * **SUB**: Substract two fields
 * **MULT**: Multiply two fields
 * **DIV**: Divide two fields
+* **POWER**: Power of two fields
 * **ADD_SECONDS**: Add seconds to a date field
 * **ADD_MINUTES**: Add minutes to a date field
 * **ADD_HOURS**: Add hours to a date field

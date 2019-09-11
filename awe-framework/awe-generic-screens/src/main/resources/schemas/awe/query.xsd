@@ -239,7 +239,7 @@
 
   <!-- Where Type -->
   <xs:complexType name="whereType">
-    <xs:choice minOccurs="1" maxOccurs="unbounded">
+    <xs:choice maxOccurs="unbounded">
       <xs:element ref="filter"/>
       <xs:element ref="or"/>
       <xs:element ref="and"/>
@@ -248,7 +248,7 @@
 
   <!-- Compound type -->
   <xs:complexType name="compoundType">
-    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+    <xs:sequence maxOccurs="unbounded">
       <xs:element ref="computed" />
     </xs:sequence>
     <xs:attribute name="alias" use="required" type="xs:string" />
@@ -591,6 +591,7 @@
       <xs:enumeration value="SUB" />
       <xs:enumeration value="MULT" />
       <xs:enumeration value="DIV" />
+      <xs:enumeration value="POWER" />
       <xs:enumeration value="ADD_SECONDS" />
       <xs:enumeration value="ADD_MINUTES" />
       <xs:enumeration value="ADD_HOURS" />
