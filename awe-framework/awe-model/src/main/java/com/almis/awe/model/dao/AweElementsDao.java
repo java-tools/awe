@@ -9,6 +9,7 @@ import com.almis.awe.model.util.data.StringUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -152,6 +153,7 @@ public class AweElementsDao {
    * @param <T>      Class type
    * @return Xml file object
    */
+  @Cacheable(value = "xml", key = "{ #p0.toString(), #p1 }")
   public <T> T readXmlFile(Class<T> clazz, String filePath) {
     T file = null;
     List<String> messageList = new ArrayList<>();

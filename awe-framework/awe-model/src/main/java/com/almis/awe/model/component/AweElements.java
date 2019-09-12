@@ -431,7 +431,7 @@ public class AweElements {
       screen = screenMap.get(screenId);
     } else {
       // Get Action
-      screen = readScreen(screenId, new HashSet());
+      screen = readScreen(screenId, new HashSet<>());
 
       // Set screen identifier
       screen.setId(screenId);
@@ -478,6 +478,9 @@ public class AweElements {
     if (screen == null) {
       throw new AWException("Screen" + NOT_FOUND + screenId);
     }
+
+    // Clone screen
+    screen = screen.copy();
 
     // Set screen identifier
     List<Element> elements = screen.getElementsByType(Element.class);
@@ -604,7 +607,7 @@ public class AweElements {
       menu = elementsDao.readXmlFile(Menu.class, path);
       if (menu != null) {
         // Set menu identifier
-        menu.setId(menuId);
+        menu = (Menu) menu.copy().setId(menuId);
       }
     } catch (Exception exc) {
       throw new AWException("Menu" + NOT_FOUND + menuId, exc);
