@@ -154,7 +154,7 @@ public class AweElementsDao {
    * @return Xml file object
    */
   @Cacheable(value = "xml", key = "{ #p0.toString(), #p1 }")
-  public <T> T readXmlFile(Class<T> clazz, String filePath) {
+  public synchronized <T> T readXmlFile(Class<T> clazz, String filePath) {
     T file = null;
     List<String> messageList = new ArrayList<>();
     // For each module read XML files
