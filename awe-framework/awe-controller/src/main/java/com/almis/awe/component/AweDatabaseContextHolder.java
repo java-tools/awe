@@ -37,7 +37,6 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
   private LogUtil logger;
   private StringValueResolver resolver;
 
-
   // Database jndi-url
   @Value("${spring.datasource.jndi-name}")
   private String databaseJndi;
@@ -85,7 +84,8 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
   private String databaseType;
 
   // Store datasources list
-  private Map<String, DatabaseConnectionInfo> connectionInfoMap = null;
+  private Map<String, DatabaseConnectionInfo> connectionInfoMap = new HashMap<>();
+  private Map<Object, Object> dataSourceMap = new HashMap<>();
   private static final String ERROR_TITLE_INVALID_CONNECTION = "ERROR_TITLE_INVALID_CONNECTION";
 
   /**
@@ -93,11 +93,11 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
    * @return datasource map
    */
   public Map<Object, Object> getDataSources() {
-    Map<Object, Object> dataSourceMap = new HashMap<>();
-    Map<String, DatabaseConnectionInfo> currentConnectionInfoMap = loadDataSources();
+    dataSourceMap = new HashMap<>();
+    connectionInfoMap = loadDataSources();
 
     // Retrieve datasources
-    for (DatabaseConnectionInfo connectionInfo : currentConnectionInfoMap.values()) {
+    for (DatabaseConnectionInfo connectionInfo : connectionInfoMap.values()) {
       try {
         dataSourceMap.put(connectionInfo.getAlias(), getDataSource(connectionInfo.getJndi(), connectionInfo.getUrl(),
           connectionInfo.getUser(), connectionInfo.getPassword(), connectionInfo.getDriver(), validationQuery));
@@ -150,9 +150,8 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
    * @return Datasource connection
    */
   DataSource getDataSource(String alias) throws AWException {
-    Map<Object, Object> datasourceMap = getDataSources();
-    if (datasourceMap.containsKey(alias)) {
-      return (DataSource) datasourceMap.get(alias);
+    if (dataSourceMap.containsKey(alias)) {
+      return (DataSource) dataSourceMap.get(alias);
     } else {
       throw new AWException(elements.getLocale(ERROR_TITLE_INVALID_CONNECTION),
         elements.getLocale("ERROR_MESSAGE_UNDEFINED_DATASOURCE", alias));

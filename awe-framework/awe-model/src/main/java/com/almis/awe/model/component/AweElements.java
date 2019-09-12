@@ -35,7 +35,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.validation.constraints.NotNull;
@@ -191,7 +190,7 @@ public class AweElements {
    *
    * @param results future results
    */
-  private void waitForTermination(List<Future<String>> results, String fileType) {
+  protected void waitForTermination(List<Future<String>> results, String fileType) {
     for (Future<String> result : results) {
       try {
         result.get();
