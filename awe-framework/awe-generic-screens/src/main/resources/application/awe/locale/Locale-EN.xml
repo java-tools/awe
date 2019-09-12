@@ -491,7 +491,7 @@
   <locale name="ERROR_MESSAGE_PRINTING_NOPRINTER" value="There is no printer defined for your user. Please, define a printer"/>
   <locale name="ERROR_MESSAGE_PRINTING_SCREEN" value="Make sure that the printer -{0}- is correctly configured in the server"/>
   <locale name="ERROR_MESSAGE_QUERY_JOIN" value="There was a problem trying to generate the join &apos;&apos;{0}&apos;&apos; in query &apos;&apos;{1}&apos;&apos;"/>
-  <locale name="ERROR_MESSAGE_QUERY_NOT_FOUND" value="SQL query has not been defined"/>
+  <locale name="ERROR_MESSAGE_QUERY_NOT_FOUND" value="Query &apos;&apos;{0}&apos;&apos; has not been defined"/>
   <locale name="ERROR_MESSAGE_QUEUE_CONNECTION_FAILED" value="There has been a problem trying to connect to queue {0}"/>
   <locale name="ERROR_MESSAGE_QUEUE_CONNECTION_NOT_IMPLEMENTED" value="The connection type to queue {0} has not been implemented yet"/>
   <locale name="ERROR_MESSAGE_QUEUE_DESTINATION_NOT_FOUND" value="The destination queue {0} has not been found"/>

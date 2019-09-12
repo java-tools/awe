@@ -1,6 +1,8 @@
 package com.almis.awe.test.unit.database;
 
 import com.almis.awe.component.AweDatabaseContextHolder;
+import com.almis.awe.exception.AWException;
+import com.almis.awe.service.QueryService;
 import com.almis.awe.test.unit.categories.CIDatabaseTest;
 import com.almis.awe.test.unit.categories.NotCIDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,6 +13,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -38,6 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class QueryTest extends AweSpringDatabaseTests {
 
   private static final String DATABASE = "aweora2";
+
+  @Autowired
+  private QueryService queryService;
 
   /**
    * Asserts the JSON in the response
@@ -172,6 +178,16 @@ public class QueryTest extends AweSpringDatabaseTests {
 
     String result = performRequest(queryName, variables, DATABASE, expected);
     assertResultJson(queryName, result, 12, 1, 1, 12);
+  }
+
+  /**
+   * Test of query not defined.
+   *
+   * @throws AWException Test error
+   */
+  @Test(expected = AWException.class)
+  public void testDatabaseQueryNotDefined() throws Exception {
+    queryService.launchQuery("QueryNotDefined");
   }
 
   /**
