@@ -1,5 +1,6 @@
 package com.almis.awe.test.unit.database;
 
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
 import com.almis.awe.service.MaintainService;
@@ -13,6 +14,7 @@ import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -34,6 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Log4j2
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MaintainTest extends AweSpringDatabaseTests {
+
+  @Autowired
+  private MaintainService maintainService;
 
   /**
    * Launch a maintain test
@@ -118,6 +123,15 @@ public class MaintainTest extends AweSpringDatabaseTests {
     logger.debug(result);
   }
 
+  /**
+   * Test of maintain not defined.
+   *
+   * @throws AWException Test error
+   */
+  @Test(expected = AWException.class)
+  public void tesMaintainNotDefined() throws Exception {
+    maintainService.launchMaintain("MaintainNotDefined");
+  }
   /**
    * Test of launchAction method, of class ActionController.
    *

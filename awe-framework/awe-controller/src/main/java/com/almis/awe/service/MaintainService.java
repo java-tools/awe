@@ -42,7 +42,9 @@ public class MaintainService extends ServiceConfig {
   private AccessService accessService;
   private QueryUtil queryUtil;
 
+  // Constants
   private static final String ERROR_TITLE_LAUNCHING_MAINTAIN = "ERROR_TITLE_LAUNCHING_MAINTAIN";
+  private static final String ERROR_MESSAGE_MAINTAIN_NOT_FOUND = "ERROR_MESSAGE_MAINTAIN_NOT_FOUND";
 
   /**
    * Autowired constructor
@@ -279,17 +281,20 @@ public class MaintainService extends ServiceConfig {
    */
   private Target prepareMaintain(String maintainId, boolean checkSession) throws AWException {
     // Variable Definition
-    Target maintain;
+    Target maintain = null;
     try {
-      // Get maintain
-      maintain = getElements().getMaintain(maintainId).copy();
+      if (getElements().getMaintain(maintainId) != null) {
+        // Get maintain
+        maintain = getElements().getMaintain(maintainId).copy();
 
-      // If query is private, check security
-      if (checkSession && !maintain.isPublic() && !accessService.isAuthenticated()) {
-        getLogger().log(QueryService.class, Level.WARN, getLocale("ERROR_MESSAGE_OUT_OF_SESSION"));
-        throw new AWException(getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN), getLocale("ERROR_MESSAGE_OUT_OF_SESSION"));
+        // If query is private, check security
+        if (checkSession && !maintain.isPublic() && !accessService.isAuthenticated()) {
+          getLogger().log(QueryService.class, Level.WARN, getLocale("ERROR_MESSAGE_OUT_OF_SESSION"));
+          throw new AWException(getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN), getLocale("ERROR_MESSAGE_OUT_OF_SESSION"));
+        }
+      } else {
+        throw new AWException(getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN), getLocale(ERROR_MESSAGE_MAINTAIN_NOT_FOUND, maintainId));
       }
-
       return maintain;
     } catch (AWException exc) {
       // Launch AWException

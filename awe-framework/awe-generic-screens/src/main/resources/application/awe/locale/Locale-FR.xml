@@ -491,7 +491,7 @@
   <locale name="ERROR_MESSAGE_PRINTING_NOPRINTER" value="Aucune imprimante définie pour cet utilisateur. S&apos;il vous plaît définir une imprimante"/>
   <locale name="ERROR_MESSAGE_PRINTING_SCREEN" value="Vérifiez que l&apos;imprimante -{0}- est correctement configuré sur le serveur"/>
   <locale name="ERROR_MESSAGE_QUERY_JOIN" value="Il y a eu un problème d&apos;essayer de lancer l&apos;opperation de join &apos;&apos;{0}&apos;&apos; dans la requête &apos;&apos;{1}&apos;&apos;"/>
-  <locale name="ERROR_MESSAGE_QUERY_NOT_FOUND" value="La requette n&apos;a pas ete definitive"/>
+  <locale name="ERROR_MESSAGE_QUERY_NOT_FOUND" value="La requette &apos;&apos;{0}&apos;&apos; n&apos;a pas ete definitive"/>
   <locale name="ERROR_MESSAGE_QUEUE_CONNECTION_FAILED" value="Il y avait un problème de connexion à la queue {0}"/>
   <locale name="ERROR_MESSAGE_QUEUE_CONNECTION_NOT_IMPLEMENTED" value="Le type de connexion sélectionné a la queue {0} n&apos;a pas été mis en oeuvre "/>
   <locale name="ERROR_MESSAGE_QUEUE_DESTINATION_NOT_FOUND" value="Il était impossible de trouver la queue cible {0}"/>

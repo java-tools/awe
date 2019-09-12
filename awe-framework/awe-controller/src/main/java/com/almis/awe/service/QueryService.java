@@ -383,13 +383,16 @@ public class QueryService extends ServiceConfig {
     // Variable definition
     Query query;
     try {
-      // Get the query
-      query = getElements().getQuery(queryName).copy();
-
-      // If query is private, check security
-      if (checkAvailable && !query.isPublic() && !getSession().isAuthenticated()) {
-        getLogger().log(QueryService.class, Level.WARN, "ERROR_MESSAGE_OUT_OF_SESSION");
-        throw new AWException(getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"), getLocale("ERROR_MESSAGE_OUT_OF_SESSION"));
+      if (getElements().getQuery(queryName) != null) {
+        // Get the query
+        query = getElements().getQuery(queryName).copy();
+        // If query is private, check security
+        if (checkAvailable && !query.isPublic() && !getSession().isAuthenticated()) {
+          getLogger().log(QueryService.class, Level.WARN, "ERROR_MESSAGE_OUT_OF_SESSION");
+          throw new AWException(getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"), getLocale("ERROR_MESSAGE_OUT_OF_SESSION"));
+        }
+      } else {
+        throw new AWException(getLocale("ERROR_TITLE_RETRIEVING_DATA"), getLocale("ERROR_MESSAGE_QUERY_NOT_FOUND", queryName));
       }
     } catch (AWException exc) {
       throw exc;
