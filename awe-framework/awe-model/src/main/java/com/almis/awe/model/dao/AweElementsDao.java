@@ -192,8 +192,6 @@ public class AweElementsDao {
         InputStream resourceInputStream = resource.getInputStream();
         file = fromXML(clazz, resourceInputStream);
         messageList.add(MessageFormat.format(READING, filePath, OK));
-      } else {
-        messageList.add(MessageFormat.format(READING, filePath, KO));
       }
     } catch (IOException exc) {
       log.error(ERROR_PARSING_XML, filePath, exc);
