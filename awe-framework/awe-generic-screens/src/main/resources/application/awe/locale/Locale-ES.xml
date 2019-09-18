@@ -541,6 +541,7 @@
   <locale name="ERROR_MESSAGE_STORE_CRITERIA" value="Ha habido un problema tratando de almacenar los criterios de la ventana anterior"/>
   <locale name="ERROR_MESSAGE_STORE_FILE" value="Ha habido un problema tratando de almacenar el archivo {0}"/>
   <locale name="ERROR_MESSAGE_STORING_TRANSLATION" value="Ha habido un error al intentar guardar la traducción del literal -{0} con el valor -{1}-"/>
+  <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="El parámetro 'target-action' no existe o no está definido. Comprueba la declaración de la acción de consulta" />
   <locale name="ERROR_MESSAGE_TOO_MANY_REQUESTS" value="Ha habido demasiadas peticiones concurrentes y no se ha podido resolver"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_CACHE" value="No se ha definido un tipo de cache -{0}-"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_SESSION" value="La sesión con el token &quot;{0}&quot; ya no existe o no ha sido definida"/>

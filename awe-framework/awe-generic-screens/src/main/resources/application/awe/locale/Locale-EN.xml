@@ -541,6 +541,7 @@
   <locale name="ERROR_MESSAGE_STORE_CRITERIA" value="There has been a problem trying to store the previous screen criteria"/>
   <locale name="ERROR_MESSAGE_STORE_FILE" value="There has been a problem trying to store the file {0}"/>
   <locale name="ERROR_MESSAGE_STORING_TRANSLATION" value="There has been an error trying to store the translation of the localee -{0}- with the value -{1}-"/>
+  <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="The 'target-action' parameter not found or not defined. Check your data action definition" />
   <locale name="ERROR_MESSAGE_TOO_MANY_REQUESTS" value="There has been too many requests and this can not be resolved"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_CACHE" value="Cache type -{0}- has not been defined"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_SESSION" value="Session with token &apos;{0}&apos; doesn&apos;t exists or has been deleted"/>
