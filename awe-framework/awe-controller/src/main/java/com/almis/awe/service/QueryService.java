@@ -36,6 +36,10 @@ public class QueryService extends ServiceConfig {
   private QueryLauncher queryLauncher;
   private QueryUtil queryUtil;
 
+  // Constants
+  private static final String ERROR_TITLE_RETRIEVING_DATA = "ERROR_TITLE_RETRIEVING_DATA";
+  private static final String ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND = "ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND";
+
   /**
    * Autowired constructor
    *
@@ -55,7 +59,9 @@ public class QueryService extends ServiceConfig {
    * @throws AWException Query failed
    */
   public ServiceData launchQueryAction() throws AWException {
-    return launchQuery(getRequest().getTargetAction());
+    if (getRequest().getTargetAction() != null) {
+      return launchQuery(getRequest().getTargetAction());
+    } else throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
   }
 
   /**
@@ -65,7 +71,9 @@ public class QueryService extends ServiceConfig {
    * @throws AWException Query failed
    */
   public ServiceData updateModelAction() throws AWException {
-    return updateModel(getRequest().getTargetAction());
+    if (getRequest().getTargetAction() != null) {
+      return updateModel(getRequest().getTargetAction());
+    } else throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
   }
 
   /**
@@ -75,7 +83,9 @@ public class QueryService extends ServiceConfig {
    * @throws AWException Query failed
    */
   public ServiceData checkUniqueAction() throws AWException {
-    return checkUnique(getRequest().getTargetAction());
+    if (getRequest().getTargetAction() != null) {
+      return checkUnique(getRequest().getTargetAction());
+    } else throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
   }
 
   /**
@@ -319,7 +329,7 @@ public class QueryService extends ServiceConfig {
    * @return Service data
    * @throws AWException Query failed
    */
-  public ServiceData updateModel(String queryId) throws AWException {
+  private ServiceData updateModel(String queryId) throws AWException {
     ServiceData serviceData = launchQuery(queryId);
 
     // Get column list
@@ -392,13 +402,13 @@ public class QueryService extends ServiceConfig {
           throw new AWException(getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"), getLocale("ERROR_MESSAGE_OUT_OF_SESSION"));
         }
       } else {
-        throw new AWException(getLocale("ERROR_TITLE_RETRIEVING_DATA"), getLocale("ERROR_MESSAGE_QUERY_NOT_FOUND", queryName));
+        throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale("ERROR_MESSAGE_QUERY_NOT_FOUND", queryName));
       }
     } catch (AWException exc) {
       throw exc;
     } catch (Exception exc) {
       String datMsg = exc.getMessage() == null ? queryName : exc.toString() + " (" + queryName + ")";
-      throw new AWException(getLocale("ERROR_TITLE_RETRIEVING_DATA"), datMsg, exc);
+      throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), datMsg, exc);
     }
 
     return query;
