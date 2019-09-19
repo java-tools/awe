@@ -22,6 +22,7 @@ public class TaskConfig {
   private Integer queueSize;
   private Integer terminationSeconds;
   private String threadPrefix;
+  private String helpThreadPrefix;
   private String contextlessThreadPrefix;
 
   /**
@@ -36,6 +37,21 @@ public class TaskConfig {
     executor.setQueueCapacity(getQueueSize());
     executor.setAwaitTerminationSeconds(getTerminationSeconds());
     executor.setThreadNamePrefix(getThreadPrefix());
+    return executor;
+  }
+
+  /**
+   * Returns the asynchronous executor task
+   * @return Thread pool executor bean
+   */
+  @Bean("threadHelpPoolTaskExecutor")
+  public ContextAwarePoolExecutor getHelpContextAwareTaskExecutor() {
+    ContextAwarePoolExecutor executor = new ContextAwarePoolExecutor();
+    executor.setCorePoolSize(getSize());
+    executor.setMaxPoolSize(getMaxSize());
+    executor.setQueueCapacity(getQueueSize());
+    executor.setAwaitTerminationSeconds(getTerminationSeconds());
+    executor.setThreadNamePrefix(getHelpThreadPrefix());
     return executor;
   }
 
