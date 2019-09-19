@@ -76,4 +76,52 @@ describe('awe-framework/awe-client-angular/src/test/js/services/selector.js', fu
     selector.controller = controller;
     expect(selector.asSuggestMultiple()).toBe(true);
   });
+
+  describe('once initialized as select', function() {
+    let select;
+
+    // Mock module
+    beforeEach(function() {
+      let $scope = $rootScope.$new();
+      $scope.view = "report";
+      $scope.context = "contexto";
+      select = new $selector($scope, "tutu", {});
+      spyOn($control, "getAddressModel").and.returnValue({values: [], selected: []});
+      spyOn($control, "getAddressController").and.returnValue({id: "tutu"});
+      spyOn($control, "checkComponent").and.returnValue(true);
+      select.asSelect();
+    });
+
+    // As select
+    it('should update model values', function() {
+      // Define values to update
+      let data = {values: [{value: 0, label: "No"}, {value: 1, label: "Yes"}], selected: [1]};
+      let data2 = {values: [{value: "A", label: "tutu"}, {value: "B", label: "lala"}, {value: "C", label: "lolo"}], selected: ["B"]};
+      let data3 = {selected: [0]};
+
+      // Update model values
+      select.api.updateModelValues(data);
+
+      // Check values updated
+      expect(select.model.values).toEqual(data.values);
+
+      // Update model values
+      select.api.updateModelValues(data2);
+
+      // Check values updated
+      expect(select.model.values).toEqual(data2.values);
+
+      // Update model values
+      select.api.updateModelValues(data);
+
+      // Check values updated
+      expect(select.model.values).toEqual(data.values);
+
+      // Update selected values
+      select.api.updateModelValues(data3);
+
+      // Check selected updated
+      expect(select.model.selected).toEqual("0");
+    });
+  });
 });
