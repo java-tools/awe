@@ -119,6 +119,10 @@
           <dependency target-type="set-optional" initial="true">
             <dependency-element id="Txt" condition="gt" value="1"/>
           </dependency>
+          <dependency>
+            <dependency-element id="Txt" condition="eq" value="sino" />
+            <dependency-action type="server" server-action="data" target-action="Es1Es0"/>
+          </dependency>
         </criteria>
         <criteria label="PARAMETER_SELECT_READONLY" id="SelRea" variable="SelRea" component="select" style="col-xs-6 col-sm-3 col-lg-2" initial-load="enum" target-action="Es1Es0" readonly="true" />
         <criteria label="PARAMETER_COLOR" id="Col" variable="Col" component="color" style="col-xs-6 col-sm-3 col-lg-2" value="#d5db89" />

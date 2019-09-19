@@ -212,6 +212,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Select a date
     selectDate("Cal", "23/10/1978");
 
+    // Select a date
+    selectDate("CalReq", "23/10/1978");
+
     // Write hour
     writeText("Tim", "12:23:41");
 

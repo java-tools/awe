@@ -343,6 +343,60 @@ public class RegressionTestsIT extends SeleniumUtilities {
   }
 
   /**
+   * Test for fill over select
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t012_fillOverSelect() throws Exception {
+    t001_selectTestModule();
+
+    // Title
+    setTestTitle("Test filling a select with less values than usual");
+
+    // Go to screen
+    gotoScreen("test","criteria", "criteria-test");
+
+    // Wait for button
+    waitForButton("ButPrn");
+
+    // Assert text
+    checkSelectNumberOfResults("SelReq", 2);
+
+    // Select result
+    selectResult("Yes");
+
+    // Select a date
+    selectDate("CalReq", "23/10/1978");
+
+    // Wait for loading bar
+    waitForLoadingBar();
+
+    // Write hour
+    writeText("Tim", "12:23:41");
+
+    // Write hour
+    writeText("TimReq", "12:23:41");
+
+    // Assert text
+    checkSelectNumberOfResults("SelReq", 4);
+
+    // Select result
+    selectResult("general");
+
+    // Write on criterion
+    writeText("Txt", "sino");
+
+    // Wait for loading bar
+    waitForLoadingBar();
+
+    // Assert text
+    checkSelectNumberOfResults("SelReq", 2);
+
+    // Select result
+    selectResult("No");
+  }
+
+  /**
    * Suggest delayed
    * @param selector Selector
    * @param search1 Search on first case
