@@ -168,7 +168,7 @@ public class TemplateService extends ServiceConfig {
    * @throws AWException Error generating breadcrumbs
    */
   public String generateApplicationHelpTemplate(boolean developers) throws AWException {
-    Menu menu = menuService.getMenu();
+    Menu menu = menuService.getMenuWithRestrictions();
 
     // Generate template from screen
     ST screenTemplate = screensTemplateGroup.createStringTemplate(screensTemplateGroup.rawGetTemplate(AweConstants.HELP_TEMPLATE));
