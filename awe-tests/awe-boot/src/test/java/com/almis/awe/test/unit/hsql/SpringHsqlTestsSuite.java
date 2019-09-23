@@ -9,6 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
   MaintainTest.class,
   QueryTest.class,
+  DirectServiceCallTest.class
 })
 public class SpringHsqlTestsSuite {
 }

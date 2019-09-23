@@ -88,7 +88,7 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchMaintain(String maintainId, String alias) throws AWException {
-    return launchMaintain(maintainId, getDatabaseConnection(alias), false);
+    return launchMaintain(maintainId, getSafeDatabaseConnection(alias), false);
   }
 
   /**
@@ -129,7 +129,7 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchPrivateMaintain(String maintainId, String alias) throws AWException {
-    return launchPrivateMaintain(maintainId, getDatabaseConnection(alias), false);
+    return launchPrivateMaintain(maintainId, getSafeDatabaseConnection(alias), false);
   }
 
   /**
@@ -148,6 +148,20 @@ public class MaintainService extends ServiceConfig {
     }
 
     return launchMaintain(prepareMaintain(maintainId, false), databaseConnection, keepAliveConnection);
+  }
+
+  /**
+   * Retrieve database connection from alias checking nulls
+   * @param alias Alias
+   * @return
+   * @throws AWException
+   */
+  private DatabaseConnection getSafeDatabaseConnection(String alias) throws AWException {
+    if (alias == null) {
+      return getCurrentDatabaseConnection();
+    } else {
+      return getDatabaseConnection(alias);
+    }
   }
 
   /**
