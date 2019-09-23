@@ -215,8 +215,7 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
     String currentDatabaseType = databaseType;
     if (currentDatabaseType != null && connectionInfoMap != null && connectionInfoMap.containsKey(alias)) {
       String databaseKey = connectionInfoMap.get(alias).getDatabaseType();
-      EnumBuilder builder = context.getBean(EnumBuilder.class).setEnumerated(AweConstants.DATABASE_BEAN_TRANSLATION);
-      currentDatabaseType = builder.findLabel(databaseKey);
+      currentDatabaseType = queryService.findLabel(AweConstants.DATABASE_BEAN_TRANSLATION, databaseKey);
     }
 
     return currentDatabaseType;
