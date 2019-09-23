@@ -2507,6 +2507,11 @@
       <field id="IdeOpe" cast="DOUBLE"/>
       <constant value="4.1" type="DOUBLE"/>
     </operation>
+    <operation operator="CONCAT" alias="castToString">
+      <constant value="12" type="INTEGER" cast="STRING"/>
+      <constant value="-2" type="INTEGER" cast="STRING"/>
+      <field id="IdeOpe" cast="STRING"/>
+    </operation>
     <where>
       <filter condition="eq" ignorecase="true"><left-operand id="l1_nom"/><right-operand value="test"/></filter>
     </where>
