@@ -648,6 +648,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   protected Expression getExpressionCast(Expression fieldExpression, String cast) {
     switch (cast.toUpperCase()) {
+      case "STRING":
+        return Expressions.stringOperation(Ops.STRING_CAST, fieldExpression);
       case "LONG":
         return Expressions.asString(fieldExpression).castToNum(Long.class);
       case "FLOAT":

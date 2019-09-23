@@ -161,7 +161,7 @@ Field element in maintains has the following attributes:
 | variable | Optional | String | Used to set the input field with one variable value |  |
 | query | Optional | String | Is the query identifier to do a subquery  | **Note:** The query id must exist |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](query-definition.md#field-functions) |
-| cast  | Optional | String | Change the field format | The possible values are `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
+| cast  | Optional | String | Change the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 
 #### Constant element
 
@@ -172,7 +172,7 @@ The *constant* element has the following attributes:
 | id | **Required** | String | Name of field |  **Note:** Is the real column name of table in data base            |
 | table | Optional | String | Table name of field |  |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](query-definition.md#field-functions) |
-| cast  | Optional | String | Change the field format | The possible values are `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
+| cast  | Optional | String | Change the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 | value | Required | String | A static value to be used as field value |  |
 | type | Optional | String | Type of the value | The possible values are available [here](#variable-types) |
 
@@ -194,7 +194,7 @@ The *operation* element allows to define operation between fields and will be re
 | table | Optional | String | Table name of field |  |
 | operator    | Required | String    | Operator of the operation       | See [operator attribute](query-definition.md#operator-attribute)      |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](query-definition.md#field-functions) |
-| cast  | Optional | String | Change the field format | The possible values are `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
+| cast  | Optional | String | Change the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 
 #### Variable element
 

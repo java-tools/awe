@@ -865,7 +865,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testDatabaseOperationAddNumbers() throws Exception {
     String queryName = "testCastToNumber";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"castToLong\":96,\"castToDouble\":4.9,\"castToInteger\":19,\"name\":\"test\",\"id\":1,\"castToFloat\":1.5}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"castToLong\":96,\"castToString\":\"12-21\",\"castToDouble\":4.9,\"castToInteger\":19,\"name\":\"test\",\"id\":1,\"castToFloat\":1.5}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
     logger.warn(result);

@@ -548,6 +548,7 @@
       <xs:enumeration value="LONG" />
       <xs:enumeration value="FLOAT" />
       <xs:enumeration value="DOUBLE" />
+      <xs:enumeration value="STRING" />
     </xs:restriction>
   </xs:simpleType>
 
