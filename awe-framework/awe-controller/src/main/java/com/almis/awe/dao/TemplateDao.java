@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
@@ -36,12 +35,13 @@ public class TemplateDao {
 
   /**
    * Autowired constructor
-   * @param menuService Menu service
+   *
+   * @param menuService       Menu service
    * @param helpTemplateGroup Help templates
    */
   @Autowired
   public TemplateDao(MenuService menuService,
-                         @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup) {
+                     @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup) {
     this.menuService = menuService;
     this.helpTemplateGroup = helpTemplateGroup;
   }
@@ -49,8 +49,8 @@ public class TemplateDao {
   /**
    * Generate option template
    *
-   * @param option Option
-   * @param level Option level
+   * @param option     Option
+   * @param level      Option level
    * @param developers Help for developers
    * @return Screen template
    * @throws AWException Error generating breadcrumbs
@@ -64,8 +64,8 @@ public class TemplateDao {
   /**
    * Generate option template
    *
-   * @param option Option
-   * @param level Option level
+   * @param option     Option
+   * @param level      Option level
    * @param developers Help for developers
    * @return Screen template
    * @throws AWException Error generating breadcrumbs
@@ -93,7 +93,7 @@ public class TemplateDao {
   /**
    * Generate screen template
    *
-   * @param screen Screen
+   * @param screen     Screen
    * @param developers Help for developers
    * @return Screen template
    * @throws AWException Error generating breadcrumbs

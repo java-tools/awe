@@ -48,9 +48,10 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param maintainLauncher Maintain launcher
-   * @param accessService Access service
-   * @param queryUtil Query utilities
+   * @param accessService    Access service
+   * @param queryUtil        Query utilities
    */
   @Autowired
   public MaintainService(MaintainLauncher maintainLauncher, AccessService accessService, QueryUtil queryUtil) {
@@ -61,6 +62,7 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Launch maintain action (from services)
+   *
    * @return Service data
    * @throws AWException AWE exception
    */
@@ -83,7 +85,7 @@ public class MaintainService extends ServiceConfig {
    * Launches a maintain with an alias
    *
    * @param maintainId Maintain identifier
-   * @param alias Connection alias
+   * @param alias      Connection alias
    * @return Service output
    * @throws AWException Error launching maintain
    */
@@ -94,8 +96,8 @@ public class MaintainService extends ServiceConfig {
   /**
    * Launches a maintain with a connection
    *
-   * @param maintainId Maintain identifier
-   * @param databaseConnection Database connection
+   * @param maintainId          Maintain identifier
+   * @param databaseConnection  Database connection
    * @param keepAliveConnection Keep alive connection (for treatments)
    * @return Service output
    * @throws AWException Error launching maintain
@@ -124,7 +126,7 @@ public class MaintainService extends ServiceConfig {
    * Launches a maintain with an alias
    *
    * @param maintainId Maintain identifier
-   * @param alias Connection alias
+   * @param alias      Connection alias
    * @return Service output
    * @throws AWException Error launching maintain
    */
@@ -135,8 +137,8 @@ public class MaintainService extends ServiceConfig {
   /**
    * Launches a maintain with a connection without checking session
    *
-   * @param maintainId Maintain identifier
-   * @param databaseConnection Database connection
+   * @param maintainId          Maintain identifier
+   * @param databaseConnection  Database connection
    * @param keepAliveConnection Keep alive connection (for treatments)
    * @return Service output
    * @throws AWException Error launching maintain
@@ -152,6 +154,7 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Retrieve database connection from alias checking nulls
+   *
    * @param alias Alias
    * @return
    * @throws AWException
@@ -166,6 +169,7 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Get database connection
+   *
    * @param alias Alias
    * @return Database connection
    * @throws AWException AWE exception
@@ -176,6 +180,7 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Get database connection
+   *
    * @param dataSource Datasource
    * @return Database connection
    * @throws AWException AWE exception
@@ -186,6 +191,7 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Get current database connection
+   *
    * @return Database connection
    * @throws AWException AWE exception
    */
@@ -195,6 +201,7 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Get datasource
+   *
    * @return Datasource
    */
   public DataSource getCurrentDataSource() {
@@ -204,8 +211,8 @@ public class MaintainService extends ServiceConfig {
   /**
    * Launches a maintain
    *
-   * @param maintainTarget Maintain target
-   * @param databaseConnection Database connection
+   * @param maintainTarget      Maintain target
+   * @param databaseConnection  Database connection
    * @param keepAliveConnection Keep alive connection (for treatments)
    * @return Service output
    * @throws AWException Error launching maintain
@@ -225,9 +232,9 @@ public class MaintainService extends ServiceConfig {
 
       // Manage maintain queries
       return manageMaintainQueries(maintainTarget,
-              getMaintainQueryList(maintainTarget, new HashSet<>()),
-              databaseConnection,
-              manageConnection);
+        getMaintainQueryList(maintainTarget, new HashSet<>()),
+        databaseConnection,
+        manageConnection);
     } catch (AWException exc) {
       doRollback(databaseConnection, statementList, manageConnection);
       throw exc;
@@ -243,6 +250,7 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Retrieve next sequence value (and increase sequence)
+   *
    * @param sequence Sequence identifier
    * @return Sequence value
    * @throws AWException
@@ -253,7 +261,8 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Retrieve next sequence value (and increase sequence)
-   * @param sequence Sequence identifier
+   *
+   * @param sequence      Sequence identifier
    * @param databaseAlias Database alias
    * @return Sequence value
    * @throws AWException
@@ -264,7 +273,8 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Retrieve next sequence value (and increase sequence)
-   * @param sequence Sequence identifier
+   *
+   * @param sequence           Sequence identifier
    * @param databaseConnection Database alias
    * @return Sequence value
    * @throws AWException
@@ -275,7 +285,7 @@ public class MaintainService extends ServiceConfig {
     Configuration configuration = (Configuration) getBean(databaseConnection.getConfigurationBean());
 
     // Get maintain builder
-    Integer result =  Integer.valueOf(getBean(SQLMaintainBuilder.class)
+    Integer result = Integer.valueOf(getBean(SQLMaintainBuilder.class)
       .setFactory(new SQLQueryFactory(configuration, connProvider))
       .getSequence(sequence));
 
@@ -288,7 +298,8 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Retrieve maintain target from maintain id
-   * @param maintainId Maintain id
+   *
+   * @param maintainId   Maintain id
    * @param checkSession Check session
    * @return Maintain target
    * @throws AWException Error retrieving maintain target
@@ -320,16 +331,17 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Manage maintain query
-   * @param maintainTarget Target
-   * @param queryList Query list
+   *
+   * @param maintainTarget     Target
+   * @param queryList          Query list
    * @param databaseConnection Database connection
-   * @param manageConnection Manage connection
+   * @param manageConnection   Manage connection
    * @return Service data
-   * @throws AWException Error in maintain query
+   * @throws AWException  Error in maintain query
    * @throws SQLException Error with database execution
    */
   private ServiceData manageMaintainQueries(Target maintainTarget, List<MaintainQuery> queryList, DatabaseConnection databaseConnection, boolean manageConnection) throws AWException, SQLException {
-    Map<String, QueryParameter> parameterMap = new HashMap<>();
+    Map<String, QueryParameter> parameterMap = queryUtil.getDefaultVariableMap(queryUtil.getParameters(databaseConnection.getDatabaseAlias(), "1", "0"));
     ServiceData result = new ServiceData();
     List<MaintainResultDetails> resultDetails = new ArrayList<>();
     StringBuilder messageBuilder = new StringBuilder();
@@ -342,7 +354,7 @@ public class MaintainService extends ServiceConfig {
         databaseConnection.getConnection().commit();
       } else if (maintainQuery instanceof RetrieveData) {
         QueryLauncher queryLauncher = getBean(QueryLauncher.class);
-        ServiceData serviceData = queryLauncher.launchQuery(maintainQuery, queryUtil.getParameters(null , "1", "0"));
+        ServiceData serviceData = queryLauncher.launchQuery(maintainQuery, queryUtil.getParameters(databaseConnection.getDatabaseAlias(), "1", "0"));
         queryUtil.addDataListToRequestParameters(serviceData.getDataList());
       } else {
         // Else launch the maintain or service action
@@ -372,7 +384,8 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Retrieve maintain query list
-   * @param maintainTarget Maintain target
+   *
+   * @param maintainTarget  Maintain target
    * @param includedTargets Included target list
    * @return Query list
    */
@@ -402,11 +415,12 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Generate result message
+   *
    * @param messageBuilder Message builder
-   * @param message Message
-   * @param label Maintain query label
+   * @param message        Message
+   * @param label          Maintain query label
    */
-  private void generateResultMessage(StringBuilder messageBuilder, String message, String label)  {
+  private void generateResultMessage(StringBuilder messageBuilder, String message, String label) {
     // Define new line string
     String newLine = messageBuilder.length() == 0 ? "" : "<br/><br/>";
 
@@ -420,9 +434,10 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Do maintain rollback
+   *
    * @param databaseConnection Database connection
-   * @param statementList Statement list
-   * @param manageConnection Manage connection
+   * @param statementList      Statement list
+   * @param manageConnection   Manage connection
    * @throws AWException Error doing rollback
    */
   public void doRollback(DatabaseConnection databaseConnection, String statementList, boolean manageConnection) throws AWException {
@@ -437,9 +452,10 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Do maintain rollback
+   *
    * @param databaseConnection Database connection
-   * @param statementList Statement list
-   * @param manageConnection Manage connection
+   * @param statementList      Statement list
+   * @param manageConnection   Manage connection
    * @throws AWException Error doing rollback
    */
   public void doCommit(DatabaseConnection databaseConnection, String statementList, boolean manageConnection) throws AWException {
@@ -456,10 +472,11 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Generate response message
-   * @param serviceData Service data
+   *
+   * @param serviceData    Service data
    * @param maintainTarget Maintain target
-   * @param message Message
-   * @param resultDetails Result details
+   * @param message        Message
+   * @param resultDetails  Result details
    * @return Service data filled
    */
   private ServiceData generateResponse(ServiceData serviceData, Target maintainTarget, String message, List<MaintainResultDetails> resultDetails) {
@@ -514,25 +531,25 @@ public class MaintainService extends ServiceConfig {
         MaintainQuery query;
 
         switch (RowType.valueOf(typ)) {
-        case UPDATE:
-          // Add an update target
-          query = new Update();
-          addFields(maintain, query, false, true);
-          addFilters(maintain, query);
-          break;
-        case DELETE:
-          // Add a delete target
-          query = new Delete();
-          addFields(maintain, query, false, false);
-          addFilters(maintain, query);
-          break;
-        case INSERT:
-          // Add an insert target
-          query = new Insert();
-          addFields(maintain, query, true, true);
-          break;
-        default:
-          continue;
+          case UPDATE:
+            // Add an update target
+            query = new Update();
+            addFields(maintain, query, false, true);
+            addFilters(maintain, query);
+            break;
+          case DELETE:
+            // Add a delete target
+            query = new Delete();
+            addFields(maintain, query, false, false);
+            addFilters(maintain, query);
+            break;
+          case INSERT:
+            // Add an insert target
+            query = new Insert();
+            addFields(maintain, query, true, true);
+            break;
+          default:
+            continue;
         }
 
         // Add generic fields
@@ -558,7 +575,7 @@ public class MaintainService extends ServiceConfig {
   /**
    * Add tables from multiple query to specific maintain query
    *
-   * @param origin Maintain multiple
+   * @param origin        Maintain multiple
    * @param maintainQuery Maintain query
    */
   private void addTables(Multiple origin, MaintainQuery maintainQuery) {
@@ -581,10 +598,10 @@ public class MaintainService extends ServiceConfig {
   /**
    * Add fields from multiple query to specific maintain query
    *
-   * @param origin Multiple maintain
+   * @param origin        Multiple maintain
    * @param maintainQuery Maintain query
-   * @param addKeys Add keys
-   * @param addNonKeys Add non keys
+   * @param addKeys       Add keys
+   * @param addNonKeys    Add non keys
    */
   private void addFields(Multiple origin, MaintainQuery maintainQuery, boolean addKeys, boolean addNonKeys) throws AWException {
 
@@ -665,7 +682,7 @@ public class MaintainService extends ServiceConfig {
   /**
    * Add variables from multiple query to specific maintain query
    *
-   * @param origin Maintain multiple
+   * @param origin        Maintain multiple
    * @param maintainQuery Maintain query
    */
   private void addVariables(Multiple origin, MaintainQuery maintainQuery) throws AWException {

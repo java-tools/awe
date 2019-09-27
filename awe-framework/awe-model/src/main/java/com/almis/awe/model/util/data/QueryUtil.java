@@ -84,6 +84,12 @@ public class QueryUtil extends ServiceConfig {
       variableMap.put(AweConstants.QUERY_MAX, new QueryParameter(JsonNodeFactory.instance.numberNode(rowsPerPage), false, ParameterType.LONG));
     }
 
+    // Add database variable
+    JsonNode aliasParameter = getRequestParameter(AweConstants.COMPONENT_DATABASE, parameters);
+    if (aliasParameter != null && !aliasParameter.isNull()) {
+      variableMap.put(AweConstants.QUERY_DATABASE, new QueryParameter(aliasParameter, false, ParameterType.STRING));
+    }
+
     return variableMap;
   }
 
@@ -576,5 +582,23 @@ public class QueryUtil extends ServiceConfig {
    */
   public boolean isEmptyParameter(QueryParameter parameter) {
     return parameter == null || isEmptyVariable(parameter.getValue());
+  }
+
+  /**
+   * Retrieve database alias
+   * @param parameters Query parameters
+   * @return Database alias
+   */
+  public String getDatabaseAlias(Map<String, QueryParameter> parameters) {
+    // Alias is current database
+    String alias = null;
+
+    // Check if call refers to a specific database
+    if (parameters != null && parameters.get(AweConstants.QUERY_DATABASE) != null && parameters.get(AweConstants.QUERY_DATABASE).getValue() != null) {
+      alias = parameters.get(AweConstants.QUERY_DATABASE).getValue().asText();
+    }
+
+    // Retrieve alias
+    return alias;
   }
 }
