@@ -11,6 +11,7 @@ import com.almis.awe.model.entities.queries.Variable;
 import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.model.type.MaintainBuildOperation;
 import com.almis.awe.model.type.MaintainType;
+import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.service.data.builder.SQLMaintainBuilder;
 import com.querydsl.sql.Configuration;
@@ -125,13 +126,13 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
     // If operation is batched and we have queries left or a query without being launched yet, launch
     if (queryBuilt != null) {
-      rowsUpdated = launchAsSingleOperation(queryBuilt, indexMaintain, false, query.getId());
+      rowsUpdated = launchAsSingleOperation(queryBuilt, indexMaintain, false, query.getId(), parameterMap);
       maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(parameterMap)));
     }
 
     // Same with audit
     if (auditQueryBuilt != null) {
-      rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexMaintain, true, query.getId());
+      rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexMaintain, true, query.getId(), parameterMap);
       maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, new HashMap<>(parameterMap)));
     }
 
@@ -140,7 +141,8 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
   /**
    * Check audit results
-   * @param query Query
+   *
+   * @param query       Query
    * @param maintainOut Service output
    * @return Launch audit results
    */
@@ -191,7 +193,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
       .setVariables(parameterMap);
 
     // Launch as single operation
-    rowsUpdated = launchAsSingleOperation(builder.build(), null, false, query.getId());
+    rowsUpdated = launchAsSingleOperation(builder.build(), null, false, query.getId(), parameterMap);
     maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(parameterMap)));
 
     // Audit the operation
@@ -205,7 +207,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
         } else {
           // Operation is not batched
-          auditQueryBuilt = launchSingleOperation(indexAudit, builder,  maintainOut, query, false, true);
+          auditQueryBuilt = launchSingleOperation(indexAudit, builder, maintainOut, query, false, true);
         }
 
         // Increase index
@@ -214,7 +216,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
       // If operation is batched and we have queries left or a query without being launched yet, launch
       if (auditQueryBuilt != null) {
-        rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexAudit, true, query.getId());
+        rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexAudit, true, query.getId(), parameterMap);
         maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, parameterMap));
       }
     }
@@ -256,13 +258,13 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
       .setVariables(parameterMap);
 
     // Launch as single operation
-    rowsUpdated = launchAsSingleOperation(builder.build(), null, false, query.getId());
+    rowsUpdated = launchAsSingleOperation(builder.build(), null, false, query.getId(), parameterMap);
     maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(parameterMap)));
 
     // If AUDIT table is defined and operation has updated any rows, AUDIT the operation
     if (auditActive && rowsUpdated > 0) {
       // Launch as single operation
-      rowsUpdated = launchAsSingleOperation(builder.setAudit(true).setOperation(MaintainBuildOperation.NO_BATCH).build(), null, true, query.getId());
+      rowsUpdated = launchAsSingleOperation(builder.setAudit(true).setOperation(MaintainBuildOperation.NO_BATCH).build(), null, true, query.getId(), parameterMap);
       maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, new HashMap<>(parameterMap)));
     }
 
@@ -271,14 +273,15 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
   /**
    * Launch batch operation
-   * @param index Index audit
+   *
+   * @param index         Index audit
    * @param previousQuery Previous query
-   * @param builder Maintain builder
-   * @param maintainOut Maintain output
-   * @param query Maintain query
-   * @param addIndex Add index to builder
-   * @throws AWException
+   * @param builder       Maintain builder
+   * @param maintainOut   Maintain output
+   * @param query         Maintain query
+   * @param addIndex      Add index to builder
    * @return Query built
+   * @throws AWException
    */
   private AbstractSQLClause<?> launchBatchOperation(int index, AbstractSQLClause<?> previousQuery, SQLMaintainBuilder builder, ServiceData maintainOut, MaintainQuery query, boolean addIndex, boolean isAudit) throws AWException {
     Long rowsUpdated;
@@ -318,7 +321,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     // If this is the last operation of the batch, launch it
     if ((index + 1) % batchMax == 0) {
       // Launch as single operation
-      rowsUpdated = launchAsSingleOperation(queryBuilt, index, isAudit, query.getId());
+      rowsUpdated = launchAsSingleOperation(queryBuilt, index, isAudit, query.getId(), builder.getVariables());
       maintainOut.addResultDetails(new MaintainResultDetails(maintainType, rowsUpdated, new HashMap<>(builder.getVariables())));
 
       queryBuilt = null;
@@ -329,12 +332,13 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
   /**
    * Launch single operation
-   * @param index Index
-   * @param builder Maintain builder
+   *
+   * @param index       Index
+   * @param builder     Maintain builder
    * @param maintainOut Maintain output
-   * @param query Query
-   * @param addIndex Add index to builder
-   * @param isAudit Query is an audit query
+   * @param query       Query
+   * @param addIndex    Add index to builder
+   * @param isAudit     Query is an audit query
    * @return Operation builder
    * @throws AWException
    */
@@ -351,7 +355,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     }
 
     // Launch as single operation
-    Long rowsUpdated = launchAsSingleOperation(builder.build(), index, isAudit, query.getId());
+    Long rowsUpdated = launchAsSingleOperation(builder.build(), index, isAudit, query.getId(), builder.getVariables());
     maintainOut.addResultDetails(new MaintainResultDetails(maintainType, rowsUpdated, new HashMap<>(builder.getVariables())));
 
     // Restore query's initial definition
@@ -367,7 +371,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
    * @param queryId   Maintain query identifier
    * @return Elements modified
    */
-  private long launchAsSingleOperation(AbstractSQLClause<?> statement, Integer index, boolean isAudit, String queryId) {
+  private long launchAsSingleOperation(AbstractSQLClause<?> statement, Integer index, boolean isAudit, String queryId, Map<String, QueryParameter> parametersMap) {
     List<Long> timeLapse = getLogger().prepareTimeLapse();
 
     // Launch as single operation
@@ -385,8 +389,8 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     String sqlShortened = StringUtil.shortenText(sql, logLimit, "...");
 
     // Log operation
-    getLogger().log(this.getClass(), Level.INFO, "{0}[{1}{2}] [{3}] => {4} rows affected - Elapsed time: {5}s",
-            auditMessage, queryId, indexMessage, sqlShortened, updated, getLogger().getTotalTime(timeLapse));
+    getLogger().logWithDatabase(this.getClass(), Level.INFO, getBean(QueryUtil.class).getDatabaseAlias(parametersMap), "{0}[{1}{2}] [{3}] => {4} rows affected - Elapsed time: {5}s",
+      auditMessage, queryId, indexMessage, sqlShortened, updated, getLogger().getTotalTime(timeLapse));
 
     return updated;
   }

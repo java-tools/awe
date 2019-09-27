@@ -135,6 +135,7 @@ public class AweConstants {
   public static final String QUERY_SORT = "_sort_";
   public static final String QUERY_PAGE = "_page_";
   public static final String QUERY_MAX = "_max_";
+  public static final String QUERY_DATABASE = "_database_";
 
   // Sort attributes
   public static final String SORT_DIRECTION = "direction";

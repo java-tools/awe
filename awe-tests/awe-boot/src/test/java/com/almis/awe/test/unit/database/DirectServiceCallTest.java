@@ -1,18 +1,24 @@
 package com.almis.awe.test.unit.database;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.MaintainService;
 import com.almis.awe.service.QueryService;
 import com.almis.awe.test.unit.spring.AweSpringBootTests;
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -23,6 +29,7 @@ import static org.mockito.Mockito.verify;
  */
 @Log4j2
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@WithMockUser(username = "test", password = "test")
 public class DirectServiceCallTest extends AweSpringBootTests {
 
   @Autowired
@@ -30,6 +37,11 @@ public class DirectServiceCallTest extends AweSpringBootTests {
 
   @Autowired
   private QueryService queryService;
+
+  @Before
+  public void setSessionDatabase() {
+    given(aweSession.getParameter(String.class, "database")).willReturn("testDatabase");
+  }
 
   /**
    * Test of maintain not defined.
@@ -101,5 +113,24 @@ public class DirectServiceCallTest extends AweSpringBootTests {
   @Test(expected = AWException.class)
   public void testDatabaseQueryNotDefined() throws Exception {
     queryService.launchQuery("QueryNotDefined");
+  }
+
+  /**
+   * Test of log database results
+   *
+   * @throws AWException Test error
+   */
+  @Test
+  public void testLogDatabase() throws Exception {
+    LogUtil spyLog = Mockito.spy(getLogger());
+    Logger spyLogger = Mockito.spy(LogManager.getLogger(DirectServiceCallTest.class));
+    spyLog.logWithDatabase(DirectServiceCallTest.class, Level.DEBUG, "testDatabase", "test log message");
+    verify(spyLog, times(1)).logWithDatabase(anyObject(), eq(Level.DEBUG), anyString(), anyString());
+    verify(spyLogger, times(0)).log(eq(Level.DEBUG), anyString());
+
+    Mockito.doReturn(true).when(spyLogger).isDebugEnabled();
+    spyLog.logWithDatabase(DirectServiceCallTest.class, Level.INFO, "testDatabase", "test log message");
+    verify(spyLog, times(1)).logWithDatabase(anyObject(), eq(Level.INFO), anyString(), anyString());
+    verify(spyLogger, times(0)).log(eq(Level.INFO), anyString());
   }
 }

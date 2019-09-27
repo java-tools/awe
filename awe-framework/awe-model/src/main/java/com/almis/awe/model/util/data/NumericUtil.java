@@ -3,6 +3,7 @@ package com.almis.awe.model.util.data;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.type.NumericType;
 import com.almis.awe.model.type.RoundingType;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.env.Environment;
 
 import java.text.DecimalFormat;
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
  *
  * @author Pablo GARCIA - 16/APR/2012
  */
+@Log4j2
 public final class NumericUtil {
 
   // Static variables
@@ -105,7 +107,12 @@ public final class NumericUtil {
    * @return Number formatted
    */
   public static String formatNumber(NumberFormat format, Double value) {
-    return format.format(value);
+    try {
+      return format.format(value);
+    } catch (Exception exc) {
+      log.error("Error formatting number {} with formatter {}", value, format, exc);
+    }
+    return String.valueOf(value);
   }
 
   /**
