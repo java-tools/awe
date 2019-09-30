@@ -602,24 +602,15 @@ fieldset[disabled] .ui-grid-menu .ui-grid-menu-inner .ui-grid-menu-close-button.
 }
 @font-face {
   font-family: 'ui-grid';
+  font-display: swap;
   src: url('ui-grid.eot');
   src: url('ui-grid.eot#iefix') format('embedded-opentype'), url('ui-grid.woff') format('woff'), url('ui-grid.ttf') format('truetype'), url('ui-grid.svg?#ui-grid') format('svg');
   font-weight: normal;
   font-style: normal;
 }
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-/*
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  @font-face {
-    font-family: 'ui-grid';
-    src: url('@{font-path}ui-grid.svg?12312827#ui-grid') format('svg');
-  }
-}
-*/
 [class^="ui-grid-icon"]:before,
 [class*=" ui-grid-icon"]:before {
-  font-family: "ui-grid";
+  font-family: "ui-grid", fantasy;
   font-style: normal;
   font-weight: normal;
   speak: none;

@@ -1,18 +1,18 @@
 import { aweApplication } from "./../awe";
 import "../directives/plugins/uiDate";
 import "../directives/plugins/uiTime";
+import moment from "moment";
 
 // Date and time service
 aweApplication.factory('DateTime',
-  ['Criterion', '$filter', 'AweUtilities', 'AweSettings',
+  ['Criterion', 'AweUtilities', 'AweSettings',
     /**
      * DateTime generic methods
-     * @param {Service} Criterion
-     * @param {Service} $filter Filter service
-     * @param {Service} Utilities Utilities service
-     * @param {Service} $settings $settings service
+     * @param {object} Criterion
+     * @param {object} Utilities Utilities service
+     * @param {object} $settings $settings service
      */
-    function (Criterion, $filter, Utilities, $settings) {
+    function (Criterion, Utilities, $settings) {
 
       /**
        * DateTime constructor
@@ -25,8 +25,10 @@ aweApplication.factory('DateTime',
         this.id = id;
         this.element = element;
         this.validDates = {};
+        this.validMonths = {};
+        this.validYears = {};
         this.component = new Criterion(this.scope, this.id, this.element);
-        var datetime = this;
+        let datetime = this;
         this.component.asDate = function () {
           return datetime.asDate();
         };
@@ -44,7 +46,7 @@ aweApplication.factory('DateTime',
          */
         asDate: function () {
           // Set date options
-          var dateOptions = {
+          let dateOptions = {
             container: "body",
             format: "dd/mm/yyyy",
             todayHighlight: true,
@@ -56,7 +58,7 @@ aweApplication.factory('DateTime',
           };
 
           // Define type as text
-          var component = this.component;
+          let component = this.component;
 
           // Initialize criterion
           if (!component.asCriterion()) {
@@ -94,10 +96,10 @@ aweApplication.factory('DateTime',
          * Initialize filtered date criteria
          */
         asFilteredDate: function () {
-          var component = this.component;
-          var dateTime = this;
+          let component = this.component;
+          let dateTime = this;
           // Set filtered date options
-          var filteredDateOptions = {
+          let filteredDateOptions = {
             container: "body",
             format: "dd/mm/yyyy",
             todayHighlight: true,
@@ -118,30 +120,33 @@ aweApplication.factory('DateTime',
           }
 
           // Initialize valid dates
-          var filterValidDates = function () {
+          let filterValidDates = function () {
             dateTime.validDates = {};
+            dateTime.validMonths = {};
+            dateTime.validYears = {};
             _.each(component.model.values, function (date) {
+              let momentDate = moment(date.value, "DD/MM/YYYY");
               dateTime.validDates[date.value] = true;
+              dateTime.validMonths[momentDate.format('MMYYYY')] = true;
+              dateTime.validYears[momentDate.format('YYYY')] = true;
             });
           };
 
-          // Set filtered dates in dates with a day value
-          filteredDateOptions.beforeShowDay = function (date) {
-            var isValid = false;
-            if (dateTime.validDates) {
-              isValid = $filter('date')(date, 'dd/MM/yyyy') in dateTime.validDates;
-            }
-            return isValid;
+          /**
+           * Check if dates are valid
+           * @param {string} date
+           * @param {string} format date format
+           * @param {object} filteredSet Set to check
+           * @returns {boolean}
+           */
+          let filterDates = function (date, format, filteredSet) {
+            return moment(date).format(format) in filteredSet;
           };
 
-          // Set filtered dates in dates with just month
-          filteredDateOptions.beforeShowMonth = function (date) {
-            var isValid = false;
-            if (dateTime.validDates) {
-              isValid = $filter('date')(date, 'MMM yyyy') in dateTime.validDates;
-            }
-            return isValid;
-          };
+          // Set filtered dates in dates with a day value
+          filteredDateOptions.beforeShowDay = (date) =>  filterDates(date, 'DD/MM/YYYY', dateTime.validDates);
+          filteredDateOptions.beforeShowMonth = (date) =>  filterDates(date, 'MMYYYY', dateTime.validMonths);
+          filteredDateOptions.beforeShowYear = (date) =>  filterDates(date, 'YYYY', dateTime.validYears);
 
           // Update date options
           updateDateOptions(filteredDateOptions, component);
@@ -188,9 +193,9 @@ aweApplication.factory('DateTime',
          * Initialize time criteria
          */
         asTime: function () {
-          var component = this.component;
+          let component = this.component;
           // Set time options
-          var timeOptions = {
+          let timeOptions = {
             minuteStep: 1,
             showSeconds: true,
             secondStep: 1,

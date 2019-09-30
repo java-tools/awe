@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/splash.css}"/>
     <title ng-bind-template="{{screen.title| translate}} | {{'APP_NAME'| translate}}" translate="APP_NAME">Loading...</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta http-equiv="Cache-Control" content="public"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
@@ -15,6 +14,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <link rel="stylesheet" th:href="@{/css/styles.css}"/>
     <link rel="stylesheet" th:href="@{/css/specific.css}"/>
+    <link rel="preload" as="font" crossorigin th:href="@{/fonts/OpenSans-Light.ttf}"/>
+    <link rel="preload" as="font" crossorigin th:href="@{/fonts/OpenSans-Regular.ttf}"/>
+    <link rel="preload" as="font" crossorigin th:href="@{/fonts/OpenSans-Semibold.ttf}"/>
+    <link rel="preload" as="font" crossorigin th:href="@{/fonts/OpenSans-Bold.ttf}"/>
+    <link rel="preload" as="font" crossorigin th:href="@{/fonts/OpenSans-LightItalic.ttf}"/>
+    <link rel="preload" as="font" crossorigin th:href="@{/fonts/OpenSans-Italic.ttf}"/>
+    <link rel="preload" as="font" crossorigin th:href="@{/fonts/OpenSans-SemiboldItalic.ttf}"/>
+    <link rel="preload" as="font" crossorigin th:href="@{/fonts/OpenSans-BoldItalic.ttf}"/>
+    <link rel="preload" as="font" crossorigin th:href="@{/fonts/fontawesome-webfont.woff2}"/>
     <link rel="shortcut icon" th:href="${@environment.getProperty('application.icon.favicon')}"/>
     <link rel="apple-touch-icon" th:href="${@environment.getProperty('application.icon.tablet')}"/>
   </head>
