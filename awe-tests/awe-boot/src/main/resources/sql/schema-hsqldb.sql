@@ -1,3 +1,6 @@
+-- Enables ORA syntax support for non-standard types. It also enables DUAL, ROWNUM, NEXTVAL and CURRVAL
+SET DATABASE SQL SYNTAX ORA TRUE
+
 --------------------------------------------------------
 --  DDL for Schema AWE
 --------------------------------------------------------

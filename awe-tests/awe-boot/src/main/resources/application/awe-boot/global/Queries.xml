@@ -2518,4 +2518,11 @@
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
+  <query id="testQueryWithOutTables">
+    <operation alias="Sum" operator="ADD">
+      <constant value="1" type="INTEGER"/>
+      <constant value="1" type="INTEGER"/>
+    </operation>
+  </query>
+
 </queries>
