@@ -220,6 +220,21 @@ public class QueryTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of launch query without tables.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDatabaseQueryWithOutTables() throws Exception {
+    String queryName = "testQueryWithOutTables";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"Sum\":2}]}}},{\"type\":\"end-load\"}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertResultJson(queryName, result, 1);
+  }
+
+  /**
    * Test of launchAction method, of class ActionController.
    *
    * @throws Exception Test error

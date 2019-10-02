@@ -9,7 +9,10 @@ import com.almis.awe.model.util.data.QueryUtil;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.querydsl.core.Tuple;
-import com.querydsl.core.types.*;
+import com.querydsl.core.types.EntityPath;
+import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.SubQueryExpression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.sql.SQLQuery;
@@ -202,15 +205,17 @@ public class SQLQueryBuilder extends SQLBuilder {
    */
   protected Expression[] getTables() throws AWException {
     List<Table> tableList = getQuery().getTableList();
-    Expression[] tables = new Expression[tableList.size()];
+    Expression[] tables = new Expression[0];
+    if (tableList != null) {
+      tables = new Expression[tableList.size()];
 
-    // For each table, obtain its path
-    int i = 0;
-    for (Table table : tableList) {
-      tables[i] = (Expression) getTableExpression(table, table.getAlias() != null);
-      i++;
+      // For each table, obtain its path
+      int i = 0;
+      for (Table table : tableList) {
+        tables[i] = (Expression) getTableExpression(table, table.getAlias() != null);
+        i++;
+      }
     }
-
     return tables;
   }
 
