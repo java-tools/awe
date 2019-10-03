@@ -774,6 +774,22 @@ public class AweElements {
   }
 
   /**
+   * Retrieve query map (query name + query object)
+   * @return Query map
+   */
+  public Map<String, Query> getQueryMap() {
+    return new TreeMap<>(queryList);
+  }
+
+  /**
+   * Retrieve maintain map (maintain name + maintain object)
+   * @return Maintain map
+   */
+  public Map<String, Target> getMaintainMap() {
+    return new TreeMap<>(maintainList);
+  }
+
+  /**
    * Retrieve the application context
    *
    * @return Application context
