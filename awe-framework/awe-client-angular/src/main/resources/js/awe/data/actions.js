@@ -89,11 +89,6 @@ export const ClientActions = {
     "file-uploaded": {method: "onFileUploaded"},
     "clear-file": {method: "onReset"}
   },
-  // Available dialog actions
-  dialog: {
-    "put-model": {method: "putModel"},
-    "get-model": {method: "getModel"}
-  },
   // Available grid actions
   grid: {
     // Shared actions

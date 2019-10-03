@@ -104,9 +104,17 @@
       <service-parameter type="STRING" name="fileName" />
     </java>
   </service>
-  <service id="modalDialog">
-    <java classname="com.almis.awe.test.Dialog" method="modalDialog">
-      <service-parameter type="FLOAT" name="num" />
+  <service id="fillTestDialog">
+    <java classname="com.almis.awe.test.Dialog" method="fillTestDialog">
+      <service-parameter type="JSON" name="denominations" bean-class="com.almis.awe.model.dto.DataList" />
+      <service-parameter name="columnToUpdate" type="STRING"/>
+    </java>
+  </service>
+  <service id="storeTestDialog">
+    <java classname="com.almis.awe.test.Dialog" method="storeTestDialog">
+      <service-parameter type="OBJECT" name="denominations" bean-class="com.almis.awe.test.bean.Denominations" />
+      <service-parameter type="JSON" name="address"/>
+      <service-parameter name="column" type="STRING"/>
     </java>
   </service>
   <service id="addColumns">
@@ -342,6 +350,18 @@
   <service id="testServiceBeanListParameter">
     <java classname="com.almis.awe.test.service.DummyService" method="getDummyData">
       <service-parameter type="OBJECT" bean-class="com.almis.awe.test.bean.Planets"/>
+    </java>
+  </service>
+
+  <service id="testServiceJsonBeanParameter">
+    <java classname="com.almis.awe.test.service.DummyService" method="getDummyData">
+      <service-parameter name="value" type="JSON" bean-class="com.almis.awe.test.bean.Planet"/>
+    </java>
+  </service>
+
+  <service id="testServiceJsonParameter">
+    <java classname="com.almis.awe.test.service.DummyService" method="getDummyData">
+      <service-parameter name="value" type="JSON"/>
     </java>
   </service>
 

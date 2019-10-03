@@ -2,6 +2,8 @@ package com.almis.awe.model.entities.screen.component.grid;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.entities.Element;
+import com.almis.awe.model.entities.screen.component.action.ButtonAction;
 import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
 import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -17,6 +19,9 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Column Class
@@ -223,7 +228,7 @@ public class Column extends AbstractCriteria {
   }
 
   /**
-   * @return the dialog
+   * @return the sort object
    */
   @JsonGetter("sort")
   public ObjectNode getSortColumnHandler() {
@@ -233,5 +238,24 @@ public class Column extends AbstractCriteria {
       return sortDirection;
     }
     return null;
+  }
+
+  /**
+   * Returns the action list
+   *
+   * @return Action list
+   */
+  @JsonGetter("actions")
+  public List<ButtonAction> getActionList() {
+
+    List<ButtonAction> actionList = new ArrayList<>();
+
+    for (Element element : getElementList()) {
+      if (element instanceof ButtonAction) {
+        actionList.add((ButtonAction) element);
+      }
+    }
+
+    return actionList;
   }
 }

@@ -102,4 +102,76 @@ public class JavaServiceTest extends AweSpringBootTests {
     assertNotNull(serviceData);
     assertTrue(serviceData.isValid());
   }
+
+  /**
+   * Test call java service with bean parameter
+   *
+   * @throws AWException AWE exception
+   */
+  @Test
+  public void testServiceJsonBeanParameter() throws Exception {
+    // Launch query service
+    given(aweSession.isAuthenticated()).willReturn(true);
+    ObjectNode parameters = JsonNodeFactory.instance.objectNode();
+    ObjectNode value = JsonNodeFactory.instance.objectNode();
+    value.put("name", "Earth");
+    value.put("rotationPeriod", "1d");
+    value.put("orbitalPeriod", "365d 6h");
+    value.put("diameter", "12313");
+    value.put("climate", "Mixed");
+    value.put("gravity", "9,8m/s");
+    value.put("terrain", "Mixed");
+    value.put("surfaceWater", "80%");
+    value.put("population", 1231231L);
+    value.put("created", "2015-10-23");
+    value.put("edited", "2018-05-20");
+    value.put("url", "https://www.dummy.url");
+    parameters.set("value", value);
+    ServiceData serviceData = getBean(QueryService.class).launchQuery("testServiceJsonBeanParameter", parameters);
+    assertNotNull(serviceData);
+    assertTrue(serviceData.isValid());
+  }
+
+  /**
+   * Test call java service with bean parameter
+   *
+   * @throws AWException AWE exception
+   */
+  @Test
+  public void testServiceJsonNullBean() throws Exception {
+    // Launch query service
+    given(aweSession.isAuthenticated()).willReturn(true);
+    ServiceData serviceData = getBean(QueryService.class).launchQuery("testServiceJsonBeanParameter", JsonNodeFactory.instance.objectNode());
+    assertNotNull(serviceData);
+    assertTrue(serviceData.isValid());
+  }
+
+  /**
+   * Test call java service with bean parameter
+   *
+   * @throws AWException AWE exception
+   */
+  @Test
+  public void testServiceJsonParameter() throws Exception {
+    // Launch query service
+    given(aweSession.isAuthenticated()).willReturn(true);
+    ObjectNode parameters = JsonNodeFactory.instance.objectNode();
+    ObjectNode value = JsonNodeFactory.instance.objectNode();
+    value.put("name", "Earth");
+    value.put("rotationPeriod", "1d");
+    value.put("orbitalPeriod", "365d 6h");
+    value.put("diameter", "12313");
+    value.put("climate", "Mixed");
+    value.put("gravity", "9,8m/s");
+    value.put("terrain", "Mixed");
+    value.put("surfaceWater", "80%");
+    value.put("population", 1231231L);
+    value.put("created", "23/10/2015");
+    value.put("edited", "20/05/2018");
+    value.put("url", "https://www.dummy.url");
+    parameters.set("value", value);
+    ServiceData serviceData = getBean(QueryService.class).launchQuery("testServiceJsonParameter", parameters);
+    assertNotNull(serviceData);
+    assertTrue(serviceData.isValid());
+  }
 }

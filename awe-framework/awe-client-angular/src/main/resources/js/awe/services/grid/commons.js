@@ -599,6 +599,11 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           // Store as identifier list
           data[component.address.component + "-id"] = columnData;
 
+          // If there is only one row selected, send selected row address
+          if (selected.length === 1) {
+            data["selectedRowAddress"] = {...component.address, row: selected[0]};
+          }
+
           return data;
         };
 

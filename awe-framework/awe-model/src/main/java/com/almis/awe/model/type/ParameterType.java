@@ -53,6 +53,8 @@ public enum ParameterType {
   LONG,
   // object
   OBJECT,
+  // JsonNode
+  JSON,
   // null
   NULL,
   // multiple sequence (integer)

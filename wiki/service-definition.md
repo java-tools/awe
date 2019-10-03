@@ -9,6 +9,7 @@ Almis Web Engine > **[Basic Development Guide](basic-developer-guide.md)**
 * **[Introduction](#introduction)**
 * **[Global service structure](#global-service-structure)**
   * **[Java services](#java-services)**
+      * [Load bean from parameters](#load-beans-from-parameters)
       * [How to set parameter values from Java](#how-to-set-parameter-values-from-java)
   * **[Microservices](#microservices)**
   * **[REST services](#rest-services)**
@@ -80,7 +81,7 @@ Java element has the following attributes:
 
 | Attribute   | Use          | Type      |  Description                        |   Values                                           |
 | ----------- | -------------|-----------|-------------------------------------|----------------------------------------------------|
-| classname   | **Required** | String    | Class name of java service                                    |  Ex.: `classname="com.almis.awe.core.services.controller.AccessController"`
+| classname   | **Required** | String    | Class name of java service                                    | Ex.: `classname="com.almis.awe.core.services.controller.AccessController"`
 | method      | **Required** | String    | Method name of class to be executed                           | Ex.: `method="login"` |
 | qualifier   | Optional     | String    | Qualifier bean name. If uses `@Qualifier` spring annotation   | Ex.: `qualifier="myBean"` |
 
@@ -117,9 +118,9 @@ The service parameter element are parameters passed from query or maintain to th
 | Attribute   | Use          | Type      |  Description                             |   Values                                      |
 | ----------- | ------------ |-----------|------------------------------------------|---------------------------------------------- |
 | name        | **Required** | String    | Name of service parameter                | **Note:** Must be unique                      |
-| type        | **Required** | String    | Type of service parameter                | The possible values are: `STRING`, `INTEGER`, `FLOAT`, `DOUBLE`, `DATE`, `TIME` or `TIMESTAMP` |
+| type        | **Required** | String    | Type of service parameter                | The possible values are: `STRING`, `INTEGER`, `FLOAT`, `DOUBLE`, `OBJECT`, `JSON`, `DATE`, `TIME` or `TIMESTAMP` |
 | value       | Optional     | String    | To set the parameter with a static value |                                               |
-| bean-class  | Optional     | String    | Manage parameter as a Java Bean          | Type must be `OBJECT`                         |
+| bean-class  | Optional     | String    | Manage parameter as a Java Bean          | Type must be `OBJECT` or `JSON`               |
 
 ## **Java services**
 
@@ -193,7 +194,31 @@ public class ScreenService extends ServiceConfig {
     // ...
   } 
 }
-````
+```
+
+### Load beans from parameters
+
+Here is an example to load a bean from some parameters
+
+**Example 1**: Load a single bean with parameters
+
+Query definition to load a bean parameter (each variable will field a bean attribute)
+
+```xml
+<query id="testServiceBeanParameter" service="testServiceBeanParameter">
+  <variable id="name" type="STRING" name="name"/>
+  <variable id="rotationPeriod" type="STRING" name="rotationPeriod"/>
+  <variable id="orbitalPeriod" type="STRING" name="orbitalPeriod"/>
+  <variable id="diameter" type="STRING" name="diameter"/>
+  <variable id="climate" type="STRING" name="climate"/>
+  <variable id="gravity" type="STRING" name="gravity"/>
+  <variable id="terrain" type="STRING" name="terrain"/>
+  <variable id="population" type="LONG" name="population"/>
+  <variable id="created" type="DATE" name="created"/>
+  <variable id="edited" type="DATE" name="edited"/>
+  <variable id="url" type="STRING" name="url"/>
+</query>
+```
 
 Service definition with a bean parameter
 
@@ -221,7 +246,27 @@ public class DummyService extends ServiceConfig {
     return serviceData;
   }
 }
-````
+```
+
+**Example 2**: Load a list of beans with parameters
+
+Query definition to load a bean parameter (each variable is a parameter list which will field a bean attribute)
+
+```xml
+<query id="testServiceBeanParameterList" service="testServiceBeanParameterList">
+  <variable id="name" type="STRING" name="name"/>
+  <variable id="rotationPeriod" type="STRING" name="rotationPeriod"/>
+  <variable id="orbitalPeriod" type="STRING" name="orbitalPeriod"/>
+  <variable id="diameter" type="STRING" name="diameter"/>
+  <variable id="climate" type="STRING" name="climate"/>
+  <variable id="gravity" type="STRING" name="gravity"/>
+  <variable id="terrain" type="STRING" name="terrain"/>
+  <variable id="population" type="LONG" name="population"/>
+  <variable id="created" type="DATE" name="created"/>
+  <variable id="edited" type="DATE" name="edited"/>
+  <variable id="url" type="STRING" name="url"/>
+</query>
+```
 
 Service definition with a bean parameter list
 
@@ -249,7 +294,83 @@ public class DummyService extends ServiceConfig {
     return serviceData;
   }
 }
-````
+```
+
+**Example 3**: Load a json node from a grid
+
+Query definition to load a bean parameter (each variable is a parameter list which will field a bean attribute)
+
+```xml
+<query id="testLoadJsonAddress" service="testLoadJsonAddress">
+  <variable id="address" type="OBJECT" name="selectedRowAddress"/>
+</query>
+```
+
+Service definition with a Json parameter
+
+```xml
+<service id="testLoadJsonAddress">
+  <java classname="com.almis.awe.test.service.DummyService" method="getJsonAddress">
+    <service-parameter type="JSON" />
+  </java>
+</service>
+```
+
+Java class definition with a json parameter
+
+```java
+@Service
+public class DummyService extends ServiceConfig { 
+  /**
+   * Retrieve dummy data
+   * @param address Json address
+   * @return Service data
+   */
+  public ServiceData getJsonAddress(JsonNode address) {
+    ServiceData serviceData = new ServiceData();
+    // ...
+    return serviceData;
+  }
+}
+```
+
+**Example 4**: Load a stored datalist from one grid row
+
+Query definition
+
+```xml
+<query id="testLoadJsonBean" service="testLoadJsonBean">
+  <variable id="storedDatalist" type="OBJECT" name="storedData.selected"/>
+</query>
+```
+
+Service definition with a Json parameter
+
+```xml
+<service id="testLoadJsonBean">
+  <java classname="com.almis.awe.test.service.DummyService" method="getJsonBean">
+    <service-parameter type="JSON" bean-class="com.almis.awe.model.dto.DataList"/>
+  </java>
+</service>
+```
+
+Java class definition with a json parameter
+
+```java
+@Service
+public class DummyService extends ServiceConfig { 
+  /**
+   * Retrieve dummy data
+   * @param datalist DataList from Json
+   * @return Service data
+   */
+  public ServiceData getJsonBean(DataList datalist) {
+    ServiceData serviceData = new ServiceData();
+    // ...
+    return serviceData;
+  }
+}
+```
 
 ### How to set parameter values from Java
 

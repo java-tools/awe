@@ -143,13 +143,15 @@
           </group-header>
           <column label="PARAMETER_COLOR" name="Col" sort-field="Col" align="center" component="color" charlength="20" />
           <column label="PARAMETER_CHECKBOX" name="ChkBox" sort-field="ChkBox" align="center" component="checkbox" type="boolean" charlength="12" />
-          <column label="PARAMETER_DIALOG" name="Dialog" sort-field="Dialog" align="center" icon="plus-circle" component="dialog" dialog="dialogo-modal" server-action="data-silent"
-            target-action="ModalDialog" charlength="12">
+          <column label="PARAMETER_DIALOG" name="Dialog" sort-field="Dialog" align="center" icon="plus-circle" component="button" charlength="12">
             <dependency target-type="show" initial="true">
               <dependency-element id="GrdEdi" attribute="selectedRows" condition="eq" value="1" />
               <dependency-element id="GrdEdi" attribute="selectedRow" condition="eq" id2="GrdEdi" attribute2="currentRow"/>
             </dependency>
+            <button-action type="server" server-action="maintain-silent" target-action="fillTestDialogGridEditable"/>
+            <button-action type="dialog" target="dialogo-modal"/>
           </column>
+          <column name="storedDenominationsGridEditable" hidden="true"/>
           <button label="BUTTON_NEW" icon="plus-circle" id="ButGrdEdiAdd">
             <button-action type="add-row" target="GrdEdi" silent="true" />
           </button>
@@ -218,13 +220,15 @@
             <column label="PARAMETER_UPLOADER" name="Upl1" sort-field="Upl" align="left" component="uploader" charlength="30" />
             <column label="PARAMETER_COLOR" name="Col1" sort-field="Col" align="center" component="color" charlength="20" />
             <column label="PARAMETER_CHECKBOX" name="ChkBox1" sort-field="ChkBox" align="center" component="checkbox" charlength="12" />
-            <column label="PARAMETER_DIALOG" name="Dialog2" sort-field="Dialog2" align="center" icon="plus-circle" component="dialog" dialog="dialogo-modal" server-action="data-silent"
-              target-action="ModalDialog" charlength="12">
+            <column label="PARAMETER_DIALOG" name="Dialog2" sort-field="Dialog2" align="center" icon="plus-circle" component="button" charlength="12">
               <dependency target-type="show" initial="true">
                 <dependency-element id="GrdEdiMus" attribute="selectedRows" condition="eq" value="1" />
                 <dependency-element id="GrdEdiMus" attribute="selectedRow" condition="eq" id2="GrdEdiMus" attribute2="currentRow" />
               </dependency>
+              <button-action type="server" server-action="maintain-silent" target-action="fillTestDialogGridEditableMultiselect"/>
+              <button-action type="dialog" target="dialogo-modal"/>
             </column>
+            <column name="storedDenominationsGridEditableMultiselect" hidden="true"/>
             <button label="BUTTON_NEW" icon="plus-circle" id="ButGrdEdiMusAdd">
               <button-action type="add-row" target="GrdEdiMus" silent="true" />
             </button>
@@ -377,13 +381,15 @@
                 <dependency-element id="TreGrdEdi" attribute="selectedRows" condition="eq" value="0" />
               </dependency>
             </column>
-            <column label="PARAMETER_DIALOG" name="TreeDialog" sort-field="TreeDialog" align="center" icon="plus-circle" component="dialog" dialog="dialogo-modal" server-action="data-silent"
-              target-action="ModalDialog" charlength="12">
+            <column label="PARAMETER_DIALOG" name="TreeDialog" sort-field="TreeDialog" align="center" icon="plus-circle" component="button" charlength="12">
               <dependency target-type="show" initial="true">
                 <dependency-element id="TreGrdEdi" attribute="selectedRows" condition="eq" value="1" />
                 <dependency-element id="TreGrdEdi" attribute="selectedRow" condition="eq" id2="TreGrdEdi" attribute2="currentRow" />
               </dependency>
+              <button-action type="server" server-action="maintain-silent" target-action="fillTestDialogTreegrid"/>
+              <button-action type="dialog" target="dialogo-modal"/>
             </column>
+            <column name="storedDenominationsTreegrid" hidden="true"/>
             <button icon="plus-circle" id="ButTreGrdEdiAdd">
               <button-action type="add-row" target="TreGrdEdi" silent="true" />
             </button>

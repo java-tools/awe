@@ -2,7 +2,7 @@ package com.almis.awe.model.entities.actions;
 
 import com.almis.awe.model.constant.AweConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,7 +52,7 @@ public class ComponentAddress implements Serializable {
    *
    * @param address Object node with address
    */
-  public ComponentAddress(ObjectNode address) {
+  public ComponentAddress(JsonNode address) {
     super();
 
     // Get view if available

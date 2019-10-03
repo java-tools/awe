@@ -718,10 +718,26 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
     let identifierColumnData = component.getIdentifierColumnData();
     component.controller.sendAll = true;
     let identifierColumnDataAll = component.getIdentifierColumnData();
+    component.model.selected = [];
+    let identifierColumnDataNoSelection = component.getIdentifierColumnData();
+
+    // Launch
+    component.controller.sendAll = false;
+    component.model.selected = [4];
+    let identifierColumnDataMO = component.getIdentifierColumnData();
+    component.model.selected = [];
+    let identifierColumnDataNoSelectionMO = component.getIdentifierColumnData();
 
     // Assert
-    expect(identifierColumnData).toEqual({"componentId-id": [4]});
-    expect(identifierColumnDataAll).toEqual({"componentId-id": [1, 2, 4, 5, 6, 7]});
+    expect(identifierColumnData).toEqual({"componentId-id": [4],
+        "selectedRowAddress": { view: 'viewId', component: 'componentId', row: 4 }});
+    expect(identifierColumnDataAll).toEqual({"componentId-id": [1, 2, 4, 5, 6, 7],
+      "selectedRowAddress": { view: 'viewId', component: 'componentId', row: 4 }});
+    expect(identifierColumnDataNoSelection).toEqual({"componentId-id": [1, 2, 4, 5, 6, 7]});
+
+    expect(identifierColumnDataMO).toEqual({"componentId-id": [4],
+      "selectedRowAddress": { view: 'viewId', component: 'componentId', row: 4 }});
+    expect(identifierColumnDataNoSelectionMO).toEqual({"componentId-id": []});
   });
 
   // Get data
@@ -749,7 +765,8 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
       "other.selected": "asda",
       "componentId-id": [4],
       "componentId": [4],
-      "componentId.data": {}
+      "componentId.data": {},
+      "selectedRowAddress": { view: 'viewId', component: 'componentId', row: 4 }
     });
     expect(allData).toEqual({
       id: [1, 2, 4, 5, 6, 7],
@@ -760,7 +777,8 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
       "other.selected": "asda",
       "componentId-id": [1, 2, 4, 5, 6, 7],
       "componentId": [4],
-      "componentId.data": {}
+      "componentId.data": {},
+      "selectedRowAddress": { view: 'viewId', component: 'componentId', row: 4 }
     });
   });
 
@@ -785,7 +803,8 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
       value: ["tutu", "lala", "lele", "lili", "lolo", "lulu"],
       other: ["", "", "asda", "", "", ""],
       "componentId-id": [4],
-      "componentId.data": {visibleColumns: {value: "Value", other: "Other thing"}}
+      "componentId.data": {visibleColumns: {value: "Value", other: "Other thing"}},
+      "selectedRowAddress": { view: 'viewId', component: 'componentId', row: 4 }
     });
 
     expect(data2).toEqual({
@@ -794,6 +813,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
       other: ["", "", "asda", "", "", ""],
       "componentId-id": [4],
       "componentId.data": {visibleColumns: {value: "Value", other: "Other thing"}},
+      "selectedRowAddress": { view: 'viewId', component: 'componentId', row: 4 },
       ...extraData
     });
   });

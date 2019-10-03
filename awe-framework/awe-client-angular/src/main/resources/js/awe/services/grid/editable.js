@@ -211,7 +211,7 @@ aweApplication.factory('GridEditable',
             var rowIndex = Control.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
 
             // Retrieve selected row values
-            _.merge(component.model.values[rowIndex], values);
+            component.model.values[rowIndex] = {...values};
 
             // Publish model changed
             Control.publishModelChanged(component.address, {values: component.model.values});
@@ -227,7 +227,7 @@ aweApplication.factory('GridEditable',
 
             // Store old values
             var rowModel = component.model.cells;
-            var address = _.merge({row: rowId}, component.address);
+            var address = {...component.address, row: rowId};
             _.each(component.controller.columnModel, function (column) {
               if ("id" in column && column.id in rowValues) {
                 address.column = column.id;

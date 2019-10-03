@@ -10,6 +10,7 @@ import com.almis.awe.service.data.builder.EmailBuilder;
 import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.test.bean.Planet;
 import com.almis.awe.test.bean.Planets;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -319,6 +320,15 @@ public class DummyService extends ServiceConfig {
    * @return Service data
    */
   public ServiceData getDummyData(Planet planet) {
+    return new ServiceData();
+  }
+
+  /**
+   * Retrieve dummy data
+   * @param planet Planet bean
+   * @return Service data
+   */
+  public ServiceData getDummyData(JsonNode planet) {
     return new ServiceData();
   }
 
