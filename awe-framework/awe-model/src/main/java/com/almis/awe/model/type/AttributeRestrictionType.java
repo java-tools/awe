@@ -3,6 +3,13 @@
  */
 package com.almis.awe.model.type;
 
+import com.almis.awe.model.entities.Element;
+import com.almis.awe.model.entities.screen.component.button.AbstractButton;
+import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
+import com.almis.awe.model.entities.screen.component.grid.AbstractGrid;
+import com.almis.awe.model.entities.screen.component.grid.Column;
+import com.almis.awe.model.entities.screen.component.pivottable.PivotTable;
+
 /**
  * AttributeRestrictionType Enumerated
  *
@@ -14,114 +21,116 @@ package com.almis.awe.model.type;
 public enum AttributeRestrictionType {
 
   // TAG ATTRIBUTES
-  STYLE("style"),
-  LABEL("label"),
-  TITLE("title"),
-  TYPE("type"),
-  EXPAND("expand"),
-  HELP("help"),
-  HELP_IMAGE("helpImage"),
+  STYLE("style", Element.class),
+  LABEL("label", Element.class),
+  TITLE("title", Element.class),
+  TYPE("type", Element.class),
+  EXPAND("expand", Element.class),
+  HELP("help", Element.class),
+  HELP_IMAGE("helpImage", Element.class),
 
   // CRITERIA ATTRIBUTES
-  REQUIRED("required"),
-  VALUE("value"),
-  SESSION("session"),
-  VARIABLE("variable"),
-  PROPERTY("property"),
-  COMPONENT("component"),
-  INITIAL_LOAD("initialLoad"),
-  VALIDATION("validation"),
-  GROUP("group"),
-  NUMBER_FORMAT("numberFormat"),
-  SHOW_SLIDER("showSlider"),
-  DESTINATION("destination"),
-  DEFAULT_VALUE("defaultValue"),
-  CAPITALIZE("capitalize"),
-  VISIBLE("visible"),
-  READONLY("readonly"),
-  CHECKED("checked"),
-  STRICT("strict"),
-  SERVER_ACTION("serverAction"),
-  TARGET_ACTION("targetAction"),
-  AUTOLOAD("autoload"),
-  AUTOREFRESH("autorefresh"),
-  MESSAGE("message"),
-  FORMULE("formule"),
-  PLACEHOLDER("placeholder"),
-  AREA_ROWS("arearows"),
-  OPTIONAL("optional"),
-  MAX("max"),
-  PRINTABLE("printable"),
-  UNIT("unit"),
-  CHECK_EMPTY("checkEmpty"),
-  CHECK_INITIAL("checkInitial"),
-  CHECK_TARGET("checkTarget"),
-  SPECIFIC("specific"),
-  TIMEOUT("timeout"),
-  RESTRICTED_VALUE_LIST("restrictedValueList"),
-  SHOW_WEEKENDS("showWeekends"),
-  SHOW_FUTURE_DATES("showFutureDates"),
-  DATE_FORMAT("dateFormat"),
-  SHOW_TODAY_BUTTON("showTodayButton"),
-  DATE_VIEW_MODE("dateViewMode"),
+  REQUIRED("required", AbstractCriteria.class),
+  VALUE("value", AbstractCriteria.class),
+  SESSION("session", AbstractCriteria.class),
+  VARIABLE("variable", AbstractCriteria.class),
+  PROPERTY("property", AbstractCriteria.class),
+  COMPONENT("component", AbstractCriteria.class),
+  INITIAL_LOAD("initialLoad", AbstractCriteria.class),
+  VALIDATION("validation", AbstractCriteria.class),
+  GROUP("group", AbstractCriteria.class),
+  NUMBER_FORMAT("numberFormat", AbstractCriteria.class),
+  SHOW_SLIDER("showSlider", AbstractCriteria.class),
+  DESTINATION("destination", AbstractCriteria.class),
+  DEFAULT_VALUE("defaultValue", AbstractCriteria.class),
+  CAPITALIZE("capitalize", AbstractCriteria.class),
+  VISIBLE("visible", AbstractCriteria.class),
+  READONLY("readonly", AbstractCriteria.class),
+  CHECKED("checked", AbstractCriteria.class),
+  STRICT("strict", AbstractCriteria.class),
+  SERVER_ACTION("serverAction", AbstractCriteria.class),
+  TARGET_ACTION("targetAction", AbstractCriteria.class),
+  AUTOLOAD("autoload", AbstractCriteria.class),
+  AUTOREFRESH("autorefresh", AbstractCriteria.class),
+  MESSAGE("message", AbstractCriteria.class),
+  FORMULE("formule", AbstractCriteria.class),
+  PLACEHOLDER("placeholder", AbstractCriteria.class),
+  AREA_ROWS("arearows", AbstractCriteria.class),
+  OPTIONAL("optional", AbstractCriteria.class),
+  MAX("max", AbstractCriteria.class),
+  PRINTABLE("printable", AbstractCriteria.class),
+  UNIT("unit", AbstractCriteria.class),
+  CHECK_EMPTY("checkEmpty", AbstractCriteria.class),
+  CHECK_INITIAL("checkInitial", AbstractCriteria.class),
+  CHECK_TARGET("checkTarget", AbstractCriteria.class),
+  SPECIFIC("specific", AbstractCriteria.class),
+  TIMEOUT("timeout", AbstractCriteria.class),
+  RESTRICTED_VALUE_LIST("restrictedValueList", AbstractCriteria.class),
+  SHOW_WEEKENDS("showWeekends", AbstractCriteria.class),
+  SHOW_FUTURE_DATES("showFutureDates", AbstractCriteria.class),
+  DATE_FORMAT("dateFormat", AbstractCriteria.class),
+  SHOW_TODAY_BUTTON("showTodayButton", AbstractCriteria.class),
+  DATE_VIEW_MODE("dateViewMode", AbstractCriteria.class),
 
   // COLUMN ATTRIBUTES
-  INDEX("index"),
-  FIELD("field"),
-  WIDTH("width"),
-  CHAR_LENGTH("charLength"),
-  ALIGN("align"),
-  INPUT_TYPE("inputType"),
-  SORTABLE("sortable"),
-  MOVABLE("movable"),
-  HIDDEN("hidden"),
-  SENDABLE("sendable"),
-  SUMMARY_TYPE("summaryType"),
-  FORMATTER("formatter"),
-  FORMAT_OPTIONS("formatOptions"),
-  FROZEN("frozen"),
-  POSITION("position"),
+  INDEX("index", Column.class),
+  FIELD("field", Column.class),
+  WIDTH("width", Column.class),
+  CHAR_LENGTH("charLength", Column.class),
+  ALIGN("align", Column.class),
+  INPUT_TYPE("inputType", Column.class),
+  SORTABLE("sortable", Column.class),
+  MOVABLE("movable", Column.class),
+  HIDDEN("hidden", Column.class),
+  SENDABLE("sendable", Column.class),
+  SUMMARY_TYPE("summaryType", Column.class),
+  FORMATTER("formatter", Column.class),
+  FORMAT_OPTIONS("formatOptions", Column.class),
+  FROZEN("frozen", Column.class),
+  POSITION("position", Column.class),
 
   // BUTTON ATTRIBUTES
-  BROWSER_ACTION("browserAction"),
-  BUTTON_TYPE("buttonType"),
-  CANCEL("cancel"),
+  BROWSER_ACTION("browserAction", AbstractButton.class),
+  BUTTON_TYPE("buttonType", AbstractButton.class),
+  CANCEL("cancel", AbstractButton.class),
 
   // GRID ATTRIBUTES
-  TOTALIZE("totalize"),
-  SHOW_TOTALS("showTotals"),
-  SEND_OPERATIONS("sendOperations"),
-  TREEGRID("treegrid"),
-  EDITABLE("editable"),
-  MULTISELECT("multiselect"),
-  EXPAND_COLUMN("expandColumn"),
-  LOAD_ALL("loadAll"),
-  SEND_ALL("sendAll"),
-  TREE_ID("treeId"),
-  TREE_PARENT("treeParent"),
-  TREE_LEAF("treeLeaf"),
-  PAGINATION_DISABLED("paginationDisabled"),
-  PAGER_VALUES("pagerValues"),
+  TOTALIZE("totalize", AbstractGrid.class),
+  SHOW_TOTALS("showTotals", AbstractGrid.class),
+  SEND_OPERATIONS("sendOperations", AbstractGrid.class),
+  TREEGRID("treegrid", AbstractGrid.class),
+  EDITABLE("editable", AbstractGrid.class),
+  MULTISELECT("multiselect", AbstractGrid.class),
+  EXPAND_COLUMN("expandColumn", AbstractGrid.class),
+  LOAD_ALL("loadAll", AbstractGrid.class),
+  SEND_ALL("sendAll", AbstractGrid.class),
+  TREE_ID("treeId", AbstractGrid.class),
+  TREE_PARENT("treeParent", AbstractGrid.class),
+  TREE_LEAF("treeLeaf", AbstractGrid.class),
+  PAGINATION_DISABLED("paginationDisabled", AbstractGrid.class),
+  PAGER_VALUES("pagerValues", AbstractGrid.class),
 
   // PIVOT ATTRIBUTES
-  TOTAL_COLUMN_PLACEMENT("totalColumnPlacement"),
-  TOTAL_ROW_PLACEMENT("totalRowPlacement"),
-  RENDERER("renderer"),
-  AGGREGATOR("aggregator"),
-  AGGREGATION_FIELD("aggregationField"),
-  SORT_METHOD("sortMethod"),
-  COLS("cols"),
-  ROWS("rows"),
-  DECIMAL_NUMBERS("decimalNumbers"),
-  THOUSAND_SEPARATOR("thousandSeparator"),
-  DECIMAL_SEPARATOR("decimalSeparator");
+  TOTAL_COLUMN_PLACEMENT("totalColumnPlacement", PivotTable.class),
+  TOTAL_ROW_PLACEMENT("totalRowPlacement", PivotTable.class),
+  RENDERER("renderer", PivotTable.class),
+  AGGREGATOR("aggregator", PivotTable.class),
+  AGGREGATION_FIELD("aggregationField", PivotTable.class),
+  SORT_METHOD("sortMethod", PivotTable.class),
+  COLS("cols", PivotTable.class),
+  ROWS("rows", PivotTable.class),
+  DECIMAL_NUMBERS("decimalNumbers", PivotTable.class),
+  THOUSAND_SEPARATOR("thousandSeparator", PivotTable.class),
+  DECIMAL_SEPARATOR("decimalSeparator", PivotTable.class);
 
   // Parameter VALUE
   private String value;
+  private Class<?> componentClass;
 
   // Constructor
-  private AttributeRestrictionType(String value) {
+  private AttributeRestrictionType(String value, Class<?> componentClass) {
     this.value = value;
+    this.componentClass = componentClass;
   }
 
   /**
@@ -140,12 +149,28 @@ public enum AttributeRestrictionType {
   }
 
   /**
+   * Retrieve enumerated component class
+   * @return Component class
+   */
+  public Class<?> getComponentClass() {
+    return componentClass;
+  }
+
+  /**
+   * Retrieve enumerated value
+   * @return Value
+   */
+  public String getValue() {
+    return value;
+  }
+
+  /**
    * Override toString method to return PROPERTY VALUE
    *
    * @return Property VALUE (if defined)
    */
   @Override
   public String toString() {
-    return value;
+    return getValue();
   }
 }
