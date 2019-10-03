@@ -11,6 +11,7 @@ import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.model.entities.screen.component.Component;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.type.AttributeRestrictionType;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.PropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 
@@ -21,6 +22,7 @@ import java.util.concurrent.Future;
 /**
  * Manage the specific configuration of a screen
  */
+@Log4j2
 public class ScreenConfigurationGenerator extends ServiceConfig {
 
   /**
@@ -66,17 +68,26 @@ public class ScreenConfigurationGenerator extends ServiceConfig {
    * @param component Component to change
    */
   private void applyRule(String attribute, String value, Component component) {
+    // Get restriction
+    AttributeRestrictionType attributeRestriction = AttributeRestrictionType.getEnum(attribute);
+
+    // If property doesn't belong to the component, log it and return
+    if (!attributeRestriction.getComponentClass().isAssignableFrom(component.getClass())) {
+      log.warn("WARNING: Screen configuration parameter '{}' is not a property from '{}' component. Please remove it from screen configuration", attribute, component.getClass().getSimpleName());
+      return;
+    }
+
     // Get accessor
     PropertyAccessor myAccessor = PropertyAccessorFactory.forDirectFieldAccess(component);
 
     // Manage special cases
-    switch (AttributeRestrictionType.getEnum(attribute)) {
+    switch (attributeRestriction) {
       // Visible / Hidden in columns
       case VISIBLE:
         if (component instanceof Column) {
           myAccessor.setPropertyValue(AttributeRestrictionType.HIDDEN.toString(), String.valueOf(!Boolean.parseBoolean(value)));
         } else {
-            myAccessor.setPropertyValue(attribute, value);
+          myAccessor.setPropertyValue(attribute, value);
         }
         break;
       case REQUIRED:

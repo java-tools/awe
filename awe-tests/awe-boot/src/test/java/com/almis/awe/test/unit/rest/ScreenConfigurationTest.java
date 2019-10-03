@@ -4,11 +4,18 @@ import com.almis.awe.annotation.entities.session.FromSession;
 import com.almis.awe.annotation.entities.session.ToSession;
 import com.almis.awe.model.dto.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
+import com.almis.awe.service.screen.ScreenConfigurationGenerator;
+import com.almis.awe.test.unit.database.DirectServiceCallTest;
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -16,6 +23,10 @@ import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -245,6 +256,20 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
     logger.debug(result);
   }
 
+  /**
+   * Test of screen restriction - Style
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testAttributeNotForComponent() throws Exception {
+    // Add restriction
+    addRestriction("INSERT", "CrtTstLeft", "Txt", "editable", "true");
+
+    // Check screen
+    checkAttributeComponentDoesntExist("Txt", "editable");
+  }
+
   // *****************************************************************************************************************//
   // SESSION TESTS
   // **************************************************************************************************************** //
@@ -320,22 +345,36 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
   /**
    * Perform screen data action to check Json controller attributes
    *
-   * @param componentID component ID
+   * @param componentId component ID
    * @param attribute component attribute
    * @param value attribute value
    * @throws Exception UnsupportedEncodingException exception
    */
-  private void checkAttributeComponent(String componentID, String attribute, Object value) throws Exception {
+  private void checkAttributeComponent(String componentId, String attribute, Object value) throws Exception {
+    checkAttributeComponentMatcher(componentId, attribute, is(Collections.singletonList(value)));
+  }
 
+  /**
+   * Perform screen data action to check Json controller attributes
+   *
+   * @param componentId component ID
+   * @param attribute component attribute
+   * @throws Exception UnsupportedEncodingException exception
+   */
+  private void checkAttributeComponentDoesntExist(String componentId, String attribute) throws Exception {
+    checkAttributeComponentMatcher(componentId, attribute, is(Collections.EMPTY_LIST));
+  }
+
+  private void checkAttributeComponentMatcher(String componentId, String attribute, Matcher matcher) throws Exception {
     // Get screen action and check attribute
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-            .header("Authorization", AUTHORIZATION_HEADER)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(screenParameters)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath(String.format("$[0].parameters.screenData.components[?(@.id == '%s')].controller.%s", componentID, attribute), is(Collections.singletonList(value))))
-            .andReturn();
+      .header("Authorization", AUTHORIZATION_HEADER)
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(screenParameters)
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath(String.format("$[0].parameters.screenData.components[?(@.id == '%s')].controller.%s", componentId, attribute), matcher))
+      .andReturn();
 
     String result = mvcResult.getResponse().getContentAsString();
     logger.debug(result);
