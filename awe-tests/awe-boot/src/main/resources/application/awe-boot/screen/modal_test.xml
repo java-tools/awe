@@ -30,8 +30,9 @@
   <tag source="dialogo-modal">
     <dialog label="SCREEN_TEXT_CRITERIA" icon="pencil-square-o" id="dialogo-modal" modal="true" style="normal">
       <tag type="div" style="modal-body scrollable">
+        <criteria component="hidden" id="columnToUpdate"/>
         <window label="SCREEN_TEXT_CRITERIA" style="height-md expand" expandible="vertical">
-          <grid id="denominations" editable="true" show-totals="true" style="expand" validate-on-save="false">
+          <grid id="denominations" editable="true" show-totals="true" style="expand" validate-on-save="false" send-all="true">
             <column name="valor" align="right" sortable="false" charlength="21" label="PARAMETER_TEXT"/>
             <column name="numero" align="right" component="numeric" sortable="false" charlength="21" label="PARAMETER_TEXT" number-format="{vMin: '-999999', mDec: 0, pSign:'s', aPad:true}" value="0" formatter="number" summary-type="sum"/>
             <column name="cantidad" align="right" component="numeric" sortable="false" charlength="21" label="PARAMETER_TEXT" number-format="{vMin: '-999999', mDec: 2, aSign:' EUR', pSign:'s', aPad:true}" value="0" formatter="number" summary-type="sum"/>
@@ -62,6 +63,7 @@
           </button>
           <button button-type="submit" id="ButModDiaVal" label="BUTTON_ACCEPT" icon="ok-sign">
             <button-action type="validate" target="dialogo-modal" />
+            <button-action type="server" server-action="maintain-silent" target-action="storeTestDialog"/>
             <button-action type="close" target="dialogo-modal" />
           </button>
         </tag>

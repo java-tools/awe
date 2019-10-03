@@ -66,6 +66,7 @@
       <xs:enumeration value="TIME"/>
       <xs:enumeration value="TIMESTAMP"/>
       <xs:enumeration value="OBJECT"/>
+      <xs:enumeration value="JSON"/>
       <xs:enumeration value="BOOLEAN"/>
     </xs:restriction>
   </xs:simpleType>

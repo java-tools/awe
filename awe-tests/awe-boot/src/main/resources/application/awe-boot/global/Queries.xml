@@ -2413,6 +2413,14 @@
     <variable id="populationList" type="LONG" name="populationList"/>
   </query>
 
+  <query id="testServiceJsonBeanParameter" service="testServiceJsonBeanParameter">
+    <variable id="value" type="OBJECT" name="value"/>
+  </query>
+
+  <query id="testServiceJsonParameter" service="testServiceJsonParameter">
+    <variable id="value" type="OBJECT" name="value"/>
+  </query>
+
   <query id="testExistsOK">
     <table id="ope"/>
     <field id="l1_nom" alias="name"/>

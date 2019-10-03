@@ -410,7 +410,7 @@ public class QueryUtil extends ServiceConfig {
 
   private JsonNode getObjectParameter(JsonNode parameter, String stringParameter) throws AWException {
     JsonNode output = parameter;
-    if (parameter == null) {
+    if (parameter == null && stringParameter != null) {
       try {
         output = new ObjectMapper().reader().readTree(stringParameter);
       } catch (IOException exc) {

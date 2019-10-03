@@ -936,6 +936,7 @@
   <xs:complexType name="columnType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element ref="dependency" />
+      <xs:element ref="button-action" />
     </xs:choice>
     <xs:attributeGroup ref="columnAttr" />
   </xs:complexType>
@@ -1366,7 +1367,6 @@
       <xs:enumeration value="sparkline" />
       <xs:enumeration value="password" />
       <xs:enumeration value="text-view" />
-      <xs:enumeration value="dialog" />
       <xs:enumeration value="button" />
       <xs:enumeration value="formatted-text" />
     </xs:restriction>

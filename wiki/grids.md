@@ -28,6 +28,7 @@ Almis Web Engine > [Basic Development Guide](basic-developer-guide.md) > **[Scre
   * [Multioption grid specific attributes](#multioption-grid-specific-attributes)
 * **[Grid buttons](#grid-buttons)**
 * **[Context menu](#context-menu)**
+* **[Variables](#variables)**
 
 ## Introduction
 
@@ -116,7 +117,6 @@ To define a **grid** or a **treegrid** in AWE you must follow the next structure
 | style       | Optional     | String    | Column css class            | Css class to apply to the column |
 | component   | Optional     | String    | Column type (if editable)   | See [components](criteria.md#components) |
 | max         | Optional     | Integer   | Max number of records to get when the column is initialized with target-action   | Default value is `30` |
-| dialog      | Optional     | String    | Dialog identifier of the modal dialog that will be launched in `dialog` component |  |
 | visibility  | Optional     | Boolean   | Initial visibility of the column component | Default value is `true` |
 | frozen      | Optional     | Boolean   | Keep the column fixed out of the horizontal scroll. **WARNING**: Don't use this attribute if header has more than one line height |  Default value is `false` |
 | excel-print-format| Optional     | String| When printing to excel, if we want to print the cells as number, we need to use this attribute and set its value as "numeric". **NOTE:** If the column has a "numeric" component, it is not needed to define this attribute to print the cells as numbers | |
@@ -145,8 +145,7 @@ To define a **grid** or a **treegrid** in AWE you must follow the next structure
 | formatted-text | HTML Text column component. See [formatted-text component](#formatted-text-column-component)     |
 | icon        | Icon column component. Use it for showing font awesome icons in a column. |
 | image       | Image column component. Use it for showing images in a column. |
-| dialog      | Complex component which allows the user to open a dialog with different values in each row |
-| button | Component which allows the user to click a button which launches a server action (requires `server-action` and `target-action` attributes to be filled) |
+| button      | Component which allows the user to click a button which launches a set of `button-action` |
 | progress    | Progress column component. Useful for showing a progress bar in a column. (Work in progress) |
 | sparkline   | Sparkline column component. Useful for showing a sparkline chart in a column. (Work in progress) |
 
@@ -194,21 +193,11 @@ This component is very useful to show an image inside a grid. The compound attri
 | image       | Image path |
 | label       | Text to show when you move the mouse over the image. You can use [i18n](i18n-internationalization.md) files (locales) |
 
-#### Dialog column component
-
-![DialogColumn](images/DialogColumn.png)
-
-A dialog column is a complex component which allows to define a new level of data inside a grid cell. It is shown as a button which opens a defined dialog, but the data stored in the dialog is attached to the cell, so that when it is reopened, it retrieves the data stored in the cell.
-
-| Attribute   |  Description                                                                                                |
-| ----------- | ------------------------------------------------------------------------------------------------------------|
-| icon        | Icon class to show in the button. You can check all iconset at [FontAwesome](http://fontawesome.io/icons/) |
-| label       | Text to show in the button. You can use [i18n](i18n-internationalization.md) files (locales) |
-| title       | Text to show when you move the mouse over the button. You can use [i18n](i18n-internationalization.md) files (locales) |
-
 #### Button column component
 
-A button column is a component which allows to launch a server action from a grid row.
+![Button Column](images/DialogColumn.png)
+
+A button column is a component which allows to launch a set of `button-action` defined on column.
 
 | Attribute   |  Description                                                                                                |
 | ----------- | ------------------------------------------------------------------------------------------------------------|
@@ -352,3 +341,33 @@ You can add button elements to perform actions over the grids. For instance, a p
 You can define a context-menu inside the grid to help the user do actions with the selected rows. See [context menu](context-menu.md).
 
 ![GridContextMenu](images/GridContextMenu.png)
+
+## Variables
+
+The grid component sends some specific variables to the server, depending on its status and attributes. 
+Here is the list of variables that can be sent by the grid component:
+
+| Variable          |  Type    |  Condition    |  Description                                           |
+| ----------------- | -------- | ------------- | ------------------------------------------------------ |
+| _[GridName]_      | Array    | Always        | List of selected lines identifiers                     |
+| _[ColumnName]_    | Array    | `send-all="false"` | List of selected lines column values (for each column) |
+| _[ColumnName]_    | Array    | `send-all="true"`  | List of all column values (for each column) |
+| _[ColumnName]_.selected | Value/Array        | Always  | List of selected lines column values (for each column). If there is only one row selected, it will send only the value instead of an array |
+| selectedRowAddress | JsonNode | When there is only one line selected | Json node with the `address` of the selected row: view, component and row id |
+| sort              | Array    | Always        | List of JsonNodes with the grid sort information (`id`: column id, `direction`: sort direction) |
+| _[GridName]_.data | JsonNode | Always        | List of grid extra information (page, max records, sort information, etc) |
+
+The multioperation grid sends the variables in a different way than the other grids:
+
+| Variable          |  Type    |  Condition          |  Description                                           |
+| ----------------- | -------- | ------------------- | ------------------------------------------------------ |
+| _[GridName]_      | Integer  | `multioperation="true"` | Number of sent operations |
+| _[GridName]_.RowTyp | Array  | `multioperation="true"` | List of operations required for each column (only for the rows with operations) |
+| _[GridName]_-id   | Array    | `multioperation="true"` | List of row identifiers for rows with operations |
+| _[ColumnName]_    | Array    | `multioperation="true"` | List of column values for rows with operations (for each column) |
+| _[ColumnName]_.selected | Value/Array | Always     | List of selected lines column values (for each column). If there is only one row selected, it will send only the value instead of an array |
+| selectedRowAddress | JsonNode | When there is only one line selected | Json node with the `address` of the selected row: view, component and row id |
+| sort              | Array    | Always              | List of JsonNodes with the grid sort information (`id`: column id, `direction`: sort direction) |
+| _[GridName]_.data | JsonNode | Always        | List of grid extra information (page, max records, sort information, etc) |
+
+> **Note:** See samples of usages on [Service Definition](service-definition.md#load-beans-from-parameters)

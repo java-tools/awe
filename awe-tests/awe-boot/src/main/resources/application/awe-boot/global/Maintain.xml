@@ -715,4 +715,36 @@
     </insert>
   </target>
 
+  <target name="storeTestDialog">
+    <serve service="storeTestDialog">
+      <variable id="id" type="STRING" name="denominations-id"/>
+      <variable id="valor" type="INTEGER" name="valor"/>
+      <variable id="numero" type="INTEGER" name="numero"/>
+      <variable id="cantidad" type="INTEGER" name="cantidad"/>
+      <variable id="address" type="OBJECT" name="selectedRowAddress"/>
+      <variable id="column" type="STRING" name="columnToUpdate"/>
+    </serve>
+  </target>
+
+  <target name="fillTestDialogGridEditable">
+    <serve service="fillTestDialog">
+      <variable id="denominations" type="OBJECT" name="storedDenominationsGridEditable.selected"/>
+      <variable id="columnToUpdate" type="STRING" value="storedDenominationsGridEditable"/>
+    </serve>
+  </target>
+
+  <target name="fillTestDialogGridEditableMultiselect">
+    <serve service="fillTestDialog">
+      <variable id="denominations" type="OBJECT" name="storedDenominationsGridEditableMultiselect.selected"/>
+      <variable id="columnToUpdate" type="STRING" value="storedDenominationsGridEditableMultiselect"/>
+    </serve>
+  </target>
+
+  <target name="fillTestDialogTreegrid">
+    <serve service="fillTestDialog">
+      <variable id="denominations" type="OBJECT" name="storedDenominationsTreegrid.selected"/>
+      <variable id="columnToUpdate" type="STRING" value="storedDenominationsTreegrid"/>
+    </serve>
+  </target>
+
 </maintain>
