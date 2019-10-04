@@ -17,9 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertSame;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -536,9 +534,11 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+    assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
       new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l)
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
 
     // Clean the mess
@@ -557,8 +557,9 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l)
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
 
     // Clean the mess
@@ -601,12 +602,14 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+    assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
       new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l)
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
 
-    List<String> keys = new ArrayList<String>();
+    Set<String> keys = new HashSet<>();
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
     ObjectNode messageAction = (ObjectNode) resultList.get(1);
     ObjectNode messageParameters = (ObjectNode) messageAction.get("parameters");
@@ -623,9 +626,11 @@ public class MaintainTest extends AweSpringDatabaseTests {
     expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+    assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
       new MaintainResultDetails(MaintainType.DELETE, 1l),
-      new MaintainResultDetails(MaintainType.DELETE, 1l)
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.DELETE, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
   }
 
