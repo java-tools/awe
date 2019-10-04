@@ -1,6 +1,3 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.type;
 
 import com.almis.awe.model.entities.Element;

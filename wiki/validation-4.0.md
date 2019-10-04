@@ -30,31 +30,30 @@ The validation action checks the conditions of each criterion with a value under
 
 There are some kind of validation:
 
-| Value of attribute    | Description                                                  | Examples       |
-| --------------------- | -------------------------------------------------------------| ---------------|
-| required              | Check if the field has value                                 | `validation="{required:true}"` |
-| text                  | Check if the value of the criteria is a text (Numbers and white spaces are not allowed)              | `validation="{text:true}"`             |
-| textWithSpaces        | Check if the value of the criteria is a text (Numbers not allowed)              | `validation="{textWithSpaces:true}"`             |
-| number                | Check if the value of the criteria is a number               | `validation="number"`             |
-| integer               | Check if the value is a well-formed integer                  |  `validation="integer"`   |
-| digits                | Check if the value is a number with only digits                  |  `validation="digits"`  |
-| date                  | Check if the value is a valid date                           |   `validation="date"`  |
-| time                  | Check if the value is a valid time (hour, minutes and seconds)                  | `validation="time"` |
-| email                 | Check if the value is a valid string email             |  `validation="email"`              |
-| invalid               | Check if the text is equal  to the parameter             | `validation="invalid"`              |
-| gt                    | Check if the value is greater than the value of the parameter | `validation="{gt:`[value](#validation-values)`}"`      |
-| ge                    | Check if the value is greater or equal than the value of the parameter | `validation="{ge:`[value](#validation-values)`}"`      |
-| lt                    | Check if the value is lower than the value of the parameter | `validation="{lt:`[value](#validation-values)`}"`      |
-| le                    | Check if the value is lower or equal than the value of the parameter | `validation="{le:`[value](#validation-values)`}"`      |
-| eq                    | Check if the value is equal than the value of the parameter | `validation="{eq:`[value](#validation-values)`}"`      |
-| ne                    | Check if the value is different than the value of the parameter | `validation="{ne:`[value](#validation-values)`}"`      |
-| mod                   | Check if the value is divisible by the value of the parameter | `validation="{mod:`[value](#validation-values)`}"`      |
-| range                 |  Check if the value is inside the range  | `validation="{range:{from:`[value](#validation-values)`, to:`[value](#validation-values)`}}"` |
-| equallength           | Check if the text length is equal to the parameter value             |  `validation="{equallegth:`[value](#validation-values)`}"`  |
-| maxlength             | Check if the text length is less than the parameter value             |  `validation="{maxlegth:`[value](#validation-values)`}"`  |
-| minlength             | Check if the text length is bigger than the parameter value   | `validation="{minlength:`[value](#validation-values)`}"`             |
-| checkAtLeast          | Check if there is a value like the field in the list       | `validation="{checkAtLeast:`[value](#validation-values)`}"`   |
-| pattern               | Check if the text is equal  to the parameter             | `validation="{pattern:`[value](#validation-values)`}"`              |
+| Value of attribute | Component                     | Description                                                  | Examples       |
+| ------------------ | ----------------------------- | -------------------------------------------------------------| ---------------|
+| **required**       | **All** except `checkbox` and `radio` | Check if the field has value                                 | `validation="{required:true}"` |
+| **text**           | `Text` / `Textarea` / `Password` | Check if the value of the criteria is a text (Numbers and white spaces are not allowed)              | `validation="{text:true}"`             |
+| **textWithSpaces** | `Text` / `Textarea` / `Password` | Check if the value of the criteria is a text (Numbers not allowed)              | `validation="{textWithSpaces:true}"`             |
+| **number**         | `Text` / `Textarea` / `Password` | Check if the value of the criteria is a number               | `validation="number"`             |
+| **integer**        | `Text` / `Textarea` / `Password` | Check if the value is a well-formed integer                  |  `validation="integer"`   |
+| **digits**         | `Text` / `Textarea` / `Password` | Check if the value is a number with only digits                  |  `validation="digits"`  |
+| **date**           | `Text` / `Textarea` / `Password` | Check if the value is a valid date                           |   `validation="date"`  |
+| **time**           | `Text` / `Textarea` / `Password` | Check if the value is a valid time (hour, minutes and seconds)                  | `validation="time"` |
+| **email**          | `Text` / `Textarea` / `Password` | Check if the value is a valid string email             |  `validation="email"`              |
+| **gt**             | **All** except `checkbox` and `radio` | Check if the criterion value is greater than `value` | `validation="{gt:`[value](#validation-values)`}"`      |
+| **ge**             | **All** except `checkbox` and `radio` | Check if the criterion value is greater or equal `value` | `validation="{ge:`[value](#validation-values)`}"`      |
+| **lt**             | **All** except `checkbox` and `radio` | Check if the criterion value is lower than `value` | `validation="{lt:`[value](#validation-values)`}"`      |
+| **le**             | **All** except `checkbox` and `radio` | Check if the criterion value is lower or equal than `value` | `validation="{le:`[value](#validation-values)`}"`      |
+| **eq**             | **All** except `checkbox` and `radio` | Check if the criterion value is equal than `value` | `validation="{eq:`[value](#validation-values)`}"`      |
+| **ne**             | **All** except `checkbox` and `radio` | Check if the criterion value is different than `value` | `validation="{ne:`[value](#validation-values)`}"`      |
+| **mod**            | `Numeric` / `Date` / `Time` | Check if the criterion value is divisible by `value` | `validation="{mod:`[value](#validation-values)`}"`      |
+| **range**          | `Numeric` / `Date` / `Time` |  Check if the value is inside the range  | `validation="{range:{from:`[value](#validation-values)`, to:`[value](#validation-values)`}}"` |
+| **equallength**    | `Text` / `Textarea` / `Password` | Check if the text length is equal to `value`             |  `validation="{equallegth:`[value](#validation-values)`}"`  |
+| **maxlength**      | `Text` / `Textarea` / `Password` | Check if the text length is less than `value`             |  `validation="{maxlegth:`[value](#validation-values)`}"`  |
+| **minlength**      | `Text` / `Textarea` / `Password` | Check if the text length is bigger than `value`   | `validation="{minlength:`[value](#validation-values)`}"`             |
+| **checkAtLeast**   | `Checkbox` / `Button checkbox`   | Assure that there is at least `value` checked checkboxes in the group | `validation="{checkAtLeast:`[value](#validation-values)`}"`   |
+| **pattern**        | `Text` / `Textarea` / `Password` | Check if the text is equal  to the parameter             | `validation="{pattern:`[value](#validation-values)`}"`              |
  
 ### Validation values
 
