@@ -479,7 +479,7 @@
   </target>
 
   <target name="GridMultiple" public="false">
-    <multiple grid="grid">
+    <multiple grid="grid" audit="HISAweThm">
       <table id="AweThm"/>
       <field id="IdeThm" sequence="ThmKey" key="true" variable="varKey"/>
       <field id="Nam" variable="varNam"/>

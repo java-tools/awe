@@ -611,8 +611,11 @@ public class MaintainService extends ServiceConfig {
       for (Field field : origin.getFieldList()) {
         Field clonedField = field.copy();
 
-        // If field is key, and addKeys is false, or field is not key and addNonKeys is false, set audit to true
-        clonedField.setAudit((field.isKey() && !addKeys) || (!field.isKey() && !addNonKeys));
+        // If field is key, and addKeys is false, or field is not key and addNonKeys is false, set audit to true to
+        // use the field only for audit (else let it with its own value)
+        if ((field.isKey() && !addKeys) || (!field.isKey() && !addNonKeys)) {
+          clonedField.setAudit(true);
+        }
 
         // Add field copy to list
         fieldList.add(clonedField);
