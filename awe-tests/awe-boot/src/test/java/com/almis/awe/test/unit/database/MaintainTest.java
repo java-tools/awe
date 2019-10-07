@@ -3,6 +3,10 @@ package com.almis.awe.test.unit.database;
 import com.almis.awe.model.dto.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
 import com.almis.awe.service.MaintainService;
+import com.almis.awe.test.unit.categories.NotHSQLDatabaseTest;
+import com.almis.awe.test.unit.categories.NotMySQLDatabaseTest;
+import com.almis.awe.test.unit.categories.NotOracleDatabaseTest;
+import com.almis.awe.test.unit.categories.NotSQLServerDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -12,6 +16,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
@@ -564,6 +569,27 @@ public class MaintainTest extends AweSpringDatabaseTests {
 
     // Clean the mess
     cleanUp("CleanUpSequence");
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  @Category(NotOracleDatabaseTest.class)
+  public void testGridMultipleAutoIncrement() throws Exception {
+    String maintainName = "GridMultipleAutoIncrement";
+    String variables = "\"grid-RowTyp\": [\"INSERT\", \"INSERT\", \"UPDATE\", \"DELETE\"], \"id\": [null, null, 101, 100], \"name\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\"], \"email\":[\"test@test.es\", \"test2@test.es\", \"test3@test.es\", \"test4@test.es\"],";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.debug(result);
+    assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.DELETE, 1l),
+    });
   }
 
   /**

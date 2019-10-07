@@ -107,8 +107,8 @@ public class OperandConverter implements Converter {
     } else {
       // Convert to field
       sqlField = new Field()
-        .setVariable(reader.getAttribute(VARIABLE))
-        .setQuery(reader.getAttribute(QUERY));
+        .setQuery(reader.getAttribute(QUERY))
+        .setVariable(reader.getAttribute(VARIABLE));
     }
 
     // Add sqlfield attributes

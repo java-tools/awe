@@ -253,7 +253,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
    * @throws AWException
    */
   private void doInsert(SQLInsertClause insertClause) throws AWException {
-    List<Path> fieldPaths = getFieldPaths();
+    List<Path> fieldPaths = getFieldPaths(true);
     insertClause.columns(fieldPaths.toArray(new Path[0]));
     if (((Insert) this.getQuery()).getQuery() != null) {
       insertClause.select(getSubquery(((Insert) this.getQuery()).getQuery()));
@@ -277,7 +277,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
     }
 
     // Parse field definitions and values and apply them to be updated
-    updateClause.set(getFieldPaths(), getFieldValues());
+    updateClause.set(getFieldPaths(false), getFieldValues());
   }
 
   /**
@@ -362,16 +362,30 @@ public class SQLMaintainBuilder extends SQLBuilder {
    *
    * @return path list
    */
-  private List getFieldPaths() {
+  private List getFieldPaths(boolean forInsert) throws AWException {
     List paths = new ArrayList<>();
 
     for (SqlField field : getQuery().getSqlFieldList()) {
-      if (field.isNotAudit()) {
+      if (field.isNotAudit() && !(forInsert && isAutoincrementalField(field))) {
         paths.add(buildPath(field.getTable(), field.getId(), field.getAlias()));
       }
     }
 
     return paths;
+  }
+
+  /**
+   * Check if a field is an autoincrement field to avoid it on insert clauses:
+   * - It is for insert
+   * - It has key
+   * - It hasn't got sequence
+   * - Its' value is null
+   * @param field
+   * @return
+   * @throws AWException
+   */
+  private boolean isAutoincrementalField(SqlField field) throws AWException {
+    return field.isKey() && field.getSequence() == null && Expressions.nullExpression().equals(getSqlFieldExpression(field, getVariableIndex()));
   }
 
   /**
@@ -414,10 +428,10 @@ public class SQLMaintainBuilder extends SQLBuilder {
     for (SqlField field : getQuery().getSqlFieldList()) {
       if (field.isNotAudit()) {
         // Field as sequence
-        if (field instanceof Field && ((Field) field).getSequence() != null) {
+        if (field.getSequence() != null) {
           values.add(calculateSequence((Field) field, getVariableIndex()));
           // Get field value
-        } else {
+        } else if (!isAutoincrementalField(field)) {
           values.add(getSqlFieldExpression(field, getVariableIndex()));
         }
       }

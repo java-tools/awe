@@ -490,6 +490,18 @@
     </multiple>
   </target>
 
+  <target name="GridMultipleAutoIncrement">
+    <multiple grid="grid">
+      <table id="TestAutoIncrement"/>
+      <field id="id" key="true" variable="id"/>
+      <field id="name" variable="name"/>
+      <field id="email" variable="email"/>
+      <variable id="id" type="INTEGER" name="id"/>
+      <variable id="name" type="STRING" name="name"/>
+      <variable id="email" type="STRING" name="email"/>
+    </multiple>
+  </target>
+
   <target name="ServeNoParams">
     <serve service="returnMaintainOkNoParams"/>
   </target>

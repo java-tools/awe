@@ -54,6 +54,16 @@ public abstract class SqlField extends OutputField {
   @XStreamAsAttribute
   private Boolean key;
 
+  // Sequence
+  @XStreamAlias("sequence")
+  @XStreamAsAttribute
+  private String sequence;
+
+  // Variable value to set into the id
+  @XStreamAlias("variable")
+  @XStreamAsAttribute
+  private String variable;
+
   /**
    * Returns if is key
    * @return Is key
