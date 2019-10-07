@@ -451,8 +451,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
     if (operand == null) {
       Field field = (Field) new Field()
-        .setVariable(variable)
         .setQuery(query)
+        .setVariable(variable)
         .setFunction(function)
         .setId(fieldId)
         .setTable(table);
