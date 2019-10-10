@@ -564,6 +564,7 @@
       <xs:enumeration value="HOUR" />
       <xs:enumeration value="MINUTE" />
       <xs:enumeration value="SECOND" />
+      <xs:enumeration value="TRIM" />
     </xs:restriction>
   </xs:simpleType>
 

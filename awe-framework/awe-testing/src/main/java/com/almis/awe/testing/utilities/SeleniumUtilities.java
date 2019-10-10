@@ -1597,7 +1597,7 @@ public class SeleniumUtilities {
     * @param gridId Grid with the save button
    */
   protected void saveRow(String gridId) {
-    saveRowFromSelector(getGridScopeCss(gridId)+ " .grid-row-save:not([disabled])");
+    saveRowFromSelector("#" + gridId + "-grid-row-save:not([disabled])");
   }
 
 

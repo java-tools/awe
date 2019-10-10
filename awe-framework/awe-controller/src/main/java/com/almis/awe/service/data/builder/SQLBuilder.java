@@ -617,10 +617,12 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return new WindowOver(Long.class, Ops.AggOps.MAX_AGG, fieldExpression);
       case "MIN":
         return new WindowOver(Long.class, Ops.AggOps.MIN_AGG, fieldExpression);
-      case "FIRST":
+      case "FIRST_VALUE":
         return SQLExpressions.firstValue(fieldExpression);
-      case "LAST":
+      case "LAST_VALUE":
         return SQLExpressions.lastValue(fieldExpression);
+      case "TRIM":
+        return StringExpressions.ltrim(StringExpressions.rtrim(fieldExpression));
       case "TRUNCDATE":
         return Expressions.dateOperation(Date.class, Ops.DateTimeOps.DATE, fieldExpression);
       case "SECOND":

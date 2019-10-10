@@ -3,6 +3,7 @@ package com.almis.awe.test.unit.database;
 import com.almis.awe.component.AweDatabaseContextHolder;
 import com.almis.awe.test.unit.categories.CIDatabaseTest;
 import com.almis.awe.test.unit.categories.NotCIDatabaseTest;
+import com.almis.awe.test.unit.categories.NotHSQLDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -258,7 +259,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testDatabaseQueryFieldFunctions() throws Exception {
     String queryName = "TestFieldFunctions";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"Sum\":24,\"Max\":2584,\"Avg\":10.16666666666666666666666666666666666667,\"CntDst\":3\"Cnt\":12,\"Min\":60}]}}},{\"type\":\"end-load\"}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"Sum\":24,\"Max\":2584,\"Avg\":10.16666666666666666666666666666666666667,\"CntDst\":3\"Cnt\":12,\"Min\":60,\"Trim\":\"as as  daef\"}]}}},{\"type\":\"end-load\"}]";
 
     String result = performRequest(queryName, variables, DATABASE);
     logger.debug(expected);
@@ -274,6 +275,38 @@ public class QueryTest extends AweSpringDatabaseTests {
       assertEquals(12, component.get("Cnt").asInt());
       assertEquals(3, component.get("CntDst").asInt());
       assertEquals(60, component.get("Min").asInt());
+      assertEquals("as as  daef", component.get("Trim").asText());
+      logger.debug(component.toString());
+    }
+
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("-------------------------------------------");
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  @Category(NotHSQLDatabaseTest.class)
+  public void testDatabaseQueryFieldGroupByFunctions() throws Exception {
+    String queryName = "TestFieldGroupByFunctions";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":12,\"rows\":[{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3}]}}},{\"type\":\"end-load\"}]";
+
+    String result = performRequest(queryName, variables, DATABASE);
+    logger.info("testDatabaseQueryFieldGroupByFunctions");
+    logger.info(result);
+
+    ArrayNode dataListRows = assertResultJson(queryName, result, 12);
+
+    // Test all keys
+    for (JsonNode element : dataListRows) {
+      ObjectNode component = (ObjectNode) element;
+      assertEquals(1, component.get("First").asInt());
+      assertEquals(3, component.get("Last").asInt());
       logger.debug(component.toString());
     }
 
