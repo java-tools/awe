@@ -69,7 +69,7 @@ public class AWEQueryException extends AWException {
     exceptionBuilder.append("[")
       .append(errorType)
       .append("] [StackTrace]");
-    logger.log(errorLevel, exceptionBuilder.toString(), getCause());
+    logger.log(errorLevel, exceptionBuilder, getCause());
     return this;
   }
 }

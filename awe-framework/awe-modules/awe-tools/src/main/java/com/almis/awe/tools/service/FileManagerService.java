@@ -8,10 +8,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +33,7 @@ import java.util.Set;
 /**
  * File Manager service
  */
+@Log4j2
 public class FileManagerService implements InitializingBean {
   private static final String SYSTEM_UNIX = "unix";
   private static final String SYSTEM_DOS = "dos";
@@ -41,9 +41,6 @@ public class FileManagerService implements InitializingBean {
   private static final String ITEMS = "items";
   private static final String NEW_PATH = "newPath";
   private static final String ERROR_PATH = "Error getting fileManager path: {}";
-
-  // Logger
-  private Logger logger = LogManager.getLogger(FileManagerService.class);
 
   // Defaut base path
   @Value("${filemanager.base.path:/temp}")
@@ -66,7 +63,7 @@ public class FileManagerService implements InitializingBean {
    * Class initialization
    */
   public void afterPropertiesSet() {
-    logger.info("Initializing FILE MANAGER SERVLET... ");
+    log.info("Initializing FILE MANAGER SERVLET... ");
     // load from properties file REPOSITORY_BASE_PATH and DATE_FORMAT, use default if missing
     basePath = Paths.get(repositoryBasePath).toAbsolutePath();
 
@@ -78,13 +75,13 @@ public class FileManagerService implements InitializingBean {
     try {
       assertThat(!new SimpleDateFormat(dateFormat).format(new Date()).isEmpty(), dateFormatError);
     } catch (Exception exc) {
-      logger.error(dateFormatError);
+      log.error(dateFormatError);
     }
 
     // Check system
     FileSystem defFS = FileSystems.getDefault();
     for (String fileAttrView : defFS.supportedFileAttributeViews()) {
-      logger.debug("Default file system supports: %s%n", fileAttrView);
+      log.debug("Default file system supports: {}", fileAttrView);
       if (fileAttrView.equals(SYSTEM_UNIX)) {
         isUnix = true;
       }
@@ -93,7 +90,7 @@ public class FileManagerService implements InitializingBean {
       }
     }
 
-    logger.info("FILE MANAGER SERVLER initialized ");
+    log.info("FILE MANAGER SERVLER initialized ");
   }
 
   /**
@@ -104,10 +101,10 @@ public class FileManagerService implements InitializingBean {
   private void assertThat(boolean condition, String message) {
     try {
       if (!condition) {
-        logger.error(message);
+        log.error(message);
       }
     } catch (Exception exc) {
-      logger.error(message);
+      log.error(message);
     }
   }
 
@@ -119,7 +116,7 @@ public class FileManagerService implements InitializingBean {
    * @return File
    */
   public File downloadFile(String path, String preview) {
-    logger.debug("doGet: download file: {} preview: {}", path, BooleanUtils.toBoolean(preview));
+    log.debug("doGet: download file: {} preview: {}", path, BooleanUtils.toBoolean(preview));
     return resolvePath(basePath, path).toFile();
   }
 
@@ -160,25 +157,25 @@ public class FileManagerService implements InitializingBean {
     // Unlimited file upload, each item will be enumerated as file-1, file-2,
     // etc.
     // [$config.uploadUrl]?destination=/public_html/image.jpg&file-1=...&file-2=...
-    logger.debug("Uploading");
+    log.debug("Uploading");
     JsonNode responseJsonObject = null;
 
     try {
       if (files.isEmpty()) {
-        logger.debug("file size = 0");
+        log.debug("file size = 0");
         throw new IOException("file size = 0");
       } else {
         for (MultipartFile file : files) {
           File f = Paths.get(repositoryBasePath, FileUtil.fixUntrustedPath(destination), FileUtil.sanitizeFileName(file.getOriginalFilename())).toFile();
           if (!write(file, f)) {
-            logger.error("Error uploading file");
+            log.error("Error uploading file");
             throw new IOException("write error");
           }
         }
         responseJsonObject = this.success();
       }
     } catch (Exception e) {
-      logger.error("Cannot write file");
+      log.error("Cannot write file");
       responseJsonObject = error(e);
     }
 
@@ -237,7 +234,7 @@ public class FileManagerService implements InitializingBean {
         responseJsonObject = error("Generic error : responseJsonObject is null");
       }
     } catch (Exception ex) {
-      logger.error("Error manage file manager", ex);
+      log.error("Error manage file manager", ex);
       responseJsonObject = error(ex);
     }
     return responseJsonObject;
@@ -264,7 +261,7 @@ public class FileManagerService implements InitializingBean {
       ret = true;
 
     } catch (IOException ex) {
-      logger.error("Error writing to FileOutput", ex);
+      log.error("Error writing to FileOutput", ex);
     }
     return ret;
   }
@@ -283,7 +280,7 @@ public class FileManagerService implements InitializingBean {
 
     try {
       Path filePath = Paths.get(repositoryBasePath + params.get("item").asText());
-      logger.debug("getContent of file path: {}", filePath);
+      log.debug("getContent of file path: {}", filePath);
 
       if (filePath.toFile().exists()) {
 
@@ -292,11 +289,11 @@ public class FileManagerService implements InitializingBean {
         return contentObject.put(RESULT, Charset.defaultCharset().decode(buffer).toString());
 
       } else {
-        logger.error("File not found {}", filePath);
+        log.error("File not found {}", filePath);
         return error("File not found");
       }
     } catch (Exception ex) {
-      logger.error("getContent", ex);
+      log.error("getContent", ex);
       return error(ex);
     } finally {
       // Close stream
@@ -334,10 +331,10 @@ public class FileManagerService implements InitializingBean {
 
       return result.set(RESULT, resultList);
     } catch (AccessDeniedException ex) {
-      logger.error("[List files] - Access denied to read file", ex);
+      log.error("[List files] - Access denied to read file", ex);
       return error("Access denied to read file " + ex.getMessage());
     } catch (IOException ex) {
-      logger.error("[List files] - Error list files of " + path, ex);
+      log.error("[List files] - Error list files of {}", path, ex);
       return error(ex);
     }
   }
@@ -352,7 +349,7 @@ public class FileManagerService implements InitializingBean {
     try {
       String path = params.get("item").asText();
       String newpath = params.get("newItemPath").asText();
-      logger.debug("Rename from: {} to: {}", path, newpath);
+      log.debug("Rename from: {} to: {}", path, newpath);
 
       Path fromPath = Paths.get(repositoryBasePath, path);
       Path toPath = Paths.get(repositoryBasePath, newpath);
@@ -365,7 +362,7 @@ public class FileManagerService implements InitializingBean {
 
       return success();
     } catch (Exception ex) {
-      logger.error("rename", ex);
+      log.error("rename", ex);
       return error(ex);
     }
   }
@@ -393,7 +390,7 @@ public class FileManagerService implements InitializingBean {
         // Destination path
         Path toPath = Paths.get(repositoryBasePath, params.get(NEW_PATH).asText(), filePath.getFileName().toString());
 
-        logger.debug("Move file: {} to: {}", filePath, toPath);
+        log.debug("Move file: {} to: {}", filePath, toPath);
 
         // Move file or folder
         Files.move(filePath, toPath, options);
@@ -401,7 +398,7 @@ public class FileManagerService implements InitializingBean {
 
       return success();
     } catch (Exception ex) {
-      logger.error("move", ex);
+      log.error("move", ex);
       return error(ex);
     }
   }
@@ -432,7 +429,7 @@ public class FileManagerService implements InitializingBean {
         // Target path
         Path targetPath = Paths.get(repositoryBasePath, params.get(NEW_PATH).asText(), singleFileName.textValue());
 
-        logger.debug("copy from: {} to: {}", sourcePath, targetPath);
+        log.debug("copy from: {} to: {}", sourcePath, targetPath);
 
         Files.copy(sourcePath, targetPath, options);
 
@@ -444,7 +441,7 @@ public class FileManagerService implements InitializingBean {
           // Target path
           Path targetPath = Paths.get(repositoryBasePath, params.get(NEW_PATH).asText());
 
-          logger.debug("copy from: {} to: {}", sourcePath, targetPath);
+          log.debug("copy from: {} to: {}", sourcePath, targetPath);
 
           Files.copy(sourcePath, targetPath.resolve(sourcePath.getFileName()), options);
         }
@@ -452,7 +449,7 @@ public class FileManagerService implements InitializingBean {
 
       return success();
     } catch (Exception ex) {
-      logger.error("copy", ex);
+      log.error("copy", ex);
       return error(ex);
     }
   }
@@ -472,7 +469,7 @@ public class FileManagerService implements InitializingBean {
       for (JsonNode item : items) {
 
         Path path = Paths.get(repositoryBasePath, item.asText());
-        logger.debug("delete {}", path);
+        log.debug("delete {}", path);
 
         if (path.toFile().isDirectory()) {
 
@@ -480,7 +477,7 @@ public class FileManagerService implements InitializingBean {
           Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-              logger.debug("delete file: " + file.toString());
+              log.debug("delete file: {}", file.toString());
               Files.delete(file);
               return FileVisitResult.CONTINUE;
             }
@@ -488,7 +485,7 @@ public class FileManagerService implements InitializingBean {
             @Override
             public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
               Files.delete(dir);
-              logger.debug("delete dir: " + dir.toString());
+              log.debug("delete dir: {}", dir.toString());
               return FileVisitResult.CONTINUE;
             }
           });
@@ -501,7 +498,7 @@ public class FileManagerService implements InitializingBean {
       return success();
 
     } catch (Exception ex) {
-      logger.error("delete", ex);
+      log.error("delete", ex);
       return error(ex);
     }
   }
@@ -519,15 +516,15 @@ public class FileManagerService implements InitializingBean {
       Path path = Paths.get(repositoryBasePath + params.get("item").asText());
 
       if (content != null) {
-        logger.debug("Save file into path: {} content: isNotBlank {}, size {}", path, StringUtils.isNotBlank(content), content.length());
+        log.debug("Save file into path: {} content: isNotBlank {}, size {}", path, StringUtils.isNotBlank(content), content.length());
         Files.write(path, content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
       } else {
-        logger.debug("Content from path: {} file is empty", path);
+        log.debug("Content from path: {} file is empty", path);
       }
       return success();
 
     } catch (Exception ex) {
-      logger.error("saveFile", ex);
+      log.error("saveFile", ex);
       return error(ex);
     }
   }
@@ -543,7 +540,7 @@ public class FileManagerService implements InitializingBean {
       Path path = Paths.get(repositoryBasePath + params.get(NEW_PATH).asText());
       return createFolder(path);
     } catch (Exception ex) {
-      logger.error("addFolder", ex);
+      log.error("addFolder", ex);
       return error(ex);
     }
   }
@@ -554,12 +551,12 @@ public class FileManagerService implements InitializingBean {
    * @return
    */
   private JsonNode createFolder(Path path) {
-    logger.debug("createFolder path: {}", path);
+    log.debug("createFolder path: {}", path);
     if (!path.toFile().exists()) {
       try {
         Files.createDirectory(path);
       } catch (IOException ex) {
-        logger.error("createFolder", ex);
+        log.error("createFolder", ex);
       }
     } else {
       return error("Can't create directory: " + path + " - Already exist.");
@@ -587,7 +584,7 @@ public class FileManagerService implements InitializingBean {
       String permsCode = params.get("permsCode").asText();
       boolean recursive = params.get("recursive").asBoolean();
 
-      logger.debug("changepermissions path: {} perms: {} permsCode: {} recursive: {}", fileList, perms, permsCode, recursive);
+      log.debug("changepermissions path: {} perms: {} permsCode: {} recursive: {}", fileList, perms, permsCode, recursive);
 
       for (JsonNode file : fileList) {
         File f = new File(repositoryBasePath, file.asText());
@@ -596,7 +593,7 @@ public class FileManagerService implements InitializingBean {
 
       return success();
     } catch (Exception ex) {
-      logger.error("changepermissions", ex);
+      log.error("changepermissions", ex);
       return error(ex);
     }
   }
@@ -636,7 +633,7 @@ public class FileManagerService implements InitializingBean {
       return success();
 
     } catch (Exception ex) {
-      logger.error("compress", ex);
+      log.error("compress", ex);
       return error(ex);
     }
   }
@@ -659,7 +656,7 @@ public class FileManagerService implements InitializingBean {
 
       return success();
     } catch (Exception ex) {
-      logger.error("extract", ex);
+      log.error("extract", ex);
       return error(ex);
     }
   }
@@ -771,14 +768,14 @@ public class FileManagerService implements InitializingBean {
 
     // Check basedir
     if (!baseDirPath.isAbsolute()) {
-      logger.error(ERROR_PATH, baseDirPath);
+      log.error(ERROR_PATH, baseDirPath);
       throw new IllegalArgumentException("FileManager: base path must be absolute");
     }
 
     // Check file manager path
     Path fileManagerPath = Paths.get(FileUtil.fixUntrustedPath(strFileManagerPath));
     if (fileManagerPath.isAbsolute()) {
-      logger.error(ERROR_PATH, fileManagerPath);
+      log.error(ERROR_PATH, fileManagerPath);
       throw new IllegalArgumentException("FileManager: path must be relative");
     }
 

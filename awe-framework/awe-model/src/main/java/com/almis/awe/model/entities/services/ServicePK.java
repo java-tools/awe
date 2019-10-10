@@ -59,17 +59,17 @@ public class ServicePK implements Serializable {
   public void setParameterList(List<ServiceInputParameter> parameterList) {
 
     // Variable definition
-    List<String> variableList = new ArrayList<>();
+    List<String> newVariableList = new ArrayList<>();
 
     // Convert parameter list
     if (parameterList != null) {
       for (ServiceInputParameter parameter : parameterList) {
-        variableList.add(parameter.getValue());
+        newVariableList.add(parameter.getValue());
       }
     }
 
     // Assign as arraylist of strings
-    this.variableList = variableList;
+    this.variableList = newVariableList;
   }
 
   @Override
