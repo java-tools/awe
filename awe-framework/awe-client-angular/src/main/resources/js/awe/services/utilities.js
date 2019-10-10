@@ -345,19 +345,20 @@ aweApplication.factory('AweUtilities',
          */
         formule: function (formule, values) {
           /* Get formule */
-          var value = null;
+          let value = null;
+          let replacedFormule = formule;
 
           /* Replace formule parameters */
           _.each(values, function (parameter, parameterId) {
-            formule = formule.replace(new RegExp("\\[" + parameterId + "\\]", "ig"), parameter);
+            replacedFormule = replacedFormule.replace(new RegExp("\\[" + parameterId + "\\]", "ig"), parameter);
           });
-          formule = formule.replace(new RegExp("#", "ig"), "\"");
+          replacedFormule = replacedFormule.replace(new RegExp("#", "ig"), "\"");
 
           /* Eval formule */
           try {
-            value = Utilities.eval(formule);
+            value = Utilities.eval(replacedFormule);
           } catch (exc) {
-            $log.error("[FORMULE] Formule: " + formule, {params: values, exception: exc});
+            $log.error("[FORMULE] Formule: " + replacedFormule, {params: values, exception: exc});
           }
 
           return value;
@@ -516,10 +517,10 @@ aweApplication.factory('AweUtilities',
          */
         clearListeners: function (listeners) {
           // Destroy event listeners
-          _.each(listeners, function (listener) {
+          _.each(listeners, function (listener, listenerId) {
             listener();
+            delete listeners[listenerId];
           });
-          listeners = null;
         },
         /**
          * Check if a
