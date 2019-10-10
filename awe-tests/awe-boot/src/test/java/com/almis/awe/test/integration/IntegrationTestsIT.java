@@ -824,11 +824,14 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Select context menu option
     clickContextButton("CtxTreGrdEdiAddSel", "CtxTreGrdEdiAddChl");
 
-    // Check new row visible
-    checkVisible("[tree-grid-id='TreGrdEdi'] [row-id='new-row-0']");
-
     // Pause
-    pause(250);
+    pause(500);
+
+    // Click on a cell
+    clickCell("TreGrdEdi", "Progeneral-ModBase", "TreGrdEdi_Nam");
+
+    // Click on a cell
+    clickCell("TreGrdEdi", "new-row-0", "TreGrdEdi_Nam");
 
     // Save row
     saveRow("TreGrdEdi");

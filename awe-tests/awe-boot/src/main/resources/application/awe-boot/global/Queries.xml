@@ -191,6 +191,19 @@
     <field id="IdeDbs" alias="Cnt" function="CNT" />
     <field id="Ord" alias="CntDst" function="CNT_DISTINCT" />
     <field id="Ord" alias="Sum" function="SUM" />
+    <constant value="   as as  daef  " alias="Trim" function="TRIM" />
+  </query>
+
+  <query id="TestFieldGroupByFunctions">
+    <table id="AweSitModDbs" alias="awe" />
+    <over alias="First" >
+      <field id="Ord" function="FIRST_VALUE" />
+      <order-by field="IdeMod"/>
+    </over>
+    <over alias="Last" >
+      <field id="Ord" function="LAST_VALUE" />
+      <order-by field="IdeMod"/>
+    </over>
   </query>
 
   <query id="TestFieldDateFunctions">
