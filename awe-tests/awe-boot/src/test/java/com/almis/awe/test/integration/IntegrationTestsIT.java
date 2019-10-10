@@ -252,8 +252,17 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Select on selector
     suggest("Sug", "test", "test");
 
+    // Wait for loader
+    waitForLoadingBar();
+
     // Select on selector
     selectContain("SelDep", "Yes");
+
+    // Wait for loader
+    waitForLoadingBar();
+
+    // Pause
+    pause(250);
 
     // Select on selector
     selectContain("SelDepDep", "Yes");
@@ -826,6 +835,12 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
     // Pause
     pause(500);
+
+    // Click on a cell
+    clickCell("TreGrdEdi", "Progeneral-ModBase", "TreGrdEdi_Nam");
+
+    // Click on a cell
+    clickCell("TreGrdEdi", "new-row-0", "TreGrdEdi_Nam");
 
     // Click on a cell
     clickCell("TreGrdEdi", "Progeneral-ModBase", "TreGrdEdi_Nam");
