@@ -1,6 +1,7 @@
 package com.almis.awe.model.type;
 
 import com.almis.awe.model.entities.Element;
+import com.almis.awe.model.entities.screen.component.Component;
 import com.almis.awe.model.entities.screen.component.button.AbstractButton;
 import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
 import com.almis.awe.model.entities.screen.component.grid.AbstractGrid;
@@ -10,14 +11,14 @@ import com.almis.awe.model.entities.screen.component.pivottable.PivotTable;
 /**
  * AttributeRestrictionType Enumerated
  *
- * Attribute list of criteria
+ * Attribute list of components
  *
  *
  * @author Pablo VIDAL - 29/MAY/2013
  */
 public enum AttributeRestrictionType {
 
-  // TAG ATTRIBUTES
+  // ELEMENT ATTRIBUTES
   STYLE("style", Element.class),
   LABEL("label", Element.class),
   TITLE("title", Element.class),
@@ -26,14 +27,21 @@ public enum AttributeRestrictionType {
   HELP("help", Element.class),
   HELP_IMAGE("helpImage", Element.class),
 
+  // COMPONENT ATTRIBUTES
+  COMPONENT("componentType", Component.class),
+  INITIAL_LOAD("initialLoad", Component.class),
+  SERVER_ACTION("serverAction", Component.class),
+  TARGET_ACTION("targetAction", Component.class),
+  MAX("max", Component.class),
+  AUTOLOAD("autoload", Component.class),
+  AUTOREFRESH("autorefresh", Component.class),
+
   // CRITERIA ATTRIBUTES
   REQUIRED("required", AbstractCriteria.class),
   VALUE("value", AbstractCriteria.class),
   SESSION("session", AbstractCriteria.class),
   VARIABLE("variable", AbstractCriteria.class),
   PROPERTY("property", AbstractCriteria.class),
-  COMPONENT("component", AbstractCriteria.class),
-  INITIAL_LOAD("initialLoad", AbstractCriteria.class),
   VALIDATION("validation", AbstractCriteria.class),
   GROUP("group", AbstractCriteria.class),
   NUMBER_FORMAT("numberFormat", AbstractCriteria.class),
@@ -45,16 +53,11 @@ public enum AttributeRestrictionType {
   READONLY("readonly", AbstractCriteria.class),
   CHECKED("checked", AbstractCriteria.class),
   STRICT("strict", AbstractCriteria.class),
-  SERVER_ACTION("serverAction", AbstractCriteria.class),
-  TARGET_ACTION("targetAction", AbstractCriteria.class),
-  AUTOLOAD("autoload", AbstractCriteria.class),
-  AUTOREFRESH("autorefresh", AbstractCriteria.class),
   MESSAGE("message", AbstractCriteria.class),
   FORMULE("formule", AbstractCriteria.class),
   PLACEHOLDER("placeholder", AbstractCriteria.class),
   AREA_ROWS("arearows", AbstractCriteria.class),
   OPTIONAL("optional", AbstractCriteria.class),
-  MAX("max", AbstractCriteria.class),
   PRINTABLE("printable", AbstractCriteria.class),
   UNIT("unit", AbstractCriteria.class),
   CHECK_EMPTY("checkEmpty", AbstractCriteria.class),
