@@ -292,6 +292,57 @@ public class MaintainTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testSimpleSingleInsertAuditWithSequenceWithoutVariable() throws Exception {
+    loginUser();
+
+    String maintainName = "InsertAuditSequenceWithoutVariable";
+    String variables = "\"nam\": \"AWEBOOT-TEST-0\", \"act\":0,";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.info(result);
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+    });
+
+    // Clean the mess
+    cleanUp("CleanUpSequence");
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testSimpleSingleInsertMultipleAuditWithSequenceWithoutVariable() throws Exception {
+    loginUser();
+
+    String maintainName = "InsertAuditSequenceWithoutVariableMultiple";
+    String variables = "\"nam\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\"], \"act\":[0, 0, 1],";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.info(result);
+    assertResultJson(maintainName, result, 6, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+
+    });
+
+    // Clean the mess
+    cleanUp("CleanUpSequence");
+  }
+
+  /**
    * Launch a simple single insert from variable
    *
    * @throws Exception

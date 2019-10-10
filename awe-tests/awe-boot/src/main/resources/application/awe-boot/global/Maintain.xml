@@ -502,6 +502,28 @@
     </multiple>
   </target>
 
+  <target name="InsertAuditSequenceWithoutVariable">
+    <insert audit="HISAweThm">
+      <table id="AweThm"/>
+      <field id="IdeThm" sequence="ThmKey"/>
+      <field id="Nam" variable="varNam"/>
+      <field id="Act" variable="varAct"/>
+      <variable id="varNam" type="STRING" name="nam"/>
+      <variable id="varAct" type="INTEGER" name="act"/>
+    </insert>
+  </target>
+
+  <target name="InsertAuditSequenceWithoutVariableMultiple">
+    <insert audit="HISAweThm" multiple="true">
+      <table id="AweThm"/>
+      <field id="IdeThm" sequence="ThmKey"/>
+      <field id="Nam" variable="varNam"/>
+      <field id="Act" variable="varAct"/>
+      <variable id="varNam" type="STRING" name="nam"/>
+      <variable id="varAct" type="INTEGER" name="act"/>
+    </insert>
+  </target>
+
   <target name="ServeNoParams">
     <serve service="returnMaintainOkNoParams"/>
   </target>
