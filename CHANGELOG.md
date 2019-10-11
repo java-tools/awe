@@ -1,3 +1,27 @@
+
+# Changelog for AWE 4.1.5
+*11/10/2019*
+
+- Make audit with sequences simpler. [MR #122](https://gitlab.com/aweframework/awe/merge_requests/122) (Pablo Javier García Mora)
+- Invalid property 'component' generating component map. [MR #121](https://gitlab.com/aweframework/awe/merge_requests/121) (Pablo Javier García Mora)
+- Two-line Menu overlaps with the screen title/name. [MR #120](https://gitlab.com/aweframework/awe/merge_requests/120) (Pablo Javier García Mora)
+- Function `FIRST_VALUE` and `LAST_VALUE` in fields not working and add function `TRIM` to queries. [MR #119](https://gitlab.com/aweframework/awe/merge_requests/119) (Pablo Javier García Mora)
+- Test autoincrement fields in AWE. [MR #118](https://gitlab.com/aweframework/awe/merge_requests/118) (Pablo Javier García Mora)
+- Audit in multiple maintain not working. [MR #117](https://gitlab.com/aweframework/awe/merge_requests/117) (Pablo Javier García Mora)
+- Improve the validation documentation (add type of criteria and more description). [MR #116](https://gitlab.com/aweframework/awe/merge_requests/116) (Pablo Javier García Mora)
+- Error generating component map in some screens caused by Invalid property.... [MR #115](https://gitlab.com/aweframework/awe/merge_requests/115) (Pablo Javier García Mora)
+- Add a method to list all queries. [MR #114](https://gitlab.com/aweframework/awe/merge_requests/114) (Pablo Javier García Mora)
+- AWE throws exception when launching a query without tables. [MR #113](https://gitlab.com/aweframework/awe/merge_requests/113) (Pablo Vidal Otero)
+- **[HAS IMPACTS]** Component dialog is not storing data on its model. [MR #112](https://gitlab.com/aweframework/awe/merge_requests/112) (Pablo Javier García Mora)
+- Filtered calendar doesn't show which months are allowed on month selection. [MR #111](https://gitlab.com/aweframework/awe/merge_requests/111) (Pablo Javier García Mora)
+- Allow to define database used on logs. [MR #110](https://gitlab.com/aweframework/awe/merge_requests/110) (Pablo Javier García Mora)
+- Allow to cast a number to varchar. [MR #109](https://gitlab.com/aweframework/awe/merge_requests/109) (Pablo Javier García Mora)
+- Retrieve current datasource when calling `getDataSource(String alias)` with a null value. [MR #108](https://gitlab.com/aweframework/awe/merge_requests/108) (Pablo Javier García Mora)
+- Launch asynchronously help template generation in application help. [MR #107](https://gitlab.com/aweframework/awe/merge_requests/107) (Pablo Javier García Mora)
+- Show a dev-friendly message when filtering a grid without target-action and initial-load defined. [MR #106](https://gitlab.com/aweframework/awe/merge_requests/106) (Pablo Vidal Otero)
+- Launching a `fill` action over a `select` component with values doesn't reset the component first. [MR #105](https://gitlab.com/aweframework/awe/merge_requests/105) (Pablo Javier García Mora)
+- Manage error message when the query/maintain is not defined. [MR #104](https://gitlab.com/aweframework/awe/merge_requests/104) (Pablo Vidal Otero)
+- Add power value to operator attribute inside operation. [MR #103](https://gitlab.com/aweframework/awe/merge_requests/103) (Pablo Vidal Otero)
 # Changelog for AWE 4.1.4
 *16/08/2019*
 
