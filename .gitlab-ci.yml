@@ -426,7 +426,7 @@ Start a new release:
   - git add ./CHANGELOG.md
   - git commit -m "Generated CHANGELOG"
   ## Generate release
-  - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true -DversionProperty=revision
+  - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true -DpushRemote=true -DversionProperty=revision
   only:
   - develop
   when: manual
