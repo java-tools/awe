@@ -1,5 +1,6 @@
 package com.almis.awe.autoconfigure;
 
+import com.almis.awe.dao.TemplateDao;
 import com.almis.awe.listener.TemplateErrorListener;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.util.log.LogUtil;
@@ -147,6 +148,22 @@ public class TemplateConfig {
   }
 
   /////////////////////////////////////////////
+  // DAO
+  /////////////////////////////////////////////
+
+  /**
+   * Template DAO
+   * @param menuService Menu service
+   * @param helpTemplateGroup Help template group
+   * @return Template service bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public TemplateDao templateDao(MenuService menuService, @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup) {
+    return new TemplateDao(menuService, helpTemplateGroup);
+  }
+
+  /////////////////////////////////////////////
   // SERVICES
   /////////////////////////////////////////////
 
@@ -165,8 +182,9 @@ public class TemplateConfig {
                                          @Qualifier("elementsTemplateGroup") STGroup elementsTemplateGroup,
                                          @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup,
                                          @Qualifier("screensTemplateGroup") STGroup screensTemplateGroup,
-                                         QueryService queryService) {
-    return new TemplateService(menuService, elementsTemplateGroup, helpTemplateGroup, screensTemplateGroup, queryService);
+                                         QueryService queryService,
+                                         TemplateDao templateDao) {
+    return new TemplateService(menuService, elementsTemplateGroup, helpTemplateGroup, screensTemplateGroup, queryService, templateDao);
   }
 
   /**

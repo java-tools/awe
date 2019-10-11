@@ -1449,7 +1449,7 @@ public class CRUDTestsIT extends SeleniumUtilities {
     waitForButton("ButRst");
 
     // Write on criterion
-    writeText("CrtFil", "awe");
+    writeText("CrtFil", "awe-boot_test");
 
     // Search and wait
     searchAndWait();

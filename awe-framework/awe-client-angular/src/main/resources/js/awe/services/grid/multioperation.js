@@ -227,6 +227,7 @@ aweApplication.factory('GridMultioperation',
             // Initialize data
             var data = {};
             var columnData = [];
+            var selected = Utilities.asArray(component.model.selected);
 
             _.each(component.model.values, function (row) {
               var rowId = row[component.constants.ROW_IDENTIFIER];
@@ -237,6 +238,11 @@ aweApplication.factory('GridMultioperation',
 
             // Store as identifier list
             data[component.address.component + "-id"] = columnData;
+
+            // If there is only one row selected, send selected row address
+            if (selected.length === 1) {
+              data["selectedRowAddress"] = {...component.address, row: selected[0]};
+            }
 
             return data;
           };

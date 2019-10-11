@@ -19,7 +19,7 @@ import com.almis.awe.model.entities.screen.data.ScreenComponent;
 import com.almis.awe.model.entities.screen.data.ScreenData;
 import com.almis.awe.model.type.InputType;
 import com.almis.awe.model.type.LoadType;
-import com.almis.awe.service.InitialLoadService;
+import com.almis.awe.dao.InitialLoadDao;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
@@ -40,7 +40,7 @@ public class ScreenModelGenerator extends ServiceConfig {
 
   // Autowired services
   private ScreenRestrictionGenerator screenRestrictionGenerator;
-  private InitialLoadService initialLoadService;
+  private InitialLoadDao initialLoadDao;
 
   @Value("${settings.dataSuffix:.data}")
   private String dataSuffix;
@@ -48,12 +48,12 @@ public class ScreenModelGenerator extends ServiceConfig {
   /**
    * Autowired constructor
    * @param screenRestrictionGenerator Screen restriction generator
-   * @param initialLoadService Initial load service
+   * @param initialLoadDao Initial load service
    */
   @Autowired
-  public ScreenModelGenerator(ScreenRestrictionGenerator screenRestrictionGenerator, InitialLoadService initialLoadService) {
+  public ScreenModelGenerator(ScreenRestrictionGenerator screenRestrictionGenerator, InitialLoadDao initialLoadDao) {
     this.screenRestrictionGenerator = screenRestrictionGenerator;
-    this.initialLoadService = initialLoadService;
+    this.initialLoadDao = initialLoadDao;
   }
 
   /**
@@ -71,7 +71,7 @@ public class ScreenModelGenerator extends ServiceConfig {
    * @return Screen configuration thread
    */
   AweThreadInitialization getScreenConfigurationThread() {
-    return new AweThreadInitialization().setParameters(getRequest().getParametersSafe()).setTarget(AweConstants.SCREEN_CONFIGURATION_QUERY);
+    return new AweThreadInitialization().setParameters(getRequest().getParametersSafe().put(AweConstants.COMPONENT_MAX, "0")).setTarget(AweConstants.SCREEN_CONFIGURATION_QUERY);
   }
 
   /**
@@ -83,9 +83,10 @@ public class ScreenModelGenerator extends ServiceConfig {
   void addMenuTarget(List<AweThreadInitialization> initializationList, Component component) {
     // Set initialization list
     initializationList.add(new AweThreadInitialization()
-      .setTarget(AweConstants.SCREEN_RESTRICTION_QUERY)
-      .setComponentId(component.getElementKey())
-      .setInitialLoadType(LoadType.MENU));
+            .setTarget(AweConstants.SCREEN_RESTRICTION_QUERY)
+            .setParameters(getRequest().getParametersSafe().put(AweConstants.COMPONENT_MAX, "0"))
+            .setComponentId(component.getElementKey())
+            .setInitialLoadType(LoadType.MENU));
   }
 
   /**
@@ -170,7 +171,7 @@ public class ScreenModelGenerator extends ServiceConfig {
     // Generate a thread for each initialization
     for (AweThreadInitialization initializationData : initializationList) {
       // Launch
-      Future<ServiceData> taskResult = initialLoadService.launchInitialLoad(initializationData);
+      Future<ServiceData> taskResult = initialLoadDao.launchInitialLoad(initializationData);
 
       // If load type is screen, store screen results in list, otherwise store in a component map
       if (LoadType.MENU.equals(initializationData.getInitialLoadType())) {
@@ -296,6 +297,9 @@ public class ScreenModelGenerator extends ServiceConfig {
       ServiceData componentTargetOutput = futureData.get();
       DataList componentData = (DataList) componentTargetOutput.getVariableMap().get(AweConstants.ACTION_DATA).getObjectValue();
 
+      // Apply restricted value list
+      applyRestrictedValueList(component, componentData);
+
       // Add all client actions generated
       data.getActions().addAll(componentTargetOutput.getClientActionList());
 
@@ -317,6 +321,25 @@ public class ScreenModelGenerator extends ServiceConfig {
       String errorMessage = getLocale("ERROR_MESSAGE_RETRIEVING_INITIAL_DATA_COMPONENT", target);
       data.addError(new AWException(errorMessage, exc));
       getLogger().log(ScreenModelGenerator.class, Level.ERROR, errorMessage, exc);
+    }
+  }
+
+  /**
+   * Apply restricted value list from screen configuration
+   *
+   * @param component Component
+   * @param componentData Component data
+   */
+  private void applyRestrictedValueList(ScreenComponent component, DataList componentData) {
+    // Retrieve restricted values from configuration
+    AbstractCriteria criteriaComponent = component.getController() instanceof AbstractCriteria ? (AbstractCriteria) component.getController() : null;
+    if (criteriaComponent != null && criteriaComponent.getRestrictedValueList() != null) {
+      String[] restrictedValueList = criteriaComponent.getRestrictedValueList().trim().split(AweConstants.COMMA_SEPARATOR);
+      for (String restrictedValue : restrictedValueList) {
+        // Update componentData
+        componentData.getRows().removeIf(n -> (n.get(AweConstants.JSON_VALUE_PARAMETER).getStringValue().equalsIgnoreCase(restrictedValue)));
+        componentData.setRecords(componentData.getRows().size());
+      }
     }
   }
 

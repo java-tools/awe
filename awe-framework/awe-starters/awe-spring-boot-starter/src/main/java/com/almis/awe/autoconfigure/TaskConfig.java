@@ -1,11 +1,12 @@
 package com.almis.awe.autoconfigure;
 
 import com.almis.awe.executor.ContextAwarePoolExecutor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
  * Class used to launch initial load treads
@@ -13,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Configuration
 @ConfigurationProperties(prefix = "awe.task-pool")
 @EnableAsync
+@Data
 public class TaskConfig {
 
   private Integer size;
@@ -20,14 +22,15 @@ public class TaskConfig {
   private Integer queueSize;
   private Integer terminationSeconds;
   private String threadPrefix;
+  private String helpThreadPrefix;
+  private String contextlessThreadPrefix;
 
   /**
    * Returns the asynchronous executor task
    * @return Thread pool executor bean
    */
   @Bean("threadPoolTaskExecutor")
-  @ConditionalOnMissingBean
-  public ContextAwarePoolExecutor getAsyncExecutor() {
+  public ContextAwarePoolExecutor getContextAwareTaskExecutor() {
     ContextAwarePoolExecutor executor = new ContextAwarePoolExecutor();
     executor.setCorePoolSize(getSize());
     executor.setMaxPoolSize(getMaxSize());
@@ -38,82 +41,32 @@ public class TaskConfig {
   }
 
   /**
-   * Core pool size
-   * @return Size
+   * Returns the asynchronous executor task
+   * @return Thread pool executor bean
    */
-  public Integer getSize() {
-    return size;
+  @Bean("threadHelpPoolTaskExecutor")
+  public ContextAwarePoolExecutor getHelpContextAwareTaskExecutor() {
+    ContextAwarePoolExecutor executor = new ContextAwarePoolExecutor();
+    executor.setCorePoolSize(getSize());
+    executor.setMaxPoolSize(getMaxSize());
+    executor.setQueueCapacity(getQueueSize());
+    executor.setAwaitTerminationSeconds(getTerminationSeconds());
+    executor.setThreadNamePrefix(getHelpThreadPrefix());
+    return executor;
   }
 
   /**
-   * Core pool size
-   * @param size Size
+   * Returns the asynchronous executor task
+   * @return Thread pool executor bean
    */
-  public void setSize(Integer size) {
-    this.size = size;
-  }
-
-  /**
-   * Max pool size
-   * @return Size
-   */
-  public Integer getMaxSize() {
-    return maxSize;
-  }
-
-  /**
-   * Max pool size
-   * @param maxSize Size
-   */
-  public void setMaxSize(Integer maxSize) {
-    this.maxSize = maxSize;
-  }
-
-  /**
-   * Queue size
-   * @return Size
-   */
-  public Integer getQueueSize() {
-    return queueSize;
-  }
-
-  /**
-   * Queue size
-   * @param queueSize Size
-   */
-  public void setQueueSize(Integer queueSize) {
-    this.queueSize = queueSize;
-  }
-
-  /**
-   * Termination seconds
-   * @return Seconds
-   */
-  public Integer getTerminationSeconds() {
-    return terminationSeconds;
-  }
-
-  /**
-   * Termination seconds
-   * @param terminationSeconds Seconds
-   */
-  public void setTerminationSeconds(Integer terminationSeconds) {
-    this.terminationSeconds = terminationSeconds;
-  }
-
-  /**
-   * Thread prefix
-   * @return Thread prefix
-   */
-  public String getThreadPrefix() {
-    return threadPrefix;
-  }
-
-  /**
-   * Thread prefix
-   * @param threadPrefix Prefix
-   */
-  public void setThreadPrefix(String threadPrefix) {
-    this.threadPrefix = threadPrefix;
+  @Bean("contextlessTaskExecutor")
+  public ThreadPoolTaskExecutor getContextlessTaskExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(getSize());
+    executor.setMaxPoolSize(getMaxSize());
+    executor.setQueueCapacity(getQueueSize());
+    executor.setAwaitTerminationSeconds(getTerminationSeconds());
+    executor.setThreadNamePrefix(getContextlessThreadPrefix());
+    return executor;
   }
 }

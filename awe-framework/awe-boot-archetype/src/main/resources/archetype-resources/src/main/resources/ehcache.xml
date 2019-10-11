@@ -5,6 +5,7 @@
     <jsr107:defaults enable-management="true" enable-statistics="true"/>
   </service>
 
+  <cache alias="xml" uses-template="heap-cache"/>
   <cache alias="action" uses-template="heap-cache"/>
   <cache alias="enumerated" uses-template="heap-cache"/>
   <cache alias="query" uses-template="heap-cache"/>

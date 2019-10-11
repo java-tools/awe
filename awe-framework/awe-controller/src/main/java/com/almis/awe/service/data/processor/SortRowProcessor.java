@@ -31,7 +31,7 @@ public class SortRowProcessor implements RowProcessor {
    * @return row list processed
    * @throws AWException AWE exception
    */
-  public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) throws AWException {
+  public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) {
     Collections.sort(rowList, new CompareRow(sortList));
     return rowList;
   }

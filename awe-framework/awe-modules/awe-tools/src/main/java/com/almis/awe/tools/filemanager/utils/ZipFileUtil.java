@@ -1,22 +1,14 @@
 package com.almis.awe.tools.filemanager.utils;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.io.IOException;
 import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Zip file util class
@@ -24,11 +16,9 @@ import org.apache.logging.log4j.Logger;
  * @author pvidal
  *
  */
+@Log4j2
 public class ZipFileUtil {
-
-  // Logger
-  private static final Logger LOGGER = LogManager.getLogger(ZipFileUtil.class);
-  private static final String CREATING_DIRECTORY = "Creating directory %s\n";
+  private static final String CREATING_DIRECTORY = "Creating directory {}\n";
 
   // Private constructor
   private ZipFileUtil() {}
@@ -80,7 +70,7 @@ public class ZipFileUtil {
           final Path dest = zipFileSystem.getPath(root.toString(), src.getFileName().toString());
           final Path parent = dest.getParent();
           if (Files.notExists(parent)) {
-            LOGGER.debug(CREATING_DIRECTORY, parent);
+            log.debug(CREATING_DIRECTORY, parent);
             Files.createDirectories(parent);
           }
           Files.copy(src, dest, StandardCopyOption.REPLACE_EXISTING);
@@ -99,7 +89,7 @@ public class ZipFileUtil {
               throws IOException {
               final Path dirToCreate = zipFileSystem.getPath(root.toString(), dir.toString());
               if (Files.notExists(dirToCreate)) {
-                LOGGER.debug(CREATING_DIRECTORY, dirToCreate);
+                log.debug(CREATING_DIRECTORY, dirToCreate);
                 Files.createDirectories(dirToCreate);
               }
               return FileVisitResult.CONTINUE;
@@ -125,7 +115,7 @@ public class ZipFileUtil {
     final Path destDir = Paths.get(destDirname);
     // if the destination doesn't exist, create it
     if (!destDir.toFile().exists()) {
-      LOGGER.debug("%s does not exist. Creating...", destDir);
+      log.debug("{} does not exist. Creating...", destDir);
       Files.createDirectories(destDir);
     }
 
@@ -137,7 +127,7 @@ public class ZipFileUtil {
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
           final Path destFile = Paths.get(destDir.toString(), file.toString());
-          LOGGER.debug("Extracting file %s to %s\n", file, destFile);
+          log.debug("Extracting file {} to {}\n", file, destFile);
           Files.copy(file, destFile, StandardCopyOption.REPLACE_EXISTING);
           return FileVisitResult.CONTINUE;
         }
@@ -146,7 +136,7 @@ public class ZipFileUtil {
         public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
           final Path dirToCreate = Paths.get(destDir.toString(), dir.toString());
           if (!dirToCreate.toFile().exists()) {
-            LOGGER.debug(CREATING_DIRECTORY, dirToCreate);
+            log.debug(CREATING_DIRECTORY, dirToCreate);
             Files.createDirectory(dirToCreate);
           }
           return FileVisitResult.CONTINUE;

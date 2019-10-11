@@ -1,9 +1,33 @@
+
+# Changelog for AWE 4.1.5
+*11/10/2019*
+
+- Make audit with sequences simpler. [MR #122](https://gitlab.com/aweframework/awe/merge_requests/122) (Pablo Javier García Mora)
+- Invalid property 'component' generating component map. [MR #121](https://gitlab.com/aweframework/awe/merge_requests/121) (Pablo Javier García Mora)
+- Two-line Menu overlaps with the screen title/name. [MR #120](https://gitlab.com/aweframework/awe/merge_requests/120) (Pablo Javier García Mora)
+- Function `FIRST_VALUE` and `LAST_VALUE` in fields not working and add function `TRIM` to queries. [MR #119](https://gitlab.com/aweframework/awe/merge_requests/119) (Pablo Javier García Mora)
+- Test autoincrement fields in AWE. [MR #118](https://gitlab.com/aweframework/awe/merge_requests/118) (Pablo Javier García Mora)
+- Audit in multiple maintain not working. [MR #117](https://gitlab.com/aweframework/awe/merge_requests/117) (Pablo Javier García Mora)
+- Improve the validation documentation (add type of criteria and more description). [MR #116](https://gitlab.com/aweframework/awe/merge_requests/116) (Pablo Javier García Mora)
+- Error generating component map in some screens caused by Invalid property.... [MR #115](https://gitlab.com/aweframework/awe/merge_requests/115) (Pablo Javier García Mora)
+- Add a method to list all queries. [MR #114](https://gitlab.com/aweframework/awe/merge_requests/114) (Pablo Javier García Mora)
+- AWE throws exception when launching a query without tables. [MR #113](https://gitlab.com/aweframework/awe/merge_requests/113) (Pablo Vidal Otero)
+- **[HAS IMPACTS]** Component dialog is not storing data on its model. [MR #112](https://gitlab.com/aweframework/awe/merge_requests/112) (Pablo Javier García Mora)
+- Filtered calendar doesn't show which months are allowed on month selection. [MR #111](https://gitlab.com/aweframework/awe/merge_requests/111) (Pablo Javier García Mora)
+- Allow to define database used on logs. [MR #110](https://gitlab.com/aweframework/awe/merge_requests/110) (Pablo Javier García Mora)
+- Allow to cast a number to varchar. [MR #109](https://gitlab.com/aweframework/awe/merge_requests/109) (Pablo Javier García Mora)
+- Retrieve current datasource when calling `getDataSource(String alias)` with a null value. [MR #108](https://gitlab.com/aweframework/awe/merge_requests/108) (Pablo Javier García Mora)
+- Launch asynchronously help template generation in application help. [MR #107](https://gitlab.com/aweframework/awe/merge_requests/107) (Pablo Javier García Mora)
+- Show a dev-friendly message when filtering a grid without target-action and initial-load defined. [MR #106](https://gitlab.com/aweframework/awe/merge_requests/106) (Pablo Vidal Otero)
+- Launching a `fill` action over a `select` component with values doesn't reset the component first. [MR #105](https://gitlab.com/aweframework/awe/merge_requests/105) (Pablo Javier García Mora)
+- Manage error message when the query/maintain is not defined. [MR #104](https://gitlab.com/aweframework/awe/merge_requests/104) (Pablo Vidal Otero)
+- Add power value to operator attribute inside operation. [MR #103](https://gitlab.com/aweframework/awe/merge_requests/103) (Pablo Vidal Otero)
 # Changelog for AWE 4.1.4
 *16/08/2019*
 
 - Suggest showing several same options due to not refreshing model. [MR #94](https://gitlab.com/aweframework/awe/merge_requests/94) (Pablo Javier García Mora)
 - Add functions to retrieve parts from dates in SQL (`YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, `SECOND`). [MR #93](https://gitlab.com/aweframework/awe/merge_requests/93) (Pablo Javier García Mora)
-- Add a new field function: COUNT_DISTINCT. [MR #92](https://gitlab.com/aweframework/awe/merge_requests/92) (Pablo Javier García Mora)
+- Add a new field function: `CNT_DISTINCT`. [MR #92](https://gitlab.com/aweframework/awe/merge_requests/92) (Pablo Javier García Mora)
 - Unique action not working correctly. [MR #91](https://gitlab.com/aweframework/awe/merge_requests/91) (Pablo Javier García Mora)
 - Add a method to retrieve a sequence value once updated. [MR #90](https://gitlab.com/aweframework/awe/merge_requests/90) (Pablo Javier García Mora)
 
@@ -53,7 +77,7 @@
 - Fix `select-all-rows` action on grid element. [MR #61](https://gitlab.com/aweframework/awe/merge_requests/61) (Pablo Javier García Mora)
 - Improve pipeline process parallelling tasks. [MR #60](https://gitlab.com/aweframework/awe/merge_requests/60) (Pablo Javier García Mora)
 - Add windows functions in SQL AWE 4.0. [MR #59](https://gitlab.com/aweframework/awe/merge_requests/59) (Pablo Javier García Mora)
-- Change `static` field name to `constant`. [MR #58](https://gitlab.com/aweframework/awe/merge_requests/58) (Pablo Javier García Mora)
+- **[HAS IMPACTS]** Change `static` field name to `constant`. [MR #58](https://gitlab.com/aweframework/awe/merge_requests/58) (Pablo Javier García Mora)
 - Row Number. [MR #57](https://gitlab.com/aweframework/awe/merge_requests/57) (Pablo Javier García Mora)
 - Inherit all Spring boot tests from one class with `@SpringBootTests` to improve test speed. [MR #56](https://gitlab.com/aweframework/awe/merge_requests/56) (Pablo Javier García Mora)
 - The replace-columns client action is not working correctly. [MR #55](https://gitlab.com/aweframework/awe/merge_requests/55) (Pablo Javier García Mora)
@@ -66,7 +90,7 @@
 - Add spring boot dev tools to AWE. [MR #52](https://gitlab.com/aweframework/awe/merge_requests/52) (Pablo Vidal Otero)
 - Remove limit to suggest and select components queries if there's no `max` attribute defined. [MR #51](https://gitlab.com/aweframework/awe/merge_requests/51) (Pablo Javier García Mora)
 - The replace-columns client action is not working correctly. [MR #50](https://gitlab.com/aweframework/awe/merge_requests/50) (Pablo Javier García Mora)
-- Improve SQL fields to allow operations (improve also where clauses) [HAS IMPACTS]. [MR #49](https://gitlab.com/aweframework/awe/merge_requests/49) (Pablo Javier García Mora)
+- **[HAS IMPACTS]** Improve SQL fields to allow operations (improve also where clauses). [MR #49](https://gitlab.com/aweframework/awe/merge_requests/49) (Pablo Javier García Mora)
 - Manage beans with lombok. [MR #48](https://gitlab.com/aweframework/awe/merge_requests/48) (Pablo Javier García Mora)
 
 # Changelog for AWE 4.0.7

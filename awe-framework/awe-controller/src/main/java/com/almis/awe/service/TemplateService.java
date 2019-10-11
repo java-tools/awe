@@ -3,8 +3,12 @@ package com.almis.awe.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 
+import com.almis.awe.dao.TemplateDao;
+import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
@@ -35,6 +39,7 @@ public class TemplateService extends ServiceConfig {
   private STGroup helpTemplateGroup;
   private STGroup screensTemplateGroup;
   private QueryService queryService;
+  private TemplateDao templateDao;
 
   /**
    * Autowired constructor
@@ -43,18 +48,21 @@ public class TemplateService extends ServiceConfig {
    * @param helpTemplateGroup Help templates
    * @param screensTemplateGroup Screen templates
    * @param queryService Query service
+   * @param templateDao Template DAO
    */
   @Autowired
   public TemplateService(MenuService menuService,
                          @Qualifier("elementsTemplateGroup") STGroup elementsTemplateGroup,
                          @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup,
                          @Qualifier("screensTemplateGroup") STGroup screensTemplateGroup,
-                         QueryService queryService) {
+                         QueryService queryService,
+                         TemplateDao templateDao) {
     this.menuService = menuService;
     this.elementsTemplateGroup = elementsTemplateGroup;
     this.helpTemplateGroup = helpTemplateGroup;
     this.screensTemplateGroup = screensTemplateGroup;
     this.queryService = queryService;
+    this.templateDao = templateDao;
   }
 
   /**
@@ -160,15 +168,23 @@ public class TemplateService extends ServiceConfig {
    * @throws AWException Error generating breadcrumbs
    */
   public String generateApplicationHelpTemplate(boolean developers) throws AWException {
-    Menu menu = menuService.getMenu();
+    Menu menu = menuService.getMenuWithRestrictions();
 
     // Generate template from screen
     ST screenTemplate = screensTemplateGroup.createStringTemplate(screensTemplateGroup.rawGetTemplate(AweConstants.HELP_TEMPLATE));
     ST applicationTemplate = helpTemplateGroup.createStringTemplate(helpTemplateGroup.rawGetTemplate(AweConstants.TEMPLATE_HELP_APPLICATION));
-    List<ST> contents = generateMenuHelp(menu.getElementList(), 1, developers);
+    List<Future<ST>> contents = generateMenuHelp(menu.getElementList(), 1, developers);
 
     // Add application template
-    applicationTemplate.add(AweConstants.TEMPLATE_CONTENT, contents);
+    for (Future<ST> content : contents) {
+      try {
+        applicationTemplate.add(AweConstants.TEMPLATE_CONTENT, content.get());
+      } catch (Exception exc) {
+        // Only show a log if a screen fails
+        getLogger().log(TemplateService.class, Level.ERROR, "Error generating application help", exc);
+      }
+    }
+
     screenTemplate.add(AweConstants.TEMPLATE_HELP, applicationTemplate);
 
     // Retrieve code
@@ -186,7 +202,7 @@ public class TemplateService extends ServiceConfig {
   public String generateOptionHelpTemplate(String optionId, boolean developers) throws AWException {
     // Retrieve code
     Option option = menuService.getOptionByName(optionId);
-    return generateOptionHelp(option, 1, developers).render();
+    return templateDao.generateOptionHelp(option, 1, developers).render();
   }
 
   /**
@@ -213,15 +229,15 @@ public class TemplateService extends ServiceConfig {
    * @return Screen template
    * @throws AWException Error generating breadcrumbs
    */
-  private List<ST> generateMenuHelp(List<Element> elementList, Integer level, boolean developers) throws AWException {
-    List<ST> templateList = new ArrayList<>();
+  private List<Future<ST>> generateMenuHelp(List<Element> elementList, Integer level, boolean developers) throws AWException {
+    List<Future<ST>> templateList = new CopyOnWriteArrayList<>();
 
     // Call generate method on all elements
     for (Element element : elementList) {
       Option option = (Option) element;
       if (option.getLabel() != null) {
         // Generate option template
-        templateList.add(generateOptionHelp(option, level, developers));
+        templateList.add(templateDao.generateOptionHelpAsync(option, level, developers));
 
         // Generate the children
         templateList.addAll(generateMenuHelp(option.getElementList(), level + 1, developers));
@@ -232,61 +248,6 @@ public class TemplateService extends ServiceConfig {
     return templateList;
   }
 
-  /**
-   * Generate option template
-   *
-   * @param option Option
-   * @param level Option level
-   * @param developers Help for developers
-   * @return Screen template
-   * @throws AWException Error generating breadcrumbs
-   */
-  private ST generateOptionHelp(Option option, Integer level, boolean developers) throws AWException {
-    // Generate template from screen
-    ST optionTemplate = helpTemplateGroup.createStringTemplate(helpTemplateGroup.rawGetTemplate(AweConstants.TEMPLATE_HELP_OPTION));
-
-    String optionLabel = option.getLabel();
-    if (option.getScreen() != null) {
-      Screen screen = menuService.getOptionScreen(option.getName());
-      optionLabel = screen.getLabel();
-      optionTemplate.add(AweConstants.TEMPLATE_CONTENT, generateScreenHelp(screen, developers));
-    }
-
-    // Add screen title
-    optionTemplate.add(AweConstants.TEMPLATE_E, option);
-    optionTemplate.add(AweConstants.TEMPLATE_TITLE, optionLabel);
-    optionTemplate.add(AweConstants.TEMPLATE_LEVEL, level);
-
-    // Retrieve code
-    return optionTemplate;
-  }
-
-  /**
-   * Generate screen template
-   *
-   * @param screen Screen
-   * @param developers Help for developers
-   * @return Screen template
-   * @throws AWException Error generating breadcrumbs
-   */
-  private ST generateScreenHelp(Screen screen, boolean developers) {
-    // Generate template from screen
-    ST screenTemplate = helpTemplateGroup.createStringTemplate(helpTemplateGroup.rawGetTemplate(AweConstants.TEMPLATE_HELP_SCREEN));
-    List<ST> contents = new ArrayList<>();
-
-    // Call generate method on all sources
-    for (Element element : screen.getElementList()) {
-      // Generate the children
-      contents.add(element.generateHelpTemplate(helpTemplateGroup, null, developers));
-    }
-
-    // Add screen title
-    screenTemplate.add(AweConstants.TEMPLATE_E, screen);
-    screenTemplate.add(AweConstants.TEMPLATE_CONTENT, contents);
-
-    // Retrieve code
-    return screenTemplate;
-  }
 
   /**
    * Generates an taglist template from a screen and a taglist id

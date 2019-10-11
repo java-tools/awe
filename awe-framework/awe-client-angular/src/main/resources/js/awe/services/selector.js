@@ -356,7 +356,9 @@ aweApplication.factory('Selector',
             let model = Control.getAddressModel(component.address);
             if (model) {
               _.merge(model, data);
-              model.values = _.uniqBy(model.values, 'value');
+              if ("values" in data) {
+                model.values = _.cloneDeep(data.values);
+              }
               // If selected in data, update selected values
               if ("selected" in data) {
                 // Store component model

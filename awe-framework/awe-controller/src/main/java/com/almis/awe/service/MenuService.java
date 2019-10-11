@@ -1,6 +1,7 @@
 package com.almis.awe.service;
 
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.dao.InitialLoadDao;
 import com.almis.awe.exception.AWESessionException;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
@@ -54,7 +55,7 @@ public class MenuService extends ServiceConfig {
   private QueryService queryService;
   private ScreenRestrictionGenerator screenRestrictionGenerator;
   private ScreenComponentGenerator screenComponentGenerator;
-  private InitialLoadService initialLoadService;
+  private InitialLoadDao initialLoadDao;
 
   private static final String ERROR_TITLE_SCREEN_NOT_DEFINED = "ERROR_TITLE_SCREEN_NOT_DEFINED";
 
@@ -63,15 +64,15 @@ public class MenuService extends ServiceConfig {
    * @param queryService Query service
    * @param screenRestrictionGenerator Screen restriction generator
    * @param screenComponentGenerator Screen component generator
-   * @param initialLoadService Initial load service
+   * @param initialLoadDao Initial load service
    */
   @Autowired
   public MenuService(QueryService queryService, ScreenRestrictionGenerator screenRestrictionGenerator,
-                     ScreenComponentGenerator screenComponentGenerator, InitialLoadService initialLoadService) {
+                     ScreenComponentGenerator screenComponentGenerator, InitialLoadDao initialLoadDao) {
     this.queryService = queryService;
     this.screenRestrictionGenerator = screenRestrictionGenerator;
     this.screenComponentGenerator = screenComponentGenerator;
-    this.initialLoadService = initialLoadService;
+    this.initialLoadDao = initialLoadDao;
   }
 
   /**
@@ -143,7 +144,7 @@ public class MenuService extends ServiceConfig {
       screenRestrictionGenerator.applyModuleRestriction(module, menu);
 
       // Get restrictions
-      ServiceData queryOutput = queryService.launchPrivateQuery(AweConstants.SCREEN_RESTRICTION_QUERY);
+      ServiceData queryOutput = queryService.launchPrivateQuery(AweConstants.SCREEN_RESTRICTION_QUERY, "1", "0");
       DataList queryRestrictions = queryOutput.getDataList();
 
       // Apply restrictions
@@ -315,7 +316,7 @@ public class MenuService extends ServiceConfig {
     for (Panelable panelable : panelableList) {
       if (panelable.getInitialLoad() != null) {
         // Launch
-        Future<ServiceData> taskResult = initialLoadService.launchInitialLoad(new AweThreadInitialization()
+        Future<ServiceData> taskResult = initialLoadDao.launchInitialLoad(new AweThreadInitialization()
                         .setInitialLoadType(LoadType.valueOf(panelable.getInitialLoad().toUpperCase()))
                         .setTarget(panelable.getTargetAction()));
         resultMap.put(panelable, taskResult);
@@ -485,7 +486,7 @@ public class MenuService extends ServiceConfig {
    */
   public boolean checkOptionAddress(String address) throws AWException {
     // Step 1: Check if option is private
-    String optionId = address.startsWith(AweConstants.JSON_SCREEN) ? address.substring(address.lastIndexOf('/') + 1, address.length()) : null;
+    String optionId = address.startsWith(AweConstants.JSON_SCREEN) ? address.substring(address.lastIndexOf('/') + 1) : null;
     if (address.startsWith(AweConstants.JSON_SCREEN + "/" + AweConstants.PRIVATE_MENU)) {
       return getSession().isAuthenticated() && isAvailableOption(optionId, AweConstants.PRIVATE_MENU);
     } else if (address.startsWith(AweConstants.JSON_SCREEN + "/"))  {
@@ -616,7 +617,7 @@ public class MenuService extends ServiceConfig {
     baseRestrictions.setRecords(baseRestrictions.getRows().size());
 
     // Step 3: Get database restrictions and apply profile restrictions if it doesn't exist
-    ServiceData serviceData = queryService.launchPrivateQuery(AweConstants.SCREEN_DATABASE_RESTRICTION_QUERY);
+    ServiceData serviceData = queryService.launchPrivateQuery(AweConstants.SCREEN_DATABASE_RESTRICTION_QUERY, "1", "0");
     DataList databaseRestrictions = serviceData.getDataList();
 
     // Step 4: Merge datalists

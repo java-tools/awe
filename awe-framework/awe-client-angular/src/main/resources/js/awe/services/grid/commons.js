@@ -599,6 +599,11 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           // Store as identifier list
           data[component.address.component + "-id"] = columnData;
 
+          // If there is only one row selected, send selected row address
+          if (selected.length === 1) {
+            data["selectedRowAddress"] = {...component.address, row: selected[0]};
+          }
+
           return data;
         };
 
@@ -974,28 +979,30 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
          */
         component.setSelection = function (selection) {
           // Reset selection
+          let sanitizedSelection = selection;
           component.resetSelection();
           if (selection !== null) {
             // Get selection as array
+            let selectionArray = selection;
             if (typeof selection === "string") {
-              selection = [selection];
+              selectionArray = [selection];
             }
             // Set selection
-            var data = component.model.values;
+            let data = component.model.values;
 
             // Sanitize selection
-            selection = sanitizeSelection(selection, data, component);
+            sanitizedSelection = sanitizeSelection(selectionArray, data, component);
 
             // Select rows
-            _.each(selection, function (row) {
-              var rowIndex = Control.getRowIndex(data, row, component.constants.ROW_IDENTIFIER);
+            _.each(sanitizedSelection, function (row) {
+              let rowIndex = Control.getRowIndex(data, row, component.constants.ROW_IDENTIFIER);
               if (rowIndex > -1) {
                 component.selectRow(data[rowIndex]);
               }
             });
           }
           // Call select rows event
-          component.onSelectRows(selection);
+          component.onSelectRows(sanitizedSelection);
         };
 
         /**

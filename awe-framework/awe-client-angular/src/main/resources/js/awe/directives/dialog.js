@@ -1,5 +1,5 @@
 import { aweApplication } from "./../awe";
-import "./../services/dialog";
+import "./plugins/uiModal";
 
 // Dialog directive
 aweApplication.directive('aweDialog',

@@ -21,6 +21,7 @@ public class DistinctRowProcessor implements RowProcessor {
 
   /**
    * Set distinct list
+   *
    * @param distinctList distinct list
    * @return distinct row processor
    */
@@ -31,14 +32,15 @@ public class DistinctRowProcessor implements RowProcessor {
 
   /**
    * Process row list
+   *
    * @param rowList row list
    * @return row list processed
    * @throws AWException AWE exception
    */
-  public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) throws AWException {
+  public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) {
     CompareRow comparator = new CompareRow(this.distinctList);
     List<Map<String, CellData>> newRows = new ArrayList<>();
-    for (Map<String, CellData> row: rowList) {
+    for (Map<String, CellData> row : rowList) {
       if (!in(newRows, row, comparator)) {
         newRows.add((Map<String, CellData>) ((HashMap<String, CellData>) row).clone());
       }
@@ -51,7 +53,7 @@ public class DistinctRowProcessor implements RowProcessor {
   /**
    * Check if a row is inside another list
    *
-   * @param list Row list
+   * @param list       Row list
    * @param rowToCheck row to check
    * @param comparator row comparator
    */

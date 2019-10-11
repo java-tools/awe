@@ -25,20 +25,10 @@ public class Field extends SqlField {
 
   private static final long serialVersionUID = 7587109759292448862L;
 
-  // Variable value to set into the id
-  @XStreamAlias("variable")
-  @XStreamAsAttribute
-  private String variable;
-
   // Query to be used as field
   @XStreamAlias("query")
   @XStreamAsAttribute
   private String query;
-
-  // Sequence
-  @XStreamAlias("sequence")
-  @XStreamAsAttribute
-  private String sequence;
 
   @Override
   public Field copy() throws AWException {

@@ -491,7 +491,7 @@
   <locale name="ERROR_MESSAGE_PRINTING_NOPRINTER" value="Aucune imprimante définie pour cet utilisateur. S&apos;il vous plaît définir une imprimante"/>
   <locale name="ERROR_MESSAGE_PRINTING_SCREEN" value="Vérifiez que l&apos;imprimante -{0}- est correctement configuré sur le serveur"/>
   <locale name="ERROR_MESSAGE_QUERY_JOIN" value="Il y a eu un problème d&apos;essayer de lancer l&apos;opperation de join &apos;&apos;{0}&apos;&apos; dans la requête &apos;&apos;{1}&apos;&apos;"/>
-  <locale name="ERROR_MESSAGE_QUERY_NOT_FOUND" value="La requette n&apos;a pas ete definitive"/>
+  <locale name="ERROR_MESSAGE_QUERY_NOT_FOUND" value="La requette &apos;&apos;{0}&apos;&apos; n&apos;a pas ete definitive"/>
   <locale name="ERROR_MESSAGE_QUEUE_CONNECTION_FAILED" value="Il y avait un problème de connexion à la queue {0}"/>
   <locale name="ERROR_MESSAGE_QUEUE_CONNECTION_NOT_IMPLEMENTED" value="Le type de connexion sélectionné a la queue {0} n&apos;a pas été mis en oeuvre "/>
   <locale name="ERROR_MESSAGE_QUEUE_DESTINATION_NOT_FOUND" value="Il était impossible de trouver la queue cible {0}"/>
@@ -541,6 +541,7 @@
   <locale name="ERROR_MESSAGE_STORE_CRITERIA" value="Probleme dans la sauvegarde des criteres de l&apos;ecran precedent"/>
   <locale name="ERROR_MESSAGE_STORE_FILE" value="Il y a eu un problème en essayant de stocker le fichier {0}"/>
   <locale name="ERROR_MESSAGE_STORING_TRANSLATION" value="Il y a eu une erreur d&apos;essayer de stocker la traduction du localee -{0}- avec la valeur{1}-"/>
+  <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="Le paramètre 'target-action' est introuvable ou non défini. Vérifiez votre définition d'action de données" />
   <locale name="ERROR_MESSAGE_TOO_MANY_REQUESTS" value="Trop de requettes concurrentes non resolues"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_CACHE" value="Ce n&apos;est pas defini le type de cache -{0}-"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_SESSION" value="La séance avec le jeton &apos;{0}&apos; n&apos;existe pas ou n&apos;a pas été défini"/>

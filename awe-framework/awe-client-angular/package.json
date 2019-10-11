@@ -1,6 +1,6 @@
 {
   "name": "awe-client-angular",
-  "version": "4.0.5",
+  "version": "4.1.4",
   "description": "",
   "main": "./src/main/resources/webpack",
   "author": "Almis",
@@ -21,7 +21,7 @@
     "animate.css": "^3.5.2",
     "autonumeric": "^1.9.46",
     "bootstrap": "^3.3.7",
-    "bootstrap-datepicker": "1.4.1",
+    "bootstrap-datepicker": "^1.9.0",
     "bootstrap-markdown": "2.9.0",
     "bootstrap-slider": "^8.0.0",
     "bootstrap-timepicker": "^0.5.2",
@@ -62,7 +62,8 @@
     "babel-plugin-object-values-to-object-keys": "^1.0.2",
     "babel-plugin-transform-object-entries": "^1.0.0",
     "babel-plugin-istanbul": "^5.1.4",
-    "@babel/preset-env": "^7.4.4"
+    "@babel/preset-env": "^7.4.4",
+    "yarn": "^1.19.0"
   },
   "devDependencies": {
     "eslint": "^5.7.0",

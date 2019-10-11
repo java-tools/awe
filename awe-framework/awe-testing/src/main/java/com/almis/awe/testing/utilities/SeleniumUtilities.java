@@ -58,6 +58,7 @@ public class SeleniumUtilities {
   private static final String YEAR = "year";
   private static final By GRID_LOADER_SELECTOR = By.cssSelector(".grid-loader");
   private static final By SELECT_DROP_INPUT = By.cssSelector("#select2-drop input.select2-input");
+  private static final By SELECT_DROP_RESULTS = By.cssSelector("#select2-drop .select2-results li");
   private static final ExpectedCondition<Boolean> GRID_LOADER_IS_NOT_VISIBLE = invisibilityOfElementLocated(GRID_LOADER_SELECTOR);
   private static final ExpectedCondition<Boolean> LOADER_IS_NOT_VISIBLE = invisibilityOfElementLocated(By.cssSelector(".loader"));
 
@@ -381,15 +382,20 @@ public class SeleniumUtilities {
    * @param parentSelector Parent selector
    * @param dateValue Date value
    */
-  private void selectDateFromSelector(String parentSelector, CharSequence dateValue) {
+  private void selectDateFromSelector(String parentSelector, CharSequence dateValue, boolean isGrid) {
     // Click on date
     clickDateFromSelector(parentSelector);
 
     // Write text on date
-    writeTextFromSelector(parentSelector, dateValue, true);
+    writeTextFromSelector(parentSelector, dateValue, true, isGrid);
 
-    // Click on selector
-    click(".datepicker td.day:not(.disabled)");
+    if (isGrid) {
+      // Click on body
+      click(By.cssSelector("body"));
+    }
+
+    // Wait for loading bar
+    waitForLoadingBar();
 
     // Wait for not visible
     checkNotVisible(".datepicker");
@@ -519,7 +525,7 @@ public class SeleniumUtilities {
    * @param text Text
    * @param clearText Clear text
    */
-  private void writeTextFromSelector(String parentSelector, CharSequence text, boolean clearText) {
+  private void writeTextFromSelector(String parentSelector, CharSequence text, boolean clearText, boolean isGrid) {
     By selector = getCriterionInputSelector(parentSelector);
 
     // Wait for element present
@@ -533,8 +539,13 @@ public class SeleniumUtilities {
     // Write text
     sendKeys(selector, text);
 
-    // Write text
-    sendKeys(selector, Keys.TAB);
+    if (isGrid) {
+      // Click on body
+      click(By.cssSelector(parentSelector));
+    } else {
+      // Click on body
+      click(By.cssSelector("body"));
+    }
 
     // Pause 100 ms
     pause(100);
@@ -1039,7 +1050,7 @@ public class SeleniumUtilities {
    * @param dateValue Date to select
    */
   protected void selectDate(String dateName, CharSequence dateValue) {
-    selectDateFromSelector(getCriterionSelectorCss(dateName), dateValue);
+    selectDateFromSelector(getCriterionSelectorCss(dateName), dateValue, false);
   }
 
   /**
@@ -1050,7 +1061,7 @@ public class SeleniumUtilities {
    */
   protected void selectDate(String gridId, String columnId, CharSequence dateValue) {
     // Select date with parent selector
-    selectDateFromSelector(getParentSelectorCss(gridId, null, columnId), dateValue);
+    selectDateFromSelector(getParentSelectorCss(gridId, null, columnId), dateValue, true);
   }
 
   /**
@@ -1062,7 +1073,7 @@ public class SeleniumUtilities {
    */
   protected void selectDate(String gridId, String rowId, String columnId, CharSequence dateValue) {
     // Select date with parent selector
-    selectDateFromSelector(getParentSelectorCss(gridId, rowId, columnId), dateValue);
+    selectDateFromSelector(getParentSelectorCss(gridId, rowId, columnId), dateValue, true);
   }
 
   /**
@@ -1281,7 +1292,7 @@ public class SeleniumUtilities {
    * @param clearText Clear text
    */
   protected void writeText(String criterionName, CharSequence text, boolean clearText) {
-    writeTextFromSelector(getCriterionSelectorCss(criterionName), text, clearText);
+    writeTextFromSelector(getCriterionSelectorCss(criterionName), text, clearText, false);
   }
 
   /**
@@ -1292,7 +1303,7 @@ public class SeleniumUtilities {
    */
   protected void writeText(String gridId, String columnId, CharSequence text) {
     // Write text on grid
-    writeTextFromSelector(getParentSelectorCss(gridId, null, columnId), text, true);
+    writeTextFromSelector(getParentSelectorCss(gridId, null, columnId), text, true, true);
   }
 
 
@@ -1305,7 +1316,7 @@ public class SeleniumUtilities {
    */
   protected void writeText(String gridId, String rowId, String columnId, CharSequence text) {
     // Write text on grid
-    writeTextFromSelector(getParentSelectorCss(gridId, rowId, columnId), text, true);
+    writeTextFromSelector(getParentSelectorCss(gridId, rowId, columnId), text, true, true);
   }
 
   /**
@@ -1318,7 +1329,7 @@ public class SeleniumUtilities {
    */
   protected void writeText(String gridId, String rowId, String columnId, CharSequence text, boolean clearText) {
     // Write text on grid
-    writeTextFromSelector(getParentSelectorCss(gridId, rowId, columnId), text, clearText);
+    writeTextFromSelector(getParentSelectorCss(gridId, rowId, columnId), text, clearText, true);
   }
 
   /**
@@ -1586,7 +1597,7 @@ public class SeleniumUtilities {
     * @param gridId Grid with the save button
    */
   protected void saveRow(String gridId) {
-    saveRowFromSelector(getGridScopeCss(gridId)+ " .grid-row-save:not([disabled])");
+    saveRowFromSelector("#" + gridId + "-grid-row-save:not([disabled])");
   }
 
 
@@ -1807,6 +1818,18 @@ public class SeleniumUtilities {
 
     // Check text
     checkTextContains(selector, search);
+  }
+
+  /**
+   * Assert if a selector contains a number of results
+   * @param criterionName Selector name
+   * @param number Number of results to check
+   */
+  protected void checkSelectNumberOfResults(String criterionName, Integer number) {
+    selectClick(getCriterionSelectorCss(criterionName));
+
+    // Assert element is not located
+    assertWithScreenshot("Number of elements doesn't match", number == driver.findElements(SELECT_DROP_RESULTS).size());
   }
 
   /**

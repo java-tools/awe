@@ -18,6 +18,12 @@ aweApplication.factory('Chart',
      */
     function (Component, $translate, ChartEvents, Storage, Control, Utilities, $settings) {
       // Get awe $settings
+      const updateChartSerie = function (serie, chart, model, sizeSerieLimit, limit) {
+        let chartSerie = chart.get(serie.id);
+        let serieData = getSerieData(serie, model);
+        chartSerie.setData(serieData, false, true);
+        return !sizeSerieLimit && serieData.length > limit;
+      };
 
       // Axis formatter API
       var formatterList = {
@@ -222,22 +228,12 @@ aweApplication.factory('Chart',
               var drillDownSeriesModelList = _.get(chartOptions, "drilldown.series", []);
               // Build array datas for each serie of chart
               if (seriesModelList) {
-                _.each(seriesModelList, function (serie) {
-                  var chartSerie = chart.get(serie.id);
-                  var serieData = getSerieData(serie, model);
-                  sizeSerieLimit = !sizeSerieLimit && serieData.length > limitPointSerie;
-                  chartSerie.setData(serieData, false, true);
-                });
+                _.each(seriesModelList, (serie) => { sizeSerieLimit = updateChartSerie(serie, chart, model, sizeSerieLimit, limitPointSerie);});
               }
 
               // Build array datas for each drilldown serie of chart
               if (drillDownSeriesModelList !== null) {
-                _.each(drillDownSeriesModelList, function (serie) {
-                  var chartSerie = chart.get(serie.id);
-                  var serieData = getSerieData(serie, model);
-                  sizeSerieLimit = !sizeSerieLimit && serieData.length > limitPointSerie;
-                  chartSerie.setData(serieData, false, true);
-                });
+                _.each(drillDownSeriesModelList,  (serie) => { sizeSerieLimit = updateChartSerie(serie, chart, model, sizeSerieLimit, limitPointSerie);});
                 // Disabled allow point selection in Pies
                 if (chartOptions.plotOptions.pie) {
                   chartOptions.plotOptions.pie.allowPointSelect = false;

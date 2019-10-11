@@ -4,7 +4,6 @@ import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.component.Component;
 import com.almis.awe.model.entities.screen.component.button.AbstractButton;
-import com.almis.awe.model.entities.screen.component.button.Button;
 import com.almis.awe.model.entities.screen.component.grid.AbstractGrid;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.entities.screen.component.panelable.Panelable;
@@ -215,6 +214,11 @@ public abstract class AbstractCriteria extends Component {
   @JsonIgnore
   @XStreamOmitField
   private String defaultValue;
+
+  // Restricted VALUES from screen configuration
+  @JsonIgnore
+  @XStreamOmitField
+  private String restrictedValueList;
 
   /**
    * Returns if criteria is checked

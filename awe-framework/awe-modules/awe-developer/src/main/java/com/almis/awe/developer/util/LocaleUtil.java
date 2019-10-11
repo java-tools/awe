@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.core.env.Environment;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,6 @@ public final class LocaleUtil {
 
   private static final Logger logger = LogManager.getLogger(LocaleUtil.class);
 
-  // Environment
-  private static Environment environment;
-
   // Static variables
   private static String extensionXML;
   private static String localeFileName;
@@ -28,21 +26,23 @@ public final class LocaleUtil {
   /**
    * Hide the constructor
    */
-  private LocaleUtil() {}
+  private LocaleUtil() {
+  }
 
   /**
    * Initialize Utility class
+   *
    * @param springEnvironment Spring environment
    */
-  public static void init(Environment springEnvironment)  {
-    environment = springEnvironment;
+  public static void init(Environment springEnvironment) {
+    Environment environment = springEnvironment;
     extensionXML = environment.getProperty("extensions.xml", ".xml");
     localeFileName = environment.getProperty("application.files.locale", "Locale-");
   }
 
   /**
    * Given a path, obtains the list of languages whose locale file is defined
-   * 
+   *
    * @param path Path
    * @return Language list
    */
@@ -74,18 +74,16 @@ public final class LocaleUtil {
   /**
    * Print a XML header into a fileoutputstream
    *
-   * @param out Output Stream
-   * @param doc Document name
-   * @param usr User name
-   * @param des Document description
-   * @param upd
-   * @param AddHdg
-   * @throws Exception
+   * @param out    Output Stream
+   * @param doc    Document name
+   * @param des    Document description
+   * @param addHdg
+   * @throws IOException
    */
-  public static void printHeader(Writer out, String doc, String usr, String des, Boolean upd, Boolean AddHdg) throws Exception {
+  public static void printHeader(Writer out, String doc, String des, boolean addHdg) throws IOException {
     String strOut = "";
     strOut += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    if (AddHdg) {
+    if (addHdg) {
       strOut += "<!--\n";
       strOut += "  Document   : " + doc + "\n";
       strOut += "  Description: " + des + "\n";

@@ -5,6 +5,8 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.util.data.DateUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.PropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 
@@ -17,6 +19,8 @@ import java.util.*;
  * @author jbellon
  */
 abstract class AbstractServiceConnector extends ServiceConfig implements ServiceConnector {
+
+  private static final String CANT_CREATE_INSTANCE = "Can't create instance of ";
 
   /**
    * Extract parameters values
@@ -52,6 +56,9 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
       if (parameter.isList()) {
         paramsToInvoke[index] = getParameterBeanListValue(beanClass, paramsMapFromRequest);
         paramsClassesToInvoke[index] = List.class;
+      } else if ("JSON".equalsIgnoreCase(parameter.getType())) {
+        paramsToInvoke[index] = getParameterJsonBeanValue(parameter, beanClass, paramsMapFromRequest);
+        paramsClassesToInvoke[index] = beanClass;
       } else {
         paramsToInvoke[index] = getParameterBeanValue(beanClass, paramsMapFromRequest);
         paramsClassesToInvoke[index] = beanClass;
@@ -92,6 +99,12 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
           return Class.forName(parameter.getBeanClass());
         } catch (Exception exc) {
           return Object.class;
+        }
+      case JSON:
+        try {
+          return Class.forName(parameter.getBeanClass());
+        } catch (Exception exc) {
+          return JsonNode.class;
         }
       case STRING:
       default:
@@ -159,13 +172,34 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
    * @return Bean value
    * @throws AWException
    */
+  private <T> T getParameterJsonBeanValue(ServiceInputParameter parameter, Class<T> beanClass, Map<String, Object> paramsMap) throws AWException {
+    try {
+      if (paramsMap.get(parameter.getName()) != null) {
+        // Generate row bean
+        return new ObjectMapper().treeToValue((JsonNode) paramsMap.get(parameter.getName()), beanClass);
+      } else {
+        return null;
+      }
+    } catch (Exception exc) {
+      throw new AWException("Error converting json parameter to object", CANT_CREATE_INSTANCE + beanClass.getSimpleName(), exc);
+    }
+  }
+
+  /**
+   * Retrieve parameter as bean value from JSON
+   * @param beanClass Bean class
+   * @param paramsMap Parameter map
+   * @param <T> Bean type
+   * @return Bean value
+   * @throws AWException
+   */
   private <T> T getParameterBeanValue( Class<T> beanClass, Map<String, Object> paramsMap) throws AWException {
     T parameterBean;
     try {
       // Generate row bean
-      parameterBean = beanClass.newInstance();
+      parameterBean = beanClass.getConstructor().newInstance();
     } catch (Exception exc) {
-      throw new AWException("Error converting datalist into a bean list", "Cannot create instance of " + beanClass.getSimpleName(), exc);
+      throw new AWException("Error converting datalist into a bean list", CANT_CREATE_INSTANCE + beanClass.getSimpleName(), exc);
     }
 
     // Set field value if found in row
@@ -227,10 +261,10 @@ abstract class AbstractServiceConnector extends ServiceConfig implements Service
         // Initialize list
         try {
           // Generate row bean
-          T parameterBean = beanClass.newInstance();
+          T parameterBean = beanClass.getConstructor().newInstance();
           beanList.add(parameterBean);
         } catch (Exception exc) {
-          throw new AWException("Error converting datalist into a bean list", "Cannot create instance of " + beanClass.getSimpleName(), exc);
+          throw new AWException("Error converting datalist into a bean list", CANT_CREATE_INSTANCE + beanClass.getSimpleName(), exc);
         }
       }
     }

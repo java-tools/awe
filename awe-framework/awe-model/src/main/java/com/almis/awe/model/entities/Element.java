@@ -224,7 +224,7 @@ public abstract class Element implements XMLNode, Copyable {
    * @param processDialog    flag to check dialog elements
    * @return Children List
    */
-  public <T> List<T> getElementsByType(Boolean processDialog, Class<T>... elementClassList) {
+  public <T> List<T> getElementsByType(boolean processDialog, Class<T>... elementClassList) {
 
     // Variable definition
     List<T> outLst = new ArrayList<>();

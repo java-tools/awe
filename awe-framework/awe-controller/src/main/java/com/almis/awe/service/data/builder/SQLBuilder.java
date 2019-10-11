@@ -270,6 +270,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       case "SUB_YEARS":
         String operator = operation.getOperator().replace("SUB", "ADD");
         return Expressions.dateOperation(Date.class, Ops.DateTimeOps.valueOf(operator), operands[0], Expressions.numberOperation(Integer.class, Ops.MULT, operands[1], substractExpression));
+      case "POWER":
+         return Expressions.numberOperation(Long.class, Ops.MathOps.valueOf(operation.getOperator()), operands);
       default:
         return null;
     }
@@ -449,8 +451,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
     if (operand == null) {
       Field field = (Field) new Field()
-        .setVariable(variable)
         .setQuery(query)
+        .setVariable(variable)
         .setFunction(function)
         .setId(fieldId)
         .setTable(table);
@@ -615,10 +617,12 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return new WindowOver(Long.class, Ops.AggOps.MAX_AGG, fieldExpression);
       case "MIN":
         return new WindowOver(Long.class, Ops.AggOps.MIN_AGG, fieldExpression);
-      case "FIRST":
+      case "FIRST_VALUE":
         return SQLExpressions.firstValue(fieldExpression);
-      case "LAST":
+      case "LAST_VALUE":
         return SQLExpressions.lastValue(fieldExpression);
+      case "TRIM":
+        return StringExpressions.ltrim(StringExpressions.rtrim(fieldExpression));
       case "TRUNCDATE":
         return Expressions.dateOperation(Date.class, Ops.DateTimeOps.DATE, fieldExpression);
       case "SECOND":
@@ -646,6 +650,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   protected Expression getExpressionCast(Expression fieldExpression, String cast) {
     switch (cast.toUpperCase()) {
+      case "STRING":
+        return Expressions.stringOperation(Ops.STRING_CAST, fieldExpression);
       case "LONG":
         return Expressions.asString(fieldExpression).castToNum(Long.class);
       case "FLOAT":

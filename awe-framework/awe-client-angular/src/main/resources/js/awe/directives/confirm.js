@@ -1,5 +1,5 @@
 import { aweApplication } from "./../awe";
-import "../services/dialog";
+import "./plugins/uiModal";
 
 // Confirm directive
 aweApplication.directive('aweConfirm',

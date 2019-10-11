@@ -33,10 +33,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.almis.awe.model.type.ParameterType.MULTIPLE_SEQUENCE;
 import static com.almis.awe.model.type.ParameterType.SEQUENCE;
@@ -253,7 +250,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
    * @throws AWException
    */
   private void doInsert(SQLInsertClause insertClause) throws AWException {
-    List<Path> fieldPaths = getFieldPaths();
+    List<Path> fieldPaths = getFieldPaths(true);
     insertClause.columns(fieldPaths.toArray(new Path[0]));
     if (((Insert) this.getQuery()).getQuery() != null) {
       insertClause.select(getSubquery(((Insert) this.getQuery()).getQuery()));
@@ -277,7 +274,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
     }
 
     // Parse field definitions and values and apply them to be updated
-    updateClause.set(getFieldPaths(), getFieldValues());
+    updateClause.set(getFieldPaths(false), getFieldValues());
   }
 
   /**
@@ -362,16 +359,30 @@ public class SQLMaintainBuilder extends SQLBuilder {
    *
    * @return path list
    */
-  private List getFieldPaths() {
+  private List getFieldPaths(boolean forInsert) throws AWException {
     List paths = new ArrayList<>();
 
     for (SqlField field : getQuery().getSqlFieldList()) {
-      if (field.isNotAudit()) {
+      if (field.isNotAudit() && !(forInsert && isAutoincrementalField(field))) {
         paths.add(buildPath(field.getTable(), field.getId(), field.getAlias()));
       }
     }
 
     return paths;
+  }
+
+  /**
+   * Check if a field is an autoincrement field to avoid it on insert clauses:
+   * - It is for insert
+   * - It has key
+   * - It hasn't got sequence
+   * - Its' value is null
+   * @param field
+   * @return
+   * @throws AWException
+   */
+  private boolean isAutoincrementalField(SqlField field) throws AWException {
+    return field.isKey() && field.getSequence() == null && Expressions.nullExpression().equals(getSqlFieldExpression(field, getVariableIndex()));
   }
 
   /**
@@ -414,10 +425,10 @@ public class SQLMaintainBuilder extends SQLBuilder {
     for (SqlField field : getQuery().getSqlFieldList()) {
       if (field.isNotAudit()) {
         // Field as sequence
-        if (field instanceof Field && ((Field) field).getSequence() != null) {
+        if (field.getSequence() != null) {
           values.add(calculateSequence((Field) field, getVariableIndex()));
           // Get field value
-        } else {
+        } else if (!isAutoincrementalField(field)) {
           values.add(getSqlFieldExpression(field, getVariableIndex()));
         }
       }
@@ -465,8 +476,9 @@ public class SQLMaintainBuilder extends SQLBuilder {
    */
   private String defineSequenceVariable(Field field) {
     String sequenceIdentifier = field.getVariable() == null ? field.getId() : field.getVariable();
-    if (getQuery().getVariableDefinition(sequenceIdentifier) == null) {
-      Variable seqVariable = new Variable();
+    Variable seqVariable = getQuery().getVariableDefinition(sequenceIdentifier);
+    if (seqVariable == null || !Arrays.asList(SEQUENCE, MULTIPLE_SEQUENCE).contains(ParameterType.valueOf(seqVariable.getType()))) {
+      seqVariable = new Variable();
       QueryParameter parameter;
       seqVariable.setName(sequenceIdentifier);
       seqVariable.setId(sequenceIdentifier);
@@ -514,14 +526,26 @@ public class SQLMaintainBuilder extends SQLBuilder {
       String value = getSequence(field.getSequence());
       fieldValue = getVariableAsExpression(value, ParameterType.LONG);
 
+      // Define variable if not defined
+      if (field.getVariable() == null) {
+        field.setVariable(sequenceIdentifier);
+      }
+
       // We add the value to the map of parsed variables if needed
-      if (variables.get(sequenceIdentifier).getValue().size() == (index + 1)) {
+      if (variables.get(sequenceIdentifier).getValue().size() == index) {
         ((ArrayNode) (variables.get(sequenceIdentifier).getValue())).add(value);
       }
       // IF type is SEQUENCE but the value is empty, generate sequence
     } else if (parameterType == SEQUENCE && queryUtil.isEmptyString(sequenceVariableValue)) {
       String value = getSequence(field.getSequence());
       fieldValue = getVariableAsExpression(value, ParameterType.LONG);
+
+      // Define variable if not defined
+      if (field.getVariable() == null) {
+        field.setVariable(sequenceIdentifier);
+      }
+
+      // We add the value to the map of parsed variables if needed
       variables.put(sequenceIdentifier, new QueryParameter(JsonNodeFactory.instance.textNode(value), false, parameterType));
     } else {
       fieldValue = getStringExpression(sequenceVariableValue);
@@ -538,8 +562,8 @@ public class SQLMaintainBuilder extends SQLBuilder {
    * @throws AWException
    */
   private Expression getSqlFieldExpression(SqlField field, Integer index) throws AWException {
-    if (field instanceof Field && ((Field) field).getVariable() != null) {
-      return getFieldValue((Field) field, index);
+    if (field.getVariable() != null) {
+      return getFieldValue(field, index);
     } else {
       return getOperandExpression(field);
     }
@@ -552,7 +576,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
    * @return field value expression
    * @throws AWException Error retrieving variable value
    */
-  private Expression getFieldValue(Field field, Integer index) throws AWException {
+  private Expression getFieldValue(SqlField field, Integer index) throws AWException {
     Expression fieldValue = null;
     Variable variable = getQuery().getVariableDefinition(field.getVariable());
     if (variable != null) {

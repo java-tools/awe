@@ -77,7 +77,6 @@ import "./input/markdownEditor";
 
 import "./confirm";
 import "./dialog";
-import "./column/dialog";
 
 import "./input/tab";
 import "./input/wizard";

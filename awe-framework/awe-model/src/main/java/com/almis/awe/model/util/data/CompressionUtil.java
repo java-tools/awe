@@ -1,9 +1,8 @@
 package com.almis.awe.model.util.data;
 
 import com.almis.awe.exception.AWException;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -15,9 +14,8 @@ import java.util.zip.GZIPOutputStream;
 /**
  * Compression utilities
  */
+@Log4j2
 public final class CompressionUtil {
-
-  private static final Logger logger = LogManager.getLogger(CompressionUtil.class);
 
   /**
    * Private constructor to enclose the default one
@@ -35,7 +33,7 @@ public final class CompressionUtil {
          GZIPOutputStream gos = new GZIPOutputStream(os)) {
       gos.write(string.getBytes());
       gos.finish();
-      logger.debug("Compressing from " + string.getBytes().length + " to " + os.toByteArray().length);
+      log.debug("Compressing from {}  to {}", string.getBytes().length, os.toByteArray().length);
       return os.toByteArray();
     } catch (IOException exc) {
       throw new AWException(exc.getClass().getSimpleName(), exc.getMessage(), exc);
@@ -52,7 +50,7 @@ public final class CompressionUtil {
     try (ByteArrayInputStream bis = new ByteArrayInputStream(compressed);
          GZIPInputStream gis = new GZIPInputStream(bis)) {
       byte[] bytes = IOUtils.toByteArray(gis);
-      logger.debug("Uncompressing from " + compressed.length + " to " + bytes.length);
+      log.debug("Uncompressing from {} to {}", compressed.length, bytes.length);
       return new String(bytes, StandardCharsets.UTF_8);
     } catch (IOException exc) {
       throw new AWException(exc.getClass().getSimpleName(), exc.getMessage(), exc);

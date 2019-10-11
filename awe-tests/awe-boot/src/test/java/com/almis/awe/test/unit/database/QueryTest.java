@@ -1,14 +1,15 @@
 package com.almis.awe.test.unit.database;
 
 import com.almis.awe.component.AweDatabaseContextHolder;
-import com.almis.awe.exception.AWException;
 import com.almis.awe.test.unit.categories.CIDatabaseTest;
 import com.almis.awe.test.unit.categories.NotCIDatabaseTest;
+import com.almis.awe.test.unit.categories.NotHSQLDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
-import org.junit.*;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 import org.springframework.http.MediaType;
@@ -220,6 +221,21 @@ public class QueryTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of launch query without tables.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDatabaseQueryWithOutTables() throws Exception {
+    String queryName = "testQueryWithOutTables";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"Sum\":2}]}}},{\"type\":\"end-load\"}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertResultJson(queryName, result, 1);
+  }
+
+  /**
    * Test of launchAction method, of class ActionController.
    *
    * @throws Exception Test error
@@ -243,7 +259,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testDatabaseQueryFieldFunctions() throws Exception {
     String queryName = "TestFieldFunctions";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"Sum\":24,\"Max\":2584,\"Avg\":10.16666666666666666666666666666666666667,\"CntDst\":3\"Cnt\":12,\"Min\":60}]}}},{\"type\":\"end-load\"}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"Sum\":24,\"Max\":2584,\"Avg\":10.16666666666666666666666666666666666667,\"CntDst\":3\"Cnt\":12,\"Min\":60,\"Trim\":\"as as  daef\"}]}}},{\"type\":\"end-load\"}]";
 
     String result = performRequest(queryName, variables, DATABASE);
     logger.debug(expected);
@@ -259,6 +275,38 @@ public class QueryTest extends AweSpringDatabaseTests {
       assertEquals(12, component.get("Cnt").asInt());
       assertEquals(3, component.get("CntDst").asInt());
       assertEquals(60, component.get("Min").asInt());
+      assertEquals("as as  daef", component.get("Trim").asText());
+      logger.debug(component.toString());
+    }
+
+    logger.debug("-------------------------------------------");
+    logger.debug("There are " + dataListRows.size() + " rows as a result of launching query " + queryName);
+    logger.debug("-------------------------------------------");
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  @Category(NotHSQLDatabaseTest.class)
+  public void testDatabaseQueryFieldGroupByFunctions() throws Exception {
+    String queryName = "TestFieldGroupByFunctions";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":12,\"rows\":[{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3},{\"First\":1,\"Last\":3}]}}},{\"type\":\"end-load\"}]";
+
+    String result = performRequest(queryName, variables, DATABASE);
+    logger.info("testDatabaseQueryFieldGroupByFunctions");
+    logger.info(result);
+
+    ArrayNode dataListRows = assertResultJson(queryName, result, 12);
+
+    // Test all keys
+    for (JsonNode element : dataListRows) {
+      ObjectNode component = (ObjectNode) element;
+      assertEquals(1, component.get("First").asInt());
+      assertEquals(3, component.get("Last").asInt());
       logger.debug(component.toString());
     }
 
@@ -849,7 +897,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testDatabaseOperationAddNumbers() throws Exception {
     String queryName = "testCastToNumber";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"castToLong\":96,\"castToDouble\":4.9,\"castToInteger\":19,\"name\":\"test\",\"id\":1,\"castToFloat\":1.5}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"castToLong\":96,\"castToString\":\"12-21\",\"castToDouble\":4.9,\"castToInteger\":19,\"name\":\"test\",\"id\":1,\"castToFloat\":1.5}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
     logger.warn(result);
@@ -1005,7 +1053,7 @@ public class QueryTest extends AweSpringDatabaseTests {
     assertEquals(10, dataListRows.size());
 
     ObjectNode endLoad = (ObjectNode) resultList.get(1);
-    assertEquals("end-load", endLoad.get("type").textValue());;
+    assertEquals("end-load", endLoad.get("type").textValue());
 
     // Test all keys
     for (JsonNode element : dataListRows) {
@@ -2589,6 +2637,21 @@ public class QueryTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of POWER operation of one field
+   * @throws Exception Test error
+   */
+  @Test
+  public void testPowerOfFieldOperation() throws Exception {
+    assumeTrue(isInMemoryDatabase());
+    String queryName = "testPowerOfFieldOperation";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"powerField\":2.0,\"name\":\"donald\",\"id\":1},{\"powerField\":4.0,\"name\":\"jaimito\",\"id\":2},{\"powerField\":8.0,\"name\":\"jorgito\",\"id\":3},{\"powerField\":16.0,\"name\":\"juanito\",\"id\":4},{\"powerField\":32.0,\"name\":\"test\",\"id\":5}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertResultJson(queryName, result, 5);
+  }
+
+  /**
    * Test of launchAction method, of class ActionController.
    * @throws Exception Test error
    */
@@ -3059,8 +3122,8 @@ public class QueryTest extends AweSpringDatabaseTests {
 
   /**
    * Check if current database is an in memory database
-   * @return
-   * @throws Exception
+   * @return <code>true</code> if is memory database
+   * @throws Exception {@link Exception}
    */
   private boolean isInMemoryDatabase() throws Exception {
     List<String> validDatabases = Arrays.asList("hsql", "h2");

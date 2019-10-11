@@ -191,6 +191,19 @@
     <field id="IdeDbs" alias="Cnt" function="CNT" />
     <field id="Ord" alias="CntDst" function="CNT_DISTINCT" />
     <field id="Ord" alias="Sum" function="SUM" />
+    <constant value="   as as  daef  " alias="Trim" function="TRIM" />
+  </query>
+
+  <query id="TestFieldGroupByFunctions">
+    <table id="AweSitModDbs" alias="awe" />
+    <over alias="First" >
+      <field id="Ord" function="FIRST_VALUE" />
+      <order-by field="IdeMod"/>
+    </over>
+    <over alias="Last" >
+      <field id="Ord" function="LAST_VALUE" />
+      <order-by field="IdeMod"/>
+    </over>
   </query>
 
   <query id="TestFieldDateFunctions">
@@ -2342,6 +2355,18 @@
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
+  <query id="testPowerOfFieldOperation">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="POWER" alias="powerField">
+      <constant value="2" type="INTEGER"/>
+      <over>
+        <field function="ROW_NUMBER"/>
+      </over>
+    </operation>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
   <query id="testDiffDates">
     <table id="ope"/>
     <field id="l1_nom" alias="name"/>
@@ -2399,6 +2424,14 @@
   <query id="testServiceBeanListParameter" service="testServiceBeanListParameter">
     <variable id="nameList" type="STRING" name="nameList"/>
     <variable id="populationList" type="LONG" name="populationList"/>
+  </query>
+
+  <query id="testServiceJsonBeanParameter" service="testServiceJsonBeanParameter">
+    <variable id="value" type="OBJECT" name="value"/>
+  </query>
+
+  <query id="testServiceJsonParameter" service="testServiceJsonParameter">
+    <variable id="value" type="OBJECT" name="value"/>
   </query>
 
   <query id="testExistsOK">
@@ -2495,10 +2528,22 @@
       <field id="IdeOpe" cast="DOUBLE"/>
       <constant value="4.1" type="DOUBLE"/>
     </operation>
+    <operation operator="CONCAT" alias="castToString">
+      <constant value="12" type="INTEGER" cast="STRING"/>
+      <constant value="-2" type="INTEGER" cast="STRING"/>
+      <field id="IdeOpe" cast="STRING"/>
+    </operation>
     <where>
       <filter condition="eq" ignorecase="true"><left-operand id="l1_nom"/><right-operand value="test"/></filter>
     </where>
     <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testQueryWithOutTables">
+    <operation alias="Sum" operator="ADD">
+      <constant value="1" type="INTEGER"/>
+      <constant value="1" type="INTEGER"/>
+    </operation>
   </query>
 
 </queries>

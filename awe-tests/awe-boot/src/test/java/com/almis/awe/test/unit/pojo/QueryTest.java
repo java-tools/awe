@@ -134,6 +134,16 @@ public class QueryTest extends TestUtil {
     // Assert
     assertEquals(expectedQuery, query.toString());
     assertEquals(" OVER ()", new Over().toString());
+    assertEquals("GROUP BY HAVING(tableGroup.fieldGroup)", "GROUP BY " + new GroupBy()
+            .setField("fieldGroup")
+            .setTable("tableGroup")
+            .setFunction("HAVING").toString());
+    assertEquals("ORDER BY tableSort.fieldSort NULLS last ASC", "ORDER BY " + new OrderBy()
+            .setField("fieldSort")
+            .setTable("tableSort")
+            .setType("ASC")
+            .setNulls("last")
+            .toString());
   }
 
   /**

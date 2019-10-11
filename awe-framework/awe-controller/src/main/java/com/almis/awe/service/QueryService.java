@@ -11,7 +11,6 @@ import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.entities.queries.Query;
-import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.service.data.connector.query.EnumQueryConnector;
@@ -37,10 +36,15 @@ public class QueryService extends ServiceConfig {
   private QueryLauncher queryLauncher;
   private QueryUtil queryUtil;
 
+  // Constants
+  private static final String ERROR_TITLE_RETRIEVING_DATA = "ERROR_TITLE_RETRIEVING_DATA";
+  private static final String ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND = "ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND";
+
   /**
    * Autowired constructor
+   *
    * @param queryLauncher Query launcher
-   * @param queryUtil Query utilities
+   * @param queryUtil     Query utilities
    */
   @Autowired
   public QueryService(QueryLauncher queryLauncher, QueryUtil queryUtil) {
@@ -50,37 +54,43 @@ public class QueryService extends ServiceConfig {
 
   /**
    * Launches a query (must be defined in APP or AWE Queries.xml file) and generates the output Query comes defined in target-action variable
-   * 
+   *
    * @return Query output
    * @throws AWException Query failed
    */
   public ServiceData launchQueryAction() throws AWException {
-    return launchQuery(getRequest().getTargetAction());
+    if (getRequest().getTargetAction() != null) {
+      return launchQuery(getRequest().getTargetAction());
+    } else throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
   }
 
   /**
    * Update some criteria at once
-   * 
+   *
    * @return Service data
    * @throws AWException Query failed
    */
   public ServiceData updateModelAction() throws AWException {
-    return updateModel(getRequest().getTargetAction());
+    if (getRequest().getTargetAction() != null) {
+      return updateModel(getRequest().getTargetAction());
+    } else throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
   }
 
   /**
    * Check if a query returns data or not
-   * 
+   *
    * @return Service data
    * @throws AWException Query failed
    */
   public ServiceData checkUniqueAction() throws AWException {
-    return checkUnique(getRequest().getTargetAction());
+    if (getRequest().getTargetAction() != null) {
+      return checkUnique(getRequest().getTargetAction());
+    } else throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
   }
 
   /**
    * Subscribe to a query
-   * 
+   *
    * @return Service data
    * @throws AWException Subscription failed
    */
@@ -101,7 +111,7 @@ public class QueryService extends ServiceConfig {
 
   /**
    * Subscribe to a query
-   * 
+   *
    * @param queryId Query identifier
    * @param address Component address
    * @return Service data
@@ -116,11 +126,11 @@ public class QueryService extends ServiceConfig {
 
   /**
    * Manage subscription results
-   * 
-   * @param query Query
-   * @param address Component address
+   *
+   * @param query            Query
+   * @param address          Component address
    * @param subscriptionData Subscription data
-   * @param parameterMap Parameters
+   * @param parameterMap     Parameters
    * @return Service data
    * @throws AWException Error in subscription
    */
@@ -160,7 +170,7 @@ public class QueryService extends ServiceConfig {
   /**
    * Launches a query (must be defined in APP or AWE Queries.xml file) and generates the output Query comes defined in target-action variable
    *
-   * @param queryId Query identifier
+   * @param queryId    Query identifier
    * @param parameters Parameters
    * @return Query output
    * @throws AWException Query failed
@@ -184,7 +194,7 @@ public class QueryService extends ServiceConfig {
    * Launches a query (must be defined in APP or AWE Queries.xml file) and generates the output Query comes defined in target-action variable
    *
    * @param queryId Query identifier
-   * @param alias Database alias
+   * @param alias   Database alias
    * @return Query output
    * @throws AWException Query failed
    */
@@ -195,15 +205,15 @@ public class QueryService extends ServiceConfig {
   /**
    * Launches a query
    *
-   * @param queryId Query identifier
-   * @param alias Query alias
-   * @param forcedPage Page
-   * @param forcedMax Elements per page
+   * @param queryId      Query identifier
+   * @param alias        Query alias
+   * @param forcedPage   Page
+   * @param forcedMax    Elements per page
    * @param checkSession Check if session is available
    * @return Query output
    * @throws AWException Query failed
    */
-  public ServiceData launchQuery(String queryId, String alias,  String forcedPage, String forcedMax, boolean checkSession) throws AWException {
+  public ServiceData launchQuery(String queryId, String alias, String forcedPage, String forcedMax, boolean checkSession) throws AWException {
     Query query = getQuery(queryId, checkSession);
     return launchQuery(query, alias, forcedPage, forcedMax);
   }
@@ -211,10 +221,10 @@ public class QueryService extends ServiceConfig {
   /**
    * Launches a query
    *
-   * @param query Query
-   * @param alias Query alias
+   * @param query      Query
+   * @param alias      Query alias
    * @param forcedPage Page
-   * @param forcedMax Elements per page
+   * @param forcedMax  Elements per page
    * @return Query output
    * @throws AWException Query failed
    */
@@ -229,8 +239,8 @@ public class QueryService extends ServiceConfig {
   /**
    * Launches a query
    *
-   * @param queryId Query identifier
-   * @param parameters Parameters
+   * @param queryId      Query identifier
+   * @param parameters   Parameters
    * @param checkSession Check if session is available
    * @return Query output
    * @throws AWException Query failed
@@ -247,9 +257,9 @@ public class QueryService extends ServiceConfig {
   /**
    * Launches a query
    *
-   * @param queryId Query identifier
+   * @param queryId    Query identifier
    * @param forcedPage Page
-   * @param forcedMax Elements per page
+   * @param forcedMax  Elements per page
    * @return Query output
    * @throws AWException Query failed
    */
@@ -259,6 +269,7 @@ public class QueryService extends ServiceConfig {
 
   /**
    * Launches an enumerated query
+   *
    * @param enumId Enumerated identifier
    * @return Query output
    * @throws AWException Query failed
@@ -270,10 +281,10 @@ public class QueryService extends ServiceConfig {
 
   /**
    * Launches a private query
-   * 
-   * @param queryId Enumerated identifier
+   *
+   * @param queryId    Enumerated identifier
    * @param forcedPage Page
-   * @param forcedMax Elements per page
+   * @param forcedMax  Elements per page
    * @return Query output
    * @throws AWException Query failed
    */
@@ -284,7 +295,7 @@ public class QueryService extends ServiceConfig {
   /**
    * Launches a private query
    *
-   * @param queryId Enumerated identifier
+   * @param queryId    Enumerated identifier
    * @param parameters Parameters
    * @return Query output
    * @throws AWException Query failed
@@ -295,10 +306,10 @@ public class QueryService extends ServiceConfig {
 
   /**
    * Launches an enumerated query
-   * 
-   * @param enumId Enumerated identifier
+   *
+   * @param enumId     Enumerated identifier
    * @param forcedPage Page
-   * @param forcedMax Elements per page
+   * @param forcedMax  Elements per page
    * @return Query output
    * @throws AWException Query failed
    */
@@ -313,12 +324,12 @@ public class QueryService extends ServiceConfig {
 
   /**
    * Update some criteria at once
-   * 
+   *
    * @param queryId Query identifier
    * @return Service data
    * @throws AWException Query failed
    */
-  public ServiceData updateModel(String queryId) throws AWException {
+  private ServiceData updateModel(String queryId) throws AWException {
     ServiceData serviceData = launchQuery(queryId);
 
     // Get column list
@@ -340,7 +351,7 @@ public class QueryService extends ServiceConfig {
 
   /**
    * Check if a query returns data or not
-   * 
+   *
    * @param queryId Query identifier
    * @return Service data
    * @throws AWException Query failed
@@ -357,7 +368,7 @@ public class QueryService extends ServiceConfig {
 
   /**
    * Add output variables
-   * 
+   *
    * @param out Output
    */
   private void addVariables(ServiceData out) {
@@ -373,7 +384,7 @@ public class QueryService extends ServiceConfig {
   /**
    * Prepare a query object
    *
-   * @param queryName query name
+   * @param queryName      query name
    * @param checkAvailable Check query security
    * @return Query object
    * @throws AWException Query retrieval failure
@@ -382,19 +393,22 @@ public class QueryService extends ServiceConfig {
     // Variable definition
     Query query;
     try {
-      // Get the query
-      query = getElements().getQuery(queryName).copy();
-
-      // If query is private, check security
-      if (checkAvailable && !query.isPublic() && !getSession().isAuthenticated()) {
-        getLogger().log(QueryService.class, Level.WARN, "ERROR_MESSAGE_OUT_OF_SESSION");
-        throw new AWException(getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"), getLocale("ERROR_MESSAGE_OUT_OF_SESSION"));
+      if (getElements().getQuery(queryName) != null) {
+        // Get the query
+        query = getElements().getQuery(queryName).copy();
+        // If query is private, check security
+        if (checkAvailable && !query.isPublic() && !getSession().isAuthenticated()) {
+          getLogger().log(QueryService.class, Level.WARN, "ERROR_MESSAGE_OUT_OF_SESSION");
+          throw new AWException(getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"), getLocale("ERROR_MESSAGE_OUT_OF_SESSION"));
+        }
+      } else {
+        throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale("ERROR_MESSAGE_QUERY_NOT_FOUND", queryName));
       }
     } catch (AWException exc) {
       throw exc;
     } catch (Exception exc) {
       String datMsg = exc.getMessage() == null ? queryName : exc.toString() + " (" + queryName + ")";
-      throw new AWException(getLocale("ERROR_TITLE_RETRIEVING_DATA"), datMsg, exc);
+      throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), datMsg, exc);
     }
 
     return query;
@@ -430,8 +444,9 @@ public class QueryService extends ServiceConfig {
 
   /**
    * Retrieve a label from an enumerated value
+   *
    * @param enumeratedId Enumerated id
-   * @param value Enumerated value
+   * @param value        Enumerated value
    * @return Enumerated label
    * @throws AWException AWE exception
    */

@@ -212,6 +212,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Select a date
     selectDate("Cal", "23/10/1978");
 
+    // Select a date
+    selectDate("CalReq", "23/10/1978");
+
     // Write hour
     writeText("Tim", "12:23:41");
 
@@ -249,8 +252,17 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Select on selector
     suggest("Sug", "test", "test");
 
+    // Wait for loader
+    waitForLoadingBar();
+
     // Select on selector
     selectContain("SelDep", "Yes");
+
+    // Wait for loader
+    waitForLoadingBar();
+
+    // Pause
+    pause(250);
 
     // Select on selector
     selectContain("SelDepDep", "Yes");
@@ -821,11 +833,20 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Select context menu option
     clickContextButton("CtxTreGrdEdiAddSel", "CtxTreGrdEdiAddChl");
 
-    // Check new row visible
-    checkVisible("[tree-grid-id='TreGrdEdi'] [row-id='new-row-0']");
-
     // Pause
-    pause(250);
+    pause(500);
+
+    // Click on a cell
+    clickCell("TreGrdEdi", "Progeneral-ModBase", "TreGrdEdi_Nam");
+
+    // Click on a cell
+    clickCell("TreGrdEdi", "new-row-0", "TreGrdEdi_Nam");
+
+    // Click on a cell
+    clickCell("TreGrdEdi", "Progeneral-ModBase", "TreGrdEdi_Nam");
+
+    // Click on a cell
+    clickCell("TreGrdEdi", "new-row-0", "TreGrdEdi_Nam");
 
     // Save row
     saveRow("TreGrdEdi");

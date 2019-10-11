@@ -39,7 +39,7 @@ public class LogUtil {
   private String defaultLogLevel;
 
   @Value("${application.log.users.enabled:false}")
-  private Boolean logUsersEnabled;
+  private boolean logUsersEnabled;
 
   @Value("${spring.datasource.jndi-name:}")
   private String defaultDatasource;
@@ -112,6 +112,22 @@ public class LogUtil {
     Logger logger = getLogger(logClass);
     if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
       logger.log(level, generateMessage(message, new Object[]{parameter}));
+    }
+  }
+
+  /**
+   * Log a message with a parameter
+   *
+   * @param logClass  Name of the class that generates the message
+   * @param level     Log level
+   * @param database  Database ALIAS
+   * @param message   Log message
+   * @param parameters Log parameters
+   */
+  public void logWithDatabase(Class logClass, Level level, String database, String message, Object... parameters) {
+    Logger logger = getLogger(logClass);
+    if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
+      logger.log(level, generateMessageWithDatabase(message, parameters, database));
     }
   }
 
@@ -235,17 +251,20 @@ public class LogUtil {
    * @return Awe Message
    */
   private AweMessage generateMessage(String message, final Object[] parameters) {
-    AweMessage aweMessage = new AweMessage(message, parameters);
-    try {
-      String database = getSession().getParameter(String.class, AweConstants.SESSION_DATABASE);
-      database = database == null ? defaultDatasource : database;
-      aweMessage.setDatabase(database)
-        .setScreen(getSession().getParameter(String.class, AweConstants.SESSION_CURRENT_SCREEN))
-        .setUser(getUser());
-    } catch (Exception exc) {
-      // Do nothing
-    }
-    return aweMessage;
+    return generateMessageWithDatabase(message, parameters, null);
+  }
+
+  /**
+   * Generate message with database
+   *
+   * @param message    Message string
+   * @param parameters Message parameters
+   * @return Awe Message
+   */
+  private AweMessage generateMessageWithDatabase(String message, final Object[] parameters, String database) {
+    return new AweMessage(message, parameters).setDatabase(getDatabase(database))
+      .setScreen(getScreen())
+      .setUser(getUser());
   }
 
   /**
@@ -257,6 +276,35 @@ public class LogUtil {
       return getSession().isAuthenticated() ? getSession().getUser() : null;
     } catch (Exception exc) {
       return null;
+    }
+  }
+
+  /**
+   * Retrieve session screen
+   * @return Session screen
+   */
+  private String getScreen() {
+    try {
+      return getSession().isAuthenticated() ? getSession().getParameter(String.class, AweConstants.SESSION_CURRENT_SCREEN) : null;
+    } catch (Exception exc) {
+      return null;
+    }
+  }
+
+  /**
+   * Retrieve session database
+   * @param definedDatabase Specific defined database
+   * @return Session database
+   */
+  private String getDatabase(String definedDatabase) {
+    if (definedDatabase != null) {
+      return definedDatabase;
+    }
+
+    try {
+      return getSession().isAuthenticated() ? getSession().getParameter(String.class, AweConstants.SESSION_DATABASE) : defaultDatasource;
+    } catch (Exception exc) {
+      return defaultDatasource;
     }
   }
 

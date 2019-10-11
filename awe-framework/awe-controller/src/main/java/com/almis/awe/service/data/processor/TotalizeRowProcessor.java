@@ -19,6 +19,7 @@ public class TotalizeRowProcessor implements RowProcessor {
 
   /**
    * Set totalize list
+   *
    * @param totalizeList totalize list
    * @return totalize row processor
    */
@@ -29,6 +30,7 @@ public class TotalizeRowProcessor implements RowProcessor {
 
   /**
    * Process row list
+   *
    * @param rowList row list
    * @return processed row list
    * @throws AWException AWE exception
@@ -56,7 +58,8 @@ public class TotalizeRowProcessor implements RowProcessor {
 
   /**
    * Add subtotals
-   * @param row row of datalist
+   *
+   * @param row           row of datalist
    * @param processedList processed list
    * @throws AWException AWE exception
    */

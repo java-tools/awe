@@ -1,8 +1,7 @@
-var path = require("path");
-var webpack = require("webpack");
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-
-var dir = path.join(__dirname, "src", "main", "resources", "webpack");
+let path = require("path");
+let webpack = require("webpack");
+let ExtractTextPlugin = require("extract-text-webpack-plugin");
+let dir = path.join(__dirname, "src", "main", "resources", "webpack");
 
 module.exports = {
   devtool : "source-map",

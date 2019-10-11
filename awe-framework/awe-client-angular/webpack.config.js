@@ -10,51 +10,52 @@ const libPath = path.resolve(__dirname, "src", "main", "resources", "js", "lib")
 let autoprefixerBrowsers = ['last 2 versions', '> 1%', 'opera 12.1', 'bb 10', 'android 4', 'IE 10'];
 
 module.exports = {
-  devtool : "source-map",
-  entry : {
-    "locals-es" : path.join(dir, "locals-es.config.js"),
-    "locals-en" : path.join(dir, "locals-en.config.js"),
-    "locals-eu" : path.join(dir, "locals-eu.config.js"),
-    "locals-fr" : path.join(dir, "locals-fr.config.js"),
-    "bundle" : path.join(dir, "awe.config.js")
+  devtool: "source-map",
+  entry: {
+    "locals-es": path.join(dir, "locals-es.config.js"),
+    "locals-en": path.join(dir, "locals-en.config.js"),
+    "locals-eu": path.join(dir, "locals-eu.config.js"),
+    "locals-fr": path.join(dir, "locals-fr.config.js"),
+    "bundle": path.join(dir, "awe.config.js")
   },
   output: {
     filename: "js/[name].js",
     path: path.join(__dirname, 'target', 'classes', 'static'),
     publicPath: "../"
   },
-  module : {
-    rules : [
-    // Hack to load angular synchronously
-    {
-      test : /[\/]angular\.js$/,
-      loader : "exports-loader?angular"
-    },
-    {
-       test: /\.jsx?$/,
-       loader: 'babel-loader',
-       exclude: /node_modules/
-    },
-    {
-      test : /\.css$/,
-      include : [ styleDir ],
-      use : ExtractTextPlugin.extract({
-        fallback: "style-loader",
-        use: "css-loader"
-      })
-    }, {
-      test : /\.less$/,
-      include : [ styleDir ],
-      use : ExtractTextPlugin.extract({
-        fallback : "style-loader",
-        use : [{
+  module: {
+    rules: [
+      // Hack to load angular synchronously
+      {
+        test: /[\/]angular\.js$/,
+        loader: "exports-loader?angular"
+      },
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        include: [styleDir],
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader"
+        })
+      }, {
+        test: /\.less$/,
+        include: [styleDir],
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: [{
             loader: "css-loader"
           }, {
             loader: "less-loader",
             options: {
               lessPlugins: [
-                new LessPluginAutoPrefix({ browsers: autoprefixerBrowsers })
+                new LessPluginAutoPrefix({browsers: autoprefixerBrowsers})
               ],
+              compress: true,
               minimize: true,
               sourceMap: true
             }
@@ -76,7 +77,7 @@ module.exports = {
         options: {
           limit: 10000,
           mimetype: "application/font-woff",
-          name: "./fonts/[hash].[ext]"
+          name: "./fonts/[name].[ext]"
         }
       }]
     }, {
@@ -84,19 +85,19 @@ module.exports = {
       use: [{
         loader: "file-loader",
         options: {
-          name: "./fonts/[hash].[ext]"
+          name: "./fonts/[name].[ext]"
         }
       }]
     }]
   },
-  resolve : {
-    extensions : [ ".js", ".css", ".less", "*" ],
-    alias : {
+  resolve: {
+    extensions: [".js", ".css", ".less", "*"],
+    alias: {
       "jquery": path.resolve(__dirname, "node_modules", "jquery", "dist", "jquery"),
-      "ng-caps-lock" : path.resolve(libPath, "ngCapsLock", "ng-caps-lock"),
-      "bootstrap-tabdrop" : path.resolve(libPath, "bootstrap-tabdrop", "src", "js", "bootstrap-tabdrop"),
-      "HighchartsLocale" : path.resolve(libPath, "highcharts", "i18n", "highcharts-lang"),
-      "HighchartsThemes" : path.resolve(libPath, "highcharts", "themes", "all"),
+      "ng-caps-lock": path.resolve(libPath, "ngCapsLock", "ng-caps-lock"),
+      "bootstrap-tabdrop": path.resolve(libPath, "bootstrap-tabdrop", "src", "js", "bootstrap-tabdrop"),
+      "HighchartsLocale": path.resolve(libPath, "highcharts", "i18n", "highcharts-lang"),
+      "HighchartsThemes": path.resolve(libPath, "highcharts", "themes", "all"),
       "Tocify": path.resolve(libPath, "tocify", "jquery.tocify"),
       "PivotTable": path.resolve(libPath, "pivotTable", "pivotTable")
     },
@@ -105,27 +106,32 @@ module.exports = {
       "node_modules"
     ]
   },
-  plugins : [
-  new ExtractTextPlugin({
-    filename: "css/styles.css",
-    disable: false,
-    allChunks: true
-  }),
-  new webpack.ProvidePlugin({
-    "jQuery": "jquery",
-    "$": "jquery",
-    "window.jQuery": "jquery",
-    "window.$": "jquery",
-    "Highcharts" : "highcharts/highstock",
-    "HighchartsLocale" : "HighchartsLocale",
-    "window.constructor" : "constructor"
-  }),
-  new webpack.optimize.CommonsChunkPlugin({
-    name : 'commons',
-    filename : 'js/commons.js',
-    minChunks : 2
-  }),
-  new webpack.optimize.UglifyJsPlugin({ uglifyOptions: {compress: { warnings: true, drop_console: false}}, cache: true, parallel:true, sourceMap: true})
-  //new BundleAnalyzerPlugin()
+  plugins: [
+    new ExtractTextPlugin({
+      filename: "css/styles.css",
+      disable: false,
+      allChunks: true
+    }),
+    new webpack.ProvidePlugin({
+      "jQuery": "jquery",
+      "$": "jquery",
+      "window.jQuery": "jquery",
+      "window.$": "jquery",
+      "Highcharts": "highcharts/highstock",
+      "HighchartsLocale": "HighchartsLocale",
+      "window.constructor": "constructor"
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'commons',
+      filename: 'js/commons.js',
+      minChunks: 2
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      uglifyOptions: {compress: {warnings: true, drop_console: false}},
+      cache: true,
+      parallel: true,
+      sourceMap: true
+    })
+    //new BundleAnalyzerPlugin()
   ]
 };

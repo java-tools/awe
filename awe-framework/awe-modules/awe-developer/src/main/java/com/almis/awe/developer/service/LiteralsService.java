@@ -651,10 +651,8 @@ public class LiteralsService extends ServiceConfig {
 
       // Generate xml file
       BufferedWriter xmlOut = new BufferedWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8));
-      LocaleUtil.printHeader(xmlOut, fileName, System.getProperty("user.name"), FILE_DESCRIPTION, true, true);
+      LocaleUtil.printHeader(xmlOut, fileName, FILE_DESCRIPTION, true);
       xstream.toXML(locales, xmlOut);
-    } catch (AWException exc) {
-      throw exc;
     } catch (Exception exc) {
       throw new AWException(getElements().getLocale("ERROR_TITLE_STORE_FILE"),
         getElements().getLocale("ERROR_MESSAGE_STORE_FILE", fileName), exc);

@@ -359,3 +359,12 @@ ALTER TABLE AweModPro ADD CONSTRAINT fk_AweModPro1 FOREIGN KEY (IdeMod) REFERENC
 ALTER TABLE AweModPro ADD CONSTRAINT fk_AweModPro2 FOREIGN KEY (IdePro) REFERENCES AwePro (IdePro);
 ALTER TABLE AweScrCnf ADD CONSTRAINT fk_AweScrCnf1 FOREIGN KEY (IdeOpe) REFERENCES ope (IdeOpe);
 ALTER TABLE AweScrCnf ADD CONSTRAINT fk_AweScrCnf2 FOREIGN KEY (IdePro) REFERENCES AwePro (IdePro);
+
+--------------------------------------------------------
+--  DDL for TEST AUTO INCREMENT TABLE
+--------------------------------------------------------
+CREATE TABLE TestAutoIncrement (
+ id INT IDENTITY(100,1) PRIMARY KEY,
+ name VARCHAR(30),
+ email VARCHAR(50)
+);

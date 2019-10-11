@@ -3,6 +3,10 @@ package com.almis.awe.test.unit.database;
 import com.almis.awe.model.dto.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
 import com.almis.awe.service.MaintainService;
+import com.almis.awe.test.unit.categories.NotHSQLDatabaseTest;
+import com.almis.awe.test.unit.categories.NotMySQLDatabaseTest;
+import com.almis.awe.test.unit.categories.NotOracleDatabaseTest;
+import com.almis.awe.test.unit.categories.NotSQLServerDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -12,14 +16,13 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertSame;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -289,6 +292,57 @@ public class MaintainTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testSimpleSingleInsertAuditWithSequenceWithoutVariable() throws Exception {
+    loginUser();
+
+    String maintainName = "InsertAuditSequenceWithoutVariable";
+    String variables = "\"nam\": \"AWEBOOT-TEST-0\", \"act\":0,";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.info(result);
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+    });
+
+    // Clean the mess
+    cleanUp("CleanUpSequence");
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testSimpleSingleInsertMultipleAuditWithSequenceWithoutVariable() throws Exception {
+    loginUser();
+
+    String maintainName = "InsertAuditSequenceWithoutVariableMultiple";
+    String variables = "\"nam\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\"], \"act\":[0, 0, 1],";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.info(result);
+    assertResultJson(maintainName, result, 6, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+
+    });
+
+    // Clean the mess
+    cleanUp("CleanUpSequence");
+  }
+
+  /**
    * Launch a simple single insert from variable
    *
    * @throws Exception
@@ -536,9 +590,11 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+    assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
       new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l)
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
 
     // Clean the mess
@@ -557,12 +613,34 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l)
+    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
 
     // Clean the mess
     cleanUp("CleanUpSequence");
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  @Category(NotOracleDatabaseTest.class)
+  public void testGridMultipleAutoIncrement() throws Exception {
+    String maintainName = "GridMultipleAutoIncrement";
+    String variables = "\"grid-RowTyp\": [\"INSERT\", \"INSERT\", \"UPDATE\", \"DELETE\"], \"id\": [null, null, 101, 100], \"name\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\"], \"email\":[\"test@test.es\", \"test2@test.es\", \"test3@test.es\", \"test4@test.es\"],";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.debug(result);
+    assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.UPDATE, 1l),
+      new MaintainResultDetails(MaintainType.DELETE, 1l),
+    });
   }
 
   /**
@@ -601,12 +679,14 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+    assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
       new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l)
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
 
-    List<String> keys = new ArrayList<String>();
+    Set<String> keys = new HashSet<>();
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
     ObjectNode messageAction = (ObjectNode) resultList.get(1);
     ObjectNode messageParameters = (ObjectNode) messageAction.get("parameters");
@@ -623,9 +703,11 @@ public class MaintainTest extends AweSpringDatabaseTests {
     expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
     result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
-    assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+    assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
       new MaintainResultDetails(MaintainType.DELETE, 1l),
-      new MaintainResultDetails(MaintainType.DELETE, 1l)
+      new MaintainResultDetails(MaintainType.AUDIT, 1l),
+      new MaintainResultDetails(MaintainType.DELETE, 1l),
+      new MaintainResultDetails(MaintainType.AUDIT, 1l)
     });
   }
 

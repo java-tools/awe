@@ -479,7 +479,7 @@
   </target>
 
   <target name="GridMultiple" public="false">
-    <multiple grid="grid">
+    <multiple grid="grid" audit="HISAweThm">
       <table id="AweThm"/>
       <field id="IdeThm" sequence="ThmKey" key="true" variable="varKey"/>
       <field id="Nam" variable="varNam"/>
@@ -488,6 +488,40 @@
       <variable id="varNam" type="STRING" name="nam"/>
       <variable id="varAct" type="INTEGER" name="act"/>
     </multiple>
+  </target>
+
+  <target name="GridMultipleAutoIncrement">
+    <multiple grid="grid">
+      <table id="TestAutoIncrement"/>
+      <field id="id" key="true" variable="id"/>
+      <field id="name" variable="name"/>
+      <field id="email" variable="email"/>
+      <variable id="id" type="INTEGER" name="id"/>
+      <variable id="name" type="STRING" name="name"/>
+      <variable id="email" type="STRING" name="email"/>
+    </multiple>
+  </target>
+
+  <target name="InsertAuditSequenceWithoutVariable">
+    <insert audit="HISAweThm">
+      <table id="AweThm"/>
+      <field id="IdeThm" sequence="ThmKey"/>
+      <field id="Nam" variable="varNam"/>
+      <field id="Act" variable="varAct"/>
+      <variable id="varNam" type="STRING" name="nam"/>
+      <variable id="varAct" type="INTEGER" name="act"/>
+    </insert>
+  </target>
+
+  <target name="InsertAuditSequenceWithoutVariableMultiple">
+    <insert audit="HISAweThm" multiple="true">
+      <table id="AweThm"/>
+      <field id="IdeThm" sequence="ThmKey"/>
+      <field id="Nam" variable="varNam"/>
+      <field id="Act" variable="varAct"/>
+      <variable id="varNam" type="STRING" name="nam"/>
+      <variable id="varAct" type="INTEGER" name="act"/>
+    </insert>
   </target>
 
   <target name="ServeNoParams">
@@ -713,6 +747,38 @@
       <variable id="Scr" type="STRING" name="screen"/>
       <variable id="Active" type="INTEGER" value="1"/>
     </insert>
+  </target>
+
+  <target name="storeTestDialog">
+    <serve service="storeTestDialog">
+      <variable id="id" type="STRING" name="denominations-id"/>
+      <variable id="valor" type="INTEGER" name="valor"/>
+      <variable id="numero" type="INTEGER" name="numero"/>
+      <variable id="cantidad" type="INTEGER" name="cantidad"/>
+      <variable id="address" type="OBJECT" name="selectedRowAddress"/>
+      <variable id="column" type="STRING" name="columnToUpdate"/>
+    </serve>
+  </target>
+
+  <target name="fillTestDialogGridEditable">
+    <serve service="fillTestDialog">
+      <variable id="denominations" type="OBJECT" name="storedDenominationsGridEditable.selected"/>
+      <variable id="columnToUpdate" type="STRING" value="storedDenominationsGridEditable"/>
+    </serve>
+  </target>
+
+  <target name="fillTestDialogGridEditableMultiselect">
+    <serve service="fillTestDialog">
+      <variable id="denominations" type="OBJECT" name="storedDenominationsGridEditableMultiselect.selected"/>
+      <variable id="columnToUpdate" type="STRING" value="storedDenominationsGridEditableMultiselect"/>
+    </serve>
+  </target>
+
+  <target name="fillTestDialogTreegrid">
+    <serve service="fillTestDialog">
+      <variable id="denominations" type="OBJECT" name="storedDenominationsTreegrid.selected"/>
+      <variable id="columnToUpdate" type="STRING" value="storedDenominationsTreegrid"/>
+    </serve>
   </target>
 
 </maintain>
