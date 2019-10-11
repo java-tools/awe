@@ -426,7 +426,7 @@ Start a new release:
   - git add ./CHANGELOG.md
   - git commit -m "Generated CHANGELOG"
   ## Generate release
-  - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true
+  - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true -DversionProperty=revision
   only:
   - develop
   when: manual
@@ -440,12 +440,6 @@ Finish the release:
   <<: *git_credentials
   script:
   ## Generate release
-  - git checkout $CI_COMMIT_REF_NAME
-  - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DpushRemote=false
-  ## Push master and tags
-  - git checkout master
-  - git push --follow-tags
-  ## Delete remote branch
-  - git push --delete origin $CI_COMMIT_REF_NAME
+  - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DversionProperty=revision
   only:
   - /^release/.*$/

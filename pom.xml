@@ -87,7 +87,6 @@
         <version>${gitflow-maven-plugin.version}</version>
         <configuration>
           <gitFlowConfig>
-            <versionProperty>revision</versionProperty>
             <productionBranch>master</productionBranch>
             <developmentBranch>develop</developmentBranch>
             <featureBranchPrefix>feature/</featureBranchPrefix>
