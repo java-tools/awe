@@ -440,6 +440,7 @@ Finish the release:
   <<: *git_credentials
   script:
   ## Generate release
+  - git checkout $CI_COMMIT_REF_NAME
   - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DversionProperty=revision
   only:
   - /^release/.*$/
