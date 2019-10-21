@@ -133,7 +133,8 @@ IdeMod int NOT NULL PRIMARY KEY, --- Module key
 Nam varchar(100) not NULL, --- Module name
 ScrIni varchar(40) NULL, --- Module initial screen (deprecated)
 IdeThm int NULL, --- Module theme (deprecated)
-Act int default 1 not NULL --- Active (1) or not (0)
+Act int default 1 not NULL, --- Active (1) or not (0)
+Ord int NULL  --- value to recover modules sorted as convenience
 );
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name = 'AweModI1')
 CREATE UNIQUE INDEX AweModI1 ON AweMod (Nam);
@@ -302,7 +303,7 @@ IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name = 'HISAweSitI1')
 CREATE INDEX HISAweSitI1 ON HISAweSit (HISope, HISdat, HISact);
 
 IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'HISAweMod' AND type = 'U')
-CREATE TABLE HISAweMod (HISope varchar(20) not NULL, HISdat date not NULL, HISact varchar(1) not NULL, IdeMod int NULL, Nam varchar(100) NULL, ScrIni varchar(40) NULL, IdeThm int NULL, Act int NULL);
+CREATE TABLE HISAweMod (HISope varchar(20) not NULL, HISdat date not NULL, HISact varchar(1) not NULL, IdeMod int NULL, Nam varchar(100) NULL, ScrIni varchar(40) NULL, IdeThm int NULL, Act int NULL, Ord int NULL);
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE name = 'HISAweModI1')
 CREATE INDEX HISAweModI1 ON HISAweMod (HISope, HISdat, HISact);
 

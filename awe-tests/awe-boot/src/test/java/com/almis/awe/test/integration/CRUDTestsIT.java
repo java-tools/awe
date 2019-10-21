@@ -271,6 +271,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
     // Suggest on  selector
     suggest("Thm", "gra", "gra");
 
+    // Select text
+    writeText("Ord", "3");
+
     // Select on selector
     suggest("Act",  "Yes", "Yes");
 

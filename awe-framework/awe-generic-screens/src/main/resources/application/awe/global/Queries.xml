@@ -740,6 +740,7 @@
     <table id="AweModOpe" alias="modOpe" />
     <field id="Nam" table="mod" alias="value" />
     <field id="Nam" table="mod" alias="Nam" />
+    <field id="Ord" table="mod" alias="Ord" />
     <computed format="[Nam]" alias="label" />
     <join>
       <table id="ope" alias="ope" />
@@ -757,6 +758,7 @@
       </and>
     </join>
     <union query="ModNamByOpePro" />
+    <order-by field="Ord"/>
     <variable id="Usr" type="STRING" session="user" />
     <variable id="active" type="INTEGER" value="1" />
   </query>
@@ -764,6 +766,7 @@
     <table id="AweModPro" alias="modPro" />
     <field id="Nam" table="mod" alias="value" />
     <field id="Nam" table="mod" alias="Nam" />
+    <field id="Ord" table="mod" alias="Ord" />
     <computed format="[Nam]" alias="label" />
     <join>
       <table id="AwePro" alias="pro" />
@@ -795,6 +798,7 @@
     <field id="IdeThm" table="mod" alias="IdeThm" />
     <field id="Act" table="mod" alias="ActTxt" translate="Es1Es0" />
     <field id="Act" table="mod" alias="Act" />
+    <field id="Ord" table="mod" alias="Ord" />
     <compound alias="ActIco">
       <computed format="'[Act]' == '0' ? 'fa-times' : 'fa-check'" alias="icon" eval="true"/>
       <computed format="'[Act]' == '0' ? 'text-danger' : 'text-success'" alias="style" eval="true"/>
