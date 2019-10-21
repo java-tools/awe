@@ -92,8 +92,8 @@ Insert into ope (IdeOpe, l1_nom, l1_pas, l1_con, l1_dev, l1_act, l1_trt, l1_uti,
 UPDATE AweKey SET KeyVal = '2' where KeyNam = 'OpeKey';
 
 -- Insert AweMod
-Insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (916,	'Test',	'Dbs',	4,	1);
-Insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (28,	'Base',	'Sit',	2,	1);
+Insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act, Ord) values (916,	'Test',	'Dbs',	4,	1, 2);
+Insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act, Ord) values (28,	'Base',	'Sit',	2,	1, 1);
 
 -- Insert AweDbs
 Insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (1	,'awedb1','AWE DB 1','J','hsql','${spring.datasource.driver-class-name}','${spring.datasource.username}','IKvBjXjD26bm2TY7m7DorU36kI6AuXY1DFKxB3C7LE8=','Des','${spring.datasource.url}',1);

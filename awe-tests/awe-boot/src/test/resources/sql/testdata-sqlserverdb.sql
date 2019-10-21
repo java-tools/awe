@@ -97,8 +97,8 @@ insert into AweSit (IdeSit, Nam, Ord, Act) values (10,	'Madrid',	2,	1);
 insert into AweSit (IdeSit, Nam, Ord, Act) values (17,	'Onate',	1,	1);
 
 -- Insert AweMod
-insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (916,	'Test',	'Dbs',	4,	1);
-insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act) values (28,	'Base',	'Sit',	2,	1);
+insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act, Ord) values (916,	'Test',	'Dbs',	4,	1, 2);
+insert into AweMod (IdeMod, Nam, ScrIni, IdeThm, Act, Ord) values (28,	'Base',	'Sit',	2,	1, 1);
 
 -- Insert AweDbs
 insert into AweDbs (IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values (9	,'awesybase1','AWE SYBASE 1','J','syb','com.sybase.jdbc3.jdbc.SybDriver',null, null,'Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase1',	1	);

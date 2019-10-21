@@ -179,11 +179,13 @@
       <field id="Nam" variable="Nam" />
       <field id="IdeThm" variable="Thm" />
       <field id="ScrIni" variable="Scr" />
+      <field id="Ord" variable="Ord" />
       <field id="Act" variable="Act" />
       <variable id="Nam" type="STRINGN" name="Nam" />
       <variable id="Thm" type="INTEGER" name="Thm" />
       <variable id="Scr" type="STRING" name="Scr" />
       <variable id="Act" type="INTEGER" name="Act" />
+      <variable id="Ord" type="INTEGER" name="Ord" />
       <variable id="IdeMod" type="INTEGER"/>
     </insert>
     <multiple grid="MdlUsrLst" audit="HISAweModOpe">
@@ -228,6 +230,7 @@
       <field id="Nam" variable="Nam" />
       <field id="ScrIni" variable="ScrIni" />
       <field id="IdeThm" variable="IdeThm" />
+      <field id="Ord" variable="Ord" />
       <field id="Act" variable="Act" />
       <where>
         <and>
@@ -239,6 +242,7 @@
       <variable id="IdeThm" type="INTEGER" name="Thm" />
       <variable id="ScrIni" type="STRING" name="Scr" />
       <variable id="Act" type="INTEGER" name="Act" />
+      <variable id="Ord" type="INTEGER" name="Ord" />
     </update>
     <multiple audit="HISAweModOpe" grid="MdlUsrLst">
       <table id="AweModOpe" />

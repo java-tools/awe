@@ -133,6 +133,45 @@ public class IntegrationTestsIT extends SeleniumUtilities {
   }
 
   /**
+   * Test screen modules usage (edit module to change order and check modules selector gets the proper order)
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t003_screenModulesUsage() throws Exception {
+    // Title
+    setTestTitle("Test screen modules usage");
+
+    // Go to screen
+    gotoScreen("tools", "modules");
+
+    // Click on row
+    clickRowContents("Test");
+
+    // Click button
+    clickButton("ButUpd");
+
+    // Wait for button
+    waitForButton("ButCnf");
+
+    // Select text
+    writeText("Ord", "0");
+
+    // Store and confirm
+    clickButtonAndConfirm("ButCnf");
+
+    // Wait for button
+    waitForButton("ButRst");
+
+    checkLogout(".slogan", "Almis Web Engine");
+
+    checkLogin("test", "test", "#ButUsrAct span.info-text", "Manager (test)");
+
+    // Verify that ButPrn button is not visible
+    checkVisibleAndContains("li[option-name='test']", "Tests");
+
+  }
+
+  /**
    * Test criteria: initialization
    * @throws Exception Error on test
    */

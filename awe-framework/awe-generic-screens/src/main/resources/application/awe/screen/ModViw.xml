@@ -23,8 +23,9 @@
       <tag type="div" style="panel-body">
         <criteria label="PARAMETER_NAME" id="Nam" component="text" variable="Nam" readonly="true" style="col-xs-12 col-sm-6 col-lg-4" />
         <criteria label="PARAMETER_SCREEN" id="Scr" component="suggest" server-action="data" target-action="getScreenList" variable="ScrIni" readonly="true" style="col-xs-12 col-sm-6 col-lg-4" />
-        <criteria label="PARAMETER_THEME" id="Thm" component="text" variable="ThmTxt" readonly="true" style="col-xs-6 col-sm-6 col-lg-2" />
-        <criteria label="PARAMETER_ACTIVE" id="Act" component="text" variable="ActTxt" readonly="true" style="col-xs-6 col-sm-6 col-lg-2" />
+        <criteria label="PARAMETER_THEME" id="Thm" component="text" variable="ThmTxt" readonly="true" style="col-xs-12 col-sm-6 col-lg-2" />
+        <criteria label="PARAMETER_ORDER" id="Ord" component="numeric" variable="Ord" readonly="true" style="col-xs-6 col-sm-3 col-lg-2" />
+        <criteria label="PARAMETER_ACTIVE" id="Act" component="text" variable="ActTxt" readonly="true" style="col-xs-6 col-sm-3 col-lg-2" />
       </tag>
     </window>
     <tag type="div" style="expand expandible-horizontal">
