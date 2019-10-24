@@ -1,5 +1,5 @@
-import { aweApplication } from "./../../awe";
-import { ClientActions } from "../../data/actions";
+import {aweApplication} from "./../../awe";
+import {ClientActions} from "../../data/actions";
 
 // Grid events service
 aweApplication.factory('GridEvents',
@@ -478,7 +478,7 @@ aweApplication.factory('GridEvents',
 
           if (component.isEditing) {
             // Send grid message
-            GridEvents.sendGridMessage('warning', 'GRID_CHECK_ALL_SAVED_TITLE', 'GRID_CHECK_ALL_SAVED_MESSAGE');
+            GridEvents.sendGridMessage(component, 'warning', 'GRID_CHECK_ALL_SAVED_TITLE', 'GRID_CHECK_ALL_SAVED_MESSAGE');
           }
         },
         /**
@@ -568,7 +568,7 @@ aweApplication.factory('GridEvents',
 
           if (component.model.records === 0) {
             // Send grid message
-            GridEvents.sendGridMessage('warning', 'GRID_CHECK_RECORDS_GENERATED_TITLE', 'GRID_CHECK_RECORDS_GENERATED_MESSAGE');
+            GridEvents.sendGridMessage(component, 'warning', 'GRID_CHECK_RECORDS_GENERATED_TITLE', 'GRID_CHECK_RECORDS_GENERATED_MESSAGE');
           }
         },
         /**
@@ -588,7 +588,7 @@ aweApplication.factory('GridEvents',
           // Cancel action stack and send message
           if (rowCount !== 1) {
             // Send grid message
-            GridEvents.sendGridMessage('warning', 'GRID_CHECK_ONE_SELECTED_TITLE', 'GRID_CHECK_ONE_SELECTED_MESSAGE');
+            GridEvents.sendGridMessage(component, 'warning', 'GRID_CHECK_ONE_SELECTED_TITLE', 'GRID_CHECK_ONE_SELECTED_MESSAGE');
           }
         },
         /**
@@ -608,7 +608,7 @@ aweApplication.factory('GridEvents',
           // Cancel action stack and send message
           if (rowCount === 0) {
             // Send grid message
-            GridEvents.sendGridMessage('warning', 'GRID_CHECK_SOME_SELECTED_TITLE', 'GRID_CHECK_SOME_SELECTED_MESSAGE');
+            GridEvents.sendGridMessage(component, 'warning', 'GRID_CHECK_SOME_SELECTED_TITLE', 'GRID_CHECK_SOME_SELECTED_MESSAGE');
           }
         },
         /**
@@ -677,11 +677,13 @@ aweApplication.factory('GridEvents',
         /**
          * Send grid message
          *
+         * @param {Object} component
          * @param {String} type
          * @param {String} title
          * @param {String} content
          */
-        sendGridMessage: function (type, title, content) {
+        sendGridMessage: function (component, type, title, content) {
+
           // Create send message action
           var messageAction = {type: 'message', silent: false};
 
