@@ -1293,7 +1293,7 @@
     <constant value="false" type="BOOLEAN" alias="isLeaf" />
     <field id="Nam" table="pro" alias="Nam" />
     <constant value="1" type="INTEGER" alias="Lev" />
-    <computed format="'[parent]' === 'null' ? '' : '[parent]'" eval="true" alias="parent"/>
+    <computed format="'[parent]' === 'null' ? '' : '[parent]'" eval="true" nullValue="null" alias="parent"/>
     <join>
       <table id="AwePro" alias="pro" />
       <and>
