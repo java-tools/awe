@@ -157,4 +157,10 @@ public abstract class AbstractAction extends Element {
     String serverActionValue = getType() != null ? getType() : getServerAction();
     return serverActionValue != null ? serverActionValue : "server";
   }
+
+  @JsonIgnore
+  @Override
+  public String getElementKey() {
+    return AweConstants.NO_KEY;
+  }
 }
