@@ -16,6 +16,7 @@ public class OperandConverter implements Converter {
   private static final String TYPE = "type";
   private static final String VARIABLE = "variable";
   private static final String FUNCTION = "function";
+  private static final String CAST = "cast";
   private static final String QUERY = "query";
   private static final String ID = "id";
   private static final String TABLE = "table";
@@ -43,6 +44,7 @@ public class OperandConverter implements Converter {
     if (sqlField.getId() != null) writer.addAttribute(ID, sqlField.getId());
     if (sqlField.getTable() != null) writer.addAttribute(TABLE, sqlField.getTable());
     if (sqlField.getFunction() != null) writer.addAttribute(FUNCTION, sqlField.getFunction());
+    if (sqlField.getCast() != null) writer.addAttribute(CAST, sqlField.getCast());
   }
 
   /**
@@ -113,6 +115,7 @@ public class OperandConverter implements Converter {
 
     // Add sqlfield attributes
     sqlField
+      .setCast(reader.getAttribute(CAST))
       .setFunction(reader.getAttribute(FUNCTION))
       .setTable(reader.getAttribute(TABLE))
       .setId(reader.getAttribute(ID));

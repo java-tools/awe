@@ -1472,7 +1472,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testCaseWhenElseDistinct() throws Exception {
     String queryName = "testCaseWhenElseDistinct";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"other\":3,\"another\":\"purple-hills\",\"label\":null,\"id\":1,\"value\":null},{\"other\":3,\"another\":\"sunset\",\"label\":\"SUNSET\",\"id\":2,\"value\":1},{\"other\":3,\"another\":\"purple-hills\",\"label\":\"SUNNY\",\"id\":3,\"value\":2},{\"other\":3,\"another\":\"purple-hills\",\"label\":\"PURPLE-HILLS\",\"id\":4,\"value\":3}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":4,\"rows\":[{\"other\":3,\"another\":\"purple-hills\",\"label\":null,\"id\":1,\"value\":null},{\"other\":3,\"another\":\"sunset\",\"label\":\"SUNSET\",\"id\":2,\"value\":1},{\"other\":3,\"another\":\"purple-hills\",\"label\":\"3333\",\"id\":3,\"value\":2},{\"other\":3,\"another\":\"purple-hills\",\"label\":\"PURPLE-HILLS\",\"id\":4,\"value\":3}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
     logger.warn(expected);
