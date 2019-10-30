@@ -2208,7 +2208,7 @@
     </case>
     <case alias="label">
       <when left-field="Nam" condition="like" right-variable="sunset"><then value="SUNSET"/></when>
-      <when left-field="Nam" condition="like" right-variable="sunny"><then value="SUNNY"/></when>
+      <when left-field="Nam" condition="like" right-variable="sunny"><then value="3333" type="INTEGER" cast="STRING"/></when>
       <when left-field="Nam" condition="eq" right-variable="purple-hills"><then value="PURPLE-HILLS"/></when>
       <else value="null" type="NULL"/>
     </case>
