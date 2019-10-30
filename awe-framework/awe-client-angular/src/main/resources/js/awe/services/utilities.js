@@ -2,6 +2,16 @@ import { aweApplication } from "./../awe";
 import { getUID } from "../data/options";
 import _ from 'lodash';
 
+/**
+ * Backup json parser for INTERNET EXPLORER
+ * @type {function(*): *}
+ */
+let jsonify = (div => json => {
+  div.setAttribute('onclick', 'this.__json__ = ' + json);
+  div.click();
+  return div.__json__;
+})(document.createElement('div'));
+
 // Utilities service
 aweApplication.factory('AweUtilities',
   ['$log', '$window', '$compile', '$timeout', '$interval', '$rootScope', 'Storage', '$q', '$location',
@@ -335,7 +345,11 @@ aweApplication.factory('AweUtilities',
          */
         eval: function (expression) {
           let c = "constructor";
-          return $window[c][c]("return " + expression + ";")();
+          try {
+            return $window[c][c]("return " + expression + ";")();
+          } catch (e) {
+            return jsonify(expression);
+          }
         },
         /**
          * Evaluates a formule and retrieves the result
