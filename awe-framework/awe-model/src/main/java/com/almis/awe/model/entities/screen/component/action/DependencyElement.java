@@ -165,4 +165,10 @@ public class DependencyElement extends Element {
     // Retrieve code
     return AweConstants.TEMPLATE_EMPTY;
   }
+
+  @JsonIgnore
+  @Override
+  public String getElementKey() {
+    return AweConstants.NO_KEY;
+  }
 }
