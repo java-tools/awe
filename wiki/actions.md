@@ -637,21 +637,19 @@ When you launch an action with the `async` flag activated, it is launched on the
 
 ### Show the stack
 
-If you want to see what the stacks are doing, you can add a delay to these actions and make them visible by putting the following code on the browser console:
+If you want to see what the stacks are doing, you can add a delay to these actions and make them visible by typing the next keys **within the application focus**:
 
-```javascript
-angular.element(document.body).injector().get("AweSettings").get().actionsStack = [delay];
+```
+ALT + SHIFT + [number]
 ```
 
-Where `[delay]` is the number of milliseconds you want to delay every action (for example, 500);
+Where `[number]` is the number of seconds you want to delay every action (for example, 1);
 
-![console](images/console.png)
+To disable the action stack, just do the same thing delaying **0** seconds:
 
-If you want, you can also create a new marker to do the job by adding this Javascript code in the URL field. It will ask for the delay time before executing the code:
-
-```javascript:angular.element(document.body).injector().get("AweSettings").get().actionsStack = parseInt(prompt('Delay time','500'));```
-
-![newMarker](images/newMarker.jpg)
+```
+ALT + SHIFT + 0
+```
 
 ## Examples
 
