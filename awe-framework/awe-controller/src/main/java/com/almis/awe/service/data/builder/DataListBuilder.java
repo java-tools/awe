@@ -214,7 +214,7 @@ public class DataListBuilder extends ServiceConfig {
    * @return DataListBuilder
    */
   public DataListBuilder addNoPrint(String noPrint) {
-    if (translateList == null) {
+    if (noPrintList == null) {
       noPrintList = new ArrayList<>();
     }
     noPrintList.add(noPrint);
