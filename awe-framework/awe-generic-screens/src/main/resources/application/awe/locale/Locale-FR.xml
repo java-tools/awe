@@ -541,7 +541,7 @@
   <locale name="ERROR_MESSAGE_STORE_CRITERIA" value="Probleme dans la sauvegarde des criteres de l&apos;ecran precedent"/>
   <locale name="ERROR_MESSAGE_STORE_FILE" value="Il y a eu un problème en essayant de stocker le fichier {0}"/>
   <locale name="ERROR_MESSAGE_STORING_TRANSLATION" value="Il y a eu une erreur d&apos;essayer de stocker la traduction du localee -{0}- avec la valeur{1}-"/>
-  <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="Le paramètre 'target-action' est introuvable ou non défini. Vérifiez votre définition d'action de données" />
+  <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="Le paramètre &apos;target-action&apos; est introuvable ou non défini. Vérifiez votre définition d&apos;action de données"/>
   <locale name="ERROR_MESSAGE_TOO_MANY_REQUESTS" value="Trop de requettes concurrentes non resolues"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_CACHE" value="Ce n&apos;est pas defini le type de cache -{0}-"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_SESSION" value="La séance avec le jeton &apos;{0}&apos; n&apos;existe pas ou n&apos;a pas été défini"/>
@@ -814,6 +814,7 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="HELP_SCREEN_TITLE_THM_NEW" value="Insertion de thème"/>
   <locale name="HELP_SCREEN_TITLE_THM_UPD" value="Modification de thème"/>
   <locale name="HELP_SCREEN_TITLE_THM_VIW" value="Consultation de thème"/>
+  <locale name="HELP_SCREEN_TITLE_TREE_TEST" value="Cet écran tests l&apos;utilisation des données non-triés chargées dans un arbre"/>
   <locale name="HELP_SCREEN_TITLE_UNIKEY" value="Códes du systeme"/>
   <locale name="HELP_SCREEN_TITLE_USR" value="Gestión des utilisateurs"/>
   <locale name="HELP_SCREEN_TITLE_USR_NEW" value="Insertion des utilisateurs"/>
@@ -859,6 +860,7 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="MENU_TASKS_BATCH" value="Definition des taches du batch"/>
   <locale name="MENU_TASKS_BATCH_AUDIT" value="Audit de tache du batch"/>
   <locale name="MENU_TASKS_PROCESS_AUDIT" value="Audit de processus"/>
+  <locale name="MENU_TEST_MATRIX_TREE" value="Test de la matrice d&apos;arbre"/>
   <locale name="MENU_TOOLS" value="Outils"/>
   <locale name="MENU_TOOLS_AWE_APPPAR" value="Paramètres d&apos;application"/>
   <locale name="MENU_TOOLS_AWE_EML_SRV" value="Serveurs de messagerie"/>
@@ -980,6 +982,7 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="PARAMETER_IDE" value="Identificateur"/>
   <locale name="PARAMETER_INT_PATH" value="Route en Int."/>
   <locale name="PARAMETER_INTEGER" value="Entier"/>
+  <locale name="PARAMETER_ISLEAF" value="Est feuille"/>
   <locale name="PARAMETER_LABEL" value="Etiquete"/>
   <locale name="PARAMETER_LANGUAGE" value="Idiome"/>
   <locale name="PARAMETER_LAST_EXECUTION" value="Dernière exécution"/>
@@ -1017,6 +1020,7 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="PARAMETER_OPTION" value="Option"/>
   <locale name="PARAMETER_ORDER" value="Ordre"/>
   <locale name="PARAMETER_PARAMETERS" value="Paramètres"/>
+  <locale name="PARAMETER_PARENT" value="Parent"/>
   <locale name="PARAMETER_PASSWD" value="Mot de passe"/>
   <locale name="PARAMETER_PASSWD_COMPLEX" value="Schéma complexe de mot de passe"/>
   <locale name="PARAMETER_PASSWD_EXPIRE" value="Expiration mot de passe en jours"/>
@@ -1212,6 +1216,7 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="SCREEN_TITLE_THM_NEW" value="Insertion de thème"/>
   <locale name="SCREEN_TITLE_THM_UPD" value="Modification de thème"/>
   <locale name="SCREEN_TITLE_THM_VIW" value="Consultation de thème"/>
+  <locale name="SCREEN_TITLE_TREE_TEST" value="Test d&apos;arbre"/>
   <locale name="SCREEN_TITLE_UNIKEY" value="Códes du systeme"/>
   <locale name="SCREEN_TITLE_USR" value="Gestión des utilisateurs"/>
   <locale name="SCREEN_TITLE_USR_NEW" value="Insertion des utilisateurs"/>

@@ -7,6 +7,17 @@ aweApplication.factory('GridTree',
     function (Utilities, Control, Component, GridEvents, GridCommons, $log, ActionController, ServerData, $settings, uiGridConstants) {
 
       /**
+       * Fix identifier
+       * @param text
+       */
+      function sortTreeValues(tree) {
+        let sortedTree = [];
+        _.each(tree, node => {sortedTree = sortedTree.concat([node, ...sortTreeValues(node.$$children)]);});
+
+        return sortedTree;
+      }
+
+      /**
        * Retrieve next index
        * @param {type} index
        * @param {type} level
@@ -212,6 +223,9 @@ aweApplication.factory('GridTree',
           component.toggleTreeRow = function (row, expanded) {
             row.$$expanded = expanded;
             setNodeIcon(row);
+            deferRowsRendered().then(function () {
+              component.updateGridScrollBars();
+            });
           };
 
           /**
@@ -221,6 +235,7 @@ aweApplication.factory('GridTree',
             var deferred = Utilities.q.defer();
             // Update model
             component.defineTreeStructure(component.model.values);
+            component.model.values = sortTreeValues(component.model.values.filter(node => node.$$treeLevel === 0));
             component.scope.gridOptions.data = component.model.values;
             // On rows rendered, publish
             deferRowsRendered().then(function () {
@@ -254,7 +269,7 @@ aweApplication.factory('GridTree',
               return [];
             }
 
-            var tree = {$$children: []}, rootIds = [], item, primaryKey, treeObjs = {},
+            let tree = {$$children: []}, rootIds = [], item, primaryKey, treeObjs = {},
               parentId, parent, len = data.length, i = 0;
 
             while (i < len) {
@@ -264,7 +279,7 @@ aweApplication.factory('GridTree',
               item.$$loaded = component.controller.loadAll;
               item.$$isLeaf = treeLeaf in item ? Utilities.parseBoolean(item[treeLeaf]) : item.$$loaded;
               item.$$isLoading = false;
-              item.$$children = item.$$children || [];
+              item.$$children = [];
               item.$$parent = tree;
               treeObjs[primaryKey] = item;
               // Static identifier

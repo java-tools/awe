@@ -541,7 +541,7 @@
   <locale name="ERROR_MESSAGE_STORE_CRITERIA" value="Ha habido un problema tratando de almacenar los criterios de la ventana anterior"/>
   <locale name="ERROR_MESSAGE_STORE_FILE" value="Ha habido un problema tratando de almacenar el archivo {0}"/>
   <locale name="ERROR_MESSAGE_STORING_TRANSLATION" value="Ha habido un error al intentar guardar la traducción del literal -{0} con el valor -{1}-"/>
-  <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="El parámetro 'target-action' no existe o no está definido. Comprueba la declaración de la acción de consulta" />
+  <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="El parámetro &apos;target-action&apos; no existe o no está definido. Comprueba la declaración de la acción de consulta"/>
   <locale name="ERROR_MESSAGE_TOO_MANY_REQUESTS" value="Ha habido demasiadas peticiones concurrentes y no se ha podido resolver"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_CACHE" value="No se ha definido un tipo de cache -{0}-"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_SESSION" value="La sesión con el token &quot;{0}&quot; ya no existe o no ha sido definida"/>
@@ -814,6 +814,7 @@ Un sitio se define como un *nodo de aplicación separado*, con sus propias [base
   <locale name="HELP_SCREEN_TITLE_THM_NEW" value="Alta de tema"/>
   <locale name="HELP_SCREEN_TITLE_THM_UPD" value="Modificación de tema"/>
   <locale name="HELP_SCREEN_TITLE_THM_VIW" value="Consulta de tema"/>
+  <locale name="HELP_SCREEN_TITLE_TREE_TEST" value="Esta pantalla muestra el uso de datos de árbol no ordenados cargados en una matriz de árbol"/>
   <locale name="HELP_SCREEN_TITLE_UNIKEY" value="Códigos del sistema"/>
   <locale name="HELP_SCREEN_TITLE_USR" value="Gestión de usuarios"/>
   <locale name="HELP_SCREEN_TITLE_USR_NEW" value="Alta de usuario"/>
@@ -859,6 +860,7 @@ Un sitio se define como un *nodo de aplicación separado*, con sus propias [base
   <locale name="MENU_TASKS_BATCH" value="Definición de tareas batch"/>
   <locale name="MENU_TASKS_BATCH_AUDIT" value="Auditoría de tareas batch"/>
   <locale name="MENU_TASKS_PROCESS_AUDIT" value="Auditoría de procesos"/>
+  <locale name="MENU_TEST_MATRIX_TREE" value="Prueba de matriz de árbol"/>
   <locale name="MENU_TOOLS" value="Herramientas"/>
   <locale name="MENU_TOOLS_AWE_APPPAR" value="Parámetros de la aplicación"/>
   <locale name="MENU_TOOLS_AWE_EML_SRV" value="Servidores de correo"/>
@@ -980,6 +982,7 @@ Un sitio se define como un *nodo de aplicación separado*, con sus propias [base
   <locale name="PARAMETER_IDE" value="Identificador"/>
   <locale name="PARAMETER_INT_PATH" value="Ruta en int."/>
   <locale name="PARAMETER_INTEGER" value="Entero"/>
+  <locale name="PARAMETER_ISLEAF" value="Es hoja"/>
   <locale name="PARAMETER_LABEL" value="Etiqueta"/>
   <locale name="PARAMETER_LANGUAGE" value="Idioma"/>
   <locale name="PARAMETER_LAST_EXECUTION" value="Última ejecución"/>
@@ -1017,6 +1020,7 @@ Un sitio se define como un *nodo de aplicación separado*, con sus propias [base
   <locale name="PARAMETER_OPTION" value="Opción"/>
   <locale name="PARAMETER_ORDER" value="Orden"/>
   <locale name="PARAMETER_PARAMETERS" value="Parámetros"/>
+  <locale name="PARAMETER_PARENT" value="Padre"/>
   <locale name="PARAMETER_PASSWD" value="Contraseña"/>
   <locale name="PARAMETER_PASSWD_COMPLEX" value="Patrón complejidad de contraseña"/>
   <locale name="PARAMETER_PASSWD_EXPIRE" value="Caducidad de la contraseña en días"/>
@@ -1212,6 +1216,7 @@ Un sitio se define como un *nodo de aplicación separado*, con sus propias [base
   <locale name="SCREEN_TITLE_THM_NEW" value="Alta de tema"/>
   <locale name="SCREEN_TITLE_THM_UPD" value="Modificación de tema"/>
   <locale name="SCREEN_TITLE_THM_VIW" value="Consulta de tema"/>
+  <locale name="SCREEN_TITLE_TREE_TEST" value="Prueba de árbol"/>
   <locale name="SCREEN_TITLE_UNIKEY" value="Códigos del sistema"/>
   <locale name="SCREEN_TITLE_USR" value="Gestión de usuarios"/>
   <locale name="SCREEN_TITLE_USR_NEW" value="Alta de usuario"/>

@@ -400,7 +400,7 @@
 
   <!-- Operation Attributes -->
   <xs:attributeGroup name="operationAttr">
-    <xs:attribute name="operator" type="operationRestriction"/>
+    <xs:attribute name="operator" type="operationRestriction" />
   </xs:attributeGroup>
 
   <!-- Operation Attributes -->

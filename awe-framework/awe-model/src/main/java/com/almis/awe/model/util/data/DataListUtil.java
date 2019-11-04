@@ -265,6 +265,31 @@ public final class DataListUtil {
   }
 
   /**
+   * Return the datalist as bean list
+   *
+   * @param beanList bean class
+   * @param <T>       class type
+   * @return bean list
+   * @throws AWException AWE exception
+   */
+  public static <T> DataList fromBeanList(List<T> beanList) {
+    DataList dataList = new DataList();
+
+    for (T bean : beanList) {
+      Map<String, CellData> row = new HashMap<>();
+      PropertyAccessor rowBeanAccesor = PropertyAccessorFactory.forDirectFieldAccess(bean);
+
+      // Set field value if found in row
+      for (Field field : bean.getClass().getDeclaredFields()) {
+        row.put(field.getName(), new CellData(rowBeanAccesor.getPropertyValue(field.getName())));
+      }
+
+      dataList.addRow(row);
+    }
+    return dataList;
+  }
+
+  /**
    * Add a column with one row value
    *
    * @param list       DataList
