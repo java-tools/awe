@@ -2111,8 +2111,10 @@
     <field id="city" alias="city" />
   </query>
 
-  <query id="TestSimpleGETMicroservice" service="simpleGETMicroservice">
-  </query>
+  <!-- Load tree Json file -->
+  <query id="loadTreeJsonFile" service="loadTreeJsonFile"/>
+
+  <query id="TestSimpleGETMicroservice" service="simpleGETMicroservice"/>
 
   <query id="TestSimpleGETMicroservice2" service="simpleGETMicroservice2">
   </query>

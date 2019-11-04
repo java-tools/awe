@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : MatLoadAll.xml
+    Created on : 21 de Sept de 2016
+    Author     : Pablo VISAL
+    Description: Matrix Load All Test Screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="SCREEN_TITLE_TREE_TEST" help="HELP_SCREEN_TITLE_TREE_TEST">
+  <tag source="buttons">
+    <button label="BUTTON_RESET" button-type="reset" icon="eraser" id="ButRst" help="HELP_RESET_BUTTON" />
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_PRINT" icon="print" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="validate" />
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+    <button button-type="submit" label="BUTTON_SEARCH" icon="search" id="ButSch" help="HELP_SEARCH_BUTTON">
+      <button-action type="filter" target="GrdTreeLoadAll"/>
+    </button>
+  </tag>
+  <tag source="center">
+    <window style="expand" label="ENUM_MATRIX_LOAD_ALL" expandible="vertical">
+      <grid id="GrdTreeLoadAll" style="expand" treegrid="true" initial-load="query" server-action="data" target-action="loadTreeJsonFile" max="1000" load-all="true" tree-id="id" tree-parent="parent" icon-loading="squarebar">
+        <column label="PARAMETER_ID" name="id" sort-field="id" align="center" charlength="20"/>
+        <column label="PARAMETER_PARENT" name="parent" sort-field="parent" align="left" charlength="20"/>
+        <column label="PARAMETER_TYPE" name="type" sort-field="type" align="left" charlength="20"/>
+        <column label="PARAMETER_LEVEL" name="level" sort-field="level" align="center" charlength="20"/>
+        <column label="PARAMETER_ISLEAF" name="isLeaf" sort-field="isLeaf" align="left" charlength="20"/>
+        <column label="PARAMETER_TIME" name="time" sort-field="time" align="left" charlength="20"/>
+        <column label="PARAMETER_USER" name="user" sort-field="user" align="left" charlength="20"/>
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center" />
+  </tag>
+</screen>

@@ -156,7 +156,11 @@
   <service id="loadUserJsonFile">
     <java classname="com.almis.awe.test.UserList" method="loadUsersJsonFile" />
   </service>
-  
+
+  <service id="loadTreeJsonFile">
+    <java classname="com.almis.awe.test.UserList" method="loadTreeJsonFile" />
+  </service>
+
   <service id="simpleGETMicroservice">
     <microservice name="alu-microservice" method="GET" endpoint="/invoke" />
   </service>
