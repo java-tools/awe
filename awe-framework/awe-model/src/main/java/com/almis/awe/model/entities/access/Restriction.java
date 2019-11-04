@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 
 /**
  * Restriction Class
- *
+ * <p>
  * Used to parse the files in profile folder with XStream
  * This class is used to parse a restriction of an option
  *

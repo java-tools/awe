@@ -5,7 +5,6 @@ import com.almis.awe.model.entities.Copyable;
 import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -17,7 +16,7 @@ import java.util.List;
 
 /**
  * Filter Class
- *
+ * <p>
  * Used to parse the files Queries.xml and Maintain.xml with XStream
  * Filters from queries and maintain
  *
@@ -109,16 +108,15 @@ public class Filter implements Copyable {
 
   // Left operand
   @XStreamAlias("left-operand")
-  @XStreamConverter(OperandConverter.class)
-  private SqlField leftOperand;
+  private TransitionField leftOperand;
 
   // Right operand
   @XStreamAlias("right-operand")
-  @XStreamConverter(OperandConverter.class)
-  private SqlField rightOperand;
+  private TransitionField rightOperand;
 
   /**
    * Returns if optional
+   *
    * @return Is optional
    */
   public boolean isOptional() {
@@ -127,6 +125,7 @@ public class Filter implements Copyable {
 
   /**
    * Returns if trim
+   *
    * @return Is trim
    */
   public boolean isTrim() {
@@ -135,6 +134,7 @@ public class Filter implements Copyable {
 
   /**
    * Returns if ignoreCase
+   *
    * @return Is ignoreCase
    */
   public boolean isIgnoreCase() {
@@ -181,9 +181,9 @@ public class Filter implements Copyable {
    * @param function Expression function
    * @return Side expression
    */
-  private String getSideExpression(OutputField operand, String field, String table, String variable, String query, String function) {
-    if (operand != null) {
-      return operand.toString();
+  private String getSideExpression(TransitionField operand, String field, String table, String variable, String query, String function) {
+    if (operand != null && operand.getField() != null) {
+      return operand.getField().toString();
     } else {
       String fieldTable = (table != null) ? (table + "." + field) : field;
       String expression = (field != null) ? fieldTable : null;

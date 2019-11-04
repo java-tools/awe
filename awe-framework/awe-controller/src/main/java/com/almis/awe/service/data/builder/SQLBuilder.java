@@ -30,6 +30,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Autowired constructor
+   *
    * @param queryUtil Query utilities
    */
   @Autowired
@@ -99,18 +100,20 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Retrieve field expression from table, field and function
-   * @param table table
-   * @param field field
+   *
+   * @param table    table
+   * @param field    field
    * @param function function
    * @return Field expression
    */
-  protected Expression getSimpleFieldExpression(String table, String field, String function)  {
+  protected Expression getSimpleFieldExpression(String table, String field, String function) {
     return applyFunctionToField(function, buildPath(table, field));
   }
 
   /**
    * Apply function to field
-   * @param function Function to apply
+   *
+   * @param function        Function to apply
    * @param fieldExpression
    * @return Field expression with function applied
    */
@@ -125,6 +128,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Apply cast to field
+   *
    * @param field
    * @param fieldExpression
    * @return Field expression with function applied
@@ -218,8 +222,9 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Apply operand into operation
+   *
    * @param operation Operation
-   * @param operands Operand list
+   * @param operands  Operand list
    * @return Operation expression
    */
   protected Expression generateOperationExpression(Operation operation, Expression... operands) {
@@ -271,7 +276,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         String operator = operation.getOperator().replace("SUB", "ADD");
         return Expressions.dateOperation(Date.class, Ops.DateTimeOps.valueOf(operator), operands[0], Expressions.numberOperation(Integer.class, Ops.MULT, operands[1], substractExpression));
       case "POWER":
-         return Expressions.numberOperation(Long.class, Ops.MathOps.valueOf(operation.getOperator()), operands);
+        return Expressions.numberOperation(Long.class, Ops.MathOps.valueOf(operation.getOperator()), operands);
       default:
         return null;
     }
@@ -332,12 +337,12 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   protected Expression getCaseExpression(Case field) throws AWException {
     CaseBuilder initialCase = new CaseBuilder();
     CaseBuilder.Cases caseList = null;
-    Expression caseElse = getOperandExpression(field.getCaseElse());
+    Expression caseElse = getOperandExpression(field.getCaseElse().getField());
 
     if (field.getCaseWhenList() != null) {
       for (CaseWhen caseWhen : field.getCaseWhenList()) {
         BooleanExpression filter = getFilters(caseWhen);
-        Expression caseThen = getOperandExpression(caseWhen.getThenOperand());
+        Expression caseThen = getOperandExpression(caseWhen.getThenOperand().getField());
         if (caseList == null) {
           caseList = initialCase.when(filter).then(caseThen);
         } else {
@@ -378,6 +383,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Retrieve order by expression
+   *
    * @param orderBy Order by
    * @return Expression
    */
@@ -425,6 +431,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Get table expression with schema
+   *
    * @param table Table
    * @return Table expression
    */
@@ -436,18 +443,19 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve filter operand
    *
-   * @param filter Filter
-   * @param operand Operand
-   * @param fieldId Field id
-   * @param table Table
-   * @param variable Variable
-   * @param query Query
-   * @param function Function
+   * @param filter       Filter
+   * @param operandField Operand field
+   * @param fieldId      Field id
+   * @param table        Table
+   * @param variable     Variable
+   * @param query        Query
+   * @param function     Function
    * @return Filter operand
    * @throws AWException Error generating filter
    */
-  private Expression getFilterOperand(Filter filter, SqlField operand, String fieldId, String table, String variable, String query, String function) throws AWException {
+  private Expression getFilterOperand(Filter filter, TransitionField operandField, String fieldId, String table, String variable, String query, String function) throws AWException {
     Expression operandExpression = null;
+    SqlField operand = operandField != null && operandField.getField() != null ? operandField.getField() : null;
 
     if (operand == null) {
       Field field = (Field) new Field()
@@ -459,7 +467,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       operand = field;
     }
 
-    if (operand instanceof Field && ((Field) operand).getVariable() != null) {
+    if (operand instanceof Field && operand.getVariable() != null) {
       operandExpression = getOperandVariableExpression(filter, (Field) operand);
       if (operandExpression == null) {
         return null;
@@ -486,7 +494,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Generate variable for parameter
    *
    * @param value Variable value
-   * @param type Variable type
+   * @param type  Variable type
    * @return Variable as expression
    * @throws AWException Variable replacement was wrong
    */
@@ -531,7 +539,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Generate variable for parameter
    *
    * @param value Variable value
-   * @param type Variable type
+   * @param type  Variable type
    * @return Variable as expression
    * @throws AWException Variable replacement was wrong
    */
@@ -560,7 +568,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Generate variable for parameter
    *
    * @param value Variable value
-   * @param type Variable type
+   * @param type  Variable type
    * @return Variable as expression
    */
   protected Expression getVariableAsExpressionOrNull(String value, ParameterType type) {
@@ -598,7 +606,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Add function to expression
    *
    * @param fieldExpression Current field expression
-   * @param function Function
+   * @param function        Function
    * @return Expression
    */
   protected Expression getExpressionFunction(Expression fieldExpression, String function) {
@@ -646,7 +654,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Add cast to expression
    *
    * @param fieldExpression Current field expression
-   * @param cast Function
+   * @param cast            Function
    * @return Expression
    */
   protected Expression getExpressionCast(Expression fieldExpression, String cast) {
@@ -747,8 +755,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Get filter condition method
    *
    * @param filterCondition Filter condition
-   * @param ignoreCase is ignoreCase
-   * @param secondOperand Second operand (to check whether is null)
+   * @param ignoreCase      is ignoreCase
+   * @param secondOperand   Second operand (to check whether is null)
    * @return Filter condition
    */
   private BooleanOperation applyFilterCondition(String filterCondition, boolean ignoreCase, Expression firstOperand, Expression secondOperand) {
@@ -785,8 +793,9 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Get filter EQ
-   * @param ignoreCase Ignore cases
-   * @param firstOperand First operand
+   *
+   * @param ignoreCase    Ignore cases
+   * @param firstOperand  First operand
    * @param secondOperand Second operand
    * @return Boolean operation
    */
@@ -802,8 +811,9 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Get filter IN
-   * @param inCondition In condition
-   * @param firstOperand First operand
+   *
+   * @param inCondition   In condition
+   * @param firstOperand  First operand
    * @param secondOperand Second operand
    * @return Boolean operation
    */
@@ -819,8 +829,9 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Get filter LIKE
-   * @param ignoreCase Ignore cases
-   * @param firstOperand First operand
+   *
+   * @param ignoreCase    Ignore cases
+   * @param firstOperand  First operand
    * @param secondOperand Second operand
    * @return Boolean operation
    */
@@ -834,7 +845,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Get filter EXISTS
-   * @param firstOperand First operand
+   *
+   * @param firstOperand  First operand
    * @param secondOperand Second operand
    * @return Boolean operation
    */
@@ -847,7 +859,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Generate querydsl expression from variable
    *
    * @param filter Filter
-   * @param field Field to
+   * @param field  Field to
    * @return Filter variable as expression
    * @throws AWException Conversion was wrong
    */
@@ -869,7 +881,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Generate querydsl expression from variable
    *
    * @param filter Filter
-   * @param field Field to
+   * @param field  Field to
    * @return Filter variable as expression
    * @throws AWException Conversion was wrong
    */
@@ -886,7 +898,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Generate querydsl expression from variable
    *
    * @param filter Filter
-   * @param field Field to
+   * @param field  Field to
    * @return Filter variable as expression
    * @throws AWException Conversion was wrong
    */
@@ -922,11 +934,12 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Variable list as expression (IN)
+   *
    * @param expressionList Expression list
-   * @param variableValue Variable value
-   * @param type Variable type
-   * @param value String value
-   * @param filter Filter
+   * @param variableValue  Variable value
+   * @param type           Variable type
+   * @param value          String value
+   * @param filter         Filter
    * @return Variable as expression
    * @throws AWException
    */
@@ -959,10 +972,11 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Variable list as expression for each index
+   *
    * @param variableValue Variable value
-   * @param type Variable type
-   * @param value String value
-   * @param filter Filter
+   * @param type          Variable type
+   * @param value         String value
+   * @param filter        Filter
    * @return Variable as expression
    * @throws AWException
    */
@@ -986,7 +1000,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   protected Expression getStringExpression(String value) {
     if (value != null) {
-      return Expressions.stringTemplate("{0}" , value);
+      return Expressions.stringTemplate("{0}", value);
     } else {
       return Expressions.nullExpression();
     }
@@ -994,9 +1008,10 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Build a path with pathbuilder
+   *
    * @param parent Parent
-   * @param node Node
-   * @param alias Alias
+   * @param node   Node
+   * @param alias  Alias
    * @return Field path
    */
   protected SimpleExpression<Object> buildPath(String parent, String node, String alias) {
@@ -1012,8 +1027,9 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Build a path with pathbuilder
+   *
    * @param parent Parent node
-   * @param node Node
+   * @param node   Node
    * @return path
    */
   protected PathBuilder<Object> buildPath(String parent, String node) {
@@ -1029,6 +1045,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Build a path with pathbuilder
+   *
    * @param node Node
    * @return path
    */
