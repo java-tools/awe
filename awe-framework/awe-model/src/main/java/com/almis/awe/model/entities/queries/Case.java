@@ -3,7 +3,6 @@ package com.almis.awe.model.entities.queries;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,7 +16,7 @@ import java.util.List;
 
 /**
  * Case Class
- *
+ * <p>
  * Used to parse the file Queries.xml with XStream
  * Generates a CASE condition in a query
  *
@@ -38,8 +37,7 @@ public class Case extends SqlField {
 
   // Field caseElse
   @XStreamAlias("else")
-  @XStreamConverter(OperandConverter.class)
-  private SqlField caseElse;
+  private TransitionField caseElse;
 
   @Override
   public Case copy() throws AWException {

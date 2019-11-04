@@ -404,10 +404,10 @@ will be generated as:
 <query id="testCaseWhenElse">
   <table id="AweThm"/>
   <case alias="value">
-    <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunset"/><then value="1" type="INTEGER"/></when>
-    <when left-field="Nam" condition="eq" right-variable="sunny"><then value="2" type="INTEGER"/></when>
-    <when left-field="Nam" condition="eq" right-variable="purple-hills"><then value="3" type="INTEGER"/></when>
-    <else value="0" type="INTEGER"/>
+    <when condition="eq"><left-operand><field id="Nam"/></left-operand><right-operand><field variable="sunset"/></right-operand><then><constant value="1" type="INTEGER"/></then></when>
+    <when left-field="Nam" condition="eq" right-variable="sunny"><then><constant value="2" type="INTEGER"/></then></when>
+    <when left-field="Nam" condition="eq" right-variable="purple-hills"><then><constant value="3" type="INTEGER"/></then></when>
+    <else><constant value="0" type="INTEGER"/></else>
   </case>
   <variable id="sunset" type="STRING" value="sunset"/>
   <variable id="sunny" type="STRING" value="sunny"/>
@@ -671,8 +671,8 @@ The filter structure is as follows:
 
  ```xml
 <filter condition="[Condition]" ignorecase="[Ignorecase]" trim="[Trim]" optional="[Optional]">
-  <left-operand id="[field name]"/>
-  <right-operand value="[static value]" type="[value type]"/> 
+  <left-operand><field id="[field name]"/></left-operand>
+  <right-operand><constant value="[static value]" type="[value type]"/></right-operand> 
 </filter>
  ```
 

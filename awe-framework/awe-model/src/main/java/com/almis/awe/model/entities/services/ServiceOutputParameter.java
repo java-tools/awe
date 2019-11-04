@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 
 /**
  * ServiceOutputParameter Class
- *
+ * <p>
  * Used to parse the tag 'response' in file Actions.xml with XStream
  * This file contains the list of system actions
  *
