@@ -604,7 +604,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   protected Expression getExpressionFunction(Expression fieldExpression, String function) {
     switch (function.toUpperCase()) {
       case "ABS":
-        return Expressions.numberOperation(fieldExpression.getType(), Ops.MathOps.ABS, fieldExpression);
+        Class expressionClass = fieldExpression.getType().equals(Object.class) ? Integer.class : fieldExpression.getType();
+        return Expressions.numberOperation(expressionClass, Ops.MathOps.ABS, fieldExpression);
       case "AVG":
         return new WindowOver(Double.class, Ops.AggOps.AVG_AGG, fieldExpression);
       case "CNT":

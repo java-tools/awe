@@ -188,6 +188,13 @@
     <field id="IdeSitModDbs" alias="Max" function="MAX" />
     <field id="IdeSitModDbs" alias="Min" function="MIN" />
     <field id="IdeDbs" alias="Avg" function="AVG" />
+    <operation operator="MULT" function="ABS" alias="AbsOpe">
+      <field id="IdeSitModDbs" function="MAX"/>
+      <constant value="-1" type="INTEGER"/>
+    </operation>
+    <operation function="ABS" operator="ADD" alias="AbsIde" >
+      <field id="IdeSitModDbs" function="SUM"/>
+    </operation>
     <constant value="-1212" type="INTEGER" alias="AbsInteger" function="ABS" />
     <constant value="-1212.12123" type="DOUBLE" alias="AbsDouble" function="ABS" />
     <field id="IdeDbs" alias="Cnt" function="CNT" />
