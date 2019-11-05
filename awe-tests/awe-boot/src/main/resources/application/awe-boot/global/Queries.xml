@@ -2276,9 +2276,6 @@
           <constant value="PURPLE-HILLS"/>
         </then>
       </when>
-      <else>
-        <constant value="null" type="NULL"/>
-      </else>
     </case>
     <case alias="other">
       <else>
