@@ -1,6 +1,7 @@
 package com.almis.awe.model.util.data;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.entities.Copyable;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.io.serialization.ValidatingObjectInputStream;
@@ -142,6 +143,22 @@ public final class ListUtil {
       }
     }
     return copy;
+  }
+
+  /**
+   * Get a copy of a list of map of CellData
+   * @param sourceRows
+   */
+  public static List<Map<String, CellData>> copyDataListRows(List<Map<String, CellData>> sourceRows) {
+    List<Map<String, CellData>> targetRows = new ArrayList<>();
+    // Copy rows
+    sourceRows.forEach(row -> {
+      Map<String, CellData> newRow = new HashMap<>();
+      row.entrySet().forEach(cell -> newRow.put(cell.getKey(), new CellData(cell.getValue())));
+      targetRows.add(newRow);
+    });
+
+    return targetRows;
   }
 
   /**

@@ -354,8 +354,8 @@ public class MaintainService extends ServiceConfig {
         databaseConnection.getConnection().commit();
       } else if (maintainQuery instanceof RetrieveData) {
         QueryLauncher queryLauncher = getBean(QueryLauncher.class);
-        ServiceData serviceData = queryLauncher.launchQuery(maintainQuery, queryUtil.getParameters(databaseConnection.getDatabaseAlias(), "1", "0"));
-        queryUtil.addDataListToRequestParameters(serviceData.getDataList());
+        result = queryLauncher.launchQuery(maintainQuery, queryUtil.getParameters(databaseConnection.getDatabaseAlias(), "1", "0"));
+        queryUtil.addDataListToRequestParameters(result.getDataList());
       } else {
         // Else launch the maintain or service action
         queryUtil.addToVariableMap(parameterMap, maintainQuery);
@@ -498,10 +498,7 @@ public class MaintainService extends ServiceConfig {
     }
 
     // Generate result
-    serviceData.addVariable(AweConstants.ACTION_MESSAGE_TYPE, new CellData(serviceData.getType().toString()))
-      .addVariable(AweConstants.ACTION_MESSAGE_TITLE, new CellData(serviceData.getTitle()))
-      .addVariable(AweConstants.ACTION_MESSAGE_DESCRIPTION, new CellData(serviceData.getMessage()))
-      .addVariable(AweConstants.ACTION_MESSAGE_RESULT_DETAILS, new CellData(resultDetails));
+    addOutputVariables(serviceData, resultDetails);
 
     return serviceData;
   }
@@ -691,5 +688,18 @@ public class MaintainService extends ServiceConfig {
   private void addVariables(Multiple origin, MaintainQuery maintainQuery) throws AWException {
     // Set field list to query
     maintainQuery.setVariableDefinitionList(ListUtil.copyList(origin.getVariableDefinitionList()));
+  }
+
+  /**
+   * Add output variables
+   *
+   * @param out Output
+   */
+  private void addOutputVariables(ServiceData out, List<MaintainResultDetails> resultDetails) {
+    out
+      .addVariable(AweConstants.ACTION_MESSAGE_TYPE, new CellData(out.getType().toString()))
+      .addVariable(AweConstants.ACTION_MESSAGE_TITLE, new CellData(out.getTitle()))
+      .addVariable(AweConstants.ACTION_MESSAGE_DESCRIPTION, new CellData(out.getMessage()))
+      .addVariable(AweConstants.ACTION_MESSAGE_RESULT_DETAILS, new CellData(resultDetails));
   }
 }

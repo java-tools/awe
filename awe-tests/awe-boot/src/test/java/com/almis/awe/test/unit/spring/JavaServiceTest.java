@@ -1,6 +1,7 @@
 package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.service.QueryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,8 +9,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 
 public class JavaServiceTest extends AweSpringBootTests {
@@ -173,5 +173,7 @@ public class JavaServiceTest extends AweSpringBootTests {
     ServiceData serviceData = getBean(QueryService.class).launchQuery("testServiceJsonParameter", parameters);
     assertNotNull(serviceData);
     assertTrue(serviceData.isValid());
+    assertEquals("tutu", serviceData.getVariable(AweConstants.ACTION_MESSAGE_TITLE).getStringValue());
+    assertEquals("lala", serviceData.getVariable(AweConstants.ACTION_MESSAGE_DESCRIPTION).getStringValue());
   }
 }
