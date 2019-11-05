@@ -1,7 +1,13 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.dto;
+
+import com.almis.awe.exception.AWException;
+import com.almis.awe.model.entities.Copyable;
+import com.almis.awe.model.util.data.ListUtil;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
@@ -9,13 +15,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-/*
- * File Imports
- */
 
 /**
  * DataList Class
@@ -25,124 +26,40 @@ import java.util.Map;
  *
  * @author Pablo GARCIA - 24/JUN/2010
  */
-public class DataList implements Serializable {
-
-  private static final long serialVersionUID = 1L;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
+@Builder(toBuilder = true)
+public class DataList implements Serializable, Copyable {
   // Total pages
-  private long total;
+  @Builder.Default private long total = 1;
 
   // Page number
-  private long page;
+  @Builder.Default private long page = 1;
 
   // Total records
-  private long records;
+  @Builder.Default private long records = 0;
 
   // Row list
-  private List<Map<String, CellData>> rows;
-
-  /**
-   * Object initialization
-   */
-  public DataList() {
-    // Datalist initialization
-    total = 1;
-    page = 1;
-    records = 0;
-    rows = new ArrayList<>();
-  }
+  @Builder.Default private List<Map<String, CellData>> rows = new ArrayList<>();
 
   /**
    * Copy constructor
-   *
-   * @param other datalist
+   * @param other Other datalist
    */
   public DataList(DataList other) {
-    this.total = other.total;
-    this.page = other.page;
-    this.records = other.records;
-    if (other.rows != null) {
-      this.rows = new ArrayList<>();
-      for (Map<String, CellData> row : other.rows) {
-        Map newRow = new HashMap<>();
-        for (Map.Entry<String, CellData> cell : row.entrySet()) {
-          newRow.put(cell.getKey(), new CellData(cell.getValue()));
-        }
-        this.rows.add(newRow);
-      }
-    }
+    this.total = other.getTotal();
+    this.page = other.getPage();
+    this.records = other.getRecords();
+    this.rows = ListUtil.copyDataListRows(other.getRows());
   }
 
-  /**
-   * Returns the total pages number
-   *
-   * @return Total pages
-   */
-  public long getTotal() {
-    return total;
-  }
-
-  /**
-   * Stores the total pages number
-   *
-   * @param total Total pages
-   */
-  public void setTotal(long total) {
-    this.total = total;
-  }
-
-  /**
-   * Returns the page number
-   *
-   * @return Page number
-   */
-  public long getPage() {
-    return page;
-  }
-
-  /**
-   * Stores the page number
-   *
-   * @param page Page number
-   */
-  public void setPage(long page) {
-    this.page = page;
-  }
-
-  /**
-   * Returns the datalist total records
-   *
-   * @return Total records
-   */
-  public long getRecords() {
-    return records;
-  }
-
-  /**
-   * Stores the total records
-   *
-   * @param records Total records
-   */
-  public void setRecords(long records) {
-    this.records = records;
-  }
-
-  /**
-   * Returns the data row List
-   *
-   * @return Data Row List
-   */
-  public List<Map<String, CellData>> getRows() {
-    return rows;
-  }
-
-  /**
-   * Stores the data row list
-   *
-   * @param rows Data Row List
-   */
-  public void setRows(List<Map<String, CellData>> rows) {
-    this.rows = rows;
+  @Override
+  public DataList copy() throws AWException {
+    return this.toBuilder()
+      .rows(ListUtil.copyDataListRows(rows))
+      .build();
   }
 
   /**
@@ -175,11 +92,11 @@ public class DataList implements Serializable {
   public void deleteRow(int rowNumber) {
     if (rowNumber < getRows().size()) {
       getRows().remove(rowNumber);
+      setRecords(getRows().size());
     }
   }
 
   private void writeObject(@NotNull ObjectOutputStream stream) throws IOException {
-
     stream.writeLong(total);
     stream.writeLong(page);
     stream.writeLong(records);
@@ -187,7 +104,6 @@ public class DataList implements Serializable {
   }
 
   private void readObject(@NotNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
-
     this.total = stream.readLong();
     this.page = stream.readLong();
     this.records = stream.readLong();

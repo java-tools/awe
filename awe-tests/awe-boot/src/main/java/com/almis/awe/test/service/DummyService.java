@@ -329,7 +329,9 @@ public class DummyService extends ServiceConfig {
    * @return Service data
    */
   public ServiceData getDummyData(JsonNode planet) {
-    return new ServiceData();
+    return new ServiceData()
+      .setTitle("tutu")
+      .setMessage("lala");
   }
 
   /**

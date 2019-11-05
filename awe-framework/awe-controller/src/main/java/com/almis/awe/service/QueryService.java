@@ -232,7 +232,7 @@ public class QueryService extends ServiceConfig {
     ServiceData out = queryLauncher.launchQuery(query, queryUtil.getParameters(alias, forcedPage, forcedMax));
 
     // Add variables
-    addVariables(out);
+    addOutputVariables(out);
     return out;
   }
 
@@ -250,7 +250,7 @@ public class QueryService extends ServiceConfig {
     ServiceData out = queryLauncher.launchQuery(query, queryUtil.getParameters(parameters));
 
     // Add variables
-    addVariables(out);
+    addOutputVariables(out);
     return out;
   }
 
@@ -318,7 +318,7 @@ public class QueryService extends ServiceConfig {
     ServiceData out = getBean(EnumQueryConnector.class).launchEnum(enumId, queryUtil.getParameters(JsonNodeFactory.instance.objectNode(), null, forcedPage, forcedMax));
 
     // Add variables
-    addVariables(out);
+    addOutputVariables(out);
     return out;
   }
 
@@ -371,7 +371,7 @@ public class QueryService extends ServiceConfig {
    *
    * @param out Output
    */
-  private void addVariables(ServiceData out) {
+  private void addOutputVariables(ServiceData out) {
     DataList data = out.getDataList();
     out
       .addVariable(AweConstants.ACTION_DATA, new CellData(data))

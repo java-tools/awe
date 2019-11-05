@@ -45,7 +45,7 @@ public class ServiceBuilder extends AbstractQueryBuilder {
     }
     ServiceData serviceData = launcherService.callService(getQuery().getService(), extractValuesFromParameters(getVariables()));
     if (serviceData != null) {
-      return new ServiceData(serviceData);
+      return serviceData.copy();
     } else {
       return new ServiceData();
     }

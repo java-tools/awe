@@ -1,14 +1,17 @@
-/*
- * Package definition
- */
 package com.almis.awe.model.dto;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.entities.Copyable;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,58 +27,45 @@ import java.util.Map;
  *
  * @author Pablo VIDAL - 20/MAR/2015
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Accessors(chain = true)
+@Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-public class ServiceData implements Serializable {
-
-  private static final long serialVersionUID = 8252045856785186581L;
+public class ServiceData implements Serializable, Copyable {
 
   // Service is valid
-  private boolean valid;
+  @Builder.Default private boolean valid = true;
 
   // Service response message type
-  private AnswerType type;
+  @Builder.Default private AnswerType type = AnswerType.OK;
 
   // Service response message title
-  private String title;
+  @Builder.Default private String title = "";
 
   // Service response message description
-  private String message;
+  @Builder.Default private String message = "";
 
   // Service response data
-  private Serializable data;
+  @Builder.Default private Serializable data = null;
 
   // Service response data (as datalist)
-  private DataList dataList;
+  @Builder.Default private DataList dataList = null;
 
   // Service response file list
-  private List<ClientAction> clientActionList;
+  @Builder.Default private List<ClientAction> clientActionList = new ArrayList<>();
 
   // Service variable list
-  private Map<String, CellData> variableMap;
+  @Builder.Default private Map<String, CellData> variableMap = new HashMap<>();
 
   // Service details if maintain
-  private transient List<MaintainResultDetails> resultDetails;
-
-  /**
-   * Object initialization
-   */
-  public ServiceData() {
-    // Datalist initialization
-    valid = true;
-    type = AnswerType.OK;
-    title = "";
-    message = "";
-    data = null;
-    dataList = null;
-    clientActionList = null;
-    variableMap = null;
-  }
+  @Builder.Default private transient List<MaintainResultDetails> resultDetails = new ArrayList<>();
 
   /**
    * Copy constructor
-   *
-   * @param other ServiceData object
-   * @throws AWException AWE exception
+   * @param other Other service data
+   * @throws AWException
    */
   public ServiceData(ServiceData other) throws AWException {
     this.valid = other.valid;
@@ -83,90 +73,20 @@ public class ServiceData implements Serializable {
     this.title = other.title;
     this.message = other.message;
     this.data = other.data;
-    this.dataList = other.dataList == null ? null : new DataList(other.dataList);
-    this.clientActionList = ListUtil.copyList(other.clientActionList);
-    this.variableMap = ListUtil.copyMap(other.variableMap);
-    this.resultDetails = ListUtil.copyList(other.resultDetails);
+    this.dataList = other.dataList == null ? null : other.getDataList().copy();
+    this.clientActionList = ListUtil.copyList(other.getClientActionList());
+    this.variableMap = ListUtil.copyMap(other.getVariableMap());
+    this.resultDetails = ListUtil.copyList(other.getResultDetails());
   }
 
-  /**
-   * Returns true if service is valid
-   *
-   * @return Service is valid
-   */
-  public boolean isValid() {
-    return valid;
-  }
-
-  /**
-   * Stores if service is valid
-   *
-   * @param valid Service is valid
-   * @return this
-   */
-  public ServiceData setValid(boolean valid) {
-    this.valid = valid;
-    return this;
-  }
-
-  /**
-   * Returns the service response title
-   *
-   * @return Response title
-   */
-  public String getTitle() {
-    return title;
-  }
-
-  /**
-   * Stores the service response title
-   *
-   * @param title Response title
-   * @return this
-   */
-  public ServiceData setTitle(String title) {
-    this.title = title;
-    return this;
-  }
-
-  /**
-   * Returns the service response description
-   *
-   * @return Service response description
-   */
-  public String getMessage() {
-    return message;
-  }
-
-  /**
-   * Stores the service response description
-   *
-   * @param message Service response description
-   * @return this
-   */
-  public ServiceData setMessage(String message) {
-    this.message = message;
-    return this;
-  }
-
-  /**
-   * Returns the service response data
-   *
-   * @return Service response data
-   */
-  public Object getData() {
-    return data;
-  }
-
-  /**
-   * Stores the service response data
-   *
-   * @param data Service response data
-   * @return this
-   */
-  public ServiceData setData(Serializable data) {
-    this.data = data;
-    return this;
+  @Override
+  public ServiceData copy() throws AWException {
+    return this.toBuilder()
+      .dataList(dataList == null ? null : dataList.copy())
+      .clientActionList(ListUtil.copyList(clientActionList))
+      .variableMap(ListUtil.copyMap(variableMap))
+      .resultDetails(ListUtil.copyList(resultDetails))
+      .build();
   }
 
   /**
@@ -207,61 +127,15 @@ public class ServiceData implements Serializable {
   }
 
   /**
-   * Returns the service response message type (ERROR, OK, WARNING, INFO)
-   *
-   * @return Service output type
-   */
-  public AnswerType getType() {
-    return type;
-  }
-
-  /**
    * Stores the service response message type (ERROR, OK, WARNING, INFO)
    *
    * @param type Service output type
    * @return this
    */
   public ServiceData setType(AnswerType type) {
-
     // Store type
     this.type = type;
-
-    // Set validity by answer types
-    switch (type) {
-      case ERROR:
-        this.setValid(false);
-        break;
-
-      case OK:
-      case WARNING:
-      case INFO:
-      default:
-        this.setValid(true);
-        break;
-    }
-    return this;
-  }
-
-  /**
-   * Returns the output file list
-   *
-   * @return Output file list
-   */
-  public List<ClientAction> getClientActionList() {
-    if (clientActionList == null) {
-      clientActionList = new ArrayList<>();
-    }
-    return clientActionList;
-  }
-
-  /**
-   * Returns the output client action list
-   *
-   * @param clientActionList Output client action list
-   * @return this
-   */
-  public ServiceData setClientActionList(List<ClientAction> clientActionList) {
-    this.clientActionList = clientActionList;
+    this.setValid(!AnswerType.ERROR.equals(type));
     return this;
   }
 
@@ -273,29 +147,6 @@ public class ServiceData implements Serializable {
    */
   public ServiceData addClientAction(ClientAction clientAction) {
     this.getClientActionList().add(clientAction);
-    return this;
-  }
-
-  /**
-   * Returns the output file list
-   *
-   * @return Output file list
-   */
-  public Map<String, CellData> getVariableMap() {
-    if (variableMap == null) {
-      variableMap = new HashMap<>();
-    }
-    return variableMap;
-  }
-
-  /**
-   * Sets the variable map
-   *
-   * @param map Variable map
-   * @return this
-   */
-  public ServiceData setVariableMap(Map<String, CellData> map) {
-    this.variableMap = map;
     return this;
   }
 
@@ -331,47 +182,6 @@ public class ServiceData implements Serializable {
    */
   public CellData getVariable(String name) {
     return getVariableMap().get(name);
-  }
-
-  /**
-   * @return the dataList
-   */
-  public DataList getDataList() {
-    return dataList;
-  }
-
-  /**
-   * Set the datalist
-   *
-   * @param dataList Datalist
-   * @return this
-   */
-  public ServiceData setDataList(DataList dataList) {
-    this.dataList = dataList;
-    return this;
-  }
-
-  /**
-   * Retrieves result details when the operation is a maintain
-   *
-   * @return resultDetails
-   */
-  public List<MaintainResultDetails> getResultDetails() {
-    if (resultDetails == null) {
-      resultDetails = new ArrayList<>();
-    }
-    return resultDetails;
-  }
-
-  /**
-   * Sets result details when the operation is a maintain
-   *
-   * @param resultDetails Result details
-   * @return this
-   */
-  public ServiceData setResultDetails(List<MaintainResultDetails> resultDetails) {
-    this.resultDetails = resultDetails;
-    return this;
   }
 
   /**
