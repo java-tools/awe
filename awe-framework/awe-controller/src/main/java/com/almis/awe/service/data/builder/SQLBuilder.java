@@ -337,12 +337,12 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   protected Expression getCaseExpression(Case field) throws AWException {
     CaseBuilder initialCase = new CaseBuilder();
     CaseBuilder.Cases caseList = null;
-    Expression caseElse = getOperandExpression(field.getCaseElse().getField());
+    Expression caseElse = getOperandExpression(getSqlFieldFromTransition(field.getCaseElse()));
 
     if (field.getCaseWhenList() != null) {
       for (CaseWhen caseWhen : field.getCaseWhenList()) {
         BooleanExpression filter = getFilters(caseWhen);
-        Expression caseThen = getOperandExpression(caseWhen.getThenOperand().getField());
+        Expression caseThen = getOperandExpression(getSqlFieldFromTransition(caseWhen.getThenOperand()));
         if (caseList == null) {
           caseList = initialCase.when(filter).then(caseThen);
         } else {
@@ -455,7 +455,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   private Expression getFilterOperand(Filter filter, TransitionField operandField, String fieldId, String table, String variable, String query, String function) throws AWException {
     Expression operandExpression = null;
-    SqlField operand = operandField != null && operandField.getField() != null ? operandField.getField() : null;
+    SqlField operand = getSqlFieldFromTransition(operandField);
 
     if (operand == null) {
       Field field = (Field) new Field()
@@ -488,6 +488,15 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     }
 
     return operandExpression == null ? Expressions.nullExpression() : operandExpression;
+  }
+
+  /**
+   * Retrieve sql field from transition field (operand, then, else)
+   * @param transitionField
+   * @return
+   */
+  private SqlField getSqlFieldFromTransition(TransitionField transitionField) {
+    return transitionField == null ? null : transitionField.getField();
   }
 
   /**
