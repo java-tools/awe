@@ -357,7 +357,14 @@ condition="NOT IN" => condition="not in"
       <field id="l1_nom"/>
     </operation>
     <where>
-      <filter condition="eq" ignorecase="true"><left-operand><field id="l1_nom"/></left-operand><right-operand><constant value="test"/></right-operand></filter>
+      <filter condition="eq" ignorecase="true">
+        <left-operand>
+          <field id="l1_nom"/>
+        </left-operand>
+        <right-operand>
+          <constant value="test"/>
+        </right-operand>
+      </filter>
     </where>
     <order-by field="l1_nom" type="ASC"/>
   </query>
@@ -365,16 +372,62 @@ condition="NOT IN" => condition="not in"
   <query id="testCaseWhenElse">
     <table id="AweThm"/>
     <case alias="value">
-      <when left-field="Nam" condition="eq" right-variable="sunset"><then><constant value="1" type="INTEGER"/></then></when>
-      <when left-field="Nam" condition="eq" right-variable="sunny"><then><constant value="2" type="INTEGER"/></then></when>
-      <when left-field="Nam" condition="eq" right-variable="purple-hills"><then><constant value="3" type="INTEGER"/></then></when>
-      <else><constant value="0" type="INTEGER"/></else>
+      <when left-field="Nam" condition="eq" right-variable="sunset">
+        <then>
+          <constant value="1" type="INTEGER"/>
+        </then>
+      </when>
+      <when left-field="Nam" condition="eq" right-variable="sunny">
+        <then>
+          <constant value="2" type="INTEGER"/>
+        </then>
+      </when>
+      <when left-field="Nam" condition="eq" right-variable="purple-hills">
+        <then>
+          <constant value="3" type="INTEGER"/>
+        </then>
+      </when>
+      <else>
+        <constant value="0" type="INTEGER"/>
+      </else>
     </case>
     <case alias="label">
-      <when condition="eq"><left-operand><field id="Nam"/></left-operand><right-operand><constant value="sunset"/></right-operand><then><constant value="SUNSET"/></then></when>
-      <when condition="eq"><left-operand><field id="Nam"/></left-operand><right-operand><constant value="sunny"/></right-operand><then><constant value="SUNNY"/></then></when>
-      <when condition="eq"><left-operand><field id="Nam"/></left-operand><right-operand><constant value="purple-hills"/></right-operand><then><constant value="PURPLE-HILLS"/></then></when>
-      <else><constant value="other"/></else>
+      <when condition="eq">
+        <left-operand>
+          <field id="Nam"/>
+        </left-operand>
+        <right-operand>
+          <constant value="sunset"/>
+        </right-operand>
+        <then>
+          <constant value="SUNSET"/>
+        </then>
+      </when>
+      <when condition="eq">
+        <left-operand>
+          <field id="Nam"/>
+        </left-operand>
+        <right-operand>
+          <constant value="sunny"/>
+        </right-operand>
+        <then>
+          <constant value="SUNNY"/>
+        </then>
+      </when>
+      <when condition="eq">
+        <left-operand>
+          <field id="Nam"/>
+        </left-operand>
+        <right-operand>
+          <constant value="purple-hills"/>
+        </right-operand>
+        <then>
+          <constant value="PURPLE-HILLS"/>
+        </then>
+      </when>
+      <else>
+        <constant value="other"/>
+      </else>
     </case>
     <order-by field="Nam" type="ASC" nulls="FIRST"/>
   </query>
@@ -389,7 +442,9 @@ condition="NOT IN" => condition="not in"
     <field id="dat_mod" alias="second" function="SECOND" />
     <where>
       <filter left-field="l1_nom" condition="eq" ignorecase="true">
-        <right-operand><constant value="test"/></right-operand>
+        <right-operand>
+          <constant value="test"/>
+        </right-operand>
       </filter>
     </where>
     <order-by field="dat_mod" table="awe" function="YEAR"/>

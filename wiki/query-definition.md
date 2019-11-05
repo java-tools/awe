@@ -387,8 +387,8 @@ It has the same attributes as a [filter element](#filter-element) **plus** some 
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
 | cast  | Optional | String | Change the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 
-> **NEW!**: As described on [filter element](#filter-element), `left-operand` and `right-operand` can be defined with the
-> properties of `field`, `static`, `operation` or `case` as well. Same case for the `then` and `else` elements.
+> **NEW!**: As described on [filter element](#filter-element), `left-operand` and `right-operand` must contain
+> a node of `field`, `constant`, `operation` or `case` as well. Same case for the `then` and `else` elements.
 
 #### Case examples
 
@@ -404,10 +404,30 @@ will be generated as:
 <query id="testCaseWhenElse">
   <table id="AweThm"/>
   <case alias="value">
-    <when condition="eq"><left-operand><field id="Nam"/></left-operand><right-operand><field variable="sunset"/></right-operand><then><constant value="1" type="INTEGER"/></then></when>
-    <when left-field="Nam" condition="eq" right-variable="sunny"><then><constant value="2" type="INTEGER"/></then></when>
-    <when left-field="Nam" condition="eq" right-variable="purple-hills"><then><constant value="3" type="INTEGER"/></then></when>
-    <else><constant value="0" type="INTEGER"/></else>
+    <when condition="eq">
+      <left-operand>
+        <field id="Nam"/>
+      </left-operand>
+      <right-operand>
+        <field variable="sunset"/>
+      </right-operand>
+      <then>
+        <constant value="1" type="INTEGER"/>
+      </then>
+    </when>
+    <when left-field="Nam" condition="eq" right-variable="sunny">
+      <then>
+        <constant value="2" type="INTEGER"/>
+      </then>
+    </when>
+    <when left-field="Nam" condition="eq" right-variable="purple-hills">
+      <then>
+        <constant value="3" type="INTEGER"/>
+      </then>
+    </when>
+    <else>
+      <constant value="0" type="INTEGER"/>
+    </else>
   </case>
   <variable id="sunset" type="STRING" value="sunset"/>
   <variable id="sunny" type="STRING" value="sunny"/>
@@ -667,12 +687,16 @@ The filter structure is as follows:
 ```
 
 > **NEW!** Now you can define a `left-operand` and a `right-operand` children to define the filters. 
-> These elements can have any attribute from `field`, `static`, `operation` or `case` elements:
+> These elements must contain `field`, `constant`, `operation` or `case` elements:
 
  ```xml
 <filter condition="[Condition]" ignorecase="[Ignorecase]" trim="[Trim]" optional="[Optional]">
-  <left-operand><field id="[field name]"/></left-operand>
-  <right-operand><constant value="[static value]" type="[value type]"/></right-operand> 
+  <left-operand>
+    <field id="[field name]"/>
+  </left-operand>
+  <right-operand>
+    <constant value="[static value]" type="[value type]"/>
+  </right-operand> 
 </filter>
  ```
 
