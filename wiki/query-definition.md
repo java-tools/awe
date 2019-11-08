@@ -682,8 +682,8 @@ The having structure is the next one, is the same as where element:
 The filter structure is as follows:
 
 ```xml
-<filter left-value="[Constant value]" left-field="[Field 1]" left-table="[Field table 1]" left-query="[Query Id]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]" 
-        right-value="[Constant value]" right-field="[Field 2]" right-table="[Field table 2]" right-query="[Query Id]" right-variable="[Variable Id]" ignorecase="[Ignorecase]" trim="[Trim]"/>
+<filter left-field="[Field 1]" left-table="[Field table 1]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]"  
+        right-field="[Field 2]" right-table="[Field table 2]" right-variable="[Variable Id]" query="[Query Id]"  ignorecase="[Ignorecase]" trim="[Trim]"/>
 ```
 
 > **NEW!** Now you can define a `left-operand` and a `right-operand` children to define the filters. 
@@ -712,8 +712,8 @@ The *filter* element has the following attributes:
 | condition  | **Required** | String | The condition of the comparison | See [comparison conditions](#comparison-conditions) |
 | right-field | Optional | String | The name of a column |  |
 | right-table | Optional | String | The name of the table that *right-field* belongs to |  |
-| query      | Optional | String | The id of a query to compare (right side) |  |
 | right-variable | Optional | String | The id of a variable |  |
+| query      | Optional | String | The id of a query to compare (right side) |  |
 | ignorecase | Optional | String | If comparison should ignore case | `true`, `false` (default) |
 | trim       | Optional | String | If values should be trimmed before comparison | `true`, `false` (default) |
 
