@@ -59,7 +59,8 @@ public class TestUtil extends ServiceConfig {
 
   /**
    * Set parameter in session
-   * @param name Parameter name
+   *
+   * @param name  Parameter name
    * @param value Parameter value
    * @return Parameter set
    */
@@ -74,6 +75,7 @@ public class TestUtil extends ServiceConfig {
 
   /**
    * Get parameter from session
+   *
    * @param name Parameter name
    * @return Parameter value
    */
@@ -87,6 +89,7 @@ public class TestUtil extends ServiceConfig {
 
   /**
    * Remove parameter from session
+   *
    * @param name Parameter name
    * @return Parameter value
    */
@@ -100,6 +103,7 @@ public class TestUtil extends ServiceConfig {
 
   /**
    * Read a test file as Text
+   *
    * @param path
    * @return
    * @throws IOException
@@ -112,10 +116,10 @@ public class TestUtil extends ServiceConfig {
   /**
    * Asserts the JSON in the response
    *
-   * @param maintainName Maintain name
-   * @param result Result
+   * @param maintainName            Maintain name
+   * @param result                  Result
    * @param expectedOperationNumber Expected operations number
-   * @param expectedOperations Expected operations
+   * @param expectedOperations      Expected operations
    * @throws Exception Error in asser
    */
   protected void assertResultJson(String maintainName, String result, int expectedOperationNumber, MaintainResultDetails[] expectedOperations) throws Exception {

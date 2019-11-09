@@ -16,15 +16,17 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -103,39 +105,7 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Error performing request
    */
   private String performRequest(String queryName, String variables, String database, String expected) throws Exception {
-    setParameter("database", database);
-    MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
-      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
-      .content("{" + variables + "}")
-      .contentType(MediaType.APPLICATION_JSON)
-      .accept(MediaType.APPLICATION_JSON)
-      .session(session))
-      .andExpect(status().isOk())
-      .andExpect(content().json(expected))
-      .andReturn();
-    return mvcResult.getResponse().getContentAsString();
-  }
-
-  /**
-   * Performs the mock request and returns the response as a string
-   *
-   * @param queryName Query ID
-   * @param variables Variables
-   * @param database  Database
-   * @return Output
-   * @throws Exception Error performing request
-   */
-  private String performRequestWithoutCheckExpected(String queryName, String variables, String database) throws Exception {
-    setParameter("database", database);
-    MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
-      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
-      .content("{" + variables + "}")
-      .contentType(MediaType.APPLICATION_JSON)
-      .accept(MediaType.APPLICATION_JSON)
-      .session(session))
-      .andExpect(status().isOk())
-      .andReturn();
-    return mvcResult.getResponse().getContentAsString();
+    return performRequest(queryName, variables, database, expected, null);
   }
 
   /**
@@ -148,15 +118,39 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Error performing request
    */
   private String performRequest(String queryName, String variables, String database) throws Exception {
+    return performRequest(queryName, variables, database, null, null);
+  }
+
+  /**
+   * Performs the mock request and returns the response as a string
+   *
+   * @param queryName Query ID
+   * @param variables Variables
+   * @param database  Database
+   * @return Output
+   * @throws Exception Error performing request
+   */
+  private String performRequest(String queryName, String variables, String database, String expected, Map<String, Object> sessionAttr) throws Exception {
     setParameter("database", database);
-    MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
+    MockHttpServletRequestBuilder requestBuilder = post("/action/data/" + queryName)
       .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
       .content("{" + variables + "}")
       .contentType(MediaType.APPLICATION_JSON)
       .accept(MediaType.APPLICATION_JSON)
-      .session(session))
-      .andExpect(status().isOk())
-      .andReturn();
+      .session(session);
+
+    if (sessionAttr != null) {
+      requestBuilder.sessionAttrs(sessionAttr);
+    }
+
+    // Perform request
+    ResultActions mockMvcPerform = mockMvc.perform(requestBuilder).andExpect(status().isOk());
+
+    if (expected != null) {
+      mockMvcPerform.andExpect(content().json(expected));
+    }
+
+    MvcResult mvcResult = mockMvcPerform.andReturn();
     return mvcResult.getResponse().getContentAsString();
   }
 
@@ -1665,7 +1659,7 @@ public class QueryTest extends AweSpringDatabaseTests {
     String variables = "";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"fecha\":null,\"id\":3},{\"fecha\":null,\"id\":2},{\"fecha\":1383555422000,\"id\":5},{\"fecha\":null,\"id\":4},{\"fecha\":1382544122000,\"id\":1}]}}},{\"type\":\"end-load\"}]";
 
-    String result = performRequestWithoutCheckExpected(queryName, variables, DATABASE);
+    String result = performRequest(queryName, variables, DATABASE);
     assertQueryResultJson(queryName, result, 5);
 
     ArrayNode expectedList = (ArrayNode) objectMapper.readTree(expected);
@@ -1699,7 +1693,7 @@ public class QueryTest extends AweSpringDatabaseTests {
     String variables = "";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"fecha\":\"23-OCT-2013\",\"id\":1},{\"fecha\":null,\"id\":2},{\"fecha\":null,\"id\":3},{\"fecha\":null,\"id\":4},{\"fecha\":\"04-NOV-2013\",\"id\":5}]}}},{\"type\":\"end-load\"}]";
 
-    String result = performRequestWithoutCheckExpected(queryName, variables, DATABASE);
+    String result = performRequest(queryName, variables, DATABASE);
     logger.warn(result);
     assertQueryResultJson(queryName, result, 5);
 
@@ -2230,9 +2224,10 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testDatabaseVariableDate() throws Exception {
     String queryName = "VariableDate";
     String variables = "\"date\":\"22/10/3100\"";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"date\":\"23/10/1978\",\"Als\":\"DBSTest\",\"id\":1,\"timestamp\":\"23/10/1978 15:03:01\"},{\"date\":\"23/10/1978\",\"Als\":\"Theme test\",\"id\":2,\"timestamp\":\"23/10/1978 15:03:01\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    setParameter("date", "22/03/2011");
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":2,\"rows\":[{\"date\":\"23/10/1978\",\"dateParameter\":\"22/10/3100\",\"sessionDate\":\"22/03/2011\",\"Als\":\"DBSTest\",\"timestamp\":\"23/10/1978 15:03:01\"},{\"date\":\"23/10/1978\",\"dateParameter\":\"22/10/3100\",\"sessionDate\":\"22/03/2011\",\"Als\":\"Theme test\",\"timestamp\":\"23/10/1978 15:03:01\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
-    String result = performRequest(queryName, variables, DATABASE);
+    String result = performRequest(queryName, variables, DATABASE, expected);
     logger.warn(result);
     logger.warn(expected);
     assertResultVariablesJson(queryName, result, 2);
@@ -2610,6 +2605,7 @@ public class QueryTest extends AweSpringDatabaseTests {
 
   /**
    * Test of launchAction method, of class ActionController.
+   *
    * @throws Exception Test error
    */
   @Test
@@ -2625,6 +2621,7 @@ public class QueryTest extends AweSpringDatabaseTests {
 
   /**
    * Test of launchAction method, of class ActionController.
+   *
    * @throws Exception Test error
    */
   @Test
@@ -2640,6 +2637,7 @@ public class QueryTest extends AweSpringDatabaseTests {
 
   /**
    * Test of POWER operation of one field
+   *
    * @throws Exception Test error
    */
   @Test
@@ -2655,6 +2653,7 @@ public class QueryTest extends AweSpringDatabaseTests {
 
   /**
    * Test of launchAction method, of class ActionController.
+   *
    * @throws Exception Test error
    */
   @Test
@@ -2669,6 +2668,7 @@ public class QueryTest extends AweSpringDatabaseTests {
 
   /**
    * Test of launchAction method, of class ActionController.
+   *
    * @throws Exception Test error
    */
   @Test
@@ -2686,6 +2686,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   /**
    * Test of launchAction method, of class ActionController.
    * Launches an exception
+   *
    * @throws Exception Test error
    */
   @Test
@@ -2700,6 +2701,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   /**
    * Test of launchAction method, of class ActionController.
    * To be launched when launching tests on ORACLE, SQLSERVER or MYSQL databases
+   *
    * @throws Exception Test error
    */
   @Test
@@ -2715,6 +2717,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   /**
    * Test of launchAction method, of class ActionController.
    * To be launched when launching tests on ORACLE, SQLSERVER or MYSQL databases
+   *
    * @throws Exception Test error
    */
   @Test
@@ -2790,7 +2793,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testCheckInitialQuerySelectedValues() throws Exception {
     setParameter("user", "LaloElMalo");
     String expected =
-    "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ComponentSelectEnum\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectEnum\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"Es1Es0\",\"value\":\"0\",\"visible\":true},\"model\":{\"selected\":[\"0\"],\"defaultValues\":[\"0\"],\"values\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]}},{\"id\":\"ComponentSuggestCheckInitial\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":\"TestComponentInitialSuggestValue\",\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestCheckInitial\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[]}},{\"id\":\"ComponentSelectQuery\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectQuery\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadQuery\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[{\"label\":\"test\",\"id\":1,\"value\":1},{\"label\":\"donald\",\"id\":2,\"value\":2},{\"label\":\"jorgito\",\"id\":3,\"value\":3},{\"label\":\"juanito\",\"id\":4,\"value\":811},{\"label\":\"jaimito\",\"id\":5,\"value\":1702}]}},{\"id\":\"ComponentTextStaticValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"prueba\",\"visible\":true},\"model\":{\"selected\":[\"prueba\"],\"defaultValues\":[\"prueba\"],\"values\":[]}},{\"id\":\"WinDat\",\"controller\":{\"contextMenu\":[],\"dependencies\":[],\"label\":\"SCREEN_TEXT_DATA\",\"maximize\":true,\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"ComponentSuggestValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestValue\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextStaticSessionValue\",\"controller\":{\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticSessionValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"LaloElMalo\"],\"defaultValues\":[\"LaloElMalo\"],\"values\":[]}},{\"id\":\"ComponentTextStaticPropertyValue\",\"controller\":{\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticPropertyValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"awe-boot\"],\"defaultValues\":[\"awe-boot\"],\"values\":[]}}],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"TestInitialValues\",\"title\":\"SCREEN_TITLE_BUTTON_TEST\",\"option\":\"test-initial-values\"}}}},{\"type\":\"end-load\"}]";
+      "[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"ComponentSelectEnum\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectEnum\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"Es1Es0\",\"value\":\"0\",\"visible\":true},\"model\":{\"selected\":[\"0\"],\"defaultValues\":[\"0\"],\"values\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}]}},{\"id\":\"ComponentSuggestCheckInitial\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":\"TestComponentInitialSuggestValue\",\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestCheckInitial\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[]}},{\"id\":\"ComponentSelectQuery\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSelectQuery\",\"label\":\"PARAMETER_SELECT\",\"optional\":true,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadQuery\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[{\"label\":\"test\",\"id\":1,\"value\":1},{\"label\":\"donald\",\"id\":2,\"value\":2},{\"label\":\"jorgito\",\"id\":3,\"value\":3},{\"label\":\"juanito\",\"id\":4,\"value\":811},{\"label\":\"jaimito\",\"id\":5,\"value\":1702}]}},{\"id\":\"ComponentTextStaticValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"prueba\",\"visible\":true},\"model\":{\"selected\":[\"prueba\"],\"defaultValues\":[\"prueba\"],\"values\":[]}},{\"id\":\"WinDat\",\"controller\":{\"contextMenu\":[],\"dependencies\":[],\"label\":\"SCREEN_TEXT_DATA\",\"maximize\":true,\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[]}},{\"id\":\"ComponentSuggestValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentSuggestValue\",\"label\":\"PARAMETER_SUGGEST\",\"optional\":false,\"printable\":true,\"readonly\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextValue\",\"controller\":{\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[1.0],\"defaultValues\":[1.0],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":1.0}]}},{\"id\":\"ComponentTextStaticSessionValue\",\"controller\":{\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticSessionValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"LaloElMalo\"],\"defaultValues\":[\"LaloElMalo\"],\"values\":[]}},{\"id\":\"ComponentTextStaticPropertyValue\",\"controller\":{\"checkInitial\":true,\"checked\":false,\"contextMenu\":[],\"dependencies\":[],\"id\":\"ComponentTextStaticPropertyValue\",\"label\":\"PARAMETER_TEXT\",\"optional\":false,\"printable\":true,\"readonly\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"awe-boot\"],\"defaultValues\":[\"awe-boot\"],\"values\":[]}}],\"messages\":{},\"actions\":[],\"screen\":{\"name\":\"TestInitialValues\",\"title\":\"SCREEN_TITLE_BUTTON_TEST\",\"option\":\"test-initial-values\"}}}},{\"type\":\"end-load\"}]";
     //"[{\"type\":\"screen-data\",\"parameters\":{\"view\":\"base\",\"screenData\":{\"components\":[{\"id\":\"WinDat\",\"controller\":{\"autoload\":false,\"contextMenu\":[],\"dependencies\":[],\"label\":\"SCREEN_TEXT_DATA\",\"loadAll\":false,\"maximize\":true,\"visible\":true},\"model\":{\"selected\":[],\"defaultValues\":[],\"values\":[],\"page\":1,\"total\":0,\"records\":0}},{\"id\":\"ComponentSelectEnum\",\"controller\":{\"autoload\":false,\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"component\":\"select\",\"contextMenu\":[],\"dependencies\":[],\"elementKey\":\"ComponentSelectEnum\",\"id\":\"ComponentSelectEnum\",\"initialLoad\":\"enum\",\"label\":\"PARAMETER_SELECT\",\"loadAll\":false,\"optional\":true,\"printable\":true,\"readonly\":false,\"required\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"Es1Es0\",\"value\":\"0\",\"visible\":true},\"model\":{\"selected\":[\"0\"],\"defaultValues\":[\"0\"],\"values\":[{\"id\":1,\"label\":\"ENUM_NO\",\"value\":\"0\"},{\"id\":2,\"label\":\"ENUM_YES\",\"value\":\"1\"}],\"page\":1,\"total\":1,\"records\":2}},{\"id\":\"ComponentSelectQuery\",\"controller\":{\"autoload\":false,\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"component\":\"select\",\"contextMenu\":[],\"dependencies\":[],\"elementKey\":\"ComponentSelectQuery\",\"id\":\"ComponentSelectQuery\",\"initialLoad\":\"query\",\"label\":\"PARAMETER_SELECT\",\"loadAll\":false,\"optional\":true,\"printable\":true,\"readonly\":false,\"required\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadQuery\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[{\"label\":\"test\",\"id\":1,\"value\":1},{\"label\":\"donald\",\"id\":2,\"value\":2},{\"label\":\"jorgito\",\"id\":3,\"value\":3},{\"label\":\"juanito\",\"id\":4,\"value\":811},{\"label\":\"jaimito\",\"id\":5,\"value\":1702}],\"page\":1,\"total\":1,\"records\":5}},{\"id\":\"ComponentSuggestValue\",\"controller\":{\"autoload\":false,\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"component\":\"suggest\",\"contextMenu\":[],\"dependencies\":[],\"elementKey\":\"ComponentSuggestValue\",\"id\":\"ComponentSuggestValue\",\"initialLoad\":\"value\",\"label\":\"PARAMETER_SUGGEST\",\"loadAll\":false,\"optional\":false,\"printable\":true,\"readonly\":false,\"required\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":\"1\"}],\"page\":1,\"total\":1,\"records\":1}},{\"id\":\"ComponentSuggestCheckInitial\",\"controller\":{\"autoload\":false,\"checkEmpty\":true,\"checkInitial\":true,\"checkTarget\":\"TestComponentInitialSuggestValue\",\"checked\":false,\"component\":\"suggest\",\"contextMenu\":[],\"dependencies\":[],\"elementKey\":\"ComponentSuggestCheckInitial\",\"id\":\"ComponentSuggestCheckInitial\",\"label\":\"PARAMETER_SUGGEST\",\"loadAll\":false,\"optional\":false,\"printable\":true,\"readonly\":false,\"required\":false,\"serverAction\":\"data\",\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"1\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[],\"page\":1,\"total\":0,\"records\":0}},{\"id\":\"ComponentTextValue\",\"controller\":{\"autoload\":false,\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"component\":\"text\",\"contextMenu\":[],\"dependencies\":[],\"elementKey\":\"ComponentTextValue\",\"id\":\"ComponentTextValue\",\"initialLoad\":\"value\",\"label\":\"PARAMETER_TEXT\",\"loadAll\":false,\"optional\":false,\"printable\":true,\"readonly\":false,\"required\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"targetAction\":\"TestComponentInitialLoadValue\",\"visible\":true},\"model\":{\"selected\":[\"1\"],\"defaultValues\":[\"1\"],\"values\":[{\"kk\":\"1\",\"value2\":1,\"label\":\"test\",\"id\":1,\"value\":\"1\"}],\"page\":1,\"total\":1,\"records\":1}},{\"id\":\"ComponentTextStaticValue\",\"controller\":{\"autoload\":false,\"checkEmpty\":true,\"checkInitial\":true,\"checked\":false,\"component\":\"text\",\"contextMenu\":[],\"dependencies\":[],\"elementKey\":\"ComponentTextStaticValue\",\"id\":\"ComponentTextStaticValue\",\"label\":\"PARAMETER_TEXT\",\"loadAll\":false,\"optional\":false,\"printable\":true,\"readonly\":false,\"required\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"value\":\"prueba\",\"visible\":true},\"model\":{\"selected\":[\"prueba\"],\"defaultValues\":[\"prueba\"],\"values\":[],\"page\":1,\"total\":0,\"records\":0}},{\"id\":\"ComponentTextStaticSessionValue\",\"controller\":{\"autoload\":false,\"checkEmpty\":false,\"checkInitial\":true,\"checked\":false,\"component\":\"text\",\"contextMenu\":[],\"dependencies\":[],\"elementKey\":\"ComponentTextStaticSessionValue\",\"id\":\"ComponentTextStaticSessionValue\",\"label\":\"PARAMETER_TEXT\",\"loadAll\":false,\"optional\":false,\"printable\":true,\"readonly\":false,\"required\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"LaloElMalo\"],\"defaultValues\":[\"LaloElMalo\"],\"values\":[],\"page\":1,\"total\":0,\"records\":0}},{\"id\":\"ComponentTextStaticPropertyValue\",\"controller\":{\"autoload\":false,\"checkEmpty\":false,\"checkInitial\":true,\"checked\":false,\"component\":\"text\",\"contextMenu\":[],\"dependencies\":[],\"elementKey\":\"ComponentTextStaticPropertyValue\",\"id\":\"ComponentTextStaticPropertyValue\",\"label\":\"PARAMETER_TEXT\",\"loadAll\":false,\"optional\":false,\"printable\":true,\"readonly\":false,\"required\":false,\"strict\":true,\"style\":\"col-xs-6 col-sm-3 col-lg-2\",\"visible\":true},\"model\":{\"selected\":[\"awe-boot\"],\"defaultValues\":[\"awe-boot\"],\"values\":[],\"page\":1,\"total\":0,\"records\":0}}],\"messages\":{},\"screenProperties\":{\"name\":\"TestInitialValues\",\"title\":\"SCREEN_TITLE_BUTTON_TEST\",\"option\":\"test-initial-values\"},\"actions\":[],\"screen\":{\"name\":\"TestInitialValues\",\"title\":\"SCREEN_TITLE_BUTTON_TEST\",\"option\":\"test-initial-values\"}}}},{\"type\":\"end-load\"}]"
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
       .header("Authorization", "e6144dad-6e67-499e-b74a-d1e600732e11")
@@ -2944,8 +2947,8 @@ public class QueryTest extends AweSpringDatabaseTests {
       .content("{\"option\":\"grid-and-chart\",\"view\":\"report\"}")
       .contentType(MediaType.APPLICATION_JSON)
       .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andReturn();
+      .andExpect(status().isOk())
+      .andReturn();
     String result = mvcResult.getResponse().getContentAsString();
     logger.warn(result);
     ArrayNode resultList = (ArrayNode) objectMapper.readTree(result);
@@ -3077,7 +3080,7 @@ public class QueryTest extends AweSpringDatabaseTests {
     String variables = "";
     MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
       .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
-      .content("{"+ variables +"\"option\":\"grid-and-chart\",\"view\":\"base\"}")
+      .content("{" + variables + "\"option\":\"grid-and-chart\",\"view\":\"base\"}")
       .contentType(MediaType.APPLICATION_JSON)
       .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
@@ -3124,6 +3127,7 @@ public class QueryTest extends AweSpringDatabaseTests {
 
   /**
    * Check if current database is an in memory database
+   *
    * @return <code>true</code> if is memory database
    * @throws Exception {@link Exception}
    */

@@ -544,6 +544,7 @@
   <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="El parámetro &apos;target-action&apos; no existe o no está definido. Comprueba la declaración de la acción de consulta"/>
   <locale name="ERROR_MESSAGE_TOO_MANY_REQUESTS" value="Ha habido demasiadas peticiones concurrentes y no se ha podido resolver"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_CACHE" value="No se ha definido un tipo de cache -{0}-"/>
+  <locale name="ERROR_MESSAGE_UNDEFINED_DATASOURCE" value="No se ha definido el origen de datos seleccionado: `{0}`"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_SESSION" value="La sesión con el token &quot;{0}&quot; ya no existe o no ha sido definida"/>
   <locale name="ERROR_MESSAGE_UNIQUE_CRITERIA" value="El valor seleccionado ya existe en la base de datos"/>
   <locale name="ERROR_MESSAGE_UPDATE_WRK_DIR2" value="La ruta no es correcta"/>
