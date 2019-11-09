@@ -544,6 +544,7 @@
   <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="Le paramètre &apos;target-action&apos; est introuvable ou non défini. Vérifiez votre définition d&apos;action de données"/>
   <locale name="ERROR_MESSAGE_TOO_MANY_REQUESTS" value="Trop de requettes concurrentes non resolues"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_CACHE" value="Ce n&apos;est pas defini le type de cache -{0}-"/>
+  <locale name="ERROR_MESSAGE_UNDEFINED_DATASOURCE" value="Le source des données `{0}` n&apos;a pas été défini"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_SESSION" value="La séance avec le jeton &apos;{0}&apos; n&apos;existe pas ou n&apos;a pas été défini"/>
   <locale name="ERROR_MESSAGE_UNIQUE_CRITERIA" value="La valeur selectionee existe deja dans la base de donnees"/>
   <locale name="ERROR_MESSAGE_UPDATE_WRK_DIR2" value="Le chemin n&apos;est pas correct"/>

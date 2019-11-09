@@ -840,6 +840,8 @@
     <table id="HISAweDbs"/>
     <field id="Als"/>
     <field variable="date" alias="date" transform="DATE"/>
+    <field variable="dateParameter" alias="dateParameter" transform="DATE"/>
+    <field variable="sessionDateParameter" alias="sessionDate" transform="DATE"/>
     <field variable="timestamp" alias="timestamp" transform="TIMESTAMP"/>
     <where>
       <and>
@@ -860,6 +862,7 @@
     </where>
     <variable id="date" type="DATE" value="23/10/1978"/>
     <variable id="dateParameter" type="DATE" name="date"/>
+    <variable id="sessionDateParameter" type="DATE" session="date"/>
     <variable id="timestamp" type="TIMESTAMP" value="23/10/1978 15:03:01.000"/>
   </query>
 
