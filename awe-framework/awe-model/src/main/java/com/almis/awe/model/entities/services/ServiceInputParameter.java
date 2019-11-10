@@ -48,6 +48,7 @@ public class ServiceInputParameter extends ServiceParameter {
 
   /**
    * Returns if is list
+   *
    * @return Is list
    */
   public boolean isList() {

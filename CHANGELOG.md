@@ -1,4 +1,22 @@
 
+# Changelog for AWE 4.1.6
+*10/11/2019*
+
+- Retrieving session parameters with type DATE returns a null value. [MR #138](https://gitlab.com/aweframework/awe/merge_requests/138) (Pablo Javier García Mora)
+- Error retrieving `ServiceData` messages. [MR #136](https://gitlab.com/aweframework/awe/merge_requests/136) (Pablo Javier García Mora)
+- ABS function in query fields not working properly. [MR #135](https://gitlab.com/aweframework/awe/merge_requests/135) (Pablo Javier García Mora)
+- Tree is not working when data is not sorted by id. [MR #134](https://gitlab.com/aweframework/awe/merge_requests/134) (Pablo Javier García Mora)
+- **[HAS IMPACTS]** Possibility to put tags: case, field, constant and operation in the left-operand and right-operand tags. [MR #133](https://gitlab.com/aweframework/awe/merge_requests/133) (Pablo Javier García Mora)
+- Update documentation: show actions stack in browser. [MR #132](https://gitlab.com/aweframework/awe/merge_requests/132) (Pablo Javier García Mora)
+- Update-model server action shows an error message and cancels the action when service fails. [MR #131](https://gitlab.com/aweframework/awe/merge_requests/131) (Pablo Javier García Mora)
+- Dependency-elements are treated as components by getElementsById(). [MR #130](https://gitlab.com/aweframework/awe/merge_requests/130) (Pablo Javier García Mora)
+- Cast into case. [MR #129](https://gitlab.com/aweframework/awe/merge_requests/129) (Pablo Javier García Mora)
+- Bug in addNoPrint() method from DataListBuilder. [MR #128](https://gitlab.com/aweframework/awe/merge_requests/128) (Pablo Javier García Mora)
+- nullValue attribute in computeds should also check for empty values. [MR #127](https://gitlab.com/aweframework/awe/merge_requests/127) (Pablo Javier García Mora)
+- ABS function in query fields not working properly. [MR #126](https://gitlab.com/aweframework/awe/merge_requests/126) (Pablo Javier García Mora)
+- Component numeric not storing values on Internet Explorer. [MR #125](https://gitlab.com/aweframework/awe/merge_requests/125) (Pablo Javier García Mora)
+- GridEvents.sendGridMessage not working properly. [MR #124](https://gitlab.com/aweframework/awe/merge_requests/124) (Pablo Vidal Otero)
+
 # Changelog for AWE 4.1.5
 *11/10/2019*
 

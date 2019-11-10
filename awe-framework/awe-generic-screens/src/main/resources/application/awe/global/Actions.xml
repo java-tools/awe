@@ -341,9 +341,6 @@
           <parameter name="message" variable="MESSAGE_DESCRIPTION" />
         </parameters>
       </response>
-      <response>
-        <type>cancel</type>
-      </response>
     </answer>
     <answer type="info">
       <response>
@@ -369,9 +366,6 @@
           <parameter name="title" variable="MESSAGE_TITLE" />
           <parameter name="message" variable="MESSAGE_DESCRIPTION" />
         </parameters>
-      </response>
-      <response>
-        <type>cancel</type>
       </response>
     </answer>
   </action>

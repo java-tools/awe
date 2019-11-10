@@ -387,8 +387,8 @@ It has the same attributes as a [filter element](#filter-element) **plus** some 
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
 | cast  | Optional | String | Change the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 
-> **NEW!**: As described on [filter element](#filter-element), `left-operand` and `right-operand` can be defined with the
-> properties of `field`, `static`, `operation` or `case` as well. Same case for the `then` and `else` elements.
+> **NEW!**: As described on [filter element](#filter-element), `left-operand` and `right-operand` must contain
+> a node of `field`, `constant`, `operation` or `case` as well. Same case for the `then` and `else` elements.
 
 #### Case examples
 
@@ -404,10 +404,30 @@ will be generated as:
 <query id="testCaseWhenElse">
   <table id="AweThm"/>
   <case alias="value">
-    <when condition="eq"><left-operand id="Nam"/><right-operand variable="sunset"/><then value="1" type="INTEGER"/></when>
-    <when left-field="Nam" condition="eq" right-variable="sunny"><then value="2" type="INTEGER"/></when>
-    <when left-field="Nam" condition="eq" right-variable="purple-hills"><then value="3" type="INTEGER"/></when>
-    <else value="0" type="INTEGER"/>
+    <when condition="eq">
+      <left-operand>
+        <field id="Nam"/>
+      </left-operand>
+      <right-operand>
+        <field variable="sunset"/>
+      </right-operand>
+      <then>
+        <constant value="1" type="INTEGER"/>
+      </then>
+    </when>
+    <when left-field="Nam" condition="eq" right-variable="sunny">
+      <then>
+        <constant value="2" type="INTEGER"/>
+      </then>
+    </when>
+    <when left-field="Nam" condition="eq" right-variable="purple-hills">
+      <then>
+        <constant value="3" type="INTEGER"/>
+      </then>
+    </when>
+    <else>
+      <constant value="0" type="INTEGER"/>
+    </else>
   </case>
   <variable id="sunset" type="STRING" value="sunset"/>
   <variable id="sunny" type="STRING" value="sunny"/>
@@ -662,17 +682,21 @@ The having structure is the next one, is the same as where element:
 The filter structure is as follows:
 
 ```xml
-<filter left-value="[Constant value]" left-field="[Field 1]" left-table="[Field table 1]" left-query="[Query Id]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]" 
-        right-value="[Constant value]" right-field="[Field 2]" right-table="[Field table 2]" right-query="[Query Id]" right-variable="[Variable Id]" ignorecase="[Ignorecase]" trim="[Trim]"/>
+<filter left-field="[Field 1]" left-table="[Field table 1]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]"  
+        right-field="[Field 2]" right-table="[Field table 2]" right-variable="[Variable Id]" query="[Query Id]"  ignorecase="[Ignorecase]" trim="[Trim]"/>
 ```
 
 > **NEW!** Now you can define a `left-operand` and a `right-operand` children to define the filters. 
-> These elements can have any attribute from `field`, `static`, `operation` or `case` elements:
+> These elements must contain `field`, `constant`, `operation` or `case` elements:
 
  ```xml
 <filter condition="[Condition]" ignorecase="[Ignorecase]" trim="[Trim]" optional="[Optional]">
-  <left-operand id="[field name]"/>
-  <right-operand value="[static value]" type="[value type]"/> 
+  <left-operand>
+    <field id="[field name]"/>
+  </left-operand>
+  <right-operand>
+    <constant value="[static value]" type="[value type]"/>
+  </right-operand> 
 </filter>
  ```
 
@@ -688,8 +712,8 @@ The *filter* element has the following attributes:
 | condition  | **Required** | String | The condition of the comparison | See [comparison conditions](#comparison-conditions) |
 | right-field | Optional | String | The name of a column |  |
 | right-table | Optional | String | The name of the table that *right-field* belongs to |  |
-| query      | Optional | String | The id of a query to compare (right side) |  |
 | right-variable | Optional | String | The id of a variable |  |
+| query      | Optional | String | The id of a query to compare (right side) |  |
 | ignorecase | Optional | String | If comparison should ignore case | `true`, `false` (default) |
 | trim       | Optional | String | If values should be trimmed before comparison | `true`, `false` (default) |
 

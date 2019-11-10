@@ -216,15 +216,12 @@
 
   <!-- Operand Type -->
   <xs:complexType name="operandType">
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
+    <xs:choice minOccurs="1" maxOccurs="1">
       <xs:element ref="field" />
       <xs:element ref="constant" />
       <xs:element ref="operation" />
       <xs:element ref="case" />
-      <xs:element ref="when" />
-      <xs:element ref="else" />
     </xs:choice>
-    <xs:attributeGroup ref="operandAttr"/>
   </xs:complexType>
 
 
@@ -264,11 +261,6 @@
     <xs:attribute name="pattern" type="xs:string" />
     <xs:attribute name="translate" type="xs:string" />
     <xs:attribute name="label" type="xs:string" />
-  </xs:complexType>
-
-  <!-- Case Else type -->
-  <xs:complexType name="caseElseType">
-    <xs:attributeGroup ref="operandAttr"/>
   </xs:complexType>
 
   <!-- Case When type -->
@@ -400,20 +392,12 @@
 
   <!-- Operation Attributes -->
   <xs:attributeGroup name="operationAttr">
-    <xs:attribute name="operator" type="operationRestriction"/>
+    <xs:attribute name="operator" type="operationRestriction" use="required"/>
   </xs:attributeGroup>
 
   <!-- Operation Attributes -->
   <xs:attributeGroup name="operationQueryAttr">
     <xs:attributeGroup ref="baseQueryAttr"/>
-    <xs:attributeGroup ref="operationAttr"/>
-  </xs:attributeGroup>
-
-  <!-- Operand Attributes -->
-  <xs:attributeGroup name="operandAttr">
-    <xs:attributeGroup ref="allFieldsAttr"/>
-    <xs:attributeGroup ref="fieldAttr"/>
-    <xs:attributeGroup ref="constantAttr"/>
     <xs:attributeGroup ref="operationAttr"/>
   </xs:attributeGroup>
 

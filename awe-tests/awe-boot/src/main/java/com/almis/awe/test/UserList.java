@@ -4,6 +4,7 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
+import com.almis.awe.model.util.data.DataListUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;
@@ -53,6 +54,39 @@ public class UserList extends ServiceConfig {
         }
 
         dataList.setRecords((long) userList.size() * simulateNumFile);
+        serviceData.setDataList(dataList);
+      }
+    } catch (Exception ex) {
+      throw new AWException("Error reading json file", ex);
+    }
+    return serviceData;
+  }
+
+  /**
+   * Load tree Json file
+   * @return User list
+   * @throws AWException Error retrieving user list
+   */
+  public ServiceData loadTreeJsonFile() throws AWException {
+
+    ServiceData serviceData = new ServiceData();
+
+    try {
+
+      // Read json file
+      Resource resource = new ClassPathResource("static/tree_data.json");
+      if (resource.exists()) {
+        InputStream resourceInputStream = resource.getInputStream();
+        // create ObjectMapper instance
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // convert json string to object
+        List<TreeData> treeDataList = objectMapper.readValue(resourceInputStream, new TypeReference<List<TreeData>>() {});
+
+        // Get datalist
+        DataList dataList = DataListUtil.fromBeanList(treeDataList);
+
+        // Build dataList
         serviceData.setDataList(dataList);
       }
     } catch (Exception ex) {

@@ -198,7 +198,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
         CellData cell = row.get(variableKey);
 
         // Check if cell is null or empty
-        if (row.containsKey(variableKey)) {
+        if (cell != null && !cell.getStringValue().isEmpty()) {
           variableValue = cell.getStringValue();
         } else if (computed.getNullValue() != null){
           variableValue = computed.getNullValue();

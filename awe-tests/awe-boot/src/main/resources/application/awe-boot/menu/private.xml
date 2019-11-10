@@ -78,6 +78,7 @@
       <option name="matrix-test-suggest" label="MENU_TEST_MATRIX_SUGGEST" screen="MatEdiSelTst" icon="list-ul"/>
       <option name="matrix-test-having" label="MENU_TEST_MATRIX_HAVING" screen="having" icon="list-alt"/>
       <option name="matrix-test-load-all" label="MENU_TEST_MATRIX_LOAD_ALL" screen="MatLoadAll" icon="table"/>
+      <option name="matrix-test-tree" label="MENU_TEST_MATRIX_TREE" screen="test-tree" icon="sitemap"/>
     </option>
     <option name="chart" label="MENU_TEST_CHARTS" icon="area-chart">
       <option name="chart-test" label="MENU_TEST_CHARTS" screen="ChrTst" icon="bar-chart-o"/>

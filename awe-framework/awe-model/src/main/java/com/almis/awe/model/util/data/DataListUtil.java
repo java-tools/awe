@@ -27,21 +27,6 @@ public final class DataListUtil {
   }
 
   /**
-   * Get a copy of dataList object
-   *
-   * @param original DataList
-   * @return DataList copy
-   */
-  public static DataList copyDataList(DataList original) {
-    DataList copy = new DataList();
-    copy.setTotal(original.getTotal());
-    copy.setPage(original.getPage());
-    copy.setRecords(original.getRecords());
-    copy.setRows((List<Map<String, CellData>>) ((ArrayList<Map<String, CellData>>) original.getRows()).clone());
-    return copy;
-  }
-
-  /**
    * Returns the value data by (rowNumber, hashKey)
    *
    * @param list      DataList
@@ -262,6 +247,31 @@ public final class DataListUtil {
       list.add(rowBean);
     }
     return list;
+  }
+
+  /**
+   * Return the datalist as bean list
+   *
+   * @param beanList bean class
+   * @param <T>       class type
+   * @return bean list
+   * @throws AWException AWE exception
+   */
+  public static <T> DataList fromBeanList(List<T> beanList) {
+    DataList dataList = DataList.builder().build();
+
+    for (T bean : beanList) {
+      Map<String, CellData> row = new HashMap<>();
+      PropertyAccessor rowBeanAccesor = PropertyAccessorFactory.forDirectFieldAccess(bean);
+
+      // Set field value if found in row
+      for (Field field : bean.getClass().getDeclaredFields()) {
+        row.put(field.getName(), new CellData(rowBeanAccesor.getPropertyValue(field.getName())));
+      }
+
+      dataList.addRow(row);
+    }
+    return dataList;
   }
 
   /**

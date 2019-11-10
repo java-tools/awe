@@ -8,9 +8,6 @@ import com.almis.awe.exception.AWException;
  * @author jbellon
  */
 public class ServiceDataWrapper extends ServiceData implements ResponseWrapper {
-
-  private static final long serialVersionUID = -8421762687959594559L;
-
   @Override
   public ServiceData toServiceData() throws AWException {
     return this;

@@ -119,7 +119,8 @@ IdeMod int CONSTRAINT pk_AweMod PRIMARY KEY NOT NULL, --- Module key
 Nam varchar(100) not NULL, --- Module name
 ScrIni varchar(40) NULL, --- Module initial screen (deprecated)
 IdeThm int NULL, --- Module theme (deprecated)
-Act int default 1 not NULL --- Active (1) or not (0)
+Act int default 1 not NULL, --- Active (1) or not (0)
+Ord int NULL  --- value to recover modules sorted as convenience
 );
 CREATE UNIQUE INDEX AweModI1 ON AweMod (Nam);
 
@@ -255,7 +256,7 @@ CREATE TABLE IF NOT EXISTS HISAweDbs (HISope varchar(20) not NULL, HISdat date n
 CREATE INDEX HISAweDbsI1 ON HISAweDbs (HISope, HISdat, HISact);
 CREATE TABLE IF NOT EXISTS HISAweSit (HISope varchar(20) not NULL, HISdat date not NULL, HISact varchar(1) not NULL, IdeSit int NULL, Nam varchar(100) NULL, Ord int NULL, Act int NULL );
 CREATE INDEX HISAweSitI1 ON HISAweSit (HISope, HISdat, HISact);
-CREATE TABLE HISAweMod (HISope varchar(20) not NULL, HISdat date not NULL, HISact varchar(1) not NULL, IdeMod int NULL, Nam varchar(100) NULL, ScrIni varchar(40) NULL, IdeThm int NULL, Act int NULL);
+CREATE TABLE HISAweMod (HISope varchar(20) not NULL, HISdat date not NULL, HISact varchar(1) not NULL, IdeMod int NULL, Nam varchar(100) NULL, ScrIni varchar(40) NULL, IdeThm int NULL, Act int NULL, Ord int NULL);
 CREATE INDEX HISAweModI1 ON HISAweMod (HISope, HISdat, HISact);
 CREATE TABLE HISAweSitModDbs(HISope varchar(20) not NULL, HISdat date not NULL, HISact varchar(1) not NULL, IdeSitModDbs int NULL, IdeSit int NULL, IdeMod int NULL, IdeDbs int NULL, Ord int NULL);
 CREATE INDEX HISAweSitModDbsI1 ON HISAweMod (HISope, HISdat, HISact);

@@ -77,6 +77,7 @@
         <column label="PARAMETER_NAME" name="Nam" sort-field="Nam" align="left" charlength="25" />
         <column label="PARAMETER_SCREEN" name="ScrIni" sort-field="ScrIni" align="left" charlength="15" />
         <column label="PARAMETER_THEME" name="ThmTxt" sort-field="ThmTxt" align="left" charlength="15" />
+        <column label="PARAMETER_ORDER" name="Ord" sort-field="Ord" align="center" charlength="12" />
         <column label="PARAMETER_ACTIVE" component="icon" name="ActIco" sort-field="Act" align="center" charlength="10" />
         <column name="IdeMod" hidden="true" />
         <column name="IdeThm" hidden="true" />

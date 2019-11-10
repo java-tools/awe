@@ -3,28 +3,28 @@ package com.almis.awe.test.unit.pojo;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.FilterColumn;
 import com.almis.awe.model.util.data.DataListUtil;
-import com.almis.awe.model.util.data.DateUtil;
 import com.almis.awe.service.data.builder.DataListBuilder;
+import com.almis.awe.test.bean.NoAttributes;
 import com.almis.awe.test.bean.Planet;
 import com.almis.awe.test.unit.TestUtil;
 import org.junit.Test;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * DataList, DataListUtil and DataListBuilder tests
+ *
  * @author pgarcia
  */
 public class DataListTest extends TestUtil {
 
   /**
    * Test of check public addresses
+   *
    * @throws Exception Test error
    */
   @Test
@@ -46,6 +46,7 @@ public class DataListTest extends TestUtil {
 
   /**
    * Test of check public addresses
+   *
    * @throws Exception Test error
    */
   @Test
@@ -67,6 +68,7 @@ public class DataListTest extends TestUtil {
 
   /**
    * Test of check data list utilities
+   *
    * @throws Exception Test error
    */
   @Test
@@ -88,6 +90,7 @@ public class DataListTest extends TestUtil {
 
   /**
    * Test of check data list utilities
+   *
    * @throws Exception Test error
    */
   @Test
@@ -109,6 +112,7 @@ public class DataListTest extends TestUtil {
 
   /**
    * Test datalist conversion to bean list
+   *
    * @throws Exception Test error
    */
   @Test
@@ -133,5 +137,80 @@ public class DataListTest extends TestUtil {
     // Assert
     assertEquals(3, planetList.size());
     assertEquals("3,711 m/s²", planetList.get(1).getGravity());
+  }
+
+  /**
+   * Test datalist conversion to bean list
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDataListFromBeanList() throws Exception {
+    // Prepare
+    List<Planet> planets = new ArrayList<>();
+    planets.add(new Planet()
+      .setName("Earth")
+      .setRotationPeriod("1d 0h 0m")
+      .setOrbitalPeriod("365d 6h 0m")
+      .setDiameter("10000")
+      .setClimate("mixed")
+      .setGravity("9,807 m/s²")
+      .setTerrain("solid")
+      .setPopulation(101231012312L));
+    planets.add(new Planet()
+      .setName("Mars")
+      .setRotationPeriod("1d 0h 37m")
+      .setOrbitalPeriod("687d")
+      .setDiameter("8121")
+      .setClimate("dry")
+      .setGravity("3,711 m/s²")
+      .setTerrain("solid")
+      .setPopulation(0L));
+    planets.add(new Planet()
+      .setName("Jupiter")
+      .setRotationPeriod("0d 9h 56m")
+      .setOrbitalPeriod("12y")
+      .setDiameter("123121")
+      .setClimate("stormy")
+      .setGravity("24,79 m/s²")
+      .setTerrain("gas")
+      .setPopulation(0L));
+
+    // Generate bean list
+    DataList planetData = DataListUtil.fromBeanList(planets);
+
+    // Assert
+    assertEquals(3, planetData.getRows().size());
+    assertEquals("3,711 m/s²", DataListUtil.getData(planetData,1, "gravity"));
+  }
+
+  /**
+   * Test datalist conversion to bean list
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDataListFromBeanListExtraCases() throws Exception {
+    // Prepare
+    List<Planet> planets = new ArrayList<>();
+
+    // Generate bean list
+    DataList planetData = DataListUtil.fromBeanList(planets);
+
+    // Assert
+    assertEquals(0, planetData.getRows().size());
+
+    // Prepare
+    List<NoAttributes> nones = new ArrayList<>();
+    nones.add(new NoAttributes());
+    nones.add(new NoAttributes());
+    nones.add(new NoAttributes());
+    nones.add(new NoAttributes());
+
+    // Generate bean list
+    DataList nonesData = DataListUtil.fromBeanList(nones);
+
+    // Assert
+    assertEquals(4, nonesData.getRows().size());
   }
 }

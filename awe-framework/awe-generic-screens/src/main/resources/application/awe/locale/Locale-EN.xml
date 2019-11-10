@@ -541,9 +541,10 @@
   <locale name="ERROR_MESSAGE_STORE_CRITERIA" value="There has been a problem trying to store the previous screen criteria"/>
   <locale name="ERROR_MESSAGE_STORE_FILE" value="There has been a problem trying to store the file {0}"/>
   <locale name="ERROR_MESSAGE_STORING_TRANSLATION" value="There has been an error trying to store the translation of the localee -{0}- with the value -{1}-"/>
-  <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="The 'target-action' parameter not found or not defined. Check your data action definition" />
+  <locale name="ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND" value="The &apos;target-action&apos; parameter not found or not defined. Check your data action definition"/>
   <locale name="ERROR_MESSAGE_TOO_MANY_REQUESTS" value="There has been too many requests and this can not be resolved"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_CACHE" value="Cache type -{0}- has not been defined"/>
+  <locale name="ERROR_MESSAGE_UNDEFINED_DATASOURCE" value="The selected datasource `{0}` has not been defined"/>
   <locale name="ERROR_MESSAGE_UNDEFINED_SESSION" value="Session with token &apos;{0}&apos; doesn&apos;t exists or has been deleted"/>
   <locale name="ERROR_MESSAGE_UNIQUE_CRITERIA" value="The selected value is already in the database"/>
   <locale name="ERROR_MESSAGE_UPDATE_WRK_DIR2" value="The path is not correct"/>
@@ -814,6 +815,7 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="HELP_SCREEN_TITLE_THM_NEW" value="Register new theme"/>
   <locale name="HELP_SCREEN_TITLE_THM_UPD" value="Update theme name"/>
   <locale name="HELP_SCREEN_TITLE_THM_VIW" value="Displays detailed theme information"/>
+  <locale name="HELP_SCREEN_TITLE_TREE_TEST" value="This screen tests the usage of a non-sorted tree data loaded into a tree grid"/>
   <locale name="HELP_SCREEN_TITLE_UNIKEY" value="Manage application unique keys for sequences."/>
   <locale name="HELP_SCREEN_TITLE_USR" value="Manage application users. Here you can view, add, delete and modify all application users"/>
   <locale name="HELP_SCREEN_TITLE_USR_NEW" value="Register new user"/>
@@ -859,6 +861,7 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="MENU_TASKS_BATCH" value="Task batch definition"/>
   <locale name="MENU_TASKS_BATCH_AUDIT" value="Processes batch audit"/>
   <locale name="MENU_TASKS_PROCESS_AUDIT" value="Processes audit"/>
+  <locale name="MENU_TEST_MATRIX_TREE" value="Tree matrix test"/>
   <locale name="MENU_TOOLS" value="Tools"/>
   <locale name="MENU_TOOLS_AWE_APPPAR" value="Application parameters"/>
   <locale name="MENU_TOOLS_AWE_EML_SRV" value="Mail servers"/>
@@ -980,6 +983,7 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="PARAMETER_IDE" value="Identifier"/>
   <locale name="PARAMETER_INT_PATH" value="Integration path"/>
   <locale name="PARAMETER_INTEGER" value="Integer"/>
+  <locale name="PARAMETER_ISLEAF" value="Is leaf"/>
   <locale name="PARAMETER_LABEL" value="Label"/>
   <locale name="PARAMETER_LANGUAGE" value="Language"/>
   <locale name="PARAMETER_LAST_EXECUTION" value="Last execution"/>
@@ -1017,6 +1021,7 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="PARAMETER_OPTION" value="Option"/>
   <locale name="PARAMETER_ORDER" value="Order"/>
   <locale name="PARAMETER_PARAMETERS" value="Parameters"/>
+  <locale name="PARAMETER_PARENT" value="Parent"/>
   <locale name="PARAMETER_PASSWD" value="Password"/>
   <locale name="PARAMETER_PASSWD_COMPLEX" value="Password complex pattern"/>
   <locale name="PARAMETER_PASSWD_EXPIRE" value="Password expiration in days"/>
@@ -1212,6 +1217,7 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="SCREEN_TITLE_THM_NEW" value="New theme"/>
   <locale name="SCREEN_TITLE_THM_UPD" value="Update theme"/>
   <locale name="SCREEN_TITLE_THM_VIW" value="View theme"/>
+  <locale name="SCREEN_TITLE_TREE_TEST" value="Tree test"/>
   <locale name="SCREEN_TITLE_UNIKEY" value="System codes"/>
   <locale name="SCREEN_TITLE_USR" value="User management"/>
   <locale name="SCREEN_TITLE_USR_NEW" value="New user"/>

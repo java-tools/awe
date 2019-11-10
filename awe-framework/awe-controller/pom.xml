@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-dependencies</artifactId>
-    <version>4.1.5</version>
+    <version>4.1.6</version>
     <relativePath>../awe-dependencies</relativePath>
   </parent>
 
