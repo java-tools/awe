@@ -16,6 +16,7 @@
 - ABS function in query fields not working properly. [MR #126](https://gitlab.com/aweframework/awe/merge_requests/126) (Pablo Javier García Mora)
 - Component numeric not storing values on Internet Explorer. [MR #125](https://gitlab.com/aweframework/awe/merge_requests/125) (Pablo Javier García Mora)
 - GridEvents.sendGridMessage not working properly. [MR #124](https://gitlab.com/aweframework/awe/merge_requests/124) (Pablo Vidal Otero)
+- **[HAS IMPACTS]** Add sorting field to modules table [MR #100](https://gitlab.com/aweframework/awe/merge_requests/100) (Fernando Burillo)
 
 # Changelog for AWE 4.1.5
 *11/10/2019*
@@ -40,6 +41,7 @@
 - Launching a `fill` action over a `select` component with values doesn't reset the component first. [MR #105](https://gitlab.com/aweframework/awe/merge_requests/105) (Pablo Javier García Mora)
 - Manage error message when the query/maintain is not defined. [MR #104](https://gitlab.com/aweframework/awe/merge_requests/104) (Pablo Vidal Otero)
 - Add power value to operator attribute inside operation. [MR #103](https://gitlab.com/aweframework/awe/merge_requests/103) (Pablo Vidal Otero)
+
 # Changelog for AWE 4.1.4
 *16/08/2019*
 
