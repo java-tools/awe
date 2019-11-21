@@ -18,6 +18,7 @@ import java.util.Map;
 public class CompareRow implements Comparator<Map<String, CellData>> {
 
   private final List<SortColumn> sortList;
+  private boolean nullsFirst;
 
   /**
    * Constructor with sort list
@@ -26,6 +27,18 @@ public class CompareRow implements Comparator<Map<String, CellData>> {
    */
   public CompareRow(List<SortColumn> sortList) {
     this.sortList = sortList;
+    this.nullsFirst = false;
+  }
+
+  /**
+   * Constructor with sort list
+   *
+   * @param sortList sorted list
+   * @param nullsFirst sorted list
+   */
+  public CompareRow(List<SortColumn> sortList, boolean nullsFirst) {
+    this.sortList = sortList;
+    this.nullsFirst = nullsFirst;
   }
 
   /**
@@ -53,9 +66,9 @@ public class CompareRow implements Comparator<Map<String, CellData>> {
       field2 = field2 == null ? new CellData() : field2;
 
       if ("asc".equalsIgnoreCase(sortColumn.getDirection())) {
-        orderRow = field1.compareTo(field2);
+        orderRow = new CompareCellData(sortColumn.getDirection(), nullsFirst).compare(field1, field2);
       } else if ("desc".equalsIgnoreCase(sortColumn.getDirection())) {
-        orderRow = field2.compareTo(field1);
+        orderRow = new CompareCellData(sortColumn.getDirection(), nullsFirst).compare(field2, field1);
       }
       indexSort++;
     }

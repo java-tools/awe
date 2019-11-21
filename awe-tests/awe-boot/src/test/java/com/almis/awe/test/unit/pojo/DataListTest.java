@@ -2,6 +2,8 @@ package com.almis.awe.test.unit.pojo;
 
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.FilterColumn;
+import com.almis.awe.model.dto.SortColumn;
+import com.almis.awe.model.type.CellDataType;
 import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.test.bean.NoAttributes;
@@ -9,11 +11,11 @@ import com.almis.awe.test.bean.Planet;
 import com.almis.awe.test.unit.TestUtil;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * DataList, DataListUtil and DataListBuilder tests
@@ -56,7 +58,7 @@ public class DataListTest extends TestUtil {
     builder.addColumn("test1", Arrays.asList("value1", "value2", "asdzz3", "val", "aaaaa5", "tutu"), "STRING");
     builder.addColumn("test2", Arrays.asList("asasa1", "value2", "asdzz3", "val", "value5"), "STRING");
     builder.addColumn("test3", Arrays.asList("asasa1", "value2", "value3", "val", "aaaaa5", "lere"), "STRING");
-    builder.filter(Arrays.asList(new FilterColumn("test2", "as")));
+    builder.filter(Collections.singletonList(new FilterColumn("test2", "as")));
 
     // Run
     DataList output = builder.build();
@@ -86,6 +88,109 @@ public class DataListTest extends TestUtil {
     // Assert
     assertEquals(2, output.getRows().size());
     assertEquals(2L, output.getRecords());
+  }
+
+  /**
+   * Test of sort data list of integers
+   * with null values at FIRST and DESC sort
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testSortIntegerDescNullsFirst() throws Exception {
+    // Prepare datalist
+    DataList dataList = new DataListBuilder().addColumn("col1", Arrays.asList(1, 2, null, null, 5), CellDataType.INTEGER.toValue()).build();
+    // Prepare sort column list
+    List<SortColumn> sortColumnList = Collections.singletonList(new SortColumn("col1", "desc"));
+    // Run
+    DataListUtil.sort(dataList, sortColumnList, true);
+    // Assert
+    assertNull(dataList.getRows().get(0).get("col1").getObjectValue());
+    assertEquals(1, dataList.getRows().get(dataList.getRows().size()-1).get("col1").getObjectValue());
+  }
+
+  /**
+   * Test of sort data list of integers
+   * with null values at LAST and ASC sort
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testSortIntegerAscNullsLast() throws Exception {
+    // Prepare datalist
+    DataList dataList = new DataListBuilder().addColumn("col1", Arrays.asList(1, 2, null, null, 5), CellDataType.INTEGER.toValue()).build();
+    // Prepare sort column list
+    List<SortColumn> sortColumnList = Collections.singletonList(new SortColumn("col1", "asc"));
+    // Run
+    DataListUtil.sort(dataList, sortColumnList);
+    // Assert
+    assertEquals(1, dataList.getRows().get(0).get("col1").getObjectValue());
+    assertNull(dataList.getRows().get(dataList.getRows().size()-1).get("col1").getObjectValue());
+  }
+
+  /**
+   * Test of sort data list of Double
+   * with null values at LAST and ASC sort
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testSortDoubleAscNullsLast() throws Exception {
+    // Prepare datalist
+    DataList dataList = new DataListBuilder().addColumn("col1", Arrays.asList(1.01, null, 2.223, null, 5.001), CellDataType.DOUBLE.toValue()).build();
+    // Prepare sort column list
+    List<SortColumn> sortColumnList = Collections.singletonList(new SortColumn("col1", "asc"));
+    // Run
+    DataListUtil.sort(dataList, sortColumnList);
+    // Assert
+    assertEquals(1.01, dataList.getRows().get(0).get("col1").getObjectValue());
+    assertNull(dataList.getRows().get(dataList.getRows().size()-1).get("col1").getObjectValue());
+  }
+
+  /**
+   * Test of sort data list of String
+   * with null values at LAST and DESC sort
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testSortStringDescNullsLast() throws Exception {
+    // Prepare datalist
+    DataList dataList = new DataListBuilder().addColumn("col1", Arrays.asList("Hola", null, "Holaaa", "Adios", null, "Ok"), CellDataType.STRING.toValue()).build();
+    // Prepare sort column list
+    List<SortColumn> sortColumnList = Collections.singletonList(new SortColumn("col1", "desc"));
+    // Run
+    DataListUtil.sort(dataList, sortColumnList, false);
+    // Assert
+    assertEquals("Ok", dataList.getRows().get(0).get("col1").getObjectValue());
+    assertNull(dataList.getRows().get(dataList.getRows().size()-1).get("col1").getObjectValue());
+  }
+
+  /**
+   * Test of sort data list of Date
+   * with null values at LAST and DESC sort
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testSortDateDescNullsLast() throws Exception {
+    // Prepare datalist
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    List<Date> dateList = new ArrayList<>();
+    dateList.add(formatter.parse("10/08/1985"));
+    dateList.add(null);
+    dateList.add(formatter.parse("21/11/2019"));
+    dateList.add(null);
+    dateList.add(formatter.parse("01/01/1999"));
+
+    DataList dataList = new DataListBuilder().addColumn("col1", dateList, CellDataType.DATE.toValue()).build();
+    // Prepare sort column list
+    List<SortColumn> sortColumnList = Collections.singletonList(new SortColumn("col1", "desc"));
+    // Run
+    DataListUtil.sort(dataList, sortColumnList, false);
+    // Assert
+    assertEquals(formatter.parse("21/11/2019"), dataList.getRows().get(0).get("col1").getObjectValue());
+    assertNull(dataList.getRows().get(dataList.getRows().size()-1).get("col1").getObjectValue());
   }
 
   /**
@@ -141,11 +246,9 @@ public class DataListTest extends TestUtil {
 
   /**
    * Test datalist conversion to bean list
-   *
-   * @throws Exception Test error
    */
   @Test
-  public void testDataListFromBeanList() throws Exception {
+  public void testDataListFromBeanList() {
     // Prepare
     List<Planet> planets = new ArrayList<>();
     planets.add(new Planet()
@@ -186,11 +289,9 @@ public class DataListTest extends TestUtil {
 
   /**
    * Test datalist conversion to bean list
-   *
-   * @throws Exception Test error
    */
   @Test
-  public void testDataListFromBeanListExtraCases() throws Exception {
+  public void testDataListFromBeanListExtraCases() {
     // Prepare
     List<Planet> planets = new ArrayList<>();
 
