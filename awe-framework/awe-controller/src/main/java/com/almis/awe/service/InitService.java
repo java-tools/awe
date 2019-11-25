@@ -20,16 +20,19 @@ public class InitService extends ServiceConfig {
   // Autowired services
   private LauncherService launcherService;
   private PropertyService propertyService;
+  private QueryService queryService;
 
   /**
    * Autowired constructor
    * @param launcherService Launcher service
    * @param propertyService Property service
+   * @param queryService Query service
    */
   @Autowired
-  public InitService(LauncherService launcherService, PropertyService propertyService) {
+  public InitService(LauncherService launcherService, PropertyService propertyService, QueryService queryService) {
     this.launcherService = launcherService;
     this.propertyService = propertyService;
+    this.queryService = queryService;
   }
 
   /**
@@ -38,6 +41,9 @@ public class InitService extends ServiceConfig {
   public void initAweElements() {
     // Init awe elements
     getElements().init();
+
+    // Init datasource map
+    queryService.initDatabaseConnector();
 
     // Initialize properties
     propertyService.refreshDatabaseProperties();
