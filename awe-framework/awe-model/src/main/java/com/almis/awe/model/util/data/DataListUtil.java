@@ -9,7 +9,10 @@ import org.springframework.beans.PropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiPredicate;
 
 /**
@@ -184,7 +187,7 @@ public final class DataListUtil {
   private static void addCellToRow(DataList list, String column, Integer rowNumber, CellData cell) {
     // If size is lower or equal than current rowId, add one row
     if (list.getRows().size() <= rowNumber) {
-      list.getRows().add(new HashMap<String, CellData>());
+      list.getRows().add(new HashMap<>());
     }
 
     // Store cell
@@ -230,7 +233,7 @@ public final class DataListUtil {
     for (Map<String, CellData> row : dataList.getRows()) {
       try {
         // Generate row bean
-        rowBean = beanClass.newInstance();
+        rowBean = beanClass.getDeclaredConstructor().newInstance();
       } catch (Exception exc) {
         throw new AWException("Error converting datalist into a bean list", "Cannot create instance of " + beanClass.getSimpleName(), exc);
       }
@@ -255,7 +258,6 @@ public final class DataListUtil {
    * @param beanList bean class
    * @param <T>       class type
    * @return bean list
-   * @throws AWException AWE exception
    */
   public static <T> DataList fromBeanList(List<T> beanList) {
     DataList dataList = DataList.builder().build();
@@ -330,7 +332,7 @@ public final class DataListUtil {
    * @param sortList Sort by field list
    */
   public static void sort(DataList list, List<SortColumn> sortList) {
-    Collections.sort(list.getRows(), new CompareRow(sortList));
+    list.getRows().sort(new CompareRow(sortList));
   }
 
   /**
@@ -344,7 +346,18 @@ public final class DataListUtil {
     List<SortColumn> sortColumnList = new ArrayList<>();
     SortColumn sortColumn = new SortColumn(columnId, direction);
     sortColumnList.add(sortColumn);
-    Collections.sort(list.getRows(), new CompareRow(sortColumnList));
+    list.getRows().sort(new CompareRow(sortColumnList));
+  }
+
+  /**
+   * Sort datalist set nulls values position
+   *
+   * @param list DataList to sort
+   * @param sortColumnList List with sort columns
+   * @param nullsFirst Null values at first
+   */
+  public static void sort(DataList list, List<SortColumn> sortColumnList, boolean nullsFirst) {
+      list.getRows().sort(new CompareRow(sortColumnList, nullsFirst));
   }
 
   /**
@@ -441,7 +454,7 @@ public final class DataListUtil {
 
     // Set rows and records
     list.setRows(newRows);
-    list.setRecords((long) list.getRows().size());
+    list.setRecords(list.getRows().size());
   }
 
   /**
