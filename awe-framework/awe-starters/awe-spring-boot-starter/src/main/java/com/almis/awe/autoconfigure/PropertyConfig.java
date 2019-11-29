@@ -25,7 +25,6 @@ import org.springframework.core.annotation.Order;
 @PropertySource("classpath:config/session.properties")
 @PropertySource("classpath:config/web.properties")
 @PropertySource("classpath:config/cache.properties")
-@PropertySource(value = "${properties.specific}", ignoreResourceNotFound = true)
 public class PropertyConfig {
 
   /**
