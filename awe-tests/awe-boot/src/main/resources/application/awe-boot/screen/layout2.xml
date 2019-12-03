@@ -91,7 +91,7 @@
             <dependency-element id="GrdEdi" event="save-row" />
           </dependency>
           <dependency target-type="show-column" initial="true">
-            <dependency-element id="GrdEdi" column="FilDat" attribute="hasDataColumn" />
+            <dependency-element id="GrdEdi" column="FilDat" attribute="hasDataColumn" condition="eq" value="true"/>
           </dependency>
         </column>
         <column label="PARAMETER_FILTERED_DATE" name="FilDat" sort-field="FilDat" align="center" component="filtered-calendar" initial-load="query" target-action="FilCalDat" charlength="16">

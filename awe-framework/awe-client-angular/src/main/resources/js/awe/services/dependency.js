@@ -95,7 +95,7 @@ aweApplication.factory('Dependency',
           valid: true
         };
         // Define row
-        var row = element.row || dependency.component.address.row || null;
+        var row = element.row1 || dependency.component.address.row || null;
         // Element 1
         var comp1 = element.id;
         var view1 = element.view1 || dependency.component.address.view;
@@ -202,7 +202,7 @@ aweApplication.factory('Dependency',
                 sameRow = "row" in dependency.component.address ? String(dependency.component.address.row) === String(launcherAddress["row"]) : true;
                 break;
               case "currentRowValue":
-                launcherAddress["row"] = apiView[element.id].getAttribute("currentRow", element.column1, dependency.component.address.row);
+                launcherAddress["row"] = apiView[element.id].getAttribute("currentRow", element.column1, element.row1 || dependency.component.address.row);
                 break;
             }
           }
