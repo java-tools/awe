@@ -1876,6 +1876,22 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
+  public void testDatabaseComputeAndTranslate() throws Exception {
+    String queryName = "ComputeAndTranslate";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":16,\"rows\":[{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":1,\"value\":\"sunset\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":2,\"value\":\"sky\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":3,\"value\":\"eclipse\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":4,\"value\":\"grass\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":5,\"value\":\"sunny\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":6,\"value\":\"purple-hills\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":7,\"value\":\"frost\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":8,\"value\":\"fresh\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":9,\"value\":\"silver\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":10,\"value\":\"clean\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":11,\"value\":\"default\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":12,\"value\":\"adminflare\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":13,\"value\":\"dust\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":14,\"value\":\"white\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":15,\"value\":\"asphalt\"},{\"Act\":1,\"ActTxt\":\"Yes\",\"id\":16,\"value\":\"amazonia\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    logger.warn(result);
+    assertQueryResultJson(queryName, result, 16);
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
   public void testDatabaseComputedEvalString() throws Exception {
     String queryName = "ComputedEvalString";
     String variables = "";

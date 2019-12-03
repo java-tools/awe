@@ -670,6 +670,13 @@
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
+  <query id="ComputeAndTranslate">
+    <table id="AweThm" alias="a"/>
+    <field id="Nam" alias="value"/>
+    <field id="Act" alias="Act" table="a"/>
+    <computed format="[Act]" alias="ActTxt" translate="Es1Es0"/>
+  </query>
+
   <query id="ComputedEvalString">
     <table id="AweThm"/>
     <field id="Nam" alias="value"/>
