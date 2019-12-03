@@ -2642,6 +2642,23 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
+  public void testCaseOver() throws Exception {
+    assumeTrue(isInMemoryDatabase());
+    String queryName = "testCaseOver";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"name\":\"donald\",\"id\":1,\"value\":0},{\"name\":\"jaimito\",\"id\":2,\"value\":0},{\"name\":\"jorgito\",\"id\":3,\"value\":1},{\"name\":\"juanito\",\"id\":4,\"value\":0},{\"name\":\"test\",\"id\":5,\"value\":2}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE);
+    logger.warn(result);
+    assertResultJson(queryName, result, 5);
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
   public void testRowNumberWithOperation() throws Exception {
     assumeTrue(isInMemoryDatabase());
     String queryName = "testRowNumberWithOperation";
