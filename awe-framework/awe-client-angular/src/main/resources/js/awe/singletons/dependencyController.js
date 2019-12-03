@@ -111,7 +111,7 @@ aweApplication.service('DependencyController',
        * @param {Object} launchers Launchers object
        */
       this.checkAndLaunch = function (launchers) {
-        this.check(this.dependencies, launchers, null)
+        this.check(this.dependencies, launchers, null);
       };
       /**
        * Check and launch dependency

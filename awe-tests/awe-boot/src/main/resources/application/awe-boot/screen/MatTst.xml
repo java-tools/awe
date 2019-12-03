@@ -115,7 +115,7 @@
               <dependency-element id="GrdEdi" event="save-row" />
             </dependency>
             <dependency target-type="show-column" initial="true">
-              <dependency-element id="GrdEdi" column="FilDat" attribute="hasDataColumn" />
+              <dependency-element id="GrdEdi" column="FilDat" attribute="hasDataColumn" condition="eq" value="true" />
             </dependency>
           </column>
           <column label="PARAMETER_FILTERED_DATE" name="FilDat" sort-field="FilDat" align="center" component="filtered-calendar" initial-load="query" target-action="FilCalDat" charlength="16">
@@ -506,82 +506,102 @@
               <grid id="MatPrn" style="expand grid-bordered" initial-load="query" server-action="data" target-action="QryUniTst" max="10">
                 <column label="COLUMN_SIT" sort-field="Als" name="Als6" charlength="25" />
                 <column label="PARAMETER_TEXT" sort-field="Als" name="Als7" charlength="20">
-                  <dependency initial="true" target-type="show">
-                    <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="1" />
+                  <dependency initial="true" source-type="launcher" target-type="label" target-action="Label">
+                    <dependency-element id="MatCol"/>
+                    <dependency-element id="MatCol" column="Des3" row="1" attribute="currentRowValue" alias="Label"/>
                   </dependency>
-                  <dependency initial="true" source-type="criteria-value" target-type="label" target-action="Label">
-                    <dependency-element id="MatCol" column="Des3" row="1" attribute="currentRowValue" alias="Label" />
+                  <dependency initial="true" target-type="show">
+                    <dependency-element id="MatCol"/>
+                    <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="1" />
                   </dependency>
                 </column>
                 <column label="PARAMETER_TEXT" sort-field="Als" name="Als8" charlength="20">
                   <dependency initial="true" target-type="show">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="2" />
                   </dependency>
-                  <dependency initial="true" source-type="criteria-value" target-type="label" target-action="Label">
+                  <dependency initial="true" source-type="launcher" target-type="label" target-action="Label">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" column="Des3" row="2" attribute="currentRowValue" alias="Label" />
                   </dependency>
                 </column>
                 <column label="PARAMETER_TEXT" sort-field="Als" name="Als9" charlength="20">
                   <dependency initial="true" target-type="show">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="3" />
                   </dependency>
-                  <dependency initial="true" source-type="criteria-value" target-type="label" target-action="Label">
+                  <dependency initial="true" source-type="launcher" target-type="label" target-action="Label">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" column="Des3" row="3" attribute="currentRowValue" alias="Label" />
                   </dependency>
                 </column>
                 <column label="PARAMETER_TEXT" sort-field="Als" name="Als10" charlength="20">
                   <dependency initial="true" target-type="show">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="4" />
                   </dependency>
-                  <dependency initial="true" source-type="criteria-value" target-type="label" target-action="Label">
+                  <dependency initial="true" source-type="launcher" target-type="label" target-action="Label">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" column="Des3" row="4" attribute="currentRowValue" alias="Label" />
                   </dependency>
                 </column>
                 <column label="PARAMETER_TEXT" sort-field="Als" name="Als11" charlength="20">
                   <dependency initial="true" target-type="show">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="5" />
                   </dependency>
-                  <dependency initial="true" source-type="criteria-value" target-type="label" target-action="Label">
+                  <dependency initial="true" source-type="launcher" target-type="label" target-action="Label">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" column="Des3" row="5" attribute="currentRowValue" alias="Label" />
                   </dependency>
                 </column>
                 <column label="PARAMETER_TEXT" sort-field="Als" name="Als12" charlength="20">
                   <dependency initial="true" target-type="show">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="6" />
                   </dependency>
-                  <dependency initial="true" source-type="criteria-value" target-type="label" target-action="Label">
+                  <dependency initial="true" source-type="launcher" target-type="label" target-action="Label">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" column="Des3" row="6" attribute="currentRowValue" alias="Label" />
                   </dependency>
                 </column>
                 <column label="PARAMETER_TEXT" sort-field="Als" name="Als13" charlength="20">
                   <dependency initial="true" target-type="show">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="7" />
                   </dependency>
-                  <dependency initial="true" source-type="criteria-value" target-type="label" target-action="Label">
+                  <dependency initial="true" source-type="launcher" target-type="label" target-action="Label">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" column="Des3" row="7" attribute="currentRowValue" alias="Label" />
                   </dependency>
                 </column>
                 <column label="PARAMETER_TEXT" sort-field="Als" name="Als14" charlength="20">
                   <dependency initial="true" target-type="show">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="8" />
                   </dependency>
-                  <dependency initial="true" source-type="criteria-value" target-type="label" target-action="Label">
+                  <dependency initial="true" source-type="launcher" target-type="label" target-action="Label">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" column="Des3" row="8" attribute="currentRowValue" alias="Label" />
                   </dependency>
                 </column>
                 <column label="PARAMETER_TEXT" sort-field="Als" name="Als15" charlength="20">
                   <dependency initial="true" target-type="show">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="9" />
                   </dependency>
-                  <dependency initial="true" source-type="criteria-value" target-type="label" target-action="Label">
+                  <dependency initial="true" source-type="launcher" target-type="label" target-action="Label">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" column="Des3" row="9" attribute="currentRowValue" alias="Label" />
                   </dependency>
                 </column>
                 <column label="PARAMETER_TEXT" sort-field="Als" name="Als16" charlength="20">
                   <dependency initial="true" target-type="show">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" attribute="totalRows" condition="ge" value="10" />
                   </dependency>
-                  <dependency initial="true" source-type="criteria-value" target-type="label" target-action="Label">
+                  <dependency initial="true" source-type="launcher" target-type="label" target-action="Label">
+                    <dependency-element id="MatCol"/>
                     <dependency-element id="MatCol" column="Des3" row="10" attribute="currentRowValue" alias="Label" />
                   </dependency>
                 </column>
