@@ -12,5 +12,6 @@ import './dateTime.js';
 import './settings.js';
 import './utilities.js';
 import './validationRules.js';
+import './validator.js';
 import './grid/tests.js';
 import './chart/tests.js';
