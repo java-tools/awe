@@ -2,7 +2,7 @@ import { aweApplication } from "./../awe";
 
 // Validator service
 aweApplication.factory('Validator',
-  ['Storage', 'AweUtilities', 'AweSettings', 'ValidationRules', '$log',
+  ['Storage', 'AweUtilities', 'AweSettings', 'ValidationRules', '$log', '$window',
     /**
      *
      * @param {object} Storage
@@ -11,7 +11,7 @@ aweApplication.factory('Validator',
      * @param {object} ValidationRules
      * @param {object} $log
      */
-    function (Storage, $utilities, $settings, ValidationRules, $log) {
+    function (Storage, $utilities, $settings, ValidationRules, $log, $window) {
 
       // CONSTANTS
       const ERROR_CONTAINER = '.error-container';
@@ -101,7 +101,7 @@ aweApplication.factory('Validator',
 
           // Retrieve the element data
           $utilities.timeout.cancel(scope.errorTimer);
-          $utilities.timeout(function () {
+          $utilities.timeout(() => {
             let target = $element;
             let classTarget = $element.find(FORM_GROUP);
             let targetPosition = target.offset();
@@ -115,17 +115,19 @@ aweApplication.factory('Validator',
             scope.showValidation = true;
 
             // Scroll to element
-            let scrollable = window;
+            let scrollable = $window;
             let scrollableNodes = $element.parentsUntil(".scrollable");
             if (scrollableNodes.length > 0) {
               scrollable = scrollableNodes[0];
             }
             scrollable.scrollTo(targetPosition.left, targetPosition.to - target.height());
 
-            // Hide validation after 2 seconds
-            scope.errorTimer = $utilities.timeout(function () {
-              scope.showValidation = false;
-            }, $settings.get("messageTimeout").validate);
+            // Hide validation after timeout seconds (if not equals to 0)
+            if ($settings.get("messageTimeout").validate > 0) {
+              scope.errorTimer = $utilities.timeout(function () {
+                scope.showValidation = false;
+              }, $settings.get("messageTimeout").validate);
+            }
           });
         },
         /**
