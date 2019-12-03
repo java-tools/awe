@@ -185,23 +185,23 @@
   </query>
 
   <query id="TestFieldFunctions">
-    <table id="AweSitModDbs" alias="awe" />
-    <field id="IdeSitModDbs" alias="Max" function="MAX" />
-    <field id="IdeSitModDbs" alias="Min" function="MIN" />
-    <field id="IdeDbs" alias="Avg" function="AVG" />
+    <table id="AweSitModDbs" alias="awe"/>
+    <field id="IdeSitModDbs" alias="Max" function="MAX"/>
+    <field id="IdeSitModDbs" alias="Min" function="MIN"/>
+    <field id="IdeDbs" alias="Avg" function="AVG"/>
     <operation operator="MULT" function="ABS" alias="AbsOpe">
       <field id="IdeSitModDbs" function="MAX"/>
       <constant value="-1" type="INTEGER"/>
     </operation>
-    <operation function="ABS" operator="ADD" alias="AbsIde" >
+    <operation function="ABS" operator="ADD" alias="AbsIde">
       <field id="IdeSitModDbs" function="SUM"/>
     </operation>
-    <constant value="-1212" type="INTEGER" alias="AbsInteger" function="ABS" />
-    <constant value="-1212.12123" type="DOUBLE" alias="AbsDouble" function="ABS" />
-    <field id="IdeDbs" alias="Cnt" function="CNT" />
-    <field id="Ord" alias="CntDst" function="CNT_DISTINCT" />
-    <field id="Ord" alias="Sum" function="SUM" />
-    <constant value="   as as  daef  " alias="Trim" function="TRIM" />
+    <constant value="-1212" type="INTEGER" alias="AbsInteger" function="ABS"/>
+    <constant value="-1212.12123" type="DOUBLE" alias="AbsDouble" function="ABS"/>
+    <field id="IdeDbs" alias="Cnt" function="CNT"/>
+    <field id="Ord" alias="CntDst" function="CNT_DISTINCT"/>
+    <field id="Ord" alias="Sum" function="SUM"/>
+    <constant value="   as as  daef  " alias="Trim" function="TRIM"/>
   </query>
 
   <query id="TestFieldGroupByFunctions">
@@ -2508,6 +2508,35 @@
     <over alias="rowNumber">
       <field function="ROW_NUMBER"/>
     </over>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
+  <query id="testCaseOver">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <case alias="value">
+      <when left-field="IdeOpe" condition="eq">
+        <right-operand>
+          <over>
+            <field function="ROW_NUMBER"/>
+          </over>
+        </right-operand>
+        <then>
+          <constant value="1" type="INTEGER"/>
+        </then>
+      </when>
+      <when left-field="IdeOpe" condition="eq">
+        <right-operand>
+          <constant value="1" type="INTEGER"/>
+        </right-operand>
+        <then>
+          <constant value="2" type="INTEGER"/>
+        </then>
+      </when>
+      <else>
+        <constant value="0" type="INTEGER"/>
+      </else>
+    </case>
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
