@@ -1,6 +1,7 @@
 import './action.js';
 import './ajax.js';
 import './column.js';
+import './component.js';
 import './comet.js';
 import './connection.js';
 import './control.js';
