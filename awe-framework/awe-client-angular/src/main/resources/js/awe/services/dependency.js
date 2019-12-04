@@ -22,12 +22,12 @@ aweApplication.factory('Dependency',
 
       /**
        * Test a dependency value
-       * @param {type} value1 First value
-       * @param {type} value2 Second value
-       * @param {type} condition Condition
-       * @returns {Object} test results
+       * @param {object} value1 First value
+       * @param {object} value2 Second value
+       * @param {string} condition Condition
+       * @returns {object} test results
        */
-      var testValue = function (value1, value2, condition) {
+      const testValue = function (value1, value2, condition) {
         var output = {};
         var strValue1 = Utilities.isEmpty(value1) ? "" : String(value1);
         var strValue2 = Utilities.isEmpty(value2) ? "" : String(value2);
@@ -58,14 +58,10 @@ aweApplication.factory('Dependency',
             output.value = value1 < value2;
             break;
           case "in":
-            if (angular.isArray(value2)) {
-              output.value = $.inArray(value1, value2) > -1;
-            } else if (angular.isString(value2)) {
-              var arrayValue2 = value2.split(",");
-              output.value = $.inArray(String(value1), arrayValue2) > -1;
-            } else {
-              output.value = Utilities.compareEqualValues(value1, value2);
-            }
+            output.value = Utilities.compareInValues(value1, value2);
+            break;
+          case "not in":
+            output.value = !Utilities.compareInValues(value1, value2);
             break;
           case "is empty":
             output.value = Utilities.isEmpty(value1);
