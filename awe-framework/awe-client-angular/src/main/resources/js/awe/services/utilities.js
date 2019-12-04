@@ -801,8 +801,8 @@ aweApplication.factory('AweUtilities',
         },
         /**
          * Compare if two values are equal
-         * @param {type} value1
-         * @param {type} value2
+         * @param {object} value1
+         * @param {object} value2
          * @returns {Boolean}
          */
         compareEqualValues: function (value1, value2) {
@@ -825,6 +825,24 @@ aweApplication.factory('AweUtilities',
           let value1String = Utilities.isEmpty(value1) ? "" : String(value1).toUpperCase();
           let value2String = Utilities.isEmpty(value2) ? "" : String(value2).toUpperCase();
           return value1String.indexOf(value2String) > -1;
+        },
+        /**
+         * Compare if the second value is contained in the first value
+         * @param {object} value1
+         * @param {object} value2
+         * @returns {Boolean}
+         */
+        compareInValues: function (value1, value2) {
+          let output;
+          if (angular.isArray(value2)) {
+            output = $.inArray(value1, value2) > -1;
+          } else if (angular.isString(value2)) {
+            let arrayValue2 = value2.split(",");
+            output = $.inArray(String(value1), arrayValue2) > -1;
+          } else {
+            output = Utilities.compareEqualValues(value1, value2);
+          }
+          return output;
         },
         /**
          * Stop event propagation and default action
