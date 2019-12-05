@@ -177,12 +177,13 @@ public class AweAutoConfiguration {
    * Init service
    * @param launcherService Launcher service
    * @param propertyService Property service
+   * @param queryService Query service
    * @return Init service bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public InitService initService(LauncherService launcherService, PropertyService propertyService) {
-    return new InitService(launcherService, propertyService);
+  public InitService initService(LauncherService launcherService, PropertyService propertyService, QueryService queryService) {
+    return new InitService(launcherService, propertyService, queryService);
   }
 
   /**

@@ -75,9 +75,6 @@
   <service id="checkUnique">
     <java classname="com.almis.awe.service.QueryService" method="checkUniqueAction" />
   </service>
-  <service id="InitDatabaseConnections" launch-phase="CLIENT_START">
-    <java classname="com.almis.awe.service.QueryService" method="initDatasourceConnections" />
-  </service>
   <service id="ReloadDatabaseConnections">
     <java classname="com.almis.awe.service.QueryService" method="reloadDatasourceConnections" />
   </service>

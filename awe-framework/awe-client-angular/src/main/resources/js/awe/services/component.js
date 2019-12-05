@@ -65,6 +65,14 @@ aweApplication.factory('Component',
            */
           value: function (component) {
             return String(component.model.selected);
+          },
+          /**
+           * Retrieve if component is visible or not
+           * @param {object} component Component scope
+           * @returns {boolean} Component visibility
+           */
+          visible: function (component) {
+            return component.controller.visible && !component.controller.invisible;
           }
         };
         return this;

@@ -143,7 +143,7 @@ The dependency elements are the definition of the *conditions* required to launc
 | alias       | Optional | String   | Name to apply to the dependency element. Useful for `launcher` dependency targets |  |
 | check-value | Optional | Boolean  | Check this element values (launch the dependency if this element changes) | Default value is `true` |
 
-#### Dependeny element conditions
+#### Dependency element conditions
 
 - `eq` Values are equal
 - `ne` Values are not equal
@@ -154,6 +154,7 @@ The dependency elements are the definition of the *conditions* required to launc
 - `gt` Value1 is greater than value2
 - `lt` Value1 is less than value2
 - `in` Value1 is in value2 list
+- `not in` Value1 is not in value2 list
 - `is empty` Value1 is empty
 - `is not empty` Value1 is not empty
 

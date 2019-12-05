@@ -18,6 +18,7 @@ Almis Web Engine > **[Configuration](configuration-guide.md)**
 * **[Version properties](#version-properties)**
 * **[Services properties](#microservices-properties)**
 * **[Logging properties](#logging-properties)**
+* **[Overwriting properties](#overwriting-properties)**
 
 ---
 
@@ -305,7 +306,7 @@ module.awe=awe
 # under application/${module.mod1}/)
 module.mod1=mod1
 
-...
+...=
 
 ################################################
 # Module n Paths
@@ -708,3 +709,48 @@ application.log.file.path=${application.log.base.path}/${application.log.type}/
 ```
 
 > :floppy_disk: This file should be overwritten on the final application.
+
+## Overwriting properties
+You can overwrite a any property of awe framework by adding it to your `application.properties` file of the project.
+
+Awe has the same reading properties order than Spring (1. Is the highest preference).
+
+1. Devtools global settings properties on your home directory (`~/.spring-boot-devtools.properties` when devtools is active).
+2. `@TestPropertySource` annotations on your tests.
+3. `@SpringBootTest#properties` annotation attribute on your tests.
+4. Command line arguments.
+5. Properties from `SPRING_APPLICATION_JSON` (inline JSON embedded in an environment variable or system property)
+6. `ServletConfig` init parameters.
+7. `ServletContext` init parameters.
+8. JNDI attributes from `java:comp/env`.
+9. Java System properties (`System.getProperties()`).
+10. OS environment variables.
+11. A `RandomValuePropertySource` that only has properties in `random.*.`
+12. Profile-specific application properties outside of your packaged jar (`application-{profile}.properties` and YAML variants)
+13. Profile-specific application properties packaged inside your jar (`application-{profile}.properties` and YAML variants)
+14. Application properties outside of your packaged jar (`application.properties` and YAML variants).
+15. Application properties packaged inside your jar (`application.properties` and YAML variants).
+16. `@PropertySource` annotations on your `@Configuration` classes.
+17. Default properties (specified using `SpringApplication.setDefaultProperties`).
+
+### Externalized configuration
+If you need load the configuration from one external file, you have to consider:
+
+AWE like `SpringApplication` will load properties from application.properties files in the following locations and add them to the Spring `Environment`:
+
+A `/config` subdirectory of the current directory.
+1. The current directory
+2. A classpath /config package
+3. The classpath root
+
+Also, you can set `spring.config.location` environment property the run command.
+
+```shell script
+java -jar myAweProject.jar --spring.config.location=file:/external_path/specific.properties
+```
+
+---
+
+> :information_source: You can find more information about this in heck the [Official Spring documentation ](https://docs.spring.io/spring-boot/docs/1.5.10.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config-application-property-files).
+
+---

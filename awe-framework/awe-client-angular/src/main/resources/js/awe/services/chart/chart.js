@@ -663,8 +663,8 @@ aweApplication.factory('Chart',
               case "LANDSCAPE":
                 chartSize = {width:1167, height:360};
                 break;
-              default:
               case "PORTRAIT":
+              default:
                 chartSize = {width:796, height:540};
                 break;
             }

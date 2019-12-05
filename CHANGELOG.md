@@ -1,4 +1,21 @@
 
+# Changelog for AWE 4.1.7
+*05/12/2019*
+
+- Add `not in` in dependencies conditions. [MR #153](https://gitlab.com/aweframework/awe/merge_requests/153) (Pablo Javier García Mora)
+- Added QueryData to future query management. [MR #152](https://gitlab.com/aweframework/awe/merge_requests/152) (Pablo Javier García Mora)
+- Tooltip timeout validation zero meaning. [MR #151](https://gitlab.com/aweframework/awe/merge_requests/151) (Pablo Javier García Mora)
+- `show-column` and `hide-column` dependencies are not working. [MR #149](https://gitlab.com/aweframework/awe/merge_requests/149) (Pablo Javier García Mora)
+- `over` tag should be allowed inside `operand` tag. [MR #148](https://gitlab.com/aweframework/awe/merge_requests/148) (Pablo Javier García Mora)
+- Computeds show nulls when they shouldn't. [MR #147](https://gitlab.com/aweframework/awe/merge_requests/147) (Pablo Javier García Mora)
+- Dependencies that check the `visible` attribute of a criteria throw a js error. [MR #146](https://gitlab.com/aweframework/awe/merge_requests/146) (Pablo Javier García Mora)
+- **[HAS IMPACTS]** Overwrite properties system don´t work properly. [MR #145](https://gitlab.com/aweframework/awe/merge_requests/145) (Pablo Vidal Otero)
+- initDatasourceConnections throws NoSuchMethodException at window load. [MR #144](https://gitlab.com/aweframework/awe/merge_requests/144) (Pablo Vidal Otero)
+- APPLICATION START SERVICES throw exceptions when using datasources. [MR #142](https://gitlab.com/aweframework/awe/merge_requests/142) (Pablo Vidal Otero)
+- Sort DataList with DataListUtil allowing to specify if nulls should be listed at first or at last. [MR #141](https://gitlab.com/aweframework/awe/merge_requests/141) (Pablo Vidal Otero)
+- Allow to sort by DECIMAL type CellDatas comparing them as numbers, not as strings.. [MR #140](https://gitlab.com/aweframework/awe/merge_requests/140) (mbastardo)
+- Problem with DIFF functions in ORACLE. [MR #139](https://gitlab.com/aweframework/awe/merge_requests/139) (Pablo Vidal Otero)
+
 # Changelog for AWE 4.1.6
 *10/11/2019*
 

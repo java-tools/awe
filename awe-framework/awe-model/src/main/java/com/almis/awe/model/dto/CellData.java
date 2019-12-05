@@ -62,7 +62,7 @@ public class CellData implements Comparable<CellData>, Copyable {
   /**
    * Constructor: fast initialization
    *
-   * @param <T> Cell value type
+   * @param <T>   Cell value type
    * @param value Date value
    */
   @JsonCreator
@@ -238,6 +238,7 @@ public class CellData implements Comparable<CellData>, Copyable {
 
   /**
    * Make object value setter as private
+   *
    * @param value Object value
    */
   private void setObjectValue(Object value) {
@@ -324,6 +325,9 @@ public class CellData implements Comparable<CellData>, Copyable {
       // Compare as double
       case DOUBLE:
         return compareObjects(getObjectValue(), cell2.getObjectValue(), Double.class);
+      // Compare as decimal
+      case DECIMAL:
+        return compareObjects(getObjectValue(), cell2.getObjectValue(), BigDecimal.class);
       // Compare as float
       case FLOAT:
         return compareObjects(getObjectValue(), cell2.getObjectValue(), Float.class);
@@ -447,7 +451,7 @@ public class CellData implements Comparable<CellData>, Copyable {
     this.printable = stream.readBoolean();
     this.sendStringValue = stream.readBoolean();
     this.stringValue = (String) stream.readObject();
-    this.type = (CellDataType)stream.readObject();
+    this.type = (CellDataType) stream.readObject();
 
     switch (getType()) {
       // Get object value
