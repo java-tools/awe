@@ -3,7 +3,7 @@ package com.almis.awe.service.data.builder;
 import com.almis.awe.component.AweJmsDestination;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.listener.QueueListener;
-import com.almis.awe.model.component.AweClientTracker;
+import com.almis.awe.model.tracker.AweClientTracker;
 import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ComponentAddress;
@@ -152,7 +152,7 @@ public class QueueBuilder extends AbstractQueryBuilder {
       JmsConnectionInfo connectionInfo = new JmsConnectionInfo()
         .setListenerContainer(jmsContainer)
         .setAddress(getAddress());
-      clientTracker.addObserver(connectionInfo);
+      clientTracker.track(connectionInfo);
 
     } catch (AWException exc) {
       throw exc;

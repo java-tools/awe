@@ -62,7 +62,7 @@ public class LogUtil {
    * @param level    Log level
    * @param message  Log message
    */
-  public void log(Class logClass, Level level, String message) {
+  public <T> void log(Class<T> logClass, Level level, String message) {
     Logger logger = getLogger(logClass);
     if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
       logger.log(level, generateMessage(message));
@@ -78,7 +78,7 @@ public class LogUtil {
    * @param message  Log message
    * @param cause    Log throwable
    */
-  public void log(Class logClass, Level level, String message, Throwable cause) {
+  public <T> void log(Class<T> logClass, Level level, String message, Throwable cause) {
     Logger logger = getLogger(logClass);
     if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
       logger.log(level, generateMessage(message), cause);
@@ -93,7 +93,7 @@ public class LogUtil {
    * @param message   Log message
    * @param parameter Log parameters
    */
-  public void log(Class logClass, Level level, String message, EventObject parameter) {
+  public <T> void log(Class<T> logClass, Level level, String message, EventObject parameter) {
     Logger logger = getLogger(logClass);
     if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
       logger.log(level, generateMessage(message).toString(), parameter);
@@ -108,7 +108,7 @@ public class LogUtil {
    * @param message   Log message
    * @param parameter Log parameters
    */
-  public void log(Class logClass, Level level, String message, Object parameter) {
+  public <T> void log(Class<T> logClass, Level level, String message, Object parameter) {
     Logger logger = getLogger(logClass);
     if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
       logger.log(level, generateMessage(message, new Object[]{parameter}));
@@ -124,7 +124,7 @@ public class LogUtil {
    * @param message   Log message
    * @param parameters Log parameters
    */
-  public void logWithDatabase(Class logClass, Level level, String database, String message, Object... parameters) {
+  public <T> void logWithDatabase(Class<T> logClass, Level level, String database, String message, Object... parameters) {
     Logger logger = getLogger(logClass);
     if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
       logger.log(level, generateMessageWithDatabase(message, parameters, database));
@@ -140,7 +140,7 @@ public class LogUtil {
    * @param parameter Log parameters
    * @param cause     Log throwable
    */
-  public void log(Class logClass, Level level, String message, Throwable cause, Object parameter) {
+  public <T> void log(Class<T> logClass, Level level, String message, Throwable cause, Object parameter) {
     Logger logger = getLogger(logClass);
     if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
       logger.log(level, generateMessage(message, new Object[]{parameter}), cause);
@@ -155,7 +155,7 @@ public class LogUtil {
    * @param message    Log message
    * @param parameters Log parameter list
    */
-  public void log(Class logClass, Level level, String message, Object... parameters) {
+  public <T> void log(Class<T> logClass, Level level, String message, Object... parameters) {
     Logger logger = getLogger(logClass);
     if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
       logger.log(level, generateMessage(message, parameters));
@@ -171,7 +171,7 @@ public class LogUtil {
    * @param parameters Log parameter list
    * @param cause      Throwable Cause exception
    */
-  public void log(Class logClass, Level level, String message, Throwable cause, Object... parameters) {
+  public <T> void log(Class<T> logClass, Level level, String message, Throwable cause, Object... parameters) {
     Logger logger = getLogger(logClass);
     if (!level.equals(Level.DEBUG) || logger.isDebugEnabled()) {
       logger.log(level, generateMessage(message, parameters), cause);
@@ -323,7 +323,7 @@ public class LogUtil {
    *
    * @return Logger
    */
-  private Logger getLogger(Class loggerClass) {
+  private <T> Logger getLogger(Class<T> loggerClass) {
     Logger loggerInstance = LogManager.getLogger(loggerClass);
 
     // User logger

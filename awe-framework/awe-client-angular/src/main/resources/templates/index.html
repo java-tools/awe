@@ -3,7 +3,7 @@
 <!--[if !IE]><!--><html xmlns:th="http://www.thymeleaf.org" class="{{::$app.isIE()}} gt-ie8 gt-ie9 pxajs" lang="{{settings.language}}" ng-app="aweApplication" ng-controller="AppController as $app"><!--<![endif]-->
   <head>
     <base th:href="@{/}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/splash.css}"/>
+    <link rel="stylesheet" th:href="@{/css/splash.css}"/>
     <title ng-bind-template="{{screen.title| translate}} | {{'APP_NAME'| translate}}" translate="APP_NAME">Loading...</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -23,8 +23,8 @@
     <link rel="preload" as="font" crossorigin th:href="@{/fonts/OpenSans-SemiboldItalic.ttf}"/>
     <link rel="preload" as="font" crossorigin th:href="@{/fonts/OpenSans-BoldItalic.ttf}"/>
     <link rel="preload" as="font" crossorigin th:href="@{/fonts/fontawesome-webfont.woff2}"/>
-    <link rel="shortcut icon" th:href="${@environment.getProperty('application.icon.favicon')}"/>
-    <link rel="apple-touch-icon" th:href="${@environment.getProperty('application.icon.tablet')}"/>
+    <link rel="shortcut icon" th:href="${faviconIcon}"/>
+    <link rel="apple-touch-icon" th:href="${tabletIcon}"/>
   </head>
   <body class="theme-{{settings.theme}} page-{{screen.name}} size-{{settings.defaultComponentSize}}" ng-init="loading = false" ng-controller="ScreenController as $screen" ng-keydown="$app.onKeydown($event)">
     <h1 class="hidden" ng-cloak></h1>
@@ -61,8 +61,8 @@
       <div id="splashBackground"></div>
       <div class="spinner"><div class="dot1"></div><div class="dot2"></div></div>
     </div>
-    <script type="text/javascript" th:src="@{/js/commons.js}"></script>
-    <script type="text/javascript" th:src="@{/js/bundle.js}"></script>
-    <script type="text/javascript" th:src="@{/js/specific.js}"></script>
+    <script type="application/javascript" th:src="@{/js/commons.js}"></script>
+    <script type="application/javascript" th:src="@{/js/bundle.js}"></script>
+    <script type="application/javascript" th:src="@{/js/specific.js}"></script>
   </body>
 </html>

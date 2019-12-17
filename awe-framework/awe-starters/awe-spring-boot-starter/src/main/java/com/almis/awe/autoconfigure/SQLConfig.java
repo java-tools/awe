@@ -4,7 +4,6 @@ import com.almis.awe.component.AweDatabaseContextHolder;
 import com.almis.awe.component.AweRoutingDataSource;
 import com.almis.awe.listener.SpringSQLCloseListener;
 import com.almis.awe.model.component.AweElements;
-import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.QueryService;
@@ -20,7 +19,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.sql.DataSource;
 
@@ -33,23 +31,23 @@ public class SQLConfig {
 
   /**
    * Database context holder
-   * @param context Web application context
-   * @param elements Awe elements
-   * @param queryService Query service
+   *
+   * @param elements       Awe elements
+   * @param queryService   Query service
    * @param sessionService Session service
-   * @param logger Awe logger
+   * @param logger         Awe logger
    * @return Database context holder bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public AweDatabaseContextHolder aweDatabaseContextHolder(WebApplicationContext context, AweElements elements,
-                                                           QueryService queryService, SessionService sessionService,
-                                                           LogUtil logger) {
-    return new AweDatabaseContextHolder(context, elements, queryService, sessionService, logger);
+  public AweDatabaseContextHolder aweDatabaseContextHolder(AweElements elements, QueryService queryService,
+                                                           SessionService sessionService, LogUtil logger) {
+    return new AweDatabaseContextHolder(elements, queryService, sessionService, logger);
   }
 
   /**
    * Datasource
+   *
    * @param databaseContextHolder Database context holder
    * @return Datasource bean
    */
@@ -62,78 +60,79 @@ public class SQLConfig {
 
   /**
    * Oracle database configuration
-   * @param logger Log utilities
+   *
    * @return Oracle database configuration bean
    */
   @Bean
   @Scope("prototype")
-  public Configuration oracleDatabaseConfiguration (LogUtil logger) {
-    return getConfiguration(new FixedOracleTemplates(), logger);
+  public Configuration oracleDatabaseConfiguration() {
+    return getConfiguration(new FixedOracleTemplates());
   }
 
   /**
    * SQL Server database configuration
-   * @param logger Log utilities
+   *
    * @return SQL Server database configuration bean
    */
   @Bean
   @Scope("prototype")
-  public Configuration sqlserverDatabaseConfiguration (LogUtil logger) {
-    return getConfiguration(new SQLServer2012Templates(), logger);
+  public Configuration sqlserverDatabaseConfiguration() {
+    return getConfiguration(new SQLServer2012Templates());
   }
 
   /**
    * Sybase database configuration
-   * @param logger Log utilities
+   *
    * @return Sybase database configuration bean
    */
   @Bean
   @Scope("prototype")
-  public Configuration sybaseDatabaseConfiguration (LogUtil logger) {return getConfiguration(SQLTemplates.DEFAULT, logger);
+  public Configuration sybaseDatabaseConfiguration() {
+    return getConfiguration(SQLTemplates.DEFAULT);
   }
 
   /**
    * HSQL database configuration
-   * @param logger Log utilities
+   *
    * @return HSQL database configuration bean
    */
   @Bean
   @Scope("prototype")
-  public Configuration hsqlDatabaseConfiguration (LogUtil logger) {
-    return getConfiguration(new HSQLDBTemplates(), logger);
+  public Configuration hsqldbDatabaseConfiguration() {
+    return getConfiguration(new HSQLDBTemplates());
   }
 
   /**
    * H2 database configuration
-   * @param logger Log utilities
+   *
    * @return HSQL database configuration bean
    */
   @Bean
   @Scope("prototype")
-  public Configuration h2DatabaseConfiguration (LogUtil logger) {
-    return getConfiguration(new H2Templates(), logger);
+  public Configuration h2DatabaseConfiguration() {
+    return getConfiguration(new H2Templates());
   }
 
   /**
    * MySQL database configuration
-   * @param logger Log utilities
+   *
    * @return MySQL database configuration bean
    */
   @Bean
   @Scope("prototype")
-  public Configuration mysqlDatabaseConfiguration (LogUtil logger) {
-    return getConfiguration(new MySQLTemplates(), logger);
+  public Configuration mysqlDatabaseConfiguration() {
+    return getConfiguration(new MySQLTemplates());
   }
 
   /**
    * Get configuration with listener
+   *
    * @param templates SQL Templates
-   * @param logger Logger
    * @return Configuration bean
    */
-  private Configuration getConfiguration(SQLTemplates templates, LogUtil logger) {
+  private Configuration getConfiguration(SQLTemplates templates) {
     Configuration configuration = new Configuration(templates);
-    configuration.addListener(new SpringSQLCloseListener(logger));
+    configuration.addListener(new SpringSQLCloseListener());
     configuration.setUseLiterals(true);
     return configuration;
   }
@@ -144,9 +143,10 @@ public class SQLConfig {
 
   /**
    * SQL Query connector
+   *
    * @param contextHolder Context holder
-   * @param queryUtil Query util
-   * @param dataSource Datasource
+   * @param queryUtil     Query util
+   * @param dataSource    Datasource
    * @return SQL Query connector bean
    */
   @Bean
@@ -157,12 +157,13 @@ public class SQLConfig {
 
   /**
    * SQL Maintain connector
+   *
    * @return SQL Query connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public SQLMaintainConnector sqlMaintainConnector() {
-    return new SQLMaintainConnector();
+  public SQLMaintainConnector sqlMaintainConnector(QueryUtil queryUtil) {
+    return new SQLMaintainConnector(queryUtil);
   }
 
   /////////////////////////////////////////////
@@ -171,6 +172,7 @@ public class SQLConfig {
 
   /**
    * SQL Query builder
+   *
    * @param queryUtil Query utilities
    * @return SQL Query builder bean
    */
@@ -183,14 +185,14 @@ public class SQLConfig {
 
   /**
    * SQL Maintain builder
-   * @param session Awe session
+   *
    * @param queryUtil Query utilities
    * @return SQL Maintain builder bean
    */
   @Bean
   @ConditionalOnMissingBean
   @Scope("prototype")
-  public SQLMaintainBuilder sqlMaintainBuilder(AweSession session, QueryUtil queryUtil) {
-    return new SQLMaintainBuilder(session, queryUtil);
+  public SQLMaintainBuilder sqlMaintainBuilder(QueryUtil queryUtil) {
+    return new SQLMaintainBuilder(queryUtil);
   }
 }

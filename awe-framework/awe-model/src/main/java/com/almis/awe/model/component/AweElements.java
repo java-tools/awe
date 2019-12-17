@@ -37,6 +37,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.annotation.PostConstruct;
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.util.*;
@@ -44,8 +45,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import static com.almis.awe.model.constant.AweConstants.NO_KEY;
-import static com.almis.awe.model.constant.AweConstants.NO_TAG;
+import static com.almis.awe.model.constant.AweConstants.*;
 
 /**
  * @author pgarcia
@@ -168,7 +168,17 @@ public class AweElements {
   /**
    * Read all XML files and store them in the component
    */
+  @PostConstruct
   public void init() {
+    logger.log(AweElements.class, Level.INFO, LOG_LINE);
+    logger.log(AweElements.class, Level.INFO, "----------------------------- AWE starting ... -----------------------------------");
+    logger.log(AweElements.class, Level.INFO, LOG_LINE);
+
+    // Initialize Awe Elements (Read all XML sources)
+    logger.log(AweElements.class, Level.INFO, "=============================");
+    logger.log(AweElements.class, Level.INFO, "===== Reading XML Files =====");
+    logger.log(AweElements.class, Level.INFO, "=============================");
+
     // Initialize global files
     logger.log(AweElements.class, Level.INFO, " ===== Initializing global files ===== ");
     waitForTermination(initGlobalFiles(), "global");
@@ -657,7 +667,7 @@ public class AweElements {
    *
    * @return Language
    */
-  private String getLanguage() {
+  public String getLanguage() {
     String language;
     try {
       AweSession session = context.getBean(AweSession.class);
@@ -675,9 +685,30 @@ public class AweElements {
    * @param localeIdentifier Local identifier
    * @return Selected locale
    */
-  @Cacheable(value = "locale", key = "#p0")
+  @Cacheable(value = "locale", key = "{ #p0 }")
   public String getLocale(String localeIdentifier) {
-    String language = getLanguage();
+    return getLocaleWithLanguage(localeIdentifier, getLanguage());
+  }
+
+  /**
+   * Returns a locale based on its identifier
+   *
+   * @param localeIdentifier Local identifier
+   * @return Selected locale
+   */
+  @Cacheable(value = "locale", key = "{ #p0, #p1.toString() }")
+  public String getLocale(String localeIdentifier, Object... tokenList) {
+    return getLocaleWithLanguage(localeIdentifier, getLanguage(), tokenList);
+  }
+
+  /**
+   * Returns a locale based on its identifier
+   *
+   * @param localeIdentifier Local identifier
+   * @return Selected locale
+   */
+  @Cacheable(value = "locale", key = "{ #p0, #p1 }")
+  public String getLocaleWithLanguage(String localeIdentifier, String language) {
     String locale = localeIdentifier;
     Map<String, String> locales = localeList.get(language);
 
@@ -697,10 +728,10 @@ public class AweElements {
    * @param tokenList        Token list to replace
    * @return Selected locale
    */
-  @Cacheable(value = "locale", key = "{ #p0, #p1.toString() }")
-  public String getLocale(String localeIdentifier, Object... tokenList) {
-    String locale = getLocale(localeIdentifier);
-    Integer index = 0;
+  @Cacheable(value = "locale", key = "{ #p0, #p1, #p2.toString() }")
+  public String getLocaleWithLanguage(String localeIdentifier, String language, Object... tokenList) {
+    String locale = getLocaleWithLanguage(localeIdentifier, language);
+    int index = 0;
 
     // Escape HTML
     for (Object token : tokenList) {
@@ -775,6 +806,7 @@ public class AweElements {
 
   /**
    * Retrieve query map (query name + query object)
+   *
    * @return Query map
    */
   public Map<String, Query> getQueryMap() {
@@ -783,6 +815,7 @@ public class AweElements {
 
   /**
    * Retrieve maintain map (maintain name + maintain object)
+   *
    * @return Maintain map
    */
   public Map<String, Target> getMaintainMap() {

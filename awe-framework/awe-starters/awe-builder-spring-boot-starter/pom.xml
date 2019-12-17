@@ -5,13 +5,17 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-starters</artifactId>
-    <version>4.1.8-SNAPSHOT</version>
+    <version>4.2.0-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
   <artifactId>awe-builder-spring-boot-starter</artifactId>
   <name>AWE Spring Boot Starter Builder (V${project.version})</name>
   <description>AWE Spring Boot Starter Builder</description>
+
+  <properties>
+    <skip.delombok>false</skip.delombok>
+  </properties>
 
   <dependencies>
 

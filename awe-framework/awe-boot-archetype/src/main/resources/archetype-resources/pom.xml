@@ -18,6 +18,7 @@
 
   <properties>
     <!-- Application maven properties -->
+    <awe.version>${project.version}</awe.version>
     <java.version>1.8</java.version>
     <application.name>\${artifactId} V\${version}</application.name>
     <application.acronym>\${artifactId}</application.acronym>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Email.xml
+    Author     : Aitor UGARTE
+    Description: Email define file
+-->
+
+<emails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/email.xsd">
+
+</emails>

@@ -1,15 +1,17 @@
-<div class="criterion {{criterionClass}}" ng-attr-criterion-id="{{::controller.id}}" ng-cloak="" ng-show="controller.visible" ui-dependency="dependencies">
-  <awe-context-menu ng-cloak=""></awe-context-menu>
-  <div ng-class="::groupClass" ng-cloak="">
-    <label ng-attr-for="{{::controller.id}}" ng-class="::labelClass" ng-cloak="" ng-style="::labelStyle">
+<div ng-show="controller.visible" class="criterion {{criterionClass}}" ui-dependency="dependencies" ng-attr-criterion-id="{{::controller.id}}" ng-cloak>
+  <awe-context-menu ng-cloak></awe-context-menu>
+  <div ng-class="::groupClass" ng-cloak>
+    <label ng-attr-for="{{::controller.id}}" ng-class="::labelClass" ng-style="::labelStyle" ng-cloak>
+      <i ng-if="::controller.help" class="help-target fa fa-fw fa-question-circle"></i>
       {{controller.label| translateMultiple}}
-      <i class="help-target fa fa-fw fa-question-circle" ng-if="::controller.help"></i>
     </label>
     <div class="validator input {{::validatorGroup}} focus-target" ng-class="{'input-group': controller.unit}">
-      <span ng-class="::iconClass" ng-cloak="" ng-if="::controller.icon"></span>
-      <input autocomplete="off" class="form-control {{classes}}" ng-attr-id="{{::controller.id}}" ng-attr-name="{{::controller.id}}" ng-blur="blur()" ng-change="component.modelChange()" ng-click="click($event)" ng-disabled="controller.readonly" ng-focus="focus()" ng-model="model.selected" ng-model-options="{updateOn: 'change'}" ng-press-enter="submit($event)" placeholder="{{controller.placeholder| translateMultiple}}" type="text" />
-      <awe-loader class="loader" icon-loader="{{::iconLoader}}" ng-cloak="" ng-if="controller.loading"></awe-loader>
-      <span class="input-group-addon unit" ng-cloak="" ng-if="controller.unit" translate-multiple="{{controller.unit}}"></span>
+      <span ng-if="::controller.icon" ng-class="::iconClass" ng-cloak></span>
+      <input type="text" class="form-control {{classes}}" ng-disabled="controller.readonly" ng-model="model.selected" ng-click="click($event)"
+             ng-attr-id="{{::controller.id}}" ng-attr-name="{{::controller.id}}" placeholder="{{controller.placeholder| translateMultiple}}" ng-model-options="{updateOn: 'change'}"
+             ng-focus="focus()" ng-blur="blur()" ng-change="component.modelChange()" autocomplete="off" ng-press-enter="submit($event)"/>
+      <awe-loader class="loader" ng-if="controller.loading" icon-loader="{{::iconLoader}}" ng-cloak></awe-loader>
+      <span ng-if="controller.unit" class="input-group-addon unit" translate-multiple="{{controller.unit}}" ng-cloak></span>
     </div>
   </div>
 </div>

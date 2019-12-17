@@ -6,11 +6,12 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 /**
  * EmailMessage Class
- *
+ * <p>
  * Used to parse the Email.xml file with XStream
  * This class is used to parse an email message (subject, body)
  *
@@ -19,6 +20,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
+@Accessors(chain = true)
 public class EmailMessage implements Copyable {
 
   private static final long serialVersionUID = 4316195653459469148L;

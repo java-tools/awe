@@ -4,7 +4,6 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,12 +27,6 @@ import lombok.experimental.SuperBuilder;
 @XStreamAlias("queue")
 public class Queue extends MaintainQuery {
 
-  private static final long serialVersionUID = -8215821861086129388L;
-
-  // Maintain type
-  @XStreamOmitField
-  private static final MaintainType maintainType = MaintainType.QUEUE;
-
   @XStreamAlias("name")
   @XStreamAsAttribute
   private String name;
@@ -45,6 +38,6 @@ public class Queue extends MaintainQuery {
 
   @Override
   public MaintainType getMaintainType() {
-    return maintainType;
+    return MaintainType.QUEUE;
   }
 }

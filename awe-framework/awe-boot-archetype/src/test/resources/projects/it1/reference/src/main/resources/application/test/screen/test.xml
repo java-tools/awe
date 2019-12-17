@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : test.xml
+    Description: Test screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window" label="layout" help="HELP_layout">
+  <tag source="center">
+    <window label="SCREEN_TEXT_USER" maximize="true" icon="camera-retro">
+      <tag type="div" style="panel-body expand-maximize">
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="cod_usr" validation="required" readonly="true" style="col-xs-6 col-sm-4 col-md-2" value="Hola, Adios" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="epa" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="tutu" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="lala" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="prueba" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_PASS" component="password" icon="key" id="pwd_usr" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="submit" label="BUTTON_LOGIN" icon="sign-in" id="ButLogIn">
+            <button-action type="validate" />
+            <button-action type="server" server-action="login" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <window label="SCREEN_TEXT_USER" style="expand" maximize="true">
+      <tag type="div" style="panel-body expand" expandible="horizontal">
+        <tag type="div" style="panel-body expand">
+          <criteria label="SCREEN_TEXT_USER" component="text" id="gegtr" validation="required" style="col-xs-12" />
+          <criteria label="SCREEN_TEXT_PASS" component="password" id="ertge" validation="required" style="col-xs-12" />
+        </tag>
+        <resizable directions="right" style="col-xs-12 col-sm-4 col-lg-2 no-padding no-resizable-xs">
+          <tag style="expand" expandible="vertical">
+            <window label="SCREEN_TEXT_USER" style="expand" maximize="true">
+              <tag type="div" style="panel-body scrollable expand" label="SCREEN_TEXT_USER" />
+              <tag type="div" style="panel-footer">
+                <tag type="div" style="pull-right">
+                  <button button-type="button" label="BUTTON_LOGIN" icon="sign-in" id="ButPru"/>
+                </tag>
+              </tag>
+            </window>
+          </tag>
+        </resizable>
+        <window label="SCREEN_TEXT_USER" style="expand" maximize="true">
+          <tag type="div" style="panel-body scrollable expand" label="SCREEN_TEXT_USER" />
+          <tag type="div" style="panel-footer">
+            <tag type="div" style="pull-right">
+              <button button-type="button" label="BUTTON_LOGIN" icon="sign-in" id="ButPru2"/>
+            </tag>
+          </tag>
+        </window>
+        <tag type="div" style="panel-body staticWidthSample">
+          <criteria label="SCREEN_TEXT_USER" icon="user" component="text" id="etertg" validation="required" style="col-xs-12" />
+          <criteria label="SCREEN_TEXT_PASS" component="password" id="ertgegg" validation="required" style="col-xs-12" />
+        </tag>
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+        </tag>
+      </tag>
+    </window>
+  </tag>
+</screen>

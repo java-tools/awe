@@ -9,8 +9,6 @@ Almis Web Engine > **[Configuration](configuration-guide.md)**
 * **[Introduction](#introduction)**
 * **[Basic session](#basic-session)**
 * **[Spring session](#spring-session)**
-  * **[Single tab session](#single-tab-session)**
-  * **[Shared session](#shared-session)**
 
 ---
 
@@ -40,14 +38,3 @@ to your `pom.xml` file:
 ```
 
 The configuration of spring session is defined on `session.properties`. These properties are defined on [properties configuration page](properties.md#session-properties).
-
-### Single tab session
-
-Your application can be configure to show different sessions in each browser tab. Ensure your application is working 
-with [Spring Session](#spring-session) and configure the property `session.shareSessionInTabs=false`.
-
-### Shared tab session
-
-You can define a shared tab session using [Spring Session](#spring-session) or [Basic Session](#basic-session). For the 
-first one, just set the property `session.shareSessionInTabs` to `true`. With basic session profile all tabs share the
-same session by default.

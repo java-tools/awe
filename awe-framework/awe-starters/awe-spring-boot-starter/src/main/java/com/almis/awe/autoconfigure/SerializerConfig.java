@@ -1,8 +1,10 @@
 package com.almis.awe.autoconfigure;
 
 import com.almis.awe.model.component.XStreamSerializer;
+import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.naming.NoNameCoder;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,19 +21,30 @@ import javax.script.ScriptEngineManager;
 @Configuration
 public class SerializerConfig {
 
+  @Value("${xml.parser.allowed.paths}")
+  private String[] allowedPaths;
+
   /**
    * XStream serializer
+   *
    * @return Serializer
    */
   @Bean
   @ConditionalOnMissingBean
   public XStreamSerializer xStreamSerializer(XStreamMarshaller xStreamMarshaller) {
+    // Configure xstream security
+    XStream xstream = xStreamMarshaller.getXStream();
+    XStream.setupDefaultSecurity(xstream); // to be removed after 1.5
+    // allow any type from the same package
+    xstream.allowTypesByWildcard(allowedPaths);
+
+    // Retrieve serializer
     return new XStreamSerializer(xStreamMarshaller);
   }
 
   /**
    * Get XML management Engine
-   * 
+   *
    * @return XStream Marshaller
    */
   @Bean

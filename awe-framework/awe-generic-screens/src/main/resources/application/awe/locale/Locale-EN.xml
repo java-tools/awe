@@ -93,7 +93,6 @@
   <locale name="COLUMN_SML" value="Simultaneo"/>
   <locale name="COLUMN_STA" value="State"/>
   <locale name="COLUMN_STYLE" value="Style"/>
-  <locale name="COLUMN_SUBTASK" value="Subtask"/>
   <locale name="COLUMN_THM" value="Theme"/>
   <locale name="COLUMN_TRY" value="Tries"/>
   <locale name="COLUMN_TSK" value="Task"/>
@@ -102,13 +101,7 @@
   <locale name="COLUMN_TYPE_QUEUE" value="Queue type"/>
   <locale name="COLUMN_USER" value="User"/>
   <locale name="COLUMN_VALUE" value="Value"/>
-  <locale name="CONFIRM_MESSAGE_ACTIVATE_BATCH" value="You will activate the selected tasks. Do you agree?"/>
-  <locale name="CONFIRM_MESSAGE_ACTIVATE_TASK" value="You will activate the selected tasks. Do you agree?"/>
-  <locale name="CONFIRM_MESSAGE_BATCH_REPORT" value="You will generate the selected report. Do you agree?"/>
-  <locale name="CONFIRM_MESSAGE_DEACTIVATE_BATCH" value="You will deactivate the selected tasks. Do you agree?"/>
-  <locale name="CONFIRM_MESSAGE_DEACTIVATE_TASK" value="You will deactivate the selected tasks. Do you agree?"/>
   <locale name="CONFIRM_MESSAGE_DELETE" value="You will delete the selected records. Do you agree?"/>
-  <locale name="CONFIRM_MESSAGE_DELETE_TASK" value="You will delete the selected task from the scheduller and from all the dependencies containing it. Do you agree?"/>
   <locale name="CONFIRM_MESSAGE_EMPTY_DATA" value="Warning, criteria values are empty. Do you want to continue?"/>
   <locale name="CONFIRM_MESSAGE_EXPORT_DOC" value="You will generate a DOC file with the screen data. Do you agree?"/>
   <locale name="CONFIRM_MESSAGE_EXPORT_EXL" value="You will generate a EXCEL file with the screen data. Do you agree?"/>
@@ -117,18 +110,8 @@
   <locale name="CONFIRM_MESSAGE_NOT_UPDATED_DATA" value="Warning, criteria values have not been modified. Do you want to continue?"/>
   <locale name="CONFIRM_MESSAGE_PRINT_FILE" value="You will print the screen data. Do you agree?"/>
   <locale name="CONFIRM_MESSAGE_SND_EML" value="You will send an email to all active users. Do you agree?"/>
-  <locale name="CONFIRM_MESSAGE_TASK_LAUNCH" value="You will launch the selected task. Do you agree?"/>
-  <locale name="CONFIRM_MESSAGE_TRIGGER_WITH_CALENDAR_EXIST" value="The selected calendars are associated with one or more tasks. Are you sure you want to continue?"/>
-  <locale name="CONFIRM_MESSAGE_UNBLOCK_BATCH_KO" value="You will unblock the selected batches setting them as invalid. Do you agree?"/>
-  <locale name="CONFIRM_MESSAGE_UNBLOCK_BATCH_OK" value="You will unblock the selected batches setting them as valid. Do you agree?"/>
   <locale name="CONFIRM_MESSAGE_UPDATE" value="You will store the data on the screen. Do you agree?"/>
-  <locale name="CONFIRM_MESSAGE_UPDATE_TASK" value="You will store the data on the screen, if the task launch type changes from manual to any other type, it will be removed from all dependencies. Do you agree?"/>
   <locale name="CONFIRM_MESSAGE_UPDATED_DATA" value="Warning, changed data will be lost. Do you want to continue?"/>
-  <locale name="CONFIRM_TITLE_ACTIVATE_BATCH" value="Task activation confirmation"/>
-  <locale name="CONFIRM_TITLE_ACTIVATE_TASK" value="Task activation confirmation"/>
-  <locale name="CONFIRM_TITLE_BATCH_REPORT" value="Report generation confirmation"/>
-  <locale name="CONFIRM_TITLE_DEACTIVATE_BATCH" value="Task deactivation confirmation"/>
-  <locale name="CONFIRM_TITLE_DEACTIVATE_TASK" value="Task deactivation confirmation"/>
   <locale name="CONFIRM_TITLE_DELETE" value="Delete confirmation"/>
   <locale name="CONFIRM_TITLE_EMPTY_DATA" value="Empty data"/>
   <locale name="CONFIRM_TITLE_EXPORT_FILE" value="File generation confirmation"/>
@@ -136,9 +119,6 @@
   <locale name="CONFIRM_TITLE_NOT_UPDATED_DATA" value="Unchanged data"/>
   <locale name="CONFIRM_TITLE_PRINT_FILE" value="File print confirmation"/>
   <locale name="CONFIRM_TITLE_SND_EML" value="Email send confirmation"/>
-  <locale name="CONFIRM_TITLE_TASK_LAUNCH" value="Task launch confirmation"/>
-  <locale name="CONFIRM_TITLE_TRIGGER_WITH_CALENDAR_EXIST" value="Confirmation of calendar associated to one or several tasks."/>
-  <locale name="CONFIRM_TITLE_UNBLOCK_BATCH" value="Unblock batch confirmation"/>
   <locale name="CONFIRM_TITLE_UPDATE" value="Update confirmation"/>
   <locale name="CONFIRM_TITLE_UPDATED_DATA" value="Changed data"/>
   <locale name="CONNECTION_TYPE_FOLDER" value="Folder"/>
@@ -235,10 +215,6 @@
   <locale name="ENUM_LAN_EN" value="English"/>
   <locale name="ENUM_LAN_ES" value="Spanish"/>
   <locale name="ENUM_LAN_FR" value="French"/>
-  <locale name="ENUM_LAUNCH_DEPENDENCY" value="Dependency"/>
-  <locale name="ENUM_LAUNCH_FILE" value="File"/>
-  <locale name="ENUM_LAUNCH_MANUAL" value="Manual"/>
-  <locale name="ENUM_LAUNCH_SCHEDULED" value="Scheduled"/>
   <locale name="ENUM_MDL_PROFILES" value="Profiles"/>
   <locale name="ENUM_MDL_USERS" value="Users"/>
   <locale name="ENUM_NO" value="No"/>
@@ -348,11 +324,6 @@
   <locale name="ENUM_STATUS_WARNING" value="Warning"/>
   <locale name="ENUM_SUB_STL" value="Subtotal style"/>
   <locale name="ENUM_SUB_TIT_STL" value="Subtitle Style"/>
-  <locale name="ENUM_TASK_STEP_CONFIG" value="Configuration"/>
-  <locale name="ENUM_TASK_STEP_DEPENDENCIES" value="Dependencies"/>
-  <locale name="ENUM_TASK_STEP_LAUNCH" value="Launch"/>
-  <locale name="ENUM_TASK_STEP_PARAMS" value="Parameters"/>
-  <locale name="ENUM_TASK_STEP_REPORT" value="Report"/>
   <locale name="ENUM_TIT_STL" value="Title style"/>
   <locale name="ENUM_TOP" value="TOPIC"/>
   <locale name="ENUM_TOT_STL" value="Total style"/>
@@ -518,8 +489,6 @@
   <locale name="ERROR_MESSAGE_RETRIEVING_TRANSLATION" value="There has been an error trying to retrieve the translation for the localee -{0}- with the text -{1}-"/>
   <locale name="ERROR_MESSAGE_RETRIEVING_VARIABLE" value="There was an error retrieving the value of the variable {0}"/>
   <locale name="ERROR_MESSAGE_SAVING_ITEM" value="There has been an error saving file"/>
-  <locale name="ERROR_MESSAGE_SCHEDULER_PAUSE_TASK" value="Error pausing the task"/>
-  <locale name="ERROR_MESSAGE_SCHEDULER_RESUME_TASK" value="Error resuming the task"/>
   <locale name="ERROR_MESSAGE_SCREEN_COMPONENT_MAP" value="Error generating component map"/>
   <locale name="ERROR_MESSAGE_SCREEN_CONFIGURATION_DATA" value="Error retrieving screen configuration data: {0}"/>
   <locale name="ERROR_MESSAGE_SCREEN_NOT_CLONEABLE" value="The selected screen is not cloneable - {0}"/>
@@ -678,8 +647,6 @@
   <locale name="ERROR_TITLE_RETRIEVING_SERVER_AGENT" value="Error retrieving web services agent"/>
   <locale name="ERROR_TITLE_RETRIEVING_SERVICE" value="Error retrieving service"/>
   <locale name="ERROR_TITLE_SAVING_ITEM" value="Error saving file"/>
-  <locale name="ERROR_TITLE_SCHEDULER_PAUSE_TASK" value="The task couldn&apos;t be paused."/>
-  <locale name="ERROR_TITLE_SCHEDULER_RESUME_TASK" value="The task couldn&apos;t be resumed."/>
   <locale name="ERROR_TITLE_SCREEN_GENERATION_ERROR" value="Screen generation error"/>
   <locale name="ERROR_TITLE_SCREEN_NOT_DEFINED" value="Screen not defined"/>
   <locale name="ERROR_TITLE_SCREEN_OPTION_NOT_DEFINED" value="Screen option not defined"/>
@@ -750,9 +717,6 @@
   <locale name="HELP_RESET_BUTTON" value="Clear all criteria values"/>
   <locale name="HELP_ROWS_PER_PAGE" value="Rows/page"/>
   <locale name="HELP_SCREEN_HELP" value="Dialogue with the definition of the window components and its help"/>
-  <locale name="HELP_SCREEN_NEW_SCHEDULER_SERVER" value="In this screen, you can define the settings for a new server"/>
-  <locale name="HELP_SCREEN_NEW_SCHEDULER_TASK" value="In this screen you can define the configuration of a new scheduled task"/>
-  <locale name="HELP_SCREEN_SCHEDULER_CALENDAR" value="Screen for editing a calendar"/>
   <locale name="HELP_SCREEN_TEXT_PRINT_EMAIL" value="Dialog that allows you to generate files with the window information, print and/or send them by mail"/>
   <locale name="HELP_SCREEN_TITLE" value="Help Screen"/>
   <locale name="HELP_SCREEN_TITLE_APP_INF" value="Application info"/>
@@ -821,7 +785,6 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="HELP_SCREEN_TITLE_USR_NEW" value="Register new user"/>
   <locale name="HELP_SCREEN_TITLE_USR_UPD" value="Update user information"/>
   <locale name="HELP_SCREEN_TITLE_USR_VIW" value="Displays detailed user information"/>
-  <locale name="HELP_SCREEN_UPDATE_SCHEDULER_TASK" value="In this screen you can update the configuration of a scheduled task"/>
   <locale name="HELP_SEARCH_BUTTON" value="Search in the list filtering with the selected criteria"/>
   <locale name="HELP_TOTALIZE" value="Totalizer"/>
   <locale name="HELP_TREEGRID" value="Tree"/>
@@ -843,24 +806,16 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="MENU_HELP_APPLICATION" value="Application help"/>
   <locale name="MENU_LANGUAGES" value="Translations"/>
   <locale name="MENU_LOG" value="Log"/>
-  <locale name="MENU_NEW_SCHEDULER_SERVER" value="New server added"/>
-  <locale name="MENU_NEW_SCHEDULER_TASK" value="New scheduled task"/>
   <locale name="MENU_PATH" value="Path"/>
   <locale name="MENU_PROCESS_AUDIT_BO" value="Processes audit BO"/>
   <locale name="MENU_PROCESS_AUDIT_FO" value="Processes audit FO"/>
   <locale name="MENU_REPORT_ASSIGN" value="Report assign"/>
   <locale name="MENU_REPORT_LIST" value="Report list"/>
   <locale name="MENU_REPORTS" value="Reports"/>
-  <locale name="MENU_SCHEDULER_CALENDARS" value="Calendars"/>
-  <locale name="MENU_SCHEDULER_EDIT_CALENDAR" value="Edit calendar"/>
-  <locale name="MENU_SCHEDULER_TASKS" value="Task manager"/>
   <locale name="MENU_SEL_PRN" value="Select printer"/>
   <locale name="MENU_SETTINGS" value="Settings"/>
   <locale name="MENU_SQL_EXTRACTOR" value="SQL Extractor"/>
   <locale name="MENU_STATIC_AUDIT" value="Statics audit"/>
-  <locale name="MENU_TASKS_BATCH" value="Task batch definition"/>
-  <locale name="MENU_TASKS_BATCH_AUDIT" value="Processes batch audit"/>
-  <locale name="MENU_TASKS_PROCESS_AUDIT" value="Processes audit"/>
   <locale name="MENU_TEST_MATRIX_TREE" value="Tree matrix test"/>
   <locale name="MENU_TOOLS" value="Tools"/>
   <locale name="MENU_TOOLS_AWE_APPPAR" value="Application parameters"/>
@@ -886,11 +841,7 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="MENU_TOOLS_THEMES" value="Themes"/>
   <locale name="MENU_TOOLS_UNIKEY" value="System codes"/>
   <locale name="MENU_TOOLS_USERS" value="Users"/>
-  <locale name="MENU_UPDATE_SCHEDULER_TASK" value="Update scheduler task"/>
   <locale name="MENU_USER_HELP" value="User manual"/>
-  <locale name="MESSAGE_SCHEDULER_DELETE_CALENDAR" value="Are you sure you want to delete this calendar?"/>
-  <locale name="MESSAGE_SCHEDULER_DELETE_CALENDAR_WITH_ASSOCIATED_TASKS" value="There are some task associated to the calendar. \nAre you sure you want to delete this calendar?\nThe calendar will also be deleted from the task."/>
-  <locale name="MESSAGE_SCHEDULER_NEW_TASK" value="The task was correctly added"/>
   <locale name="MSG_PASSWD_NEW" value="After entering the password press confirm button"/>
   <locale name="OK_MESSAGE_CLEARING_ALL_CACHE" value="All caches have been cleared sucessfully"/>
   <locale name="OK_MESSAGE_CLEARING_CACHE" value="-{0}-  cache has been cleared sucessfully"/>
@@ -1066,10 +1017,6 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="PARAMETER_STORE_EXECUTION" value="Max. stored executions"/>
   <locale name="PARAMETER_STRING" value="String"/>
   <locale name="PARAMETER_STYLE" value="Style"/>
-  <locale name="PARAMETER_TASK" value="Task"/>
-  <locale name="PARAMETER_TASK_DEPENDENCIES" value="Task dependencies"/>
-  <locale name="PARAMETER_TASK_DETAILS" value="Task details"/>
-  <locale name="PARAMETER_TASKS_BATCH" value="Batch task"/>
   <locale name="PARAMETER_TEXT" value="Text"/>
   <locale name="PARAMETER_THEME" value="Theme"/>
   <locale name="PARAMETER_TIME" value="Time"/>
@@ -1091,11 +1038,6 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="PARAMETER_YEARS" value="Years"/>
   <locale name="PRINT_TAB_ADVANCE" value="Advanced settings"/>
   <locale name="PRINT_TAB_GENERAL" value="General settings"/>
-  <locale name="SCHEDULER_BATCH_LAUNCH_ERROR_MESSAGE" value="There has been an error launching the batch file."/>
-  <locale name="SCHEDULER_BATCH_LAUNCH_ERROR_TITLE" value="Error launching batch"/>
-  <locale name="SCHEDULER_BATCH_LAUNCH_MESSAGE" value="The batch has been correctly launched"/>
-  <locale name="SCHEDULER_BATCH_LAUNCH_TITLE" value="Batch launched"/>
-  <locale name="SCHEDULER_NEXT_EXECUTIONS" value="Próximas ejecuciones"/>
   <locale name="SCREEN_APPLICATION_HELP" value="Application help"/>
   <locale name="SCREEN_HELP" value="Screen help"/>
   <locale name="SCREEN_TEXT_ADD_LOCAL" value="Add localee text"/>
@@ -1144,8 +1086,6 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="SCREEN_TEXT_SETTINGS" value="Settings"/>
   <locale name="SCREEN_TEXT_SITE" value="Site"/>
   <locale name="SCREEN_TEXT_STEP" value="Step"/>
-  <locale name="SCREEN_TEXT_TASK_DETAIL" value="Task detail"/>
-  <locale name="SCREEN_TEXT_TASKS" value="Tasks"/>
   <locale name="SCREEN_TEXT_USER" value="Username"/>
   <locale name="SCREEN_TEXT_USERS" value="Users"/>
   <locale name="SCREEN_TEXT_VERSION" value="Environment"/>
@@ -1210,9 +1150,6 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="SCREEN_TITLE_SIT_UPD" value="Update site"/>
   <locale name="SCREEN_TITLE_SIT_VIW" value="View site"/>
   <locale name="SCREEN_TITLE_STL_CNF" value="Report style configuration"/>
-  <locale name="SCREEN_TITLE_TASKS_BATCH" value="Batch tasks definition"/>
-  <locale name="SCREEN_TITLE_TASKS_BATCH_AUDIT" value="Tasks batch audit management"/>
-  <locale name="SCREEN_TITLE_TASKS_BATCH_UPD" value="Update batch task definition"/>
   <locale name="SCREEN_TITLE_THM" value="Theme management"/>
   <locale name="SCREEN_TITLE_THM_NEW" value="New theme"/>
   <locale name="SCREEN_TITLE_THM_UPD" value="Update theme"/>
@@ -1225,9 +1162,6 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="SCREEN_TITLE_USR_VIW" value="View user"/>
   <locale name="SELECT2_SEARCH_VALUE" value="Search value"/>
   <locale name="SELECT2_SELECT_VALUE" value="Select a value"/>
-  <locale name="TITLE_SCHEDULER_DELETE_CALENDAR" value="Delete calendar"/>
-  <locale name="TITLE_SCHEDULER_DELETE_CALENDAR_WITH_ASSOCIATED_TASKS" value="There are some task associtated to the calendar."/>
-  <locale name="TITLE_SCHEDULER_NEW_TASK" value="Task added correctly"/>
   <locale name="VALIDATOR_MESSAGE_CHECK_AT_LEAST" value="Please check at least {value2} answers"/>
   <locale name="VALIDATOR_MESSAGE_DATE" value="Please enter a valid date"/>
   <locale name="VALIDATOR_MESSAGE_DIGITS" value="Please enter only digits"/>

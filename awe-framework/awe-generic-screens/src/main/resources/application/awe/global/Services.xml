@@ -54,8 +54,10 @@
   <service id="getMaintainList">
     <java classname="com.almis.awe.service.MaintainService" method="getMaintainList">
       <service-parameter name="maintainKey" type="STRING" />
-      <service-parameter name="isPublic" type="BOOLEAN" />
     </java>
+  </service>
+  <service id="loadDatabaseProperties" launch-phase="APPLICATION_START">
+    <java classname="com.almis.awe.service.PropertyService" method="refreshDatabaseProperties" />
   </service>
   <service id="ExpFil">
     <java classname="com.almis.awe.service.ReportService" method="printScreen" />
@@ -181,93 +183,4 @@
     </java>
   </service>
 
-  <!-- Year select/suggest service, returns the next 100 years -->
-  <service id="yearSelectService">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="yearSelectService" />
-  </service>
-
-  <!-- SCHEDULER SERVICES -->
-
-  <!-- scheduler tserviceices -->
-  <service id="getSchedulerTaskList">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="getTaskList" />
-  </service>
-  <service id="pauseTask">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="pauseTask">
-      <service-parameter name="IdeTsk" type="INTEGER" />
-    </java>
-  </service>
-  <service id="resumeTask">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="resumeTask">
-      <service-parameter name="IdeTsk" type="INTEGER" />
-    </java>
-  </service>
-  <service id="executeTaskNow">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="executeTaskNow">
-      <service-parameter name="taskIde" type="INTEGER" />
-    </java>
-  </service>
-  <service id="insertSchedulerTask">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="insertSchedulerTask">
-      <service-parameter name="IdeTsk" type="INTEGER" />
-      <service-parameter name="SendStatus" type="INTEGER" list="true" />
-      <service-parameter name="SendDestination" type="INTEGER" list="true" />
-    </java>
-  </service>
-  <service id="updateSchedulerTask">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="updateSchedulerTask">
-      <service-parameter name="IdeTsk" type="INTEGER" />
-      <service-parameter name="SendStatus" type="INTEGER" list="true" />
-      <service-parameter name="SendDestination" type="INTEGER" list="true" />
-    </java>
-  </service>
-  <service id="deleteSchedulerTask">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="deleteSchedulerTask">
-      <service-parameter name="IdeTsk" type="INTEGER" list="true" />
-    </java>
-  </service>
-
-  <!-- Scheduler calenserviceices -->
-  <service id="insertSchedulerCalendar">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="insertSchedulerCalendar">
-      <service-parameter name="calendarIde" type="INTEGER" />
-    </java>
-  </service>
-  <service id="updateSchedulerCalendar">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="updateSchedulerCalendar">
-      <service-parameter name="calendarIde" type="INTEGER" />
-    </java>
-  </service>
-  <service id="deleteSchedulerCalendar">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="deleteSchedulerCalendar">
-      <service-parameter name="calendarIde" type="INTEGER" list="true" />
-    </java>
-  </service>
-  <service id="checkTriggerContainsCalendar">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="checkCalendarExist">
-      <service-parameter name="calendarIde" type="INTEGER" list="true" />
-    </java>
-  </service>
-  <service id="deactivateSchedulerCalendar">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="deactivateCalendar">
-      <service-parameter name="calendarIde" type="INTEGER" />
-    </java>
-  </service>
-  <service id="activateSchedulerCalendar">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="activateCalendar">
-      <service-parameter name="calendarIde" type="INTEGER" />
-    </java>
-  </service>
-
-  <service id="loadMaintainVariables">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="loadMaintainVariables">
-      <service-parameter name="maintainStr" type="STRING" />
-    </java>
-  </service>
-
-  <service id="nextExecutions">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController" method="computeNextFiretimes">
-      <service-parameter name="fireTimes" type="INTEGER" />
-    </java>
-  </service>
 </services>

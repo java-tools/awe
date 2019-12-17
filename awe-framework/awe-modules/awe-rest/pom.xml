@@ -1,57 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.almis.awe</groupId>
-		<artifactId>awe-modules</artifactId>
-		<version>4.1.8-SNAPSHOT</version>
-		<relativePath>..</relativePath>
-	</parent>
+  <parent>
+    <groupId>com.almis.awe</groupId>
+    <artifactId>awe-modules</artifactId>
+    <version>4.2.0-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
 
-	<artifactId>awe-rest</artifactId>
-	<packaging>jar</packaging>
-	<name>AWE Modules - Rest (V${project.version})</name>
-	<description>Awe Spring Rest Module</description>
+  <artifactId>awe-rest</artifactId>
+  <packaging>jar</packaging>
+  <name>AWE Modules - Rest (V${project.version})</name>
+  <description>Awe Spring Rest Module</description>
 
-	<properties>
-		<swagger.version>2.9.2</swagger.version>
-		<!-- Sonar properties -->
-		<application.folder>.</application.folder>
-		<sonar.sources>src</sonar.sources>
-		<sonar.inclusions>src/main/java/**</sonar.inclusions>
-		<sonar.language>java</sonar.language>
-		<performancetest.host>localhost</performancetest.host>
-		<performancetest.port>18080</performancetest.port>
-		<performancetest.path />
-	</properties>
+  <properties>
+    <swagger.version>2.9.2</swagger.version>
+    <!-- Sonar properties -->
+    <application.folder>.</application.folder>
+    <sonar.sources>src</sonar.sources>
+    <sonar.inclusions>src/main/java/**</sonar.inclusions>
+    <sonar.language>java</sonar.language>
+    <performancetest.host>localhost</performancetest.host>
+    <performancetest.port>18080</performancetest.port>
+    <performancetest.path/>
+    <skip.delombok>false</skip.delombok>
+  </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.almis.awe</groupId>
-			<artifactId>awe-controller</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${swagger.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.guava</groupId>
-					<artifactId>guava</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${swagger.version}</version>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-controller</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${swagger.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+      <version>${swagger.version}</version>
+    </dependency>
+  </dependencies>
 
+  <build>
+    <plugins>
+      <!-- Delombok plugin -->
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>

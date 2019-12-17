@@ -33,13 +33,13 @@ describe('awe-framework/awe-client-angular/src/test/js/services/comet.js', funct
 
   it('should init with connection', function() {
     spyOn($comet, "getConnection").and.returnValue({});
-    spyOn($comet, "_reconnect");
+    spyOn($comet, "_connect");
     $comet.init();
-    expect($comet._reconnect).toHaveBeenCalled();
+    expect($comet._connect).toHaveBeenCalled();
   });
 
   it('should connect', function() {
-    let connection = {connect: (a, b, fn, c) => fn(), subscribe: (fn) => fn};
+    let connection = {connect: (headers, fn, c) => fn(), subscribe: (fn) => fn};
     spyOn($comet, "getConnection").and.returnValue(connection);
     spyOn(connection, "subscribe");
     $comet._connect();
@@ -47,7 +47,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/comet.js', funct
   });
 
   it('should connect with fails', function() {
-    let connection = {connect: (a, b, fn, error) => error(), subscribe: (fn) => fn()};
+    let connection = {connect: (headers, fn, error) => error(), subscribe: (fn) => fn()};
     spyOn($comet, "getConnection").and.returnValue(connection);
     spyOn($comet, "_disconnect");
     $comet._connect();
@@ -71,9 +71,9 @@ describe('awe-framework/awe-client-angular/src/test/js/services/comet.js', funct
   });
 
   it('should reconnect', function() {
-    spyOn($comet, "init");
+    spyOn($comet, "_connect");
     $comet._reconnect();
-    expect($comet.init).toHaveBeenCalled();
+    expect($comet._connect).toHaveBeenCalled();
   });
 
   it('should manage a broadcast call', function() {

@@ -1,6 +1,6 @@
 package com.almis.awe.test.unit.rest;
 
-import com.almis.awe.model.dto.MaintainResultDetails;
+import com.almis.awe.model.details.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;

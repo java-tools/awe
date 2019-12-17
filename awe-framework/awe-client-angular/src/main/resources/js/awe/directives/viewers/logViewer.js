@@ -42,19 +42,28 @@ aweApplication.directive('aweLogViewer',
           /**
            * Reload data from element
            */
-          component.reload = function () {
+          component.onReset = function () {
+            // Reset values
+            allContent = [];
+            lastScrollCheck = -1;
+
+            // Print text
+            printTextAtScrollPosition();
+          };
+
+          /**
+           * Reload data from element
+           */
+          component.reload = function (parameters = {silent: this.reloadSilent, async: this.reloadAsync}) {
             // Retrieve silent and async if arguments eq 2
-            let isSilent = this.reloadSilent;
-            let isAsync = this.reloadAsync;
-            if (arguments.length === 2) {
-              isAsync = arguments[0];
-              isSilent = arguments[1];
-            }
+            let isSilent = parameters.silent;
+            let isAsync = parameters.async;
 
             // Add action to actions stack
             let values = {};
             values.type = this.controller[$settings.get("serverActionKey")];
             values[$settings.get("targetActionKey")] = this.controller[$settings.get("targetActionKey")];
+            values.r = Math.random();
             values.offset = allContent.length;
 
             // Generate server action
@@ -64,10 +73,17 @@ aweApplication.directive('aweLogViewer',
             $actionController.addActionList([serverAction], false, {address: this.address, context: this.context});
           };
 
+
+          // On action reset
+          $scope.$on('/action/reset', function (event, action) {
+            $actionController.resolveAction(action, {scope: $scope, service: component, method: "onReset"});
+          });
+
           // On log delta, print log and scroll down
           $scope.$on('/action/log-delta', function (event, action) {
             let parameters = action.attr("parameters");
             let currentContent = parameters ? parameters.log || [] : [];
+            lineHeight = $element.find(".test-line").height();
             if (currentContent.length > 0) {
               // Add content to log
               allContent = allContent.concat(currentContent);
@@ -78,6 +94,9 @@ aweApplication.directive('aweLogViewer',
               // Increase height
               let height = allContent.length * lineHeight;
               contentLayer.height(height);
+
+              // Force repaint
+              lastScrollCheck = -1;
 
               // Stick scroll to bottom
               stickToBottom(moveScroll, height);

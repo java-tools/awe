@@ -80,7 +80,7 @@ public class AccessService extends ServiceConfig {
 
       serviceData
         .addClientAction(new ClientAction("screen")
-          .addParameter(SESSION_CONNECTION_TOKEN, session.getSessionId())
+          .addParameter(SESSION_CONNECTION_TOKEN, UUID.randomUUID())
           .addParameter(JSON_SCREEN, initialURL))
         .addClientAction(new ClientAction("change-language")
           .addParameter(SESSION_LANGUAGE, session.getParameter(SESSION_LANGUAGE)))

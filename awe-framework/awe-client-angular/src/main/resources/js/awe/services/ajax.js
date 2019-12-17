@@ -6,23 +6,24 @@ import { aweApplication } from "./../awe";
  * @param {Array} Injection call
  */
 aweApplication.factory('Ajax',
-  ['AweUtilities', '$log', '$http', 'ActionController', 'AweSettings', '$httpParamSerializerJQLike', 'LoadingBar',
+  ['AweUtilities', '$log', '$http', 'ActionController', '$httpParamSerializerJQLike', 'LoadingBar',
     /**
      * Retrieve the comet connection object
      * @param {object} $utilities AweUtilities service
      * @param {object} $log Log service
      * @param {object} $http Http request service
      * @param {object} $actionController Action controller
-     * @param {object} $settings AweSettings service
      * @param {object} $httpParamSerializer Parameter serializer
      * @param {object} $loadingBar Loading bar
      * @returns {Object} Ajax connection
      */
-    function ($utilities, $log, $http, $actionController, $settings, $httpParamSerializer, $loadingBar) {
+    function ($utilities, $log, $http, $actionController, $httpParamSerializer, $loadingBar) {
 
       // Service variables;
       let connectionType = 'Ajax';
       let connected = true;
+      let encodeTransmission = false;
+      let serverPath = "";
 
       const $ajax = {
         /**
@@ -35,7 +36,9 @@ aweApplication.factory('Ajax',
         /**
          * Init Connection
          */
-        init: function () {
+        init: function (path, encode) {
+          serverPath = path;
+          encodeTransmission = encode;
         },
         /**
          * Send message
@@ -46,9 +49,6 @@ aweApplication.factory('Ajax',
           var action = message.action;
           var target = message.target ? message.target : {};
           action.attr("callbackTarget", target);
-
-          // Log message
-          $log.info("[" + connectionType + "] Sending message", {message: message});
 
           // Send message
           let promise = $ajax.send(message)
@@ -129,7 +129,7 @@ aweApplication.factory('Ajax',
          * @return {String} context path + server path
          */
         getRawUrl: function () {
-          return $utilities.getContextPath() + $settings.get("pathServer");
+          return $utilities.getContextPath() + serverPath;
         },
         /**
          * Retrieve action's url
@@ -155,7 +155,7 @@ aweApplication.factory('Ajax',
          */
         manageMessage: function (message, action) {
           // Decode data
-          var data = $utilities.decodeData(message.data, $settings.get("encodeTransmission"));
+          var data = $utilities.decodeData(message.data, encodeTransmission);
 
           // Only accept action if is alive
           if (action.isAlive()) {

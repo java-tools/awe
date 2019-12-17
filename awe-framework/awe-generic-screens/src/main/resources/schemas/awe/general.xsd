@@ -32,6 +32,7 @@
       <xs:enumeration value="TIMESTAMP"/>
       <xs:enumeration value="SYSTEM_DATE"/>
       <xs:enumeration value="SYSTEM_TIME"/>
+      <xs:enumeration value="SYSTEM_TIMESTAMP"/>
       <xs:enumeration value="FLOAT"/>
       <xs:enumeration value="DOUBLE"/>
       <xs:enumeration value="INTEGER"/>
@@ -43,6 +44,7 @@
       <xs:enumeration value="STRING_HASH_RIPEMD160"/>
       <xs:enumeration value="STRING_HASH_SHA"/>
       <xs:enumeration value="STRING_HASH_PBKDF_2_W_HMAC_SHA_1"/>
+      <xs:enumeration value="LIST_TO_STRING"/>
     </xs:restriction>
   </xs:simpleType>
 

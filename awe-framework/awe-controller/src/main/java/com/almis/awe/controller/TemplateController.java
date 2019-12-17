@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Paths;
+
 /**
  * Manage template request
  */
@@ -48,7 +50,7 @@ public class TemplateController {
    */
   @GetMapping("/angular/{template}")
   public String getAngularTemplate(@PathVariable String template) {
-    return angularPath + template;
+    return Paths.get(angularPath , template).toString();
   }
 
   /**
@@ -60,7 +62,7 @@ public class TemplateController {
    */
   @GetMapping("/angular/{module}/{template}")
   public String getAngularSubTemplate(@PathVariable String module, @PathVariable String template) {
-    return angularPath + module + "/" + template;
+    return Paths.get(angularPath, module , template).toString();
   }
 
   /**

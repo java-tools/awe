@@ -1,10 +1,11 @@
 import {aweApplication} from "./../awe";
+import { ClientActions } from "./../data/actions";
 import _ from "lodash";
 
 // Action controller
 aweApplication.service('ActionController',
-  ['Storage', 'AweUtilities', 'Action',
-    function (Storage, $utilities, Action) {
+  ['Storage', 'AweUtilities', 'Action', '$rootScope', '$log', 'Control',
+    function (Storage, $utilities, Action, $scope, $log, $control) {
 
       // Define controller
       let $ctrl = this;
@@ -21,8 +22,11 @@ aweApplication.service('ActionController',
 
       /**
        * Generate an action
-       * @param actionData action  data
-       * @return Action
+       * @param actionData Action data
+       * @param addressData Action address
+       * @param silent Action is silent
+       * @param async Action is async
+       * @returns {Action|*} Action generated
        */
       $ctrl.generateAction = function (actionData, addressData, silent, async) {
         let view = addressData.address && addressData.address.view ? addressData.address.view : "base";
@@ -199,8 +203,8 @@ aweApplication.service('ActionController',
         rejectStack = [...rejectStack, ...$ctrl.asyncStackList];
 
         // Empty stacks
-        $ctrl.actionStackList[$ctrl.currentStack] = [];
-        $ctrl.asyncStackList = [];
+        $ctrl.actionStackList[$ctrl.currentStack].length = 0;
+        $ctrl.asyncStackList.length = 0;
 
         // Search action in stack
         _.each(searchStacks, function (action) {
@@ -256,7 +260,11 @@ aweApplication.service('ActionController',
             $ctrl.runNext();
           }, function () {
             //Reject
-            $ctrl.deleteStack();
+            if (action.attr("async")) {
+              $ctrl.closeAction(action.attr("actionId"));
+            } else {
+              $ctrl.deleteStack();
+            }
           });
       };
 
@@ -299,12 +307,12 @@ aweApplication.service('ActionController',
       };
       /**
        * Send a message
-       * @param {Object} $scope Component scope
+       * @param {Object} scope Component scope
        * @param {String} type Message type
        * @param {String} title Message title
        * @param {String} content Message content
        */
-      $ctrl.sendMessage = function ($scope, type, title, content) {
+      $ctrl.sendMessage = function (scope, type, title, content) {
         // Send message
         let messageAction = {type: 'message', silent: false};
         // Add message to action
@@ -314,7 +322,7 @@ aweApplication.service('ActionController',
           message: content
         };
         // Send action send message
-        $ctrl.addActionList([messageAction], false, {address: {view: $scope.view}, context: $scope.context});
+        $ctrl.addActionList([messageAction], false, {address: {view: scope.view}, context: scope.context});
       };
 
       /**
@@ -385,11 +393,29 @@ aweApplication.service('ActionController',
         // Launch action
         if ($utilities.checkAddress(action.attr("callbackTarget"), address, check)) {
           // Launch method
-          parameters.service[parameters.method](action.attr("parameters"), scope, action.attr("callbackTarget"));
+          parameters.service[parameters.method]({...action.attr("parameters"), async: action.attr("async"), silent: action.attr("silent")}, scope, action.attr("callbackTarget"));
 
           // Finish action
           $ctrl.acceptAction(action);
         }
       };
+
+      // Take each targeted actions and if target is not defined, reject them
+      $ctrl.garbageActionCollector = function() {
+        let actions = {...ClientActions.component, ...ClientActions.chart, ...ClientActions.grid.commons,
+          ...ClientActions.grid.editable, ...ClientActions.grid.tree, ...ClientActions.menu, ...ClientActions.pivot,
+          ...ClientActions.uploader, ...ClientActions.wizard};
+        _.each(actions, function (actionOptions, actionId) {
+          $scope.$on("/action/" + actionId, function (event, action) {
+            if (!$control.checkOnlyComponent(action.attr("callbackTarget"))) {
+              $log.debug("/action/" + actionId + " rejected by garbage collector", action);
+              $ctrl.abortAction(action);
+            }
+          });
+        });
+      };
+
+      // Run garbage action collector
+      $ctrl.garbageActionCollector();
     }
   ]);

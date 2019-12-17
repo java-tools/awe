@@ -4,7 +4,6 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +13,11 @@ import lombok.experimental.SuperBuilder;
 
 /**
  * Serve Class
- *
+ * <p>
  * Used to parse the file Maintain.xml with XStream
- *
- *
+ * <p>
+ * <p>
  * Target for calling services
- *
  *
  * @author Pablo GARCIA - 09/NOV/2010
  */
@@ -32,10 +30,6 @@ import lombok.experimental.SuperBuilder;
 @XStreamAlias("include-target")
 public class IncludeTarget extends MaintainQuery {
 
-  // Maintain type
-  @XStreamOmitField
-  private static final MaintainType maintainType = MaintainType.INCLUDE;
-
   @XStreamAlias("name")
   @XStreamAsAttribute
   private String name;
@@ -47,6 +41,6 @@ public class IncludeTarget extends MaintainQuery {
 
   @Override
   public MaintainType getMaintainType() {
-    return maintainType;
+    return MaintainType.INCLUDE;
   }
 }

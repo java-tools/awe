@@ -13,6 +13,7 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.regex.Pattern;
 
 /**
  * Email Class
- *
+ * <p>
  * Used to parse the Email.xml file with XStream
  * This class is used to parse a single email inside the file
  *
@@ -30,6 +31,7 @@ import java.util.regex.Pattern;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @XStreamAlias("email")
+@Accessors(chain = true)
 public class Email implements XMLNode, Copyable {
 
   protected static final long serialVersionUID = 1L;

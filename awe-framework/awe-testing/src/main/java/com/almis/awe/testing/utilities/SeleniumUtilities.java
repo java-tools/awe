@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -412,7 +413,7 @@ public class SeleniumUtilities {
     clickDateFromSelector(parentSelector);
 
     // Click on selector
-    click(By.xpath("//*[contains(@class,'datepicker')]//*[contains(@class,'" + type + "')]//text()[contains(.,'" + search + PARENT_ELEMENT));
+    click(By.xpath("//*[contains(@class,'datepicker')]//*[contains(@class,'datepicker-" + type + "s')]//*[contains(@class,'" + type + "') and not(contains(@class, 'old')) and not(contains(@class, 'new'))]//text()[.='" + search + "']/.."));
 
     // Wait for not visible
     checkNotVisible(".datepicker");
@@ -700,7 +701,7 @@ public class SeleniumUtilities {
    * @param search Text to search
    * @param label Text to find in label
    */
-  private void suggestMultipleFromSelector(String parentSelector, String search, String label) {
+  private void suggestMultipleFromSelector(String parentSelector, boolean clear, String search, String label) {
     // Safecheck
     Integer safecheck = 0;
     By searchBox = By.cssSelector(parentSelector + " input.select2-input");
@@ -712,13 +713,15 @@ public class SeleniumUtilities {
     waitUntil(presenceOfElementLocated(searchBox));
 
     // Clear selector
-    By clearSelector = By.cssSelector(parentSelector + " .select2-search-choice-close");
-    while (!driver.findElements(clearSelector).isEmpty() && safecheck < RETRY_COUNT) {
-      click(clearSelector);
-      safecheck++;
+    if (clear) {
+      By clearSelector = By.cssSelector(parentSelector + " .select2-search-choice-close");
+      while (!driver.findElements(clearSelector).isEmpty() && safecheck < RETRY_COUNT) {
+        click(clearSelector);
+        safecheck++;
+      }
     }
 
-    // Write username
+    // Write search text
     sendKeys(searchBox, search);
 
     // Wait for loading bar
@@ -1106,6 +1109,24 @@ public class SeleniumUtilities {
   protected void selectDay(String gridId, String rowId, String columnId, @Nonnull Integer day) {
     // Select date with parent selector
     selectFromDatepicker(getParentSelectorCss(gridId, rowId, columnId), DAY, day.toString());
+  }
+
+  /**
+   * Retrieve today day of month
+   * @return Day of month as string
+   */
+  protected Integer getTodayDay() {
+    return Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+  }
+
+  /**
+   * Retrieve today day of month
+   * @return Day of month as string
+   */
+  protected Integer getTomorrowDay() {
+    Calendar calendar = Calendar.getInstance();
+    calendar.add(Calendar.DAY_OF_MONTH, 1);
+    return calendar.get(Calendar.DAY_OF_MONTH);
   }
 
   /**
@@ -1534,11 +1555,24 @@ public class SeleniumUtilities {
   /**
    * Suggest or select multiple element which contains label
    * @param criterionName Criterion name
+   * @param items Items to add and search for
+   */
+  protected void suggestMultipleList(String criterionName, String... items) {
+    boolean clear = true;
+    for (String item : items) {
+      suggestMultiple(criterionName, clear, item, item);
+      clear = false;
+    }
+  }
+
+  /**
+   * Suggest or select multiple element which contains label
+   * @param criterionName Criterion name
    * @param search Search string
    * @param label Text to find in label
    */
   protected void suggestMultiple(String criterionName, String search, String label) {
-    suggestMultipleFromSelector(getCriterionSelectorCss(criterionName), search, label);
+    suggestMultiple(criterionName, true, search, label);
   }
 
   /**
@@ -1549,7 +1583,7 @@ public class SeleniumUtilities {
    * @param label Text to find in label
    */
   protected void suggestMultiple(String gridId, String columnId, String search, String label) {
-    suggestMultipleFromSelector(getParentSelectorCss(gridId, null, columnId), search, label);
+    suggestMultiple(gridId, null, columnId, true, search, label);
   }
 
   /**
@@ -1561,7 +1595,40 @@ public class SeleniumUtilities {
    * @param label Text to find in label
    */
   protected void suggestMultiple(String gridId, String rowId, String columnId, String search, String label) {
-    suggestMultipleFromSelector(getParentSelectorCss(gridId, rowId, columnId), search, label);
+    suggestMultiple(gridId, rowId, columnId, true, search, label);
+  }
+
+  /**
+   * Suggest or select multiple element which contains label
+   * @param criterionName Criterion name
+   * @param search Search string
+   * @param label Text to find in label
+   */
+  protected void suggestMultiple(String criterionName, boolean clear, String search, String label) {
+    suggestMultipleFromSelector(getCriterionSelectorCss(criterionName), clear, search, label);
+  }
+
+  /**
+   * Suggest or select multiple element which contains label
+   * @param gridId Grid id
+   * @param columnId Column id
+   * @param search Search string
+   * @param label Text to find in label
+   */
+  protected void suggestMultiple(String gridId, String columnId, boolean clear, String search, String label) {
+    suggestMultipleFromSelector(getParentSelectorCss(gridId, null, columnId), clear, search, label);
+  }
+
+  /**
+   * Suggest or select multiple element which contains label
+   * @param gridId Grid id
+   * @param rowId Row id
+   * @param columnId Column id
+   * @param search Search string
+   * @param label Text to find in label
+   */
+  protected void suggestMultiple(String gridId, String rowId, String columnId, boolean clear, String search, String label) {
+    suggestMultipleFromSelector(getParentSelectorCss(gridId, rowId, columnId), clear, search, label);
   }
 
   /**

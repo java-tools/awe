@@ -1,0 +1,910 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Queries.xml
+    Created on : 11 de marzo de 2010, 11:03
+    Author     : Pablo GARCIA
+    Description: AWE Queries File
+-->
+
+<queries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/queries.xsd">
+
+  <!--
+  SCHEDULER QUERIES
+  -->
+  <query id="SchTskSug" cacheable="true">
+    <!-- Scheduler task suggest -->
+    <table id="AweSchTsk"/>
+    <field id="Ide" alias="value"/>
+    <field id="Nam" alias="label"/>
+    <where>
+      <and>
+        <filter left-field="Nam" condition="like" right-variable="suggest" ignorecase="true"/>
+      </and>
+    </where>
+    <variable id="suggest" type="STRINGB" name="suggest"/>
+  </query>
+
+  <!-- Mantain suggest -->
+  <query id="getPublicMaintainList" service="getMaintainList" cacheable="true">
+    <field id="Ide" alias="value"/>
+    <computed alias="label" format="[value]"/>
+    <variable id="maintainKey" type="STRINGB" name="suggest"/>
+  </query>
+
+  <!-- Scheduler task list -->
+  <query id="getSchedulerTaskList" service="getSchedulerTaskList">
+    <field id="Ide" alias="id"/>
+    <field id="Ide" alias="IdeTsk"/>
+    <field id="Nam" alias="Nam"/>
+    <field id="TypLch" alias="TypLch"/>
+    <field id="Sta" alias="Sta"/>
+    <field id="Act" alias="Act"/>
+    <field id="lastExecutionDate" alias="lastExecutionDate" transform="TIMESTAMP"/>
+    <computed format="[lastExecutionDate]" alias="LstTim" nullValue="-"/>
+    <field id="NxtTim" alias="NxtTim"/>
+    <field id="AvgTim" alias="AvgTim"/>
+    <compound alias="LchIco">
+      <computed format="[TypLch]" alias="icon" translate="LchIco"/>
+      <computed format="[TypLch]" alias="style" translate="LchSty"/>
+      <computed format="[TypLch]" alias="value" />
+      <computed format="[TypLch]" alias="label" translate="LchTyp"/>
+    </compound>
+    <compound alias="ActIco">
+      <computed format="[Act]" alias="icon" translate="ActIco"/>
+      <computed format="[Act]" alias="style" translate="ActSty"/>
+      <computed format="[Act]" alias="value" />
+      <computed format="[Act]" alias="label" translate="Es1Es0"/>
+    </compound>
+  </query>
+
+  <!-- Scheduler task list -->
+  <query id="getTaskExecutionList">
+    <table id="AweSchExe"/>
+    <field id="ExeTsk" alias="ExeTsk"/>
+    <operation alias="id" operator="CONCAT">
+      <field id="IdeTsk"/>
+      <constant value="-"/>
+      <field id="ExeTsk"/>
+    </operation>
+    <field id="IdeTsk" alias="IdeTsk"/>
+    <field id="GrpTsk" alias="TypLch"/>
+    <field id="Sta" alias="Sta"/>
+    <field id="IniDat" alias="ExeLstTim"/>
+    <field id="ExeTim" alias="ExeTim"/>
+    <field id="LchBy" alias="LchBy"/>
+    <compound alias="ExeLchIco">
+      <computed format="[TypLch]" alias="icon" translate="LchTxtIco"/>
+      <computed format="[TypLch]" alias="style" translate="LchTxtSty"/>
+      <computed format="[TypLch]" alias="value" />
+      <computed format="[TypLch]" alias="label" translate="LchTxtTyp"/>
+    </compound>
+    <compound alias="ExeStaIco">
+      <computed format="[Sta]" alias="icon" translate="StaIco"/>
+      <computed format="[Sta]" alias="style" translate="StaSty"/>
+      <computed format="[Sta]" alias="value" />
+      <computed format="[Sta]" alias="label" translate="StaTyp"/>
+    </compound>
+    <where>
+      <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+    </where>
+    <order-by field="IniDat" type="DESC"/>
+    <variable id="taskId" type="INTEGER" name="IdeTsk.selected"/>
+  </query>
+
+  <!-- Scheduler task list -->
+  <query id="getTaskExecutionListFixed" service="getTaskExecutionList">
+    <field id="id"/>
+    <field id="IdeTsk"/>
+    <field id="GrpTsk"/>
+    <field id="Sta"/>
+    <field id="ExeLstTim" transform="TIMESTAMP"/>
+    <field id="ExeTim"/>
+    <field id="ExeLchIco"/>
+    <field id="ExeStaIco"/>
+    <field id="ExePrg"/>
+    <field id="LchBy" alias="ExeLchBy"/>
+    <variable id="taskId" type="INTEGER" name="IdeTsk.selected"/>
+  </query>
+
+  <query id="getTaskProgressStatus" service="getTaskProgressStatus">
+    <variable id="address" type="OBJECT" name="address"/>
+  </query>
+
+  <!-- Scheduler task list query for task load service (Java) -->
+  <query id="javaSchedulerTaskList">
+    <table id="AweSchTsk" alias="Tsk"/>
+    <!--Configuration tab elements-->
+    <field id="Ide" alias="taskId" table="Tsk"/>
+  </query>
+
+  <!-- Scheduler task list query for filtering (Java) -->
+  <query id="javaSchedulerTaskListWfilter">
+    <table id="AweSchTsk" alias="Tsk"/>
+    <!--Configuration tab elements-->
+    <field id="Ide" alias="Ide" table="Tsk"/>
+    <field id="Nam" alias="Nam" table="Tsk"/>
+    <field id="Act" alias="Act" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="Des" alias="Des" table="Tsk"/>
+    <field id="NumStoExe" alias="NumStoExe" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="TimOutExe" alias="TimOutExe" table="Tsk"/>
+    <field id="TypExe" alias="TypExe" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="IdeSrvExe" alias="IdeSrvExe" table="Tsk"/>
+    <field id="CmdExePth" alias="CmdExePth" table="Tsk"/>
+    <field id="CmdExe" alias="CmdExe" table="Tsk" />
+    <field id="LchDepErr" alias="LchDepErr" table="Tsk"/>
+    <field id="LchDepWrn" alias="LchDepWrn" table="Tsk"/>
+    <field id="LchSetWrn" alias="LchSetWrn" table="Tsk"/>
+    <!--Launch tab elements-->
+    <field id="TypLch" alias="TypLch" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="RptNum" alias="RptNum" table="Lch" transform="NUMBER" pattern="#"/>
+    <field id="RptTyp" alias="RptTyp" table="Lch" transform="NUMBER" pattern="#"/>
+    <field id="IdeCal" alias="IdeCal" table="Lch"/>
+    <field id="IniDat" alias="IniDat" table="Lch" transform="DATE"/>
+    <field id="EndDat" alias="EndDat" table="Lch" transform="DATE"/>
+    <field id="IniTim" alias="IniTim" table="Lch"/>
+    <field id="EndTim" alias="EndTim" table="Lch"/>
+    <field id="IdSrv" alias="LchSrv" table="Lch" />
+    <field id="Pth" alias="LchPth" table="Lch" />
+    <field id="Pat" alias="LchPat" table="Lch" />
+    <field id="SrvUsr" alias="SrvUsr" table="Lch" />
+    <field id="SrvPwd" alias="SrvPwd" table="Lch" />
+    <field id="WeekDays" alias="schExeWeekDays" table="Lch" transform="LIST" pattern=","/>
+    <field id="ExeYrs" alias="schExeYrs" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeMth" alias="schExeMth" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeDay" alias="schExeDay" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeHrs" alias="schExeHour" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeMin" alias="schExeMin" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeSec" alias="schExeSec" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeDte" alias="schExeDate" table="Lch" transform="DATE"/>
+    <field id="ExeTim" alias="schExeTime" table="Lch"/>
+
+    <!--Report tab elements-->
+    <field id="RepTyp" alias="RepTyp" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="RepEmaSrv" alias="RepEmaSrv" table="Tsk" transform="NUMBER" pattern="#"/>
+
+    <field id="RepTit" alias="RepTit" table="Tsk" />
+    <field id="RepMsg" alias="RepMsg" table="Tsk" />
+
+    <field id="RepEmaDst" alias="RepEmaDst" table="Tsk" transform="LIST" pattern=","/>
+    <field id="RepUsrDst" alias="RepUsrDst" table="Tsk" transform="LIST" pattern=","/>
+    <field id="RepSndSta" alias="RepSndSta" table="Tsk" transform="LIST" pattern="," />
+
+    <field id="RepMntId" alias="RepMntId" table="Tsk" />
+
+    <field id="lastExecutionDate" table="Exe"/>
+    <field id="averageTime" table="Avg" alias="averageTime"/>
+
+    <join type="LEFT">
+      <table id="AweSchTskLch" alias="Lch"/>
+      <and>
+        <filter left-field="Ide" left-table="Tsk" condition="eq" right-field="IdeTsk" right-table="Lch" />
+      </and>
+    </join>
+    <join type="LEFT">
+      <table query="getLastExecutionDateByTask" alias="Exe"/>
+      <and>
+        <filter left-field="Ide" left-table="Tsk" condition="eq" right-field="taskId" right-table="Exe" />
+      </and>
+    </join>
+    <join type="LEFT">
+      <table query="getAverageTime" alias="Avg"/>
+      <and>
+        <filter left-field="Ide" left-table="Tsk" condition="eq" right-field="taskId" right-table="Avg" />
+      </and>
+    </join>
+    <where>
+      <and>
+        <filter left-field="Ide" left-table="Tsk" condition="eq" right-variable="Ide" optional="true" />
+        <filter left-field="TypLch" left-table="Tsk" condition="eq" right-variable="TypLch" optional="true" />
+        <filter left-field="Sta" left-table="Tsk" condition="eq" right-variable="Sta" optional="true" />
+        <filter left-field="Act" left-table="Tsk" condition="eq" right-variable="active" optional="true" />
+      </and>
+    </where>
+    <variable id="Ide" type="INTEGER" name="CrtTsk" />
+    <variable id="Sta" type="INTEGER" name="CrtSta" />
+    <variable id="TypLch" type="INTEGER" name="CrtLch" />
+    <variable id="active" type="INTEGER" name="CrtAct" />
+  </query>
+
+  <!-- Get average time -->
+  <query id="getAverageTime" cacheable="true">
+    <table id="AweSchExe"/>
+    <field id="IdeTsk" alias="taskId"/>
+    <field id="ExeTim" alias="averageTime" function="AVG"/>
+    <where>
+      <and>
+        <filter left-field="Sta" condition="eq">
+          <right-operand>
+            <constant value="0" type="INTEGER"/>
+          </right-operand>
+        </filter>
+      </and>
+    </where>
+    <group-by field="IdeTsk"/>
+  </query>
+
+  <!-- Get task average time -->
+  <query id="getTaskAverageTime" cacheable="true">
+    <table id="AweSchExe"/>
+    <field id="ExeTim" alias="averageTime" function="AVG"/>
+    <where>
+      <and>
+        <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+        <filter left-field="Sta" condition="eq">
+          <right-operand>
+            <constant value="0" type="INTEGER"/>
+          </right-operand>
+        </filter>
+      </and>
+    </where>
+    <variable id="taskId" type="INTEGER" name="taskId"/>
+  </query>
+
+  <!-- Get task last execution -->
+  <query id="getLastExecution">
+    <table id="AweSchExe"/>
+    <field id="IdeTsk" alias="taskId"/>
+    <field id="GrpTsk" alias="groupId"/>
+    <field id="ExeTsk" alias="executionId"/>
+    <field id="IniDat" alias="initialDate"/>
+    <field id="EndDat" alias="endDate"/>
+    <field id="ExeTim" alias="executionTime"/>
+    <field id="Sta" alias="status"/>
+    <field id="LchBy" alias="launchedBy"/>
+    <field id="Des" alias="description"/>
+    <where>
+      <and>
+        <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+        <filter left-field="GrpTsk" condition="eq" right-variable="taskGroup"/>
+        <filter left-field="IniDat" condition="eq" query="getMaxDate"/>
+      </and>
+    </where>
+    <variable id="taskId" type="INTEGER" name="taskId"/>
+    <variable id="taskGroup" type="STRING" name="taskGroup"/>
+  </query>
+
+  <!-- Get task execution -->
+  <query id="getTaskExecution">
+    <table id="AweSchExe"/>
+    <field id="IdeTsk" alias="taskId"/>
+    <field id="GrpTsk" alias="groupId"/>
+    <field id="ExeTsk" alias="executionId"/>
+    <field id="IniDat" alias="initialDate"/>
+    <field id="EndDat" alias="endDate"/>
+    <field id="ExeTim" alias="executionTime"/>
+    <field id="Sta" alias="status"/>
+    <field id="LchBy" alias="launchedBy"/>
+    <field id="Des" alias="description"/>
+    <where>
+      <and>
+        <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+        <filter left-field="ExeTsk" condition="eq" right-variable="taskExecution"/>
+      </and>
+    </where>
+    <variable id="taskId" type="INTEGER" name="taskId"/>
+    <variable id="taskExecution" type="INTEGER" name="taskExecution"/>
+  </query>
+
+  <query id="getLastExecutionDateByTask">
+    <table id="AweSchExe"/>
+    <field id="IdeTsk" alias="taskId"/>
+    <field id="IniDat" alias="lastExecutionDate" function="MAX"/>
+    <group-by field="IdeTsk"/>
+  </query>
+
+  <query id="getMaxDate">
+    <table id="AweSchExe"/>
+    <field id="IniDat" alias="lastExecutionDate" function="MAX"/>
+    <where>
+      <and>
+        <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+        <filter left-field="GrpTsk" condition="eq" right-variable="taskGroup"/>
+      </and>
+    </where>
+    <variable id="taskId" type="INTEGER" name="taskId"/>
+    <variable id="taskGroup" type="STRING" name="taskGroup"/>
+  </query>
+
+  <query id="yearSelectService" service="yearSelectService">
+    <field id="yearStr" alias="label"/>
+    <field id="yearVal" alias="value"/>
+  </query>
+
+  <!--Scheduler Task by Id-->
+  <query id="tasksUsingCalendars">
+    <table id="AweSchTsk" alias="Tsk"/>
+    <!--Configuration tab elements-->
+    <field id="Ide" alias="taskId" table="Tsk"/>
+    <field id="Act" alias="active" table="Tsk" transform="BOOLEAN"/>
+
+    <!--Launch tab elements-->
+    <field id="TypLch" alias="launchType" table="Tsk"/>
+    <field id="IdeCal" alias="calendarId" table="Lch"/>
+
+    <join type="LEFT">
+      <table id="AweSchTskLch" alias="Lch"/>
+      <and>
+        <filter left-field="Ide" left-table="Tsk" condition="eq" right-field="IdeTsk" right-table="Lch" />
+      </and>
+    </join>
+    <where>
+      <and>
+        <filter left-field="IdeCal" left-table="Lch" condition="in" right-variable="calendars"/>
+      </and>
+    </where>
+    <variable id="calendars" type="INTEGER" name="calendarId"/>
+  </query>
+
+  <!--Scheduler Task by Id-->
+  <query id="taskData">
+    <table id="AweSchTsk" alias="Tsk"/>
+    <!--Configuration tab elements-->
+    <field id="Ide" alias="taskId" table="Tsk"/>
+    <field id="Nam" alias="name" table="Tsk"/>
+    <field id="Act" alias="active" table="Tsk" transform="BOOLEAN"/>
+    <field id="Des" alias="description" table="Tsk"/>
+    <field id="NumStoExe" alias="storedExecutions" table="Tsk"/>
+    <field id="TimOutExe" alias="executionTimeout" table="Tsk"/>
+    <field id="TypExe" alias="executionType" table="Tsk"/>
+    <field id="IdeSrvExe" alias="serverId" table="Tsk"/>
+    <field id="CmdExePth" alias="commandPath" table="Tsk"/>
+    <field id="CmdExe" alias="action" table="Tsk" />
+    <field id="LchDepErr" alias="launchDependenciesOnError" table="Tsk" transform="BOOLEAN"/>
+    <field id="LchDepWrn" alias="launchDependenciesOnWarning" table="Tsk" transform="BOOLEAN"/>
+    <field id="LchSetWrn" alias="setTaskOnWarningIfDependencyError" table="Tsk" transform="BOOLEAN"/>
+
+    <!--Launch tab elements-->
+    <field id="TypLch" alias="launchType" table="Tsk"/>
+    <field id="RptNum" alias="repeatNumber" table="Lch"/>
+    <field id="RptTyp" alias="repeatType" table="Lch"/>
+    <field id="IdeCal" alias="calendarId" table="Lch"/>
+    <field id="IniDat" alias="initialDate" table="Lch"/>
+    <field id="IniTim" alias="initialTime" table="Lch"/>
+    <field id="EndDat" alias="endDate" table="Lch"/>
+    <field id="EndTim" alias="endTime" table="Lch"/>
+    <field id="IdSrv" alias="fileServerId" table="Lch" />
+    <field id="Pth" alias="filePath" table="Lch" />
+    <field id="Pat" alias="filePattern" table="Lch" />
+    <field id="SrvUsr" alias="fileServerUser" table="Lch" />
+    <field id="SrvPwd" alias="fileServerPassword" table="Lch" transform="DECRYPT"/>
+    <field id="ExeYrs" alias="yearList" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeMth" alias="monthList" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeWek" alias="weekList" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeDay" alias="dayList" table="Lch" transform="LIST" pattern="," />
+    <field id="WeekDays" alias="weekDayList" table="Lch" transform="LIST" pattern=","/>
+    <field id="ExeHrs" alias="hourList" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeMin" alias="minuteList" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeSec" alias="secondList" table="Lch" transform="LIST" pattern="," />
+    <field id="ExeDte" alias="date" table="Lch"/>
+    <field id="ExeTim" alias="time" table="Lch"/>
+
+    <!--Report tab elements-->
+    <field id="RepTyp" alias="reportType" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="RepEmaSrv" alias="reportServerId" table="Tsk" transform="NUMBER" pattern="#"/>
+
+    <field id="RepTit" alias="reportTitle" table="Tsk" />
+    <field id="RepMsg" alias="reportMessage" table="Tsk" />
+
+    <field id="RepEmaDst" alias="reportEmailDestination" table="Tsk" transform="LIST" pattern=","/>
+    <field id="RepUsrDst" alias="reportUserDestination" table="Tsk" transform="LIST" pattern=","/>
+    <field id="RepSndSta" alias="reportSendStatus" table="Tsk" transform="LIST" pattern="," />
+
+    <field id="RepMntId" alias="reportMaintainId" table="Tsk" />
+
+    <!-- SCREEN FIELDS -->
+    <field id="Ide" alias="Ide" table="Tsk"/>
+    <field id="Nam" alias="Nam" table="Tsk"/>
+    <!--<field id="db" alias="db" table="Tsk"/>
+    <field id="site" alias="site" table="Tsk"/>-->
+    <field id="Act" alias="Act" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="Des" alias="Des" table="Tsk"/>
+    <field id="NumStoExe" alias="NumStoExe" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="TimOutExe" alias="TimOutExe" table="Tsk"/>
+    <field id="TypExe" alias="TypExe" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="IdeSrvExe" alias="IdeSrvExe" table="Tsk"/>
+    <field id="CmdExePth" alias="CmdExePth" table="Tsk"/>
+    <field id="CmdExe" alias="CmdExe" table="Tsk" />
+    <field id="CmdExe" alias="maintain" table="Tsk" />
+    <field id="CmdExe" alias="command" table="Tsk" />
+    <field id="LchDepErr" alias="LchDepErr" table="Tsk"/>
+    <field id="LchDepWrn" alias="LchDepWrn" table="Tsk"/>
+    <field id="LchSetWrn" alias="LchSetWrn" table="Tsk"/>
+    <!--Launch tab elements-->
+    <field id="TypLch" alias="TypLch" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="RptNum" alias="RptNum" table="Lch" transform="NUMBER" pattern="#"/>
+    <field id="RptTyp" alias="RptTyp" table="Lch" transform="NUMBER" pattern="#"/>
+    <field id="IdeCal" alias="IdeCal" table="Lch"/>
+    <field id="IniDat" alias="IniDat" table="Lch" transform="DATE"/>
+    <field id="EndDat" alias="EndDat" table="Lch" transform="DATE"/>
+    <field id="IniTim" alias="IniTim" table="Lch"/>
+    <field id="EndTim" alias="EndTim" table="Lch"/>
+    <field id="IdSrv" alias="LchSrv" table="Lch" />
+    <field id="Pth" alias="LchPth" table="Lch" />
+    <field id="Pat" alias="LchPat" table="Lch" />
+    <field id="SrvUsr" alias="LchUsr" table="Lch" />
+    <field id="SrvPwd" alias="LchPwd" table="Lch" transform="DECRYPT"/>
+    <field id="WeekDays" alias="weekDays" table="Lch" transform="ARRAY" pattern=","/>
+    <field id="ExeYrs" alias="years" table="Lch" transform="ARRAY" pattern="," />
+    <field id="ExeMth" alias="months" table="Lch" transform="ARRAY" pattern="," />
+    <field id="ExeWek" alias="weeks" table="Lch" transform="ARRAY" pattern="," />
+    <field id="ExeDay" alias="days" table="Lch" transform="ARRAY" pattern="," />
+    <field id="ExeHrs" alias="hours" table="Lch" transform="ARRAY" pattern="," />
+    <field id="ExeMin" alias="minutes" table="Lch" transform="ARRAY" pattern="," />
+    <field id="ExeSec" alias="seconds" table="Lch" transform="ARRAY" pattern="," />
+    <field id="ExeDte" alias="schExeDate" table="Lch" transform="DATE"/>
+    <field id="ExeTim" alias="schExeTime" table="Lch"/>
+
+    <!--Report tab elements-->
+    <field id="RepTyp" alias="RepTyp" table="Tsk" transform="NUMBER" pattern="#"/>
+    <field id="RepEmaSrv" alias="RepEmaSrv" table="Tsk" transform="NUMBER" pattern="#"/>
+
+    <field id="RepTit" alias="RepTit" table="Tsk" />
+    <field id="RepMsg" alias="RepMsg" table="Tsk" />
+
+    <field id="RepEmaDst" alias="RepEmaDst" table="Tsk" transform="ARRAY" pattern=","/>
+    <field id="RepUsrDst" alias="RepUsrDst" table="Tsk" transform="ARRAY" pattern=","/>
+    <field id="RepSndSta" alias="RepSndSta" table="Tsk" transform="ARRAY" pattern="," />
+
+    <field id="RepMntId" alias="RepMntId" table="Tsk" />
+
+    <join type="LEFT">
+      <table id="AweSchTskLch" alias="Lch"/>
+      <and>
+        <filter left-field="Ide" left-table="Tsk" condition="eq" right-field="IdeTsk" right-table="Lch" />
+      </and>
+    </join>
+    <join type="LEFT">
+      <table id="AweSchCal" alias="Cal"/>
+      <and>
+        <filter left-field="IdeCal" left-table="Lch" condition="eq" right-field="Ide" right-table="Cal" />
+      </and>
+    </join>
+    <where>
+      <and>
+        <filter left-field="Ide" left-table="Tsk" condition="eq" right-variable="Tsk" optional="true" />
+      </and>
+    </where>
+    <variable id="Tsk" type="INTEGER" name="taskId" optional="true"/>
+    <variable id="Tsk" type="INTEGER" name="IdeTsk.selected" optional="true"/>
+  </query>
+
+  <!-- Scheduler dependency list -->
+  <query id="taskDependencies" public="true">
+    <table id="AweSchTskDpn" alias="Dpn"/>
+    <field id="IdeTsk" alias="taskId" table="Dpn"/>
+    <field id="IdeTsk" alias="DepTskIde" table="Dpn"/>
+    <field id="IdePrn" alias="parentId" table="Dpn"/>
+    <field id="Nam" alias="Nam" table="Tsk"/>
+    <compound alias="DepTskIde">
+      <computed format="[taskId]" alias="value" />
+      <computed format="[Nam]" alias="label"/>
+    </compound>
+    <join>
+      <table id="AweSchTsk" alias="Tsk" />
+      <and>
+        <filter left-field="IdeTsk" left-table="Dpn" condition="eq" right-field="Ide" right-table="Tsk" />
+      </and>
+    </join>
+    <where>
+      <and>
+        <filter left-field="IdePrn" left-table="Dpn" condition="eq" right-variable="IdeTsk"/>
+      </and>
+    </where>
+    <order-by field="DpnOrd" table="Dpn" type="ASC"/>
+    <variable id="IdeTsk" type="INTEGER" name="taskId" optional="true"/>
+    <variable id="IdeTsk" type="INTEGER" name="IdeTsk.selected" optional="true"/>
+  </query>
+
+  <!-- Scheduler task parameter list -->
+  <query id="taskParameters" public="true">
+    <table id="AweSchTskPar"/>
+    <field id="Ide" alias="id"/>
+    <field id="Ide" alias="IdePar"/>
+    <field id="Nam" alias="ParNam"/>
+    <field id="Nam" alias="name"/>
+    <field id="Src" alias="ParSrc"/>
+    <field id="Src" alias="source"/>
+    <field id="Typ" alias="ParTyp"/>
+    <field id="Typ" alias="type"/>
+    <field id="Val" alias="ParVal"/>
+    <field id="Val" alias="value"/>
+    <where>
+      <and>
+        <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+      </and>
+    </where>
+    <variable id="IdeTsk" type="INTEGER" name="taskId" optional="true"/>
+    <variable id="IdeTsk" type="INTEGER" name="IdeTsk.selected" optional="true"/>
+  </query>
+
+  <!-- Scheduler server list -->
+  <query id="SchSrvLst">
+    <table id="AweSchSrv" alias="Srv"/>
+    <field id="Ide" alias="id" table="Srv"/>
+    <field id="Ide" alias="Ide" table="Srv"/>
+    <field id="Nom" alias="Nom" table="Srv"/>
+    <field id="Pro" alias="Pro" table="Srv"/>
+    <field id="Hst" alias="Hst" table="Srv"/>
+    <field id="Prt" alias="Prt" table="Srv"/>
+    <field id="Act" alias="Act" table="Srv"/>
+    <compound alias="ActIco">
+      <computed format="[Act]" alias="icon" translate="ActIco"/>
+      <computed format="[Act]" alias="style" translate="ActSty"/>
+      <computed format="[Act]" alias="value" />
+      <computed format="[Act]" alias="label" translate="Es1Es0"/>
+    </compound>
+    <where>
+      <and>
+        <or>
+          <filter left-field="Nom" left-table="Srv" condition="like" right-variable="Nom" optional="true" ignorecase="true"/>
+          <filter left-field="Ide" left-table="Srv" condition="eq" right-variable="NomId" optional="true"/>
+        </or>
+        <filter left-field="Act" left-table="Srv" condition="eq" right-variable="active" optional="true"/>
+      </and>
+    </where>
+    <variable id="Nom" type="STRINGB" name="CrtSrv"/>
+    <variable id="NomId" type="INTEGER" name="CrtSrv"/>
+    <variable id="active" type="INTEGER" name="CrtAct"/>
+  </query>
+
+  <!--Scheduler server by id-->
+  <query id="SchSrv">
+    <table id="AweSchSrv" alias="Srv"/>
+    <field id="Ide" alias="Ide" table="Srv"/>
+    <field id="Nom" alias="Nom" table="Srv"/>
+    <field id="Pro" alias="Pro" table="Srv"/>
+    <field id="Hst" alias="Hst" table="Srv"/>
+    <field id="Prt" alias="Prt" table="Srv"/>
+    <field id="Act" alias="Act" table="Srv" transform="NUMBER"/>
+    <where>
+      <and>
+        <filter left-field="Ide" left-table="Srv" condition="eq" right-variable="Ide" optional="false"/>
+      </and>
+    </where>
+    <variable id="Ide" type="STRING" name="Ide.selected"/>
+  </query>
+
+  <!--Scheduler server by id-->
+  <query id="serverData">
+    <table id="AweSchSrv" alias="Srv"/>
+    <field id="Ide" alias="serverId" table="Srv"/>
+    <field id="Nom" alias="name" table="Srv"/>
+    <field id="Pro" alias="typeOfConnection" table="Srv"/>
+    <field id="Hst" alias="host" table="Srv"/>
+    <field id="Prt" alias="port" table="Srv"/>
+    <field id="Act" alias="active" table="Srv" transform="BOOLEAN"/>
+    <where>
+      <and>
+        <filter left-field="Ide" left-table="Srv" condition="eq" right-variable="Ide"/>
+      </and>
+    </where>
+    <variable id="Ide" type="INTEGER" name="serverId"/>
+  </query>
+
+  <!-- Scheduler Server Suggest -->
+  <query id="SchSrvSug" cacheable="true">
+    <table id="AweSchSrv"/>
+    <field id="Ide" alias="value"/>
+    <field id="Nom" alias="label"/>
+    <where>
+      <and>
+        <or>
+          <filter left-field="Nom" condition="like" right-variable="suggest" ignorecase="true"/>
+          <filter left-field="Ide" condition="eq" right-variable="key" />
+        </or>
+        <filter left-field="Act" condition="eq" right-variable="active"/>
+      </and>
+    </where>
+    <variable id="suggest" type="STRINGB" name="suggest"/>
+    <variable id="active" type="INTEGER" value="1"/>
+    <variable id="key" type="INTEGER" name="suggest" />
+  </query>
+
+  <!-- Active scheduler task suggest without parents (only with manual launch) -->
+  <query id="SchTskSugAct">
+    <!-- Scheduler task suggest -->
+    <table id="AweSchTsk"/>
+    <field id="Ide" alias="value"/>
+    <field id="Nam" alias="label"/>
+    <field id="TypLch" alias="TypLch" noprint="true"/>
+    <where>
+      <and>
+        <filter left-field="Nam" condition="like" right-variable="suggest" ignorecase="true"/>
+        <filter left-field="TypLch" condition="eq" right-variable="LchTyp"/>
+        <filter left-field="Ide" condition="ne" right-variable="IdeTsk" optional="true"/>
+      </and>
+    </where>
+    <variable id="LchTyp" type="INTEGER" value="0"/>
+    <variable id="suggest" type="STRINGB" name="suggest"/>
+    <variable id="IdeTsk" type="INTEGER" name="Ide"/>
+  </query>
+
+  <!-- Scheduler Calendar Suggest -->
+  <query id="SchCalSug" cacheable="true">
+    <table id="AweSchCal"/>
+    <field id="Ide" alias="value"/>
+    <field id="Nom" alias="label"/>
+    <where>
+      <and>
+        <or>
+          <filter left-field="Nom" condition="like" right-variable="suggest" ignorecase="true"/>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </or>
+        <filter left-field="Act" condition="eq" right-variable="active"/>
+      </and>
+    </where>
+    <variable id="suggest" type="STRINGB" name="suggest"/>
+    <variable id="active" type="INTEGER" value="1"/>
+    <variable id="Ide" type="INTEGER" name="suggest" optional="true"/>
+  </query>
+
+  <!-- Scheduler Calendar List -->
+  <query id="SchCalLst">
+    <table id="AweSchCal" alias="Cal"/>
+    <field id="Ide" alias="id" table="Cal"/>
+    <field id="Ide" alias="Ide" table="Cal"/>
+    <field id="Nom" alias="Nom" table="Cal"/>
+    <field id="Des" alias="Des" table="Cal"/>
+    <field id="Act" alias="Act" table="Cal"/>
+    <compound alias="ActIco">
+      <computed format="[Act]" alias="icon" translate="ActIco"/>
+      <computed format="[Act]" alias="style" translate="ActSty"/>
+      <computed format="[Act]" alias="value" />
+      <computed format="[Act]" alias="label" translate="Es1Es0"/>
+    </compound>
+    <where>
+      <and>
+        <or>
+          <filter left-field="Nom" left-table="Cal" condition="like" right-variable="Nom" optional="true" ignorecase="true"/>
+          <filter left-field="Ide" left-table="Cal" condition="eq" right-variable="NomId" optional="true"/>
+        </or>
+        <filter left-field="Act" left-table="Cal" condition="eq" right-variable="active" optional="true"/>
+      </and>
+    </where>
+    <variable id="Nom" type="STRINGB" name="CrtCal"/>
+    <variable id="NomId" type="INTEGER" name="CrtCal"/>
+    <variable id="active" type="INTEGER" name="CrtAct"/>
+  </query>
+
+  <!-- Scheduler calendar list for java service -->
+  <query id="javaSchCalLst">
+    <table id="AweSchCal" alias="Cal"/>
+    <field id="Ide" alias="calendarId" table="Cal"/>
+    <field id="Nom" alias="name" table="Cal"/>
+    <field id="Des" alias="description" table="Cal"/>
+    <field id="Act" alias="active" table="Cal" transform="BOOLEAN"/>
+  </query>
+
+  <!-- Scheduler Calendar by Id for java service -->
+  <query id="taskCalendar">
+    <table id="AweSchCal" alias="Cal"/>
+    <field alias="calendarId" id="Ide" table="Cal"/>
+    <field alias="name" id="Nom" table="Cal"/>
+    <field alias="description" id="Des" table="Cal"/>
+    <field alias="active" id="Act" table="Cal" transform="BOOLEAN"/>
+    <where>
+      <and>
+        <filter left-field="Ide" left-table="Cal" condition="eq" right-variable="IdeCal" optional="false"/>
+      </and>
+    </where>
+    <variable id="IdeCal" type="STRING" name="calendarId" optional="true"/>
+  </query>
+
+  <!-- Scheduler Calendar by Id for java service -->
+  <query id="taskCalendarDates">
+    <table id="AweSchCalDat" alias="Cal"/>
+    <field id="Ide" alias="id" table="Cal"/>
+    <field id="IdeCal" alias="calendarId" table="Cal"/>
+    <field id="Nom" alias="description" table="Cal"/>
+    <field id="Dat" alias="date" table="Cal"/>
+    <where>
+      <and>
+        <filter left-field="IdeCal" left-table="Cal" condition="eq" right-variable="IdeCal" optional="false"/>
+      </and>
+    </where>
+    <order-by field="Dat"/>
+    <variable id="IdeCal" type="STRING" name="calendarId"/>
+  </query>
+
+  <!-- Scheduler Calendar by Id -->
+  <query id="SchCal" public="true">
+    <table id="AweSchCal" alias="Cal"/>
+    <field alias="Nom" id="Nom" table="Cal"/>
+    <field alias="Des" id="Des" table="Cal"/>
+    <field alias="Act" id="Act" table="Cal" transform="NUMBER"/>
+    <where>
+      <and>
+        <filter left-field="Ide" left-table="Cal" condition="eq" right-variable="IdeCal" optional="false"/>
+      </and>
+    </where>
+    <variable id="IdeCal" type="STRING" name="Ide.selected"/>
+  </query>
+
+  <!-- Scheduler Calendar Date List -->
+  <query id="SchCalDatLst" public="true">
+    <table id="AweSchCalDat" alias="Cal"/>
+    <field id="Ide" alias="id" table="Cal"/>
+    <field id="Ide" alias="IdeDat" table="Cal"/>
+    <field id="Nom" alias="Nam" table="Cal"/>
+    <field id="Dat" alias="Dat" table="Cal" transform="DATE"/>
+    <where>
+      <and>
+        <filter left-field="IdeCal" left-table="Cal" condition="eq" right-variable="IdeCal" optional="false"/>
+      </and>
+    </where>
+    <order-by field="Dat"/>
+    <variable id="IdeCal" type="STRING" name="CalIde"/>
+  </query>
+
+  <!-- check if there is some trigger with the selected calendar -->
+  <query id="chkTrgCntCal" service="checkTriggerContainsCalendar">
+    <variable id="calendarIde" type="INTEGER" name="Ide"/>
+  </query>
+
+  <!-- File -->
+  <!-- Load maintain variable list -->
+  <query id="SchFil">
+    <table id="AweSchTskFilMod"/>
+    <field id="FilPth" alias="filePath"/>
+    <field id="ModDat" alias="date"/>
+    <where>
+      <and>
+        <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+      </and>
+    </where>
+    <variable id="IdeTsk" type="INTEGER" name="taskId"/>
+  </query>
+
+
+  <!-- Utils -->
+  <!-- Load maintain variable list -->
+  <query id="loadMaintainVariables" service="loadMaintainVariables">
+    <variable id="maintainStr" type="STRING" name="CmdExe"/>
+    <compound alias="RowIco">
+      <computed alias="icon" format="fa-plus"/>
+      <computed alias="label" format="Added"/>
+      <computed alias="value" format="INSERT"/>
+    </compound>
+    <computed alias="RowTyp" format="INSERT"/>
+  </query>
+
+  <query id="nextExecutions" service="nextExecutions">
+    <field id="nextDate" alias="nextDate"/>
+    <field id="nextTime" alias="nextTime"/>
+    <variable id="fireTimes" type="INTEGER" value="10"/>
+  </query>
+
+  <query id="currentlyExecutingJobs" service="currentlyExecutingJobs">
+    <field id="taskKey" alias="currentJobTaskKey"/>
+    <field id="triggerKey" alias="currentJobTriggerKey"/>
+    <field id="jobStatus" alias="jobStatus"/>
+    <field id="calendar" alias="calendar"/>
+    <field id="executionTime" alias="executionTime"/>
+    <field id="scheduledExecutionTime" alias="scheduledExecutionTime"/>
+    <field id="nextExecutionTime" alias="nextExecutionTime"/>
+    <field id="previousExecutionTime" alias="previousExecutionTime"/>
+    <field id="jobRuntime" alias="jobRuntime"/>
+    <field id="fireInstanceId" alias="fireInstanceId"/>
+  </query>
+
+  <query id="getConfiguredJobs" service="getConfiguredJobs">
+    <field id="taskKey" alias="configuredJobTaskKey"/>
+    <field id="triggerKey" alias="configuredJobTriggerKey"/>
+    <field id="taskCalendar" alias="taskCalendar"/>
+    <field id="taskStartTime" alias="taskStartTime"/>
+    <field id="taskEndTime" alias="taskEndTime"/>
+    <field id="taskFinalExecutionTime" alias="taskFinalExecutionTime"/>
+    <field id="taskNextExecutionTime" alias="taskNextExecutionTime"/>
+    <field id="taskPreviousExecutionTime" alias="taskPreviousExecutionTime"/>
+  </query>
+
+  <query id="getSchedulerMetadata" service="getSchedulerMetadata">
+    <field id="schedulerInstanceId" alias="schedulerInstanceId"/>
+    <field id="schedulerName" alias="schedulerName"/>
+    <field id="schedulerVersion" alias="schedulerVersion"/>
+    <field id="schedulerRemote" alias="schedulerRemote"/>
+    <field id="schedulerJobstoreClass" alias="schedulerJobstoreClass"/>
+    <field id="schedulerJobstoreCluster" alias="schedulerJobstoreCluster"/>
+    <field id="schedulerJobstorePersistence" alias="schedulerJobstorePersistence"/>
+    <field id="schedulerExecutedJobs" alias="schedulerExecutedJobs"/>
+    <field id="schedulerRunningSince" alias="schedulerRunningSince"/>
+    <field id="schedulerThreadPoolClass" alias="schedulerThreadPoolClass"/>
+    <field id="schedulerThreadPoolSize" alias="schedulerThreadPoolSize"/>
+    <field id="schedulerStatus" alias="schedulerStatus"/>
+  </query>
+
+  <query id="databaseAliasList" distinct="true" public="true">
+    <table id="AweDbs"/>
+    <field id="Als" alias="Als"/>
+    <where>
+      <and>
+        <filter condition="eq">
+          <left-operand>
+            <field id="Act"/>
+          </left-operand>
+          <right-operand>
+            <constant value="1" type="INTEGER"/>
+          </right-operand>
+        </filter>
+      </and>
+    </where>
+  </query>
+
+  <query id="getExecutionsToPurge">
+    <table query="getTaskExecutionDates"/>
+    <field id="executionId"/>
+    <where>
+      <filter left-field="rowNumber" condition="gt" right-variable="executions"/>
+    </where>
+    <variable id="taskId" type="INTEGER" name="taskId"/>
+    <variable id="executions" type="INTEGER" name="executions"/>
+  </query>
+
+  <query id="getAllExecutions">
+    <table id="AweSchExe"/>
+    <field id="IdeTsk" alias="taskId"/>
+    <field id="ExeTsk" alias="executionId"/>
+  </query>
+
+  <query id="getTaskExecutionDates">
+    <table query="getSortedExecutions"/>
+    <field id="initialDate"/>
+    <field id="executionId"/>
+    <over alias="rowNumber">
+      <field function="ROW_NUMBER"/>
+    </over>
+    <variable id="taskId" type="INTEGER" name="taskId"/>
+  </query>
+
+  <query id="getSortedExecutions">
+    <table id="AweSchExe"/>
+    <field id="IniDat" alias="initialDate"/>
+    <field id="ExeTsk" alias="executionId"/>
+    <where>
+      <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+    </where>
+    <order-by field="IniDat" type="DESC"/>
+    <variable id="taskId" type="INTEGER" name="taskId"/>
+  </query>
+
+  <query id="getMaxTaskExecution">
+    <table id="AweSchExe"/>
+    <operation operator="COALESCE">
+      <field id="ExeTsk" function="MAX"/>
+      <constant value="0" type="INTEGER"/>
+    </operation>
+    <where>
+      <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+    </where>
+    <variable id="taskId" type="INTEGER" name="taskId"/>
+  </query>
+
+  <!-- EMAIL SERVER (SUGGEST SERVER HOST)-->
+  <query id="emailServerSuggest">
+    <table id="AweEmlSrv" />
+    <field id="IdeAweEmlSrv" alias="value"/>
+    <operation operator="CONCAT" alias="label">
+      <field id="Hst"/>
+      <constant value=" ("/>
+      <field id="SrvNam"/>
+      <constant value=")"/>
+    </operation>
+    <where>
+      <and>
+        <filter condition="like" right-variable="suggest" ignorecase="true">
+          <left-operand>
+            <operation operator="CONCAT">
+              <field id="Hst"/>
+              <constant value=" ("/>
+              <field id="SrvNam"/>
+              <constant value=")"/>
+            </operation>
+          </left-operand>
+        </filter>
+      </and>
+    </where>
+    <variable id="suggest" type="STRINGB" name="suggest" />
+  </query>
+
+</queries>

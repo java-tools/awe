@@ -15,6 +15,7 @@ import lombok.NonNull;
 import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -160,34 +161,29 @@ public class CellData implements Comparable<CellData>, Copyable {
    */
   @JsonIgnore
   public Integer getIntegerValue() {
-    Integer integerValue;
     switch (getType()) {
       // Get value as double
       case DOUBLE:
-        integerValue = ((Double) getObjectValue()).intValue();
-        break;
+        return ((Double) getObjectValue()).intValue();
       // Get float value as double
       case FLOAT:
-        integerValue = ((Float) getObjectValue()).intValue();
-        break;
+        return ((Float) getObjectValue()).intValue();
       // Get integer value as double
       case INTEGER:
-        integerValue = (Integer) getObjectValue();
-        break;
+        return (Integer) getObjectValue();
       // Get long value as double
       case LONG:
-        integerValue = ((Long) getObjectValue()).intValue();
-        break;
+        return ((Long) getObjectValue()).intValue();
       // Get long value as double
       case DECIMAL:
-        integerValue = ((BigDecimal) getObjectValue()).intValue();
-        break;
+        return ((BigDecimal) getObjectValue()).intValue();
+      // Get integer value from json node
+      case JSON:
+        return ((JsonNode) getObjectValue()).intValue();
       // If default, set to null
       default:
-        integerValue = null;
-        break;
+        return null;
     }
-    return integerValue;
   }
 
   /**
@@ -201,6 +197,14 @@ public class CellData implements Comparable<CellData>, Copyable {
       // Get value as date
       case DATE:
         return (Date) getObjectValue();
+      // Get value as object
+      case OBJECT:
+        if (getObjectValue() instanceof ByteArrayInputStream) {
+          log.error("Could not parse date from {}: {}", getObjectValue(), getObjectValue().getClass().getName());
+          return null;
+        } else {
+          return stringToDate(getStringValue());
+        }
       // Get value as date
       case STRING:
       default:

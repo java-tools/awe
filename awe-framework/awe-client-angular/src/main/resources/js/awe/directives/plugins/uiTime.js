@@ -9,7 +9,12 @@ aweApplication.directive('uiTime',
      */
     function (Utilities) {
       //Init options
-      let options = {};
+      let options = {
+        icons: {
+          up: 'fa fa-chevron-up',
+          down: 'fa fa-chevron-down'
+        }
+      };
 
       return {
         // This directive only works when used in element's attribute (e.g: ui-time)

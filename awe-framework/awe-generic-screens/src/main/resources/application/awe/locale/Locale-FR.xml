@@ -93,7 +93,6 @@
   <locale name="COLUMN_SML" value="Simultane"/>
   <locale name="COLUMN_STA" value="Etat"/>
   <locale name="COLUMN_STYLE" value="Style"/>
-  <locale name="COLUMN_SUBTASK" value="Subtache"/>
   <locale name="COLUMN_THM" value="Theme"/>
   <locale name="COLUMN_TRY" value="Essaies"/>
   <locale name="COLUMN_TSK" value="Tache"/>
@@ -102,13 +101,7 @@
   <locale name="COLUMN_TYPE_QUEUE" value="Type de queue"/>
   <locale name="COLUMN_USER" value="Utilisateur"/>
   <locale name="COLUMN_VALUE" value="Valeur"/>
-  <locale name="CONFIRM_MESSAGE_ACTIVATE_BATCH" value="Taches selectionnees vont etre activees. Etes-vous d&apos;accord?"/>
-  <locale name="CONFIRM_MESSAGE_ACTIVATE_TASK" value="Vous allez activer les tâches sélectionnées. Êtes-vous d&apos;accord?"/>
-  <locale name="CONFIRM_MESSAGE_BATCH_REPORT" value="Rapport va etre genere selctionnant dans les criteres. Etes-vous d&apos;accord?"/>
-  <locale name="CONFIRM_MESSAGE_DEACTIVATE_BATCH" value="Taches selectionnees vont etre desactivees.Etes-vous d&apos;accord?"/>
-  <locale name="CONFIRM_MESSAGE_DEACTIVATE_TASK" value="Vous allez désactiver les tâches sélectionnées. Êtes-vous d&apos;accord?"/>
   <locale name="CONFIRM_MESSAGE_DELETE" value="Donnees selectionees vont etre effacees. Etes vous d&apos;accord?"/>
-  <locale name="CONFIRM_MESSAGE_DELETE_TASK" value="Il va supprimer le planificateur de tâche sélectionnée et dépendances qui en contiennent . Etes vous d&apos;accord?"/>
   <locale name="CONFIRM_MESSAGE_EMPTY_DATA" value="Attention, les valeurs des critères sont vides. Voulez-vous continuer?"/>
   <locale name="CONFIRM_MESSAGE_EXPORT_DOC" value="Fichier DOC va etre genere avec donnees de l&apos;ecran. Etes-vous d&apos;accord?"/>
   <locale name="CONFIRM_MESSAGE_EXPORT_EXL" value="Fichier EXCEL va etre genere avec donnees de l&apos;ecran. Etes-vous d&apos;accord?"/>
@@ -117,18 +110,8 @@
   <locale name="CONFIRM_MESSAGE_NOT_UPDATED_DATA" value="Attention, les valeurs des critères sont vides. Voulez-vous continuer?"/>
   <locale name="CONFIRM_MESSAGE_PRINT_FILE" value="Imprimer les donnees de l&apos;ecran Etes-vous d&apos;accord?"/>
   <locale name="CONFIRM_MESSAGE_SND_EML" value="Un mail va etre envoye aux utlisateurs actives. Etes vous d&apos;accord?"/>
-  <locale name="CONFIRM_MESSAGE_TASK_LAUNCH" value="Tache selectionnee va etre lancee. Etes-vous d&apos;accord?"/>
-  <locale name="CONFIRM_MESSAGE_TRIGGER_WITH_CALENDAR_EXIST" value="Calendriers sélectionnés sont associés à une ou plusieurs tâches. Êtes-vous sûr de vouloir continuer?"/>
-  <locale name="CONFIRM_MESSAGE_UNBLOCK_BATCH_KO" value="Les batchs selectionnes sont marques comme non valides pour etre debloqués. Etes-vous d&apos;accord?"/>
-  <locale name="CONFIRM_MESSAGE_UNBLOCK_BATCH_OK" value="Les batchs selectionnes sont marques comme valides pour etre debloqués. Etes-vous d&apos;accord?"/>
   <locale name="CONFIRM_MESSAGE_UPDATE" value="Donnees modifies vont etre sauvegardees. Etes vous d&apos;accord?"/>
-  <locale name="CONFIRM_MESSAGE_UPDATE_TASK" value="Vous allez stocker les données sur l&apos;écran , si les changements de type tâche de lancement de manuel à tout autre type , il seront retirés de toutes les dépendances Etes vous d&apos;accord?"/>
   <locale name="CONFIRM_MESSAGE_UPDATED_DATA" value="Attention, les données modifiées seront perdues. Voulez-vous continuer?"/>
-  <locale name="CONFIRM_TITLE_ACTIVATE_BATCH" value="Confirmation d&apos;activatión de taches"/>
-  <locale name="CONFIRM_TITLE_ACTIVATE_TASK" value="Confirmation d&apos;activatión de taches"/>
-  <locale name="CONFIRM_TITLE_BATCH_REPORT" value="Confirmation de generatión de rapport"/>
-  <locale name="CONFIRM_TITLE_DEACTIVATE_BATCH" value="Confirmation de desactivation des taches"/>
-  <locale name="CONFIRM_TITLE_DEACTIVATE_TASK" value="Confirmation de desactivation des taches"/>
   <locale name="CONFIRM_TITLE_DELETE" value="Confirmation d&apos;effacement"/>
   <locale name="CONFIRM_TITLE_EMPTY_DATA" value="Donees vides"/>
   <locale name="CONFIRM_TITLE_EXPORT_FILE" value="Confirmation de generation de fichier"/>
@@ -136,9 +119,6 @@
   <locale name="CONFIRM_TITLE_NOT_UPDATED_DATA" value="Donees inchangées"/>
   <locale name="CONFIRM_TITLE_PRINT_FILE" value="Confirmation d&apos;impression de fichier"/>
   <locale name="CONFIRM_TITLE_SND_EML" value="Confirmation d&apos;envoie"/>
-  <locale name="CONFIRM_TITLE_TASK_LAUNCH" value="Confirmation de lancement des taches"/>
-  <locale name="CONFIRM_TITLE_TRIGGER_WITH_CALENDAR_EXIST" value="La confirmation de calendrier associé à une ou plusieurs tâches."/>
-  <locale name="CONFIRM_TITLE_UNBLOCK_BATCH" value="Confirmation de deblocage de batch"/>
   <locale name="CONFIRM_TITLE_UPDATE" value="Confirmatión de la modificatión"/>
   <locale name="CONFIRM_TITLE_UPDATED_DATA" value="Donees modifiées"/>
   <locale name="CONNECTION_TYPE_FOLDER" value="Annuaire"/>
@@ -235,10 +215,6 @@
   <locale name="ENUM_LAN_EN" value="Anglais"/>
   <locale name="ENUM_LAN_ES" value="Espagnol"/>
   <locale name="ENUM_LAN_FR" value="Français"/>
-  <locale name="ENUM_LAUNCH_DEPENDENCY" value="Dépendance"/>
-  <locale name="ENUM_LAUNCH_FILE" value="Par fichier"/>
-  <locale name="ENUM_LAUNCH_MANUAL" value="Manuelle"/>
-  <locale name="ENUM_LAUNCH_SCHEDULED" value="Programmés"/>
   <locale name="ENUM_MDL_PROFILES" value="Profils"/>
   <locale name="ENUM_MDL_USERS" value="Utilisateurs"/>
   <locale name="ENUM_NO" value="Non"/>
@@ -348,11 +324,6 @@
   <locale name="ENUM_STATUS_WARNING" value="Attention"/>
   <locale name="ENUM_SUB_STL" value="Subtotal style"/>
   <locale name="ENUM_SUB_TIT_STL" value="Subtitle Style"/>
-  <locale name="ENUM_TASK_STEP_CONFIG" value="Configuration"/>
-  <locale name="ENUM_TASK_STEP_DEPENDENCIES" value="Dépendances"/>
-  <locale name="ENUM_TASK_STEP_LAUNCH" value="Lancement"/>
-  <locale name="ENUM_TASK_STEP_PARAMS" value="Paramètres"/>
-  <locale name="ENUM_TASK_STEP_REPORT" value="Rapport"/>
   <locale name="ENUM_TIT_STL" value="Title style"/>
   <locale name="ENUM_TOP" value="TOPIC"/>
   <locale name="ENUM_TOT_STL" value="Total style"/>
@@ -518,8 +489,6 @@
   <locale name="ERROR_MESSAGE_RETRIEVING_TRANSLATION" value="Il y a eu une erreur en essayant de récupérer la traduction pour le localee -{0}- avec le texte -{1}-"/>
   <locale name="ERROR_MESSAGE_RETRIEVING_VARIABLE" value="Il y avait une erreur de récupération de la valeur de la variable {0}"/>
   <locale name="ERROR_MESSAGE_SAVING_ITEM" value="There has been an error saving file"/>
-  <locale name="ERROR_MESSAGE_SCHEDULER_PAUSE_TASK" value="Tâche problème pause"/>
-  <locale name="ERROR_MESSAGE_SCHEDULER_RESUME_TASK" value="Problème pour reprendre la tâche."/>
   <locale name="ERROR_MESSAGE_SCREEN_COMPONENT_MAP" value="Erreur lors de la création de la liste des composants"/>
   <locale name="ERROR_MESSAGE_SCREEN_CONFIGURATION_DATA" value="Erreur lors de la récupération des données de configuration de l&apos;écran: {0}"/>
   <locale name="ERROR_MESSAGE_SCREEN_NOT_CLONEABLE" value="L&apos;écran sélectionné ne peut pas être cloné - {0}"/>
@@ -678,8 +647,6 @@
   <locale name="ERROR_TITLE_RETRIEVING_SERVER_AGENT" value="Erreur à la récupération de l&apos;agent de service web"/>
   <locale name="ERROR_TITLE_RETRIEVING_SERVICE" value="Erreur à la récupération du service"/>
   <locale name="ERROR_TITLE_SAVING_ITEM" value="Error saving file"/>
-  <locale name="ERROR_TITLE_SCHEDULER_PAUSE_TASK" value="La tâche n&apos;a pas pu être mis en pause."/>
-  <locale name="ERROR_TITLE_SCHEDULER_RESUME_TASK" value="La tâche n&apos;a pas pu être repris."/>
   <locale name="ERROR_TITLE_SCREEN_GENERATION_ERROR" value="Erreur generant l&apos;ecran"/>
   <locale name="ERROR_TITLE_SCREEN_NOT_DEFINED" value="Ecran non defini"/>
   <locale name="ERROR_TITLE_SCREEN_OPTION_NOT_DEFINED" value="Ecran option non defini"/>
@@ -701,7 +668,7 @@
   <locale name="ERROR_TITLE_WEB_SERVICE_CALL" value="Erreur appellant un Service Web"/>
   <locale name="ERROR_TITLE_WRONG_FILE_STRUCTURE" value="Fichier mal definit"/>
   <locale name="EXECUTION_DATE" value="Date d&apos;exécution"/>
-  <locale name="EXECUTION_TIME" value="Le temps d&apos;exécution"/>
+  <locale name="EXECUTION_TIME" value="T. d&apos;exécution"/>
   <locale name="GRID_CHECK_ALL_SAVED_MESSAGE" value="Pour effectuer cette opération vous devez valider tous les dossiers inscrits"/>
   <locale name="GRID_CHECK_ALL_SAVED_TITLE" value="Vous devez valider tous les dossiers"/>
   <locale name="GRID_CHECK_ONE_SELECTED_MESSAGE" value="Pour effectuer cette opération vous devez sélectionner un seul élément dans la liste"/>
@@ -750,9 +717,6 @@
   <locale name="HELP_RESET_BUTTON" value="Effacer toutes les valeurs des critères"/>
   <locale name="HELP_ROWS_PER_PAGE" value="Lignes/page"/>
   <locale name="HELP_SCREEN_HELP" value="Dialogue avec la définition des composants de la fenêtre et assistance"/>
-  <locale name="HELP_SCREEN_NEW_SCHEDULER_SERVER" value="Dans cet écran, vous pouvez définir les paramètres d&apos;un nouveau serveur"/>
-  <locale name="HELP_SCREEN_NEW_SCHEDULER_TASK" value="Dans cet écran, vous pouvez définir la configuration d&apos;une tâche planifiée"/>
-  <locale name="HELP_SCREEN_SCHEDULER_CALENDAR" value="L&apos;écran d&apos;édition de l&apos;agenda"/>
   <locale name="HELP_SCREEN_TEXT_PRINT_EMAIL" value="Dialogue qui génère des fichiers avec les informations dans la fenêtre, l&apos;impression et/ou e-mail"/>
   <locale name="HELP_SCREEN_TITLE" value="Écran d&apos;aide"/>
   <locale name="HELP_SCREEN_TITLE_APP_INF" value="Information de l&apos;application"/>
@@ -821,7 +785,6 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="HELP_SCREEN_TITLE_USR_NEW" value="Insertion des utilisateurs"/>
   <locale name="HELP_SCREEN_TITLE_USR_UPD" value="Modification des utilisateurs"/>
   <locale name="HELP_SCREEN_TITLE_USR_VIW" value="Consultation d&apos;utilisateur"/>
-  <locale name="HELP_SCREEN_UPDATE_SCHEDULER_TASK" value="Dans cet écran, vous pouvez mettre à jour la configuration d&apos;une tâche planifiée"/>
   <locale name="HELP_SEARCH_BUTTON" value="Lancez une recherche selon les critères sélectionnés"/>
   <locale name="HELP_TOTALIZE" value="Totalizateur"/>
   <locale name="HELP_TREEGRID" value="Arbre"/>
@@ -843,24 +806,16 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="MENU_HELP_APPLICATION" value="Application help"/>
   <locale name="MENU_LANGUAGES" value="Traductions"/>
   <locale name="MENU_LOG" value="Log"/>
-  <locale name="MENU_NEW_SCHEDULER_SERVER" value="Nouveau serveur ajouté"/>
-  <locale name="MENU_NEW_SCHEDULER_TASK" value="Nouvelle tâche planifiée"/>
   <locale name="MENU_PATH" value="Chemin"/>
   <locale name="MENU_PROCESS_AUDIT_BO" value="Audit de processus BO"/>
   <locale name="MENU_PROCESS_AUDIT_FO" value="Audit de processus FO"/>
   <locale name="MENU_REPORT_ASSIGN" value="Generation des rapports"/>
   <locale name="MENU_REPORT_LIST" value="Visualisation des rapports"/>
   <locale name="MENU_REPORTS" value="Rapports"/>
-  <locale name="MENU_SCHEDULER_CALENDARS" value="Calendriers"/>
-  <locale name="MENU_SCHEDULER_EDIT_CALENDAR" value="Modifier calendrier"/>
-  <locale name="MENU_SCHEDULER_TASKS" value="Gestionnaire des tâches"/>
   <locale name="MENU_SEL_PRN" value="Select printer"/>
   <locale name="MENU_SETTINGS" value="Réglages"/>
   <locale name="MENU_SQL_EXTRACTOR" value="SQL Extracteur"/>
   <locale name="MENU_STATIC_AUDIT" value="Audit de státics"/>
-  <locale name="MENU_TASKS_BATCH" value="Definition des taches du batch"/>
-  <locale name="MENU_TASKS_BATCH_AUDIT" value="Audit de tache du batch"/>
-  <locale name="MENU_TASKS_PROCESS_AUDIT" value="Audit de processus"/>
   <locale name="MENU_TEST_MATRIX_TREE" value="Test de la matrice d&apos;arbre"/>
   <locale name="MENU_TOOLS" value="Outils"/>
   <locale name="MENU_TOOLS_AWE_APPPAR" value="Paramètres d&apos;application"/>
@@ -886,11 +841,7 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="MENU_TOOLS_THEMES" value="Thèmes"/>
   <locale name="MENU_TOOLS_UNIKEY" value="Codes du systeme"/>
   <locale name="MENU_TOOLS_USERS" value="Utilisateurs"/>
-  <locale name="MENU_UPDATE_SCHEDULER_TASK" value="Mise à jour de la tâche planifiée"/>
   <locale name="MENU_USER_HELP" value="Guide utilisateur"/>
-  <locale name="MESSAGE_SCHEDULER_DELETE_CALENDAR" value="Vous êtes sûr que vous voulez supprimer ce calendrier ?"/>
-  <locale name="MESSAGE_SCHEDULER_DELETE_CALENDAR_WITH_ASSOCIATED_TASKS" value="Il y a des tâches associées à ce calendrier .\nVous êtes sûr que vous voulez supprimer le calendrier ?\n.Si Élimine le calendrier , il a également été retiré des tâches associées."/>
-  <locale name="MESSAGE_SCHEDULER_NEW_TASK" value="La tâche a été ajouté avec succès"/>
   <locale name="MSG_PASSWD_NEW" value="Après avoir entré le appuyez sur le bouton de confirmation de mot de passe"/>
   <locale name="OK_MESSAGE_CLEARING_ALL_CACHE" value="Se han borrado todas las caches correctamente"/>
   <locale name="OK_MESSAGE_CLEARING_CACHE" value="La cache -{0}- a ete correctement effacee"/>
@@ -920,7 +871,7 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="PARAMETER_ATTRIBUTE" value="Attribute"/>
   <locale name="PARAMETER_AUD_TYPE" value="T. audit"/>
   <locale name="PARAMETER_AUTH" value="Authentification"/>
-  <locale name="PARAMETER_AVERAGE_TIME" value="Moyenne de temps"/>
+  <locale name="PARAMETER_AVERAGE_TIME" value="Moyenne temps"/>
   <locale name="PARAMETER_BALANCE" value="Balance"/>
   <locale name="PARAMETER_BATCH" value="Batch"/>
   <locale name="PARAMETER_BATDES" value="Source"/>
@@ -1012,7 +963,7 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="PARAMETER_MONTH_SEPTEMBER" value="Septembre"/>
   <locale name="PARAMETER_MONTHS" value="Mois"/>
   <locale name="PARAMETER_NAME" value="Nom"/>
-  <locale name="PARAMETER_NEXT_EXECUTION" value="La prochaine exécution"/>
+  <locale name="PARAMETER_NEXT_EXECUTION" value="Prochaine exécution"/>
   <locale name="PARAMETER_NOTIFY_TYPE" value="Type de notification"/>
   <locale name="PARAMETER_NUM_LOG" value="Tentatives de connexion"/>
   <locale name="PARAMETER_OBJECT" value="Objet"/>
@@ -1066,10 +1017,6 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="PARAMETER_STORE_EXECUTION" value="Exécutions stockées"/>
   <locale name="PARAMETER_STRING" value="Chaîne"/>
   <locale name="PARAMETER_STYLE" value="Style"/>
-  <locale name="PARAMETER_TASK" value="Tache"/>
-  <locale name="PARAMETER_TASK_DEPENDENCIES" value="Les dépendances de la tâche"/>
-  <locale name="PARAMETER_TASK_DETAILS" value="Détails de la tâche"/>
-  <locale name="PARAMETER_TASKS_BATCH" value="Tache batch"/>
   <locale name="PARAMETER_TEXT" value="Texte"/>
   <locale name="PARAMETER_THEME" value="Thème"/>
   <locale name="PARAMETER_TIME" value="Heure"/>
@@ -1091,11 +1038,6 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="PARAMETER_YEARS" value="Ans"/>
   <locale name="PRINT_TAB_ADVANCE" value="Paramètres avancés"/>
   <locale name="PRINT_TAB_GENERAL" value="Paramètres généraux"/>
-  <locale name="SCHEDULER_BATCH_LAUNCH_ERROR_MESSAGE" value="Il y a eu une erreur lors de l&apos;exécution du lot."/>
-  <locale name="SCHEDULER_BATCH_LAUNCH_ERROR_TITLE" value="Erreur d&apos;exécution lot par lot"/>
-  <locale name="SCHEDULER_BATCH_LAUNCH_MESSAGE" value="Le lot a été exécutée correctement"/>
-  <locale name="SCHEDULER_BATCH_LAUNCH_TITLE" value="Lot exécuté"/>
-  <locale name="SCHEDULER_NEXT_EXECUTIONS" value="Spectacles à venir"/>
   <locale name="SCREEN_APPLICATION_HELP" value="Application Help"/>
   <locale name="SCREEN_HELP" value="Screen Help"/>
   <locale name="SCREEN_TEXT_ADD_LOCAL" value="Ajouter le texte du paramètre régionaux"/>
@@ -1144,8 +1086,6 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="SCREEN_TEXT_SETTINGS" value="Réglages"/>
   <locale name="SCREEN_TEXT_SITE" value="Site"/>
   <locale name="SCREEN_TEXT_STEP" value="Étape"/>
-  <locale name="SCREEN_TEXT_TASK_DETAIL" value="Détail des tâches"/>
-  <locale name="SCREEN_TEXT_TASKS" value="Tâches"/>
   <locale name="SCREEN_TEXT_USER" value="Utilisateur"/>
   <locale name="SCREEN_TEXT_USERS" value="Utilisateurs"/>
   <locale name="SCREEN_TEXT_VERSION" value="Contexte"/>
@@ -1210,9 +1150,6 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="SCREEN_TITLE_SIT_UPD" value="Update site"/>
   <locale name="SCREEN_TITLE_SIT_VIW" value="View site"/>
   <locale name="SCREEN_TITLE_STL_CNF" value="Report style configuration"/>
-  <locale name="SCREEN_TITLE_TASKS_BATCH" value="Definition des taches du batch"/>
-  <locale name="SCREEN_TITLE_TASKS_BATCH_AUDIT" value="Gestión de l&apos;audit des taches du batch"/>
-  <locale name="SCREEN_TITLE_TASKS_BATCH_UPD" value="Modification de la definition de la tache du batch"/>
   <locale name="SCREEN_TITLE_THM" value="Gestión de thèmes"/>
   <locale name="SCREEN_TITLE_THM_NEW" value="Insertion de thème"/>
   <locale name="SCREEN_TITLE_THM_UPD" value="Modification de thème"/>
@@ -1225,9 +1162,6 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="SCREEN_TITLE_USR_VIW" value="Consultation d&apos;utilisateur"/>
   <locale name="SELECT2_SEARCH_VALUE" value="Chercher un valeur"/>
   <locale name="SELECT2_SELECT_VALUE" value="Sélectionner un valeur"/>
-  <locale name="TITLE_SCHEDULER_DELETE_CALENDAR" value="Supprimer le calendrier"/>
-  <locale name="TITLE_SCHEDULER_DELETE_CALENDAR_WITH_ASSOCIATED_TASKS" value="Ce calendrier est associé à une ou plusieurs tâches"/>
-  <locale name="TITLE_SCHEDULER_NEW_TASK" value="Nouvelle tâche ajouté avec succès"/>
   <locale name="VALIDATOR_MESSAGE_CHECK_AT_LEAST" value="Veuillez cocher au moins {value2} réponses"/>
   <locale name="VALIDATOR_MESSAGE_DATE" value="Veuillez entrer une date valide"/>
   <locale name="VALIDATOR_MESSAGE_DIGITS" value="Veuillez saisir uniquement des chiffres"/>

@@ -273,3 +273,11 @@ insert into HISAweDbs (HISope, HISdat, HISact, IdeDbs, Als, Des, Dct, Dbt, Drv, 
 insert into HISAweDbs (HISope, HISdat, HISact, IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values ('test', to_date('20190101 23:01:18', 'yyyymmdd hh24:mi:ss'), 'U', 16  , 'awesybase2','AWE SYBASE 2','J','syb','com.sybase.jdbc3.jdbc.SybDriver',null, null,'Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase2',	1	);
 insert into HISAweDbs (HISope, HISdat, HISact, IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values ('test', to_date('20190101 23:01:19', 'yyyymmdd hh24:mi:ss'), 'U', 16  , 'awesybase2','AWE SYBASE 2','J','syb','com.sybase.jdbc3.jdbc.SybDriver',null, null,'Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase2',	1	);
 insert into HISAweDbs (HISope, HISdat, HISact, IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values ('test', to_date('20190101 23:01:20', 'yyyymmdd hh24:mi:ss'), 'U', 16  , 'awesybase2','AWE SYBASE 2','J','syb','com.sybase.jdbc3.jdbc.SybDriver',null, null,'Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase2',	1	);
+
+-- Scheduler sequences
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskSrv', (select coalesce(max(Ide), 0) + 1 from AweSchSrv));
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskCal', (select coalesce(max(Ide), 0) + 1 from AweSchCal));
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskCalDat', (select coalesce(max(Ide), 0) + 1 from AweSchCalDat));
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskKey', (select coalesce(max(Ide), 0) + 1 from AweSchTsk));
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskLch', (select coalesce(max(Ide), 0) + 1 from AweSchTskLch));
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskPar', (select coalesce(max(Ide), 0) + 1 from AweSchTskPar));

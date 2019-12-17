@@ -1,5 +1,5 @@
-import { aweApplication } from "./../awe";
-import { ClientActions } from "../data/actions";
+import {aweApplication} from "./../awe";
+import {ClientActions} from "../data/actions";
 
 // Component service
 aweApplication.factory('Component',
@@ -153,7 +153,7 @@ aweApplication.factory('Component',
             $actionController.defineActionListeners(component.listeners, ClientActions.component, component.scope, component);
 
             // Clean objects on destroy | unload
-            component.listeners['destroy'] = component.scope.$on("$destroy", destroy);
+            component.listeners['destroy'] = component.scope.$on("$destroy", () => destroy(component));
             component.listeners['unload'] = component.scope.$on("unload", function (event, view) {
               if (view === component.view) {
                 destroy(component);
@@ -310,7 +310,10 @@ aweApplication.factory('Component',
 
             // Report to view that component has been initialized
             Utilities.emitFromScope("component-initialized-" + component.address.view,
-              {address: _.cloneDeep(component.address), hasDependencies: component.dependencies.length > 0}, component.scope);
+              {
+                address: _.cloneDeep(component.address),
+                hasDependencies: component.dependencies.length > 0
+              }, component.scope);
           }
           // Initialization has been right
           return true;
@@ -399,11 +402,11 @@ aweApplication.factory('Component',
          * Checks autorefresh timeout
          */
         checkAutoRefresh: function () {
-          var component = this;
+          let component = this;
           if (this.controller.autorefresh) {
             Utilities.interval.cancel(this.autoRefreshTimer);
             this.autoRefreshTimer = Utilities.interval(function () {
-              component.reload(true, true);
+              component.reload({silent: true, async: true});
             }, (this.controller.autorefresh * 1000));
           }
         },
@@ -411,23 +414,19 @@ aweApplication.factory('Component',
          * Reload data from element
          * @return Action server action
          */
-        reload: function () {
+        reload: function (parameters = {silent: this.reloadSilent, async: this.reloadAsync}) {
           // Retrieve silent and async if arguments eq 2
-          var isSilent = this.reloadSilent;
-          var isAsync = this.reloadAsync;
-          if (arguments.length === 2) {
-            isAsync = arguments[0];
-            isSilent = arguments[1];
-          }
+          let isSilent = parameters.silent;
+          let isAsync = parameters.async;
 
           // Add action to actions stack
-          var values = {};
+          let values = {};
           values.type = this.controller[$settings.get("serverActionKey")];
           values[$settings.get("targetActionKey")] = this.controller[$settings.get("targetActionKey")];
 
           // Generate server action
-          var actionScope = {address: this.address, context: this.context};
-          var serverAction = $actionController.generateAction(ServerData.getServerAction(this.address, values, isAsync, isSilent), actionScope, isSilent, isAsync);
+          let actionScope = {address: this.address, context: this.context};
+          let serverAction = $actionController.generateAction(ServerData.getServerAction(this.address, values, isAsync, isSilent), actionScope, isSilent, isAsync);
 
           // Send action list
           $actionController.addActionList([serverAction], false, actionScope);

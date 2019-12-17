@@ -6,6 +6,7 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
   function ($storage, $translate, $log, $utilities, $http, $location, $scope, $state, $injector) {
     let tokenKey = "token";
     let initialize = $utilities.q.defer();
+    let $connection = null;
     const $settings = {
       /**
        * Initialize $settings from server
@@ -37,27 +38,33 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
         // Retrieve $settings and set initial language
         let language = $settings.getLanguage();
 
-        // Define session type
-        $storage.setSharedSession(settings.shareSessionInTabs);
+        // Start (or reconnect) server connection
+        $connection = $injector.get('Connection');
 
-        // Store token
-        $settings.setToken($settings.getToken());
+        $connection.init(settings.pathServer, settings.encodeTransmission, settings.cometUID)
+          .then(() => {
+            // Store token
+            $settings.setToken(settings.cometUID);
 
-        // Store updated and language
-        $storage.putRoot("language", language);
+            // Store updated and language
+            $storage.putRoot("language", language);
 
-        // Set language
-        $settings.changeLanguage(language, true);
+            // Set language
+            $settings.changeLanguage(language, true);
 
-        // Load current state
-        let initialState = $utilities.getState(settings.reloadCurrentScreen ? settings.initialURL : location.href);
-        $settings.update({reloadCurrentScreen: false});
+            // Store connection
+            $storage.putRoot("connection", settings.connectionProtocol);
 
-        // Go to initial state
-        $state.go(initialState.to, initialState.parameters, {reload: false, inherit: true, notify: true, location: true});
+            // Load current state
+            let initialState = $utilities.getState(settings.reloadCurrentScreen ? settings.initialURL : location.href);
+            $settings.update({reloadCurrentScreen: false});
 
-        // Resolve initialization
-        initialize.resolve();
+            // Go to initial state
+            $state.go(initialState.to, initialState.parameters, {reload: false, inherit: true, notify: true, location: true});
+
+            // Resolve initialization
+            initialize.resolve();
+          });
       },
       /**
        * Retrieve $settings
@@ -79,13 +86,14 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
       /**
        * Store session token
        * @param {String} token Token to set
+       * @param {boolean} restartConnection Restart comet connection
        */
-      setToken: function (token) {
+      setToken: function (token, restartConnection = false) {
         $storage.putSession(tokenKey, token);
         $http.defaults.headers.common = {...$http.defaults.headers.common, ...$settings.getAuthenticationHeaders()};
-
-        // Start (or reconnect) server connection
-        $storage.putRoot("connection", $injector.get('Connection').init());
+        if (restartConnection) {
+          $connection.restart(token);
+        }
       },
       /**
        * Store session token
@@ -125,7 +133,7 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
       /**
        * Change current language;
        * @param {String} language Language to set
-       * @param {String} forceChange Force change language
+       * @param {boolean} forceChange Force change language
        */
       changeLanguage: function (language, forceChange) {
         if (language !== null) {

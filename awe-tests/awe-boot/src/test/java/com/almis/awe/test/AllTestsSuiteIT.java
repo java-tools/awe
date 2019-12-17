@@ -7,9 +7,11 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
   CRUDTestsIT.class,
+  ApplicationTestsIT.class,
   RegressionTestsIT.class,
   WebsocketTestsIT.class,
   IntegrationTestsIT.class,
+  SchedulerTestsIT.class,
   PrintTestsIT.class,
 })
 public class AllTestsSuiteIT {

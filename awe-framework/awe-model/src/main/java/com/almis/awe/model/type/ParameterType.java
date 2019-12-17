@@ -31,6 +31,8 @@ public enum ParameterType {
   STRING_HASH_PBKDF_2_W_HMAC_SHA_1,
   // value symetrically encripted
   STRING_ENCRYPT,
+  // Comma separated values into a string
+  LIST_TO_STRING,
   // date
   DATE,
   // time
@@ -41,6 +43,8 @@ public enum ParameterType {
   SYSTEM_DATE,
   // time
   SYSTEM_TIME,
+  // time
+  SYSTEM_TIMESTAMP,
   // Boolean
   BOOLEAN,
   // float

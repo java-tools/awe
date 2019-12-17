@@ -13,7 +13,8 @@ import org.junit.runners.Suite;
   TemplateControllerTest.class,
   UserServiceTest.class,
   UploadControllerTest.class,
-  BroadcastServiceTest.class
+  BroadcastServiceTest.class,
+  EmailServiceTest.class
 })
 @RunWith(Suite.class)
 public class SpringBootTestsSuite {

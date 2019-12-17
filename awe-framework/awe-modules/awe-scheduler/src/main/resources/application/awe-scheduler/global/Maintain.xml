@@ -1,0 +1,895 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Maintain.xml
+    Created on : 11 de marzo de 2010, 11:03
+    Author     : Ismael SERRANO
+    Description: AWE Maintain File
+-->
+
+<maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/maintain.xsd">
+
+  <!--
+  SCHEDULER
+  -->
+
+  <!--
+  SCHEDULER SERVER
+  -->
+  <!-- Insert new server -->
+  <target name="NewSchedulerServer">
+    <insert audit="HISAweSchSrv">
+      <table id="AweSchSrv" />
+      <field id="Ide" sequence="SchTskSrv" variable="IdeSrv"/>
+      <field id="Nom" variable="Nom" />
+      <field id="Pro" variable="Pro" />
+      <field id="Hst" variable="Hst" />
+      <field id="Prt" variable="Prt" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeSrv" type="INTEGER" name="IdeSrv" />
+      <variable id="Nom" type="STRING" name="Nom" />
+      <variable id="Pro" type="STRING" name="Pro" />
+      <variable id="Hst" type="STRING" name="Hst" />
+      <variable id="Prt" type="INTEGER" name="Prt" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </insert>
+  </target>
+
+  <!--Delete server-->
+  <target name="DeleteSchedulerServer">
+    <delete multiple="true">
+      <table id="AweSchSrv" />
+      <field id="Ide" variable="Ide"/>
+      <where>
+        <and>
+          <filter left-field="Ide" condition="in" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+    </delete>
+  </target>
+
+  <!--Update server-->
+  <target name="UpdSchSrv">
+    <update>
+      <table id="AweSchSrv" />
+      <field id="Nom" variable="Nom" />
+      <field id="Pro" variable="Pro" />
+      <field id="Hst" variable="Hst" />
+      <field id="Prt" variable="Prt" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="IdeSrv" />
+      <variable id="Nom" type="STRING" name="Nom" />
+      <variable id="Pro" type="STRING" name="Pro" />
+      <variable id="Hst" type="STRING" name="Hst" />
+      <variable id="Prt" type="INTEGER" name="Prt" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </update>
+  </target>
+  <!--Deactivate-->
+  <target name="DeaSchSrv">
+    <update>
+      <table id="AweSchSrv" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide.selected" />
+      <variable id="Act" type="STRING" value="0"/>
+    </update>
+  </target>
+
+  <!--Activate-->
+  <target name="ActSchSrv">
+    <update>
+      <table id="AweSchSrv" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+      <variable id="Act" type="STRING" value="1"/>
+    </update>
+  </target>
+
+  <!--
+  SCHEDULER TASK
+  -->
+  <!-- Insert scheduled task -->
+  <target name="NewSchedulerTask">
+    <insert audit="HISAweSchTsk">
+      <table id="AweSchTsk" />
+      <field id="Ide" sequence="SchTskKey" variable="IdeTsk" />
+      <field id="Nam" variable="Nam" />
+      <field id="Des" variable="Des" />
+      <field id="NumStoExe" variable="NumStoExe" />
+      <field id="TimOutExe" variable="TimOutExe" />
+      <field id="TypExe" variable="TypExe" />
+      <field id="IdeSrvExe" variable="IdeSrvExe" />
+      <field id="CmdExePth" variable="CmdExePth"/>
+      <field id="CmdExe" variable="CmdExe" />
+      <field id="LchDepWrn" variable="LchDepWrn" />
+      <field id="LchDepErr" variable="LchDepErr" />
+      <field id="LchSetWrn" variable="LchSetWrn" />
+      <field id="TypLch" variable="TypLch" />
+      <field id="RepTyp" variable="RepTyp" />
+      <field id="RepEmaSrv" variable="RepEmaSrv" />
+      <field id="RepTit" variable="RepTit" />
+      <field id="RepMsg" variable="RepMsg" />
+      <field id="Act" variable="Act" />
+      <field id="RepSndSta" variable="inCaseOf"/>
+      <field id="RepEmaDst" variable="emails"/>
+      <field id="RepUsrDst" variable="users"/>
+      <field id="RepMntId" variable="RepMntId" />
+
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="Des" type="STRING" name="Des"/>
+      <variable id="NumStoExe" type="INTEGER" name="NumStoExe" />
+      <variable id="TimOutExe" type="INTEGER" name="TimOutExe" />
+      <variable id="TypExe" type="INTEGER" name="TypExe" />
+      <variable id="IdeSrvExe" type="INTEGER" name="IdeSrvExe" />
+      <variable id="CmdExePth" type="STRING" name="CmdExePth"/>
+      <variable id="CmdExe" type="STRING" name="CmdExe" />
+      <variable id="LchDepWrn" type="INTEGER" name="LchDepWrn" />
+      <variable id="LchDepErr" type="INTEGER" name="LchDepErr" />
+      <variable id="LchSetWrn" type="INTEGER" name="LchSetWrn" />
+      <variable id="TypLch" type="INTEGER" name="TypLch" />
+      <variable id="RepTyp" type="INTEGER" name="RepTyp" />
+      <variable id="RepEmaSrv" type="INTEGER" name="RepEmaSrv" />
+      <variable id="RepTit" type="STRING" name="RepTit" />
+      <variable id="RepMsg" type="STRING" name="RepMsg" />
+      <variable id="Act" type="INTEGER" name="Act"/>
+      <variable id="emails" type="LIST_TO_STRING" name="RepEmaDst"/>
+      <variable id="users" type="LIST_TO_STRING" name="RepUsrDst"/>
+      <variable id="inCaseOf" type="LIST_TO_STRING" name="RepSndSta"/>
+      <variable id="RepMntId" type="STRING" name="RepMntId"/>
+    </insert>
+
+    <insert audit="HISAweSchTskLch">
+      <table id="AweSchTskLch" />
+      <field id="Ide" sequence="SchTskLch" variable="IdeTskLch"/>
+      <field id="IdeTsk" variable="IdeTsk" />
+      <field id="RptNum" variable="RptNum" />
+      <field id="RptTyp" variable="RptTyp" />
+      <field id="IniDat" variable="IniDat" />
+      <field id="EndDat" variable="EndDat" />
+      <field id="IniTim" variable="IniTim" />
+      <field id="EndTim" variable="EndTim" />
+      <field id="IdeCal" variable="IdeCal" />
+      <field id="WeekDays" variable="WeekDays" />
+      <field id="ExeYrs" variable="ExeYrs" />
+      <field id="ExeMth" variable="ExeMth" />
+      <field id="ExeWek" variable="ExeWek" />
+      <field id="ExeDay" variable="ExeDay" />
+      <field id="ExeHrs" variable="ExeHrs" />
+      <field id="ExeMin" variable="ExeMin" />
+      <field id="ExeSec" variable="ExeSec" />
+      <field id="ExeDte" variable="ExeDte" />
+      <field id="ExeTim" variable="ExeTim" />
+      <field id="IdSrv"  variable="IdSrv" />
+      <field id="Pth" variable="Pth" />
+      <field id="Pat" variable="Pat" />
+      <field id="SrvUsr" variable="SrvUsr"/>
+      <field id="SrvPwd" variable="SrvPwd"/>
+      <variable id="IdeTskLch" type="INTEGER" name="IdeTskLch" />
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="RptNum" type="INTEGER" name="RptNum" />
+      <variable id="RptTyp" type="INTEGER" name="RptTyp" />
+      <variable id="IniDat" type="DATE" name="IniDat" />
+      <variable id="EndDat" type="DATE" name="EndDat" />
+      <variable id="IniTim" type="STRING" name="IniTim" />
+      <variable id="EndTim" type="STRING" name="EndTim" />
+      <variable id="IdeCal" type="INTEGER" name="IdeCal" />
+      <variable id="IdSrv"  type="INTEGER" name="LchSrv" />
+      <variable id="Pth" type="STRING" name="LchPth" />
+      <variable id="Pat" type="STRING" name="LchPat" />
+      <variable id="SrvUsr" type="STRING" name="LchUsr" />
+      <variable id="SrvPwd" type="STRING_ENCRYPT" name="LchPwd" />
+      <variable id="ExeYrs" type="LIST_TO_STRING" name="years" />
+      <variable id="ExeMth" type="LIST_TO_STRING" name="months" />
+      <variable id="ExeWek" type="LIST_TO_STRING" name="weeks" />
+      <variable id="WeekDays" type="LIST_TO_STRING" name="weekDays" />
+      <variable id="ExeDay" type="LIST_TO_STRING" name="days" />
+      <variable id="ExeHrs" type="LIST_TO_STRING" name="hours" />
+      <variable id="ExeMin" type="LIST_TO_STRING" name="minutes" />
+      <variable id="ExeSec" type="LIST_TO_STRING" name="seconds" />
+      <variable id="ExeDte"  type="DATE" name="schExeDate" />
+      <variable id="ExeTim" type="STRING" name="schExeTime" />
+    </insert>
+
+    <insert multiple="true">
+      <table id="AweSchTskPar" />
+      <field id="Ide" sequence="SchTskPar" variable="IdePar" key="true"/>
+      <field id="IdeTsk" variable="IdeTsk" />
+      <field id="Nam" variable="Nam" />
+      <field id="Src" variable="Src" />
+      <field id="Typ" variable="Typ" />
+      <field id="Val" variable="Val" />
+      <variable id="IdePar" type="INTEGER" name="IdePar"/>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="Nam" type="STRING" name="ParNam" />
+      <variable id="Src" type="INTEGER" name="ParSrc" />
+      <variable id="Typ" type="STRING" name="ParTyp" />
+      <variable id="Val" type="STRING" name="ParVal" />
+    </insert>
+
+    <insert multiple="true">
+      <table id="AweSchTskDpn"/>
+      <field id="IdeTsk" variable="Ide" key="true"/>
+      <field id="IdePrn" variable="IdeTsk" key="true"/>
+      <variable id="Ide" type="INTEGER" name="DepTskIde" />
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </insert>
+
+    <commit/>
+
+    <serve service="insertSchedulerTask">
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+      <variable id="SendStatus" type="INTEGER" name="RepSndSta" />
+      <variable id="SendDestination" type="INTEGER" name="RepSndDst" />
+    </serve>
+  </target>
+
+  <!-- Update scheduled task -->
+  <target name="UpdateSchedulerTask">
+    <update audit="HISAweSchTsk">
+      <table id="AweSchTsk" />
+      <field id="Nam" variable="Nam" />
+      <field id="Des" variable="Des" />
+      <field id="NumStoExe" variable="NumStoExe" />
+      <field id="TimOutExe" variable="TimOutExe" />
+      <field id="TypExe" variable="TypExe" />
+      <field id="IdeSrvExe" variable="IdeSrvExe" />
+      <field id="CmdExePth" variable="CmdExePth"/>
+      <field id="CmdExe" variable="CmdExe" />
+      <field id="LchDepWrn" variable="LchDepWrn" />
+      <field id="LchDepErr" variable="LchDepErr" />
+      <field id="LchSetWrn" variable="LchSetWrn" />
+      <field id="TypLch" variable="TypLch" />
+      <field id="RepTyp" variable="RepTyp" />
+      <field id="RepEmaSrv" variable="RepEmaSrv" />
+      <field id="RepTit" variable="RepTit" />
+      <field id="RepMsg" variable="RepMsg" />
+      <field id="Act" variable="Act" />
+      <field id="RepSndSta" variable="inCaseOf"/>
+      <field id="RepEmaDst" variable="emails"/>
+      <field id="RepUsrDst" variable="users"/>
+      <field id="RepMntId" variable="RepMntId" />
+
+      <where>
+        <and>
+          <filter left-field="Ide"  condition="eq" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="Ide" />
+      <variable id="Nam" type="STRING" name="Nam" />
+      <variable id="Des" type="STRING" name="Des" />
+      <variable id="NumStoExe" type="INTEGER" name="NumStoExe" />
+      <variable id="TimOutExe" type="INTEGER" name="TimOutExe" />
+      <variable id="TypExe" type="INTEGER" name="TypExe" />
+      <variable id="IdeSrvExe" type="INTEGER" name="IdeSrvExe" />
+      <variable id="CmdExePth" type="STRING" name="CmdExePth"/>
+      <variable id="CmdExe" type="STRING" name="CmdExe" />
+      <variable id="LchDepWrn" type="INTEGER" name="LchDepWrn" />
+      <variable id="LchDepErr" type="INTEGER" name="LchDepErr" />
+      <variable id="LchSetWrn" type="INTEGER" name="LchSetWrn" />
+      <variable id="TypLch" type="INTEGER" name="TypLch" />
+      <variable id="RepTyp" type="INTEGER" name="RepTyp" />
+      <variable id="RepEmaSrv" type="INTEGER" name="RepEmaSrv" />
+      <variable id="RepTit" type="STRING" name="RepTit" />
+      <variable id="RepMsg" type="STRING" name="RepMsg" />
+      <variable id="Act" type="INTEGER" name="Act" />
+      <variable id="emails" type="LIST_TO_STRING" name="RepEmaDst" />
+      <variable id="users" type="LIST_TO_STRING" name="RepUsrDst" />
+      <variable id="inCaseOf" type="LIST_TO_STRING" name="RepSndSta" />
+      <variable id="RepMntId" type="STRING" name="RepMntId"/>
+    </update>
+
+    <update audit="HISAweSchTskLch">
+      <table id="AweSchTskLch" />
+      <field id="RptNum" variable="RptNum" />
+      <field id="RptTyp" variable="RptTyp" />
+      <field id="IniDat" variable="IniDat" />
+      <field id="EndDat" variable="EndDat" />
+      <field id="IniTim" variable="IniTim" />
+      <field id="EndTim" variable="EndTim" />
+      <field id="IdeCal" variable="IdeCal" />
+      <field id="WeekDays" variable="WeekDays" />
+      <field id="ExeYrs" variable="ExeYrs" />
+      <field id="ExeMth" variable="ExeMth" />
+      <field id="ExeWek" variable="ExeWek" />
+      <field id="ExeDay" variable="ExeDay" />
+      <field id="ExeHrs" variable="ExeHrs" />
+      <field id="ExeMin" variable="ExeMin" />
+      <field id="ExeSec" variable="ExeSec" />
+      <field id="ExeDte" variable="ExeDte" />
+      <field id="ExeTim" variable="ExeTim" />
+      <field id="IdSrv"  variable="IdSrv" />
+      <field id="Pth" variable="Pth" />
+      <field id="Pat" variable="Pat" />
+      <field id="SrvUsr" variable="SrvUsr" />
+      <field id="SrvPwd" variable="SrvPwd"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="Ide" />
+      <variable id="RptNum" type="INTEGER" name="RptNum" />
+      <variable id="RptTyp" type="INTEGER" name="RptTyp" />
+      <variable id="IniDat" type="DATE" name="IniDat" />
+      <variable id="EndDat" type="DATE" name="EndDat" />
+      <variable id="IniTim" type="STRING" name="IniTim" />
+      <variable id="EndTim" type="STRING" name="EndTim" />
+      <variable id="IdeCal" type="INTEGER" name="IdeCal" />
+      <variable id="IdSrv"  type="INTEGER" name="LchSrv" />
+      <variable id="Pth" type="STRING" name="LchPth" />
+      <variable id="Pat" type="STRING" name="LchPat" />
+      <variable id="SrvUsr" type="STRING" name="LchUsr" />
+      <variable id="SrvPwd" type="STRING_ENCRYPT" name="LchPwd" />
+      <variable id="ExeYrs" type="LIST_TO_STRING" name="years" />
+      <variable id="ExeMth" type="LIST_TO_STRING" name="months" />
+      <variable id="ExeWek" type="LIST_TO_STRING" name="weeks" />
+      <variable id="WeekDays" type="LIST_TO_STRING" name="weekDays" />
+      <variable id="ExeDay" type="LIST_TO_STRING" name="days" />
+      <variable id="ExeHrs" type="LIST_TO_STRING" name="hours" />
+      <variable id="ExeMin" type="LIST_TO_STRING" name="minutes" />
+      <variable id="ExeSec" type="LIST_TO_STRING" name="seconds" />
+      <variable id="ExeDte"  type="DATE" name="schExeDate" />
+      <variable id="ExeTim" type="STRING" name="schExeTime" />
+    </update>
+
+    <delete>
+      <table id="AweSchTskPar"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="Ide" />
+    </delete>
+
+    <insert multiple="true">
+      <table id="AweSchTskPar" />
+      <field id="Ide" sequence="SchTskPar" variable="IdePar" key="true"/>
+      <field id="IdeTsk" variable="IdeTsk" />
+      <field id="Nam" variable="Nam" />
+      <field id="Src" variable="Src" />
+      <field id="Typ" variable="Typ" />
+      <field id="Val" variable="Val" />
+      <variable id="IdePar" type="INTEGER" name="IdePar" />
+      <variable id="IdeTsk" type="INTEGER" name="Ide" />
+      <variable id="Nam" type="STRING" name="ParNam" />
+      <variable id="Src" type="INTEGER" name="ParSrc" />
+      <variable id="Typ" type="STRING" name="ParTyp" />
+      <variable id="Val" type="STRING" name="ParVal" />
+    </insert>
+
+    <delete>
+      <table id="AweSchTskDpn"/>
+      <where>
+        <and>
+          <filter left-field="IdePrn" condition="eq" right-variable="IdePrn"/>
+        </and>
+      </where>
+      <variable id="IdePrn" type="INTEGER" name="Ide" />
+    </delete>
+
+    <insert multiple="true">
+      <table id="AweSchTskDpn"/>
+      <field id="IdeTsk" variable="IdeTsk" key="true"/>
+      <field id="IdePrn" variable="IdePrn" key="true"/>
+      <variable id="IdePrn" type="INTEGER" name="Ide" />
+      <variable id="IdeTsk" type="INTEGER" name="DepTskIde" />
+    </insert>
+
+    <commit/>
+
+    <serve service="updateSchedulerTask">
+      <variable id="IdeTsk" type="INTEGER" name="Ide" />
+      <variable id="SendStatus" type="INTEGER" name="RepSndSta" />
+      <variable id="SendDestination" type="INTEGER" name="RepSndDst" />
+    </serve>
+
+  </target>
+
+  <!--Deactivate Scheduler Task-->
+  <target name="DeaSchTsk" public="true">
+    <update>
+      <table id="AweSchTsk" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="IdeTsk.selected" />
+      <variable id="Act" type="STRING" value="0"/>
+    </update>
+    <commit/>
+    <serve service="pauseTask">
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk.selected" />
+    </serve>
+  </target>
+
+  <!--Activate Scheduler Task-->
+  <target name="ActSchTsk" public="true">
+    <update>
+      <table id="AweSchTsk" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="IdeTsk.selected" />
+      <variable id="Act" type="STRING" value="1"/>
+    </update>
+    <commit/>
+    <serve service="resumeTask">
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk.selected" />
+    </serve>
+  </target>
+
+  <target name="LchTsk">
+    <serve service="executeTaskNow">
+      <variable id="taskIde" type="INTEGER" name="IdeTsk.selected"/>
+    </serve>
+  </target>
+
+  <!-- Delete scheduled task -->
+  <target name="DeleteSchedulerTask">
+    <delete multiple="true">
+      <table id="AweSchTskDpn" />
+      <field id="IdePrn" variable="IdeTsk"/>
+      <where>
+        <and>
+          <filter left-field="IdePrn" condition="in" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <delete audit="HISAweSchTskPar" multiple="audit">
+      <table id="AweSchTskPar" />
+      <field id="IdeTsk" variable="IdeTsk" audit="true"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="in" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <delete audit="HISAweSchTskLch" multiple="audit">
+      <table id="AweSchTskLch" />
+      <field id="IdeTsk" variable="IdeTsk" audit="true"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="in" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <delete audit="HISAweSchTsk" multiple="audit">
+      <table id="AweSchTsk" />
+      <field id="Ide" variable="IdeTsk" audit="true"/>
+      <where>
+        <and>
+          <filter left-field="Ide" condition="in" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <delete multiple="true">
+      <table id="AweSchTskDpn"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+
+    <serve service="deleteSchedulerTask">
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk"/>
+    </serve>
+
+    <delete>
+      <table id="AweSchExe"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="in" right-variable="IdeTsk"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
+    </delete>
+  </target>
+
+  <!--
+  SCHEDULER CALENDAR
+  -->
+  <!-- Insert Scheduler Calendar -->
+  <target name="NewSchedulerCalendar">
+    <insert audit="HISAweSchCal">
+      <table id="AweSchCal" />
+      <field id="Ide" sequence="SchTskCal" variable="IdeCal"/>
+      <field id="Nom" variable="Nom" />
+      <field id="Des" variable="Des" />
+      <field id="Act" variable="Act" />
+      <variable id="IdeCal" type="INTEGER" name="IdeCal" />
+      <variable id="Nom" type="STRING" name="Nom" />
+      <variable id="Des" type="STRING" name="Des" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </insert>
+    <multiple grid="GrdDatLst">
+      <table id="AweSchCalDat" />
+      <field id="Ide" variable="Ide" sequence="SchTskCalDat" key="true" />
+      <field id="IdeCal" variable="IdeCal" />
+      <field id="Nom" variable="Nom" />
+      <field id="Dat" variable="Dat" />
+      <variable id="Ide" type="INTEGER" name="IdeDat" />
+      <variable id="IdeCal" type="INTEGER" name="IdeCal" />
+      <variable id="Nom" type="STRING" name="Nam" />
+      <variable id="Dat" type="DATE" name="Dat" />
+    </multiple>
+    <commit/>
+    <serve service="insertSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="IdeCal" />
+    </serve>
+  </target>
+
+  <!-- Delete Scheduler Calendar -->
+  <target name="DeleteSchedulerCalendar">
+    <serve service="deleteSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="Ide" />
+    </serve>
+    <delete multiple="true">
+      <table id="AweSchCalDat" />
+      <field id="IdeCal" variable="Ide"/>
+      <where>
+        <and>
+          <filter left-field="IdeCal" condition="in" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+    </delete>
+    <delete multiple="true">
+      <table id="AweSchCal" />
+      <field id="Ide" variable="Ide"/>
+      <where>
+        <and>
+          <filter left-field="Ide" condition="in" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+    </delete>
+    <update audit="HISAweSchTskLch">
+      <table id="AweSchTskLch"/>
+      <constant id="IdeCal" value="NULL" type="NULL"/>
+      <where>
+        <and>
+          <filter left-field="IdeCal" condition="eq" right-variable="IdeCal"/>
+        </and>
+      </where>
+      <variable id="IdeCal" type="INTEGER" name="Ide" />
+    </update>
+  </target>
+
+  <!-- Update Scheduler Calendar -->
+  <target name="UpdSchCal">
+    <update>
+      <table id="AweSchCal" />
+      <field id="Nom" variable="Nom" />
+      <field id="Des" variable="Des" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="CalIde"/>
+        </and>
+      </where>
+      <variable id="CalIde" type="INTEGER" name="CalIde" />
+      <variable id="Nom" type="STRING" name="Nom" />
+      <variable id="Des" type="STRING" name="Des" />
+      <variable id="Act" type="INTEGER" name="Act" />
+    </update>
+    <multiple grid="GrdDatLst">
+      <table id="AweSchCalDat" />
+      <field id="Ide" variable="Ide" sequence="SchTskCalDat" key="true" />
+      <field id="IdeCal" variable="CalIde" />
+      <field id="Nom" variable="Nom" />
+      <field id="Dat" variable="Dat" />
+      <variable id="Ide" type="INTEGER" name="IdeDat" />
+      <variable id="CalIde" type="INTEGER" name="CalIde" />
+      <variable id="Nom" type="STRING" name="Nam" />
+      <variable id="Dat" type="DATE" name="Dat" />
+    </multiple>
+    <commit/>
+    <serve service="updateSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="CalIde" />
+    </serve>
+  </target>
+
+  <!--Deactivate-->
+  <!--Deactivate Scheduler Calendar-->
+  <target name="DeaSchCal">
+    <serve service="deactivateSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="Ide"/>
+    </serve>
+    <update>
+      <table id="AweSchCal" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="in" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+      <variable id="Act" type="STRING" value="0"/>
+    </update>
+  </target>
+
+  <!--Activate Scheduler Calendar-->
+  <target name="ActSchCal">
+    <update>
+      <table id="AweSchCal" />
+      <field id="Act" variable="Act" />
+      <where>
+        <and>
+          <filter left-field="Ide" condition="in" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="INTEGER" name="Ide" />
+      <variable id="Act" type="STRING" value="1"/>
+    </update>
+    <commit/>
+    <serve service="activateSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="Ide"/>
+    </serve>
+  </target>
+
+  <!--
+  SCHEDULER CALENDAR DATE
+  -->
+  <!-- Insert Scheduler Date -->
+  <target name="NewSchedulerCalendarDate">
+    <insert audit="HISAweSchCalDat">
+      <table id="AweSchCalDat" />
+      <field id="Ide" sequence="SchTskCalDat" variable="IdeDat"/>
+      <field id="IdeCal" variable="IdeCal" />
+      <field id="Nom" variable="Nom" />
+      <field id="Dat" variable="Dat" />
+      <variable id="IdeDat" type="INTEGER" name="IdeDat" />
+      <variable id="IdeCal" type="INTEGER" name="CalIde" />
+      <variable id="Nom" type="STRING" name="CrtCalNom" />
+      <variable id="Dat" type="DATE" name="CrtCalDat" />
+    </insert>
+    <commit/>
+    <serve service="updateSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="CalIde" />
+    </serve>
+  </target>
+
+  <!-- Delete Scheduler Calendar -->
+  <target name="DeleteSchedulerCalendarDate">
+    <delete multiple="true">
+      <table id="AweSchCalDat" />
+      <field id="Ide" variable="Ide"/>
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="Ide"/>
+        </and>
+      </where>
+      <variable id="Ide" type="STRING" name="IdeDat" />
+    </delete>
+    <serve service="updateSchedulerCalendar">
+      <variable id="calendarIde" type="INTEGER" name="Ide" />
+    </serve>
+  </target>
+  <!--
+  SCHEDULER CALENDAR
+  -->
+  <!-- insert new file -->
+  <target name="insertFile">
+    <insert>
+      <table id="AweSchTskFilMod" />
+      <field id="IdeTsk" variable="IdeTsk"/>
+      <field id="FilPth" variable="FilPth"/>
+      <field id="ModDat" variable="ModDat"/>
+      <variable id="IdeTsk" type="INTEGER" name="taskId" />
+      <variable id="FilPth" type="STRING" name="filePath"/>
+      <variable id="ModDat" type="TIMESTAMP" name="date"/>
+    </insert>
+  </target>
+
+  <!-- update new file -->
+  <target name="updateFile">
+    <update>
+      <table id="AweSchTskFilMod" />
+      <field id="ModDat" variable="ModDat"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+          <filter left-field="FilPth" condition="eq" right-variable="FilPth"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="taskId" />
+      <variable id="FilPth" type="STRING" name="filePath"/>
+      <variable id="ModDat" type="TIMESTAMP" name="date"/>
+    </update>
+  </target>
+
+  <!-- delete new file -->
+  <target name="deleteFile">
+    <delete>
+      <table id="AweSchTskFilMod" />
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="IdeTsk"/>
+          <filter left-field="FilPth" condition="eq" right-variable="FilPth" optional="true"/>
+        </and>
+      </where>
+      <variable id="IdeTsk" type="INTEGER" name="taskId" />
+      <variable id="FilPth" type="STRING" name="filePath"/>
+    </delete>
+  </target>
+
+  <!-- Start a task -->
+  <target name="startTask">
+    <insert>
+      <table id="AweSchExe" />
+      <field id="IdeTsk" variable="taskId"/>
+      <field id="GrpTsk" variable="taskGroup"/>
+      <operation id="ExeTsk" operator="ADD">
+        <field query="getMaxTaskExecution"/>
+        <constant value="1" type="INTEGER"/>
+      </operation>
+      <constant id="IniDat" type="SYSTEM_TIMESTAMP"/>
+      <constant id="Sta" value="4" type="INTEGER"/>
+      <field id="LchBy"  variable="launchedBy"/>
+      <variable id="taskId" type="INTEGER" name="taskId" />
+      <variable id="taskGroup" type="STRING" name="taskGroup" />
+      <variable id="launchedBy" type="STRING" name="taskLauncher" />
+    </insert>
+    <commit/>
+    <serve service="purgeExecutionLogs">
+      <variable id="taskId" type="INTEGER" name="taskId" />
+      <variable id="executions" type="INTEGER" name="executions" />
+    </serve>
+    <delete>
+      <table id="AweSchExe" />
+      <where>
+        <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+        <filter left-field="ExeTsk" condition="in" query="getExecutionsToPurge"/>
+      </where>
+      <variable id="taskId" type="INTEGER" name="taskId" />
+      <variable id="executions" type="INTEGER" name="executions" />
+    </delete>
+  </target>
+
+  <!-- End a task -->
+  <target name="endTask">
+    <update>
+      <table id="AweSchExe" />
+      <constant id="EndDat" type="SYSTEM_TIMESTAMP"/>
+      <field id="Sta" variable="status"/>
+      <field id="Des" variable="description"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+          <filter left-field="ExeTsk" condition="eq" right-variable="taskExecution"/>
+        </and>
+      </where>
+      <variable id="taskId" type="INTEGER" name="taskId" />
+      <variable id="taskExecution" type="INTEGER" name="taskExecution" />
+      <variable id="status" type="INTEGER" name="status" />
+      <variable id="description" type="STRING" name="taskDescription" />
+    </update>
+    <commit/>
+    <serve service="updateExecutionTime">
+      <variable id="taskId" type="INTEGER" name="taskId" />
+      <variable id="taskExecution" type="INTEGER" name="taskExecution" />
+    </serve>
+  </target>
+
+  <!-- End a task -->
+  <target name="updateExecutionTime">
+    <update>
+      <table id="AweSchExe" />
+      <field id="ExeTim" variable="executionTime"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+          <filter left-field="ExeTsk" condition="eq" right-variable="taskExecution"/>
+        </and>
+      </where>
+      <variable id="taskId" type="INTEGER" name="taskId" />
+      <variable id="taskExecution" type="INTEGER" name="taskExecution" />
+      <variable id="executionTime" type="INTEGER" name="executionTime" />
+    </update>
+  </target>
+
+  <!-- Change a task status -->
+  <target name="updateTaskStatus">
+    <update>
+      <table id="AweSchExe" />
+      <field id="Sta" variable="status"/>
+      <field id="Des" variable="description"/>
+      <where>
+        <and>
+          <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
+          <filter left-field="ExeTsk" condition="eq" right-variable="taskExecution"/>
+        </and>
+      </where>
+      <variable id="taskId" type="INTEGER" name="taskId" />
+      <variable id="taskExecution" type="INTEGER" name="taskExecution" />
+      <variable id="status" type="INTEGER" name="status" />
+      <variable id="description" type="STRING" name="description" />
+    </update>
+  </target>
+
+  <target name="updateInterruptedTasks">
+    <update>
+      <table id="AweSchExe" />
+      <constant id="EndDat" type="SYSTEM_TIMESTAMP"/>
+      <constant id="Sta" value="6"/>
+      <where>
+        <and>
+          <filter left-field="Sta" condition="eq" right-variable="status"/>
+        </and>
+      </where>
+      <variable id="status" type="INTEGER" value="4" />
+    </update>
+  </target>
+
+  <target name="stopScheduler">
+    <serve service="stopScheduler"/>
+  </target>
+
+  <target name="startScheduler">
+    <serve service="startScheduler"/>
+  </target>
+
+  <target name="restartScheduler">
+    <serve service="restartScheduler"/>
+  </target>
+
+  <target name="clearAndStop">
+    <serve service="clearAndStop"/>
+  </target>
+
+  <target name="generateReport">
+    <serve service="generateReport"/>
+  </target>
+
+  <target name="loadExecutionScreen">
+    <serve service="loadExecutionScreen">
+      <variable id="executionLogPath" type="STRING" name="buttonValue"/>
+      <variable id="address" type="OBJECT" name="buttonAddress"/>
+    </serve>
+  </target>
+
+  <target name="reloadExecutionScreen">
+    <serve service="reloadExecutionScreen">
+      <variable id="taskId" type="INTEGER" name="task-id"/>
+      <variable id="executionId" type="INTEGER" name="execution-id"/>
+    </serve>
+  </target>
+
+  <target name="SchTskEmaRep">
+    <send-email id="SchTskEmaRep"/>
+  </target>
+
+</maintain>

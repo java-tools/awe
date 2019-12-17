@@ -477,10 +477,12 @@
       <xs:enumeration value="DATE_MS"/>
       <xs:enumeration value="TIME"/>
       <xs:enumeration value="TIMESTAMP"/>
+      <xs:enumeration value="TIMESTAMP_MS"/>
       <xs:enumeration value="JS_DATE"/>
       <xs:enumeration value="JS_TIMESTAMP"/>
       <xs:enumeration value="NUMBER"/>
       <xs:enumeration value="NUMBER_PLAIN"/>
+      <xs:enumeration value="BOOLEAN"/>
       <xs:enumeration value="TEXT_HTML"/>
       <xs:enumeration value="TEXT_UNILINE"/>
       <xs:enumeration value="TEXT_PLAIN"/>
@@ -489,6 +491,7 @@
       <xs:enumeration value="GENERIC_DATE"/>
       <xs:enumeration value="DATE_RDB"/>
       <xs:enumeration value="ARRAY"/>
+      <xs:enumeration value="LIST"/>
     </xs:restriction>
   </xs:simpleType>
 

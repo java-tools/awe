@@ -1,6 +1,7 @@
 package com.almis.awe.model.dto;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.details.MaintainResultDetails;
 import com.almis.awe.model.entities.Copyable;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.type.AnswerType;

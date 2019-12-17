@@ -4,7 +4,6 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,10 +26,6 @@ import lombok.experimental.SuperBuilder;
 @Accessors(chain = true)
 @XStreamAlias("insert")
 public class Insert extends MaintainQuery {
-
-  // Maintain type
-  @XStreamOmitField
-  private static final MaintainType maintainType = MaintainType.INSERT;
 
   // Insert from query
   @XStreamAlias("query")
@@ -58,6 +53,6 @@ public class Insert extends MaintainQuery {
 
   @Override
   public MaintainType getMaintainType() {
-    return maintainType;
+    return MaintainType.INSERT;
   }
 }

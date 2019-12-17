@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Queues.xml
+    Author     : Pablo GARCIA
+    Description: JMS queue connection definition
+-->
+
+<queues xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/queues.xsd">
+
+</queues>
+

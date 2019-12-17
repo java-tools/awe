@@ -2,16 +2,18 @@ package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.builder.client.ScreenActionBuilder;
 import com.almis.awe.model.entities.actions.ClientAction;
+import com.almis.awe.model.tracker.AweConnectionTracker;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.BroadcastService;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.*;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 
 /**
@@ -23,20 +25,17 @@ public class BroadcastServiceTest {
   // Broadcast service
   private BroadcastService broadcastService;
   private SimpMessagingTemplate brokerMessagingTemplate;
-  private Map<String, Set<String>> connectedUsers = new HashMap<>();
-  private LogUtil logger;
+  private AweConnectionTracker connectionTracker = new AweConnectionTracker();
 
   /**
    * Initializes json mapper for tests
    */
   @Before
   public void initBeans() {
-    Set<String> sessions = new HashSet();
-    sessions.add("session");
-    connectedUsers.put("tutu", sessions);
+    connectionTracker.initializeUserConnections("tutu", "connection", "session");
     brokerMessagingTemplate = Mockito.mock(SimpMessagingTemplate.class);
-    logger = Mockito.mock(LogUtil.class);
-    broadcastService = new BroadcastService(brokerMessagingTemplate, connectedUsers, logger);
+    LogUtil logger = Mockito.mock(LogUtil.class);
+    broadcastService = new BroadcastService(brokerMessagingTemplate, connectionTracker, logger);
   }
 
   /**
@@ -45,7 +44,7 @@ public class BroadcastServiceTest {
   @Test
   public void testBroadcastClientActionToUsers() {
     broadcastService.broadcastMessageToUsers(new ScreenActionBuilder("newScreen").build(), "tutu", "lala");
-    Mockito.verify(brokerMessagingTemplate, atLeastOnce()).convertAndSend(Matchers.eq("/topic/session"), Mockito.any(ClientAction.class));
+    Mockito.verify(brokerMessagingTemplate, atLeastOnce()).convertAndSend(eq("/topic/connection"), any(ClientAction[].class));
   }
 
   /**
@@ -57,7 +56,7 @@ public class BroadcastServiceTest {
     clientActionList.add(new ScreenActionBuilder("newScreen").build());
     clientActionList.add(new ScreenActionBuilder("otherScreen").build());
     broadcastService.broadcastMessageToUsers(clientActionList, "tutu", "lala");
-    Mockito.verify(brokerMessagingTemplate, atLeastOnce()).convertAndSend(Matchers.eq("/topic/session"), Mockito.any(ClientAction.class));
+    Mockito.verify(brokerMessagingTemplate, atLeastOnce()).convertAndSend(eq("/topic/connection"), any(ClientAction[].class));
   }
 
   /**
@@ -66,7 +65,7 @@ public class BroadcastServiceTest {
   @Test
   public void testBroadcastClientActionToUsersWithoutUsers() {
     broadcastService.broadcastMessageToUsers(new ScreenActionBuilder("newScreen").build());
-    Mockito.verify(brokerMessagingTemplate, Mockito.never()).convertAndSend(Matchers.eq("/topic/session"), Mockito.any(ClientAction.class));
+    Mockito.verify(brokerMessagingTemplate, Mockito.never()).convertAndSend(eq("/topic/connection"), any(ClientAction.class));
   }
 
   /**
@@ -78,6 +77,6 @@ public class BroadcastServiceTest {
     clientActionList.add(new ScreenActionBuilder("newScreen").build());
     clientActionList.add(new ScreenActionBuilder("otherScreen").build());
     broadcastService.broadcastMessageToUsers(clientActionList);
-    Mockito.verify(brokerMessagingTemplate,Mockito.never()).convertAndSend(Matchers.eq("/topic/session"), Mockito.any(ClientAction.class));
+    Mockito.verify(brokerMessagingTemplate,Mockito.never()).convertAndSend(eq("/topic/connection"), any(ClientAction.class));
   }
 }

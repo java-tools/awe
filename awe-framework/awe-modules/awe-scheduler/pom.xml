@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.almis.awe</groupId>
+    <artifactId>awe-modules</artifactId>
+    <version>4.2.0-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <artifactId>awe-scheduler</artifactId>
+  <packaging>jar</packaging>
+  <name>AWE Modules - Scheduler (V${project.version})</name>
+  <description>Awe Scheduler Module</description>
+
+  <properties>
+    <application.acronym>awe-scheduler</application.acronym>
+    <skip.karma>true</skip.karma>
+    <skip.xml.validation>false</skip.xml.validation>
+    <skip.delombok>false</skip.delombok>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-controller</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-builder-spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-batch</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-quartz</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>3.3</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>awe-scheduler</finalName>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/resources/application</directory>
+        <targetPath>${project.build.directory}/classes/application</targetPath>
+      </resource>
+    </resources>
+
+    <plugins>
+      <!-- Delombok plugin -->
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+      </plugin>
+      <!-- AWE static resources -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>Get web resources</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <resources>
+                <!-- Awe generic screens -->
+                <resource>
+                  <directory>../awe-generic-screens/src/main/resources</directory>
+                  <includes>
+                    <include>schemas/**</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Xml validation -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>

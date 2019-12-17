@@ -4,7 +4,6 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,10 +32,6 @@ public class Multiple extends MaintainQuery {
   @XStreamAsAttribute
   private String grid;
 
-  // Maintain type
-  @XStreamOmitField
-  private static final MaintainType maintainType = MaintainType.MULTIPLE;
-
   @Override
   public Multiple copy() throws AWException {
     return this.toBuilder().build();
@@ -44,6 +39,6 @@ public class Multiple extends MaintainQuery {
 
   @Override
   public MaintainType getMaintainType() {
-    return maintainType;
+    return MaintainType.MULTIPLE;
   }
 }

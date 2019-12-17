@@ -28,6 +28,7 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
 
       // backend definition common for all tests
       $httpBackend.when('POST', 'settings').respond(DefaultSettings);
+      spyOn($control, 'checkOnlyComponent').and.returnValue(true);
     }]);
   });
 
@@ -85,18 +86,45 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
     });
   });
 
-  it('selects next panel', function(done) {
-    $rootScope.firstLoad = true;
+  /**
+   * Generate an action
+   * @param done
+   * @returns {Spy}
+   */
+  function generateAction(done) {
     let action = jasmine.createSpy('spy');
-    model.selected = null;
-    action.attr = () => "wizardId";
+    action.attr = (what) => {
+      switch (what) {
+        case "id": return "wizardId";
+        case "parameters": return {value: "2"};
+        case "async":
+        case "silent":
+          return true;
+      }
+    };
     action.accept = done;
+    return action;
+  }
+
+  /**
+   * Spy controls
+   */
+  function spyControls() {
     // Spy on storage
     spyOn($storage, "get").and.returnValue({'base': {}});
     spyOn($control, "checkComponent").and.returnValue(true);
     spyOn($control, "getAddressModel").and.returnValue(model);
     spyOn($control, "getAddressController").and.returnValue(controller);
     spyOn($utilities, "checkAddress").and.returnValue(true);
+  }
+
+  it('selects next panel', function(done) {
+    $rootScope.firstLoad = true;
+    model.selected = null;
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -116,16 +144,11 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
 
   it('selects prev panel', function(done) {
     $rootScope.firstLoad = true;
-    let action = jasmine.createSpy('spy');
     model.selected = "3";
-    action.attr = () => "wizardId";
-    action.accept = done;
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(model);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -145,16 +168,11 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
 
   it('selects first panel', function(done) {
     $rootScope.firstLoad = true;
-    let action = jasmine.createSpy('spy');
     model.selected = "3";
-    action.attr = () => "wizardId";
-    action.accept = done;
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(model);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -174,16 +192,11 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
 
   it('selects last panel', function(done) {
     $rootScope.firstLoad = true;
-    let action = jasmine.createSpy('spy');
     model.selected = null;
-    action.attr = () => "wizardId";
-    action.accept = done;
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(model);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -203,24 +216,11 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
 
   it('selects nth panel', function(done) {
     $rootScope.firstLoad = true;
-    let action = jasmine.createSpy('spy');
     model.selected = "3";
-    action.attr = (attr) => {
-      switch (attr) {
-        case "parameters":
-          return {value: "2"};
-        default:
-          return "wizardId";
-        }
-    };
-    action.accept = done;
-    action.parameters = {value: "2"};
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(model);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -240,16 +240,11 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
 
   it('selects next panel without values', function(done) {
     $rootScope.firstLoad = true;
-    let action = jasmine.createSpy('spy');
     model.selected = null;
-    action.attr = () => "wizardId";
-    action.accept = done;
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(emptyModel);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -263,22 +258,17 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
       $rootScope.$broadcast("/action/next-step", action);
       $rootScope.$digest();
 
-      expect(model.selected).toEqual(null);
+      expect(model.selected).toEqual("2");
     });
   });
 
   it('selects prev panel without values', function(done) {
     $rootScope.firstLoad = true;
-    let action = jasmine.createSpy('spy');
     model.selected = null;
-    action.attr = () => "wizardId";
-    action.accept = done;
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(emptyModel);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -292,22 +282,17 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
       $rootScope.$broadcast("/action/prev-step", action);
       $rootScope.$digest();
 
-      expect(model.selected).toEqual(null);
+      expect(model.selected).toEqual("1");
     });
   });
 
   it('selects first panel without values', function(done) {
     $rootScope.firstLoad = true;
-    let action = jasmine.createSpy('spy');
     model.selected = null;
-    action.attr = () => "wizardId";
-    action.accept = done;
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(emptyModel);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -321,22 +306,17 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
       $rootScope.$broadcast("/action/first-step", action);
       $rootScope.$digest();
 
-      expect(model.selected).toEqual(null);
+      expect(model.selected).toEqual("1");
     });
   });
 
   it('selects last panel without values', function(done) {
     $rootScope.firstLoad = true;
-    let action = jasmine.createSpy('spy');
     model.selected = null;
-    action.attr = () => "wizardId";
-    action.accept = done;
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(emptyModel);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -350,30 +330,17 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
       $rootScope.$broadcast("/action/last-step", action);
       $rootScope.$digest();
 
-      expect(model.selected).toEqual(null);
+      expect(model.selected).toEqual("3");
     });
   });
 
   it('selects nth panel without values', function(done) {
     $rootScope.firstLoad = true;
-    let action = jasmine.createSpy('spy');
     model.selected = null;
-    action.attr = (attr) => {
-      switch (attr) {
-        case "parameters":
-          return {value: "2"};
-        default:
-          return "wizardId";
-      }
-    };
-    action.accept = done;
-    action.parameters = {value: "2"};
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(emptyModel);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -387,21 +354,16 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
       $rootScope.$broadcast("/action/nth-step", action);
       $rootScope.$digest();
 
-      expect(model.selected).toEqual(null);
+      expect(model.selected).toEqual("2");
     });
   });
 
   it('resize component', function(done) {
     $rootScope.firstLoad = true;
-    let action = jasmine.createSpy('spy');
-    action.attr = () => "wizardId";
-    action.accept = done;
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(model);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    let action = generateAction(done);
+
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope);
@@ -424,12 +386,8 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
     $rootScope.firstLoad = true;
     model.selected = "1";
 
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(model);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope.$new());
@@ -451,12 +409,8 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
     $rootScope.firstLoad = true;
     model.selected = "3";
 
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(model);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope.$new());
@@ -472,12 +426,8 @@ describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', fu
     model.selected = "1";
     model.selectedIndex = 0;
 
-    // Spy on storage
-    spyOn($storage, "get").and.returnValue({'base': {}});
-    spyOn($control, "checkComponent").and.returnValue(true);
-    spyOn($control, "getAddressModel").and.returnValue(model);
-    spyOn($control, "getAddressController").and.returnValue(controller);
-    spyOn($utilities, "checkAddress").and.returnValue(true);
+    // Spies
+    spyControls();
 
     // Compile a piece of HTML containing the directive
     let element = $compile("<awe-input-wizard input-wizard-id='wizardId'></awe-input-wizard>")($rootScope.$new());

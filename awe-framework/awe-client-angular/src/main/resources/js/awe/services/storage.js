@@ -2,38 +2,20 @@ import { aweApplication } from "./../awe";
 
 // Storage service
 aweApplication.factory('Storage',
-  ['WindowStorage', 'TabStorage', 'SessionStorage',
+  ['WindowStorage', 'TabStorage',
     /**
      * General control methods
      * @param {Service} windowStorage
      * @param {Service} tabStorage
-     * @param {Service} sessionStorage
      */
-    function (windowStorage, tabStorage, sessionStorage) {
-      var localStorage;
-      var sharedStorage = tabStorage;
-      var Storage = {
+    function (windowStorage, tabStorage) {
+      let localStorage;
+      let Storage = {
         /**
          * Initializes storage
          */
         init: function () {
           localStorage = {};
-          Storage.setSharedSession(Storage.getSharedSession());
-        },
-        /**
-         * Sets shared session
-         * @param {boolean} shareSession Share session between tabs
-         */
-        setSharedSession: function (shareSession) {
-          sharedStorage = shareSession ? sessionStorage : tabStorage;
-          tabStorage.put("ShareSession", sharedStorage);
-        },
-        /**
-         * Sets shared session
-         * @param {boolean} shareSession Share session between tabs
-         */
-        getSharedSession: function () {
-          return tabStorage.get("ShareSession");
         },
         /**
          * Storage has key
@@ -69,14 +51,14 @@ aweApplication.factory('Storage',
          * @param {String} key
          */
         hasSession: function (key) {
-          return sessionStorage.has(key) || tabStorage.has(key);
+          return tabStorage.has(key);
         },
         /**
          * Retrieve a JSON value
          * @param {String} key
          */
         getSession: function (key) {
-          return sessionStorage.has(key) ? sessionStorage.get(key) : tabStorage.get(key);
+          return tabStorage.get(key);
         },
         /**
          * Store a JSON value
@@ -84,7 +66,7 @@ aweApplication.factory('Storage',
          * @param {Object} value
          */
         putSession: function (key, value) {
-          sharedStorage.put(key, value);
+          tabStorage.put(key, value);
         },
         /**
          * Remove from session
@@ -92,7 +74,6 @@ aweApplication.factory('Storage',
          */
         removeSession: function (key) {
           tabStorage.remove(key);
-          sessionStorage.remove(key);
         },
         /**
          * Store a JSON value in root

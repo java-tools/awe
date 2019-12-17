@@ -306,6 +306,17 @@ public final class DateUtil {
   }
 
   /**
+   * Transforms a date into a SQL Time string
+   *
+   * @param date Date
+   * @return SQL Timestamp
+   */
+  public static String dat2SqlTimeString(java.util.Date date) {
+    /* Return sql timestamp */
+    return TMST_FORMAT_SQL_MS.format(date);
+  }
+
+  /**
    * Transforms a date into a Web Timestamp
    *
    * @param date Date
@@ -314,6 +325,17 @@ public final class DateUtil {
   public static String dat2WebTimestamp(java.util.Date date) {
     /* Convert to web timestamp */
     return TMST_FORMAT_WEB.format(date);
+  }
+
+  /**
+   * Transforms a date into a Web Timestamp with milliseconds
+   *
+   * @param date Date
+   * @return WEB Timestamp
+   */
+  public static String dat2WebTimestampMs(java.util.Date date) {
+    /* Convert to web timestamp */
+    return TMST_FORMAT_WEB_MS.format(date);
   }
 
   /**
@@ -958,39 +980,39 @@ public final class DateUtil {
   /**
    * Build java Date object from date criteria with Time criteria
    *
-   * @param filterDate Date criteria [dd/MM/yyyy]
-   * @param filterHour Time criteria [HH:mm:ss]
+   * @param date Date criteria [dd/MM/yyyy]
+   * @param time Time criteria [HH:mm:ss]
    * @return Object date from criterions or null value if any criterion are null
    *         with format [dd/MM/yyyy HH:mm:ss]
    */
-  public static Date getDateWithTimeFromCriteria(String filterDate, String filterHour) {
-
-    Date date = null;
-
+  public static Date getDateWithTimeFromCriteria(String date, String time) {
+    Date fullDate = null;
     try {
+      fullDate = TMST_FORMAT_WEB.parse(date + " " + time);
+    } catch (ParseException ex) {
+      log.error("Parsing error.", ex);
+    }
+    return fullDate;
+  }
 
-      if (filterDate != null && !filterDate.isEmpty()) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(DATE_FORMAT_WEB.parse(filterDate));
-
-        // Add time filter to date
-        String[] arrTime = filterHour.split(":");
-        Integer numHour = Integer.valueOf(arrTime[0]);
-        Integer numMin = Integer.valueOf(arrTime[1]);
-        Integer numSeg = Integer.valueOf(arrTime[2]);
-
-        // Get calendar with time
-        cal.add(Calendar.HOUR_OF_DAY, numHour);
-        cal.add(Calendar.MINUTE, numMin);
-        cal.add(Calendar.SECOND, numSeg);
-
-        // Get date
-        date = cal.getTime();
+  /**
+   * Build java Date object from date criteria with Time criteria
+   *
+   * @param date Date criteria [dd/MM/yyyy]
+   * @param time Time criteria [HH:mm:ss]
+   * @return Object date from criteria or null value if any criterion is null
+   *         with format [dd/MM/yyyy HH:mm:ss]
+   */
+  public static Date addTimeToDate(Date date, String time) {
+    Date fullDate = date;
+    try {
+      if (time != null && !time.isEmpty()) {
+        fullDate = TMST_FORMAT_WEB.parse(dat2WebDate(date) + " " + time);
       }
     } catch (ParseException ex) {
       log.error("Parsing error.", ex);
     }
-    return date;
+    return fullDate;
   }
 
   /**

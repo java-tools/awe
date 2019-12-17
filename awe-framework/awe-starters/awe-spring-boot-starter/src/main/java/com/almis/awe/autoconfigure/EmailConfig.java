@@ -1,7 +1,8 @@
 package com.almis.awe.autoconfigure;
 
+import com.almis.awe.model.util.data.QueryUtil;
+import com.almis.awe.service.EmailService;
 import com.almis.awe.service.QueryService;
-import com.almis.awe.service.data.builder.EmailBuilder;
 import com.almis.awe.service.data.builder.XMLEmailBuilder;
 import com.almis.awe.service.data.connector.maintain.EmailMaintainConnector;
 import org.springframework.beans.factory.annotation.Value;
@@ -89,18 +90,33 @@ public class EmailConfig {
   }
 
   /////////////////////////////////////////////
+  // SERVICES
+  /////////////////////////////////////////////
+
+  /**
+   * Email service
+   *
+   * @return Email service bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public EmailService emailService(JavaMailSender mailSender, XMLEmailBuilder emailBuilder) {
+    return new EmailService(mailSender, emailBuilder);
+  }
+
+  /////////////////////////////////////////////
   // CONNECTORS
   /////////////////////////////////////////////
 
   /**
    * Email Maintain connector
-   * @param builder XML Email builder
+   * @param emailService Email service
    * @return Email Maintain connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public EmailMaintainConnector emailMaintainConnector(XMLEmailBuilder builder) {
-    return new EmailMaintainConnector(builder);
+  public EmailMaintainConnector emailMaintainConnector(EmailService emailService) {
+    return new EmailMaintainConnector(emailService);
   }
 
 
@@ -109,25 +125,14 @@ public class EmailConfig {
   /////////////////////////////////////////////
 
   /**
-   * Email builder
-   * @return Email builder bean
-   */
-  @Bean
-  @ConditionalOnMissingBean
-  @Scope("prototype")
-  public EmailBuilder emailBuilder(JavaMailSender mailSender) {
-    return new EmailBuilder(mailSender);
-  }
-
-  /**
    * XML Email builder
    * @return XML Email builder bean
    */
   @Bean
   @ConditionalOnMissingBean
   @Scope("prototype")
-  public XMLEmailBuilder xmlEmailBuilder(QueryService queryService, JavaMailSender mailSender) {
-    return new XMLEmailBuilder(queryService, mailSender);
+  public XMLEmailBuilder xmlEmailBuilder(QueryService queryService, QueryUtil queryUtil) {
+    return new XMLEmailBuilder(queryService, queryUtil);
   }
 
 }
