@@ -5,7 +5,8 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
   ScreenBuilderTest.class,
-  ClientActionBuilderTest.class
+  ClientActionBuilderTest.class,
+  XMLEmailBuilderTest.class
 })
 @RunWith(Suite.class)
 public class BuildersTestsSuite {

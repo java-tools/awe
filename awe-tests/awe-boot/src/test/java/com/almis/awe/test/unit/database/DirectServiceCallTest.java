@@ -62,7 +62,7 @@ public class DirectServiceCallTest extends AweSpringBootTests {
   public void testMaintain() throws Exception {
     given(aweSession.isAuthenticated()).willReturn(true);
     MaintainService mock = Mockito.spy(maintainService);
-    mock.launchMaintain("SimpleSingleInsertFromVariableValue", null);
+    mock.launchMaintain("SimpleSingleInsertFromVariableValue");
     verify(mock, times(1)).getCurrentDatabaseConnection();
   }
 
@@ -88,7 +88,7 @@ public class DirectServiceCallTest extends AweSpringBootTests {
   @Test
   public void testPrivateMaintain() throws Exception {
     MaintainService mock = Mockito.spy(maintainService);
-    mock.launchPrivateMaintain("SimpleSingleInsertFromVariableValue", null);
+    mock.launchPrivateMaintain("SimpleSingleInsertFromVariableValue");
     verify(mock, times(1)).getCurrentDatabaseConnection();
   }
 
@@ -125,12 +125,12 @@ public class DirectServiceCallTest extends AweSpringBootTests {
     LogUtil spyLog = Mockito.spy(getLogger());
     Logger spyLogger = Mockito.spy(LogManager.getLogger(DirectServiceCallTest.class));
     spyLog.logWithDatabase(DirectServiceCallTest.class, Level.DEBUG, "testDatabase", "test log message");
-    verify(spyLog, times(1)).logWithDatabase(anyObject(), eq(Level.DEBUG), anyString(), anyString());
+    verify(spyLog, times(1)).logWithDatabase(any(), eq(Level.DEBUG), anyString(), anyString());
     verify(spyLogger, times(0)).log(eq(Level.DEBUG), anyString());
 
     Mockito.doReturn(true).when(spyLogger).isDebugEnabled();
     spyLog.logWithDatabase(DirectServiceCallTest.class, Level.INFO, "testDatabase", "test log message");
-    verify(spyLog, times(1)).logWithDatabase(anyObject(), eq(Level.INFO), anyString(), anyString());
+    verify(spyLog, times(1)).logWithDatabase(any(), eq(Level.INFO), anyString(), anyString());
     verify(spyLogger, times(0)).log(eq(Level.INFO), anyString());
   }
 }

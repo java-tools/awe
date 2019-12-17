@@ -16,10 +16,12 @@ public enum TransformType {
   DATE_MS,
   TIME,
   TIMESTAMP,
+  TIMESTAMP_MS,
   JS_DATE,
   JS_TIMESTAMP,
   NUMBER,
   NUMBER_PLAIN,
+  BOOLEAN,
   TEXT_HTML,
   TEXT_UNILINE,
   TEXT_PLAIN,
@@ -27,5 +29,6 @@ public enum TransformType {
   DECRYPT,
   GENERIC_DATE,
   DATE_RDB,
-  ARRAY
+  ARRAY,
+  LIST
 }

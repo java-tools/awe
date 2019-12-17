@@ -2,7 +2,7 @@ package com.almis.awe.service.data.connector.maintain;
 
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.dto.MaintainResultDetails;
+import com.almis.awe.model.details.MaintainResultDetails;
 import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.maintain.MaintainQuery;
@@ -14,6 +14,7 @@ import com.almis.awe.model.type.MaintainType;
 import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.service.data.builder.SQLMaintainBuilder;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.querydsl.sql.Configuration;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.AbstractSQLClause;
@@ -21,11 +22,11 @@ import com.querydsl.sql.dml.SQLDeleteClause;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
 import org.apache.logging.log4j.Level;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.inject.Provider;
 import java.sql.Connection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,23 +44,41 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
   @Value("${awe.database.limit.log.size:0}")
   private Integer logLimit;
 
+  // Autowired services
+  private QueryUtil queryUtil;
+
+  /**
+   * Autowired constructor
+   *
+   * @param queryUtil Query utilities
+   */
+  @Autowired
+  public SQLMaintainConnector(QueryUtil queryUtil) {
+    this.queryUtil = queryUtil;
+  }
+
   @Override
-  public <T extends MaintainQuery> ServiceData launch(T query, DatabaseConnection databaseConnection, Map<String, QueryParameter> parameterMap) throws AWException {
+  public <T extends MaintainQuery> ServiceData launch(T query, DatabaseConnection databaseConnection, ObjectNode parameters) throws AWException {
     // Store service data
     ServiceData mntOut;
+
+    // Define parameters
+    Map<String, QueryParameter> parameterMap = queryUtil.getDefaultVariableMap(parameters);
+    queryUtil.addToVariableMap(parameterMap, query, parameters);
+
     final Connection connection = databaseConnection.getConnection();
     Provider<Connection> connProvider = () -> connection;
     Configuration configurationBean = (Configuration) getBean(databaseConnection.getConfigurationBean());
 
     // Multiple (multiple maintain + multiple AUDIT)
     if ("true".equalsIgnoreCase(query.getMultiple())) {
-      mntOut = launchMultipleMaintain(query, connProvider, configurationBean, parameterMap);
+      mntOut = launchMultipleMaintain(query, connProvider, configurationBean, parameterMap, parameters);
       // Multiple for AUDIT (single maintain + multiple AUDIT)
     } else if ("audit".equalsIgnoreCase(query.getMultiple())) {
-      mntOut = launchMultipleAudit(query, connProvider, configurationBean, parameterMap);
+      mntOut = launchMultipleAudit(query, connProvider, configurationBean, parameterMap, parameters);
       // Simple (single maintain + single AUDIT)
     } else {
-      mntOut = launchSingleMaintain(query, connProvider, configurationBean, parameterMap);
+      mntOut = launchSingleMaintain(query, connProvider, configurationBean, parameterMap, parameters);
     }
 
     return mntOut;
@@ -75,7 +94,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
    * @return Maintain output
    * @throws AWException Error launching maintain
    */
-  private ServiceData launchMultipleMaintain(MaintainQuery query, Provider<Connection> connectionProvider, Configuration configurationBean, Map<String, QueryParameter> parameterMap) throws AWException {
+  private ServiceData launchMultipleMaintain(MaintainQuery query, Provider<Connection> connectionProvider, Configuration configurationBean, Map<String, QueryParameter> parameterMap, ObjectNode parameters) throws AWException {
 
     // Variable definition
     long rowsUpdated;
@@ -97,7 +116,8 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
       .setMaintain(query)
       .setOperation(MaintainBuildOperation.NO_BATCH)
       .setFactory(queryFactory)
-      .setVariables(parameterMap);
+      .setVariables(parameterMap)
+      .setParameters(parameters);
 
     // If we have a variable which is a list, generate a audit query for each value
     Integer indexMaintain = 0;
@@ -126,14 +146,14 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
     // If operation is batched and we have queries left or a query without being launched yet, launch
     if (queryBuilt != null) {
-      rowsUpdated = launchAsSingleOperation(queryBuilt, indexMaintain, false, query.getId(), parameterMap);
-      maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(parameterMap)));
+      rowsUpdated = launchAsSingleOperation(queryBuilt, indexMaintain, false, query.getOperationId(), parameterMap);
+      maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, parameterMap));
     }
 
     // Same with audit
     if (auditQueryBuilt != null) {
-      rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexMaintain, true, query.getId(), parameterMap);
-      maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, new HashMap<>(parameterMap)));
+      rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexMaintain, true, query.getOperationId(), parameterMap);
+      maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, parameterMap));
     }
 
     return maintainOut;
@@ -165,7 +185,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
    * @return Maintain output
    * @throws AWException Error launching multiple audit
    */
-  private ServiceData launchMultipleAudit(MaintainQuery query, Provider<Connection> connectionProvider, Configuration configurationBean, Map<String, QueryParameter> parameterMap) throws AWException {
+  private ServiceData launchMultipleAudit(MaintainQuery query, Provider<Connection> connectionProvider, Configuration configurationBean, Map<String, QueryParameter> parameterMap, ObjectNode parameters) throws AWException {
 
     // Variable definition
     Long rowsUpdated;
@@ -190,11 +210,12 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
       .setMaintain(query)
       .setOperation(MaintainBuildOperation.NO_BATCH)
       .setFactory(queryFactory)
-      .setVariables(parameterMap);
+      .setVariables(parameterMap)
+      .setParameters(parameters);
 
     // Launch as single operation
-    rowsUpdated = launchAsSingleOperation(builder.build(), null, false, query.getId(), parameterMap);
-    maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(parameterMap)));
+    rowsUpdated = launchAsSingleOperation(builder.build(), null, false, query.getOperationId(), parameterMap);
+    maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, parameterMap));
 
     // Audit the operation
     if (auditActive && rowsUpdated > 0) {
@@ -216,7 +237,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
 
       // If operation is batched and we have queries left or a query without being launched yet, launch
       if (auditQueryBuilt != null) {
-        rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexAudit, true, query.getId(), parameterMap);
+        rowsUpdated = launchAsSingleOperation(auditQueryBuilt, indexAudit, true, query.getOperationId(), parameterMap);
         maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, parameterMap));
       }
     }
@@ -234,7 +255,7 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
    * @return Maintain output
    * @throws AWException Maintain error
    */
-  private ServiceData launchSingleMaintain(MaintainQuery query, Provider<Connection> connectionProvider, Configuration configurationBean, Map<String, QueryParameter> parameterMap) throws AWException {
+  private ServiceData launchSingleMaintain(MaintainQuery query, Provider<Connection> connectionProvider, Configuration configurationBean, Map<String, QueryParameter> parameterMap, ObjectNode parameters) throws AWException {
     // Variable definition
     Long rowsUpdated;
     boolean auditActive = false;
@@ -255,17 +276,18 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
       .setVariableIndex(query.getVariableIndex())
       .setOperation(MaintainBuildOperation.NO_BATCH)
       .setFactory(queryFactory)
-      .setVariables(parameterMap);
+      .setVariables(parameterMap)
+      .setParameters(parameters);
 
     // Launch as single operation
-    rowsUpdated = launchAsSingleOperation(builder.build(), null, false, query.getId(), parameterMap);
-    maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, new HashMap<>(parameterMap)));
+    rowsUpdated = launchAsSingleOperation(builder.build(), null, false, query.getOperationId(), parameterMap);
+    maintainOut.addResultDetails(new MaintainResultDetails(query.getMaintainType(), rowsUpdated, parameterMap));
 
     // If AUDIT table is defined and operation has updated any rows, AUDIT the operation
     if (auditActive && rowsUpdated > 0) {
       // Launch as single operation
-      rowsUpdated = launchAsSingleOperation(builder.setAudit(true).setOperation(MaintainBuildOperation.NO_BATCH).build(), null, true, query.getId(), parameterMap);
-      maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, new HashMap<>(parameterMap)));
+      rowsUpdated = launchAsSingleOperation(builder.setAudit(true).setOperation(MaintainBuildOperation.NO_BATCH).build(), null, true, query.getOperationId(), parameterMap);
+      maintainOut.addResultDetails(new MaintainResultDetails(MaintainType.AUDIT, rowsUpdated, parameterMap));
     }
 
     return maintainOut;
@@ -321,8 +343,8 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     // If this is the last operation of the batch, launch it
     if ((index + 1) % batchMax == 0) {
       // Launch as single operation
-      rowsUpdated = launchAsSingleOperation(queryBuilt, index, isAudit, query.getId(), builder.getVariables());
-      maintainOut.addResultDetails(new MaintainResultDetails(maintainType, rowsUpdated, new HashMap<>(builder.getVariables())));
+      rowsUpdated = launchAsSingleOperation(queryBuilt, index, isAudit, query.getOperationId(), builder.getVariables());
+      maintainOut.addResultDetails(new MaintainResultDetails(maintainType, rowsUpdated, builder.getVariables()));
 
       queryBuilt = null;
     }
@@ -355,8 +377,8 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     }
 
     // Launch as single operation
-    Long rowsUpdated = launchAsSingleOperation(builder.build(), index, isAudit, query.getId(), builder.getVariables());
-    maintainOut.addResultDetails(new MaintainResultDetails(maintainType, rowsUpdated, new HashMap<>(builder.getVariables())));
+    Long rowsUpdated = launchAsSingleOperation(builder.build(), index, isAudit, query.getOperationId(), builder.getVariables());
+    maintainOut.addResultDetails(new MaintainResultDetails(maintainType, rowsUpdated, builder.getVariables()));
 
     // Restore query's initial definition
     return null;

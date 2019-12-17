@@ -1,7 +1,6 @@
 package com.almis.awe.service.data.builder;
 
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.entities.maintain.Insert;
 import com.almis.awe.model.entities.maintain.MaintainQuery;
@@ -35,14 +34,12 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.*;
 
-import static com.almis.awe.model.type.ParameterType.MULTIPLE_SEQUENCE;
-import static com.almis.awe.model.type.ParameterType.SEQUENCE;
+import static com.almis.awe.model.type.ParameterType.*;
 
 /**
  * Generates SQL for maintain operations
  *
  * @author jbellon
- *
  */
 public class SQLMaintainBuilder extends SQLBuilder {
 
@@ -58,9 +55,6 @@ public class SQLMaintainBuilder extends SQLBuilder {
   @Value("${awe.database.audit.lag:100}")
   private Integer auditLag;
 
-  // Autowired services
-  AweSession session;
-
   private AbstractSQLClause<?> previousQuery;
   private boolean audit = false;
   private MaintainBuildOperation operation;
@@ -69,13 +63,12 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
   /**
    * Autowired constructor
-   * @param session Session
+   *
    * @param queryUtil Query utilities
    */
   @Autowired
-  public SQLMaintainBuilder(AweSession session, QueryUtil queryUtil) {
+  public SQLMaintainBuilder(QueryUtil queryUtil) {
     super(queryUtil);
-    this.session = session;
   }
 
   /**
@@ -85,8 +78,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
    * @return this
    */
   public SQLMaintainBuilder setMaintain(MaintainQuery maintain) {
-    this.setQuery(maintain);
-
+    setQuery(maintain);
     return this;
   }
 
@@ -132,6 +124,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
    * @param variableIndex Variable index
    * @return this
    */
+  @Override
   public SQLMaintainBuilder setVariableIndex(Integer variableIndex) {
     this.variableIndex = variableIndex;
     return this;
@@ -191,19 +184,19 @@ public class SQLMaintainBuilder extends SQLBuilder {
     validateBuilder();
 
     // Prepare query variables
-    queryUtil.addToVariableMap(getVariables(), getQuery());
+    queryUtil.addToVariableMap(getVariables(), getQuery(), getParameters());
     AbstractSQLClause<?> finalQuery;
 
     if (this.audit) {
       switch (operation) {
-      case BATCH_INITIAL_DEFINITION:
-        return getFactory().insert(new RelationalPathBase<>(Object.class, "", "", ((MaintainQuery) getQuery()).getAuditTable()));
-      case BATCH_INCREASING_ELEMENTS:
-        finalQuery = previousQuery;
-        break;
-      default:
-        finalQuery = getFactory().insert(new RelationalPathBase<>(Object.class, "", "", ((MaintainQuery) getQuery()).getAuditTable()));
-        break;
+        case BATCH_INITIAL_DEFINITION:
+          return getFactory().insert(new RelationalPathBase<>(Object.class, "", "", ((MaintainQuery) getQuery()).getAuditTable()));
+        case BATCH_INCREASING_ELEMENTS:
+          finalQuery = previousQuery;
+          break;
+        default:
+          finalQuery = getFactory().insert(new RelationalPathBase<>(Object.class, "", "", ((MaintainQuery) getQuery()).getAuditTable()));
+          break;
       }
       SQLInsertClause auditInsertClause = (SQLInsertClause) finalQuery;
       auditInsertClause.columns(getAuditFieldPaths());
@@ -216,17 +209,17 @@ public class SQLMaintainBuilder extends SQLBuilder {
       RelationalPath tablePath = getTable();
 
       switch (operation) {
-      case BATCH_INITIAL_DEFINITION:
-        return buildOperation(tablePath);
-      case BATCH_INCREASING_ELEMENTS:
-        finalQuery = previousQuery;
-        break;
-      default:
-        finalQuery = buildOperation(tablePath);
-        break;
+        case BATCH_INITIAL_DEFINITION:
+          return buildOperation(tablePath);
+        case BATCH_INCREASING_ELEMENTS:
+          finalQuery = previousQuery;
+          break;
+        default:
+          finalQuery = buildOperation(tablePath);
+          break;
       }
 
-      MaintainQuery maintainQuery = (MaintainQuery) this.getQuery();
+      MaintainQuery maintainQuery = (MaintainQuery) getQuery();
       switch (maintainQuery.getMaintainType()) {
         case INSERT:
           doInsert((SQLInsertClause) finalQuery);
@@ -246,14 +239,15 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
   /**
    * Manage insert clause
+   *
    * @param insertClause Insert clause
    * @throws AWException
    */
   private void doInsert(SQLInsertClause insertClause) throws AWException {
     List<Path> fieldPaths = getFieldPaths(true);
     insertClause.columns(fieldPaths.toArray(new Path[0]));
-    if (((Insert) this.getQuery()).getQuery() != null) {
-      insertClause.select(getSubquery(((Insert) this.getQuery()).getQuery()));
+    if (((Insert) getQuery()).getQuery() != null) {
+      insertClause.select(getSubquery(((Insert) getQuery()).getQuery()));
     } else {
       List<Expression> fieldValues = getFieldValues();
       for (Expression value : fieldValues) {
@@ -264,6 +258,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
   /**
    * Manage update clause
+   *
    * @param updateClause Update clause
    * @throws AWException
    */
@@ -279,6 +274,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
   /**
    * Manage delete clause
+   *
    * @param deleteClause Delete clause
    * @throws AWException
    */
@@ -296,10 +292,10 @@ public class SQLMaintainBuilder extends SQLBuilder {
    * @throws AWException Error retrieving table
    */
   private RelationalPath<?> getTable() throws AWException {
-    if (this.getQuery().getTableList().isEmpty()) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN), getElements().getLocale("ERROR_MESSAGE_NOT_DEFINED_IN", "table", this.getQuery().getId() ));
+    if (getQuery().getTableList().isEmpty()) {
+      throw new AWException(getElements().getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN), getElements().getLocale("ERROR_MESSAGE_NOT_DEFINED_IN", "table", this.getQuery().getId()));
     }
-    return getTable(this.getQuery().getTableList().get(0), false);
+    return getTable(getQuery().getTableList().get(0), false);
   }
 
   /**
@@ -315,19 +311,19 @@ public class SQLMaintainBuilder extends SQLBuilder {
     List<Long> idsStored = getKey.fetch();
     if (idsStored.size() != 1) {
       throw new AWException(getElements().getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN),
-              getElements().getLocale("ERROR_MESSAGE_SEQUENCE_NOT_DEFINED", sequence));
+        getElements().getLocale("ERROR_MESSAGE_SEQUENCE_NOT_DEFINED", sequence));
     }
     Long id = idsStored.get(0);
 
     // UPDATE AweKey SET KeyVal = KeyVal + 1 WHERE KeyNam = ?
     SQLUpdateClause updateKey = getFactory()
-            .update(new RelationalPathBase<>(Object.class, "", "", "AweKey"))
-            .set(Expressions.numberPath(Long.class, "KeyVal"), id + 1)
-            .where(Expressions.stringPath("KeyNam").eq(sequence));
+      .update(new RelationalPathBase<>(Object.class, "", "", "AweKey"))
+      .set(Expressions.numberPath(Long.class, "KeyVal"), id + 1)
+      .where(Expressions.stringPath("KeyNam").eq(sequence));
     Long rowsAffected = updateKey.execute();
     if (rowsAffected != 1) {
       throw new AWException(getElements().getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN),
-              getElements().getLocale("ERROR_MESSAGE_SEQUENCE_NOT_UPDATED", sequence));
+        getElements().getLocale("ERROR_MESSAGE_SEQUENCE_NOT_UPDATED", sequence));
     }
 
     return String.valueOf(id + 1);
@@ -341,16 +337,16 @@ public class SQLMaintainBuilder extends SQLBuilder {
    * @throws AWException Error building operation
    */
   private AbstractSQLClause<?> buildOperation(RelationalPath<?> tablePath) throws AWException {
-    MaintainType type = ((MaintainQuery) this.getQuery()).getMaintainType();
+    MaintainType type = ((MaintainQuery) getQuery()).getMaintainType();
     switch (type) {
-    case DELETE:
-      return getFactory().delete(tablePath);
-    case INSERT:
-      return getFactory().insert(tablePath);
-    case UPDATE:
-      return getFactory().update(tablePath);
-    default:
-      throw new AWException(MessageFormat.format("Operation not implemented yet: {0}", type));
+      case DELETE:
+        return getFactory().delete(tablePath);
+      case INSERT:
+        return getFactory().insert(tablePath);
+      case UPDATE:
+        return getFactory().update(tablePath);
+      default:
+        throw new AWException(MessageFormat.format("Operation not implemented yet: {0}", type));
     }
   }
 
@@ -377,6 +373,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
    * - It has key
    * - It hasn't got sequence
    * - Its' value is null
+   *
    * @param field
    * @return
    * @throws AWException
@@ -397,7 +394,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
     // Check if there are field list
     if (getQuery().getFieldList() == null) {
       throw new AWException(getElements().getLocale("ERROR_TITLE_NO_AUDIT_FIELDS"),
-              getElements().getLocale("ERROR_MESSAGE_NO_AUDIT_FIELDS", getQuery().getId()));
+        getElements().getLocale("ERROR_MESSAGE_NO_AUDIT_FIELDS", getQuery().getId()));
     }
 
     paths.add(buildPath(auditUserField));
@@ -438,7 +435,6 @@ public class SQLMaintainBuilder extends SQLBuilder {
   }
 
 
-
   /**
    * Retrieves the list of values defined by audit fields
    *
@@ -456,11 +452,11 @@ public class SQLMaintainBuilder extends SQLBuilder {
     Timestamp dateAudit = new Timestamp(currentTime);
 
     // Audit variables
-    values.add(getStringExpression(session.getUser()));
+    values.add(getStringExpression(getUser()));
     values.add(Expressions.asDateTime(dateAudit));
-    values.add(getStringExpression(((MaintainQuery) this.getQuery()).getMaintainType().toString()));
+    values.add(getStringExpression(((MaintainQuery) getQuery()).getMaintainType().toString()));
 
-    for (SqlField field : this.getQuery().getSqlFieldList()) {
+    for (SqlField field : getQuery().getSqlFieldList()) {
       if (field.isAudit()) {
         values.add(getSqlFieldExpression(field, num));
       }
@@ -470,7 +466,21 @@ public class SQLMaintainBuilder extends SQLBuilder {
   }
 
   /**
+   * Get session user or "Anonymous" instead
+   *
+   * @return
+   */
+  private String getUser() {
+    try {
+      return getSession().getUser();
+    } catch (Exception exc) {
+      return "Anonymous";
+    }
+  }
+
+  /**
    * Define sequence variable
+   *
    * @param field Field
    * @return sequence identifier
    */
@@ -489,11 +499,17 @@ public class SQLMaintainBuilder extends SQLBuilder {
         parameter = new QueryParameter(null, false, SEQUENCE);
       } else {
         parameter = new QueryParameter(JsonNodeFactory.instance.arrayNode(), true, MULTIPLE_SEQUENCE);
+
+        // Add the variable to the parameter list
+        if (getParameters().get(seqVariable.getName()) == null) {
+          getParameters().set(seqVariable.getName(), JsonNodeFactory.instance.arrayNode());
+        }
       }
       // We add the variable to the query's variable list
       if (getQuery().getVariableDefinitionList() == null) {
         getQuery().setVariableDefinitionList(new ArrayList<>());
       }
+
       getQuery().getVariableDefinitionList().add(seqVariable);
       variables.put(sequenceIdentifier, parameter);
     }
@@ -502,6 +518,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
   /**
    * Calculate sequence
+   *
    * @param field Field
    * @param index Variable index
    * @return sequence expression
@@ -512,15 +529,17 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
     // If variable is not defined in query, we create a new one
     String sequenceIdentifier = defineSequenceVariable(field);
+    ParameterType sequenceType = "true".equalsIgnoreCase(getQuery().getMultiple()) ? MULTIPLE_SEQUENCE : SEQUENCE;
 
     Variable seqVariable = getQuery().getVariableDefinition(sequenceIdentifier);
     ParameterType parameterType = ParameterType.valueOf(seqVariable.getType());
     String sequenceVariableValue = seqVariable.getValue();
     // If type is not MULTIPLE_SEQUENCE or SEQUENCE, we change it accordingly
     if (parameterType != MULTIPLE_SEQUENCE && parameterType != SEQUENCE) {
-      seqVariable.setType("true".equalsIgnoreCase(getQuery().getMultiple()) ? MULTIPLE_SEQUENCE.toString() : SEQUENCE.toString());
-      parameterType = ParameterType.valueOf(seqVariable.getType());
+      parameterType = sequenceType;
+      seqVariable.setType(sequenceType.toString());
     }
+
     // If type is MULTIPLE_SEQUENCE, we calculate a new value; otherwise, we use the one assigned to the variable
     if (parameterType == MULTIPLE_SEQUENCE) {
       String value = getSequence(field.getSequence());
@@ -535,8 +554,13 @@ public class SQLMaintainBuilder extends SQLBuilder {
       if (variables.get(sequenceIdentifier).getValue().size() == index) {
         ((ArrayNode) (variables.get(sequenceIdentifier).getValue())).add(value);
       }
+
+      // Add the value to request parameters
+      if (getParameters().get(seqVariable.getName()).size() == index) {
+        ((ArrayNode) (getParameters().get(seqVariable.getName()))).add(value);
+      }
       // IF type is SEQUENCE but the value is empty, generate sequence
-    } else if (parameterType == SEQUENCE && queryUtil.isEmptyString(sequenceVariableValue)) {
+    } else if (queryUtil.isEmptyString(sequenceVariableValue)) {
       String value = getSequence(field.getSequence());
       fieldValue = getVariableAsExpression(value, ParameterType.LONG);
 
@@ -547,6 +571,9 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
       // We add the value to the map of parsed variables if needed
       variables.put(sequenceIdentifier, new QueryParameter(JsonNodeFactory.instance.textNode(value), false, parameterType));
+
+      // Add the value to request parameters
+      getParameters().put(seqVariable.getName(), value);
     } else {
       fieldValue = getStringExpression(sequenceVariableValue);
     }
@@ -556,6 +583,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
   /**
    * Retrieve sql field expression
+   *
    * @param field SQL field
    * @param index Index
    * @return
@@ -571,6 +599,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
   /**
    * Retrieve field value
+   *
    * @param field Field
    * @param index Variable index
    * @return field value expression
@@ -582,14 +611,15 @@ public class SQLMaintainBuilder extends SQLBuilder {
     if (variable != null) {
       // Get variable values from previously prepared map
       JsonNode variableValue = variables.get(variable.getId()).getValue();
+      ParameterType parameterType = ParameterType.valueOf(variable.getType());
       boolean isList = variables.get(variable.getId()).isList();
       if (variable.getValue() != null) {
-        fieldValue = getVariableAsExpression(variable.getValue(), ParameterType.valueOf(variable.getType()));
+        fieldValue = getVariableAsExpression(variable.getValue(), parameterType);
       } else {
-        if (isList) {
-          fieldValue = getVariableAsExpression(getVariableAsString(variableValue.get(index)), ParameterType.valueOf(variable.getType()));
+        if (isList && !LIST_TO_STRING.equals(parameterType)) {
+          fieldValue = getVariableAsExpression(variableValue.get(index), parameterType);
         } else {
-          fieldValue = getVariableAsExpression(getVariableAsString(variableValue), ParameterType.valueOf(variable.getType()));
+          fieldValue = getVariableAsExpression(variableValue, parameterType);
         }
       }
     }
@@ -599,7 +629,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
   /**
    * Retrieves the expression for the filters
-   * 
+   *
    * @return booleanExpression
    * @throws AWException Error retrieving filter expression
    */

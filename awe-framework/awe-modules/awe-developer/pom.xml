@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-modules</artifactId>
-    <version>4.1.8-SNAPSHOT</version>
+    <version>4.2.0-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -16,6 +16,7 @@
 
   <properties>
     <application.acronym>awe-developer</application.acronym>
+    <skip.delombok>false</skip.delombok>
   </properties>
 
   <dependencies>
@@ -31,6 +32,12 @@
   <build>
     <finalName>${project.artifactId}</finalName>
     <plugins>
+      <!-- Delombok plugin -->
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+      </plugin>
+
       <!-- AWE static resources -->
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>

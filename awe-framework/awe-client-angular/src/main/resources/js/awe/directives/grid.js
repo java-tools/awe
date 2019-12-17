@@ -1,5 +1,5 @@
-import { aweApplication } from "./../awe";
-import { DefaultGridOptions, DefaultSpin } from "../data/options";
+import {aweApplication} from "./../awe";
+import {DefaultGridOptions, DefaultSpin} from "../data/options";
 import "./../services/grid/base";
 import "./gridHeader";
 
@@ -48,7 +48,7 @@ aweApplication.directive('aweGrid',
              */
             pre: function (scope, elem) {
               // Init as component
-              var component = new GridBase(scope, scope.gridId, elem);
+              let component = new GridBase(scope, scope.gridId, elem);
               if (component.asGrid()) {
                 // Set bigGrid value
                 component.bigGrid = true;
@@ -108,18 +108,18 @@ aweApplication.directive('aweGrid',
                   },
                   customScroller: (uiGridViewport, scrollHandler) => component.customScroller(uiGridViewport, scrollHandler)
                 });
-                scope.onGoToPageChanged = function(event) {
-                  if(event.type === "keypress") {
+                scope.onGoToPageChanged = function (event) {
+                  if (event.type === "keypress") {
                     // If key pressed is ENTER
-                    if(event.keyCode === 13) {
+                    if (event.keyCode === 13) {
                       component.setPage(parseInt(event.currentTarget.value, 10));
                       event.stopPropagation();
                       event.preventDefault();
                       event.currentTarget.value = "";
                     }
-                  } else if(event.type === "blur"){
-                    var page = parseInt(event.currentTarget.value, 10);
-                    if(component.model.page !== page) {
+                  } else if (event.type === "blur") {
+                    let page = parseInt(event.currentTarget.value, 10);
+                    if (component.model.page !== page) {
                       component.setPage(page);
                       event.currentTarget.value = "";
                     }

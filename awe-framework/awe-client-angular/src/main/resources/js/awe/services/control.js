@@ -132,6 +132,7 @@ aweApplication.factory('Control',
           }
           return target;
         },
+
         /**
          * Check if model has changed compare to the initial model
          * @param {String} view
@@ -223,6 +224,14 @@ aweApplication.factory('Control',
          */
         checkComponent: function (address) {
           return Control.getTarget(address, CONTROLLER) !== null;
+        },
+        /**
+         * Check if component has definition
+         * @param {Object} address
+         * @return {boolean} Component has definition
+         */
+        checkOnlyComponent: function (address) {
+          return Control.getTarget({view: address.view, component: address.component}, CONTROLLER) !== null;
         },
         /**
          * Fix the selected attribute so that it allways return an array

@@ -34,7 +34,6 @@ public class WebSettings {
   private Integer recordsPerPage;
   private Integer pixelsPerCharacter;
   private String defaultComponentSize;
-  private Boolean shareSessionInTabs;
   private Boolean reloadCurrentScreen;
   private Integer suggestTimeout;
 

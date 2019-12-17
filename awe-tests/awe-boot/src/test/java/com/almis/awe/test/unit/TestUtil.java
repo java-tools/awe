@@ -1,7 +1,7 @@
 package com.almis.awe.test.unit;
 
 import com.almis.awe.config.ServiceConfig;
-import com.almis.awe.model.dto.MaintainResultDetails;
+import com.almis.awe.model.details.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
 import com.almis.awe.session.AweSessionDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;

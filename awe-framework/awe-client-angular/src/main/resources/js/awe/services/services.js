@@ -15,7 +15,6 @@ import "./connection";
 import "./ajax";
 import "./comet";
 import "./storage";
-import "./sessionStorage";
 import "./tabStorage";
 import "./windowStorage";
 import "./validator";

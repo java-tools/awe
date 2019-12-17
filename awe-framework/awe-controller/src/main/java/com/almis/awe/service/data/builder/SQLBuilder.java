@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.almis.awe.model.type.ParameterType.LIST_TO_STRING;
+
 /**
  * Generates sql codes
  */
@@ -176,8 +178,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         throw new AWException(getElements().getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"),
           getElements().getLocale("ERROR_MESSAGE_MALFORMED_QUERY_LIST_FIELD", variableName));
       }
-      String value = getVariableAsString(variableValue);
-      variableExpression = getVariableAsExpression(value, ParameterType.valueOf(variable.getType()));
+      variableExpression = getVariableAsExpression(variableValue, ParameterType.valueOf(variable.getType()));
     }
 
     return variableExpression;
@@ -237,6 +238,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
           result = result == null ? operand : Expressions.stringOperation(Ops.CONCAT, result, operand);
         }
         return result;
+      case "REPLACE":
+        return Expressions.stringTemplate("replace({0},{1},{2})", operands[0], operands[1], operands[2]);
       case "NULLIF":
         return Expressions.simpleOperation(Object.class, Ops.NULLIF, operands);
       case "COALESCE":
@@ -492,11 +495,28 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Retrieve sql field from transition field (operand, then, else)
+   *
    * @param transitionField
    * @return
    */
   private SqlField getSqlFieldFromTransition(TransitionField transitionField) {
     return transitionField == null ? null : transitionField.getField();
+  }
+
+  /**
+   * Get variable as expression of a JSON node
+   *
+   * @param nodeValue
+   * @param type
+   * @return
+   * @throws AWException
+   */
+  Expression getVariableAsExpression(JsonNode nodeValue, ParameterType type) throws AWException {
+    if (LIST_TO_STRING.equals(type)) {
+      return getListAsStringExpression(nodeValue);
+    } else {
+      return getVariableAsExpression(getVariableAsString(nodeValue), type);
+    }
   }
 
   /**
@@ -508,39 +528,37 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @throws AWException Variable replacement was wrong
    */
   protected Expression getVariableAsExpression(String value, ParameterType type) throws AWException {
-    try {
-      // Act selecting the variable type
-      switch (type) {
-        case STRINGL:
-          return queryUtil.isEmptyString(value) ? getStringExpression("%") : getStringExpression("%" + value);
-        case STRINGR:
-          return queryUtil.isEmptyString(value) ? getStringExpression("%") : getStringExpression(value + "%");
-        case STRINGB:
-          return queryUtil.isEmptyString(value) ? getStringExpression("%%") : getStringExpression("%" + value + "%");
-        case SYSTEM_DATE:
-          return Expressions.currentDate();
-        case SYSTEM_TIME:
-          return getStringExpression(DateUtil.dat2WebTime(new Date()));
-        case STRING:
-        case STRING_HASH_RIPEMD160:
-        case STRING_HASH_SHA:
-        case STRING_ENCRYPT:
-        case STRING_HASH_PBKDF_2_W_HMAC_SHA_1:
-          return getVariableAsExpressionOrEmpty(value, type);
-        case DATE:
-        case TIMESTAMP:
-        case FLOAT:
-        case DOUBLE:
-        case LONG:
-        case INTEGER:
-        case STRINGN:
-        case MULTIPLE_SEQUENCE:
-        case SEQUENCE:
-        default:
-          return getVariableAsExpressionOrNull(value, type);
-      }
-    } catch (Exception exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_REPLACING_VALUES"), getElements().getLocale("ERROR_MESSAGE_REPLACING_VALUES", value), exc);
+    // Act selecting the variable type
+    switch (type) {
+      case STRINGL:
+        return queryUtil.isEmptyString(value) ? getStringExpression("%") : getStringExpression("%" + value);
+      case STRINGR:
+        return queryUtil.isEmptyString(value) ? getStringExpression("%") : getStringExpression(value + "%");
+      case STRINGB:
+        return queryUtil.isEmptyString(value) ? getStringExpression("%%") : getStringExpression("%" + value + "%");
+      case SYSTEM_DATE:
+        return Expressions.currentDate();
+      case SYSTEM_TIME:
+        return getStringExpression(DateUtil.dat2WebTime(new Date()));
+      case SYSTEM_TIMESTAMP:
+        return Expressions.currentTimestamp();
+      case STRING:
+      case STRING_HASH_RIPEMD160:
+      case STRING_HASH_SHA:
+      case STRING_ENCRYPT:
+      case STRING_HASH_PBKDF_2_W_HMAC_SHA_1:
+        return getVariableAsExpressionOrEmpty(value, type);
+      case DATE:
+      case TIMESTAMP:
+      case FLOAT:
+      case DOUBLE:
+      case LONG:
+      case INTEGER:
+      case STRINGN:
+      case MULTIPLE_SEQUENCE:
+      case SEQUENCE:
+      default:
+        return getVariableAsExpressionOrNull(value, type);
     }
   }
 
@@ -600,7 +618,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       case INTEGER:
         return Expressions.asNumber(Integer.valueOf(value));
       case BOOLEAN:
-        return Expressions.asBoolean(Boolean.valueOf(value));
+        return Expressions.asBoolean(Boolean.parseBoolean(value));
       case NULL:
         return Expressions.nullExpression();
       case STRINGN:
@@ -624,17 +642,17 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         Class expressionClass = fieldExpression.getType().equals(Object.class) ? Integer.class : fieldExpression.getType();
         return Expressions.numberOperation(expressionClass, Ops.MathOps.ABS, fieldExpression);
       case "AVG":
-        return new WindowOver(Double.class, Ops.AggOps.AVG_AGG, fieldExpression);
+        return new WindowOver<>(Double.class, Ops.AggOps.AVG_AGG, fieldExpression);
       case "CNT":
-        return new WindowOver(Long.class, Ops.AggOps.COUNT_AGG, fieldExpression);
+        return new WindowOver<>(Long.class, Ops.AggOps.COUNT_AGG, fieldExpression);
       case "CNT_DISTINCT":
-        return new WindowOver(Long.class, Ops.AggOps.COUNT_DISTINCT_AGG, fieldExpression);
+        return new WindowOver<>(Long.class, Ops.AggOps.COUNT_DISTINCT_AGG, fieldExpression);
       case "LAG":
         return SQLExpressions.lag(fieldExpression);
       case "MAX":
-        return new WindowOver(Long.class, Ops.AggOps.MAX_AGG, fieldExpression);
+        return new WindowOver<>(Long.class, Ops.AggOps.MAX_AGG, fieldExpression);
       case "MIN":
-        return new WindowOver(Long.class, Ops.AggOps.MIN_AGG, fieldExpression);
+        return new WindowOver<>(Long.class, Ops.AggOps.MIN_AGG, fieldExpression);
       case "FIRST_VALUE":
         return SQLExpressions.firstValue(fieldExpression);
       case "LAST_VALUE":
@@ -655,7 +673,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return SQLExpressions.rowNumber();
       case "SUM":
       default:
-        return new WindowOver(Long.class, Ops.AggOps.SUM_AGG, fieldExpression);
+        return new WindowOver<>(Long.class, Ops.AggOps.SUM_AGG, fieldExpression);
     }
   }
 
@@ -917,7 +935,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
     if (isList && (getQuery().getMultiple() == null || "audit".equalsIgnoreCase(getQuery().getMultiple())) && getVariableIndex() == null) {
       // If variable is a list, generate a IN statement filtering out empty lists. Query should not be multiple
-      expression = convertVariableListToExpression(expressionList, variableValue, type, stringValue, filter);
+      expression = convertVariableListToExpression(expressionList, variableValue, type, filter);
     } else if (isList) {
       // MULTIPLE query, getting index variable (each line a variable)
       return convertVariableListToExpressionWithIndex(variableValue, type, stringValue, filter);
@@ -947,27 +965,24 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @param expressionList Expression list
    * @param variableValue  Variable value
    * @param type           Variable type
-   * @param value          String value
    * @param filter         Filter
    * @return Variable as expression
    * @throws AWException
    */
-  private Expression convertVariableListToExpression(List<Expression> expressionList, JsonNode variableValue, ParameterType type, String value, Filter filter) throws AWException {
+  private Expression convertVariableListToExpression(List<Expression> expressionList, JsonNode variableValue, ParameterType type, Filter filter) throws AWException {
     int variableValuesLength = variableValue.size();
     // If variable has more than 1 element, generate a sequence of (?, ?, ...)
     if (variableValuesLength > 1) {
       // For each value, add a ? to the statement
       for (int i = 0; i < variableValuesLength; i++) {
-        String valueAtIndex = getVariableAsString(variableValue.get(i));
-        expressionList.add(getVariableAsExpression(valueAtIndex, type));
+        expressionList.add(getVariableAsExpression(variableValue.get(i), type));
       }
       // One value NOT empty (in array)
     } else if (variableValuesLength == 1 && variableValue.isArray() && !(variableValue.get(0).asText().isEmpty())) {
-      String valueAtIndex = getVariableAsString(variableValue.get(0));
-      expressionList.add(getVariableAsExpression(valueAtIndex, type));
+      expressionList.add(getVariableAsExpression(variableValue.get(0), type));
       // One value NOT empty
     } else if (variableValuesLength == 1 && !(variableValue.asText().isEmpty())) {
-      expressionList.add(getVariableAsExpression(value, type));
+      expressionList.add(getVariableAsExpression(variableValue, type));
       // OPTIONAL in, add nothing
     } else if (filter.isOptional()) {
       return Expressions.TRUE;
@@ -976,7 +991,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       throw new AWException(getElements().getLocale(ERROR_TITLE_GENERATING_FILTER),
         getElements().getLocale("ERROR_MESSAGE_EMPTY_LIST_OPTIONAL", filter.toString()));
     }
-    return Expressions.list(expressionList.toArray(new SimpleExpression[expressionList.size()]));
+    return Expressions.list(expressionList.toArray(new Expression[0]));
   }
 
   /**
@@ -996,8 +1011,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     } else if (!filter.isOptional() && queryUtil.isEmptyString(value)) {
       return Expressions.nullExpression();
     } else {
-      String valueAtIndex = getVariableAsString(variableValue.get(getVariableIndex()));
-      return getVariableAsExpression(valueAtIndex, type);
+      return getVariableAsExpression(variableValue.get(getVariableIndex()), type);
     }
   }
 
@@ -1012,6 +1026,43 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       return Expressions.stringTemplate("{0}", value);
     } else {
       return Expressions.nullExpression();
+    }
+  }
+
+  /**
+   * Retrieve string expression with quotes
+   *
+   * @param valueList Json value list
+   * @return String expression with quotes
+   */
+  private Expression getListAsStringExpression(JsonNode valueList) {
+    List<String> stringValues = new ArrayList<>();
+    if (valueList != null) {
+      if (valueList.isArray()) {
+        for (JsonNode value : valueList) {
+          addStringToListIfValid(stringValues, value);
+        }
+      } else {
+        addStringToListIfValid(stringValues, valueList);
+      }
+
+      // Join list
+      String stringValue = String.join(",", stringValues);
+      return stringValue.isEmpty() ? Expressions.nullExpression() : getStringExpression(stringValue);
+    } else {
+      return Expressions.nullExpression();
+    }
+  }
+
+  /**
+   * Avoid null or empty values in list
+   * @param list List to add value
+   * @param node Node to check
+   */
+  private void addStringToListIfValid(List<String> list, JsonNode node) {
+    String text = getVariableAsString(node);
+    if (text != null && !text.isEmpty()) {
+      list.add(text);
     }
   }
 

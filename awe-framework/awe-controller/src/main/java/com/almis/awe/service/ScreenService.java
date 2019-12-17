@@ -3,7 +3,8 @@ package com.almis.awe.service;
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWESessionException;
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.component.AweClientTracker;
+import com.almis.awe.model.event.ScreenChangeEvent;
+import com.almis.awe.model.tracker.AweClientTracker;
 import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
@@ -25,6 +26,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
@@ -43,6 +45,7 @@ public class ScreenService extends ServiceConfig {
   private MenuService menuService;
   private MaintainService maintainService;
   private ScreenComponentGenerator screenComponentGenerator;
+  private ApplicationEventPublisher eventPublisher;
 
   /**
    * Autowired constructor
@@ -52,10 +55,11 @@ public class ScreenService extends ServiceConfig {
    * @param screenComponentGenerator Screen component generator
    */
   @Autowired
-  public ScreenService(MenuService menuService, MaintainService maintainService, ScreenComponentGenerator screenComponentGenerator) {
+  public ScreenService(MenuService menuService, MaintainService maintainService, ScreenComponentGenerator screenComponentGenerator, ApplicationEventPublisher eventPublisher) {
     this.menuService = menuService;
     this.maintainService = maintainService;
     this.screenComponentGenerator = screenComponentGenerator;
+    this.eventPublisher = eventPublisher;
   }
 
   /**
@@ -119,6 +123,11 @@ public class ScreenService extends ServiceConfig {
     // Track navigation
     AweClientTracker clientTracker = getBean(AweClientTracker.class);
     clientTracker.navigateToScreen(optionId);
+
+    // Publish screen change
+    if (getSession() != null && getSession().getUser() != null) {
+      eventPublisher.publishEvent(new ScreenChangeEvent(this, getSession().getUser(), getRequest().getToken(), optionId));
+    }
 
     // Launch on load
     launchScreenOnLoadEvent(screen);

@@ -321,10 +321,10 @@ public class SQLQueryBuilder extends SQLBuilder {
    */
   private void doGroupBy(SQLQuery<Tuple> finalQuery) {
     // List of partial Expressions from filters
-    Expression[] groupExpressions = new Expression[this.getQuery().getGroupByList().size()];
+    Expression[] groupExpressions = new Expression[getQuery().getGroupByList().size()];
 
     int i = 0;
-    for (GroupBy groupby : this.getQuery().getGroupByList()) {
+    for (GroupBy groupby : getQuery().getGroupByList()) {
       // Store the path created
       groupExpressions[i] = getSimpleFieldExpression(groupby.getTable(), groupby.getField(), groupby.getFunction());
       i++;

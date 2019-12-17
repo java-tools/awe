@@ -32,6 +32,7 @@ import com.almis.awe.service.screen.ScreenRestrictionGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -53,7 +54,8 @@ public class AweAutoConfiguration {
 
   /**
    * Autowired constructor
-   * @param context Context
+   *
+   * @param context     Context
    * @param environment Environment
    */
   @Autowired
@@ -67,7 +69,8 @@ public class AweAutoConfiguration {
 
   /**
    * Awe Request
-   * @return Request bean
+   *
+   * @return Request beans
    */
   @Bean
   @ConditionalOnMissingBean
@@ -78,6 +81,7 @@ public class AweAutoConfiguration {
 
   /**
    * Awe Elements
+   *
    * @param logger Logger
    * @return Awe Elements bean
    */
@@ -93,6 +97,7 @@ public class AweAutoConfiguration {
 
   /**
    * Awe Elements DAO
+   *
    * @param serializer XStream serializer
    * @return Awe Elements bean
    */
@@ -104,6 +109,7 @@ public class AweAutoConfiguration {
 
   /**
    * Initial load DAO
+   *
    * @param queryService Query service
    * @return Initial load DATA ACCESS OBJECT
    */
@@ -119,6 +125,7 @@ public class AweAutoConfiguration {
 
   /**
    * Log utilities
+   *
    * @return Log utilities bean
    */
   @Bean
@@ -129,6 +136,7 @@ public class AweAutoConfiguration {
 
   /**
    * Query utilities
+   *
    * @return Query utilities bean
    */
   @Bean
@@ -139,6 +147,7 @@ public class AweAutoConfiguration {
 
   /**
    * File utilities
+   *
    * @return File utilities bean
    */
   @Bean
@@ -153,6 +162,7 @@ public class AweAutoConfiguration {
 
   /**
    * Launcher service
+   *
    * @return Launcher service
    */
   @Bean
@@ -163,7 +173,8 @@ public class AweAutoConfiguration {
 
   /**
    * Property service
-   * @param queryService Query service
+   *
+   * @param queryService            Query service
    * @param configurableEnvironment Configurable environment
    * @return Property service bean
    */
@@ -175,19 +186,19 @@ public class AweAutoConfiguration {
 
   /**
    * Init service
+   *
    * @param launcherService Launcher service
-   * @param propertyService Property service
-   * @param queryService Query service
    * @return Init service bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public InitService initService(LauncherService launcherService, PropertyService propertyService, QueryService queryService) {
-    return new InitService(launcherService, propertyService, queryService);
+  public InitService initService(LauncherService launcherService) {
+    return new InitService(launcherService);
   }
 
   /**
    * Action service
+   *
    * @param launcherService Launcher service
    * @return Action service bean
    */
@@ -199,8 +210,9 @@ public class AweAutoConfiguration {
 
   /**
    * Query service
+   *
    * @param queryLauncher Query launcher
-   * @param queryUtil Query utilities
+   * @param queryUtil     Query utilities
    * @return Query service bean
    */
   @Bean
@@ -211,9 +223,10 @@ public class AweAutoConfiguration {
 
   /**
    * Maintain service
+   *
    * @param maintainLauncher Maintain launcher
-   * @param accessService Access service
-   * @param queryUtil Query utilities
+   * @param accessService    Access service
+   * @param queryUtil        Query utilities
    * @return Maintain service bean
    */
   @Bean
@@ -224,10 +237,11 @@ public class AweAutoConfiguration {
 
   /**
    * Menu service
-   * @param queryService Query service
+   *
+   * @param queryService               Query service
    * @param screenRestrictionGenerator Screen Restriction generator
-   * @param screenComponentGenerator Screen component generator
-   * @param initialLoadDao Initial load service
+   * @param screenComponentGenerator   Screen component generator
+   * @param initialLoadDao             Initial load service
    * @return Menu service bean
    */
   @Bean
@@ -239,23 +253,25 @@ public class AweAutoConfiguration {
 
   /**
    * Screen service
-   * @param menuService Menu service
-   * @param maintainService Maintain service
+   *
+   * @param menuService              Menu service
+   * @param maintainService          Maintain service
    * @param screenComponentGenerator Screen component generator
    * @return Screen service bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public ScreenService screenService(MenuService menuService, MaintainService maintainService, ScreenComponentGenerator screenComponentGenerator) {
-    return new ScreenService(menuService, maintainService, screenComponentGenerator);
+  public ScreenService screenService(MenuService menuService, MaintainService maintainService, ScreenComponentGenerator screenComponentGenerator, ApplicationEventPublisher eventPublisher) {
+    return new ScreenService(menuService, maintainService, screenComponentGenerator, eventPublisher);
   }
 
   /**
    * File service
+   *
    * @param broadcastService Broadcast service
-   * @param fileUtil File util
-   * @param logger Logger
-   * @param request Request
+   * @param fileUtil         File util
+   * @param logger           Logger
+   * @param request          Request
    * @return File service bean
    */
   @Bean
@@ -266,6 +282,7 @@ public class AweAutoConfiguration {
 
   /**
    * Locale service
+   *
    * @return Locale service bean
    */
   @Bean
@@ -276,6 +293,7 @@ public class AweAutoConfiguration {
 
   /**
    * Log service
+   *
    * @param queryUtil Query utilities
    * @return Log service bean
    */
@@ -287,8 +305,9 @@ public class AweAutoConfiguration {
 
   /**
    * Report service
-   * @param queryService Query service
-   * @param menuService Menu service
+   *
+   * @param queryService    Query service
+   * @param menuService     Menu service
    * @param reportGenerator Report generator
    * @return Report service bean
    */
@@ -300,6 +319,7 @@ public class AweAutoConfiguration {
 
   /**
    * Printer service
+   *
    * @return Printer service bean
    */
   @Bean
@@ -310,6 +330,7 @@ public class AweAutoConfiguration {
 
   /**
    * System service
+   *
    * @return System service bean
    */
   @Bean
@@ -324,6 +345,7 @@ public class AweAutoConfiguration {
 
   /**
    * Query launcher
+   *
    * @return Query launcher bean
    */
   @Bean
@@ -335,6 +357,7 @@ public class AweAutoConfiguration {
 
   /**
    * Maintain launcher
+   *
    * @return Maintain launcher bean
    */
   @Bean
@@ -351,6 +374,7 @@ public class AweAutoConfiguration {
 
   /**
    * Screen restriction generator
+   *
    * @return Screen restriction generator bean
    */
   @Bean
@@ -361,6 +385,7 @@ public class AweAutoConfiguration {
 
   /**
    * Screen configuration generator
+   *
    * @return Screen configuration generator bean
    */
   @Bean
@@ -371,8 +396,9 @@ public class AweAutoConfiguration {
 
   /**
    * Screen model generator
+   *
    * @param screenRestrictionGenerator Screen restriction generator
-   * @param initialLoadDao Initial load service
+   * @param initialLoadDao             Initial load service
    * @return Screen model generator bean
    */
   @Bean
@@ -384,10 +410,11 @@ public class AweAutoConfiguration {
 
   /**
    * Screen component generator
-   * @param request Request
-   * @param screenModelGenerator Screen model
+   *
+   * @param request                      Request
+   * @param screenModelGenerator         Screen model
    * @param screenConfigurationGenerator Screen configuration
-   * @param initialLoadDao Initial load service
+   * @param initialLoadDao               Initial load service
    * @return Screen component generator bean
    */
   @Bean
@@ -404,8 +431,9 @@ public class AweAutoConfiguration {
 
   /**
    * Report generator
+   *
    * @param reportDesigner Report designer
-   * @param ade ADE Api
+   * @param ade            ADE Api
    * @return Report generator bean
    */
   @Bean
@@ -416,6 +444,7 @@ public class AweAutoConfiguration {
 
   /**
    * Report designer
+   *
    * @param queryService Query service
    * @return Report designer bean
    */
@@ -431,6 +460,7 @@ public class AweAutoConfiguration {
 
   /**
    * Java connector
+   *
    * @return Java connector bean
    */
   @Bean
@@ -441,7 +471,8 @@ public class AweAutoConfiguration {
 
   /**
    * Microservice connector
-   * @param logUtil logger
+   *
+   * @param logUtil        logger
    * @param requestFactory Request factory
    * @return Microservice connector bean
    */
@@ -453,7 +484,8 @@ public class AweAutoConfiguration {
 
   /**
    * REST connector
-   * @param logUtil logger
+   *
+   * @param logUtil        logger
    * @param requestFactory Request factory
    * @return REST connector bean
    */
@@ -465,6 +497,7 @@ public class AweAutoConfiguration {
 
   /**
    * EnumQuery connector
+   *
    * @param queryUtil Query utilities
    * @return EnumQuery connector bean
    */
@@ -476,6 +509,7 @@ public class AweAutoConfiguration {
 
   /**
    * Service Query connector
+   *
    * @param queryUtil Query utilities
    * @return Service Query connector bean
    */
@@ -487,6 +521,7 @@ public class AweAutoConfiguration {
 
   /**
    * Service Maintain connector
+   *
    * @return Service Maintain connector bean
    */
   @Bean
@@ -501,6 +536,7 @@ public class AweAutoConfiguration {
 
   /**
    * Data list builder
+   *
    * @return Data list builder bean
    */
   @Bean
@@ -511,6 +547,7 @@ public class AweAutoConfiguration {
 
   /**
    * Enum builder
+   *
    * @return Enum builder bean
    */
   @Bean
@@ -521,6 +558,7 @@ public class AweAutoConfiguration {
 
   /**
    * Service builder
+   *
    * @param launcherService Launcher service
    * @return Service builder bean
    */

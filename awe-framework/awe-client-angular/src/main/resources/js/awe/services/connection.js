@@ -2,31 +2,40 @@ import { aweApplication } from "./../awe";
 
 // Connection service
 aweApplication.factory('Connection',
-  ['AweSettings', 'Comet', 'Ajax',
+  ['Comet', 'Ajax',
     /**
      *
      * @param {object} $settings Application $settings
      * @param {object} comet Comet based connection
      * @param {object} ajax Ajax based connection
      */
-    function ($settings, comet, ajax) {
+    function (comet, ajax) {
       // Service variables;
 
-      let protocol = null;
       return {
         /**
          * Init Connection
          */
-        init: function () {
-          // Get protocol
-          protocol = $settings.get("connectionProtocol");
-
+        init: function (serverPath, encodeTransmission, token) {
           // Initialize connection and backup
-          comet.init();
-          ajax.init();
+          ajax.init(serverPath, encodeTransmission);
 
-          // Return protocol
-          return protocol;
+          // Return comet initialization
+          return comet.init(encodeTransmission, token);
+        },
+        /**
+         * Restart Connection
+         */
+        restart: function (token) {
+          // Restart connection with another token
+          return comet.restart(token);
+        },
+        /**
+         * Disconnect comet connection
+         */
+        disconnect: function () {
+          // Disconnect
+          return comet.disconnect();
         },
         /**
          * Send message via websocket (does not wait response)
@@ -58,6 +67,13 @@ aweApplication.factory('Connection',
          */
         post: function (url, data, expectedContent) {
           return ajax.post(url, data, expectedContent);
+        },
+        /**
+         * Subscribe to a channel
+         * @param token
+         */
+        subscribe: function(token) {
+          comet.subscribe(token);
         },
         /**
          * Retrieve message URL

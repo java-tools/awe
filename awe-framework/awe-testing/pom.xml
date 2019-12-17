@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-dependencies</artifactId>
-    <version>4.1.8-SNAPSHOT</version>
+    <version>4.2.0-SNAPSHOT</version>
     <relativePath>../awe-dependencies/pom.xml</relativePath>
   </parent>
 
@@ -17,12 +17,12 @@
 
   <properties>
     <!-- Application maven properties -->
-    <awe.version>${project.parent.version}</awe.version>
     <java.version>1.8</java.version>
     <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
     <webdrivermanager.version>3.4.0</webdrivermanager.version>
     <testng.version>6.14.3</testng.version>
     <sonar.exclusions>src/**</sonar.exclusions>
+    <skip.delombok>false</skip.delombok>
   </properties>
 
   <dependencies>
@@ -52,7 +52,7 @@
     <dependency>
       <groupId>xmlunit</groupId>
       <artifactId>xmlunit</artifactId>
-      <version>1.5</version>
+      <version>1.6</version>
     </dependency>
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
@@ -67,6 +67,13 @@
 
   <build>
     <finalName>${project.artifactId}</finalName>
+    <plugins>
+      <!-- Delombok plugin -->
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
   </build>
 
 </project>

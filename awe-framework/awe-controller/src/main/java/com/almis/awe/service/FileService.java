@@ -100,24 +100,26 @@ public class FileService extends ServiceConfig {
     String path = EncodeUtil.decodeSymmetric(getRequest().getParameterAsString("path"));
     Integer offset = getRequest().getParameter("offset").asInt();
 
-    try (FileInputStream file = new FileInputStream(path)) {
-      // Read file
-      Integer line = 0;
-      String lineString;
-      InputStreamReader fileReader = new InputStreamReader(file, StandardCharsets.UTF_8);
-      BufferedReader bufferedReader = new BufferedReader(fileReader);
-      while ((lineString = bufferedReader.readLine()) != null) {
-        if (offset <= line) {
-          content.add(lineString);
-        }
-        line++;
-      }
-      bufferedReader.close();
+    if (Paths.get(path).toFile().exists()) {
+      try (FileInputStream file = new FileInputStream(path);
+           InputStreamReader fileReader = new InputStreamReader(file, StandardCharsets.UTF_8);
+           BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+        // Read file
+        Integer line = 0;
+        String lineString;
 
-      // Generate output
-      serviceData.addVariable("LOG_CONTENT", new CellData(content));
-    } catch (Exception exc) {
-      throw new AWException(getLocale(ERROR_TITLE_FILE_READING_ERROR), getLocale(ERROR_MESSAGE_FILE_READING_ERROR, path), exc);
+        while ((lineString = bufferedReader.readLine()) != null) {
+          if (offset <= line) {
+            content.add(lineString);
+          }
+          line++;
+        }
+
+        // Generate output
+        serviceData.addVariable("LOG_CONTENT", new CellData(content));
+      } catch (Exception exc) {
+        throw new AWException(getLocale(ERROR_TITLE_FILE_READING_ERROR), getLocale(ERROR_MESSAGE_FILE_READING_ERROR, path), exc);
+      }
     }
 
     // Retrieve entity

@@ -12,14 +12,14 @@ import org.springframework.security.ldap.ppolicy.PasswordPolicyControl;
 import org.springframework.security.ldap.ppolicy.PasswordPolicyResponseControl;
 
 import javax.naming.NamingException;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 
+import static java.util.Collections.EMPTY_LIST;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyString;
 
 /**
  *
@@ -103,7 +103,7 @@ public class UserServiceTest extends AweSpringBootTests {
       .profile("ADM")
       .passwordLocked(false)
       .build());
-    UserDetails details = userDetailsMapper.mapUserFromContext(contextOperations, "test", Collections.EMPTY_LIST);
+    UserDetails details = userDetailsMapper.mapUserFromContext(contextOperations, "test", EMPTY_LIST);
     assertNotNull(details);
   }
 
@@ -125,7 +125,7 @@ public class UserServiceTest extends AweSpringBootTests {
       .passwordLocked(false)
       .build());
     userDetailsMapper.setRoleAttributes(new String[]{"tutu", "lala"});
-    UserDetails details = userDetailsMapper.mapUserFromContext(contextOperations, "test", Arrays.asList(new SimpleGrantedAuthority("ROLE_LALA")));
+    UserDetails details = userDetailsMapper.mapUserFromContext(contextOperations, "test", singletonList(new SimpleGrantedAuthority("ROLE_LALA")));
     assertNotNull(details);
     userDetailsMapper.mapUserToContext(details, contextAdapter);
   }

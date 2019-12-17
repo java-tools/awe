@@ -273,3 +273,24 @@ insert into HISAweDbs (HISope, HISdat, HISact, IdeDbs, Als, Des, Dct, Dbt, Drv, 
 insert into HISAweDbs (HISope, HISdat, HISact, IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values ('test', (timestamp '2019-01-01 23:00:01.018'), 'U', 16  , 'awesybase2','AWE SYBASE 2','J','syb','com.sybase.jdbc3.jdbc.SybDriver',null, null,'Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase2',	1	);
 insert into HISAweDbs (HISope, HISdat, HISact, IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values ('test', (timestamp '2019-01-01 23:00:01.019'), 'U', 16  , 'awesybase2','AWE SYBASE 2','J','syb','com.sybase.jdbc3.jdbc.SybDriver',null, null,'Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase2',	1	);
 insert into HISAweDbs (HISope, HISdat, HISact, IdeDbs, Als, Des, Dct, Dbt, Drv, DbsUsr, DbsPwd, Typ, Dbc, Act) values ('test', (timestamp '2019-01-01 23:00:01.020'), 'U', 16  , 'awesybase2','AWE SYBASE 2','J','syb','com.sybase.jdbc3.jdbc.SybDriver',null, null,'Des','jdbc:sybase:Tds:localhost:5005?ServiceName=awesybase2',	1	);
+
+-- Scheduler sequences
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskSrv', (select coalesce(max(Ide),0) + 1 from AweSchSrv));
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskCal', (select coalesce(max(Ide),0) + 1 from AweSchCal));
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskCalDat', (select coalesce(max(Ide),0) + 1 from AweSchCalDat));
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskKey', (select coalesce(max(Ide),0) + 1 from AweSchTsk));
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskLch', (select coalesce(max(Ide),0) + 1 from AweSchTskLch));
+Insert into AweKey (KeyNam, KeyVal) values ('SchTskPar', (select coalesce(max(Ide),0) + 1 from AweSchTskPar));
+
+-- Scheduler executions
+Delete from AweSchExe;
+Insert into AweSchExe (IdeTsk, GrpTsk, ExeTsk, IniDat, EndDat, ExeTim, Sta, LchBy) values (2, 'MANUAL', 1, timestamp '2019-01-01 23:00:01.017', timestamp '2019-01-01 23:00:01.018', 1, 0, 'test');
+Insert into AweSchExe (IdeTsk, GrpTsk, ExeTsk, IniDat, EndDat, ExeTim, Sta, LchBy) values (2, 'MANUAL', 2, timestamp '2019-01-01 23:00:02.017', timestamp '2019-01-01 23:00:02.018', 1, 0, 'test');
+Insert into AweSchExe (IdeTsk, GrpTsk, ExeTsk, IniDat, EndDat, ExeTim, Sta, LchBy) values (2, 'MANUAL', 3, timestamp '2019-01-01 23:00:03.017', timestamp '2019-01-01 23:00:03.018', 1, 0, 'test');
+Insert into AweSchExe (IdeTsk, GrpTsk, ExeTsk, IniDat, EndDat, ExeTim, Sta, LchBy) values (2, 'MANUAL', 4, timestamp '2019-01-01 23:00:04.017', timestamp '2019-01-01 23:00:04.018', 1, 0, 'test');
+Insert into AweSchExe (IdeTsk, GrpTsk, ExeTsk, IniDat, EndDat, ExeTim, Sta, LchBy) values (2, 'MANUAL', 5, timestamp '2019-01-01 23:00:05.017', timestamp '2019-01-01 23:00:05.018', 1, 0, 'test');
+Insert into AweSchExe (IdeTsk, GrpTsk, ExeTsk, IniDat, EndDat, ExeTim, Sta, LchBy) values (2, 'MANUAL', 6, timestamp '2019-01-01 23:00:06.017', timestamp '2019-01-01 23:00:06.018', 1, 0, 'test');
+Insert into AweSchExe (IdeTsk, GrpTsk, ExeTsk, IniDat, EndDat, ExeTim, Sta, LchBy) values (2, 'MANUAL', 7, timestamp '2019-01-01 23:00:07.017', timestamp '2019-01-01 23:00:07.018', 1, 0, 'test');
+Insert into AweSchExe (IdeTsk, GrpTsk, ExeTsk, IniDat, EndDat, ExeTim, Sta, LchBy) values (2, 'MANUAL', 8, timestamp '2019-01-01 23:00:08.017', timestamp '2019-01-01 23:00:08.018', 1, 0, 'test');
+Insert into AweSchExe (IdeTsk, GrpTsk, ExeTsk, IniDat, EndDat, ExeTim, Sta, LchBy) values (2, 'MANUAL', 9, timestamp '2019-01-01 23:00:09.017', timestamp '2019-01-01 23:00:09.018', 1, 0, 'test');
+Insert into AweSchExe (IdeTsk, GrpTsk, ExeTsk, IniDat, EndDat, ExeTim, Sta, LchBy) values (2, 'MANUAL', 10, timestamp '2019-01-01 23:00:10.017', timestamp '2019-01-01 23:00:10.018', 1, 0, 'test');

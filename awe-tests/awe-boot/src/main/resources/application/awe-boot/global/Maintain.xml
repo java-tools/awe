@@ -781,4 +781,10 @@
     </serve>
   </target>
 
+  <target name="waitSomeSeconds">
+    <serve service="waitSomeSeconds">
+      <variable id="secondsToWait" type="INTEGER" name="secondsToWait"/>
+    </serve>
+  </target>
+
 </maintain>

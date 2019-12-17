@@ -1,13 +1,12 @@
 package com.almis.awe.model.entities.queues;
 
 import com.almis.awe.model.entities.actions.ComponentAddress;
+import com.almis.awe.model.tracker.AweTrackable;
+import com.almis.awe.model.tracker.AweTracker;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.jms.listener.DefaultMessageListenerContainer;
-
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * JmsConnectionInfo Class
@@ -18,7 +17,7 @@ import java.util.Observer;
 @Data
 @Accessors(chain = true)
 @Log4j2
-public class JmsConnectionInfo implements Observer {
+public class JmsConnectionInfo implements AweTrackable {
 
   private DefaultMessageListenerContainer listenerContainer;
   private ComponentAddress address;
@@ -30,13 +29,13 @@ public class JmsConnectionInfo implements Observer {
    * @param value      Observable value
    */
   @Override
-  public void update(Observable observable, Object value) {
+  public void update(AweTracker observable, Object value) {
     // Get last screen
     String lastScreen = (String) value;
 
     // Check observable
     if (!lastScreen.equalsIgnoreCase(getAddress().getScreen())) {
-      observable.deleteObserver(this);
+      observable.untrack(this);
       destroy();
     }
   }

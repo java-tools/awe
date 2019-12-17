@@ -218,7 +218,7 @@ The *field* element has the following attributes:
 | table | Optional | String | Table name of field |  |
 | alias | Optional | String | Alias of field. It used to describe the field |  |
 | noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
-| transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| transform | Optional | String | Used to format the field value | See [this](#transform-attribute) for more info about transform attribute. |
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
@@ -259,6 +259,7 @@ These are the possible values for the `transform` attribute:
 * **DATE_MS**: Transform the output field **(Date/String)** into a java date in milliseconds (for chart datetime axes)
 * **TIME**: Transform the output field **(Date/String)** into a web time field (`HH:mm:ss`)
 * **TIMESTAMP**: Transform the output field **(Date/String)** into a web timestamp field (`dd/MM/yyyy HH:mm:ss`)
+* **TIMESTAMP_MS**: Transform the output field **(Date/String)** into a web timestamp field with milliseconds (`dd/MM/yyyy HH:mm:ss.SSS`)
 * **JS_DATE**: Transform the output field **(Date/String)** into a javascript date field (for chart axes) (`MM/dd/yyyy`)
 * **JS_TIMESTAMP**: Transform the output field **(Date/String)** into a javascript timestamp field (`MM/dd/yyyy HH:mm:ss`)
 * **GENERIC_DATE**: Transform the output field **(String)** from a date format defined on `format-from` to a date format defined on `format-to`
@@ -271,6 +272,7 @@ These are the possible values for the `transform` attribute:
  * When using this transform, the associated pattern must not have a thousand separator (e.g: ###.00)
  * It can be used for numeric components as well as for elements that have no component.
  * This transform is normally used when we want to print numeric components for specifying the numer of decimals we want to see in the pdf file. Usually, the number of decimals of the pattern will match the "precision" defined in the number-format attribute of the numeric component.
+* **BOOLEAN**: Transform the output field as a boolean value (`true`/`false`):
 * **TEXT_HTML**: Transforms the output field into HTML text (to be showed in a HTML page)
 * **TEXT_PLAIN**: Transforms the output field into plain text (to be showed inside a document)
 * **TEXT_UNILINE**: Transforms the output field into a plain text without line breaks
@@ -286,7 +288,7 @@ The *constant* element has the following attributes:
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
 | alias | Optional | String | Alias of field. It used to describe the field |  |
 | noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
-| transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| transform | Optional | String | Used to format the field value | See [this](#transform-attribute) for more info about transform attribute. |
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
@@ -311,7 +313,7 @@ The *operation* element allows to define operation between fields and will be re
 | operator    | Required | String    | Operator of the operation       | See [operator attribute](#operator-attribute)      |
 | alias | Optional | String | Alias of field. It used to describe the field |  |
 | noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
-| transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| transform | Optional | String | Used to format the field value | See [this](#transform-attribute) for more info about transform attribute. |
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
@@ -382,7 +384,7 @@ It has the same attributes as a [filter element](#filter-element) **plus** some 
 | ------------- | ---------|-----------|---------------------------------|----------------------------------------------------|
 | alias | Optional | String | Alias of field. It used to describe the field |  |
 | noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
-| transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| transform | Optional | String | Used to format the field value | See [this](#transform-attribute) for more info about transform attribute. |
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
@@ -445,7 +447,7 @@ The *over* element allows to modelate **SQL window functions**. This element con
 | ------------- | ---------|-----------|---------------------------------|----------------------------------------------------|
 | alias | Optional | String | Alias of field. It used to describe the field |  |
 | noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
-| transform | Optional | String | Used to format the field value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| transform | Optional | String | Used to format the field value | See [this](#transform-attribute) for more info about transform attribute. |
 | pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [over functions](#over-functions) |
@@ -496,7 +498,7 @@ The *computed* element has the following attributes:
 | format | **Required** | String | It used to insert another field alias as variables. It has the same **syntax** as the **javascript** eval element | (Ex. [code] - [description] will take the code field and concatenate it with the description field with a " - " string |
 | eval | Optional | Boolean | For evaluate computed format as expression | By defaul is `false` |
 | nullValue | Optional  | String |  Set this value to null values in computed fields | Ex: `nullValue="ZERO"` set "ZERO" to null values|
-| transform | Optional | String | Used to format the computed value | The possible values are: `DATE`, `DATE_MS`, `TIME`, `TIMESTAMP`, `JS_DATE`, `JS_TIMESTAMP`, `GENERIC_DATE`, `DATE_RDB`, `NUMBER`, `NUMBER_PLAIN`, `TEXT_HTML`, `TEXT_UNILINE`, `TEXT_PLAIN`, `MARKDOWN_HTML`, `DECRYPT`, `ARRAY`. See [this](#transform-attribute) for more info about transform attribute.|
+| transform | Optional | String | Used to format the computed value | See [this](#transform-attribute) for more info about transform attribute. |
 | pattern | Optional | String| Used in a computed with number value, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | label | Optional  | String | For use international i18n label in computed | **Note:** You can use [i18n](i18n-internationalization.md) files (locales) |
@@ -684,11 +686,11 @@ The filter structure is as follows:
 
 ```xml
 <filter left-field="[Field 1]" left-table="[Field table 1]" left-variable="[Variable Id]" condition="[Condition]" type="[Type]"  
-        right-field="[Field 2]" right-table="[Field table 2]" right-variable="[Variable Id]" query="[Query Id]"  ignorecase="[Ignorecase]" trim="[Trim]"/>
+        right-field="[Field 2]" right-table="[Field table 2]" right-variable="[Variable Id]" query="[Query Id]" ignorecase="[Ignorecase]" trim="[Trim]" optional="[Optional]"/>
 ```
 
 > **NEW!** Now you can define a `left-operand` and a `right-operand` children to define the filters. 
-> These elements must contain `field`, `constant`, `operation` or `case` elements:
+> These elements must contain `field`, `constant`, `operation`, `case` or `over` elements:
 
  ```xml
 <filter condition="[Condition]" ignorecase="[Ignorecase]" trim="[Trim]" optional="[Optional]">
@@ -715,8 +717,9 @@ The *filter* element has the following attributes:
 | right-table | Optional | String | The name of the table that *right-field* belongs to |  |
 | right-variable | Optional | String | The id of a variable |  |
 | query      | Optional | String | The id of a query to compare (right side) |  |
-| ignorecase | Optional | String | If comparison should ignore case | `true`, `false` (default) |
-| trim       | Optional | String | If values should be trimmed before comparison | `true`, `false` (default) |
+| ignorecase | Optional | Boolean | If comparison should ignore case | `true`, `false` (default) |
+| trim       | Optional | Boolean | If values should be trimmed before comparison | `true`, `false` (default) |
+| optional   | Optional | Boolean | If this filter is checking versus a variable and the variable value is null, then remove this filter | `true`, `false` (default) |
 
 #### Comparison conditions
 
@@ -848,8 +851,10 @@ These are the possible kind of variable types:
 * **TIMESTAMP**: web timestamp (`dd/MM/aaaa HH:mm:ss`)
 * **SYSTEM_DATE**: Server Date (stored as timestamp) (`dd/MM/aaaa HH:mm:ss`)
 * **SYSTEM_TIME**: Server time (Stored as string) (`HH:mm:ss`)
+* **SYSTEM_TIMESTAMP**: Server Date (stored as timestamp with milliseconds) (`dd/MM/aaaa HH:mm:ss.SSS`)
 * **NULL**: To pass a `null` value
 * **OBJECT**: To define a variable like java object
+* **LIST_TO_STRING**: Retrieve a list of values and manage them as a comma separated values in a string
 	
      
 ## Enumerated query

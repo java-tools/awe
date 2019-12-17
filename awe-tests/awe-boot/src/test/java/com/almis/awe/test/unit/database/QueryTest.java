@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import javax.sql.DataSource;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -1565,6 +1566,21 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
+  public void testDatabaseTransformBoolean() throws Exception {
+    String queryName = "TransformBoolean";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"boolean2\":\"false\",\"boolean3\":\"true\",\"boolean1\":\"true\",\"id\":1,\"boolean4\":\"false\"},{\"boolean2\":\"false\",\"boolean3\":\"true\",\"boolean1\":\"true\",\"id\":2,\"boolean4\":\"false\"},{\"boolean2\":\"false\",\"boolean3\":\"true\",\"boolean1\":\"true\",\"id\":3,\"boolean4\":\"false\"},{\"boolean2\":\"false\",\"boolean3\":\"true\",\"boolean1\":\"true\",\"id\":4,\"boolean4\":\"false\"},{\"boolean2\":\"false\",\"boolean3\":\"true\",\"boolean1\":\"true\",\"id\":5,\"boolean4\":\"false\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertQueryResultJson(queryName, result, 5);
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
   public void testDatabaseTransformNumber() throws Exception {
     String queryName = "TransformNumber";
     String variables = "";
@@ -1613,7 +1629,22 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testDatabaseTransformDateService() throws Exception {
     String queryName = "TransformDateService";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"date7\":\"15:06:23\",\"date6\":\"10/01/1978 15:06:23\",\"date5\":\"01/10/1978\",\"date4\":\"01/10/1978 15:06:23\",\"date3\":\"10-JAN-1978\",\"id\":1,\"date1\":\"10/01/1978\"},{\"date7\":\"03:30:12\",\"date6\":\"02/01/2015 03:30:12\",\"date5\":\"01/02/2015\",\"date4\":\"01/02/2015 03:30:12\",\"date3\":\"02-JAN-2015\",\"id\":2,\"date1\":\"02/01/2015\"},{\"date7\":\"13:26:55\",\"date6\":\"08/01/2020 13:26:55\",\"date5\":\"01/08/2020\",\"date4\":\"01/08/2020 13:26:55\",\"date3\":\"08-JAN-2020\",\"id\":3,\"date1\":\"08/01/2020\"}]}}},{\"type\":\"end-load\"}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"date6\":\"15:06:23\",\"date5\":\"01/10/1978\",\"date4\":\"01/10/1978 15:06:23\",\"date3\":\"10-JAN-1978\",\"id\":1,\"date1\":\"10/01/1978\"},{\"date6\":\"03:30:12\",\"date5\":\"01/02/2015\",\"date4\":\"01/02/2015 03:30:12\",\"date3\":\"02-JAN-2015\",\"id\":2,\"date1\":\"02/01/2015\"},{\"date6\":\"13:26:55\",\"date5\":\"01/08/2020\",\"date4\":\"01/08/2020 13:26:55\",\"date3\":\"08-JAN-2020\",\"id\":3,\"date1\":\"08/01/2020\"}]}}},{\"type\":\"end-load\"}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertQueryResultJson(queryName, result, 3);
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDatabaseTransformTimestampService() throws Exception {
+    String queryName = "TransformTimestampService";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":3,\"rows\":[{\"date2\":\"10/01/1978 15:06:23.232\",\"date1\":\"10/01/1978 15:06:23\"},{\"date2\":\"02/01/2015 03:30:12.123\",\"date1\":\"02/01/2015 03:30:12\"},{\"date2\":\"08/01/2020 13:26:55.111\",\"date1\":\"08/01/2020 13:26:55\"}]}}},{\"type\":\"end-load\"}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
     assertQueryResultJson(queryName, result, 3);
@@ -1784,10 +1815,10 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
-  public void testDatabaseTransformArray() throws Exception {
-    String queryName = "TransformArray";
+  public void testDatabaseTransformArrayAndList() throws Exception {
+    String queryName = "TransformArrayAndList";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"list\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"juanito\"},{\"list\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"jaimito\"},{\"list\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"test\"},{\"list\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"jorgito\"},{\"list\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"donald\"}]}}},{\"type\":\"end-load\"}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"lArrayNode\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"id\":1,\"lArrayList\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"donald\"},{\"lArrayNode\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"id\":2,\"lArrayList\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"jaimito\"},{\"lArrayNode\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"id\":3,\"lArrayList\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"jorgito\"},{\"lArrayNode\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"id\":4,\"lArrayList\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"juanito\"},{\"lArrayNode\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"id\":5,\"lArrayList\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"],\"nombre\":\"test\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
     logger.warn(result);
@@ -2284,6 +2315,7 @@ public class QueryTest extends AweSpringDatabaseTests {
     ObjectNode firstRow = (ObjectNode) data.get(0);
     String date = firstRow.get("date").asText();
     String time = firstRow.get("time").asText();
+    String timestamp = firstRow.get("timestamp").asText();
 
     // Check current date vs retrieved date
     Date currentDate = new Date();
@@ -2292,8 +2324,13 @@ public class QueryTest extends AweSpringDatabaseTests {
     logger.debug("Retrieved date: " + parsedDate.toString() + " - Current date: " + currentDate.toString());
     logger.debug("Difference between dates: " + (currentDate.getTime() - parsedDate.getTime()));
 
+    sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
+    Date parsedTimestamp = sdf.parse(timestamp);
+    logger.debug("Difference between timestamp: " + (currentDate.getTime() - parsedTimestamp.getTime()));
+
     // Check that the difference is less than a second
     assertTrue(parsedDate.getTime() - currentDate.getTime() < 1000);
+    assertTrue(parsedTimestamp.getTime() - currentDate.getTime() < 1000);
   }
 
   /**
@@ -3181,8 +3218,8 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception {@link Exception}
    */
   private boolean isInMemoryDatabase() throws Exception {
-    List<String> validDatabases = Arrays.asList("hsql", "h2");
+    List<String> validDatabases = Arrays.asList("hsqldb", "h2");
     AweDatabaseContextHolder contextHolder = getBean(AweDatabaseContextHolder.class);
-    return validDatabases.contains(contextHolder.getDatabaseType());
+    return validDatabases.contains(contextHolder.getDatabaseType(getBean(DataSource.class)));
   }
 }

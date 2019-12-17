@@ -1243,6 +1243,9 @@
     <xs:restriction base="xs:string">
       <!-- Button, ContextOption, Chart -->
       <xs:enumeration value="click" />
+      <!-- Dialog -->
+      <xs:enumeration value="open" />
+      <xs:enumeration value="close" />
       <!-- Grid -->
       <xs:enumeration value="change" />
       <xs:enumeration value="select-row" />

@@ -5,6 +5,7 @@ import com.almis.awe.model.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import lombok.NonNull;
 import org.springframework.beans.PropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 
@@ -226,7 +227,7 @@ public final class DataListUtil {
    * @return bean list
    * @throws AWException AWE exception
    */
-  public static <T> List<T> asBeanList(DataList dataList, Class<T> beanClass) throws AWException {
+  public static <T> List<T> asBeanList(@NonNull DataList dataList, Class<T> beanClass) throws AWException {
     List<T> list = new ArrayList<>();
     T rowBean;
 

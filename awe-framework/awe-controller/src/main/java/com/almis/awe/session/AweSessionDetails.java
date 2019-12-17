@@ -2,13 +2,16 @@ package com.almis.awe.session;
 
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.component.AweClientTracker;
 import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.dto.User;
+import com.almis.awe.model.entities.actions.ClientAction;
+import com.almis.awe.model.tracker.AweClientTracker;
+import com.almis.awe.model.tracker.AweConnectionTracker;
+import com.almis.awe.service.BroadcastService;
 import com.almis.awe.service.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +21,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.almis.awe.model.constant.AweConstants.*;
 
@@ -30,7 +36,8 @@ public class AweSessionDetails extends ServiceConfig {
   // Autowired services
   private AweClientTracker clientTracker;
   private QueryService queryService;
-  private Map<String, Set<String>> connectedUsers;
+  private AweConnectionTracker connectionTracker;
+  private BroadcastService broadcastService;
 
   // Change password screen
   @Value("#{'${session.parameters:}'.split(',')}")
@@ -54,15 +61,16 @@ public class AweSessionDetails extends ServiceConfig {
   /**
    * Autowired constructor
    *
-   * @param aweClientTracker awe client tracker
-   * @param queryService     query service
-   * @param connectedUsers   set of connected users
+   * @param aweClientTracker  awe client tracker
+   * @param queryService      query service
+   * @param connectionTracker connection tracker
    */
   @Autowired
-  public AweSessionDetails(AweClientTracker aweClientTracker, QueryService queryService, Map<String, Set<String>> connectedUsers) {
+  public AweSessionDetails(AweClientTracker aweClientTracker, QueryService queryService, AweConnectionTracker connectionTracker, BroadcastService broadcastService) {
     this.clientTracker = aweClientTracker;
     this.queryService = queryService;
-    this.connectedUsers = connectedUsers;
+    this.connectionTracker = connectionTracker;
+    this.broadcastService = broadcastService;
   }
 
   /**
@@ -72,28 +80,12 @@ public class AweSessionDetails extends ServiceConfig {
    */
   public void onLoginSuccess(Authentication authentication) {
     AweSession session = getSession().setAuthentication(authentication);
-    String token = session.getSessionId();
     try {
-      // Set session new token
-      getRequest().setToken(token);
-
       // Store user in session
       session.setParameter(SESSION_USER, session.getUser());
 
       // Store user details
       storeUserDetails();
-
-      // Get user session list
-      Set<String> sessionList;
-      if (connectedUsers.containsKey(session.getUser())) {
-        sessionList = connectedUsers.get(session.getUser());
-      } else {
-        sessionList = new HashSet<>();
-        connectedUsers.put(session.getUser(), sessionList);
-      }
-
-      // Add cometUID to user session
-      sessionList.add(token);
 
       // Initialize session variables
       initializeSessionVariables();
@@ -122,18 +114,22 @@ public class AweSessionDetails extends ServiceConfig {
   /**
    * Manage logout
    */
-  public void onBeforeLogout() {
+  private void onBeforeLogout() {
     // Close client tracker
     clientTracker.removeObservers();
 
     // Get user
     String user = getSession().getUser();
 
+    // Send logout broadcast to other connections
+    connectionTracker.getUserConnectionsFromSession(user, getSession().getSessionId())
+      .stream()
+      .filter(c -> !getRequest().getToken().equalsIgnoreCase(c))
+      .collect(Collectors.toSet())
+      .forEach(c -> broadcastService.broadcastMessageToUID(c, new ClientAction("logout")));
+
     // Remove cometUID from user session
-    if (connectedUsers.containsKey(user)) {
-      Set<String> sessionList = connectedUsers.get(user);
-      sessionList.remove(getRequest().getToken());
-    }
+    connectionTracker.removeAllConnectionsFromUserSession(user, getSession().getSessionId());
   }
 
   /**

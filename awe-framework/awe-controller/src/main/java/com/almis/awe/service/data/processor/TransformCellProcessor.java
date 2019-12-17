@@ -62,6 +62,10 @@ public class TransformCellProcessor implements CellProcessor {
         case TIMESTAMP:
           transformed = processTimestamp(cell);
           break;
+
+        case TIMESTAMP_MS:
+          transformed = processTimestampMs(cell);
+          break;
           
         case JS_DATE:
           transformed = processJavascriptDate(cell);
@@ -87,6 +91,10 @@ public class TransformCellProcessor implements CellProcessor {
           transformed = processNumberPlain(cell);
           break;
 
+        case BOOLEAN:
+          transformed = processBoolean(cell);
+          break;
+
         case TEXT_HTML:
           transformed = StringUtil.toHTMLText(transformed);
           break;
@@ -109,6 +117,10 @@ public class TransformCellProcessor implements CellProcessor {
 
         case ARRAY:
           cell.setValue(StringUtil.toArrayNode(field.getPattern(), transformed));
+          break;
+
+        case LIST:
+          cell.setValue(StringUtil.toStringList(field.getPattern(), transformed));
           break;
 
         default:
@@ -199,6 +211,22 @@ public class TransformCellProcessor implements CellProcessor {
   }
 
   /**
+   * Process cell as timestamp with milliseconds
+   * @param cell Cell
+   * @return Transformation
+   */
+  private String processTimestampMs(@NotNull CellData cell) {
+    String transformed = cell.getStringValue();
+    Date date = cell.getDateValue();
+    if (date != null) {
+      cell.setValue(date);
+      cell.setSendStringValue(true);
+      transformed = DateUtil.dat2WebTimestampMs(date);
+    }
+    return transformed;
+  }
+
+  /**
    * Process cell as javascript date
    * @param cell Cell
    * @return Transformation
@@ -282,5 +310,31 @@ public class TransformCellProcessor implements CellProcessor {
     Double numericValue = Double.parseDouble(cell.getStringValue());
     cell.setValue(numericValue);
     return NumericUtil.applyRawPattern(field.getPattern(), numericValue);
+  }
+
+  /**
+   * Process cell as number
+   * @param cell Cell
+   * @return Transformation
+   */
+  private String processBoolean(@NotNull CellData cell)  {
+    switch (cell.getType()) {
+      case STRING:
+        cell.setValue(Boolean.parseBoolean(cell.getStringValue()));
+        break;
+      case LONG:
+      case DECIMAL:
+      case FLOAT:
+      case DOUBLE:
+      case INTEGER:
+        cell.setValue(cell.getIntegerValue() != 0);
+        break;
+      case BOOLEAN:
+        break;
+      default:
+        cell.setValue(cell.getObjectValue() != null);
+        break;
+    }
+    return cell.getStringValue();
   }
 }

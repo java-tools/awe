@@ -245,6 +245,20 @@ public class DataListTest extends TestUtil {
   }
 
   /**
+   * Test null datalist conversion to bean list
+   *
+   * @throws Exception Test error
+   */
+  @Test(expected = NullPointerException.class)
+  public void testNullDataListToBeanList() throws Exception {
+    // Prepare
+    DataList output = null;
+
+    // Generate bean list
+    DataListUtil.asBeanList(output, Planet.class);
+  }
+
+  /**
    * Test datalist conversion to bean list
    */
   @Test

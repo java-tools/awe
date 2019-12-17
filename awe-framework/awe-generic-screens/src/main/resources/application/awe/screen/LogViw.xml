@@ -24,7 +24,7 @@
   </tag>
   <tag source="center">
     <window style="expand" label="SCREEN_TEXT_DATA" icon="file-text-o">
-      <widget type="log-viewer" id="logViewer" style="expand scrollable" server-action="get-log-file" autorefresh="5" autoload="true">
+      <widget type="log-viewer" id="logViewer" style="expand scrollable black-log" server-action="get-log-file" autorefresh="5" autoload="true">
         <widget-parameter type="boolean" name="stickBottom" value="true"/>
       </widget>
     </window>

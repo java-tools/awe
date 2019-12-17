@@ -4,10 +4,8 @@ import com.almis.awe.component.AweDatabaseContextHolder;
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
-import com.almis.awe.model.dto.CellData;
-import com.almis.awe.model.dto.MaintainResultDetails;
-import com.almis.awe.model.dto.QueryParameter;
-import com.almis.awe.model.dto.ServiceData;
+import com.almis.awe.model.details.MaintainResultDetails;
+import com.almis.awe.model.dto.*;
 import com.almis.awe.model.entities.maintain.*;
 import com.almis.awe.model.entities.queries.*;
 import com.almis.awe.model.type.ParameterType;
@@ -18,6 +16,7 @@ import com.almis.awe.service.data.builder.SQLMaintainBuilder;
 import com.almis.awe.service.data.connector.maintain.MaintainLauncher;
 import com.almis.awe.service.data.connector.query.QueryLauncher;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.querydsl.sql.Configuration;
 import com.querydsl.sql.SQLQueryFactory;
 import org.apache.logging.log4j.Level;
@@ -29,6 +28,8 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
+
+import static com.almis.awe.model.constant.AweConstants.COMPONENT_DATABASE;
 
 /**
  * Provides methods to insert/update/delete application data
@@ -71,6 +72,28 @@ public class MaintainService extends ServiceConfig {
   }
 
   /**
+   * Retrieve maintain list
+   * @param search Search text
+   * @return Maintain list
+   */
+  public ServiceData getMaintainList(String search) {
+    DataList result = new DataList();
+    Map<String, Target> maintainMap = getElements().getMaintainMap();
+
+    // For each retrieved maintain, filter by suggest
+    for (Map.Entry<String, Target> entry : maintainMap.entrySet()) {
+      if (entry.getKey().toUpperCase().contains(search.toUpperCase())) {
+        Map<String, CellData> row = new HashMap<>();
+        row.put("Ide", new CellData(entry.getKey()));
+        result.addRow(row);
+      }
+    }
+
+    // Retrieve datalist
+    return new ServiceData().setDataList(result);
+  }
+
+  /**
    * Launches a maintain
    *
    * @param maintainId Maintain identifier
@@ -78,7 +101,7 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchMaintain(String maintainId) throws AWException {
-    return launchMaintain(maintainId, getCurrentDatabaseConnection(), false);
+    return launchMaintain(maintainId, queryUtil.getParameters());
   }
 
   /**
@@ -90,7 +113,19 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchMaintain(String maintainId, String alias) throws AWException {
-    return launchMaintain(maintainId, getSafeDatabaseConnection(alias), false);
+    return launchMaintain(maintainId, queryUtil.getParameters(alias, "1", "0"));
+  }
+
+  /**
+   * Launches a maintain with parameters
+   *
+   * @param maintainId Maintain identifier
+   * @param parameters Launch parameters
+   * @return Service output
+   * @throws AWException Error launching maintain
+   */
+  public ServiceData launchMaintain(String maintainId, ObjectNode parameters) throws AWException {
+    return launchMaintain(maintainId, parameters, getDatabaseConnectionFromParameters(parameters), false);
   }
 
   /**
@@ -103,12 +138,25 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchMaintain(String maintainId, DatabaseConnection databaseConnection, boolean keepAliveConnection) throws AWException {
+    return launchMaintain(prepareMaintain(maintainId, true), queryUtil.getParameters(), databaseConnection, keepAliveConnection);
+  }
+
+  /**
+   * Launches a maintain with a connection
+   *
+   * @param maintainId          Maintain identifier
+   * @param databaseConnection  Database connection
+   * @param keepAliveConnection Keep alive connection (for treatments)
+   * @return Service output
+   * @throws AWException Error launching maintain
+   */
+  private ServiceData launchMaintain(String maintainId, ObjectNode parameters, DatabaseConnection databaseConnection, boolean keepAliveConnection) throws AWException {
     // Check if database connection is defined
     if (databaseConnection == null || databaseConnection.getConnection() == null) {
       throw new AWException(getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN), getLocale("ERROR_MESSAGE_INVALID_CONNECTION"));
     }
 
-    return launchMaintain(prepareMaintain(maintainId, true), databaseConnection, keepAliveConnection);
+    return launchMaintain(prepareMaintain(maintainId, true), parameters, databaseConnection, keepAliveConnection);
   }
 
   /**
@@ -119,7 +167,7 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchPrivateMaintain(String maintainId) throws AWException {
-    return launchPrivateMaintain(maintainId, getCurrentDatabaseConnection(), false);
+    return launchPrivateMaintain(maintainId, queryUtil.getParameters());
   }
 
   /**
@@ -131,7 +179,19 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchPrivateMaintain(String maintainId, String alias) throws AWException {
-    return launchPrivateMaintain(maintainId, getSafeDatabaseConnection(alias), false);
+    return launchPrivateMaintain(maintainId, queryUtil.getParameters(alias, "1", "0"));
+  }
+
+  /**
+   * Launches a maintain with parameters
+   *
+   * @param maintainId Maintain identifier
+   * @param parameters Launch parameters
+   * @return Service output
+   * @throws AWException Error launching maintain
+   */
+  public ServiceData launchPrivateMaintain(String maintainId, ObjectNode parameters) throws AWException {
+    return launchPrivateMaintain(maintainId, parameters, getDatabaseConnectionFromParameters(parameters), false);
   }
 
   /**
@@ -144,12 +204,26 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchPrivateMaintain(String maintainId, DatabaseConnection databaseConnection, boolean keepAliveConnection) throws AWException {
+    return launchMaintain(prepareMaintain(maintainId, false), queryUtil.getParameters(), databaseConnection, keepAliveConnection);
+  }
+
+  /**
+   * Launches a maintain with a connection without checking session
+   *
+   * @param maintainId          Maintain identifier
+   * @param parameters          Parameters
+   * @param databaseConnection  Database connection
+   * @param keepAliveConnection Keep alive connection (for treatments)
+   * @return Service output
+   * @throws AWException Error launching maintain
+   */
+  private ServiceData launchPrivateMaintain(String maintainId, ObjectNode parameters,  DatabaseConnection databaseConnection, boolean keepAliveConnection) throws AWException {
     // Check if database connection is defined
     if (databaseConnection == null || databaseConnection.getConnection() == null) {
       throw new AWException(getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN), getLocale("ERROR_MESSAGE_INVALID_CONNECTION"));
     }
 
-    return launchMaintain(prepareMaintain(maintainId, false), databaseConnection, keepAliveConnection);
+    return launchMaintain(prepareMaintain(maintainId, false), parameters, databaseConnection, keepAliveConnection);
   }
 
   /**
@@ -164,6 +238,20 @@ public class MaintainService extends ServiceConfig {
       return getCurrentDatabaseConnection();
     } else {
       return getDatabaseConnection(alias);
+    }
+  }
+
+  /**
+   * Retrieve database connection from parameters
+   * @param parameters Parameters
+   * @return Database connection
+   * @throws AWException
+   */
+  private DatabaseConnection getDatabaseConnectionFromParameters(ObjectNode parameters) throws AWException {
+    if (parameters.has(COMPONENT_DATABASE)) {
+      return getSafeDatabaseConnection(parameters.get(COMPONENT_DATABASE).asText());
+    } else {
+      return getCurrentDatabaseConnection();
     }
   }
 
@@ -217,7 +305,7 @@ public class MaintainService extends ServiceConfig {
    * @return Service output
    * @throws AWException Error launching maintain
    */
-  public ServiceData launchMaintain(Target maintainTarget, DatabaseConnection databaseConnection, boolean keepAliveConnection) throws AWException {
+  public ServiceData launchMaintain(Target maintainTarget, ObjectNode parameters, DatabaseConnection databaseConnection, boolean keepAliveConnection) throws AWException {
     String statementList = "";
     boolean manageConnection = !keepAliveConnection;
 
@@ -231,10 +319,7 @@ public class MaintainService extends ServiceConfig {
       }
 
       // Manage maintain queries
-      return manageMaintainQueries(maintainTarget,
-        getMaintainQueryList(maintainTarget, new HashSet<>()),
-        databaseConnection,
-        manageConnection);
+      return manageMaintainQueries(maintainTarget, parameters, getMaintainQueryList(maintainTarget, new HashSet<>()), databaseConnection, manageConnection);
     } catch (AWException exc) {
       doRollback(databaseConnection, statementList, manageConnection);
       throw exc;
@@ -340,26 +425,24 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException  Error in maintain query
    * @throws SQLException Error with database execution
    */
-  private ServiceData manageMaintainQueries(Target maintainTarget, List<MaintainQuery> queryList, DatabaseConnection databaseConnection, boolean manageConnection) throws AWException, SQLException {
-    Map<String, QueryParameter> parameterMap = queryUtil.getDefaultVariableMap(queryUtil.getParameters(databaseConnection.getDatabaseAlias(), "1", "0"));
+  private ServiceData manageMaintainQueries(Target maintainTarget, ObjectNode parameters, List<MaintainQuery> queryList, DatabaseConnection databaseConnection, boolean manageConnection) throws AWException, SQLException {
     ServiceData result = new ServiceData();
     List<MaintainResultDetails> resultDetails = new ArrayList<>();
     StringBuilder messageBuilder = new StringBuilder();
-    Integer operationNumber = 1;
+    int operationNumber = 1;
 
     for (MaintainQuery maintainQuery : queryList) {
-      maintainQuery.setId(maintainTarget.getName() + "-" + operationNumber++);
+      maintainQuery.setOperationId(maintainTarget.getName() + "-" + operationNumber++);
       if (maintainQuery instanceof Commit && manageConnection) {
         // If is a commit, launch it
         databaseConnection.getConnection().commit();
       } else if (maintainQuery instanceof RetrieveData) {
         QueryLauncher queryLauncher = getBean(QueryLauncher.class);
-        result = queryLauncher.launchQuery(maintainQuery, queryUtil.getParameters(databaseConnection.getDatabaseAlias(), "1", "0"));
-        queryUtil.addDataListToRequestParameters(result.getDataList());
+        result = queryLauncher.launchQuery(maintainQuery, parameters);
+        queryUtil.addDataListToRequestParameters(result.getDataList(), parameters);
       } else {
         // Else launch the maintain or service action
-        queryUtil.addToVariableMap(parameterMap, maintainQuery);
-        ServiceData resultingServiceData = maintainLauncher.launchMaintain(maintainQuery, databaseConnection, parameterMap);
+        ServiceData resultingServiceData = maintainLauncher.launchMaintain(maintainQuery, databaseConnection, parameters);
 
         // Store result
         if (resultingServiceData != null) {

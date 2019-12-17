@@ -74,7 +74,7 @@ public class LocaleProcessor {
     if (params == null) {
       parsed = aweElementsObjectFactory.getObject().getLocale(localeId, lang);
     } else {
-      parsed = aweElementsObjectFactory.getObject().getLocale(localeId, params);
+      parsed = aweElementsObjectFactory.getObject().getLocale(localeId, (Object[]) params);
     }
     return parsed;
   }

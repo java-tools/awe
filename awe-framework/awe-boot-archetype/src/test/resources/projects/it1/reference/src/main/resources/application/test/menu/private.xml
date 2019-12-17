@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : private.xml
+    Author     : Pablo GARCIA
+    Description: Private profile options
+-->
+<menu screen="home_horizontal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/menu.xsd"
+      context="screen/private/home" default-action="screen">
+  <option name="information" screen="info" invisible="true" />
+  <option name="tools" label="MENU_TOOLS" icon="wrench">
+    <option name="sites" label="MENU_TOOLS_SITES" screen="Sit" icon="sitemap">
+      <option name="new-site" screen="SitNew" invisible="true" />
+      <option name="update-site" screen="SitUpd" invisible="true" />
+      <option name="view-site" screen="SitViw" invisible="true" />
+    </option>
+    <option name="modules" label="MENU_TOOLS_MODULES" screen="Mod" icon="puzzle-piece">
+      <option name="new-module" screen="ModNew" invisible="true" />
+      <option name="update-module" screen="ModUpd" invisible="true" />
+      <option name="view-module" screen="ModViw" invisible="true" />
+    </option>
+    <option name="users" label="MENU_TOOLS_USERS" screen="Usr" icon="user">
+      <option name="new-user" screen="UsrNew" invisible="true" />
+      <option name="update-user" screen="UsrUpd" invisible="true" />
+      <option name="view-user" screen="UsrViw" invisible="true" />
+    </option>
+    <option name="profiles" label="MENU_TOOLS_PROFILES" screen="Prf" icon="group">
+      <option name="new-profile" screen="PrfNew" invisible="true" />
+      <option name="update-profile" screen="PrfUpd" invisible="true" />
+      <option name="view-profile" screen="PrfViw" invisible="true" />
+    </option>
+    <option name="databases" label="MENU_TOOLS_DATABASE" screen="Dbs" icon="database">
+      <option name="new-database" screen="DbsNew" invisible="true" />
+      <option name="update-database" screen="DbsUpd" invisible="true" />
+      <option name="view-database" screen="DbsViw" invisible="true" />
+    </option>
+    <option name="themes" label="MENU_TOOLS_THEMES" screen="Thm" icon="picture-o">
+      <option name="new-theme" screen="ThmNew" invisible="true" />
+      <option name="update-theme" screen="ThmUpd" invisible="true" />
+      <option name="view-theme" screen="ThmViw" invisible="true" />
+    </option>
+    <option name="email-servers" label="MENU_TOOLS_AWE_EML_SRV" screen="EmlSrv" icon="envelope">
+      <option name="new-email-server" screen="EmlSrvNew" invisible="true" />
+      <option name="update-email-server" screen="EmlSrvUpd" invisible="true" />
+    </option>
+    <option name="queues" label="MENU_TOOLS_AWE_QUE" screen="Que" icon="exchange">
+      <option name="new-queue" screen="QueNew" invisible="true" />
+      <option name="update-queue" screen="QueUpd" invisible="true" />
+    </option>
+    <option name="sequences" label="MENU_TOOLS_AWEKEY" screen="AweKey" icon="key" />
+    <option name="application-parameters" label="MENU_TOOLS_AWE_APPPAR" screen="AweAppPar" icon="cogs" />
+    <option name="broadcast-messages" label="MENU_BROADCAST" screen="MsgUsr" icon="rss" />
+    <option name="log" label="MENU_LOG" screen="Log" icon="file-text">
+      <option name="view-log" screen="LogViw" invisible="true" />
+    </option>
+  </option>
+  <option name="settings" label="MENU_SETTINGS" icon="cog">
+    <option name="security" label="MENU_TOOLS_SECURITY" icon="unlock-alt">
+      <option name="screen-access" label="MENU_TOOLS_SCREENS_ACCESS" screen="ScrAccRes" icon="eye-slash" />
+      <option name="encrypt-tools" label="MENU_TOOLS_SCREEN_ENCRYPT" screen="ScrEncTxt" icon="lock" />
+    </option>
+    <option name="screen-configuration" label="MENU_TOOLS_SCR_CNF" screen="ScrCnf" icon="laptop" />
+  </option>
+  <option name="help-separator" separator="true" />
+  <option name="help" label="MENU_HELP" icon="question-circle">
+    <option name="user-help" label="MENU_USER_HELP" screen="application-manual" icon="book" />
+    <option name="application-help" label="MENU_HELP_APPLICATION" screen="application-help" icon="question" />
+    <option name="application-info" label="MENU_APP_INF" screen="ViwAppInf" icon="info" />
+  </option>
+</menu>

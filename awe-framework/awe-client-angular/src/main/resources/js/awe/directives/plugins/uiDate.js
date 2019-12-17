@@ -94,7 +94,7 @@ aweApplication.directive('uiDate',
              */
             function destroy() {
               if (initialized) {
-                elem.datepicker('remove');
+                elem.datepicker('destroy');
                 initialized = false;
 
                 // Clear listeners

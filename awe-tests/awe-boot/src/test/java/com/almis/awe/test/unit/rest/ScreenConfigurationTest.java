@@ -2,20 +2,14 @@ package com.almis.awe.test.unit.rest;
 
 import com.almis.awe.annotation.entities.session.FromSession;
 import com.almis.awe.annotation.entities.session.ToSession;
-import com.almis.awe.model.dto.MaintainResultDetails;
+import com.almis.awe.model.details.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
-import com.almis.awe.service.screen.ScreenConfigurationGenerator;
-import com.almis.awe.test.unit.database.DirectServiceCallTest;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -23,10 +17,6 @@ import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -124,15 +114,15 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
 
     // Check screen
     MvcResult mvcResult = mockMvc.perform(post("/action/screen-data")
-            .header("Authorization", AUTHORIZATION_HEADER)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(screenParameters)
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.records", is(Collections.singletonList(1))))
-            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].label", is(Collections.singletonList("ENUM_YES"))))
-            .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].value", is(Collections.singletonList("1"))))
-            .andReturn();
+      .header("Authorization", AUTHORIZATION_HEADER)
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(screenParameters)
+      .accept(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.records", is(Collections.singletonList(1))))
+      .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].label", is(Collections.singletonList("ENUM_YES"))))
+      .andExpect(jsonPath("$[0].parameters.screenData.components[?(@.id == 'SelRea')].model.values[0].value", is(Collections.singletonList("1"))))
+      .andReturn();
   }
 
   /**
@@ -182,7 +172,7 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
   @Test
   public void testPrintable() throws Exception {
     // Add restriction
-    addRestriction("INSERT", "CrtTstLeft", "ButBck",  "printable", "false");
+    addRestriction("INSERT", "CrtTstLeft", "ButBck", "printable", "false");
 
     // Check screen
     checkAttributeComponent("ButBck", "printable", false);
@@ -196,7 +186,7 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
   @Test
   public void testChecked() throws Exception {
     // Add restriction
-    addRestriction("INSERT", "CrtTstLeft", "ButBck",  "checked", "true");
+    addRestriction("INSERT", "CrtTstLeft", "ButBck", "checked", "true");
 
     // Check screen
     checkAttributeComponent("ButBck", "checked", true);
@@ -210,7 +200,7 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
   @Test
   public void testHelpLabel() throws Exception {
     // Add restriction
-    addRestriction("INSERT", "CrtTstLeft", "ButBck",  "help", "Ayudaaaaaaaaaaaaaaaa");
+    addRestriction("INSERT", "CrtTstLeft", "ButBck", "help", "Ayudaaaaaaaaaaaaaaaa");
 
     // Check screen
     checkAttributeComponent("ButBck", "help", "Ayudaaaaaaaaaaaaaaaa");
@@ -346,8 +336,8 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    * Perform screen data action to check Json controller attributes
    *
    * @param componentId component ID
-   * @param attribute component attribute
-   * @param value attribute value
+   * @param attribute   component attribute
+   * @param value       attribute value
    * @throws Exception UnsupportedEncodingException exception
    */
   private void checkAttributeComponent(String componentId, String attribute, Object value) throws Exception {
@@ -358,7 +348,7 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    * Perform screen data action to check Json controller attributes
    *
    * @param componentId component ID
-   * @param attribute component attribute
+   * @param attribute   component attribute
    * @throws Exception UnsupportedEncodingException exception
    */
   private void checkAttributeComponentDoesntExist(String componentId, String attribute) throws Exception {

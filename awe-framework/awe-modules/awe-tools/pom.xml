@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-modules</artifactId>
-    <version>4.1.8-SNAPSHOT</version>
+    <version>4.2.0-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
   
@@ -37,6 +37,8 @@
   <properties>
     <application.acronym>awe-tools</application.acronym>
     <skip.karma>true</skip.karma>
+    <skip.xml.validation>false</skip.xml.validation>
+    <skip.delombok>false</skip.delombok>
   </properties>
 
   <build>
@@ -57,6 +59,35 @@
     </resources>
 
     <plugins>
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+      </plugin>
+      <!-- AWE static resources -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>Get web resources</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <resources>
+                <!-- Awe generic screens -->
+                <resource>
+                  <directory>../awe-generic-screens/src/main/resources</directory>
+                  <includes>
+                    <include>schemas/**</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <!-- Xml validation -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

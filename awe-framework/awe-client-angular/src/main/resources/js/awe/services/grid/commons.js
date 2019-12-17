@@ -1281,10 +1281,10 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           // Calculate fields with components
           if ("component" in column) {
             column.enableFiltering = false;
-            column.cellTemplate = "<div class=\"ui-grid-cell-contents component {{col.cellClass}}\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-" + column.component +
+            column.cellTemplate = "<div class=\"ui-grid-cell-contents component\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-" + column.component +
               " cell-address='{\"hash\":\"{{row.uid}}\", \"view\":\"" + component.address.view + "\", \"component\":\"" + component.address.component + "\", \"row\":\"{{row.entity." +
               component.constants.ROW_IDENTIFIER + "}}\", \"column\":\"{{col.name}}\"}'/></div>";
-            column.footerCellTemplate = column.summaryType ? "<div class=\"ui-grid-cell-contents ui-grid-cell-footer {{::col.cellClass}}\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-" +
+            column.footerCellTemplate = column.summaryType ? "<div class=\"ui-grid-cell-contents ui-grid-cell-footer\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-" +
               column.component + " cell-address='{\"hash\":\"footer-{{grid.appScope.model.page}}\", \"view\":\"" + component.address.view + "\", \"component\":\"" +
               component.address.component + "\", \"row\":\"footer\", \"column\":\"{{col.name}}\"}'/></div>" : column.footerCellTemplate;
           }

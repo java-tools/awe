@@ -11,6 +11,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,7 +63,7 @@ public class UploadControllerTest extends AweSpringBootTests {
     String content = "bar";
     MockMultipartFile file = new MockMultipartFile("file", fileName, MediaType.APPLICATION_OCTET_STREAM_VALUE, content.getBytes());
     doUploadTest(file, "{}", "", status().isOk());
-    Mockito.verify(broadcastService, atLeastOnce()).broadcastMessageToUID(Mockito.anyString(), Mockito.any(ClientAction.class));
+    Mockito.verify(broadcastService, atLeastOnce()).broadcastMessageToUID(anyString(), any(ClientAction.class));
   }
 
   /**
@@ -75,7 +76,7 @@ public class UploadControllerTest extends AweSpringBootTests {
     String content = "bar";
     MockMultipartFile file = new MockMultipartFile("kk", fileName, MediaType.APPLICATION_JSON_VALUE, content.getBytes());
     doUploadTest(file, "{}", "", status().is4xxClientError());
-    Mockito.verify(broadcastService, atLeastOnce()).broadcastMessageToUID(Mockito.anyString(), Mockito.any(ClientAction.class));
+    Mockito.verify(broadcastService, atLeastOnce()).broadcastMessageToUID(isNull(), any(ClientAction.class));
   }
 
   /**
@@ -85,7 +86,7 @@ public class UploadControllerTest extends AweSpringBootTests {
   @Test
   public void testUploadKOAWException() throws Exception {
     uploadController.handleAWException(new AWException("tutu", "lala"));
-    Mockito.verify(broadcastService, atLeastOnce()).broadcastMessageToUID(Mockito.anyString(), Mockito.any(ClientAction.class));
+    Mockito.verify(broadcastService, atLeastOnce()).broadcastMessageToUID(isNull(), any(ClientAction.class));
   }
 
   /**
@@ -95,6 +96,6 @@ public class UploadControllerTest extends AweSpringBootTests {
   @Test
   public void testUploadKOMaxSize() throws Exception {
     uploadController.handleMaxSizeException(new MaxUploadSizeExceededException(22342342323L));
-    Mockito.verify(broadcastService, atLeastOnce()).broadcastMessageToUID(Mockito.anyString(), Mockito.any(ClientAction.class));
+    Mockito.verify(broadcastService, atLeastOnce()).broadcastMessageToUID(isNull(), any(ClientAction.class));
   }
 }

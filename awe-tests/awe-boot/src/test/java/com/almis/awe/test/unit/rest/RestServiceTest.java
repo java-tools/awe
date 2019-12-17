@@ -134,7 +134,7 @@ public class RestServiceTest extends AweSpringRestTests {
    */
   @Test
   public void testComplexPost() throws Exception {
-    doRestTest("TestComplexRestPost", "maintain", "", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTargetUpd\",\"Act\":2,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":2,\"Nam\":\"testIncludeTargetUpd\",\"Date\":null}}]}}]");
+    doRestTest("TestComplexRestPost", "maintain", "", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30}}]}}]");
   }
 
   /**
@@ -154,7 +154,7 @@ public class RestServiceTest extends AweSpringRestTests {
    */
   @Test
   public void testComplexPostParameters() throws Exception {
-    doRestTest("TestComplexRestPostParameters", "maintain", "\"value\":1,", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTarget\",\"Act\":1,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":1,\"Nam\":\"testIncludeTarget\",\"Date\":null}}]}}]");
+    doRestTest("TestComplexRestPostParameters", "maintain", "\"value\":1,", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30}}]}}]");
   }
 
   /**
@@ -164,7 +164,7 @@ public class RestServiceTest extends AweSpringRestTests {
    */
   @Test
   public void testComplexPostParametersJson() throws Exception {
-    doRestTest("TestComplexRestPostParametersJson", "maintain", "\"value\":1,", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"Scr\":\"testIncludeTarget\",\"Act\":1,\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30,\"Thm\":1,\"Nam\":\"testIncludeTarget\",\"Date\":null}}]}}]");
+    doRestTest("TestComplexRestPostParametersJson", "maintain", "\"value\":1,", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30}}]}}]");
   }
 
   /**

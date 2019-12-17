@@ -30,7 +30,7 @@ public class LogService extends ServiceConfig {
   // Autowired services
   private QueryUtil queryUtil;
 
-  @Value("${application.log.base.path}")
+  @Value("${application.log.file.path}")
   private String logBasePath;
 
   @Value("${application.log.users.home:false}")
@@ -116,7 +116,7 @@ public class LogService extends ServiceConfig {
    */
   private DataList getFiles(String fileName, Date startDate, Date endDate) throws AWException {
     DataList fileList = new DataList();
-    String logPath = "true".equalsIgnoreCase(logUserHome) ? USER_HOME + logBasePath : logBasePath;
+    String logPath = getLogPath();
 
     // Check flag user home path
     File baseLogDirectory = Paths.get(logPath).normalize().toFile();
@@ -126,6 +126,14 @@ public class LogService extends ServiceConfig {
       getFilesFromFolder(baseLogDirectory, fileName, startDate, endDate, fileList);
     }
     return fileList;
+  }
+
+  /**
+   * Retrieve log path
+   * @return Log path
+   */
+  public String getLogPath() {
+    return "true".equalsIgnoreCase(logUserHome) ? USER_HOME + logBasePath : logBasePath;
   }
 
   /**

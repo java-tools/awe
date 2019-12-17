@@ -1,5 +1,7 @@
 package com.almis.awe.component;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import java.util.HashMap;
@@ -8,6 +10,8 @@ import java.util.HashMap;
  * Routing datasource
  * @author pgarcia
  */
+@Getter
+@Setter
 public class AweRoutingDataSource extends AbstractRoutingDataSource {
 
   // Autowired service

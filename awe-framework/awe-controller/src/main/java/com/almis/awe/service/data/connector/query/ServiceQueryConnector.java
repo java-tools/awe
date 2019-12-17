@@ -63,7 +63,7 @@ public class ServiceQueryConnector extends AbstractQueryConnector {
 
     // Log query
     getLogger().log(ServiceQueryConnector.class, Level.INFO, "[{0}] =>  {1} records. Prepare service time: {2}s - Service time: {3}s - Datalist time: {4}s - Total time: {5}s",
-      query.getId(),
+      query.getService(),
       result.getDataList().getRecords(),
       getLogger().getElapsed(timeLapse, AweConstants.PREPARATION_TIME),
       getLogger().getElapsed(timeLapse, AweConstants.EXECUTION_TIME),

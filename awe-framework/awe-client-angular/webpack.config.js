@@ -55,40 +55,41 @@ module.exports = {
               lessPlugins: [
                 new LessPluginAutoPrefix({browsers: autoprefixerBrowsers})
               ],
-              compress: true,
+              //compress: true,
               minimize: true,
-              sourceMap: true
-            }
+              sourceMap: true,
+              //output: {comments: /^\[\+/}
+            },
+          }]
+        })
+      }, {
+        test: /\.(jpg|gif|png)$/,
+        use: [{
+          loader: "url-loader",
+          options: {
+            limit: 100000,
+            name: "./images/[hash].[ext]"
+          }
         }]
-      })
-    }, {
-      test : /\.(jpg|gif|png)$/,
-      use: [{
-        loader: "url-loader",
-        options: {
-          limit: 100000,
-          name: "./images/[hash].[ext]"
-        }
+      }, {
+        test: /\.woff[2]*?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: [{
+          loader: "url-loader",
+          options: {
+            limit: 10000,
+            mimetype: "application/font-woff",
+            name: "./fonts/[name].[ext]"
+          }
+        }]
+      }, {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: [{
+          loader: "file-loader",
+          options: {
+            name: "./fonts/[name].[ext]"
+          }
+        }]
       }]
-    }, {
-      test : /\.woff[2]*?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      use: [{
-        loader: "url-loader",
-        options: {
-          limit: 10000,
-          mimetype: "application/font-woff",
-          name: "./fonts/[name].[ext]"
-        }
-      }]
-    }, {
-      test : /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      use: [{
-        loader: "file-loader",
-        options: {
-          name: "./fonts/[name].[ext]"
-        }
-      }]
-    }]
   },
   resolve: {
     extensions: [".js", ".css", ".less", "*"],

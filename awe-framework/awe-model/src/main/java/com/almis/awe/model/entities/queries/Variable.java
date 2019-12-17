@@ -60,7 +60,7 @@ public class Variable implements Copyable {
   // Optional variable
   @XStreamAlias("optional")
   @XStreamAsAttribute
-  private Boolean optional;
+  private boolean optional;
 
   // Variable is from an audit field
   @XStreamOmitField

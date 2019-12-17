@@ -13,10 +13,11 @@ import com.almis.awe.service.SessionService;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.jdbc.DatabaseDriver;
 import org.springframework.context.EmbeddedValueResolverAware;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.util.StringValueResolver;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -31,7 +32,6 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
   private AweElements elements;
   private QueryService queryService;
   private SessionService sessionService;
-  private WebApplicationContext context;
   private LogUtil logger;
   private StringValueResolver resolver;
 
@@ -62,25 +62,18 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
   /**
    * Autowired constructor
    *
-   * @param context        Web app context
    * @param elements       Awe elements
    * @param queryService   Query service
    * @param sessionService Session Service
    * @param logger         Logger
    */
   @Autowired
-  public AweDatabaseContextHolder(WebApplicationContext context, AweElements elements, QueryService queryService, SessionService sessionService,
-                                  LogUtil logger) {
+  public AweDatabaseContextHolder(AweElements elements, QueryService queryService, SessionService sessionService, LogUtil logger) {
     this.elements = elements;
     this.queryService = queryService;
     this.sessionService = sessionService;
-    this.context = context;
     this.logger = logger;
   }
-
-  // Connection type
-  @Value("${awe.database.connection.type}")
-  private String databaseType;
 
   // Store datasources list
   private Map<String, DatabaseConnectionInfo> connectionInfoMap = new HashMap<>();
@@ -137,8 +130,6 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
         tomcatDataSource.setPassword(resolver.resolveStringValue(pass));
       }
       tomcatDataSource.setDriverClassName(resolver.resolveStringValue(driver));
-      tomcatDataSource.setLogAbandoned(false);
-      tomcatDataSource.setTestOnBorrow(true);
       tomcatDataSource.setValidationQuery(validationQuery);
       dataSource = tomcatDataSource;
     }
@@ -206,25 +197,13 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
    * @return Database type
    * @throws AWException Error retrieving database type
    */
-  public String getDatabaseType() throws AWException {
-    return getDatabaseType(getCurrentDatabase());
-  }
-
-  /**
-   * Get current connection type
-   *
-   * @param alias Database alias
-   * @return Database type
-   * @throws AWException Error retrieving database type
-   */
-  private String getDatabaseType(String alias) throws AWException {
-    String currentDatabaseType = databaseType;
-    if (currentDatabaseType != null && connectionInfoMap != null && connectionInfoMap.containsKey(alias)) {
-      String databaseKey = connectionInfoMap.get(alias).getDatabaseType();
-      currentDatabaseType = queryService.findLabel(AweConstants.DATABASE_BEAN_TRANSLATION, databaseKey);
+  public String getDatabaseType(DataSource dataSource) throws AWException {
+    try {
+      String url = JdbcUtils.extractDatabaseMetaData(dataSource, "getURL");
+      return DatabaseDriver.fromJdbcUrl(url).getId();
+    } catch (Exception exc) {
+      throw new AWException("Error retrieving database type from datasource", dataSource.toString(), exc);
     }
-
-    return currentDatabaseType;
   }
 
   /**
@@ -248,7 +227,7 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
    * @throws AWException error retrieving connection or database type
    */
   public DatabaseConnection getDatabaseConnection(DataSource dataSource) throws AWException {
-    return new DatabaseConnection(getDatabaseType(), dataSource, getCurrentDatabase());
+    return new DatabaseConnection(getDatabaseType(dataSource), dataSource, getCurrentDatabase());
   }
 
   /**
@@ -259,7 +238,8 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
    * @throws AWException error retrieving connection or database type
    */
   public DatabaseConnection getDatabaseConnection(String alias) throws AWException {
-    return new DatabaseConnection(getDatabaseType(alias), getDataSource(alias), alias);
+    DataSource dataSource = getDataSource(alias);
+    return new DatabaseConnection(getDatabaseType(dataSource), dataSource, alias);
   }
 
   @Override

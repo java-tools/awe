@@ -29,14 +29,9 @@ aweApplication.factory("Screen",
           let parameters = action.attr("parameters");
           let context = action.attr("context");
 
-          // If token has been received, update it
+          // If token received
           if ("token" in parameters) {
-            let token = parameters.token;
-            if ($utilities.isEmpty(token)) {
-              $settings.clearToken();
-            } else {
-              $settings.setToken(token);
-            }
+            $settings.setToken(parameters.token, true);
           }
 
           // Define target screen

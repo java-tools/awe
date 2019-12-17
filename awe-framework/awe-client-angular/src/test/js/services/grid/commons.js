@@ -7,7 +7,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
       CELL_VALUE: "value",
       CELL_LABEL: "label",
       CELL_TITLE: "title",
-      CELL_STYLE: "style",
+      CELL_STYLE: "cell-style",
       CELL_ICON: "icon",
       CELL_IMAGE: "image"
     },
@@ -135,12 +135,12 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
     expect(column.sortField).toBe("tutu");
     expect(column.enableFiltering).toBe(false);
     expect(column.footerCellTemplate).toBe("grid/footer");
-    expect(column.cellTemplate).toBe("<div class=\"ui-grid-cell-contents component {{col.cellClass}}\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-text " +
+    expect(column.cellTemplate).toBe("<div class=\"ui-grid-cell-contents component\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-text " +
       "cell-address='{\"hash\":\"{{row.uid}}\", \"view\":\"viewId\", \"component\":\"componentId\", \"row\":\"{{row.entity.id}}\", \"column\":\"{{col.name}}\"}'/></div>");
 
     expect(column2.enableSorting).toBe(true);
     expect(column2.sortField).toBe("lala");
-    expect(column2.footerCellTemplate).toBe("<div class=\"ui-grid-cell-contents ui-grid-cell-footer {{::col.cellClass}}\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-text " +
+    expect(column2.footerCellTemplate).toBe("<div class=\"ui-grid-cell-contents ui-grid-cell-footer\" title=\"TOOLTIP\" column-id=\"{{col.name}}\"><awe-column-text " +
       "cell-address='{\"hash\":\"footer-{{grid.appScope.model.page}}\", \"view\":\"viewId\", \"component\":\"componentId\", \"row\":\"footer\", \"column\":\"{{col.name}}\"}'/></div>");
 
     expect(column3.enableSorting).toBe(false);
@@ -670,13 +670,13 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
     let cellObject7 = component.getCell("");
 
     // Assert
-    expect(cellObject1).toEqual({value: null, label: "", title: "", style: "", icon: ""});
-    expect(cellObject2).toEqual({value: "tutu", label: "tutu", title: "", style: "", icon: ""});
-    expect(cellObject3).toEqual({value: ["tutu", "lala"], label: "tutu, lala", title: "", style: "", icon: ""});
-    expect(cellObject4).toEqual({value: "tutu", label: "tutu", title: "", style: "", icon: ""});
-    expect(cellObject5).toEqual({value: "tutu", label: "lala", title: "", style: "", icon: ""});
-    expect(cellObject6).toEqual({value: null, label: "", title: "", style: "", icon: ""});
-    expect(cellObject7).toEqual({value: null, label: "", title: "", style: "", icon: ""});
+    expect(cellObject1).toEqual({value: null, label: "", title: "", "cell-style": "", icon: ""});
+    expect(cellObject2).toEqual({value: "tutu", label: "tutu", title: "", "cell-style": "", icon: ""});
+    expect(cellObject3).toEqual({value: ["tutu", "lala"], label: "tutu, lala", title: "", "cell-style": "", icon: ""});
+    expect(cellObject4).toEqual({value: "tutu", label: "tutu", title: "", "cell-style": "", icon: ""});
+    expect(cellObject5).toEqual({value: "tutu", label: "lala", title: "", "cell-style": "", icon: ""});
+    expect(cellObject6).toEqual({value: null, label: "", title: "", "cell-style": "", icon: ""});
+    expect(cellObject7).toEqual({value: null, label: "", title: "", "cell-style": "", icon: ""});
   });
 
   // Get column data
@@ -973,8 +973,8 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
 
     component.updateCell("4", "value", {value: "alla", label: "lala"});
     expect(component.model.values[2]["value"]).toEqual({value: "alla", label: "lala"});
-    component.updateCell("4", "value", {style: "alla", label: "lala"});
-    expect(component.model.values[2]["value"]).toEqual({style: "alla", label: "lala"});
+    component.updateCell("4", "value", {"cell-style": "alla", label: "lala"});
+    expect(component.model.values[2]["value"]).toEqual({"cell-style": "alla", label: "lala"});
     component.updateCell("4", "value", "tutu");
     expect(component.model.values[2]["value"]).toEqual("tutu");
     component.updateCell("4", "value", null);
