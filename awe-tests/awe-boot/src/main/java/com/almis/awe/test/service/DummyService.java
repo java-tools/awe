@@ -1,13 +1,14 @@
 package com.almis.awe.test.service;
 
 import com.almis.awe.config.ServiceConfig;
-import com.almis.awe.model.dto.DataList;
-import com.almis.awe.model.util.data.DataListUtil;
-import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.dto.DataList;
+import com.almis.awe.model.dto.ServiceData;
+import com.almis.awe.model.dto.SortColumn;
+import com.almis.awe.model.type.AnswerType;
+import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.service.data.builder.EmailBuilder;
-import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.test.bean.Planet;
 import com.almis.awe.test.bean.Planets;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -90,6 +92,24 @@ public class DummyService extends ServiceConfig {
         .setPage(page)
         .setMax(max)
         .build());
+
+    return out;
+  }
+
+  /**
+   * Returns a simple DataList without post processing
+   *
+   * @return DataList
+   * @throws AWException
+   */
+  public ServiceData getDummyUnprocessedData() throws AWException {
+    ServiceData out = new ServiceData();
+    String[] data = new String[] {"Toyota", null, "Mercedes", null, "BMW", "Volkswagen", "Skoda" };
+
+    DataListBuilder builder = context.getBean(DataListBuilder.class);
+    DataList dataList = builder.setServiceQueryResult(data).build();
+    DataListUtil.sort(dataList, Collections.singletonList(new SortColumn("value", "asc")), true );
+    out.setDataList(dataList);
 
     return out;
   }
@@ -244,7 +264,7 @@ public class DummyService extends ServiceConfig {
   public ServiceData sendMail() {
     ServiceData out = new ServiceData();
     try {
-      ((EmailBuilder) context.getBean(EmailBuilder.class)).setFrom(new InternetAddress("david.fuentes@almis.com"))
+      context.getBean(EmailBuilder.class).setFrom(new InternetAddress("david.fuentes@almis.com"))
         .addTo(new InternetAddress("dfuentes.almis@gmail.com"))
         .addReplyTo(new InternetAddress("david.fuentes.other@almis.com"))
         .addCc(new InternetAddress("dovixman@gmail.com"))
