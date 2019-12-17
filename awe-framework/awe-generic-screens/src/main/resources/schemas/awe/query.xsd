@@ -342,6 +342,7 @@
     <xs:attribute name="queue" type="xs:string" />
     <xs:attribute name="cacheable" type="booleanEnum" />
     <xs:attribute name="managed-pagination" type="booleanEnum" />
+    <xs:attribute name="post-process" type="booleanEnum" />
     <xs:attribute name="public" type="booleanEnum" />
   </xs:attributeGroup>
 

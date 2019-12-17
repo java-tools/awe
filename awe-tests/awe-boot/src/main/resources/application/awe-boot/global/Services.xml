@@ -369,4 +369,8 @@
     </java>
   </service>
 
+  <service id="getDataListWithOutPostProcessed">
+    <java classname="com.almis.awe.test.service.DummyService" method="getDummyUnprocessedData"/>
+  </service>
+
 </services>

@@ -67,7 +67,7 @@ The full sql query structure is the following:
 ```xml
 <!-- Example sql query -->
 
-<query id="[Query Id]" cacheable="[Cacheable]" distinct="Distinct" pagination="Pagination">
+<query id="[Query Id]" cacheable="[Cacheable]" distinct="Distinct" manage-pagination="Pagination" post-process="Post processed">
   <table id="[Table id]" schema="[Schema name]" alias="[Table alias] query="[Subquery]"/>
   <field id="[Field id]" table="[Table field]" alias="[Alias field]"/>
   ...
@@ -152,7 +152,8 @@ The *query* element has the following attributes:
 | id | **Required** | String | Query identifier                        | **Note:**  The id name must be unique              |
 | distinct| Optional | Boolean | Is used to return only distinct (different) values | By default is `false`                 |
 | cacheable| Optional | Boolean | Is used to set a query as cacheable (save data in memory and not execute again)  | By default is `false`. **Note:** If you set a **query as cacheable** and if there are subqueries, you must define on it the same variables that all subqueries have. |
-| pagination| Optional | Boolean | To set a query as pagination (only load data of page in memory and not all).  High performance in queries with a very high number of records. | By default is `false`. **Note:** Only use this parameter in queries without totalize. |
+| manage-pagination| Optional | Boolean | To set a query as pagination (only load data of page in memory and not all).  High performance in queries with a very high number of records. | By default is `false`. **Note:** Only use this parameter in queries without totalize. |
+| post-process| Optional | Boolean | To allow skipping the processing of the datalist that AWE performs. | By default is `true`. **Note:** Only apply in service queries. For more info. see [service query](#service-query)|
 | public | Optional | Boolean | To set a query as launchable out of session (without being logged). | By default is `false`|
 | enumerated | Optional | String | The name of enumerate to load the query  | **Note:** Only apply in enumerated queries. For more info. see [enumerated query](#enumerated-query)|
 | service | Optional | String | The name of service to load the query  | **Note:** Only apply in service queries. For more info. see [service query](#service-query)|

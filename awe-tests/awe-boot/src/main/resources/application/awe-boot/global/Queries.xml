@@ -2810,4 +2810,8 @@
     </operation>
   </query>
 
+  <query id="testQueryWithOutPostProcess" service="getDataListWithOutPostProcessed" post-process="false" >
+    <field id="value"/>
+  </query>
+
 </queries>

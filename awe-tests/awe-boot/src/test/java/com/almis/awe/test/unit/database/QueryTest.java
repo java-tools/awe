@@ -3125,6 +3125,21 @@ public class QueryTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testQueryServiceNoPostProcess() throws Exception {
+    String queryName = "testQueryWithOutPostProcess";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":7,\"rows\":[{\"id\":2,\"value\":null},{\"id\":4,\"value\":null},{\"id\":5,\"value\":\"BMW\"},{\"id\":3,\"value\":\"Mercedes\"},{\"id\":7,\"value\":\"Skoda\"},{\"id\":1,\"value\":\"Toyota\"},{\"id\":6,\"value\":\"Volkswagen\"}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertResultServiceJson(queryName, result, 7);
+  }
+
+  /**
    * Asserts the JSON in the response
    *
    * @param queryName    Query name
