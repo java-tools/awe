@@ -1,3 +1,4 @@
-[runners.docker]
-  privileged = true
-  shm_size = 300000
+[[runners]]
+  [runners.docker]
+    privileged = true
+    shm_size = 300000
