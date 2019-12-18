@@ -46,7 +46,6 @@ public class MaintainJobService extends JobService {
    * @param execution
    * @param dataMap
    * @return
-   * @throws AWException
    */
   @Async("schedulerJobPool")
   public Future<ServiceData> executeJob(Task task, TaskExecution execution, JobDataMap dataMap) {

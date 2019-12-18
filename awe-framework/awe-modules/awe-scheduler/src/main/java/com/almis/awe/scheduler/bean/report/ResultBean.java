@@ -1,7 +1,6 @@
 package com.almis.awe.scheduler.bean.report;
 
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.bean.task.TaskExecution;
 import com.almis.awe.scheduler.enums.TaskStatus;
@@ -37,7 +36,6 @@ public class ResultBean implements Serializable {
    * Contructor
    *
    * @param task
-   * @throws AWException
    */
   public ResultBean(Task task, TaskExecution execution) {
     this.execution = execution;

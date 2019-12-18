@@ -14,7 +14,6 @@ public class SimplePatternBuilder {
    * SimplePattern
    *
    * @param schedule
-   * @throws AWException
    */
   public SimplePatternBuilder(Schedule schedule) {
     this.schedule = schedule;

@@ -1,6 +1,5 @@
 package com.almis.awe.scheduler.service;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.bean.task.TaskExecution;
 import com.almis.awe.scheduler.enums.ReportType;
@@ -9,7 +8,10 @@ import com.almis.awe.scheduler.factory.JobFactory;
 import com.almis.awe.scheduler.factory.ReportFactory;
 import com.almis.awe.scheduler.factory.TriggerFactory;
 import lombok.extern.log4j.Log4j2;
-import org.quartz.*;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
@@ -47,7 +49,6 @@ public class ExecutionService {
    * @param execution
    * @param timeout
    * @param process
-   * @throws AWException
    */
   public void startTimeoutJob(TaskExecution execution, Integer timeout, Future process) {
     JobDataMap data = new JobDataMap();
@@ -69,7 +70,6 @@ public class ExecutionService {
    *
    * @param execution
    * @param averageTime
-   * @throws AWException
    */
   public void startProgressJob(TaskExecution execution, Integer averageTime) {
 
@@ -109,7 +109,6 @@ public class ExecutionService {
    *
    * @param task
    * @param execution
-   * @throws AWException
    */
   public void startReportJob(Task task, TaskExecution execution) {
     // If report send status doesn't match to execution status, exit

@@ -1,7 +1,6 @@
 package com.almis.awe.scheduler.filechecker;
 
 import com.almis.awe.config.ServiceConfig;
-import com.almis.awe.exception.AWException;
 import com.almis.awe.scheduler.bean.file.File;
 import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.enums.ServerConnectionType;
@@ -35,7 +34,6 @@ public class FileChecker extends ServiceConfig {
    *
    * @param task
    * @return boolean
-   * @throws AWException
    */
   public String checkFile(Task task) {
     // true -> modifications | false -> no modifications

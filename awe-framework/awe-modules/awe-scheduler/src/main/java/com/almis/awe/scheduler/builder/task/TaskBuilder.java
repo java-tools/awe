@@ -137,7 +137,6 @@ public abstract class TaskBuilder {
    *
    * @param calendar
    * @return
-   * @throws AWException
    */
   public TaskBuilder setCalendar(Calendar calendar) {
     getTask().setCalendar(calendar);
@@ -149,7 +148,6 @@ public abstract class TaskBuilder {
    *
    * @param server
    * @return
-   * @throws AWException
    */
   public TaskBuilder setFileServer(Server server) {
     getTask().getFile().setServer(server);

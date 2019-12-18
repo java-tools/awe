@@ -17,6 +17,7 @@ import com.almis.awe.model.entities.queries.Variable;
 import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.model.util.data.DateUtil;
 import com.almis.awe.model.util.data.QueryUtil;
+import com.almis.awe.model.util.data.TimeUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.bean.task.TaskDependency;
@@ -29,7 +30,6 @@ import com.almis.awe.scheduler.factory.TaskFactory;
 import com.almis.awe.scheduler.factory.TriggerFactory;
 import com.almis.awe.scheduler.filechecker.FileChecker;
 import com.almis.awe.scheduler.util.TaskUtil;
-import com.almis.awe.model.util.data.TimeUtil;
 import com.almis.awe.service.MaintainService;
 import com.almis.awe.service.QueryService;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -103,7 +103,6 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param trigger
    * @return Generated task
-   * @throws AWException
    */
   public Task getTask(Trigger trigger) {
     return (Task) trigger.getJobDataMap().get(TASK);
@@ -114,7 +113,6 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param jobDetail
    * @return Generated task
-   * @throws AWException
    */
   public Task getTask(JobDetail jobDetail) {
     return (Task) jobDetail.getJobDataMap().get(TASK);
@@ -727,7 +725,7 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param task
    * @return ServiceData
-   * @throws AWException
+   * @throws SchedulerException
    */
   public ServiceData pauseTask(Task task) throws SchedulerException {
     TriggerKey key = new TriggerKey(String.valueOf(task.getTaskId()), task.getGroup());
@@ -985,9 +983,8 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Get task execution from trigger
    *
+   * @param trigger
    * @return String
-   * @throws AWException
-   * @parameter String ide
    */
   public TaskExecution getTaskExecution(Trigger trigger) {
     String[] splittedTriggerId = trigger.getKey().getName().split(TASK_SEPARATOR);
@@ -1002,11 +999,11 @@ public class TaskDAO extends ServiceConfig {
   }
 
   /**
-   * Get last execution from Database
-   *
-   * @return String
+   * Get execution from Database
+   * @param taskId Task id
+   * @param executionId Execution id
+   * @return
    * @throws AWException
-   * @parameter String ide
    */
   public TaskExecution getTaskExecution(Integer taskId, Integer executionId) throws AWException {
     // Set context from the query
@@ -1019,10 +1016,10 @@ public class TaskDAO extends ServiceConfig {
 
   /**
    * Get last execution from Database
-   *
-   * @return String
+   * @param taskId Task id
+   * @param taskGroup Task group
+   * @return
    * @throws AWException
-   * @parameter String ide
    */
   private TaskExecution getLastExecutionFromDB(Integer taskId, String taskGroup) throws AWException {
     // Set context from the query
@@ -1050,10 +1047,9 @@ public class TaskDAO extends ServiceConfig {
 
   /**
    * Get the average time as string
-   *
-   * @return String
+   * @param taskId Task identifier
+   * @return Average time as string
    * @throws AWException
-   * @parameter String ide
    */
   public Integer getAverageTime(Integer taskId) throws AWException {
     // Get task average time datalist

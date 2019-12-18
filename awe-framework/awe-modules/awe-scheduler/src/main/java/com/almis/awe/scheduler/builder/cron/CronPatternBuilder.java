@@ -30,7 +30,6 @@ public class CronPatternBuilder implements Serializable {
    * CronPattern
    *
    * @param schedule
-   * @throws AWException
    */
   public CronPatternBuilder(Schedule schedule) {
     this.schedule = schedule;
@@ -144,7 +143,7 @@ public class CronPatternBuilder implements Serializable {
     } else if (isNullOrEmpty(weeks)) {
       dayOfWeekPattern = String.join(",", daysOfWeek);
     } else {
-      dayOfWeekPattern = daysOfWeek.stream().map(day->weeks.stream().map(week->day+week).collect(Collectors.joining(","))).collect(Collectors.joining(","));
+      dayOfWeekPattern = daysOfWeek.stream().map(day -> weeks.stream().map(week -> day + week).collect(Collectors.joining(","))).collect(Collectors.joining(","));
     }
 
     // Set pattern
@@ -218,7 +217,7 @@ public class CronPatternBuilder implements Serializable {
 
     // Fix for day of week
     if (IGNORE.equalsIgnoreCase(cronPattern.getDayOfMonth()) &&
-        IGNORE.equalsIgnoreCase(cronPattern.getDayOfWeek())) {
+      IGNORE.equalsIgnoreCase(cronPattern.getDayOfWeek())) {
       cronPattern.setDayOfWeek(ALL);
     }
   }

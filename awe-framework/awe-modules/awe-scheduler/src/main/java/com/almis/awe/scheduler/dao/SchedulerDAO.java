@@ -332,7 +332,7 @@ public class SchedulerDAO extends ServiceConfig {
    * @param group
    * @param key
    * @return
-   * @throws Exception
+   * @throws AWException
    */
   public String getTriggerState(String group, String key) throws AWException {
     try {

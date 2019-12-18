@@ -1,7 +1,6 @@
 package com.almis.awe.scheduler.job.report;
 
 import com.almis.awe.config.ServiceConfig;
-import com.almis.awe.exception.AWException;
 import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.bean.task.TaskExecution;
 import lombok.Getter;
@@ -42,7 +41,6 @@ public abstract class ReportJob extends ServiceConfig implements Job {
    * Check if the report send status contains the current task status
    *
    * @return boolean
-   * @throws AWException
    */
   protected boolean checkSendStatus(Task task) {
     // check status

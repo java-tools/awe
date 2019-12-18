@@ -1,7 +1,6 @@
 package com.almis.awe.scheduler.factory;
 
 import com.almis.awe.config.ServiceConfig;
-import com.almis.awe.exception.AWException;
 import com.almis.awe.scheduler.enums.ReportType;
 import com.almis.awe.scheduler.job.report.BroadcastReportJob;
 import com.almis.awe.scheduler.job.report.EmailReportJob;
@@ -25,7 +24,6 @@ public class ReportFactory extends ServiceConfig {
    * Gets the correct job with the given job type
    *
    * @return IExecutionJob
-   * @throws AWException
    */
   public static JobDetail getInstance(ReportType reportType, JobDataMap dataMap) {
     switch (reportType) {
