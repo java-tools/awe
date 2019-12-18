@@ -16,8 +16,8 @@ public enum Action {
   ADD_ROW_UP("add-row-up"),
   BACK("back"),
   CANCEL_ROW("cancel-row"),
-  CANCEL_LANGUAGE("cancel-language"),
-  CANCEL_THEME("cancel-theme"),
+  CHANGE_LANGUAGE("change-language"),
+  CHANGE_THEME("change-theme"),
   CHECK_LEAF_SELECTED("check-leaf-selected"),
   CHECK_ONE_SELECTED("check-one-selected"),
   CHECK_PARENT_SELECTED("check-parent-selected"),
@@ -48,7 +48,6 @@ public enum Action {
   LAST_STEP("last-step"),
   NTH_STEP("nth-step"),
   PRINT("print"),
-  RELOAD_LANGUAGE("reload-language"),
   REMOVE_CLASS("remove-class"),
   RESET("reset"),
   RESIZE("resize"),
@@ -68,7 +67,8 @@ public enum Action {
   TOGGLE_NAVBAR("toggle-navbar"),
   UNSELECT_ALL_ROWS("unselect-all-rows"),
   VALIDATE("validate"),
-  VALUE("value");
+  VALUE("value"),
+  WAIT("wait");
   
   private final String value;
 
