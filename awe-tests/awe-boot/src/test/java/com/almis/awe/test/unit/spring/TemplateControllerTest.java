@@ -206,8 +206,8 @@ public class TemplateControllerTest extends AweSpringBootTests {
       .andReturn();
 
     String result = mvcResult.getResponse().getContentAsString();
-    //logger.debug(result);
-    //logger.debug(expected);
+    //logger.warn(result);
+    //logger.warn(expected);
     ObjectNode retrievedJson = (ObjectNode) objectMapper.readTree(result);
 
     // Check objects
