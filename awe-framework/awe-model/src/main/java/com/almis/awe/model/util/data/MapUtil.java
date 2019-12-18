@@ -13,24 +13,22 @@ public class MapUtil {
   }
 
   /**
-   * Sorts the given hashmap by value
-   *
-   * @param <K>
-   * @param <V>
-   * @param map<K,V>
-   * @return map<K,V>
+   * Sorts the given map by value
+   * @param map Map to sort
+   * @param <K> Key
+   * @param <V> Value
+   * @return Sorted map
    */
   public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
     return sortWithComparator(map, Map.Entry.comparingByValue());
   }
 
   /**
-   * Sorts the given hashmap by value in the reverse order
-   *
-   * @param <K>
-   * @param <V>
-   * @param map<K , V>
-   * @return map<K, V>
+   * Sorts the given map by value in reverse order
+   * @param map Map to sort
+   * @param <K> Key
+   * @param <V> Value
+   * @return Sorted map
    */
   public static <K, V extends Comparable<? super V>> Map<K, V> reverseSortByValue(Map<K, V> map) {
     return sortWithComparator(map, Collections.reverseOrder(Map.Entry.comparingByValue()));

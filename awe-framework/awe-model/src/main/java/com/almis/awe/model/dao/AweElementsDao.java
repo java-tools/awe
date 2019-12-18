@@ -252,7 +252,7 @@ public class AweElementsDao {
         // Read files from path
         PathMatchingResourcePatternResolver loader = new PathMatchingResourcePatternResolver();
         Resource[] resources = loader.getResources("classpath:" + path + "*" + xmlExtension);
-        if (resources != null && resources.length > 0) {
+        if (resources.length > 0) {
           resultList.add(MessageFormat.format(READING_FILES_FROM, path, OK));
           for (Resource resource : resources) {
             String message = readXmlResourceFile(resource, clazz, path, storage);
