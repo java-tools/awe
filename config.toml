@@ -1,4 +1,0 @@
-[[runners]]
-  [runners.docker]
-    privileged = true
-    shm_size = "256m"
