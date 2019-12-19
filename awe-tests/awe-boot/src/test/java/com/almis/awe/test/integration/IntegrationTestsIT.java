@@ -61,6 +61,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Select text
     writeText("GrdScrCnf", "Val", "false");
 
+    // Scroll grid to the right
+    scrollGrid("GrdScrCnf", 10000, 0);
+
     // Select text
     selectContain("GrdScrCnf", "Act", "Yes");
 

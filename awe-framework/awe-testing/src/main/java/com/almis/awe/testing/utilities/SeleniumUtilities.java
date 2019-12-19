@@ -1002,6 +1002,10 @@ public class SeleniumUtilities {
    * @param buttonName Button name
    */
   protected void waitForContextButton(String buttonName) {
+    // Wait some milliseconds
+    pause(100);
+
+    // Wait for context button
     waitForSelector(By.cssSelector(".context-menu [option-id='" + buttonName + "'] a:not([disabled])"));
   }
 
