@@ -686,6 +686,9 @@ public class ApplicationTestsIT extends SeleniumUtilities {
     // Select text
     writeText("GrdScrCnf", "Val", "true");
 
+    // Scroll grid to the right
+    scrollGrid("GrdScrCnf", 10000, 0);
+
     // Select text
     selectContain("GrdScrCnf", "Act", "Yes");
 
