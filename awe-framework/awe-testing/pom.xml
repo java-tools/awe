@@ -21,6 +21,7 @@
     <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
     <webdrivermanager.version>3.4.0</webdrivermanager.version>
     <testng.version>6.14.3</testng.version>
+    <testcontainers.version>1.12.4</testcontainers.version>
     <sonar.exclusions>src/**</sonar.exclusions>
     <skip.delombok>false</skip.delombok>
   </properties>
@@ -55,6 +56,11 @@
       <version>1.6</version>
     </dependency>
     <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>selenium</artifactId>
+      <version>${testcontainers.version}</version>
+    </dependency>
+    <dependency>
       <groupId>io.github.bonigarcia</groupId>
       <artifactId>webdrivermanager</artifactId>
       <version>${webdrivermanager.version}</version>
@@ -62,6 +68,10 @@
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-server</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
     </dependency>
   </dependencies>
 

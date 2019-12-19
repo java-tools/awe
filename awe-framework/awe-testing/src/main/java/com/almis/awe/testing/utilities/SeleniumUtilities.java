@@ -1,10 +1,9 @@
 package com.almis.awe.testing.utilities;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -23,6 +22,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.BrowserWebDriverContainer;
+import org.testcontainers.containers.BrowserWebDriverContainer.VncRecordingMode;
+import org.testcontainers.containers.DefaultRecordingFileFactory;
+import org.testcontainers.containers.Network;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -41,11 +44,10 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 /**
  * Utilities suite for selenium testing
  */
+@Log4j2
 @RunWith(SpringRunner.class)
 @TestPropertySource("classpath:test.properties")
 public class SeleniumUtilities {
-  // Logger
-  private static Logger logger = LogManager.getLogger(SeleniumUtilities.class);
   private static WebDriver driver;
   private static final Integer RETRY_COUNT = 10;
 
@@ -66,6 +68,12 @@ public class SeleniumUtilities {
   @Value("${selenium.start.url}")
   private String startURL;
 
+  @Value("${server.port}")
+  private Integer serverPort;
+
+  @Value("${server.servlet.context-path}")
+  private String contextPath;
+
   @Value("${failsafe.timeout:30}")
   private Integer timeout;
 
@@ -81,36 +89,64 @@ public class SeleniumUtilities {
   @Value("${failsafe.browser:headless-chrome}")
   private String browser;
 
+  private static BrowserWebDriverContainer browserWebDriverContainer;
+
   /**
    * Set up test
    */
   @Before
-  public void setUpTest() {
+  public void setUpTest() throws Exception {
+    // Setup window size
+    String windowSize = "--window-size=" + browserWidth + "," + browserHeight;
+
+    // Setup firefox options
+    FirefoxOptions firefoxOptions = new FirefoxOptions();
+    FirefoxProfile firefoxProfile = new FirefoxProfile();
+    firefoxProfile.setPreference("network.proxy.no_proxies_on", "localhost, 127.0.0.1");
+    firefoxOptions.setProfile(firefoxProfile);
+    firefoxOptions.addArguments(windowSize);
+
+    // Setup chrome options
+    ChromeOptions chromeOptions = new ChromeOptions();
+    chromeOptions.addArguments(windowSize);
+
+    // Define browser web driver container
+    browserWebDriverContainer = (BrowserWebDriverContainer) new BrowserWebDriverContainer()
+      .withRecordingMode(VncRecordingMode.RECORD_FAILING, new File(screenshotPath))
+      .withRecordingFileFactory(new DefaultRecordingFileFactory())
+      .withPrivilegedMode(true)
+      .withSharedMemorySize(2000000000l)
+      .withNetwork(Network.SHARED);
+
     if (getDriver() == null) {
       switch (browser) {
+        case "docker-firefox":
+          browserWebDriverContainer
+            .withCapabilities(firefoxOptions)
+            .start();
+          startURL = "http://" + getHost() + ":" + serverPort + contextPath;
+          setDriver(browserWebDriverContainer.getWebDriver());
+          break;
         case "firefox":
           WebDriverManager.firefoxdriver().setup();
-          FirefoxOptions firefoxOptions = new FirefoxOptions();
-          FirefoxProfile firefoxProfile = new FirefoxProfile();
-          firefoxProfile.setPreference("network.proxy.no_proxies_on", "localhost, 127.0.0.1");
-          firefoxOptions.setProfile(firefoxProfile);
           setDriver(new FirefoxDriver(firefoxOptions));
           break;
         case "headless-firefox":
-          WebDriverManager.firefoxdriver().setup();
-          firefoxOptions = new FirefoxOptions();
           firefoxOptions.addArguments("--headless");
-          firefoxProfile = new FirefoxProfile();
-          firefoxProfile.setPreference("network.proxy.no_proxies_on", "localhost, 127.0.0.1");
-          firefoxOptions.setProfile(firefoxProfile);
+          WebDriverManager.firefoxdriver().setup();
           setDriver(new FirefoxDriver(firefoxOptions));
+          break;
+        case "docker-chrome":
+          browserWebDriverContainer
+            .withCapabilities(chromeOptions)
+            .start();
+          startURL = "http://" + getHost()+ ":" + serverPort + contextPath;
+          setDriver(browserWebDriverContainer.getWebDriver());
           break;
         case "headless-chrome":
           WebDriverManager.chromedriver().setup();
-          ChromeOptions options = new ChromeOptions();
-          options.addArguments("--headless");
-          options.addArguments("--disable-gpu");
-          setDriver(new ChromeDriver(options));
+          chromeOptions.setHeadless(true);
+          setDriver(new ChromeDriver(chromeOptions));
           break;
         case "opera":
           WebDriverManager.operadriver().setup();
@@ -127,7 +163,7 @@ public class SeleniumUtilities {
         case "chrome":
         default:
           WebDriverManager.chromedriver().setup();
-          setDriver(new ChromeDriver());
+          setDriver(new ChromeDriver(chromeOptions));
           break;
       }
 
@@ -136,6 +172,10 @@ public class SeleniumUtilities {
         driver.manage().window().setSize(new Dimension(browserWidth, browserHeight));
       }
     }
+  }
+
+  private String getHost() {
+    return SystemUtils.IS_OS_LINUX ? "172.17.0.1" : "host.docker.internal";
   }
 
   /**
@@ -147,10 +187,16 @@ public class SeleniumUtilities {
       getDriver().quit();
       setDriver(null);
     }
+
+    if (browserWebDriverContainer != null) {
+      browserWebDriverContainer.stop();
+      browserWebDriverContainer.close();
+    }
   }
 
   /**
    * Get current driver
+   *
    * @return Web driver
    */
   public static WebDriver getDriver() {
@@ -159,6 +205,7 @@ public class SeleniumUtilities {
 
   /**
    * Set current driver
+   *
    * @param newDriver New web driver
    */
   public static void setDriver(WebDriver newDriver) {
@@ -167,10 +214,31 @@ public class SeleniumUtilities {
 
   /**
    * Get current base url
+   *
    * @return Start url
    */
   public String getBaseUrl() {
     return startURL;
+  }
+
+  /**
+   * Retrieve web element from selector
+   *
+   * @param selector Selector
+   * @return Element found
+   */
+  private WebElement getElement(By selector) {
+    return driver.findElement(selector);
+  }
+
+  /**
+   * Retrieve web element from selector
+   *
+   * @param selector Selector
+   * @return Element found
+   */
+  private List<WebElement> getElements(By selector) {
+    return driver.findElements(selector);
   }
 
   /**
@@ -183,6 +251,7 @@ public class SeleniumUtilities {
 
   /**
    * Wait until an expected condition
+   *
    * @param condition Expected condition
    */
   private void waitUntil(ExpectedCondition condition) {
@@ -191,7 +260,7 @@ public class SeleniumUtilities {
       new WebDriverWait(driver, timeout).until(condition);
       // Assert true on condition
       assertTrue(message, true);
-      logger.log(Level.DEBUG, message);
+      log.debug(message);
     } catch (Exception exc) {
       assertWithScreenshot(message, false, exc);
     }
@@ -199,7 +268,8 @@ public class SeleniumUtilities {
 
   /**
    * Take a screenshot when an error has occurred
-   * @param message Assert message
+   *
+   * @param message   Assert message
    * @param condition Assert condition
    * @param throwable Throwable list
    */
@@ -213,15 +283,15 @@ public class SeleniumUtilities {
       messageSanitized = messageSanitized.length() > 180 ? messageSanitized.substring(0, 180) : messageSanitized;
       String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
       Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
-      logger.error(message, (Object) throwable);
-      logger.error("Storing screenshot at: " + path);
+      log.error(message, (Object) throwable);
+      log.error("Storing screenshot at: " + path);
 
       // Now you can do whatever you need to do with it, for example copy somewhere
       try {
         path.toFile().getParentFile().mkdirs();
         FileUtils.copyFile(scrFile, path.toFile());
       } catch (IOException ioExc) {
-        logger.error("Error trying to store screenshot at: " + path, ioExc);
+        log.error("Error trying to store screenshot at: " + path, ioExc);
       }
     }
 
@@ -231,45 +301,53 @@ public class SeleniumUtilities {
 
   /**
    * Type keys on a criterion
+   *
    * @param selector Criterion selector to type keys
-   * @param text Text to type
+   * @param text     Text to type
    */
   private void sendKeys(By selector, CharSequence... text) {
-    driver.findElement(selector).sendKeys(text);
+    getElement(selector).sendKeys(text);
   }
 
   /**
    * Clear text on criterion
+   *
    * @param selector Criterion selector
    */
   private void clearText(By selector) {
-    driver.findElement(selector).clear();
+    getElement(selector).clear();
   }
 
   /**
    * Click on an element
+   *
    * @param selector Element selector
    */
   private void click(By selector) {
     String conditionMessage = "";
     try {
-      driver.findElement(selector).click();
+      new Actions(driver)
+        .moveToElement(getElement(selector))
+        .click(getElement(selector))
+        .perform();
+
       // Assert true on condition
       assertTrue(conditionMessage, true);
     } catch (Exception exc) {
-      assertWithScreenshot( "Error clicking on element: " + selector.toString() + "\n" + exc.getMessage(), false, exc);
+      assertWithScreenshot("Error clicking on element: " + selector.toString() + "\n" + exc.getMessage(), false, exc);
     }
   }
 
   /**
    * Context menu on element
+   *
    * @param selector Element selector
    */
   private void contextMenu(By selector) {
     String conditionMessage = "";
     try {
       new Actions(driver)
-        .moveToElement(driver.findElement(selector))
+        .moveToElement(getElement(selector))
         .contextClick()
         .build()
         .perform();
@@ -281,6 +359,7 @@ public class SeleniumUtilities {
 
   /**
    * Retrieve parent selector in css
+   *
    * @param criterionName Criterion name
    * @return Css parent selector
    */
@@ -290,8 +369,9 @@ public class SeleniumUtilities {
 
   /**
    * Retrieve parent selector in css
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
    * @return Css parent selector
    */
@@ -299,23 +379,25 @@ public class SeleniumUtilities {
     if (rowId == null) {
       return getGridScopeCss(gridId) + " .ui-grid-row-selected [column-id='" + columnId + "'] ";
     } else {
-      return getGridScopeCss(gridId) + " [row-id='" + rowId + "'] [column-id='" + columnId + "'] " ;
+      return getGridScopeCss(gridId) + " [row-id='" + rowId + "'] [column-id='" + columnId + "'] ";
     }
   }
 
   /**
    * Get grid scope in css
+   *
    * @param gridId Grid id
    * @return Grid scope string
    */
   private String getGridScopeCss(String gridId) {
-    return ".grid [id='scope-"+ gridId + "']";
+    return ".grid [id='scope-" + gridId + "']";
   }
 
   /**
    * Retrieve parent selector in xpath
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
    * @return Css parent selector
    */
@@ -329,7 +411,8 @@ public class SeleniumUtilities {
 
   /**
    * Retrieve header column selector in xpath
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
    * @return Css parent selector
    */
@@ -339,6 +422,7 @@ public class SeleniumUtilities {
 
   /**
    * Retrieve grid scroll zone
+   *
    * @param gridId Grid identifier
    * @return Scroll zone
    */
@@ -349,6 +433,7 @@ public class SeleniumUtilities {
 
   /**
    * Retrieve parent selector in xpath
+   *
    * @param gridId Grid id
    * @return Css parent selector
    */
@@ -362,6 +447,7 @@ public class SeleniumUtilities {
 
   /**
    * Retrieve criterion css selector
+   *
    * @param parentSelector Parent selector
    * @return Criterion input selector
    */
@@ -371,6 +457,7 @@ public class SeleniumUtilities {
 
   /**
    * Get xpath string for grid or treegrid
+   *
    * @param gridId Grid identifier
    * @return Xpath string
    */
@@ -380,8 +467,9 @@ public class SeleniumUtilities {
 
   /**
    * Select a date in datepicker
+   *
    * @param parentSelector Parent selector
-   * @param dateValue Date value
+   * @param dateValue      Date value
    */
   private void selectDateFromSelector(String parentSelector, CharSequence dateValue, boolean isGrid) {
     // Click on date
@@ -404,9 +492,10 @@ public class SeleniumUtilities {
 
   /**
    * Select from datepicker
+   *
    * @param parentSelector Datepicker selector
-   * @param type Select type
-   * @param search Search string
+   * @param type           Select type
+   * @param search         Search string
    */
   private void selectFromDatepicker(String parentSelector, String type, String search) {
     // Click on date
@@ -421,6 +510,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on selector
+   *
    * @param selector Selector
    */
   private void clickSelector(By selector) {
@@ -436,6 +526,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on datepicker
+   *
    * @param parentSelector Parent selector
    */
   private void clickDateFromSelector(String parentSelector) {
@@ -444,6 +535,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on row
+   *
    * @param parentSelector Parent selector
    */
   private void clickRowFromSelector(String parentSelector) {
@@ -458,8 +550,9 @@ public class SeleniumUtilities {
 
   /**
    * Click on row with a text
+   *
    * @param parentSelector Grid to search in
-   * @param search Text to search
+   * @param search         Text to search
    */
   private void clickRowContentsFromSelector(String parentSelector, String search) {
     clickRowFromSelector(parentSelector + CELL_SEARCH_CONTAINS_XPATH + search + PARENT_ELEMENT);
@@ -467,6 +560,7 @@ public class SeleniumUtilities {
 
   /**
    * Context menu on row
+   *
    * @param parentSelector Text to search
    */
   private void contextMenuFromSelector(String parentSelector) {
@@ -481,6 +575,7 @@ public class SeleniumUtilities {
 
   /**
    * Wait for selector to be clickable
+   *
    * @param selector Selector to wait for
    */
   private void waitForSelector(By selector) {
@@ -501,17 +596,17 @@ public class SeleniumUtilities {
       Integer safecheck = 0;
 
       // Move mouse while help is being displayed
-      List<WebElement> popovers = driver.findElements(popoverSelector);
+      List<WebElement> popovers = getElements(popoverSelector);
       while (!popovers.isEmpty() && safecheck < RETRY_COUNT) {
         new Actions(driver)
           .pause(100)
           .moveToElement(popovers.get(0))
-          .click(driver.findElements(By.cssSelector("body")).get(0))
+          .click(getElements(By.cssSelector("body")).get(0))
           .pause(100)
           .build()
           .perform();
 
-        popovers = driver.findElements(popoverSelector);
+        popovers = getElements(popoverSelector);
         safecheck++;
       }
     } catch (Exception exc) {
@@ -522,9 +617,10 @@ public class SeleniumUtilities {
 
   /**
    * Write text check clear text
+   *
    * @param parentSelector Parent selector
-   * @param text Text
-   * @param clearText Clear text
+   * @param text           Text
+   * @param clearText      Clear text
    */
   private void writeTextFromSelector(String parentSelector, CharSequence text, boolean clearText, boolean isGrid) {
     By selector = getCriterionInputSelector(parentSelector);
@@ -554,6 +650,7 @@ public class SeleniumUtilities {
 
   /**
    * Get criterion text
+   *
    * @param parentSelector Parent selector
    * @return Text from criterion
    */
@@ -564,11 +661,12 @@ public class SeleniumUtilities {
     waitUntil(presenceOfElementLocated(selector));
 
     // Get selector text
-    return driver.findElement(selector).getAttribute("value");
+    return getElement(selector).getAttribute("value");
   }
 
   /**
    * Click on a checkbox or a radio button
+   *
    * @param parentSelector parent selector
    */
   private void clickCheckboxFromSelector(String parentSelector) {
@@ -583,6 +681,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on select box
+   *
    * @param parentSelector Select box
    */
   private void selectClick(String parentSelector) {
@@ -604,6 +703,7 @@ public class SeleniumUtilities {
 
   /**
    * Select first value of the select
+   *
    * @param parentSelector Parent selector
    */
   private void selectFirstFromSelector(String parentSelector) {
@@ -616,6 +716,7 @@ public class SeleniumUtilities {
 
   /**
    * Select last element
+   *
    * @param parentSelector Parent selector
    */
   private void selectLastFromSelector(String parentSelector) {
@@ -628,8 +729,9 @@ public class SeleniumUtilities {
 
   /**
    * Select an element which contains a label
+   *
    * @param parentSelector Parent selector
-   * @param label Label to search
+   * @param label          Label to search
    */
   private void selectContainFromSelector(String parentSelector, String label) {
     // Click on selector
@@ -641,9 +743,10 @@ public class SeleniumUtilities {
 
   /**
    * Suggest element which contains label
+   *
    * @param parentSelector Parent selector
-   * @param search Search string
-   * @param label Label to search
+   * @param search         Search string
+   * @param label          Label to search
    */
   private void suggestFromSelector(String parentSelector, String search, String label) {
     // Wait for element present
@@ -667,8 +770,9 @@ public class SeleniumUtilities {
 
   /**
    * Suggest last element which contains label
+   *
    * @param parentSelector Criterion name
-   * @param search Search string
+   * @param search         Search string
    */
   private void suggestLastFromSelector(String parentSelector, String search) {
     By selector = By.cssSelector("#select2-drop li:last-of-type .select2-result-label");
@@ -697,9 +801,10 @@ public class SeleniumUtilities {
 
   /**
    * Suggest or select multiple
+   *
    * @param parentSelector Parent selector
-   * @param search Text to search
-   * @param label Text to find in label
+   * @param search         Text to search
+   * @param label          Text to find in label
    */
   private void suggestMultipleFromSelector(String parentSelector, boolean clear, String search, String label) {
     // Safecheck
@@ -715,7 +820,7 @@ public class SeleniumUtilities {
     // Clear selector
     if (clear) {
       By clearSelector = By.cssSelector(parentSelector + " .select2-search-choice-close");
-      while (!driver.findElements(clearSelector).isEmpty() && safecheck < RETRY_COUNT) {
+      while (!getElements(clearSelector).isEmpty() && safecheck < RETRY_COUNT) {
         click(clearSelector);
         safecheck++;
       }
@@ -733,6 +838,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on save row and wait
+   *
    * @param parentSelector Parent selector
    */
   private void saveRowFromSelector(String parentSelector) {
@@ -750,11 +856,12 @@ public class SeleniumUtilities {
 
   /**
    * Check text inside selector
+   *
    * @param selector Selector to check
-   * @param text Text to compare
+   * @param text     Text to compare
    */
   private void checkText(By selector, String text) {
-    String nodeText = driver.findElement(selector).getText();
+    String nodeText = getElement(selector).getText();
     String message = selector.toString() + TEXT_VALUE + nodeText + "' isn't equal to " + text;
 
     // Assert element is not located
@@ -763,11 +870,12 @@ public class SeleniumUtilities {
 
   /**
    * Check if selector contains text
+   *
    * @param selector Selector to check
-   * @param text Text to compare
+   * @param text     Text to compare
    */
   private void checkTextContains(By selector, String text) {
-    String nodeText = driver.findElement(selector).getText();
+    String nodeText = getElement(selector).getText();
     String message = selector.toString() + TEXT_VALUE + nodeText + "' doesn't contain " + text;
 
     // Assert element is not located
@@ -776,11 +884,12 @@ public class SeleniumUtilities {
 
   /**
    * Check if selector doesn't contain a text
+   *
    * @param selector Selector to check
-   * @param text Text to compare
+   * @param text     Text to compare
    */
   private void checkTextNotContains(By selector, String text) {
-    String nodeText = driver.findElement(selector).getText();
+    String nodeText = getElement(selector).getText();
     String message = selector.toString() + TEXT_VALUE + nodeText + "' contains " + text;
 
     // Assert element is not located
@@ -789,11 +898,12 @@ public class SeleniumUtilities {
 
   /**
    * Check if a criterion contains text
+   *
    * @param selector Criterion selector
-   * @param text Text to compare
+   * @param text     Text to compare
    */
   private void checkCriterionContains(By selector, String text) {
-    String nodeText = driver.findElement(selector).getAttribute("value");
+    String nodeText = getElement(selector).getAttribute("value");
     String message = selector.toString() + TEXT_VALUE + nodeText + "' doesn't contain " + text;
 
     // Assert element is not located
@@ -806,17 +916,19 @@ public class SeleniumUtilities {
 
   /**
    * Set test title
+   *
    * @param title Test title
    */
   protected void setTestTitle(String title) {
     // Info
-    logger.log(Level.INFO, "======================================================================================");
-    logger.log(Level.INFO, "| " + title);
-    logger.log(Level.INFO, "======================================================================================");
+    log.info("======================================================================================");
+    log.info("| " + title);
+    log.info("======================================================================================");
   }
 
   /**
    * Go to a screen defined on the menu
+   *
    * @param menuOptions Menu options to navigate to
    */
   protected void gotoScreen(String... menuOptions) {
@@ -826,12 +938,12 @@ public class SeleniumUtilities {
       waitUntil(visibilityOfElementLocated(By.name(option)));
 
       // If it is not the last option, check if it is already opened
-      List openedChildren = driver.findElements(By.xpath("//*[contains(@name,'" + option + "')]/following-sibling::ul[contains(@class,'opened')]"));
+      List openedChildren = getElements(By.xpath("//*[contains(@name,'" + option + "')]/following-sibling::ul[contains(@class,'opened')]"));
       if (optionNumber == menuOptions.length || openedChildren.isEmpty()) {
         // Click on screen
         click(By.name(option));
       }
-      optionNumber ++;
+      optionNumber++;
     }
 
     // Wait for element not visible
@@ -843,6 +955,7 @@ public class SeleniumUtilities {
 
   /**
    * Wait for css selector
+   *
    * @param cssSelector
    */
   protected By waitForCssSelector(String cssSelector) {
@@ -876,6 +989,7 @@ public class SeleniumUtilities {
 
   /**
    * Wait for button to be clickable
+   *
    * @param buttonName Button name
    */
   protected void waitForButton(String buttonName) {
@@ -884,6 +998,7 @@ public class SeleniumUtilities {
 
   /**
    * Wait for context button to be clickable
+   *
    * @param buttonName Button name
    */
   protected void waitForContextButton(String buttonName) {
@@ -892,7 +1007,8 @@ public class SeleniumUtilities {
 
   /**
    * Wait for text inside a tag with a CSS class
-   * @param clazz CSS class
+   *
+   * @param clazz    CSS class
    * @param contains Text to check
    */
   protected void waitForText(String clazz, String contains) {
@@ -904,6 +1020,7 @@ public class SeleniumUtilities {
 
   /**
    * Pause
+   *
    * @param time Milliseconds
    */
   protected void pause(Integer time) {
@@ -915,6 +1032,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on an element
+   *
    * @param cssSelector Input selector
    */
   protected void click(String cssSelector) {
@@ -923,6 +1041,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on a button
+   *
    * @param buttonName Button name
    */
   protected void clickButton(String buttonName) {
@@ -931,13 +1050,11 @@ public class SeleniumUtilities {
 
   /**
    * Click on a button
-   * @param buttonName Button name
+   *
+   * @param buttonName        Button name
    * @param waitForLoadingBar Wait for loading bar after clicking
    */
   protected void clickButton(String buttonName, boolean waitForLoadingBar) {
-    // Move mouse
-    moveMouse();
-
     // Wait for element visible
     waitForButton(buttonName);
 
@@ -956,6 +1073,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on a context button
+   *
    * @param contextButtonOptionList Context button option list
    */
   protected void clickContextButton(String... contextButtonOptionList) {
@@ -983,7 +1101,8 @@ public class SeleniumUtilities {
 
   /**
    * Click on tab
-   * @param tabName Tab name
+   *
+   * @param tabName  Tab name
    * @param tabLabel Tab label local
    */
   protected void clickTab(String tabName, String tabLabel) {
@@ -997,6 +1116,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on info button
+   *
    * @param infoButtonName Button name
    */
   protected void clickInfoButton(String infoButtonName) {
@@ -1005,8 +1125,9 @@ public class SeleniumUtilities {
 
   /**
    * Click on tree button
+   *
    * @param gridId Grid id
-   * @param rowId Row id
+   * @param rowId  Row id
    */
   protected void clickTreeButton(String gridId, String rowId) {
 
@@ -1022,6 +1143,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on datepicker
+   *
    * @param criterionName Datepicker name
    */
   protected void clickDate(String criterionName) {
@@ -1030,7 +1152,8 @@ public class SeleniumUtilities {
 
   /**
    * Click on datepicker on grid
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
    */
   protected void clickDate(String gridId, String columnId) {
@@ -1039,8 +1162,9 @@ public class SeleniumUtilities {
 
   /**
    * Click on datepicker on grid
-   * @param gridId Grid id
-   * @param rowId row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    row id
    * @param columnId Column id
    */
   protected void clickDate(String gridId, String rowId, String columnId) {
@@ -1049,7 +1173,8 @@ public class SeleniumUtilities {
 
   /**
    * Select a date in datepicker
-   * @param dateName Datepicker name
+   *
+   * @param dateName  Datepicker name
    * @param dateValue Date to select
    */
   protected void selectDate(String dateName, CharSequence dateValue) {
@@ -1058,8 +1183,9 @@ public class SeleniumUtilities {
 
   /**
    * Select a date in a grid
-   * @param gridId Grid id
-   * @param columnId Column id
+   *
+   * @param gridId    Grid id
+   * @param columnId  Column id
    * @param dateValue Date to select
    */
   protected void selectDate(String gridId, String columnId, CharSequence dateValue) {
@@ -1069,9 +1195,10 @@ public class SeleniumUtilities {
 
   /**
    * Select a date in a grid
-   * @param gridId Grid id
-   * @param rowId Row id
-   * @param columnId Column id
+   *
+   * @param gridId    Grid id
+   * @param rowId     Row id
+   * @param columnId  Column id
    * @param dateValue Date to select
    */
   protected void selectDate(String gridId, String rowId, String columnId, CharSequence dateValue) {
@@ -1081,8 +1208,9 @@ public class SeleniumUtilities {
 
   /**
    * Select a day in datepicker (current month)
+   *
    * @param dateName Datepicker name
-   * @param day Day to select
+   * @param day      Day to select
    */
   protected void selectDay(String dateName, @Nonnull Integer day) {
     selectFromDatepicker(getCriterionSelectorCss(dateName), DAY, day.toString());
@@ -1090,9 +1218,10 @@ public class SeleniumUtilities {
 
   /**
    * Select a day in datepicker (current month) in a grid
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
-   * @param day Day to select
+   * @param day      Day to select
    */
   protected void selectDay(String gridId, String columnId, @Nonnull Integer day) {
     // Select date with parent selector
@@ -1101,10 +1230,11 @@ public class SeleniumUtilities {
 
   /**
    * Select a day in datepicker (current month) in a grid
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
-   * @param day Day to select
+   * @param day      Day to select
    */
   protected void selectDay(String gridId, String rowId, String columnId, @Nonnull Integer day) {
     // Select date with parent selector
@@ -1113,6 +1243,7 @@ public class SeleniumUtilities {
 
   /**
    * Retrieve today day of month
+   *
    * @return Day of month as string
    */
   protected Integer getTodayDay() {
@@ -1121,6 +1252,7 @@ public class SeleniumUtilities {
 
   /**
    * Retrieve today day of month
+   *
    * @return Day of month as string
    */
   protected Integer getTomorrowDay() {
@@ -1131,8 +1263,9 @@ public class SeleniumUtilities {
 
   /**
    * Select a month in datepicker
+   *
    * @param dateName Datepicker name
-   * @param month Month to select
+   * @param month    Month to select
    */
   protected void selectMonth(String dateName, String month) {
     selectFromDatepicker(getCriterionSelectorCss(dateName), MONTH, month);
@@ -1140,9 +1273,10 @@ public class SeleniumUtilities {
 
   /**
    * Select a month in datepicker in a grid
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
-   * @param month Month to select
+   * @param month    Month to select
    */
   protected void selectMonth(String gridId, String columnId, String month) {
     // Select date with parent selector
@@ -1151,10 +1285,11 @@ public class SeleniumUtilities {
 
   /**
    * Select a month in datepicker in a grid
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
-   * @param month Month to select
+   * @param month    Month to select
    */
   protected void selectMonth(String gridId, String rowId, String columnId, String month) {
     // Select date with parent selector
@@ -1163,8 +1298,9 @@ public class SeleniumUtilities {
 
   /**
    * Select a year in datepicker
+   *
    * @param dateName Datepicker name
-   * @param year Year to select
+   * @param year     Year to select
    */
   protected void selectYear(String dateName, @Nonnull Integer year) {
     selectFromDatepicker(getCriterionSelectorCss(dateName), YEAR, year.toString());
@@ -1172,9 +1308,10 @@ public class SeleniumUtilities {
 
   /**
    * Select a year in datepicker in a grid
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
-   * @param year Year to select
+   * @param year     Year to select
    */
   protected void selectYear(String gridId, String columnId, @Nonnull Integer year) {
     // Select date with parent selector
@@ -1183,10 +1320,11 @@ public class SeleniumUtilities {
 
   /**
    * Select a year in datepicker in a grid
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
-   * @param year Year to select
+   * @param year     Year to select
    */
   protected void selectYear(String gridId, String rowId, String columnId, @Nonnull Integer year) {
     // Select date with parent selector
@@ -1195,6 +1333,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on a checkbox or a radio button
+   *
    * @param criterionName Criterion name
    */
   protected void clickCheckbox(String criterionName) {
@@ -1203,7 +1342,8 @@ public class SeleniumUtilities {
 
   /**
    * Click on a checkbox or a radio button
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
    */
   protected void clickCheckbox(String gridId, String columnId) {
@@ -1212,8 +1352,9 @@ public class SeleniumUtilities {
 
   /**
    * Click on a checkbox or a radio button
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
    */
   protected void clickCheckbox(String gridId, String rowId, String columnId) {
@@ -1222,6 +1363,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on row with a text
+   *
    * @param search Text to search
    */
   protected void clickRowContents(String search) {
@@ -1230,6 +1372,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on row with a text
+   *
    * @param gridId Grid to search in
    * @param search Text to search
    */
@@ -1239,7 +1382,8 @@ public class SeleniumUtilities {
 
   /**
    * Click on a cell on selected row
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
    */
   protected void clickCell(String gridId, String columnId) {
@@ -1248,8 +1392,9 @@ public class SeleniumUtilities {
 
   /**
    * Click on a grid cell
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
    */
   protected void clickCell(String gridId, String rowId, String columnId) {
@@ -1258,6 +1403,7 @@ public class SeleniumUtilities {
 
   /**
    * Context menu on row
+   *
    * @param search Text to search
    */
   protected void contextMenuRowContents(String search) {
@@ -1266,6 +1412,7 @@ public class SeleniumUtilities {
 
   /**
    * Context menu on row
+   *
    * @param gridId Grid identifier
    * @param search Text to search
    */
@@ -1276,8 +1423,9 @@ public class SeleniumUtilities {
 
   /**
    * Context menu on a grid
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
    */
   protected void contextMenu(String gridId, String rowId, String columnId) {
@@ -1286,8 +1434,9 @@ public class SeleniumUtilities {
 
   /**
    * Write text on selector
+   *
    * @param selector Selector
-   * @param text Text
+   * @param text     Text
    */
   protected void writeText(By selector, CharSequence text) {
     // Wait for element present
@@ -1299,8 +1448,9 @@ public class SeleniumUtilities {
 
   /**
    * Write text on criterion
+   *
    * @param criterionName Criterion name
-   * @param text Text
+   * @param text          Text
    */
   protected void writeText(String criterionName, CharSequence text) {
     writeText(criterionName, text, true);
@@ -1308,9 +1458,10 @@ public class SeleniumUtilities {
 
   /**
    * Write text check clear text
+   *
    * @param criterionName Criterion name
-   * @param text Text
-   * @param clearText Clear text
+   * @param text          Text
+   * @param clearText     Clear text
    */
   protected void writeText(String criterionName, CharSequence text, boolean clearText) {
     writeTextFromSelector(getCriterionSelectorCss(criterionName), text, clearText, false);
@@ -1318,9 +1469,10 @@ public class SeleniumUtilities {
 
   /**
    * Write text check clear text
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
-   * @param text Text to write
+   * @param text     Text to write
    */
   protected void writeText(String gridId, String columnId, CharSequence text) {
     // Write text on grid
@@ -1330,10 +1482,11 @@ public class SeleniumUtilities {
 
   /**
    * Write text check clear text
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
-   * @param text Text to write
+   * @param text     Text to write
    */
   protected void writeText(String gridId, String rowId, String columnId, CharSequence text) {
     // Write text on grid
@@ -1342,10 +1495,11 @@ public class SeleniumUtilities {
 
   /**
    * Write text check clear text
-   * @param gridId Grid id
-   * @param rowId Row id
-   * @param columnId Column id
-   * @param text Text to write
+   *
+   * @param gridId    Grid id
+   * @param rowId     Row id
+   * @param columnId  Column id
+   * @param text      Text to write
    * @param clearText Clear previous text
    */
   protected void writeText(String gridId, String rowId, String columnId, CharSequence text, boolean clearText) {
@@ -1355,6 +1509,7 @@ public class SeleniumUtilities {
 
   /**
    * Clear text on input selector
+   *
    * @param cssSelector Input selector
    */
   protected void clearText(String cssSelector) {
@@ -1363,6 +1518,7 @@ public class SeleniumUtilities {
 
   /**
    * Get criterion text
+   *
    * @param criterionName Criterion name
    * @return Text from criterion
    */
@@ -1372,7 +1528,8 @@ public class SeleniumUtilities {
 
   /**
    * Get selected row cell text
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
    * @return Cell text
    */
@@ -1382,8 +1539,9 @@ public class SeleniumUtilities {
 
   /**
    * Get grid cell text
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
    * @return Cell text
    */
@@ -1393,6 +1551,7 @@ public class SeleniumUtilities {
 
   /**
    * Select first value of the select
+   *
    * @param criterionName Criterion name
    */
   protected void selectFirst(String criterionName) {
@@ -1401,7 +1560,8 @@ public class SeleniumUtilities {
 
   /**
    * Select first value of the select
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
    */
   protected void selectFirst(String gridId, String columnId) {
@@ -1410,8 +1570,9 @@ public class SeleniumUtilities {
 
   /**
    * Select first value of the select
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
    */
   protected void selectFirst(String gridId, String rowId, String columnId) {
@@ -1420,6 +1581,7 @@ public class SeleniumUtilities {
 
   /**
    * Select first value of the select
+   *
    * @param criterionName Criterion name
    */
   protected void selectLast(String criterionName) {
@@ -1428,7 +1590,8 @@ public class SeleniumUtilities {
 
   /**
    * Select first value of the select
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
    */
   protected void selectLast(String gridId, String columnId) {
@@ -1437,8 +1600,9 @@ public class SeleniumUtilities {
 
   /**
    * Select first value of the select
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
    */
   protected void selectLast(String gridId, String rowId, String columnId) {
@@ -1447,8 +1611,9 @@ public class SeleniumUtilities {
 
   /**
    * Select value on the selector
+   *
    * @param criterionName Criterion name
-   * @param label Label to search
+   * @param label         Label to search
    */
   protected void selectContain(String criterionName, String label) {
     selectContainFromSelector(getCriterionSelectorCss(criterionName), label);
@@ -1456,9 +1621,10 @@ public class SeleniumUtilities {
 
   /**
    * Select value on the selector
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
-   * @param label Label to search
+   * @param label    Label to search
    */
   protected void selectContain(String gridId, String columnId, String label) {
     selectContainFromSelector(getParentSelectorCss(gridId, null, columnId), label);
@@ -1466,10 +1632,11 @@ public class SeleniumUtilities {
 
   /**
    * Select value on the selector
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
-   * @param label Label to search
+   * @param label    Label to search
    */
   protected void selectContain(String gridId, String rowId, String columnId, String label) {
     selectContainFromSelector(getParentSelectorCss(gridId, rowId, columnId), label);
@@ -1477,6 +1644,7 @@ public class SeleniumUtilities {
 
   /**
    * Select result on select/suggest list
+   *
    * @param match Match label
    */
   protected void selectResult(String match) {
@@ -1491,9 +1659,10 @@ public class SeleniumUtilities {
 
   /**
    * Suggest element which contains label
+   *
    * @param criterionName Criterion name
-   * @param search Search string
-   * @param label Label to search
+   * @param search        Search string
+   * @param label         Label to search
    */
   protected void suggest(String criterionName, String search, String label) {
     suggestFromSelector(getCriterionSelectorCss(criterionName), search, label);
@@ -1501,10 +1670,11 @@ public class SeleniumUtilities {
 
   /**
    * Suggest element which contains label
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
-   * @param search Search string
-   * @param label Label to search
+   * @param search   Search string
+   * @param label    Label to search
    */
   protected void suggest(String gridId, String columnId, String search, String label) {
     suggestFromSelector(getParentSelectorCss(gridId, null, columnId), search, label);
@@ -1512,11 +1682,12 @@ public class SeleniumUtilities {
 
   /**
    * Suggest element which contains label
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
-   * @param search Search string
-   * @param label Label to search
+   * @param search   Search string
+   * @param label    Label to search
    */
   protected void suggest(String gridId, String rowId, String columnId, String search, String label) {
     suggestFromSelector(getParentSelectorCss(gridId, rowId, columnId), search, label);
@@ -1524,8 +1695,9 @@ public class SeleniumUtilities {
 
   /**
    * Suggest element which contains label
+   *
    * @param criterionName Criterion name
-   * @param search Search string
+   * @param search        Search string
    */
   protected void suggestLast(String criterionName, String search) {
     suggestLastFromSelector(getCriterionSelectorCss(criterionName), search);
@@ -1533,9 +1705,10 @@ public class SeleniumUtilities {
 
   /**
    * Suggest element which contains label
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
-   * @param search Search string
+   * @param search   Search string
    */
   protected void suggestLast(String gridId, String columnId, String search) {
     suggestLastFromSelector(getParentSelectorCss(gridId, null, columnId), search);
@@ -1543,10 +1716,11 @@ public class SeleniumUtilities {
 
   /**
    * Suggest element which contains label
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
-   * @param search Search string
+   * @param search   Search string
    */
   protected void suggestLast(String gridId, String rowId, String columnId, String search) {
     suggestLastFromSelector(getParentSelectorCss(gridId, rowId, columnId), search);
@@ -1554,8 +1728,9 @@ public class SeleniumUtilities {
 
   /**
    * Suggest or select multiple element which contains label
+   *
    * @param criterionName Criterion name
-   * @param items Items to add and search for
+   * @param items         Items to add and search for
    */
   protected void suggestMultipleList(String criterionName, String... items) {
     boolean clear = true;
@@ -1567,9 +1742,10 @@ public class SeleniumUtilities {
 
   /**
    * Suggest or select multiple element which contains label
+   *
    * @param criterionName Criterion name
-   * @param search Search string
-   * @param label Text to find in label
+   * @param search        Search string
+   * @param label         Text to find in label
    */
   protected void suggestMultiple(String criterionName, String search, String label) {
     suggestMultiple(criterionName, true, search, label);
@@ -1577,10 +1753,11 @@ public class SeleniumUtilities {
 
   /**
    * Suggest or select multiple element which contains label
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
-   * @param search Search string
-   * @param label Text to find in label
+   * @param search   Search string
+   * @param label    Text to find in label
    */
   protected void suggestMultiple(String gridId, String columnId, String search, String label) {
     suggestMultiple(gridId, null, columnId, true, search, label);
@@ -1588,11 +1765,12 @@ public class SeleniumUtilities {
 
   /**
    * Suggest or select multiple element which contains label
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
-   * @param search Search string
-   * @param label Text to find in label
+   * @param search   Search string
+   * @param label    Text to find in label
    */
   protected void suggestMultiple(String gridId, String rowId, String columnId, String search, String label) {
     suggestMultiple(gridId, rowId, columnId, true, search, label);
@@ -1600,9 +1778,10 @@ public class SeleniumUtilities {
 
   /**
    * Suggest or select multiple element which contains label
+   *
    * @param criterionName Criterion name
-   * @param search Search string
-   * @param label Text to find in label
+   * @param search        Search string
+   * @param label         Text to find in label
    */
   protected void suggestMultiple(String criterionName, boolean clear, String search, String label) {
     suggestMultipleFromSelector(getCriterionSelectorCss(criterionName), clear, search, label);
@@ -1610,10 +1789,11 @@ public class SeleniumUtilities {
 
   /**
    * Suggest or select multiple element which contains label
-   * @param gridId Grid id
+   *
+   * @param gridId   Grid id
    * @param columnId Column id
-   * @param search Search string
-   * @param label Text to find in label
+   * @param search   Search string
+   * @param label    Text to find in label
    */
   protected void suggestMultiple(String gridId, String columnId, boolean clear, String search, String label) {
     suggestMultipleFromSelector(getParentSelectorCss(gridId, null, columnId), clear, search, label);
@@ -1621,11 +1801,12 @@ public class SeleniumUtilities {
 
   /**
    * Suggest or select multiple element which contains label
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
-   * @param search Search string
-   * @param label Text to find in label
+   * @param search   Search string
+   * @param label    Text to find in label
    */
   protected void suggestMultiple(String gridId, String rowId, String columnId, boolean clear, String search, String label) {
     suggestMultipleFromSelector(getParentSelectorCss(gridId, rowId, columnId), clear, search, label);
@@ -1640,6 +1821,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on search button and wait the grid to load
+   *
    * @param buttonName Button name
    */
   protected void searchAndWait(String buttonName) {
@@ -1661,7 +1843,8 @@ public class SeleniumUtilities {
 
   /**
    * Click on save row and wait
-    * @param gridId Grid with the save button
+   *
+   * @param gridId Grid with the save button
    */
   protected void saveRow(String gridId) {
     saveRowFromSelector("#" + gridId + "-grid-row-save:not([disabled])");
@@ -1670,9 +1853,10 @@ public class SeleniumUtilities {
 
   /**
    * Scroll grid
-   * @param gridId Grid identifier
+   *
+   * @param gridId     Grid identifier
    * @param horizontal Horizontal scroll in pixels
-   * @param vertical Vertical scroll in pixels
+   * @param vertical   Vertical scroll in pixels
    */
   protected void scrollGrid(String gridId, int horizontal, int vertical) {
     JavascriptExecutor js = ((JavascriptExecutor) driver);
@@ -1682,7 +1866,8 @@ public class SeleniumUtilities {
 
   /**
    * Click on column header
-   * @param gridId Grid identifier
+   *
+   * @param gridId   Grid identifier
    * @param columnId Column identifier
    */
   protected void sortGrid(String gridId, String columnId) {
@@ -1697,8 +1882,8 @@ public class SeleniumUtilities {
    * Accept confirm window and wait for it to disappear
    */
   protected void acceptConfirm() {
-    // Pause 250 ms
-    pause(250);
+    // Pause 300 ms
+    pause(300);
 
     // Click on button
     clickButton("confirm-accept");
@@ -1709,6 +1894,7 @@ public class SeleniumUtilities {
 
   /**
    * Check a message box and close it
+   *
    * @param messageType Message type (success (default), info, warning, danger)
    */
   protected void checkAndCloseMessage(String messageType) {
@@ -1732,6 +1918,7 @@ public class SeleniumUtilities {
 
   /**
    * Click on confirm button, accept confirmation and accept message
+   *
    * @param button Button name
    */
   protected void clickButtonAndConfirm(String button) {
@@ -1740,7 +1927,8 @@ public class SeleniumUtilities {
 
   /**
    * Click on confirm button, accept confirmation and accept message
-   * @param button Button name
+   *
+   * @param button      Button name
    * @param messageType Message type (info, warning, success, danger)
    */
   protected void clickButtonAndConfirm(String button, String messageType) {
@@ -1756,8 +1944,9 @@ public class SeleniumUtilities {
 
   /**
    * Check text inside css selector
+   *
    * @param cssSelector Selector to check
-   * @param text Text to compare
+   * @param text        Text to compare
    */
   protected void checkText(String cssSelector, String text) {
     // Check selector text
@@ -1766,8 +1955,9 @@ public class SeleniumUtilities {
 
   /**
    * Check text inside css selector
+   *
    * @param cssSelector Selector to check
-   * @param text Text to compare
+   * @param text        Text to compare
    */
   protected void checkTextContains(String cssSelector, String text) {
     // Check selector text
@@ -1776,8 +1966,9 @@ public class SeleniumUtilities {
 
   /**
    * heck if selector doesn't contain a text
+   *
    * @param cssSelector Selector to check
-   * @param text Text to compare
+   * @param text        Text to compare
    */
   protected void checkTextNotContains(String cssSelector, String text) {
     checkTextNotContains(waitForCssSelector(cssSelector), text);
@@ -1785,6 +1976,7 @@ public class SeleniumUtilities {
 
   /**
    * Check if grid contains some texts
+   *
    * @param searchList Texts to search for in the grid
    */
   protected void checkRowContents(String... searchList) {
@@ -1793,7 +1985,8 @@ public class SeleniumUtilities {
 
   /**
    * Check if grid contains some texts
-   * @param gridId Grid Identifier
+   *
+   * @param gridId     Grid Identifier
    * @param searchList Texts to search for in the grid
    */
   protected void checkRowContentsGrid(String gridId, String... searchList) {
@@ -1811,10 +2004,11 @@ public class SeleniumUtilities {
 
   /**
    * Check cell contents
-   * @param gridId Grid id
-   * @param rowId Row id
+   *
+   * @param gridId   Grid id
+   * @param rowId    Row id
    * @param columnId Column id
-   * @param search Search value
+   * @param search   Search value
    */
   protected void checkCellContents(String gridId, String rowId, String columnId, String search) {
     By selector = By.xpath(getParentSelectorXpath(gridId, rowId, columnId) + "//text()[contains(.,'" + search + PARENT_ELEMENT);
@@ -1828,6 +2022,7 @@ public class SeleniumUtilities {
 
   /**
    * Check if grid doesn't contain some texts
+   *
    * @param search Texts to search for in the grid
    */
   protected void checkRowNotContains(String search) {
@@ -1841,8 +2036,9 @@ public class SeleniumUtilities {
 
   /**
    * Assert if a criterion contains a text
+   *
    * @param criterionName Criterion name
-   * @param search Text to check
+   * @param search        Text to check
    */
   protected void checkCriterionContents(String criterionName, String search) {
     By selector = getCriterionInputSelector(getCriterionSelectorCss(criterionName));
@@ -1856,7 +2052,8 @@ public class SeleniumUtilities {
 
   /**
    * Assert if some criteria are checked or not
-   * @param isChecked Flag to check
+   *
+   * @param isChecked     Flag to check
    * @param criteriaNames Elements to check
    */
   protected void checkCheckboxRadio(boolean isChecked, String... criteriaNames) {
@@ -1874,8 +2071,9 @@ public class SeleniumUtilities {
 
   /**
    * Assert if a selector contains a text
+   *
    * @param criterionName Selector name
-   * @param search Text to check
+   * @param search        Text to check
    */
   protected void checkSelectContents(String criterionName, String search) {
     By selector = By.cssSelector(getCriterionSelectorCss(criterionName) + " .select2-chosen");
@@ -1889,20 +2087,22 @@ public class SeleniumUtilities {
 
   /**
    * Assert if a selector contains a number of results
+   *
    * @param criterionName Selector name
-   * @param number Number of results to check
+   * @param number        Number of results to check
    */
   protected void checkSelectNumberOfResults(String criterionName, Integer number) {
     selectClick(getCriterionSelectorCss(criterionName));
 
     // Assert element is not located
-    assertWithScreenshot("Number of elements doesn't match", number == driver.findElements(SELECT_DROP_RESULTS).size());
+    assertWithScreenshot("Number of elements doesn't match", number == getElements(SELECT_DROP_RESULTS).size());
   }
 
   /**
    * Assert if a selector contains a text
+   *
    * @param criterionName Selector name
-   * @param search Text to check
+   * @param search        Text to check
    */
   protected void checkMultipleSelectorContents(String criterionName, String search) {
     By selector = By.cssSelector(getCriterionSelectorCss(criterionName) + " .select2-search-choice div");
@@ -1916,6 +2116,7 @@ public class SeleniumUtilities {
 
   /**
    * Check if message is missing
+   *
    * @param messageType Message type
    */
   protected void checkMessageMissing(String messageType) {
@@ -1923,7 +2124,7 @@ public class SeleniumUtilities {
 
     // Wait 1 second
     pause(1000);
-    List<WebElement> messages = driver.findElements(messageSelector);
+    List<WebElement> messages = getElements(messageSelector);
 
     // Check there are no messages of messageType
     assertEquals(0, messages.size());
@@ -1931,6 +2132,7 @@ public class SeleniumUtilities {
 
   /**
    * Check element is present
+   *
    * @param cssSelector CSS selector
    */
   protected void checkPresence(String cssSelector) {
@@ -1942,6 +2144,7 @@ public class SeleniumUtilities {
 
   /**
    * Check element is visible
+   *
    * @param cssSelector CSS selector
    */
   protected void checkVisible(String cssSelector) {
@@ -1953,8 +2156,9 @@ public class SeleniumUtilities {
 
   /**
    * Check element is visible
+   *
    * @param cssSelector CSS selector
-   * @param search Search string
+   * @param search      Search string
    */
   protected void checkVisibleAndContains(String cssSelector, String search) {
     // Check if it is visible
@@ -1966,6 +2170,7 @@ public class SeleniumUtilities {
 
   /**
    * Check element is not visible
+   *
    * @param cssSelector CSS selector
    */
   protected void checkNotVisible(String cssSelector) {
@@ -1977,15 +2182,16 @@ public class SeleniumUtilities {
 
   /**
    * Log into the application
-   * @param username User name
-   * @param password Password
+   *
+   * @param username    User name
+   * @param password    Password
    * @param cssSelector Selector to check
-   * @param checkText Text to check inside selector
+   * @param checkText   Text to check inside selector
    */
   protected void checkLogin(String username, String password, String cssSelector, String checkText) {
     assertNotNull(driver);
 
-    logger.log(Level.INFO, "Launching tests with '" + browser + "' browser: " + startURL);
+    log.info("Launching tests with '" + browser + "' browser: " + startURL);
 
     // Set driver timeout
     driver.manage().timeouts().setScriptTimeout(timeout, SECONDS);
@@ -2020,8 +2226,9 @@ public class SeleniumUtilities {
 
   /**
    * Log out the application
+   *
    * @param cssSelector Selector to check
-   * @param checkText Text to check inside selector
+   * @param checkText   Text to check inside selector
    */
   protected void checkLogout(String cssSelector, String checkText) {
     // Test title
@@ -2039,6 +2246,7 @@ public class SeleniumUtilities {
 
   /**
    * Select module in module list
+   *
    * @param moduleName Module name
    */
   protected void selectModule(String moduleName) {
@@ -2046,7 +2254,7 @@ public class SeleniumUtilities {
     clickInfoButton("ButSetTog");
 
     // Suggest
-    suggest("module",  moduleName, moduleName);
+    suggest("module", moduleName, moduleName);
 
     // Wait for loading bar
     waitForLoadingBar();
@@ -2054,6 +2262,7 @@ public class SeleniumUtilities {
 
   /**
    * Broadcast a message to a user
+   *
    * @param user User name
    * @param text Text to send
    */
