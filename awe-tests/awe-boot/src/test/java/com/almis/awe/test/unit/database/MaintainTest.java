@@ -19,7 +19,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.assertSame;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -37,9 +39,10 @@ public class MaintainTest extends AweSpringDatabaseTests {
 
   /**
    * Launch a maintain test
+   *
    * @param maintainName Maintain name
-   * @param variables Variables
-   * @param expected Expected value
+   * @param variables    Variables
+   * @param expected     Expected value
    * @return Maintain result
    * @throws Exception
    */
@@ -49,9 +52,10 @@ public class MaintainTest extends AweSpringDatabaseTests {
 
   /**
    * Launch a query test
+   *
    * @param queryName Maintain name
    * @param variables Variables
-   * @param expected Expected value
+   * @param expected  Expected value
    * @return Maintain result
    * @throws Exception
    */
@@ -61,10 +65,11 @@ public class MaintainTest extends AweSpringDatabaseTests {
 
   /**
    * Launch a request test
-   * @param type Request type
-   * @param name Name
+   *
+   * @param type      Request type
+   * @param name      Name
    * @param variables Variables
-   * @param expected Expected value
+   * @param expected  Expected value
    * @return Maintain result
    * @throws Exception
    */
@@ -217,6 +222,41 @@ public class MaintainTest extends AweSpringDatabaseTests {
 
     // Clean the mess
     cleanUp("CleanUpSequence");
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testMultipleInsertWithSequenceTwice() throws Exception {
+    String maintainName = "MultipleInsertWithSequence";
+    String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"],";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+
+    try {
+      // Clean the mess
+      cleanUp("CleanUpSequence");
+
+      String result = launchMaintain(maintainName, variables, expected);
+      logger.debug(result);
+      assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+        new MaintainResultDetails(MaintainType.INSERT, 1l),
+        new MaintainResultDetails(MaintainType.INSERT, 1l)
+      });
+
+      variables = "\"variable\": [\"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\"],";
+      result = launchMaintain(maintainName, variables, expected);
+      logger.debug(result);
+      assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
+        new MaintainResultDetails(MaintainType.INSERT, 1l),
+        new MaintainResultDetails(MaintainType.INSERT, 1l)
+      });
+    } finally {
+      // Clean the mess
+      cleanUp("CleanUpSequence");
+    }
   }
 
   /**

@@ -61,6 +61,7 @@ public class SeleniumUtilities {
   private static final String YEAR = "year";
   private static final By GRID_LOADER_SELECTOR = By.cssSelector(".grid-loader");
   private static final By SELECT_DROP_INPUT = By.cssSelector("#select2-drop input.select2-input");
+  private static final By SELECT_DROP_INPUT_NOT_HIDDEN = By.cssSelector("#select2-drop :not(.select2-search-hidden) input.select2-input");
   private static final By SELECT_DROP_RESULTS = By.cssSelector("#select2-drop .select2-results li");
   private static final ExpectedCondition<Boolean> GRID_LOADER_IS_NOT_VISIBLE = invisibilityOfElementLocated(GRID_LOADER_SELECTOR);
   private static final ExpectedCondition<Boolean> LOADER_IS_NOT_VISIBLE = invisibilityOfElementLocated(By.cssSelector(".loader"));
@@ -140,7 +141,7 @@ public class SeleniumUtilities {
           browserWebDriverContainer
             .withCapabilities(chromeOptions)
             .start();
-          startURL = "http://" + getHost()+ ":" + serverPort + contextPath;
+          startURL = "http://" + getHost() + ":" + serverPort + contextPath;
           setDriver(browserWebDriverContainer.getWebDriver());
           break;
         case "headless-chrome":
@@ -299,6 +300,15 @@ public class SeleniumUtilities {
     assertTrue(message, condition);
   }
 
+  private boolean isWritable(By selector) {
+    try {
+      getElement(selector);
+      return true;
+    } catch (Exception exc) {
+      return false;
+    }
+  }
+
   /**
    * Type keys on a criterion
    *
@@ -306,7 +316,18 @@ public class SeleniumUtilities {
    * @param text     Text to type
    */
   private void sendKeys(By selector, CharSequence... text) {
-    getElement(selector).sendKeys(text);
+    String conditionMessage = "";
+    try {
+      WebElement element = getElement(selector);
+      new Actions(driver)
+        .sendKeys(element, text)
+        .perform();
+
+      // Assert true on condition
+      assertTrue(conditionMessage, true);
+    } catch (Exception exc) {
+      assertWithScreenshot("Error sending keys to element: " + selector.toString() + "\n" + exc.getMessage(), false, exc);
+    }
   }
 
   /**
@@ -326,9 +347,10 @@ public class SeleniumUtilities {
   private void click(By selector) {
     String conditionMessage = "";
     try {
+      WebElement element = getElement(selector);
       new Actions(driver)
-        .moveToElement(getElement(selector))
-        .click(getElement(selector))
+        .moveToElement(element)
+        .click(element)
         .perform();
 
       // Assert true on condition
@@ -346,10 +368,10 @@ public class SeleniumUtilities {
   private void contextMenu(By selector) {
     String conditionMessage = "";
     try {
+      WebElement element = getElement(selector);
       new Actions(driver)
-        .moveToElement(getElement(selector))
-        .contextClick()
-        .build()
+        .moveToElement(element)
+        .contextClick(element)
         .perform();
       assertTrue(conditionMessage, true);
     } catch (Exception exc) {
@@ -758,8 +780,10 @@ public class SeleniumUtilities {
     // Wait for element present
     waitUntil(presenceOfElementLocated(SELECT_DROP_INPUT));
 
-    // Write username
-    sendKeys(SELECT_DROP_INPUT, search);
+    // Write text
+    if (isWritable(SELECT_DROP_INPUT_NOT_HIDDEN)) {
+      sendKeys(SELECT_DROP_INPUT, search);
+    }
 
     // Wait for loading bar
     waitForLoadingBar();
@@ -1434,6 +1458,20 @@ public class SeleniumUtilities {
    */
   protected void contextMenu(String gridId, String rowId, String columnId) {
     contextMenuFromSelector(getParentSelectorXpath(gridId, rowId, columnId));
+  }
+
+  /**
+   * Type keys on a criterion
+   *
+   * @param selector Criterion selector to type keys
+   * @param text     Text to type
+   */
+  protected void writeTextOnDriver(By selector, CharSequence... text) {
+    // Wait for element present
+    waitUntil(presenceOfElementLocated(selector));
+
+    // Write text
+    getElement(selector).sendKeys(text);
   }
 
   /**

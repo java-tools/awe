@@ -1,6 +1,5 @@
 package com.almis.awe.model.entities.maintain;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Getter;
@@ -24,11 +23,6 @@ import lombok.experimental.SuperBuilder;
 @Accessors(chain = true)
 @XStreamAlias("update")
 public class Update extends MaintainQuery {
-
-  @Override
-  public Update copy() throws AWException {
-    return this.toBuilder().build();
-  }
 
   @Override
   public MaintainType getMaintainType() {

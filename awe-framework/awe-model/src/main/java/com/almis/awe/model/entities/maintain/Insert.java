@@ -1,6 +1,5 @@
 package com.almis.awe.model.entities.maintain;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -31,11 +30,6 @@ public class Insert extends MaintainQuery {
   @XStreamAlias("query")
   @XStreamAsAttribute
   private String query;
-
-  @Override
-  public Insert copy() throws AWException {
-    return this.toBuilder().build();
-  }
 
   /**
    * Returns the audit table name (cancels audit in case of INSERT INTO SELECT statements)

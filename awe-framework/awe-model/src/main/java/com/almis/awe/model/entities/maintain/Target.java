@@ -63,6 +63,7 @@ public class Target implements XMLNode, Copyable {
 
   /**
    * Returns if is list
+   *
    * @return Is list
    */
   public boolean isPublic() {

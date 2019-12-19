@@ -13,6 +13,7 @@ import static org.junit.Assert.assertNull;
 
 /**
  * DataList, DataListUtil and DataListBuilder tests
+ *
  * @author pgarcia
  */
 public class QueryTest extends TestUtil {
@@ -128,6 +129,7 @@ public class QueryTest extends TestUtil {
 
   /**
    * Query print toString
+   *
    * @throws Exception Test error
    */
   @Test
@@ -136,19 +138,20 @@ public class QueryTest extends TestUtil {
     assertEquals(expectedQuery, query.toString());
     assertEquals(" OVER ()", new Over().toString());
     assertEquals("GROUP BY HAVING(tableGroup.fieldGroup)", "GROUP BY " + new GroupBy()
-            .setField("fieldGroup")
-            .setTable("tableGroup")
-            .setFunction("HAVING").toString());
+      .setField("fieldGroup")
+      .setTable("tableGroup")
+      .setFunction("HAVING").toString());
     assertEquals("ORDER BY tableSort.fieldSort NULLS last ASC", "ORDER BY " + new OrderBy()
-            .setField("fieldSort")
-            .setTable("tableSort")
-            .setType("ASC")
-            .setNulls("last")
-            .toString());
+      .setField("fieldSort")
+      .setTable("tableSort")
+      .setType("ASC")
+      .setNulls("last")
+      .toString());
   }
 
   /**
    * Query print toString with variables
+   *
    * @throws Exception Test error
    */
   @Test
@@ -175,6 +178,7 @@ public class QueryTest extends TestUtil {
 
   /**
    * Query print toString with variables
+   *
    * @throws Exception Test error
    */
   @Test

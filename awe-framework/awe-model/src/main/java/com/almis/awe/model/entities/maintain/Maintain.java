@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Maintain Class
- *
+ * <p>
  * Used to parse the file Maintain.xml with XStream
  * Contains a list of maintain targets
  *
@@ -38,7 +38,7 @@ public class Maintain implements XMLFile {
    * @return Selected Target
    */
   public Target getTarget(String ide) {
-    for (Target target: getBaseElementList()) {
+    for (Target target : getBaseElementList()) {
       if (ide.equals(target.getName())) {
         return target;
       }
