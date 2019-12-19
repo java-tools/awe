@@ -816,6 +816,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Click on button
     clickButton("ButGrdMuoAdd");
 
+    // Wait for visible
+    waitForCssSelector("[grid-id='GrdMuo'] [column-id='RowIco'] span.fa.fa-plus");
+
     // Save row
     saveRow("GrdMuo");
 
