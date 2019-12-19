@@ -12,7 +12,7 @@
   </parent>
 
   <artifactId>awe-boot</artifactId>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <name>AWE Integration Tests (V${project.version})</name>
 
   <properties>
