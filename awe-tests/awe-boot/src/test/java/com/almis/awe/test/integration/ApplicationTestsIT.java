@@ -828,7 +828,7 @@ public class ApplicationTestsIT extends SeleniumUtilities {
     writeText("CrtTxt", "Texto de prueba");
 
     // Wait for reset button
-    clickButton("ButEnc");
+    clickButton("ButEnc", true);
 
     // Check criterion contents
     checkCriterionContents("CrtEnc", "dOakAf2lwfqAke4O41A0Ww==");
