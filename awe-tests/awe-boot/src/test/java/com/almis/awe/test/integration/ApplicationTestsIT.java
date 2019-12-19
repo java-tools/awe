@@ -810,48 +810,11 @@ public class ApplicationTestsIT extends SeleniumUtilities {
   }
 
   /**
-   * View a log file
-   * @throws Exception
-   */
-  @Test
-  public void t061_viewLog() throws Exception {
-    // Title
-    setTestTitle("View a log file");
-
-    // Go to log screen
-    gotoScreen("tools", "log");
-
-    // Wait for reset button
-    waitForButton("ButRst");
-
-    // Write on criterion
-    writeText("CrtFil", "awe-boot_test");
-
-    // Search and wait
-    searchAndWait();
-
-    // Click on row
-    clickRowContents("awe-boot");
-
-    // Click on button
-    clickButton("ButViw", true);
-
-    // Wait for button
-    waitForButton("ButBck");
-
-    // Check text
-    waitForText("visible-text", "INFO");
-
-    // Check text
-    checkTextContains(".visible-text", "INFO");
-  }
-
-  /**
    * Encrypt text with encryption tools
    * @throws Exception
    */
   @Test
-  public void t063_encryptText() throws Exception {
+  public void t061_encryptText() throws Exception {
     // Title
     setTestTitle("Encrypt text with encryption tools");
 
@@ -869,5 +832,43 @@ public class ApplicationTestsIT extends SeleniumUtilities {
 
     // Check criterion contents
     checkCriterionContents("CrtEnc", "dOakAf2lwfqAke4O41A0Ww==");
+  }
+
+
+  /**
+   * View a log file
+   * @throws Exception
+   */
+  @Test
+  public void t063_viewLog() throws Exception {
+    // Title
+    setTestTitle("View a log file");
+
+    // Go to log screen
+    gotoScreen("tools", "log");
+
+    // Wait for reset button
+    waitForButton("ButRst");
+
+    // Write on criterion
+    writeText("CrtFil", "SCHEDULER.log");
+
+    // Search and wait
+    searchAndWait();
+
+    // Click on row
+    clickRowContents("awe-boot");
+
+    // Click on button
+    clickButton("ButViw", true);
+
+    // Wait for button
+    waitForButton("ButBck");
+
+    // Check text
+    waitForText("visible-text", "[SCHEDULER]");
+
+    // Check text
+    checkTextContains(".visible-text", "[SCHEDULER]");
   }
 }
