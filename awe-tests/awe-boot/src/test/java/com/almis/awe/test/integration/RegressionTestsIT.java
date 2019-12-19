@@ -415,7 +415,7 @@ public class RegressionTestsIT extends SeleniumUtilities {
     clearText(selector + " input.select2-input");
 
     // Write select
-    writeText(By.cssSelector(selector + " input.select2-input"), search2);
+    writeTextOnDriver(By.cssSelector(selector + " input.select2-input"), search2);
 
     // Click selector
     selectResult(match);

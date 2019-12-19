@@ -1,6 +1,5 @@
 package com.almis.awe.model.entities.maintain;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -31,11 +30,6 @@ public class Multiple extends MaintainQuery {
   @XStreamAlias("grid")
   @XStreamAsAttribute
   private String grid;
-
-  @Override
-  public Multiple copy() throws AWException {
-    return this.toBuilder().build();
-  }
 
   @Override
   public MaintainType getMaintainType() {
