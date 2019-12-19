@@ -163,8 +163,9 @@ Frontend UT:
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   allow_failure: true
   dependencies: []
-  script:
+  before_script:
   - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $IT_OPTS $BROWSER_OPTS
+  script:
   - cp awe-tests/awe-boot/target/jacoco-it.exec awe-tests/awe-boot/target/jacoco-$TEST_NAME-it.exec
   - search=`cat awe-tests/awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml`
   - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
