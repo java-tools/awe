@@ -857,7 +857,7 @@ public class ApplicationTestsIT extends SeleniumUtilities {
     searchAndWait();
 
     // Click on row
-    clickRowContents("awe-boot");
+    clickRowContents("SCHEDULER.log");
 
     // Click on button
     clickButton("ButViw", true);
