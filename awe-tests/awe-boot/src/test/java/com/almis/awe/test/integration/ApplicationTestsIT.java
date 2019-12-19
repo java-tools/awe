@@ -847,22 +847,6 @@ public class ApplicationTestsIT extends SeleniumUtilities {
   }
 
   /**
-   * Broadcast message to a user
-   * @throws Exception
-   */
-  @Test
-  public void t062_broadcastMessage() throws Exception {
-    // Title
-    setTestTitle("Broadcast message to a user");
-
-    // Broadcast messaget o user
-    broadcastMessageToUser("test", "This is a broadcast message test");
-
-    // Check message box is empty
-    checkCriterionContents("MsgDes", "");
-  }
-
-  /**
    * Encrypt text with encryption tools
    * @throws Exception
    */
