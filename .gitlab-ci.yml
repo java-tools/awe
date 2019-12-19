@@ -28,20 +28,20 @@ cache:
   key: $CACHE_KEY
   policy: pull
   paths:
-  - .m2/repository/
-  - awe-framework/awe-client-angular/node_modules/
-  - awe-framework/awe-modules/awe-tools/node_modules/
+    - .m2/repository/
+    - awe-framework/awe-client-angular/node_modules/
+    - awe-framework/awe-modules/awe-tools/node_modules/
 
 stages:
-- build
-- unit test
-- integration test
-- analysis
-- check
-- site
-- package
-- deploy
-- release
+  - build
+  - unit test
+  - integration test
+  - analysis
+  - check
+  - site
+  - package
+  - deploy
+  - release
 
 ##############################
 # Build stage
@@ -54,26 +54,26 @@ stages:
     key: $CACHE_KEY
     policy: push
     paths:
-    - .m2/repository/
-    - awe-framework/awe-client-angular/node_modules/
-    - awe-framework/awe-modules/awe-tools/node_modules/
+      - .m2/repository/
+      - awe-framework/awe-client-angular/node_modules/
+      - awe-framework/awe-modules/awe-tools/node_modules/
   script:
-  - mvn $MAVEN_CLI_OPTS clean install $SKIP_TESTS
+    - mvn $MAVEN_CLI_OPTS clean install $SKIP_TESTS
   retry: 2
 
 Compile project:
   extends: .build
   except:
-  - develop
-  - /^release/.*$/
+    - develop
+    - /^release/.*$/
 
 Build project:
   extends: .build
   artifacts:
     paths:
-    - awe-tests/awe-boot/target/awe-boot.war
+      - awe-tests/awe-boot/target/awe-boot.war
   only:
-  - develop
+    - develop
 
 ##############################
 # Unit testing stage
@@ -86,17 +86,17 @@ Build project:
   allow_failure: false
   dependencies: []
   script:
-  - mvn $MAVEN_CLI_OPTS verify $UT_OPTS -Dsurefire.suite=**/$UNIT_TEST_SUITE
-  - cp awe-tests/awe-boot/target/jacoco.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
+    - mvn $MAVEN_CLI_OPTS verify $UT_OPTS -Dsurefire.suite=**/$UNIT_TEST_SUITE
+    - cp awe-tests/awe-boot/target/jacoco.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
   except:
-  - /^release/.*$/
+    - /^release/.*$/
   artifacts:
     paths:
-    - awe-tests/awe-boot/target/surefire-reports/
-    - awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
+      - awe-tests/awe-boot/target/surefire-reports/
+      - awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
     reports:
       junit:
-      - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
+        - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
 
 All UT:
   extends: .unit-testing
@@ -107,7 +107,7 @@ All UT:
 Oracle UT:
   extends: .unit-testing
   services:
-  - epiclabs/docker-oracle-xe-11g
+    - epiclabs/docker-oracle-xe-11g
   variables:
     ORACLE_ALLOW_REMOTE: "true"
     ORACLE_PASSWORD: "$DATABASE_PASSWORD"
@@ -143,15 +143,15 @@ Frontend UT:
   stage: unit test
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   script:
-  - mvn -f awe-framework/awe-client-angular/pom.xml $MAVEN_CLI_OPTS test
+    - mvn -f awe-framework/awe-client-angular/pom.xml $MAVEN_CLI_OPTS test
   artifacts:
     paths:
-    - awe-framework/awe-client-angular/target/reports/karma/
+      - awe-framework/awe-client-angular/target/reports/karma/
     reports:
       junit:
-      - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
+        - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
   except:
-  - /^release/.*$/
+    - /^release/.*$/
 
 ##############################
 # Integration testing stage
@@ -163,27 +163,24 @@ Frontend UT:
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   allow_failure: true
   dependencies: []
-  before_script:
-  - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $IT_OPTS $BROWSER_OPTS
   script:
-  - search=`cat awe-tests/awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml`
-  - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
-  - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
-  - echo "$errors errors and $failures failures found"
-  - exitWithErrors=`echo $errors $failures | awk 'BEGIN { FPAT="[0-9]+"} {printf ($1+$2>0)}'`
-  - exit $exitWithErrors
+    - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $IT_OPTS $BROWSER_OPTS
   after_script:
-  - cp awe-tests/awe-boot/target/jacoco-it.exec awe-tests/awe-boot/target/jacoco-$TEST_NAME-it.exec
+    - cp awe-tests/awe-boot/target/jacoco-it.exec awe-tests/awe-boot/target/jacoco-$TEST_NAME-it.exec
+    - search=`cat awe-tests/awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml`
+    - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
+    - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
+    - echo "$errors errors and $failures failures found"
   except:
-  - /^release/.*$/
+    - /^release/.*$/
   artifacts:
     paths:
-    - awe-tests/awe-boot/target/tests/
-    - awe-tests/awe-boot/target/surefire-reports/
-    - awe-tests/awe-boot/target/jacoco-${TEST_NAME}-it.exec
+      - awe-tests/awe-boot/target/tests/
+      - awe-tests/awe-boot/target/surefire-reports/
+      - awe-tests/awe-boot/target/jacoco-${TEST_NAME}-it.exec
     reports:
       junit:
-      - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
+        - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
     when: always
 
 Firefox IT:
@@ -206,19 +203,19 @@ Launch Sonar:
   stage: analysis
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   dependencies:
-  - All UT
-  - Oracle UT
-  - SQL Server UT
-  - MySQL UT
-  - Frontend UT
-  - Firefox IT
-  - Chrome IT
+    - All UT
+    - Oracle UT
+    - SQL Server UT
+    - MySQL UT
+    - Frontend UT
+    - Firefox IT
+    - Chrome IT
   script:
-  - mvn $MAVEN_CLI_OPTS verify -Dskip.frontend=true -DgenerateCoverageReport=true sonar:sonar $SKIP_TESTS $SONAR_OPTS
-  - cat awe-tests/awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
+    - mvn $MAVEN_CLI_OPTS verify -Dskip.frontend=true -DgenerateCoverageReport=true sonar:sonar $SKIP_TESTS $SONAR_OPTS
+    - cat awe-tests/awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
   artifacts:
     paths:
-    - awe-tests/awe-boot/target/coverage-reports/
+      - awe-tests/awe-boot/target/coverage-reports/
   except:
     - /^release/.*$/
 
@@ -251,16 +248,16 @@ Check Sonar:
   cache: {}
   dependencies: []
   script:
-  - sonarUrl="https://sonarcloud.io/api/project_branches/list?project=AWE"
-  - sonarBranches=`curl -s $sonarUrl`
-  - echo $sonarBranches
-  - echo "Branch to check - $CI_COMMIT_REF_NAME"
-  - sonarStatus=`echo $sonarBranches | jq --arg BRANCH "$CI_COMMIT_REF_NAME" '.branches | map(select(.name == $BRANCH)) | .[0].status.qualityGateStatus'`
-  - echo "Sonar has ended with a $sonarStatus status"
-  - exitWithErrors=`echo $sonarStatus | sed -e 's/"//g' | awk '{printf ($1 != "OK")}'`
-  - exit $exitWithErrors
+    - sonarUrl="https://sonarcloud.io/api/project_branches/list?project=AWE"
+    - sonarBranches=`curl -s $sonarUrl`
+    - echo $sonarBranches
+    - echo "Branch to check - $CI_COMMIT_REF_NAME"
+    - sonarStatus=`echo $sonarBranches | jq --arg BRANCH "$CI_COMMIT_REF_NAME" '.branches | map(select(.name == $BRANCH)) | .[0].status.qualityGateStatus'`
+    - echo "Sonar has ended with a $sonarStatus status"
+    - exitWithErrors=`echo $sonarStatus | sed -e 's/"//g' | awk '{printf ($1 != "OK")}'`
+    - exit $exitWithErrors
   except:
-  - /^release/.*$/
+    - /^release/.*$/
 
 ##############################
 # Site stage
@@ -272,23 +269,23 @@ Publish docs:
   cache: {}
   dependencies: []
   script:
-  - curl -H "$DINAMIQ_HEADERS" $DINAMIQ_URL
+    - curl -H "$DINAMIQ_HEADERS" $DINAMIQ_URL
   only:
-  - develop
+    - develop
 
 Generate javadoc & schemas:
   image: maven:3.5-jdk-8
   stage: site
   script:
-  - mvn $MAVEN_CLI_OPTS install site javadoc:aggregate $SKIP_TESTS -Darchetype.test.skip=true -Dskip.javadoc=false -Dskip.main=true -Dskip.frontend=true -Dbuild.environment=production -f awe-framework/pom.xml
+    - mvn $MAVEN_CLI_OPTS install site javadoc:aggregate $SKIP_TESTS -Darchetype.test.skip=true -Dskip.javadoc=false -Dskip.main=true -Dskip.frontend=true -Dbuild.environment=production -f awe-framework/pom.xml
   artifacts:
     paths:
-    - awe-framework/target/site/apidocs
-    - awe-framework/awe-generic-screens/src/main/resources/schemas/
+      - awe-framework/target/site/apidocs
+      - awe-framework/awe-generic-screens/src/main/resources/schemas/
   only:
-  - master
-  - develop
-  - /^release/.*$/
+    - master
+    - develop
+    - /^release/.*$/
 
 ##############################
 # Package stage
@@ -298,17 +295,17 @@ Build package:
   stage: package
   cache: {}
   dependencies:
-  - Build project
+    - Build project
   services:
-  - docker:dind
+    - docker:dind
   tags:
-  - docker
+    - docker
   script:
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-  - docker build -t registry.gitlab.com/aweframework/awe/awe-boot:latest ./awe-tests/awe-boot
-  - docker push registry.gitlab.com/aweframework/awe/awe-boot:latest
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/aweframework/awe/awe-boot:latest ./awe-tests/awe-boot
+    - docker push registry.gitlab.com/aweframework/awe/awe-boot:latest
   only:
-  - develop
+    - develop
 
 ##############################
 # Deploy stage
@@ -319,21 +316,21 @@ Deploy snapshot:
   stage: deploy
   dependencies: []
   script:
-  - mvn $MAVEN_CLI_OPTS deploy $DEPLOY_OPTS
+    - mvn $MAVEN_CLI_OPTS deploy $DEPLOY_OPTS
   only:
-  - develop
+    - develop
 
 Deploy Maven Central:
   image: maven:3.5-jdk-8
   stage: deploy
   dependencies: []
   before_script:
-  ## Add gpg key to sign
-  - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
+    ## Add gpg key to sign
+    - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
   script:
-  - mvn $MAVEN_CLI_OPTS deploy $DEPLOY_OPTS -DperformRelease=true
+    - mvn $MAVEN_CLI_OPTS deploy $DEPLOY_OPTS -DperformRelease=true
   only:
-  - tags
+    - tags
 
 # Kubernetes deployment
 .k8s_deploy:
@@ -342,21 +339,21 @@ Deploy Maven Central:
   dependencies: []
   stage: deploy
   script:
-  - echo "$GOOGLE_KEY" > key.json
-  - gcloud auth activate-service-account --key-file key.json
-  - gcloud config set compute/zone $KUBE_ZONE
-  - gcloud config set project $KUBERNETES_PROJECT_ID
-  - gcloud config set container/use_client_certificate True
-  - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
-  - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
-  - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-  - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$CI_ENVIRONMENT_SLUG
-  - kubectl config use-context default-system
-  - kubectl delete secret registry.gitlab.com --ignore-not-found
-  - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
-  - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
-  - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
-  - kubectl apply -f awe-tests/awe-boot/deployment.yaml
+    - echo "$GOOGLE_KEY" > key.json
+    - gcloud auth activate-service-account --key-file key.json
+    - gcloud config set compute/zone $KUBE_ZONE
+    - gcloud config set project $KUBERNETES_PROJECT_ID
+    - gcloud config set container/use_client_certificate True
+    - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
+    - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
+    - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
+    - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$CI_ENVIRONMENT_SLUG
+    - kubectl config use-context default-system
+    - kubectl delete secret registry.gitlab.com --ignore-not-found
+    - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
+    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
+    - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
+    - kubectl apply -f awe-tests/awe-boot/deployment.yaml
 
 Deploy staging:
   extends: .k8s_deploy
@@ -365,7 +362,7 @@ Deploy staging:
     url: http://staging.aweframework.com
   only:
     refs:
-    - develop
+      - develop
     kubernetes: active
 
 Deploy production:
@@ -375,25 +372,25 @@ Deploy production:
     url: http://demo.aweframework.com
   only:
     refs:
-    - master
+      - master
     kubernetes: active
 
 pages:
   stage: deploy
   cache: {}
   dependencies:
-  - Generate javadoc & schemas
+    - Generate javadoc & schemas
   script:
-  - mkdir -p .public/docs/schemas
-  - cp -r awe-framework/target/site/apidocs .public/javadoc-api/
-  - cp -r awe-framework/awe-generic-screens/src/main/resources/schemas/awe/*.xsd .public/docs/schemas/
-  - mv .public public
+    - mkdir -p .public/docs/schemas
+    - cp -r awe-framework/target/site/apidocs .public/javadoc-api/
+    - cp -r awe-framework/awe-generic-screens/src/main/resources/schemas/awe/*.xsd .public/docs/schemas/
+    - mv .public public
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - master
-  - develop
+    - master
+    - develop
 
 ##############################
 # Release stage
@@ -401,17 +398,17 @@ pages:
 
 .git_credentials_template: &git_credentials
   before_script:
-  ## Push git credentials
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
-  - git config --global user.email no-reply@almis.com
-  - git config --global user.name "Gitlab CI"
-  - git remote set-url $CI_PROJECT_URL_SSH
+    ## Push git credentials
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    - git config --global user.email no-reply@almis.com
+    - git config --global user.name "Gitlab CI"
+    - git remote set-url $CI_PROJECT_URL_SSH
 
 Start a new release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
@@ -420,17 +417,17 @@ Start a new release:
   stage: release
   <<: *git_credentials
   script:
-  ## Generate changelog
-  - git checkout $CI_COMMIT_REF_NAME
-  - chmod +x ./bin/changelog.sh
-  - . ./bin/changelog.sh
-  - git checkout ./bin/changelog.sh
-  - git add ./CHANGELOG.md
-  - git commit -m "Generated CHANGELOG"
-  ## Generate release
-  - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true -DpushRemote=true -DversionProperty=revision
+    ## Generate changelog
+    - git checkout $CI_COMMIT_REF_NAME
+    - chmod +x ./bin/changelog.sh
+    - . ./bin/changelog.sh
+    - git checkout ./bin/changelog.sh
+    - git add ./CHANGELOG.md
+    - git commit -m "Generated CHANGELOG"
+    ## Generate release
+    - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true -DpushRemote=true -DversionProperty=revision
   only:
-  - develop
+    - develop
   when: manual
 
 Finish the release:
@@ -441,8 +438,8 @@ Finish the release:
   allow_failure: false
   <<: *git_credentials
   script:
-  ## Generate release
-  - git checkout $CI_COMMIT_REF_NAME
-  - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DversionProperty=revision
+    ## Generate release
+    - git checkout $CI_COMMIT_REF_NAME
+    - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DversionProperty=revision
   only:
-  - /^release/.*$/
+    - /^release/.*$/
