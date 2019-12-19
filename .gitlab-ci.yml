@@ -14,7 +14,7 @@ variables:
   SKIP_TESTS: "-DskipTests"
   IT_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false -DgenerateIntegrationReport=true"
   UT_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.frontend=true -DgenerateIntegrationReport=true"
-  DEPLOY_OPTS: "-f awe-framework/pom.xml -DskipTests -Dskip.javadoc=false -Dbuild.environment=production"
+  DEPLOY_OPTS: "-f awe-framework/pom.xml -DskipTests -Darchetype.test.skip=true -Dskip.javadoc=false -Dbuild.environment=production"
   CHROME_OPTS: "-Dbrowser=headless-chrome"
   FIREFOX_OPTS: "-Dbrowser=headless-firefox"
   CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
