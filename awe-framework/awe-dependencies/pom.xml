@@ -615,6 +615,7 @@
                 <configuration>
                   <skip>${skip.selenium}</skip>
                   <append>true</append>
+                  <dumpOnExit>true</dumpOnExit>
                   <destFile>${jacoco.base.reports}/jacoco-it.exec</destFile>
                   <propertyName>failsafe.argLine</propertyName>
                 </configuration>
