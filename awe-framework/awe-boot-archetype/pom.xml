@@ -87,5 +87,21 @@
         </excludes>
       </resource>
     </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>projects/it1/reference/pom.xml</exclude>
+        </excludes>
+      </testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>projects/it1/reference/pom.xml</include>
+        </includes>
+      </testResource>
+    </testResources>
   </build>
 </project>
