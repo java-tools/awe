@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : scheduler-parameters.xml
+    Created on : 10/11/2015
+    Author     : David Fuentes
+    Description: Ventana de parametros del planificador
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window"
+        label="MENU_NEW_SCHEDULER_TASK" help="HELP_SCREEN_NEW_SCHEDULER_TASK">
+  <tag source="Configuration">
+    <criteria label="PARAMETER_NAME" component="text" id="Nam" style="col-xs-8 col-sm-10" validation="required"/>
+    <criteria label="PARAMETER_ACTIVE" component="select" id="Act" style="col-xs-4 col-sm-2" initial-load="enum"
+              target-action="Es1Es0" validation="required" value="1"/>
+    <criteria label="PARAMETER_DESCRIPTION" component="textarea" id="Des" style="col-xs-12"/>
+    <criteria label="PARAMETER_STORE_EXECUTION" component="numeric" id="NumStoExe" style="col-xs-6 col-sm-3"
+              property="sch.max.stored.executions"/>
+    <criteria label="PARAMETER_TIMEOUT" component="numeric" id="TimOutExe" style="col-xs-6 col-sm-3"/>
+    <criteria label="PARAMETER_EXECUTE" component="select" id="TypExe" initial-load="enum" target-action="ExeTyp"
+              style="col-xs-6 col-sm-3" validation="required"/>
+
+    <tag id="executionCommand">
+      <criteria id="CmdExe" label="PARAMETER_COMMAND" component="hidden">
+        <dependency>
+          <dependency-element id="TypExe"/>
+          <dependency-action type="reset" target="ParameterList"/>
+        </dependency>
+        <dependency source-type="launcher" initial="true" target-type="input" target-action="maintainVal">
+          <dependency-element id="TypExe" condition="eq" value="1"/>
+          <dependency-element id="maintain" attribute="text" alias="maintainVal"/>
+        </dependency>
+        <dependency source-type="launcher" initial="true" target-type="input" target-action="commandVal">
+          <dependency-element id="TypExe" condition="eq" value="0"/>
+          <dependency-element id="command" attribute="text" alias="commandVal"/>
+        </dependency>
+      </criteria>
+      <criteria label="PARAMETER_MAINTAIN" id="maintain" component="suggest" server-action="data"
+                target-action="getPublicMaintainList" style="col-xs-6 col-sm-3">
+        <dependency initial="true" target-type="set-required">
+          <dependency-element id="TypExe" condition="eq" value="1"/>
+        </dependency>
+        <dependency initial="true" target-type="hide">
+          <dependency-element id="TypExe" condition="eq" value="0"/>
+        </dependency>
+        <dependency initial="true">
+          <dependency-element id="TypExe" condition="eq" value="0"/>
+          <dependency-action type="reset" target="maintain"/>
+        </dependency>
+        <dependency>
+          <dependency-element id="TypExe" condition="eq" value="1"/>
+          <dependency-element id="maintain"/>
+          <dependency-action type="reset" target="ParameterList"/>
+          <dependency-action type="server" server-action="data" target-action="loadMaintainVariables"
+                             target="ParameterList"/>
+        </dependency>
+      </criteria>
+      <criteria label="PARAMETER_COMMAND" id="command" component="text" style="col-xs-6 col-sm-3">
+        <dependency initial="true" target-type="set-required">
+          <dependency-element id="TypExe" condition="eq" value="0"/>
+        </dependency>
+        <dependency initial="true" target-type="hide">
+          <dependency-element id="TypExe" condition="eq" value="1"/>
+        </dependency>
+        <dependency initial="true">
+          <dependency-element id="TypExe" condition="eq" value="1"/>
+          <dependency-action type="reset" target="command"/>
+        </dependency>
+      </criteria>
+      <criteria label="PARAMETER_EXECUTE_PATH" component="text" id="CmdExePth" style="col-xs-12">
+        <dependency initial="true" target-type="hide">
+          <dependency-element id="TypExe" condition="eq" value="1"/>
+        </dependency>
+        <dependency initial="true">
+          <dependency-element id="TypExe" condition="eq" value="1"/>
+          <dependency-action type="reset" target="CmdExePth"/>
+        </dependency>
+      </criteria>
+    </tag>
+    <criteria label="PARAMETER_LAUNCH_DEPENDENCIES_WARN" component="checkbox" id="LchDepWrn"
+              style="col-xs-12 no-label"/>
+    <criteria label="PARAMETER_LAUNCH_DEPENDENCIES_ERROR" component="checkbox" id="LchDepErr"
+              style="col-xs-12 no-label"/>
+    <criteria label="PARAMETER_SET_WARNING_ERROR" component="checkbox" id="LchSetWrn" style="col-xs-12 no-label"/>
+  </tag>
+  <tag source="Parameters">
+    <grid id="ParameterList" style="expand" editable="true" send-all="true" target-action="taskParameters" initial-load="query">
+      <column name="IdePar" hidden="true"/>
+      <column label="PARAMETER_NAME" name="ParNam" align="left" component="text" validation="required" charlength="30"
+              sortable="false"/>
+      <column label="PARAMETER_SOURCE" name="ParSrc" align="left" component="select" validation="required"
+              initial-load="enum" target-action="SchParSrc" charlength="20" sortable="false"/>
+      <column label="PARAMETER_TYPE" name="ParTyp" align="left" component="select" validation="required"
+              initial-load="enum" target-action="SchParTyp" charlength="20" sortable="false"/>
+      <column label="PARAMETER_VALUE" name="ParVal" align="left" component="text" charlength="30" sortable="false"/>
+      <button id="ButAddParameter" label="BUTTON_NEW" icon="plus">
+        <button-action type="add-row" target="ParameterList"/>
+      </button>
+      <button id="ButDelParameter" label="BUTTON_DELETE" icon="trash">
+        <button-action type="delete-row" target="ParameterList"/>
+      </button>
+    </grid>
+  </tag>
+  <tag source="Launch">
+    <tag type="div" id="launchParameters">
+      <criteria label="PARAMETER_LAUNCH_TYPE" component="select" id="TypLch"
+                style="col-xs-4 col-sm-2" initial-load="enum" target-action="LchTyp"
+                validation="required">
+        <dependency initial="true">
+          <dependency-element id="TypLch" condition="eq" value="0"/>
+          <dependency-action type="add-class" async="true" target-action="hidden" target="#scheduled-time"/>
+          <dependency-action type="add-class" async="true" target-action="hidden" target="#scheduled-launcher"/>
+          <dependency-action type="add-class" async="true" target-action="hidden" target="#file-launcher"/>
+        </dependency>
+        <dependency initial="true">
+          <dependency-element id="TypLch" condition="eq" value="1"/>
+          <dependency-action type="remove-class" async="true" target-action="hidden" target="#scheduled-time"/>
+          <dependency-action type="remove-class" async="true" target-action="hidden" target="#scheduled-launcher"/>
+          <dependency-action type="add-class" async="true" target-action="hidden" target="#file-launcher"/>
+        </dependency>
+        <dependency initial="true">
+          <dependency-element id="TypLch" condition="eq" value="2"/>
+          <dependency-action type="remove-class" async="true" target-action="hidden" target="#scheduled-time"/>
+          <dependency-action type="remove-class" async="true" target-action="hidden" target="#scheduled-launcher"/>
+          <dependency-action type="remove-class" async="true" target-action="hidden" target="#file-launcher"/>
+        </dependency>
+      </criteria>
+      <tag type="div" id="scheduled-time">
+        <criteria label="PARAMETER_REPEAT_EACH" component="numeric" id="RptNum"
+                  style="col-xs-4 col-sm-2 col-lg-1 no-padding-right">
+          <dependency initial="true" source-type="label" target-type="label" label="PARAMETER_CHECK_EACH">
+            <dependency-element id="TypLch" condition="eq" value="2"/>
+          </dependency>
+          <dependency initial="true" source-type="label" target-type="label" label="PARAMETER_REPEAT_EACH">
+            <dependency-element id="TypLch" condition="eq" value="1"/>
+          </dependency>
+          <dependency type="and" initial="true" target-type="set-required">
+            <dependency-element id="TypLch" condition="ne" value="0"/>
+            <dependency-element id="RptTyp" condition="ne" value="6"/>
+            <dependency-element id="RptTyp" condition="ne" value="7"/>
+          </dependency>
+          <dependency type="or" target-type="set-readonly" initial="true">
+            <dependency-element id="TypLch" condition="eq" value="0"/>
+            <dependency-element id="RptTyp" condition="eq" value="6"/>
+            <dependency-element id="RptTyp" condition="eq" value="7"/>
+          </dependency>
+          <dependency type="or" source-type="reset" target-type="input" initial="true">
+            <dependency-element id="RptTyp" condition="eq" value="6"/>
+            <dependency-element id="RptTyp" condition="eq" value="7"/>
+          </dependency>
+        </criteria>
+        <criteria component="select" id="RptTyp" initial-load="enum" target-action="RptTyp"
+                  style="col-xs-4 col-sm-2 col-lg-1 no-padding-left">
+          <dependency initial="true" target-type="set-required">
+            <dependency-element id="TypLch" condition="ne" value="0"/>
+          </dependency>
+          <dependency>
+            <dependency-element id="RptTyp"/>
+            <dependency-action type="reset" target="scheduleParameters"/>
+          </dependency>
+
+          <!-- seconds dependencies -->
+          <dependency initial="true">
+            <dependency-element id="RptTyp" condition="eq" value="0"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#yearSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#monthSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#weekSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#daySelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#hourSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#execDateSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#daysOfWeek"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#minuteSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#secondSelector"/>
+          </dependency>
+
+          <!-- minutes dependencies -->
+          <dependency initial="true">
+            <dependency-element id="RptTyp" condition="eq" value="1"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#yearSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#monthSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#weekSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#daySelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#hourSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#execDateSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#daysOfWeek"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#minuteSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#secondSelector"/>
+          </dependency>
+          <!-- hours dependencies -->
+          <dependency initial="true">
+            <dependency-element id="RptTyp" condition="eq" value="2"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#yearSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#monthSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#weekSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#daySelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#hourSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#execDateSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#daysOfWeek"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#minuteSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#secondSelector"/>
+          </dependency>
+          <!-- days dependencies -->
+          <dependency initial="true">
+            <dependency-element id="RptTyp" condition="eq" value="3"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#yearSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#monthSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#weekSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#daySelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#hourSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#execDateSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#daysOfWeek"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#minuteSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#secondSelector"/>
+          </dependency>
+          <!-- months dependencies -->
+          <dependency initial="true">
+            <dependency-element id="RptTyp" condition="eq" value="4"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#yearSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#monthSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#weekSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#daySelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#hourSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#execDateSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#daysOfWeek"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#minuteSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#secondSelector"/>
+          </dependency>
+          <!-- years dependencies -->
+          <dependency initial="true">
+            <dependency-element id="RptTyp" condition="eq" value="5"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#yearSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#monthSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#weekSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#daySelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#hourSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#execDateSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#daysOfWeek"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#minuteSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#secondSelector"/>
+          </dependency>
+
+          <!-- once dependencies -->
+          <dependency initial="true">
+            <dependency-element id="RptTyp" condition="eq" value="6"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#yearSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#monthSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#weekSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#daySelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#hourSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#execDateSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#daysOfWeek"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#minuteSelector"/>
+            <dependency-action type="add-class" async="true" target-action="hidden" target="#secondSelector"/>
+          </dependency>
+
+          <!-- custom dependencies -->
+          <dependency initial="true">
+            <dependency-element id="RptTyp" condition="eq" value="7"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#yearSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#monthSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#weekSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#daySelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#hourSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#execDateSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#daysOfWeek"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#minuteSelector"/>
+            <dependency-action type="remove-class" async="true" target-action="hidden" target="#secondSelector"/>
+          </dependency>
+        </criteria>
+        <criteria label="PARAMETER_CALENDAR" component="suggest" server-action="data" target-action="SchCalSug"
+                  id="IdeCal" style="col-xs-12 col-sm-2 col-sm-offset-right-4 col-lg-offset-right-6" optional="true">
+          <dependency target-type="set-readonly" initial="true">
+            <dependency-element id="schExeDate"/>
+          </dependency>
+          <dependency target-type="hide" initial="true">
+            <dependency-element id="RptTyp" condition="eq" value="6"/>
+          </dependency>
+        </criteria>
+      </tag>
+      <tag id="scheduled-launcher" type="div" style="row hidden">
+        <tag type="div" id="scheduleParameters">
+          <tag type="div" style="row">
+            <criteria label="PARAMETER_FROM" component="date" id="IniDat" style="col-xs-6 col-sm-3 col-md-2 col-lg-1">
+              <dependency target-type="set-readonly" initial="true">
+                <dependency-element id="schExeDate"/>
+              </dependency>
+              <dependency target-type="hide" initial="true">
+                <dependency-element id="RptTyp" condition="eq" value="6"/>
+              </dependency>
+              <dependency target-type="set-required" initial="true">
+                <dependency-element id="IniTim"/>
+              </dependency>
+            </criteria>
+            <criteria component="time" id="IniTim" show-future-dates="true" style="col-xs-6 col-sm-3 col-md-2 col-lg-1">
+              <dependency target-type="set-readonly" initial="true">
+                <dependency-element id="schExeDate"/>
+              </dependency>
+              <dependency target-type="hide" initial="true">
+                <dependency-element id="RptTyp" condition="eq" value="6"/>
+              </dependency>
+            </criteria>
+            <criteria label="PARAMETER_TO" component="date" id="EndDat" show-future-dates="true"
+                      validation="{ge:{criterion:'IniDat',type:'date'}}" style="col-xs-6 col-sm-3 col-md-2 col-lg-1">
+              <dependency target-type="set-readonly" initial="true">
+                <dependency-element id="schExeDate"/>
+              </dependency>
+              <dependency target-type="hide" initial="true">
+                <dependency-element id="RptTyp" condition="eq" value="6"/>
+              </dependency>
+              <dependency target-type="set-required" initial="true">
+                <dependency-element id="EndTim"/>
+              </dependency>
+            </criteria>
+            <criteria component="time" id="EndTim"
+                      style="col-xs-6 col-sm-3 col-md-2 col-lg-1">
+              <dependency target-type="set-readonly" initial="true">
+                <dependency-element id="schExeDate"/>
+              </dependency>
+              <dependency target-type="hide" initial="true">
+                <dependency-element id="RptTyp" condition="eq" value="6"/>
+              </dependency>
+            </criteria>
+            <tag type="div" style="hidden" id="execDateSelector">
+              <criteria label="EXECUTION_DATE" component="date" show-future-dates="true" id="schExeDate"
+                        style="col-xs-6 col-md-2 col-lg-1">
+                <dependency type="or" target-type="set-readonly" initial="true">
+                  <dependency-element id="years" condition="is not empty"/>
+                  <dependency-element id="months" condition="is not empty"/>
+                  <dependency-element id="days" condition="is not empty"/>
+                  <dependency-element id="weekDays" condition="is not empty"/>
+                  <dependency-element id="IdeCal" condition="is not empty"/>
+                  <dependency-element id="IniDat" condition="is not empty"/>
+                  <dependency-element id="IniTim" condition="is not empty"/>
+                  <dependency-element id="EndDat" condition="is not empty"/>
+                  <dependency-element id="EndTim" condition="is not empty"/>
+                </dependency>
+                <dependency target-type="set-required" initial="true">
+                  <dependency-element id="RptTyp" condition="eq" value="6"/>
+                  <dependency-element id="schExeTime" condition="is empty"/>
+                </dependency>
+              </criteria>
+              <criteria label="EXECUTION_TIME" component="time" id="schExeTime" style="col-xs-6 col-md-2 col-lg-1">
+                <dependency type="or" target-type="set-readonly" initial="true">
+                  <dependency-element id="hours" condition="is not empty"/>
+                  <dependency-element id="minutes" condition="is not empty"/>
+                  <dependency-element id="seconds" condition="is not empty"/>
+                </dependency>
+                <dependency target-type="set-required" initial="true">
+                  <dependency-element id="RptTyp" condition="eq" value="6"/>
+                  <dependency-element id="schExeDate" condition="is empty"/>
+                </dependency>
+              </criteria>
+            </tag>
+          </tag>
+          <!--new criteria parameters-->
+          <tag type="div" style="row">
+            <tag type="div" style="hidden" id="yearSelector">
+              <criteria label="PARAMETER_YEARS" component="select-multiple" initial-load="query"
+                        target-action="yearSelectService" id="years" style="col-xs-12 col-md-2" optional="true"
+                        max="0">
+                <dependency target-type="set-readonly" initial="true">
+                  <dependency-element id="schExeDate"/>
+                </dependency>
+              </criteria>
+            </tag>
+            <tag type="div" style="hidden" id="monthSelector">
+              <criteria label="PARAMETER_MONTHS" component="select-multiple" initial-load="enum"
+                        target-action="monthSelect" id="months" style="col-xs-12 col-md-2" optional="true">
+                <dependency target-type="set-readonly" initial="true">
+                  <dependency-element id="schExeDate"/>
+                </dependency>
+              </criteria>
+            </tag>
+            <tag type="div" style="hidden" id="weekSelector">
+              <criteria label="PARAMETER_WEEKS" component="select-multiple" initial-load="enum"
+                        target-action="weekSelect" id="weeks" style="col-xs-12 col-md-2" optional="true">
+                <dependency type="or" target-type="set-readonly" initial="true">
+                  <dependency-element id="days"/>
+                  <dependency-element id="schExeDate"/>
+                </dependency>
+              </criteria>
+            </tag>
+            <tag type="div" style="hidden" id="daysOfWeek">
+              <criteria label="PARAMETER_DAYS_OF_WEEK" component="select-multiple" initial-load="enum"
+                        target-action="weekDaySelect" id="weekDays" style="col-xs-12 col-md-2" optional="true">
+                <dependency type="or" target-type="set-readonly" initial="true">
+                  <dependency-element id="days"/>
+                  <dependency-element id="schExeDate"/>
+                </dependency>
+              </criteria>
+            </tag>
+            <tag type="div" style="hidden" id="daySelector">
+              <criteria label="PARAMETER_DAYS" component="select-multiple" initial-load="enum" target-action="daySelect"
+                        id="days" style="col-xs-12 col-md-2" optional="true" max="0">
+                <dependency type="or" target-type="set-readonly" initial="true">
+                  <dependency-element id="weeks"/>
+                  <dependency-element id="weekDays"/>
+                  <dependency-element id="schExeDate"/>
+                </dependency>
+              </criteria>
+            </tag>
+            <tag type="div" style="hidden" id="hourSelector">
+              <criteria label="PARAMETER_HOURS" component="select-multiple" initial-load="enum"
+                        target-action="hourSelect"
+                        id="hours" style="col-xs-12 col-md-2" optional="true">
+                <dependency target-type="set-readonly" initial="true">
+                  <dependency-element id="schExeTime"/>
+                </dependency>
+              </criteria>
+            </tag>
+            <tag type="div" style="hidden" id="minuteSelector">
+              <criteria label="PARAMETER_MINUTES" component="select-multiple" initial-load="enum"
+                        target-action="timeSelect" id="minutes" style="col-xs-12 col-md-2" optional="true" max="0">
+                <dependency target-type="set-readonly" initial="true">
+                  <dependency-element id="schExeTime"/>
+                </dependency>
+              </criteria>
+            </tag>
+            <tag type="div" style="hidden" id="secondSelector">
+              <criteria label="PARAMETER_SECONDS" component="select-multiple" initial-load="enum"
+                        target-action="timeSelect" id="seconds" style="col-xs-12 col-md-2" optional="true" max="0">
+                <dependency target-type="set-readonly" initial="true">
+                  <dependency-element id="schExeTime"/>
+                </dependency>
+              </criteria>
+            </tag>
+          </tag>
+        </tag>
+        <tag id="file-launcher" type="div" style="row hidden">
+          <criteria label="PARAMETER_SEARCH_AT" component="suggest" server-action="data" target-action="SchSrvSug"
+                    id="LchSrv" style="col-xs-12 col-md-2">
+            <dependency initial="true" target-type="set-required">
+              <dependency-element id="TypLch" condition="eq" value="2"/>
+            </dependency>
+          </criteria>
+          <criteria label="PARAMETER_FILE_PATH" component="text" id="LchPth" style="col-xs-12 col-md-6">
+            <dependency initial="true" target-type="set-required">
+              <dependency-element id="TypLch" condition="eq" value="2"/>
+            </dependency>
+          </criteria>
+          <criteria label="PARAMETER_FILE_PATTERN" component="text" id="LchPat" style="col-xs-12 col-md-4">
+            <dependency initial="true" target-type="set-required">
+              <dependency-element id="TypLch" condition="eq" value="2"/>
+            </dependency>
+          </criteria>
+          <criteria label="PARAMETER_USER" component="text" id="LchUsr" style="col-xs-6 col-md-3 col-lg-2"/>
+          <criteria label="PARAMETER_PASSWD" component="password" id="LchPwd" style="col-xs-6 col-md-3 col-lg-2"/>
+        </tag>
+      </tag>
+      <tag type="hr" style="col-xs-12 no-padding"/>
+    </tag>
+    <window style="expand" expandible="vertical" maximize="true" label="SCHEDULER_NEXT_EXECUTIONS" icon="clock">
+      <grid id="nextExecutions" style="expand" editable="false">
+        <column label="COLUMN_DATE" name="nextDate" align="center" charlength="20" component="text" sortable="false"/>
+        <column label="COLUMN_TIME" name="nextTime" align="center" charlength="20" component="text" sortable="false"/>
+        <button id="ButUpdateFireTimes" label="BUTTON_UPDATE" icon="refresh">
+          <button-action type="validate" target="launchParameters"/>
+          <button-action type="server" server-action="data" target-action="nextExecutions" target="nextExecutions"/>
+        </button>
+      </grid>
+    </window>
+  </tag>
+  <tag source="Dependencies">
+    <grid id="DependencyList" style="expand" editable="true" send-all="true" target-action="taskDependencies" initial-load="query">
+      <column label="PARAMETER_TASK" name="DepTskIde" align="left" component="suggest" server-action="data"
+              target-action="SchTskSugAct" validation="required" charlength="100" sortable="false"/>
+
+      <button id="ButAddDependency" label="BUTTON_NEW" icon="plus">
+        <button-action type="add-row" target="DependencyList"/>
+      </button>
+      <button id="ButDelDependency" label="BUTTON_DELETE" icon="trash">
+        <button-action type="delete-row" target="DependencyList"/>
+      </button>
+
+      <context-button id="ConButAddDependency" label="BUTTON_NEW" icon="plus-circle">
+        <context-button label="BUTTON_NEW_ROW_UP" id="ConButAddDependencyUp" icon="level-up">
+          <button-action type="add-row-up" target="DependencyList" silent="true"/>
+        </context-button>
+        <context-button label="BUTTON_NEW_ROW_DOWN" id="ConButAddDependencyDown" icon="level-down">
+          <button-action type="add-row-down" target="DependencyList" silent="true"/>
+        </context-button>
+        <dependency target-type="show" initial="true">
+          <dependency-element id="DependencyList" attribute="selectedRows" condition="eq" value="1"/>
+        </dependency>
+      </context-button>
+      <context-button id="ConButDelDependency" label="BUTTON_DELETE" icon="trash">
+        <button-action type="delete-row" target="DependencyList" silent="true"/>
+        <dependency target-type="enable" initial="true">
+          <dependency-element id="DependencyList" attribute="selectedRows" condition="eq" value="1"/>
+        </dependency>
+      </context-button>
+    </grid>
+  </tag>
+  <tag source="Report">
+    <criteria label="PARAMETER_NOTIFY_TYPE" component="select" id="RepTyp" style="col-xs-12 col-sm-2"
+              initial-load="enum" target-action="RepTyp" validation="required"/>
+    <criteria label="PARAMETER_SEND_STATUS" component="select-multiple" id="RepSndSta" initial-load="enum"
+              target-action="StaTyp" style="col-xs-12 col-sm-10" value="1,2">
+      <dependency target-type="show" initial="true">
+        <dependency-element id="RepTyp" condition="ne" value="0"/>
+      </dependency>
+      <dependency target-type="set-required" initial="true">
+        <dependency-element id="RepTyp" condition="ne" value="0"/>
+      </dependency>
+    </criteria>
+    <criteria label="PARAMETER_EMAIL_SERVER" component="suggest" server-action="data" target-action="emailServerSuggest"
+              id="RepEmaSrv" style="col-xs-12 col-sm-2">
+      <dependency target-type="show" initial="true">
+        <dependency-element id="RepTyp" condition="eq" value="1"/>
+      </dependency>
+    </criteria>
+    <criteria label="ENUM_EML_DST_USR" component="suggest-multiple" id="RepEmaDst" server-action="data"
+              style="col-xs-12 col-sm-10" target-action="SchActUsrEmlSug" check-target="GetEmaFrmArr">
+      <dependency target-type="show" initial="true">
+        <dependency-element id="RepTyp" condition="eq" value="1"/>
+      </dependency>
+      <dependency target-type="set-required" initial="true">
+        <dependency-element id="RepTyp" condition="eq" value="1"/>
+      </dependency>
+    </criteria>
+    <criteria label="ENUM_EML_DST_USR" component="suggest-multiple" id="RepUsrDst" server-action="data"
+              style="col-xs-12" target-action="SchActUsrSug" check-target="GetUsrFrmArr">
+      <dependency target-type="show" initial="true">
+        <dependency-element id="RepTyp" condition="eq" value="2"/>
+      </dependency>
+      <dependency target-type="set-required" initial="true">
+        <dependency-element id="RepTyp" condition="eq" value="2"/>
+      </dependency>
+    </criteria>
+    <criteria label="PARAMETER_TITLE" component="text" id="RepTit" style="col-xs-12">
+      <dependency target-type="show" initial="true">
+        <dependency-element id="RepTyp" condition="eq" value="1"/>
+      </dependency>
+      <dependency target-type="set-required" initial="true">
+        <dependency-element id="RepTyp" condition="eq" value="1"/>
+      </dependency>
+    </criteria>
+    <criteria label="PARAMETER_MESSAGE" component="textarea" id="RepMsg" style="col-xs-12">
+      <dependency target-type="show" initial="true">
+        <dependency-element id="RepTyp" condition="in" value="1,2"/>
+      </dependency>
+      <dependency type="and" target-type="set-required" initial="true">
+        <dependency-element id="RepTyp" condition="in" value="1,2"/>
+      </dependency>
+    </criteria>
+    <criteria component="hidden" id="users">
+      <dependency source-type="formule" initial="true" target-type="input" formule="'[RepUsrDstSuggest]'">
+        <dependency-element id="RepUsrDst" attribute="value" alias="RepUsrDstSuggest"/>
+      </dependency>
+      <dependency source-type="reset" target-type="input" initial="true">
+        <dependency-element id="RepEmaDst" condition="is empty"/>
+      </dependency>
+    </criteria>
+    <criteria component="hidden" id="emails">
+      <dependency source-type="formule" initial="true" target-type="input" formule="'[RepEmaDstSuggest]'">
+        <dependency-element id="RepEmaDst" attribute="value" alias="RepEmaDstSuggest"/>
+      </dependency>
+      <dependency source-type="reset" target-type="input" initial="true">
+        <dependency-element id="RepEmaDst" condition="is empty"/>
+      </dependency>
+    </criteria>
+    <criteria component="hidden" id="inCaseOf">
+      <dependency source-type="formule" initial="true" target-type="input" formule="'[RepSndStaSuggest]'">
+        <dependency-element id="RepSndSta" attribute="value" alias="RepSndStaSuggest"/>
+      </dependency>
+      <dependency source-type="reset" target-type="input" initial="true">
+        <dependency-element id="RepSndSta" condition="is empty"/>
+      </dependency>
+    </criteria>
+    <criteria label="PARAMETER_MAINTAIN" component="suggest" server-action="data" target-action="getPublicMaintainList"
+              style="col-xs-12" id="RepMntId">
+      <dependency target-type="show" initial="true">
+        <dependency-element id="RepTyp" condition="eq" value="3"/>
+      </dependency>
+      <dependency target-type="set-required" initial="true">
+        <dependency-element id="RepTyp" condition="eq" value="3"/>
+      </dependency>
+    </criteria>
+  </tag>
+</screen>

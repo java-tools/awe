@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : scheduler-tasks.xml
+    Created on : 10 de Noviembre del 2015
+    Author     : David FUENTES
+    Description: Lista de tareas del Scheduler
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd"
+        template="window" label="MENU_SCHEDULER_MANAGEMENT" target="getSchedulerMetadata"
+        help="HELP_SCREEN_SCHEDULER_TASKS">
+  <tag source="buttons">
+    <button id="startScheduler" label="BUTTON_RUN" style="btn-success">
+      <button-action type="server" server-action="maintain" target-action="startScheduler"/>
+      <button-action type="server" server-action="update-model" target-action="getSchedulerMetadata"/>
+      <dependency source-type="none" target-type="disable">
+        <dependency-element id="schedulerStatus" condition="eq" value="Started and running"/>
+      </dependency>
+    </button>
+
+    <button id="stopScheduler" label="BUTTON_STOP" style="btn-danger">
+      <button-action type="server" server-action="maintain" target-action="stopScheduler"/>
+      <button-action type="server" server-action="update-model" target-action="getSchedulerMetadata"/>
+      <dependency source-type="none" target-type="disable">
+        <dependency-element id="schedulerStatus" condition="ne" value="Started and running"/>
+      </dependency>
+    </button>
+
+    <button id="clearAndStopScheduler" label="BUTTON_CLEAR_AND_STOP" style="btn-warning">
+      <button-action type="server" server-action="maintain" target-action="clearAndStop"/>
+      <button-action type="server" server-action="update-model" target-action="getSchedulerMetadata"/>
+      <dependency source-type="none" target-type="disable">
+        <dependency-element id="schedulerStatus" condition="ne" value="Started and running"/>
+      </dependency>
+    </button>
+
+    <button id="restartScheduler" label="BUTTON_RESTART" style="btn-warning">
+      <button-action type="server" server-action="maintain" target-action="restartScheduler"/>
+      <button-action type="server" server-action="update-model" target-action="getSchedulerMetadata"/>
+    </button>
+  </tag>
+  <tag source="center">
+    <window label="SCREEN_TEXT_FILTERS" style="criteria" icon="filter">
+      <tag id="ContSchTsks" type="div" style="panel-body static">
+        <criteria label="COLUMN_SCHEDULER_INSTANCE_ID" component="text-view" id="schedulerInstanceId"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_NAME" component="text-view" id="schedulerName"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_VERSION" component="text-view" id="schedulerVersion"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_REMOTE" component="text-view" id="schedulerRemote"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_JOBSTORE_CLASS" component="text-view" id="schedulerJobstoreClass"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_JOBSTORE_CLUSTERED" component="text-view" id="schedulerJobstoreCluster"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_JOBSTORE_PERSISTENT" component="text-view" id="schedulerJobstorePersistence"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_NUMBER_JOBS_EXECUTED" component="text-view" id="schedulerExecutedJobs"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_RUNNING_SINCE" component="text-view" id="schedulerRunningSince"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_THREADPOOL_CLASS" component="text-view" id="schedulerThreadPoolClass"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_THREADPOOL_SIZE" component="text-view" id="schedulerThreadPoolSize"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+        <criteria label="COLUMN_SCHEDULER_STATUS" component="text-view" id="schedulerStatus"
+                  style="col-xs-12 col-sm-6 col-lg-3"/>
+      </tag>
+    </window>
+    <tab id="taskInfo" initial-load="enum" target-action="scheduleTaskTabs">
+      <tabcontainer id="executingTasks">
+        <window style="expand" maximize="true" label="SCREEN_TEXT_TASKS" icon="list">
+          <grid id="GrdExecTskLst" style="expand" server-action="data" target-action="currentlyExecutingJobs" initial-load="query" autorefresh="10">
+            <column label="COLUMN_SCHEDULER_TASK_FIRE_ID" name="currentJobTaskKey" sort-field="taskKey"
+                    align="center"
+                    charlength="10"/>
+            <column label="COLUMN_SCHEDULER_TASK_TRIGGER_KEY" name="currentJobTriggerKey" sort-field="triggerKey" align="center"
+                    charlength="20"/>
+            <column label="COLUMN_SCHEDULER_TASK_CALENDAR" name="calendar" sort-field="calendar" align="center"
+                    charlength="20"/>
+            <column label="COLUMN_SCHEDULER_TASK_EXECUTION_TIME" name="executionTime" sort-field="executionTime"
+                    align="center"
+                    charlength="30"/>
+            <column label="COLUMN_SCHEDULER_TASK_SCHEDULED_EXECUTION_TIME" name="scheduledExecutionTime"
+                    sort-field="scheduledExecutionTime" align="center" charlength="30"/>
+            <column label="COLUMN_SCHEDULER_TASK_NEXT_EXECUTION_TIME" name="nextExecutionTime"
+                    sort-field="nextExecutionTime"
+                    align="center" charlength="30"/>
+            <column label="COLUMN_SCHEDULER_TASK_STATUS" name="jobStatus" sort-field="jobInstance" align="center"
+                    charlength="10"/>
+          </grid>
+        </window>
+      </tabcontainer>
+      <tabcontainer id="configuredTasks">
+        <window style="expand" maximize="true" label="SCREEN_TEXT_TASKS" icon="list">
+          <grid id="GrdTskLst" style="expand" server-action="data" target-action="getConfiguredJobs" initial-load="query" autorefresh="10">
+            <column label="COLUMN_SCHEDULER_TASK_FIRE_ID" name="configuredJobTaskKey" sort-field="taskKey"
+                    align="center"
+                    charlength="10"/>
+            <column label="COLUMN_SCHEDULER_TASK_TRIGGER_KEY" name="configuredJobTriggerKey" sort-field="triggerKey"
+                    align="center"
+                    charlength="20"/>
+            <column label="COLUMN_SCHEDULER_TASK_CALENDAR" name="taskCalendar" sort-field="taskCalendar" align="center"
+                    charlength="20"/>
+            <column label="COLUMN_SCHEDULER_TASK_PREVIOUS_EXECUTION_TIME" name="taskPreviousExecutionTime"
+                    sort-field="taskPreviousExecutionTime" align="center"
+                    charlength="30"/>
+            <column label="COLUMN_SCHEDULER_TASK_NEXT_EXECUTION_TIME" name="taskNextExecutionTime"
+                    sort-field="taskNextExecutionTime" align="center"
+                    charlength="30"/>
+            <dependency>
+              <dependency-element id="GrdTskLst" attribute="totalRows"/>
+              <dependency-action type="server" server-action="update-model" target-action="getSchedulerMetadata"/>
+            </dependency>
+          </grid>
+        </window>
+      </tabcontainer>
+    </tab>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center"/>
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

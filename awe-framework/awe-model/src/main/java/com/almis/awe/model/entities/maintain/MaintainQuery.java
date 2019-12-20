@@ -41,16 +41,17 @@ public abstract class MaintainQuery extends Query {
   @XStreamAsAttribute
   private Boolean batch;
 
-  // Maintain type
-  @XStreamOmitField
-  private static final MaintainType maintainType = MaintainType.NONE;
-
   // Variable index
   @XStreamOmitField
   private Integer variableIndex;
 
+  // Operation id
+  @XStreamOmitField
+  private String operationId;
+
   /**
    * Returns if is batch
+   *
    * @return Is batch
    */
   public boolean isBatch() {
@@ -63,6 +64,6 @@ public abstract class MaintainQuery extends Query {
    * @return Maintain type
    */
   public MaintainType getMaintainType() {
-    return maintainType;
+    return MaintainType.NONE;
   }
 }

@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-parent</artifactId>
-    <version>4.1.7</version>
+    <version>4.2.0</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -13,6 +13,10 @@
   <packaging>pom</packaging>
   <name>AWE Framework (V${project.version})</name>
   <description>AWE Framework Build</description>
+
+  <properties>
+    <skip.delombok>true</skip.delombok>
+  </properties>
 
   <modules>
     <module>awe-dependencies</module>
@@ -25,29 +29,6 @@
     <module>awe-starters</module>
     <module>awe-boot-archetype</module>
   </modules>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok-maven-plugin</artifactId>
-        <version>${plugin-lombok.version}</version>
-        <configuration>
-          <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-          <outputDirectory>${project.build.directory}/delombok</outputDirectory>
-          <addOutputDirectory>false</addOutputDirectory>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>delombok</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 
   <reporting>
     <plugins>

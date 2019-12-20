@@ -18,6 +18,7 @@
 
   <properties>
     <!-- Application maven properties -->
+    <awe.version>${project.version}</awe.version>
     <java.version>1.8</java.version>
     <application.name>\${artifactId} V\${version}</application.name>
     <application.acronym>\${artifactId}</application.acronym>
@@ -180,6 +181,15 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>

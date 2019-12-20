@@ -28,7 +28,6 @@ public class ComputedColumnProcessor implements ColumnProcessor {
   private TransformCellProcessor transformProcessor;
   private TranslateCellProcessor translateProcessor;
   private AweElements elements;
-  private Matcher formatMatcher;
   private boolean emptyOnNull;
   private String expression = null;
 
@@ -56,10 +55,6 @@ public class ComputedColumnProcessor implements ColumnProcessor {
 
     // Generate format matcher
     expression = computed.getFormat();
-
-    // Replace variables on expression
-    replaceVariablesExpression();
-
     return this;
   }
 
@@ -70,8 +65,6 @@ public class ComputedColumnProcessor implements ColumnProcessor {
    */
   public ComputedColumnProcessor setVariableMap(Map<String, QueryParameter> variableMap) {
     this.variableMap = variableMap;
-    // Replace variables on expression
-    replaceVariablesExpression();
     return this;
   }
 
@@ -98,35 +91,6 @@ public class ComputedColumnProcessor implements ColumnProcessor {
   }
 
   /**
-   * Replace variables on expression
-   */
-  private void replaceVariablesExpression() {
-    if (expression != null && variableMap != null) {
-      formatMatcher = AweConstants.DATALIST_COMPUTED_WILDCARD.matcher(expression);
-
-      // Replace all expression variables
-      while (formatMatcher.find()) {
-        for (Integer matchIndex = 1, total = formatMatcher.groupCount(); matchIndex <= total; matchIndex++) {
-          String variableKey = formatMatcher.group(matchIndex);
-          String variableValue = "";
-
-          // Check if cell is null or empty
-          if (variableMap.containsKey(variableKey)) {
-            variableValue = variableMap.get(variableKey).getValue().asText();
-          }
-
-          // If variable value is empty, empty the computed value
-          if (!variableValue.isEmpty()) {
-            // Replace value
-            expression = expression.replace("[" + variableKey + "]", variableValue);
-          }
-        }
-      }
-    }
-    formatMatcher = AweConstants.DATALIST_COMPUTED_WILDCARD.matcher(expression);
-  }
-
-  /**
    * Add a variable (stringified)
    * @param name variable name
    * @param value variable value (as string)
@@ -134,13 +98,10 @@ public class ComputedColumnProcessor implements ColumnProcessor {
    */
   public ComputedColumnProcessor addVariable(String name, String value) {
     if (variableMap == null) {
-      setVariableMap(new HashMap<String, QueryParameter>());
+      setVariableMap(new HashMap<>());
     }
     QueryParameter parameter = new QueryParameter(JsonNodeFactory.instance.textNode(value), false, ParameterType.STRING);
     variableMap.put(name, parameter);
-
-    // Replace variables on expression
-    replaceVariablesExpression();
     return this;
   }
 
@@ -188,7 +149,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
   private String computeExpression(Map<String, CellData> row, String value) {
     // Create the matcher
     String computedExpression = value;
-    formatMatcher.reset();
+    Matcher formatMatcher = AweConstants.DATALIST_COMPUTED_WILDCARD.matcher(StringUtil.fixHTMLValue(expression));
 
     // Replace all expression variables
     while (formatMatcher.find()) {
@@ -197,10 +158,15 @@ public class ComputedColumnProcessor implements ColumnProcessor {
         String variableValue = "";
         CellData cell = row.get(variableKey);
 
-        // Check if cell is null or empty
-        if (cell != null && !cell.getStringValue().isEmpty()) {
+        // Check if fill with variable or cell
+        if (variableMap != null && variableMap.containsKey(variableKey)) {
+          // Fill with variable value
+          variableValue = variableMap.get(variableKey).getValue().asText();
+        } else if (cell != null && !cell.getStringValue().isEmpty()) {
+          // Fill with cell value
           variableValue = cell.getStringValue();
         } else if (computed.getNullValue() != null){
+          // Fill with null value
           variableValue = computed.getNullValue();
         }
 

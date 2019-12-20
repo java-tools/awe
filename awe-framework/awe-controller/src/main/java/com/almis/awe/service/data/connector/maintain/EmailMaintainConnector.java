@@ -2,17 +2,12 @@ package com.almis.awe.service.data.connector.maintain;
 
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.dto.DataList;
-import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.dto.ServiceData;
-import com.almis.awe.model.entities.email.Email;
 import com.almis.awe.model.entities.maintain.MaintainQuery;
 import com.almis.awe.model.entities.queries.DatabaseConnection;
-import com.almis.awe.model.type.AnswerType;
-import com.almis.awe.service.data.builder.XMLEmailBuilder;
+import com.almis.awe.service.EmailService;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Map;
 
 /**
  * Created by dfuentes on 28/04/2017.
@@ -20,38 +15,25 @@ import java.util.Map;
 public class EmailMaintainConnector extends ServiceConfig implements MaintainConnector {
 
   // Autowired services
-  private XMLEmailBuilder emailBuilder;
+  private EmailService emailService;
 
   /**
    * Autowired constructor
-   * @param emailBuilder Email builder
+   *
+   * @param emailService Email service
    */
   @Autowired
-  public EmailMaintainConnector(XMLEmailBuilder emailBuilder) {
-    this.emailBuilder = emailBuilder;
+  public EmailMaintainConnector(EmailService emailService) {
+    this.emailService = emailService;
   }
 
   @Override
-  public <T extends MaintainQuery> ServiceData launch(T query, DatabaseConnection databaseConnection, Map<String, QueryParameter> parameterMap) throws AWException {
-
-    // Get email
-    Email email = getElements().getEmail(query.getId()).copy();
-
-    // Initialize needed variables variables
-    ServiceData serviceData = new ServiceData();
-    DataList qryDat = new DataList();
-
-    // Set defaults
-    serviceData.setType(AnswerType.OK);
-    qryDat.setRecords(1);
-
-    // Build message
-    serviceData = emailBuilder
-      .setEmail(email)
-      .parseEmail()
-      .sendMail(true);
-
-    // Launch email
-    return serviceData;
+  public <T extends MaintainQuery> ServiceData launch(T query, DatabaseConnection databaseConnection, ObjectNode parameters) throws AWException {
+    try {
+      // Send email
+      return emailService.sendEmail(query.getId(), parameters).get();
+    } catch (Exception exc) {
+      throw new AWException("Error sending email", exc);
+    }
   }
 }

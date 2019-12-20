@@ -3,7 +3,6 @@
  */
 package com.almis.awe.service.data.processor;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.CompareRow;
 import com.almis.awe.model.dto.SortColumn;
@@ -35,7 +34,6 @@ public class DistinctRowProcessor implements RowProcessor {
    *
    * @param rowList row list
    * @return row list processed
-   * @throws AWException AWE exception
    */
   public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) {
     CompareRow comparator = new CompareRow(this.distinctList);

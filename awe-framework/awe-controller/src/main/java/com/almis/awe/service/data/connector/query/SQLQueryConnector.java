@@ -10,8 +10,8 @@ import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.entities.queries.DatabaseConnection;
 import com.almis.awe.model.entities.queries.Query;
-import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.model.util.data.QueryUtil;
+import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.service.data.builder.SQLQueryBuilder;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -135,7 +135,7 @@ public class SQLQueryConnector extends AbstractQueryConnector {
       getLogger().checkpoint(timeLapse);
 
       // Log query
-      getLogger().logWithDatabase(SQLQueryConnector.class, Level.INFO, getQueryUtil().getDatabaseAlias(variableMap) ,"[{0}] [{1}] => {2} records. Create query time: {3}s - Sql time: {4}s - Datalist time: {5}s - Total time: {6}s",
+      getLogger().logWithDatabase(SQLQueryConnector.class, Level.INFO, getQueryUtil().getDatabaseAlias(variableMap), "[{0}] [{1}] => {2} records. Create query time: {3}s - Sql time: {4}s - Datalist time: {5}s - Total time: {6}s",
         query.getId(), StringUtil.toUnilineText(queryBuilt.toString()), records,
         getLogger().getElapsed(timeLapse, AweConstants.PREPARATION_TIME),
         getLogger().getElapsed(timeLapse, AweConstants.EXECUTION_TIME),
@@ -155,6 +155,7 @@ public class SQLQueryConnector extends AbstractQueryConnector {
 
   /**
    * Retrieve corresponding query factory
+   *
    * @param parameters Parameters
    * @return Query factory
    * @throws AWException

@@ -61,6 +61,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Select text
     writeText("GrdScrCnf", "Val", "false");
 
+    // Scroll grid to the right
+    scrollGrid("GrdScrCnf", 10000, 0);
+
     // Select text
     selectContain("GrdScrCnf", "Act", "Yes");
 
@@ -319,10 +322,10 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     selectContain("Sel", "Yes");
 
     // Select on selector
-    selectContain("SelReq", "administrator");
+    selectContain("SelReq", "Administrator");
 
     // Check select
-    checkSelectContents("SelReq", "administrator");
+    checkSelectContents("SelReq", "Administrator");
   }
 
   /**
@@ -367,7 +370,7 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     suggestMultiple("SelMulReq", "e", "e");
 
     // Verify text
-    checkMultipleSelectorContents("SelMulReq", "general");
+    checkMultipleSelectorContents("SelMulReq", "General");
 
     // Select on selector
     suggestMultiple("SugMul", "e", "e");
@@ -813,6 +816,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Click on button
     clickButton("ButGrdMuoAdd");
 
+    // Wait for visible
+    waitForCssSelector("[grid-id='GrdMuo'] [column-id='RowIco'] span.fa.fa-plus");
+
     // Save row
     saveRow("GrdMuo");
 
@@ -867,7 +873,7 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     manageTreeGrid("ENUM_MATRIX_TREEGRID_EDITABLE", "TreGrdEdi");
 
     // Context menu
-    contextMenu("TreGrdEdi", "Progeneral-ModBase", "TreGrdEdi_Nam");
+    contextMenu("TreGrdEdi", "ProGeneral-ModBase", "TreGrdEdi_Nam");
 
     // Select context menu option
     clickContextButton("CtxTreGrdEdiAddSel", "CtxTreGrdEdiAddChl");
@@ -876,13 +882,13 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     pause(500);
 
     // Click on a cell
-    clickCell("TreGrdEdi", "Progeneral-ModBase", "TreGrdEdi_Nam");
+    clickCell("TreGrdEdi", "ProGeneral-ModBase", "TreGrdEdi_Nam");
 
     // Click on a cell
     clickCell("TreGrdEdi", "new-row-0", "TreGrdEdi_Nam");
 
     // Click on a cell
-    clickCell("TreGrdEdi", "Progeneral-ModBase", "TreGrdEdi_Nam");
+    clickCell("TreGrdEdi", "ProGeneral-ModBase", "TreGrdEdi_Nam");
 
     // Click on a cell
     clickCell("TreGrdEdi", "new-row-0", "TreGrdEdi_Nam");
@@ -891,16 +897,16 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     saveRow("TreGrdEdi");
 
     // Click on button
-    clickTreeButton("TreGrdEdi", "Prooperator");
+    clickTreeButton("TreGrdEdi", "ProOperator");
 
     // Context menu
-    contextMenu("TreGrdEdi", "Prooperator", "TreGrdEdi_Nam");
+    contextMenu("TreGrdEdi", "ProOperator", "TreGrdEdi_Nam");
 
     // Select context menu option
     clickContextButton("CtxTreGrdEdiDel");
 
     // Check not visible
-    checkNotVisible("[tree-grid-id='TreGrdEdi'] [row-id='Prooperator']");
+    checkNotVisible("[tree-grid-id='TreGrdEdi'] [row-id='ProOperator']");
   }
 
   /**
@@ -929,7 +935,7 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     manageLoadingTreeGrid("ENUM_MATRIX_TREEGRID_EDITABLE_LOADNODE", "TreGrdLoaEdi");
 
     // Context menu
-    contextMenu("TreGrdLoaEdi", "Progeneral-ModBase", "TreGrdLoaEdi_Nam");
+    contextMenu("TreGrdLoaEdi", "ProGeneral-ModBase", "TreGrdLoaEdi_Nam");
 
     // Select context menu option
     clickContextButton("CtxTreGrdLoaEdiAddSel", "CtxTreGrdLoaEdiAddChl");
@@ -944,16 +950,16 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     saveRow("TreGrdLoaEdi");
 
     // Click on button
-    clickTreeButton("TreGrdLoaEdi", "Prooperator");
+    clickTreeButton("TreGrdLoaEdi", "ProOperator");
 
     // Context menu
-    contextMenu("TreGrdLoaEdi", "Prooperator", "TreGrdLoaEdi_Nam");
+    contextMenu("TreGrdLoaEdi", "ProOperator", "TreGrdLoaEdi_Nam");
 
     // Select context menu option
     clickContextButton("CtxTreGrdLoaEdiDel");
 
     // Check visible
-    checkVisible("[tree-grid-id='TreGrdLoaEdi'] .DELETE [row-id='Prooperator']");
+    checkVisible("[tree-grid-id='TreGrdLoaEdi'] .DELETE [row-id='ProOperator']");
   }
 
   /**
@@ -1140,31 +1146,31 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     clickTab("TabSelMat", gridTab);
 
     // Click on button
-    clickTreeButton(gridId, "Proadministrator");
+    clickTreeButton(gridId, "ProAdministrator");
 
     // Click on button
-    clickTreeButton(gridId, "Progeneral");
+    clickTreeButton(gridId, "ProGeneral");
 
     // Click on button
-    clickTreeButton(gridId, "Prooperator");
+    clickTreeButton(gridId, "ProOperator");
 
     // Check not visible
-    checkNotVisible("[tree-grid-id='"+ gridId +"'] [row-id='Proadministrator-ModBase'] i.tree-icon");
+    checkNotVisible("[tree-grid-id='"+ gridId +"'] [row-id='ProAdministrator-ModBase'] i.tree-icon");
 
     // Click on button
-    clickTreeButton(gridId, "Proadministrator");
+    clickTreeButton(gridId, "ProAdministrator");
 
     // Click on button
-    clickTreeButton(gridId, "Proadministrator-ModBase");
+    clickTreeButton(gridId, "ProAdministrator-ModBase");
 
     // Click on button
-    clickTreeButton(gridId, "Proadministrator-ModBase");
+    clickTreeButton(gridId, "ProAdministrator-ModBase");
 
     // Click on button
-    clickTreeButton(gridId, "Progeneral");
+    clickTreeButton(gridId, "ProGeneral");
 
     // Check visible
-    checkVisible("[tree-grid-id='"+ gridId +"'] [row-id='Progeneral-ModBase'] i.tree-icon");
+    checkVisible("[tree-grid-id='"+ gridId +"'] [row-id='ProGeneral-ModBase'] i.tree-icon");
   }
 
   /**
@@ -1177,21 +1183,21 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     clickTab("TabSelMat", gridTab);
 
     // Click on button
-    clickTreeButton(gridId, "Proadministrator");
+    clickTreeButton(gridId, "ProAdministrator");
 
     // Click on button
-    clickTreeButton(gridId, "Progeneral");
+    clickTreeButton(gridId, "ProGeneral");
 
     // Click on button
-    clickTreeButton(gridId, "Prooperator");
+    clickTreeButton(gridId, "ProOperator");
 
     // Click on button
-    clickTreeButton(gridId, "Proadministrator-ModBase");
+    clickTreeButton(gridId, "ProAdministrator-ModBase");
 
     // Click on button
-    clickTreeButton(gridId, "Progeneral-ModBase");
+    clickTreeButton(gridId, "ProGeneral-ModBase");
 
     // Check visible
-    checkVisible("[tree-grid-id='" + gridId + "'] [row-id='Prooperator-ModBase']");
+    checkVisible("[tree-grid-id='" + gridId + "'] [row-id='ProOperator-ModBase']");
   }
 }

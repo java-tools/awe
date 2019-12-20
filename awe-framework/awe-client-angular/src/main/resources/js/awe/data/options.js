@@ -31,7 +31,6 @@ export const DefaultSettings = {
   recordsPerPage: 30,
   pixelsPerCharacter: 7,
   defaultComponentSize: "md",
-  shareSessionInTabs: false,
   reloadCurrentScreen: false,
   suggestTimeout: 200,
   // Connection

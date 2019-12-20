@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-dependencies</artifactId>
-    <version>4.1.7</version>
+    <version>4.2.0</version>
     <relativePath>../awe-dependencies</relativePath>
   </parent>
 
@@ -23,7 +24,8 @@
     <sonar.language>java</sonar.language>
     <performancetest.host>localhost</performancetest.host>
     <performancetest.port>18080</performancetest.port>
-    <performancetest.path />
+    <performancetest.path/>
+    <skip.delombok>false</skip.delombok>
   </properties>
 
   <dependencies>
@@ -53,7 +55,18 @@
     <!-- Spring session and session repository dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-jdbc</artifactId>
+      <artifactId>spring-boot-starter-data-jdbc</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>com.zaxxer</groupId>
+          <artifactId>HikariCP</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-jdbc</artifactId>
+      <version>9.0.24</version>
     </dependency>
     <!-- Thymeleaf -->
     <dependency>
@@ -82,21 +95,16 @@
       <artifactId>aspectjweaver</artifactId>
     </dependency>
     <dependency>
-      <groupId>javax.mail</groupId>
-      <artifactId>mail</artifactId>
-      <version>1.4.7</version>
-    </dependency>
-    <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
     </dependency>
     <dependency>
       <groupId>net.sourceforge.nekohtml</groupId>
       <artifactId>nekohtml</artifactId>
-      </dependency>
+    </dependency>
     <dependency>
-      <groupId>commons-dbcp</groupId>
-      <artifactId>commons-dbcp</artifactId>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-dbcp2</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -135,13 +143,23 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>org.springframework.session</groupId>
-      <artifactId>spring-session</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
     </dependency>
+    <!-- Flyway -->
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+    </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Delombok plugin -->
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>

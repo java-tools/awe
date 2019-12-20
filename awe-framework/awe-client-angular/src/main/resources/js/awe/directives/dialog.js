@@ -47,6 +47,9 @@ aweApplication.directive('aweDialog',
 
               // Launch action list
               $actionController.addActionList(actions, true, {address: component.address, context: component.context});
+
+              // Store event
+              component.storeEvent('open');
             }
           };
           /**
@@ -54,6 +57,9 @@ aweApplication.directive('aweDialog',
            */
           component.closeDialog = function () {
             if (component.isOpened) {
+              // Store event
+              component.storeEvent('close');
+
               // Broadcast model change
               Utilities.publishDelayedFromScope("modalChange", false, scope);
 

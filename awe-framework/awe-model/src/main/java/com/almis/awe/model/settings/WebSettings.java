@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * WebSettings component
@@ -18,6 +19,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Accessors(chain = true)
 @Builder(toBuilder = true)
 @ConfigurationProperties(prefix = "settings")
+@Component
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WebSettings {
 
@@ -34,7 +36,6 @@ public class WebSettings {
   private Integer recordsPerPage;
   private Integer pixelsPerCharacter;
   private String defaultComponentSize;
-  private Boolean shareSessionInTabs;
   private Boolean reloadCurrentScreen;
   private Integer suggestTimeout;
 

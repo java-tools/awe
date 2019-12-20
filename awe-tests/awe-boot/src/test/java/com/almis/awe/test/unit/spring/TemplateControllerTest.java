@@ -1,7 +1,6 @@
 package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.controller.ActionController;
-import com.almis.awe.controller.InitController;
 import com.almis.awe.controller.SettingsController;
 import com.almis.awe.controller.TemplateController;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -17,12 +16,12 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import javax.naming.NamingException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  *
@@ -33,14 +32,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TemplateControllerTest extends AweSpringBootTests {
 
   private ActionController actionController;
-  private InitController initController;
   private SettingsController settingsController;
   private TemplateController templateController;
 
   @Before
   public void initBeans() {
     actionController = getBean(ActionController.class);
-    initController = getBean(InitController.class);
     settingsController = getBean(SettingsController.class);
     templateController = getBean(TemplateController.class);
   }
@@ -80,7 +77,6 @@ public class TemplateControllerTest extends AweSpringBootTests {
   public void contextLoads() throws NamingException {
     // Check that controller are active
     assertThat(actionController).isNotNull();
-    assertThat(initController).isNotNull();
     assertThat(settingsController).isNotNull();
     assertThat(templateController).isNotNull();
   }
@@ -93,7 +89,7 @@ public class TemplateControllerTest extends AweSpringBootTests {
   public void testGetAngularTemplate() throws Exception {
     String expected = readFileAsText("templates/Modal.txt");
     templateTest("/template/angular/confirm", "text/html;charset=UTF-8", status().isOk())
-            .andExpect(content().xml(expected));
+      .andExpect(content().string(expected));
   }
 
   /**
@@ -104,7 +100,7 @@ public class TemplateControllerTest extends AweSpringBootTests {
   public void testGetAngularSubTemplate() throws Exception {
     String expected = readFileAsText("templates/Criterion.txt");
     templateTest("/template/angular/input/text", "text/html;charset=UTF-8", status().isOk())
-      .andExpect(content().xml(expected));
+      .andExpect(content().string(expected));
   }
 
   /**
@@ -203,15 +199,15 @@ public class TemplateControllerTest extends AweSpringBootTests {
   public void testGetSettings() throws Exception {
     SettingsController settingsController = getBean(SettingsController.class);
 
-    String expected = "{\"pathServer\":\"\",\"initialURL\":\"\",\"language\":\"en\",\"theme\":\"sky\",\"charset\":\"UTF-8\",\"applicationName\":\"awe-boot\",\"dataSuffix\":\".data\",\"homeScreen\":\"screen/home\",\"recordsPerPage\":30,\"pixelsPerCharacter\":8,\"defaultComponentSize\":\"sm\",\"shareSessionInTabs\":false,\"reloadCurrentScreen\":false,\"suggestTimeout\":300,\"connectionProtocol\":\"COMET\",\"connectionTransport\":\"websocket\",\"connectionBackup\":\"streaming\",\"connectionTimeout\":60000000,\"uploadIdentifier\":\"u\",\"downloadIdentifier\":\"d\",\"uploadMaxSize\":500,\"addressIdentifier\":\"address\",\"passwordPattern\":\".*\",\"minlengthPassword\":4,\"encodeTransmission\":false,\"encodeKey\":\"p\",\"tokenKey\":\"t\",\"actionsStack\":0,\"debug\":\"INFO\",\"loadingTimeout\":10000,\"helpTimeout\":1000,\"messageTimeout\":{\"info\":0,\"error\":0,\"validate\":2000,\"help\":5000,\"warning\":4000,\"ok\":2000,\"wrong\":0,\"chat\":0},\"numericOptions\":{\"pSign\":\"s\",\"aDec\":\",\",\"vMin\":-1.0E10,\"dGroup\":3,\"vMax\":1.0E10,\"mDec\":5,\"mRound\":\"S\",\"aPad\":false,\"wEmpty\":\"empty\",\"aSep\":\".\",\"aSign\":\"\"},\"pivotOptions\":{\"numGroup\":5000},\"chartOptions\":{\"limitPointsSerie\":1000000}}";
+    String expected = "{\"pathServer\":\"\",\"initialURL\":\"\",\"language\":\"en\",\"theme\":\"sky\",\"charset\":\"UTF-8\",\"applicationName\":\"awe-boot\",\"dataSuffix\":\".data\",\"homeScreen\":\"screen/home\",\"recordsPerPage\":30,\"pixelsPerCharacter\":8,\"defaultComponentSize\":\"sm\",\"reloadCurrentScreen\":false,\"suggestTimeout\":300,\"connectionProtocol\":\"COMET\",\"connectionTransport\":\"websocket\",\"connectionBackup\":\"streaming\",\"connectionTimeout\":60000000,\"uploadIdentifier\":\"u\",\"downloadIdentifier\":\"d\",\"uploadMaxSize\":500,\"addressIdentifier\":\"address\",\"passwordPattern\":\".*\",\"minlengthPassword\":4,\"encodeTransmission\":false,\"encodeKey\":\"p\",\"tokenKey\":\"t\",\"actionsStack\":0,\"debug\":\"INFO\",\"loadingTimeout\":10000,\"helpTimeout\":1000,\"messageTimeout\":{\"info\":0,\"error\":0,\"validate\":2000,\"help\":5000,\"warning\":4000,\"ok\":2000,\"wrong\":0,\"chat\":0},\"numericOptions\":{\"pSign\":\"s\",\"aDec\":\",\",\"vMin\":-1.0E10,\"dGroup\":3,\"vMax\":1.0E10,\"mDec\":5,\"mRound\":\"S\",\"aPad\":false,\"wEmpty\":\"empty\",\"aSep\":\".\",\"aSign\":\"\"},\"pivotOptions\":{\"numGroup\":5000},\"chartOptions\":{\"limitPointsSerie\":1000000}}";
     ObjectNode expectedJson = (ObjectNode) objectMapper.readTree(expected);
     MvcResult mvcResult = templateTestPost("/settings", "application/json", "{\"view\":\"base\"}", status().isOk())
       .andExpect(content().json(expected))
       .andReturn();
 
     String result = mvcResult.getResponse().getContentAsString();
-    //logger.debug(result);
-    //logger.debug(expected);
+    //logger.warn(result);
+    //logger.warn(expected);
     ObjectNode retrievedJson = (ObjectNode) objectMapper.readTree(result);
 
     // Check objects

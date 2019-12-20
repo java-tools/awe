@@ -4,16 +4,15 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWEQueryException;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
-import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.maintain.MaintainQuery;
 import com.almis.awe.model.entities.queries.DatabaseConnection;
 import com.almis.awe.model.entities.queues.Queue;
 import com.almis.awe.service.data.builder.QueueBuilder;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * QueueQueryConnector Class
@@ -25,7 +24,7 @@ public class QueueMaintainConnector extends ServiceConfig implements MaintainCon
 
 
   @Override
-  public <T extends MaintainQuery> ServiceData launch(T query, final DatabaseConnection connection, Map<String, QueryParameter> parameterMap) throws AWException {
+  public <T extends MaintainQuery> ServiceData launch(T query, final DatabaseConnection connection, ObjectNode parameters) throws AWException {
 
     // Log start query prepare time
     List<Long> timeLapse = getLogger().prepareTimeLapse();
@@ -36,8 +35,9 @@ public class QueueMaintainConnector extends ServiceConfig implements MaintainCon
 
     // Prepare variables
     builder.setQuery(query)
-            .setQueue(queue)
-            .getVariables();
+      .setQueue(queue)
+      .setParameters(parameters)
+      .getVariables();
 
     // Get query preparation time
     getLogger().checkpoint(timeLapse);

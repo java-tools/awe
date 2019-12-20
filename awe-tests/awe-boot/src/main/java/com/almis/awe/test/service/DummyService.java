@@ -1,16 +1,19 @@
 package com.almis.awe.test.service;
 
 import com.almis.awe.config.ServiceConfig;
-import com.almis.awe.model.dto.DataList;
-import com.almis.awe.model.util.data.DataListUtil;
-import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.exception.AWException;
-import com.almis.awe.service.data.builder.DataListBuilder;
-import com.almis.awe.service.data.builder.EmailBuilder;
+import com.almis.awe.model.dto.DataList;
+import com.almis.awe.model.dto.ServiceData;
+import com.almis.awe.model.dto.SortColumn;
+import com.almis.awe.model.entities.email.ParsedEmail;
 import com.almis.awe.model.type.AnswerType;
+import com.almis.awe.model.util.data.DataListUtil;
+import com.almis.awe.service.EmailService;
+import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.test.bean.Planet;
 import com.almis.awe.test.bean.Planets;
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -20,24 +23,26 @@ import javax.mail.internet.InternetAddress;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Dummy Service class to test the queries that call services
- * 
- * @author jbellon
  *
+ * @author jbellon
  */
+@Log4j2
 @Service
 public class DummyService extends ServiceConfig {
 
   // Autowired services
   private WebApplicationContext context;
+  private Random random = new Random();
 
   /**
    * Autowired constructor
+   *
    * @param context Context
    */
   @Autowired
@@ -47,7 +52,7 @@ public class DummyService extends ServiceConfig {
 
   /**
    * Returns a list of values to test pagination
-   * 
+   *
    * @return
    * @throws AWException
    */
@@ -66,7 +71,7 @@ public class DummyService extends ServiceConfig {
 
   /**
    * Returns a list of values to test pagination
-   * 
+   *
    * @return
    * @throws AWException
    */
@@ -85,7 +90,7 @@ public class DummyService extends ServiceConfig {
 
     DataListBuilder builder = context.getBean(DataListBuilder.class);
     out.setDataList(
-        builder.setServiceQueryResult(subset.toArray(new String[subset.size()]))
+      builder.setServiceQueryResult(subset.toArray(new String[subset.size()]))
         .setRecords((long) data.length)
         .setPage(page)
         .setMax(max)
@@ -95,8 +100,26 @@ public class DummyService extends ServiceConfig {
   }
 
   /**
+   * Returns a simple DataList without post processing
+   *
+   * @return DataList
+   * @throws AWException
+   */
+  public ServiceData getDummyUnprocessedData() throws AWException {
+    ServiceData out = new ServiceData();
+    String[] data = new String[]{"Toyota", null, "Mercedes", null, "BMW", "Volkswagen", "Skoda"};
+
+    DataListBuilder builder = context.getBean(DataListBuilder.class);
+    DataList dataList = builder.setServiceQueryResult(data).build();
+    DataListUtil.sort(dataList, Collections.singletonList(new SortColumn("value", "asc")), true);
+    out.setDataList(dataList);
+
+    return out;
+  }
+
+  /**
    * Returns a simple DataList asking for no parameters
-   * 
+   *
    * @return DataList
    * @throws AWException
    */
@@ -115,55 +138,55 @@ public class DummyService extends ServiceConfig {
 
   /**
    * Returns a simple String[] asking for no parameters
-   * 
+   *
    * @return String[]
    */
   public ServiceData returnStringArrayNoParams() {
     ServiceData out = new ServiceData();
-    out.setData(new String[] { "a", "b", "c" });
+    out.setData(new String[]{"a", "b", "c"});
 
     return out;
   }
 
   /**
    * Returns a simple String[] asking for two parameters (string)
-   * 
+   *
    * @return String[]
    */
   public ServiceData returnStringArrayTwoStringParams(String name, List<String> fields) {
     ServiceData out = new ServiceData();
-    out.setData(new String[] { name, fields.toString().replaceAll("[\\[\\]\\s]", "") });
+    out.setData(new String[]{name, fields.toString().replaceAll("[\\[\\]\\s]", "")});
 
     return out;
   }
 
   /**
    * Returns a simple String[] asking for a parameter (number)
-   * 
+   *
    * @return String[]
    */
   public ServiceData returnStringArrayNumberParam(Integer value) {
     ServiceData out = new ServiceData();
-    out.setData(new String[] { String.valueOf(value) });
+    out.setData(new String[]{String.valueOf(value)});
 
     return out;
   }
 
   /**
    * Returns a simple String[] asking for a parameter (number)
-   * 
+   *
    * @return String[]
    */
   public ServiceData returnStringArrayLongParam(Long value) {
     ServiceData out = new ServiceData();
-    out.setData(new String[] { String.valueOf(value) });
+    out.setData(new String[]{String.valueOf(value)});
 
     return out;
   }
 
   /**
    * Returns a simple String[] asking for a parameter (number)
-   * 
+   *
    * @return String[]
    */
   public ServiceData returnStringArrayDoubleParam(Double value) {
@@ -174,31 +197,31 @@ public class DummyService extends ServiceConfig {
 
   /**
    * Returns a simple String[] asking for a parameter (number)
-   * 
+   *
    * @return String[]
    */
   public ServiceData returnStringArrayFloatParam(Float value) {
     ServiceData out = new ServiceData();
-    out.setData(new String[] { String.valueOf(value) });
+    out.setData(new String[]{String.valueOf(value)});
 
     return out;
   }
 
   /**
    * Returns a simple String[] asking for a parameter (boolean)
-   * 
+   *
    * @return String[]
    */
   public ServiceData returnStringArrayBooleanParam(Boolean value) {
     ServiceData out = new ServiceData();
-    out.setData(new String[] { String.valueOf(value) });
+    out.setData(new String[]{String.valueOf(value)});
 
     return out;
   }
 
   /**
    * Pretends to answer an OK from a maintain
-   * 
+   *
    * @return ServiceData
    */
   public ServiceData returnMaintainOkNoParams() {
@@ -213,7 +236,7 @@ public class DummyService extends ServiceConfig {
 
   /**
    * Pretends to answer an OK from a maintain
-   * 
+   *
    * @return ServiceData
    */
   public ServiceData returnMaintainOkMessageParam(String message) {
@@ -228,7 +251,7 @@ public class DummyService extends ServiceConfig {
 
   /**
    * Pretends to answer an OK from a maintain
-   * 
+   *
    * @return ServiceData
    */
   public ServiceData returnMaintainOkTitleMessageParam(String title, String message) {
@@ -244,18 +267,17 @@ public class DummyService extends ServiceConfig {
   public ServiceData sendMail() {
     ServiceData out = new ServiceData();
     try {
-      ((EmailBuilder) context.getBean(EmailBuilder.class)).setFrom(new InternetAddress("david.fuentes@almis.com"))
-        .addTo(new InternetAddress("dfuentes.almis@gmail.com"))
-        .addReplyTo(new InternetAddress("david.fuentes.other@almis.com"))
-        .addCc(new InternetAddress("dovixman@gmail.com"))
-        .addCco(new InternetAddress("dovixmancosas@gmail.com"))
+      ParsedEmail email = new ParsedEmail()
+        .setFrom(new InternetAddress("david.fuentes@almis.com"))
+        .setTo(Arrays.asList(new InternetAddress("dfuentes.almis@gmail.com")))
+        .setReplyTo(Arrays.asList(new InternetAddress("david.fuentes.other@almis.com")))
+        .setCc(Arrays.asList(new InternetAddress("dovixman@gmail.com")))
+        .setCco(Arrays.asList(new InternetAddress("dovixmancosas@gmail.com")))
         .setSubject("Test message")
         .setBody("<div style='background-color:red;'>Test div message</div>")
-        .addAttachment("FileName.test", new File("C:\\Users\\dfuentes\\Pictures\\Saved Pictures\\tst.jpg"))
-        .sendMail(true);
+        .addAttachment("FileName.test", new File("C:\\Users\\dfuentes\\Pictures\\Saved Pictures\\tst.jpg"));
+      getBean(EmailService.class).sendEmail(email);
     } catch (AddressException e) {
-      e.printStackTrace();
-    } catch (AWException e) {
       e.printStackTrace();
     }
     return out;
@@ -316,6 +338,7 @@ public class DummyService extends ServiceConfig {
 
   /**
    * Retrieve dummy data
+   *
    * @param planet Planet bean
    * @return Service data
    */
@@ -325,6 +348,7 @@ public class DummyService extends ServiceConfig {
 
   /**
    * Retrieve dummy data
+   *
    * @param planet Planet bean
    * @return Service data
    */
@@ -336,6 +360,7 @@ public class DummyService extends ServiceConfig {
 
   /**
    * Retrieve dummy data
+   *
    * @param planetList Planet bean list
    * @return Service data
    */
@@ -345,10 +370,38 @@ public class DummyService extends ServiceConfig {
 
   /**
    * Retrieve dummy data
+   *
    * @param planets Planets bean
    * @return Service data
    */
   public ServiceData getDummyData(Planets planets) {
+    return new ServiceData();
+  }
+
+  /**
+   * Wait some seconds and retrieve a screen data
+   *
+   * @return
+   */
+  public ServiceData waitSomeSeconds(Integer seconds) throws AWException {
+    try {
+      int secondsToWait = random.nextInt(4) - 2 + seconds;
+      logger.info("Waiting {} seconds", secondsToWait);
+      sleep(secondsToWait * 1000L);
+      logger.info("Waiting finished!");
+    } catch (Exception exc) {
+      throw new AWException("Interrupted thread exception", exc);
+    }
+    return new ServiceData();
+  }
+
+  /**
+   * Do nothing
+   *
+   * @return
+   */
+  public ServiceData doNothing() {
+    logger.info("Launching a test service");
     return new ServiceData();
   }
 }

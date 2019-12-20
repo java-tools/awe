@@ -104,7 +104,16 @@ application.paths.reports=@reports/
 application.paths.reports.historic=@historicReports/
 application.paths.jrx=/jrx/
 application.paths.temp=/tmp/
-application.paths.log=/log/
+
+################################################
+# Application Images
+################################################
+# Home screen logo
+application.images.startup.logo=../../images/logo/logo.svg
+# Home screen background
+application.images.startup.background=../../images/background/signin-bg-1.jpg
+# Navigation bar logo
+application.images.navbar.logo=../../images/logo/logo-nabvar.svg
 
 ################################################
 # Application Icons
@@ -270,7 +279,7 @@ rest.request.timeout=5
 # Logger properties
 ################################################
 # Base paths where logs will be defined
-application.log.base.path=/logs
+application.log.base.path=${user.home}/${project.artifactId}/logs/${project.version}
 # Default level for custom user file logs
 application.log.users.level=info
 # Flag to activate custom user file logs (true | false)
@@ -459,9 +468,6 @@ awe.database.limit.log.size=0
 
 # Datasource
 spring.datasource.jndi-name=
-# Datasource type - oracle, sqs, hsql, mysql
-awe.database.connection.type=
-
 # Datasource server url
 spring.datasource.url=
 # Datasource username
@@ -472,6 +478,21 @@ spring.datasource.password=
 spring.datasource.driver-class-name=
 # Datasource validation query
 spring.datasource.validation-query=select 1 from ope
+
+################################################
+# Flybase migration tools
+################################################
+# Migration scripts prefix pattern
+awe.database.migration.prefix=%s_V
+# Migration repeatable scripts prefix pattern
+awe.database.migration.repeatable.prefix=%s_R
+# List of modules to migrate. 
+# - Add other modules if you need take its scripts
+# - Ex:  awe.database.migration.modules=AWE,SCHEDULER,APP
+awe.database.migration.modules=AWE
+# Scripts location. Takes into account the type of database from the vendor place holder
+spring.flyway.locations=classpath:db/migration/{vendor}
+
 
 ################################################
 # Audit properties
@@ -574,8 +595,8 @@ Here you can define the session management.
 ################################################
 # Session configuration
 ################################################
-# Share session in browser tabs
-session.shareSessionInTabs=false
+# Session timeout in seconds (30 min).
+server.servlet.session.timeout=30m
 
 ################################################
 # Session parameter list, separated by comma (,)
@@ -599,9 +620,8 @@ session.database.query=DbsAlsBySitModSel
 #MONGO - ok
 #JDBC
 #HAZELCAST
-#HASH_MAP - ok
 #NONE - ok
-spring.session.store-type=HASH_MAP
+spring.session.store-type=NONE
 # Session timeout in seconds (30 min)
 server.session.timeout=1800
 
@@ -680,8 +700,6 @@ log.scheduler=SCHEDULER
 log.model=MODEL
 # File extension for custom user file logs
 log.ext=.log
-# Default path
-log.path=/logs
 # Path for app version
 log.app.version=V4.0.0/
 # Pattern layout
@@ -702,10 +720,6 @@ log.delete.if.size.exceeds=500 MB
 log.delete.if.days.exceeds=15d
 # Log folder
 application.log.type=java
-# Default base logs path
-application.log.base.path=${log.path}/${log.app}/${log.app.version}
-# Default path for Java logs (See log42.xml)
-application.log.file.path=${application.log.base.path}/${application.log.type}/
 ```
 
 > :floppy_disk: This file should be overwritten on the final application.

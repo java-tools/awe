@@ -1,9 +1,7 @@
 package com.almis.awe.model.entities.maintain;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.MaintainType;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,17 +25,8 @@ import lombok.experimental.SuperBuilder;
 @XStreamAlias("retrieve-data")
 public class RetrieveData extends MaintainQuery {
 
-  // Maintain type
-  @XStreamOmitField
-  private static final MaintainType maintainType = MaintainType.RETRIEVE_DATA;
-
-  @Override
-  public RetrieveData copy() throws AWException {
-    return this.toBuilder().build();
-  }
-
   @Override
   public MaintainType getMaintainType() {
-    return maintainType;
+    return MaintainType.RETRIEVE_DATA;
   }
 }

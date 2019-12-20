@@ -1,7 +1,9 @@
 package com.almis.awe.autoconfigure;
 
-import com.almis.awe.model.component.AweClientTracker;
 import com.almis.awe.model.component.AweSession;
+import com.almis.awe.model.tracker.AweClientTracker;
+import com.almis.awe.model.tracker.AweConnectionTracker;
+import com.almis.awe.service.BroadcastService;
 import com.almis.awe.service.QueryService;
 import com.almis.awe.service.SessionService;
 import com.almis.awe.session.AweSessionDetails;
@@ -9,9 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.annotation.SessionScope;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by dfuentes on 17/07/2017.
@@ -45,15 +44,15 @@ public class SessionConfig {
   /**
    * Session details
    *
-   * @param aweClientTracker Awe Client tracker
-   * @param queryService     Query service
-   * @param connectedUsers   Connected user list
+   * @param aweClientTracker  Awe Client tracker
+   * @param queryService      Query service
+   * @param connectionTracker connection tracker
    * @return Session details bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public AweSessionDetails aweSessionDetails(AweClientTracker aweClientTracker,
-                                             QueryService queryService, Map<String, Set<String>> connectedUsers) {
-    return new AweSessionDetails(aweClientTracker, queryService, connectedUsers);
+  public AweSessionDetails aweSessionDetails(AweClientTracker aweClientTracker, QueryService queryService,
+                                             AweConnectionTracker connectionTracker, BroadcastService broadcastService) {
+    return new AweSessionDetails(aweClientTracker, queryService, connectionTracker, broadcastService);
   }
 }

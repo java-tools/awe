@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Document   : Locale-FR
+  Description: Application Locales
+-->
+
+<!--$Id$-->
+
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
+  <locale name="BUTTON_CLEAR_AND_STOP" value="Nettoyer et arrêter"/>
+  <locale name="BUTTON_RESTART" value="Redémarrer"/>
+  <locale name="BUTTON_STOP" value="Arrêter"/>
+  <locale name="COLUMN_DATE" value="Date"/>
+  <locale name="COLUMN_SCHEDULER_INSTANCE_ID" value="Id d&apos;instance du planificateur"/>
+  <locale name="COLUMN_SCHEDULER_JOBSTORE_CLASS" value="Classe du jobstore"/>
+  <locale name="COLUMN_SCHEDULER_JOBSTORE_CLUSTERED" value="Cluster jobstore"/>
+  <locale name="COLUMN_SCHEDULER_JOBSTORE_PERSISTENT" value="Jobstore persistant"/>
+  <locale name="COLUMN_SCHEDULER_NAME" value="Nom"/>
+  <locale name="COLUMN_SCHEDULER_NUMBER_JOBS_EXECUTED" value="Nombr du travaux exécutés"/>
+  <locale name="COLUMN_SCHEDULER_REMOTE" value="Distance"/>
+  <locale name="COLUMN_SCHEDULER_RUNNING_SINCE" value="En cours d&apos;exécution depuis"/>
+  <locale name="COLUMN_SCHEDULER_STATUS" value="Statut du planificateur"/>
+  <locale name="COLUMN_SCHEDULER_TASK_CALENDAR" value="Calendrier"/>
+  <locale name="COLUMN_SCHEDULER_TASK_END_TIME" value="Heure fin tâche"/>
+  <locale name="COLUMN_SCHEDULER_TASK_EXECUTION_TIME" value="Temps d&apos;exécution"/>
+  <locale name="COLUMN_SCHEDULER_TASK_FINAL_EXECUTION_TIME" value="Dernier exécution du tâche"/>
+  <locale name="COLUMN_SCHEDULER_TASK_FIRE_ID" value="Id tâche"/>
+  <locale name="COLUMN_SCHEDULER_TASK_NEXT_EXECUTION_TIME" value="Prochaine exécution"/>
+  <locale name="COLUMN_SCHEDULER_TASK_PREVIOUS_EXECUTION_TIME" value="Dernière exécution"/>
+  <locale name="COLUMN_SCHEDULER_TASK_SCHEDULED_EXECUTION_TIME" value="Temps d&apos;exécution planifiée"/>
+  <locale name="COLUMN_SCHEDULER_TASK_START_TIME" value="Heure début tâche"/>
+  <locale name="COLUMN_SCHEDULER_TASK_STATUS" value="État"/>
+  <locale name="COLUMN_SCHEDULER_TASK_TRIGGER_KEY" value="Id lanceur"/>
+  <locale name="COLUMN_SCHEDULER_THREADPOOL_CLASS" value="Classe du threadpool"/>
+  <locale name="COLUMN_SCHEDULER_THREADPOOL_SIZE" value="Taille du threadpool"/>
+  <locale name="COLUMN_SCHEDULER_VERSION" value="Version"/>
+  <locale name="COLUMN_SUBTASK" value="Subtache"/>
+  <locale name="COLUMN_TIME" value="Heure"/>
+  <locale name="CONFIRM_MESSAGE_ACTIVATE_BATCH" value="Taches selectionnees vont etre activees. Etes-vous d&apos;accord?"/>
+  <locale name="CONFIRM_MESSAGE_ACTIVATE_TASK" value="Vous allez activer les tâches sélectionnées. Êtes-vous d&apos;accord?"/>
+  <locale name="CONFIRM_MESSAGE_BATCH_REPORT" value="Rapport va etre genere selctionnant dans les criteres. Etes-vous d&apos;accord?"/>
+  <locale name="CONFIRM_MESSAGE_DEACTIVATE_BATCH" value="Taches selectionnees vont etre desactivees.Etes-vous d&apos;accord?"/>
+  <locale name="CONFIRM_MESSAGE_DEACTIVATE_TASK" value="Vous allez désactiver les tâches sélectionnées. Êtes-vous d&apos;accord?"/>
+  <locale name="CONFIRM_MESSAGE_DELETE_TASK" value="Il va supprimer le planificateur de tâche sélectionnée et dépendances qui en contiennent . Etes vous d&apos;accord?"/>
+  <locale name="CONFIRM_MESSAGE_TASK_LAUNCH" value="Tache selectionnee va etre lancee. Etes-vous d&apos;accord?"/>
+  <locale name="CONFIRM_MESSAGE_TRIGGER_WITH_CALENDAR_EXIST" value="Calendriers sélectionnés sont associés à une ou plusieurs tâches. Êtes-vous sûr de vouloir continuer?"/>
+  <locale name="CONFIRM_MESSAGE_UNBLOCK_BATCH_KO" value="Les batchs selectionnes sont marques comme non valides pour etre debloqués. Etes-vous d&apos;accord?"/>
+  <locale name="CONFIRM_MESSAGE_UNBLOCK_BATCH_OK" value="Les batchs selectionnes sont marques comme valides pour etre debloqués. Etes-vous d&apos;accord?"/>
+  <locale name="CONFIRM_MESSAGE_UPDATE_TASK" value="Vous allez stocker les données sur l&apos;écran , si les changements de type tâche de lancement de manuel à tout autre type , il seront retirés de toutes les dépendances Etes vous d&apos;accord?"/>
+  <locale name="CONFIRM_TITLE_ACTIVATE_BATCH" value="Confirmation d&apos;activatión de taches"/>
+  <locale name="CONFIRM_TITLE_ACTIVATE_TASK" value="Confirmation d&apos;activatión de taches"/>
+  <locale name="CONFIRM_TITLE_BATCH_REPORT" value="Confirmation de generatión de rapport"/>
+  <locale name="CONFIRM_TITLE_DEACTIVATE_BATCH" value="Confirmation de desactivation des taches"/>
+  <locale name="CONFIRM_TITLE_DEACTIVATE_TASK" value="Confirmation de desactivation des taches"/>
+  <locale name="CONFIRM_TITLE_TASK_LAUNCH" value="Confirmation de lancement des taches"/>
+  <locale name="CONFIRM_TITLE_TRIGGER_WITH_CALENDAR_EXIST" value="La confirmation de calendrier associé à une ou plusieurs tâches."/>
+  <locale name="CONFIRM_TITLE_UNBLOCK_BATCH" value="Confirmation de deblocage de batch"/>
+  <locale name="ENUM_LAUNCH_DEPENDENCY" value="Dépendance"/>
+  <locale name="ENUM_LAUNCH_FILE" value="Par fichier"/>
+  <locale name="ENUM_LAUNCH_MANUAL" value="Manuelle"/>
+  <locale name="ENUM_LAUNCH_SCHEDULED" value="Programmés"/>
+  <locale name="ENUM_TASK_STEP_CONFIG" value="Configuration"/>
+  <locale name="ENUM_TASK_STEP_DEPENDENCIES" value="Dépendances"/>
+  <locale name="ENUM_TASK_STEP_LAUNCH" value="Lancement"/>
+  <locale name="ENUM_TASK_STEP_PARAMS" value="Paramètres"/>
+  <locale name="ENUM_TASK_STEP_REPORT" value="Rapport"/>
+  <locale name="ENUM_TITLE_STATUS_ERROR" value="La tâche est terminée avec erreur"/>
+  <locale name="ENUM_TITLE_STATUS_INTERRUPTED" value="La tâche a été interrompue"/>
+  <locale name="ENUM_TITLE_STATUS_OK" value="La tâche est terminée avec succès"/>
+  <locale name="ENUM_TITLE_STATUS_RUNNING" value="La tâche est en cours d&apos;exécution dès maintenant"/>
+  <locale name="ENUM_TITLE_STATUS_WARNING" value="La tâche est terminée avec des avertissements"/>
+  <locale name="ERROR_MESSAGE_SCHEDULER_PAUSE_TASK" value="Tâche problème pause"/>
+  <locale name="ERROR_MESSAGE_SCHEDULER_RESUME_TASK" value="Problème pour reprendre la tâche."/>
+  <locale name="ERROR_MESSAGE_TRIGGER_MISFIRED" value="L&apos;élément déclencheur de cette tâche a été mise à feu accidentelle"/>
+  <locale name="ERROR_TITLE_SCHEDULER_PAUSE_TASK" value="La tâche n&apos;a pas pu être mis en pause."/>
+  <locale name="ERROR_TITLE_SCHEDULER_RESUME_TASK" value="La tâche n&apos;a pas pu être repris."/>
+  <locale name="HELP_ACTIVATE_BUTTON" value="Permet à l&apos;élément sélectionné"/>
+  <locale name="HELP_DEACTIVATE_BUTTON" value="Désactive l&apos;élément sélectionné"/>
+  <locale name="HELP_LAUNCH_STOP_BUTTON" value="Interruption de l&apos;élément sélectionné"/>
+  <locale name="HELP_RUN_BUTTON" value="Exécute l&apos;élément sélectionné"/>
+  <locale name="HELP_SCREEN_EXECUTION_DATA" value="Cette dialogue indique les données de l&apos;exécution selectionèe de la tâche"/>
+  <locale name="HELP_SCREEN_NEW_SCHEDULER_CALENDAR" value="Dans cet écran, vous pouvez définir la configuration d&apos;un nouveau calendrier"/>
+  <locale name="HELP_SCREEN_NEW_SCHEDULER_SERVER" value="Dans cet écran, vous pouvez définir les paramètres d&apos;un nouveau serveur"/>
+  <locale name="HELP_SCREEN_NEW_SCHEDULER_TASK" value="Dans cet écran, vous pouvez définir la configuration d&apos;une tâche planifiée"/>
+  <locale name="HELP_SCREEN_SCHEDULER_CALENDAR" value="L&apos;écran d&apos;édition de l&apos;agenda"/>
+  <locale name="HELP_SCREEN_SCHEDULER_SERVERS" value="Ici, vous pouvez ajouter ou supprimer des nouvelles configurations de serveur"/>
+  <locale name="HELP_SCREEN_SCHEDULER_TASKS" value="Dans cet écran, vous pouvez ajouter ou supprimer des nouvelles tâches du planificateur"/>
+  <locale name="HELP_SCREEN_UPDATE_SCHEDULER_CALENDAR" value="Dans cet écran, vous pouvez mettre à jour la configuration d&apos;un calendrier"/>
+  <locale name="HELP_SCREEN_UPDATE_SCHEDULER_SERVER" value="Dans cet écran, vous pouvez mettre à jour la configuration d&apos;un serveur"/>
+  <locale name="HELP_SCREEN_UPDATE_SCHEDULER_TASK" value="Dans cet écran, vous pouvez mettre à jour la configuration d&apos;une tâche planifiée"/>
+  <locale name="MENU_NEW_SCHEDULER_CALENDAR" value="Nouveau calendrier"/>
+  <locale name="MENU_NEW_SCHEDULER_SERVER" value="Nouveau serveur"/>
+  <locale name="MENU_NEW_SCHEDULER_TASK" value="Nouvelle tâche planifiée"/>
+  <locale name="MENU_SCHEDULER_CALENDARS" value="Calendriers"/>
+  <locale name="MENU_SCHEDULER_EDIT_CALENDAR" value="Modifier calendrier"/>
+  <locale name="MENU_SCHEDULER_MANAGEMENT" value="Gestion du planificateur"/>
+  <locale name="MENU_SCHEDULER_TASKS" value="Gestionnaire des tâches"/>
+  <locale name="MENU_TASKS_BATCH" value="Definition des taches du batch"/>
+  <locale name="MENU_TASKS_BATCH_AUDIT" value="Audit de tache du batch"/>
+  <locale name="MENU_TASKS_PROCESS_AUDIT" value="Audit de processus"/>
+  <locale name="MENU_UPDATE_SCHEDULER_CALENDAR" value="Mise à jour du calendrier"/>
+  <locale name="MENU_UPDATE_SCHEDULER_SERVER" value="Mise à jour de serveur"/>
+  <locale name="MENU_UPDATE_SCHEDULER_TASK" value="Mise à jour de tâches du planificateur"/>
+  <locale name="MESSAGE_SCHEDULER_DELETE_CALENDAR" value="Vous êtes sûr que vous voulez supprimer ce calendrier ?"/>
+  <locale name="MESSAGE_SCHEDULER_DELETE_CALENDAR_WITH_ASSOCIATED_TASKS" value="Il y a des tâches associées à ce calendrier .\nVous êtes sûr que vous voulez supprimer le calendrier ?\n.Si Élimine le calendrier , il a également été retiré des tâches associées."/>
+  <locale name="MESSAGE_SCHEDULER_NEW_TASK" value="La tâche a été ajouté avec succès"/>
+  <locale name="PARAMETER_FIRST_WEEK" value="Première semaine"/>
+  <locale name="PARAMETER_FOURTH_WEEK" value="Quatrième semaine"/>
+  <locale name="PARAMETER_LAST_DAY" value="Dernier jour"/>
+  <locale name="PARAMETER_LAST_WEEK" value="La semaine dernière"/>
+  <locale name="PARAMETER_LAUNCHED_BY" value="Lancé par"/>
+  <locale name="PARAMETER_SECOND_WEEK" value="Deuxième semaine"/>
+  <locale name="PARAMETER_STARTED_AT" value="Commencé à"/>
+  <locale name="PARAMETER_TASK" value="Tache"/>
+  <locale name="PARAMETER_TASK_DEPENDENCIES" value="Les dépendances de la tâche"/>
+  <locale name="PARAMETER_TASK_DETAILS" value="Détails de la tâche"/>
+  <locale name="PARAMETER_TASKS_BATCH" value="Tache batch"/>
+  <locale name="PARAMETER_THIRD_WEEK" value="Troisième semaine"/>
+  <locale name="PARAMETER_WEEKS" value="Semaines"/>
+  <locale name="SCHEDULER_BATCH_LAUNCH_ERROR_MESSAGE" value="Il y a eu une erreur lors de l&apos;exécution du lot."/>
+  <locale name="SCHEDULER_BATCH_LAUNCH_ERROR_TITLE" value="Erreur d&apos;exécution lot par lot"/>
+  <locale name="SCHEDULER_BATCH_LAUNCH_MESSAGE" value="Le lot a été exécutée correctement"/>
+  <locale name="SCHEDULER_BATCH_LAUNCH_TITLE" value="Lot exécuté"/>
+  <locale name="SCHEDULER_ERROR_MESSAGE_TIMEOUT" value="Cette tâche a été annulée parce qu&apos;il a dépassé le temps imparti ({0})"/>
+  <locale name="SCHEDULER_NEXT_EXECUTIONS" value="Prochaines exécutions"/>
+  <locale name="SCHEDULER_SHOW_EXECUTION_LOG" value="Afficher journal d&apos;exécution"/>
+  <locale name="SCREEN_TEXT_END_TIME" value="Heure de fin"/>
+  <locale name="SCREEN_TEXT_EXECUTION" value="L&apos;exécution"/>
+  <locale name="SCREEN_TEXT_EXECUTION_DETAILS" value="Les détails de l&apos;exécution"/>
+  <locale name="SCREEN_TEXT_EXECUTION_TIME" value="Temps d&apos;exécution"/>
+  <locale name="SCREEN_TEXT_EXECUTIONS" value="Exécutions"/>
+  <locale name="SCREEN_TEXT_LAUNCHED_BY" value="Lancé par"/>
+  <locale name="SCREEN_TEXT_MORE_INFORMATION" value="Plus d&apos;informations"/>
+  <locale name="SCREEN_TEXT_START_TIME" value="Heure de début"/>
+  <locale name="SCREEN_TEXT_TASK" value="Tâche"/>
+  <locale name="SCREEN_TEXT_TASK_DETAIL" value="Détail des tâches"/>
+  <locale name="SCREEN_TEXT_TASKS" value="Tâches"/>
+  <locale name="SCREEN_TITLE_TASKS_BATCH" value="Definition des taches du batch"/>
+  <locale name="SCREEN_TITLE_TASKS_BATCH_AUDIT" value="Gestión de l&apos;audit des taches du batch"/>
+  <locale name="SCREEN_TITLE_TASKS_BATCH_UPD" value="Modification de la definition de la tache du batch"/>
+  <locale name="TAB_SCHEDULER_CONFIGURED_TASKS" value="Tâches configurées"/>
+  <locale name="TAB_SCHEDULER_EXECUTING_TASKS" value="Tâches en cours d&apos;exécution"/>
+  <locale name="TITLE_SCHEDULER_DELETE_CALENDAR" value="Supprimer le calendrier"/>
+  <locale name="TITLE_SCHEDULER_DELETE_CALENDAR_WITH_ASSOCIATED_TASKS" value="Ce calendrier est associé à une ou plusieurs tâches"/>
+  <locale name="TITLE_SCHEDULER_NEW_TASK" value="Nouvelle tâche ajouté avec succès"/>
+  <locale name="WARNING_MESSAGE_TASK_DEPENDENCY_ERROR" value="Cette tâche a été marqué comme avertissement, car la tâche dépendante #{0} a retourné une erreur à l&apos;exécution #{1}"/>
+</locales>

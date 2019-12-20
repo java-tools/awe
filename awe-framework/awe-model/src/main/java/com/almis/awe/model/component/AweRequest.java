@@ -112,21 +112,22 @@ public class AweRequest {
    * @param name  Parameter name
    * @param value Parameter value
    */
-  public void setParameter(String name, JsonNode value) {
-    if (value != null) {
-      getParameterList().set(name, value);
-    }
+  public void setParameter(String name, Object value) {
+    setParameterObject(name, value);
   }
 
   /**
-   * Stores the specific value of a parameter in the internal parameter list
-   *
-   * @param name  Parameter name
-   * @param value Parameter value
+   * Set parameter object
+   * @param name
+   * @param value
    */
-  public void setParameter(String name, String value) {
+  private void setParameterObject(String name, Object value) {
     if (value != null) {
-      getParameterList().put(name, value);
+      if (value instanceof JsonNode) {
+        getParameterList().set(name, (JsonNode) value);
+      } else {
+        getParameterList().putPOJO(name, value);
+      }
     }
   }
 

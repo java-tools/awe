@@ -97,9 +97,25 @@
     <option name="pivot-test" label="MENU_TEST_PIVOT" screen="pivot-test" icon="table"/>
     <option name="filemanager-test" label="MENU_TEST_FILEMANAGER" screen="filemanager-test" icon="folder"/>
   </option>
+  <option name="scheduler-separator" separator="true"/>
+  <option name="scheduler" label="MENU_SCHEDULER" icon="clock-o">
+    <option name="scheduler-management" label="MENU_SCHEDULER_MANAGEMENT" screen="scheduler-management" icon="cogs"/>
+    <option name="scheduler-tasks" label="MENU_SCHEDULER_TASKS" screen="scheduler-tasks" icon="tasks">
+      <option name="new-scheduler-task" screen="new-scheduler-task" invisible="true" />
+      <option name="update-scheduler-task" screen="update-scheduler-task" invisible="true" />
+    </option>
+    <option name="scheduler-servers" label="MENU_SCHEDULER_SERVERS" screen="scheduler-server" icon="server">
+      <option name="new-scheduler-server" screen="new-scheduler-server" invisible="true" />
+      <option name="update-scheduler-server" screen="update-scheduler-server" invisible="true" />
+    </option>
+    <option name="scheduler-calendars" label="MENU_SCHEDULER_CALENDARS" screen="scheduler-calendars" icon="calendar">
+      <option name="new-scheduler-calendar" screen="new-scheduler-calendar" invisible="true" />
+      <option name="update-scheduler-calendar" screen="update-scheduler-calendar" invisible="true" />
+    </option>
+  </option>
   <option name="developer-separator" separator="true"/>
   <option name="developer" label="MENU_DEVELOPER" icon="paint-brush">
-    <option name="path-manager" label="MENU_PATH" screen="path-manager" icon="italic"/>
+    <option name="path-manager" label="MENU_PATH" screen="path-manager" icon="terminal"/>
     <option name="local-manager" label="MENU_LANGUAGES" screen="local-manager" icon="language"/>
   </option>
   <option name="help-separator" separator="true"/>

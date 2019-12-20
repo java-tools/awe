@@ -2,19 +2,22 @@ package com.almis.awe.controller;
 
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.settings.WebSettings;
-import com.almis.awe.model.type.LaunchPhaseType;
 import com.almis.awe.service.InitService;
 import com.almis.awe.service.MenuService;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADER;
 
 /**
  * Manage settings request
@@ -27,6 +30,7 @@ public class SettingsController extends ServiceConfig {
   private Environment environment;
   private MenuService menuService;
   private InitService initService;
+  private AweRequest request;
 
   /**
    * Initialize controller
@@ -34,34 +38,39 @@ public class SettingsController extends ServiceConfig {
    * @param environment Environment
    * @param menuService Menu service
    * @param initService Init service
+   * @param request AWE request
    */
   @Autowired
-  public SettingsController(Environment environment, MenuService menuService, InitService initService) {
+  public SettingsController(Environment environment, MenuService menuService, InitService initService, AweRequest request) {
     this.environment = environment;
     this.menuService = menuService;
     this.initService = initService;
+    this.request = request;
   }
 
   /**
    * Retrieve application settings
-   *
-   * @param request  Servlet request
-   * @param response Servlet response
+   * @param token initial token
+   * @param httpServletRequest  Servlet request
    * @return WebSettings
    * @throws AWException Error generating settings
    */
   @PostMapping
-  public WebSettings getSettings(HttpServletRequest request, HttpServletResponse response) throws AWException {
+  public WebSettings getSettings(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                                 HttpServletRequest httpServletRequest) throws AWException {
     WebSettings settings = getBean(WebSettings.class).toBuilder().build();
 
+    // Initialize parameters
+    request.init(JsonNodeFactory.instance.objectNode(), token);
+
     // Launch client start service
-    initService.launchPhaseServices(LaunchPhaseType.CLIENT_START);
+    initService.onClientStart();
 
     // Overwrite settings parameters
     overwriteSettingParameters(settings);
 
     // Handle initial redirection
-    handleInitialRedirection(settings, request);
+    handleInitialRedirection(settings, httpServletRequest);
 
     // Retrieve settings
     return settings;
@@ -88,11 +97,7 @@ public class SettingsController extends ServiceConfig {
     } else {
       settings.setInitialURL(environment.getProperty(AweConstants.PROPERTY_SETTINGS_HEADER + AweConstants.SESSION_INITIAL_URL));
     }
-    if (getSession().getParameter(String.class, AweConstants.SESSION_TOKEN) != null) {
-      settings.setCometUID(getSession().getParameter(String.class, AweConstants.SESSION_TOKEN));
-    } else {
-      settings.setCometUID(null);
-    }
+    settings.setCometUID(getRequest().getToken());
   }
 
   /**

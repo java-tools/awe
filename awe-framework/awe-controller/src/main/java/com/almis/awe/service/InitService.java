@@ -4,53 +4,83 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.services.Service;
 import com.almis.awe.model.type.LaunchPhaseType;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.almis.awe.model.constant.AweConstants.DOUBLE_LOG_LINE;
+import static com.almis.awe.model.constant.AweConstants.LOG_LINE;
+
 /**
  * Manage application initialization
  */
-public class InitService extends ServiceConfig {
+@Log4j2
+public class InitService extends ServiceConfig implements DisposableBean {
 
   // Autowired services
   private LauncherService launcherService;
-  private PropertyService propertyService;
-  private QueryService queryService;
 
   /**
    * Autowired constructor
+   *
    * @param launcherService Launcher service
-   * @param propertyService Property service
-   * @param queryService Query service
    */
   @Autowired
-  public InitService(LauncherService launcherService, PropertyService propertyService, QueryService queryService) {
+  public InitService(LauncherService launcherService) {
     this.launcherService = launcherService;
-    this.propertyService = propertyService;
-    this.queryService = queryService;
   }
 
   /**
-   * Initialize AWE Elements
+   * Launch services when application have been started (before spring context)
+   *
+   * @param event Context refresh event
    */
-  public void initAweElements() {
-    // Init awe elements
-    getElements().init();
+  @EventListener
+  public void onApplicationStart(ContextRefreshedEvent event) {
+    log.info(DOUBLE_LOG_LINE);
+    log.info("=======  Launching application start services  =======");
+    log.info(DOUBLE_LOG_LINE);
+    launchPhaseServices(LaunchPhaseType.APPLICATION_START);
+    log.info(LOG_LINE);
+    log.info("-----------------------------  AWE STARTED  --------------------------------------");
+    log.info(LOG_LINE);
+  }
 
-    // Init datasource map
-    queryService.initDatabaseConnector();
+  /**
+   * Launch services when application have been started (before spring context)
+   */
+  public void destroy() throws Exception {
+    log.info(DOUBLE_LOG_LINE);
+    log.info("=======  Launching application end services  =========");
+    log.info(DOUBLE_LOG_LINE);
+    launchPhaseServices(LaunchPhaseType.APPLICATION_END);
+    log.info(LOG_LINE);
+    log.info("-----------------------------  AWE STOPPING  -------------------------------------");
+    log.info(LOG_LINE);
+  }
 
-    // Initialize properties
-    propertyService.refreshDatabaseProperties();
+  /**
+   * Launch a client initialization
+   */
+  public void onClientStart() {
+    // Launch client start services
+    log.info(DOUBLE_LOG_LINE);
+    log.info("=======  Initializing client start services  =========");
+    log.info(DOUBLE_LOG_LINE);
+    launchPhaseServices(LaunchPhaseType.CLIENT_START);
   }
 
   /**
    * Launch initial services
+   *
    * @param phase Service phase
    */
   public void launchPhaseServices(LaunchPhaseType phase) {

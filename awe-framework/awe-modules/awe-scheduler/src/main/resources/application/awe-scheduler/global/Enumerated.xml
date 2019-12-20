@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Enumerated.xml
+    Created on : 11 de marzo de 2010, 11:03
+    Author     : Pablo GARCIA
+    Description:
+        Purpose of the document follows.
+-->
+
+<enumerated xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/enumerated.xsd">
+
+  <!--
+  SCHEDULER
+  -->
+  <group id="StaTyp">
+    <option label="ENUM_STATUS_OK" value="0"/>
+    <option label="ENUM_STATUS_ERROR" value="1"/>
+    <option label="ENUM_STATUS_WARNING" value="2"/>
+    <option label="ENUM_STATUS_STOPPED" value="3"/>
+    <option label="ENUM_STATUS_RUNNING" value="4"/>
+    <option label="ENUM_STATUS_QUEUED" value="5"/>
+    <option label="ENUM_STATUS_INTERRUPTED" value="6"/>
+  </group>
+  <group id="StaTit">
+    <option label="ENUM_TITLE_STATUS_OK" value="0"/>
+    <option label="ENUM_TITLE_STATUS_ERROR" value="1"/>
+    <option label="ENUM_TITLE_STATUS_WARNING" value="2"/>
+    <option label="ENUM_TITLE_STATUS_STOPPED" value="3"/>
+    <option label="ENUM_TITLE_STATUS_RUNNING" value="4"/>
+    <option label="ENUM_TITLE_STATUS_QUEUED" value="5"/>
+    <option label="ENUM_TITLE_STATUS_INTERRUPTED" value="6"/>
+  </group>
+  <group id="StaIco">
+    <option label="fa-check" value="0"/>
+    <option label="fa-times" value="1"/>
+    <option label="fa-exclamation-triangle" value="2"/>
+    <option label="fa-pause" value="3"/>
+    <option label="fa-refresh fa-spin" value="4"/>
+    <option label="fa-hourglass" value="5"/>
+    <option label="fa-chain-broken" value="6"/>
+  </group>
+  <group id="StaBg">
+    <option label="bg-success" value="0"/>
+    <option label="bg-danger" value="1"/>
+    <option label="bg-warning" value="2"/>
+    <option label="bg-warning" value="3"/>
+    <option label="bg-info" value="4"/>
+    <option label="bg-info" value="5"/>
+    <option label="bg-warning" value="6"/>
+  </group>
+  <group id="StaColor">
+    <option label="green" value="0"/>
+    <option label="red" value="1"/>
+    <option label="orange" value="2"/>
+    <option label="orange" value="3"/>
+    <option label="cyan" value="4"/>
+    <option label="cyan" value="5"/>
+    <option label="orange" value="6"/>
+  </group>
+  <group id="StaSty">
+    <option label="text-success" value="0"/>
+    <option label="text-danger" value="1"/>
+    <option label="text-warning" value="2"/>
+    <option label="text-danger" value="3"/>
+    <option label="text-info" value="4"/>
+    <option label="text-light-gray" value="5"/>
+    <option label="text-info" value="6"/>
+  </group>
+  <group id="LchTyp">
+    <option label="ENUM_LAUNCH_MANUAL" value="0"/>
+    <option label="ENUM_LAUNCH_SCHEDULED" value="1"/>
+    <option label="ENUM_LAUNCH_FILE" value="2"/>
+  </group>
+  <group id="LchIco">
+    <option label="fa-hand-paper-o" value="0"/>
+    <option label="fa-calendar" value="1"/>
+    <option label="fa-file" value="2"/>
+    <option label="fa-mail-forward" value="3"/>
+  </group>
+  <group id="LchSty">
+    <option label="text-danger" value="0"/>
+    <option label="text-info" value="1"/>
+    <option label="text-success" value="2"/>
+    <option label="text-mail-forward" value="3"/>
+  </group>
+  <group id="LchTxtTyp">
+    <option label="ENUM_LAUNCH_MANUAL" value="MANUAL_TASK"/>
+    <option label="ENUM_LAUNCH_SCHEDULED" value="SCHEDULED_TASK"/>
+    <option label="ENUM_LAUNCH_FILE" value="FILE_TRACKING_TASK"/>
+    <option label="ENUM_LAUNCH_DEPENDENCY" value="DEPENDANT_TASK"/>
+  </group>
+  <group id="LchTxtIco">
+    <option label="fa-hand-paper-o" value="MANUAL_TASK"/>
+    <option label="fa-calendar" value="SCHEDULED_TASK"/>
+    <option label="fa-file" value="FILE_TRACKING_TASK"/>
+    <option label="fa-mail-forward" value="DEPENDANT_TASK"/>
+  </group>
+  <group id="LchTxtIcoNam">
+    <option label="user" value="MANUAL_TASK"/>
+    <option label="calendar" value="SCHEDULED_TASK"/>
+    <option label="file" value="FILE_TRACKING_TASK"/>
+    <option label="mail-forward" value="DEPENDANT_TASK"/>
+  </group>
+  <group id="LchTxtSty">
+    <option label="text-danger" value="MANUAL_TASK"/>
+    <option label="text-info" value="SCHEDULED_TASK"/>
+    <option label="text-success" value="FILE_TRACKING_TASK"/>
+    <option label="text-light-gray" value="DEPENDANT_TASK"/>
+  </group>
+  <group id="ActIco">
+    <option label="fa-times" value="0"/>
+    <option label="fa-check" value="1"/>
+  </group>
+  <group id="ActSty">
+    <option label="text-danger" value="0"/>
+    <option label="text-success" value="1"/>
+  </group>
+  <group id="SchedulerTaskSteps">
+    <option label="ENUM_TASK_STEP_CONFIG" value="Configuration"/>
+    <option label="ENUM_TASK_STEP_PARAMS" value="Parameters"/>
+    <option label="ENUM_TASK_STEP_LAUNCH" value="Launch"/>
+    <option label="ENUM_TASK_STEP_DEPENDENCIES" value="Dependencies"/>
+    <option label="ENUM_TASK_STEP_REPORT" value="Report"/>
+  </group>
+  <group id="SchedulerServSteps">
+    <option label="ENUM_TASK_STEP_CONFIG" value="Configuration"/>
+  </group>
+  <group id="ExeTyp">
+    <option label="ENUM_EXECUTE_MAINTAIN" value="1"/>
+    <option label="ENUM_EXECUTE_COMMAND" value="0"/>
+  </group>
+  <group id="conType">
+    <option label="CONNECTION_TYPE_FTP" value="ftp"/>
+    <option label="CONNECTION_TYPE_FOLDER" value="folder"/>
+  </group>
+  <group id="RptTyp">
+    <option label="ENUM_REPEAT_SECONDS" value="0"/>
+    <option label="ENUM_REPEAT_MINUTES" value="1"/>
+    <option label="ENUM_REPEAT_HOURS" value="2"/>
+    <option label="ENUM_REPEAT_DAYS" value="3"/>
+    <option label="ENUM_REPEAT_MONTHS" value="4"/>
+    <option label="ENUM_REPEAT_YEARS" value="5"/>
+    <option label="ENUM_REPEAT_ONCE" value="6"/>
+    <option label="ENUM_REPEAT_CUSTOM" value="7"/>
+  </group>
+  <group id="RepTyp">
+    <option label="ENUM_REPEAT_NONE" value="0"/>
+    <option label="ENUM_REPEAT_EMAIL" value="1"/>
+    <option label="ENUM_REPEAT_BROADCAST" value="2"/>
+    <option label="ENUM_REPEAT_MAINTAIN" value="3"/>
+  </group>
+  <group id="SchParSrc">
+    <option label="PARAMETER_VALUE" value="0"/>
+    <option label="PARAMETER_VARIABLE" value="1"/>
+    <option label="PARAMETER_PROPERTY" value="2"/>
+  </group>
+  <group id="SchParTyp">
+    <option label="PARAMETER_STRING" value="STRING"/>
+    <option label="PARAMETER_DATE" value="DATE"/>
+    <option label="PARAMETER_TIME" value="TIME"/>
+    <option label="PARAMETER_INTEGER" value="INTEGER"/>
+    <option label="PARAMETER_FLOAT" value="FLOAT"/>
+    <option label="PARAMETER_DOUBLE" value="DOUBLE"/>
+    <option label="PARAMETER_LONG" value="LONG"/>
+    <option label="PARAMETER_OBJECT" value="OBJECT"/>
+
+  </group>
+
+  <group id="monthSelect">
+    <option label="PARAMETER_SELECT_ALL" value="*"/>
+    <option label="PARAMETER_MONTH_JANUARY" value="1"/>
+    <option label="PARAMETER_MONTH_FEBRUARY" value="2"/>
+    <option label="PARAMETER_MONTH_MARCH" value="3"/>
+    <option label="PARAMETER_MONTH_APRIL" value="4"/>
+    <option label="PARAMETER_MONTH_MAY" value="5"/>
+    <option label="PARAMETER_MONTH_JUNE" value="6"/>
+    <option label="PARAMETER_MONTH_JULY" value="7"/>
+    <option label="PARAMETER_MONTH_AUGUST" value="8"/>
+    <option label="PARAMETER_MONTH_SEPTEMBER" value="9"/>
+    <option label="PARAMETER_MONTH_OCTOBER" value="10"/>
+    <option label="PARAMETER_MONTH_NOVEMBER" value="11"/>
+    <option label="PARAMETER_MONTH_DECEMBER" value="12"/>
+  </group>
+
+  <group id="hourSelect">
+    <option label="PARAMETER_SELECT_ALL" value="*"/>
+    <option label="00:00" value="0"/>
+    <option label="1:00" value="1"/>
+    <option label="2:00" value="2"/>
+    <option label="3:00" value="3"/>
+    <option label="4:00" value="4"/>
+    <option label="5:00" value="5"/>
+    <option label="6:00" value="6"/>
+    <option label="7:00" value="7"/>
+    <option label="8:00" value="8"/>
+    <option label="9:00" value="9"/>
+    <option label="10:00" value="10"/>
+    <option label="11:00" value="11"/>
+    <option label="12:00" value="12"/>
+    <option label="13:00" value="13"/>
+    <option label="14:00" value="14"/>
+    <option label="15:00" value="15"/>
+    <option label="16:00" value="16"/>
+    <option label="17:00" value="17"/>
+    <option label="18:00" value="18"/>
+    <option label="19:00" value="19"/>
+    <option label="20:00" value="20"/>
+    <option label="21:00" value="21"/>
+    <option label="22:00" value="22"/>
+    <option label="23:00" value="23"/>
+  </group>
+
+  <group id="daySelect">
+    <option label="PARAMETER_SELECT_ALL" value="*"/>
+    <option label="1" value="1"/>
+    <option label="2" value="2"/>
+    <option label="3" value="3"/>
+    <option label="4" value="4"/>
+    <option label="5" value="5"/>
+    <option label="6" value="6"/>
+    <option label="7" value="7"/>
+    <option label="8" value="8"/>
+    <option label="9" value="9"/>
+    <option label="10" value="10"/>
+    <option label="11" value="11"/>
+    <option label="12" value="12"/>
+    <option label="13" value="13"/>
+    <option label="14" value="14"/>
+    <option label="15" value="15"/>
+    <option label="16" value="16"/>
+    <option label="17" value="17"/>
+    <option label="18" value="18"/>
+    <option label="19" value="19"/>
+    <option label="20" value="20"/>
+    <option label="21" value="21"/>
+    <option label="22" value="22"/>
+    <option label="23" value="23"/>
+    <option label="24" value="24"/>
+    <option label="25" value="25"/>
+    <option label="26" value="26"/>
+    <option label="27" value="27"/>
+    <option label="28" value="28"/>
+    <option label="29" value="29"/>
+    <option label="30" value="30"/>
+    <option label="31" value="31"/>
+    <option label="31" value="31"/>
+    <option label="PARAMETER_LAST_DAY" value="L"/>
+  </group>
+
+  <group id="weekSelect">
+    <option label="PARAMETER_SELECT_ALL" value=""/>
+    <option label="PARAMETER_FIRST_WEEK" value="#1"/>
+    <option label="PARAMETER_SECOND_WEEK" value="#2"/>
+    <option label="PARAMETER_THIRD_WEEK" value="#3"/>
+    <option label="PARAMETER_FOURTH_WEEK" value="#4"/>
+    <option label="PARAMETER_LAST_WEEK" value="L"/>
+  </group>
+
+  <group id="timeSelect">
+    <option label="PARAMETER_SELECT_ALL" value="*"/>
+    <option label="0" value="0"/>
+    <option label="1" value="1"/>
+    <option label="2" value="2"/>
+    <option label="3" value="3"/>
+    <option label="4" value="4"/>
+    <option label="5" value="5"/>
+    <option label="6" value="6"/>
+    <option label="7" value="7"/>
+    <option label="8" value="8"/>
+    <option label="9" value="9"/>
+    <option label="10" value="10"/>
+    <option label="11" value="11"/>
+    <option label="12" value="12"/>
+    <option label="13" value="13"/>
+    <option label="14" value="14"/>
+    <option label="15" value="15"/>
+    <option label="16" value="16"/>
+    <option label="17" value="17"/>
+    <option label="18" value="18"/>
+    <option label="19" value="19"/>
+    <option label="20" value="20"/>
+    <option label="21" value="21"/>
+    <option label="22" value="22"/>
+    <option label="23" value="23"/>
+    <option label="24" value="24"/>
+    <option label="25" value="25"/>
+    <option label="26" value="26"/>
+    <option label="27" value="27"/>
+    <option label="28" value="28"/>
+    <option label="29" value="29"/>
+    <option label="30" value="30"/>
+    <option label="31" value="31"/>
+    <option label="32" value="32"/>
+    <option label="33" value="33"/>
+    <option label="34" value="34"/>
+    <option label="35" value="35"/>
+    <option label="36" value="36"/>
+    <option label="37" value="37"/>
+    <option label="38" value="38"/>
+    <option label="39" value="39"/>
+    <option label="40" value="40"/>
+    <option label="41" value="41"/>
+    <option label="42" value="42"/>
+    <option label="43" value="43"/>
+    <option label="44" value="44"/>
+    <option label="45" value="45"/>
+    <option label="46" value="46"/>
+    <option label="47" value="47"/>
+    <option label="48" value="48"/>
+    <option label="49" value="49"/>
+    <option label="50" value="50"/>
+    <option label="51" value="51"/>
+    <option label="52" value="52"/>
+    <option label="53" value="53"/>
+    <option label="54" value="54"/>
+    <option label="55" value="55"/>
+    <option label="56" value="56"/>
+    <option label="57" value="57"/>
+    <option label="58" value="58"/>
+    <option label="59" value="59"/>
+  </group>
+
+  <group id="weekDaySelect">
+    <option label="PARAMETER_SELECT_ALL" value="*"/>
+    <option label="PARAMETER_WEEKDAY_MONDAY" value="1"/>
+    <option label="PARAMETER_WEEKDAY_TUESDAY" value="2"/>
+    <option label="PARAMETER_WEEKDAY_WEDNESDAY" value="3"/>
+    <option label="PARAMETER_WEEKDAY_THURSDAY" value="4"/>
+    <option label="PARAMETER_WEEKDAY_FRIDAY" value="5"/>
+    <option label="PARAMETER_WEEKDAY_SATURDAY" value="6"/>
+    <option label="PARAMETER_WEEKDAY_SUNDAY" value="0"/>
+  </group>
+
+  <!-- SCHEDULER INFO PANEL TABS -->
+  <group id="scheduleTaskTabs">
+    <option label="TAB_SCHEDULER_EXECUTING_TASKS" value="executingTasks" />
+    <option label="TAB_SCHEDULER_CONFIGURED_TASKS" value="configuredTasks" />
+  </group>
+
+</enumerated>

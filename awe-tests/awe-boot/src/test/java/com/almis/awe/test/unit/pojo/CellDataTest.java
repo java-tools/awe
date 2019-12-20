@@ -226,7 +226,7 @@ public class CellDataTest extends TestUtil {
     assertEquals(jsonValue, jsonData.getObjectValue());
     assertEquals(jsonValue.toString(), jsonData.getStringValue());
     assertNull(jsonData.getDoubleValue());
-    assertNull(jsonData.getIntegerValue());
+    assertSame(0, jsonData.getIntegerValue());
     assertEquals(0, jsonData.compareTo((CellData) SerializationUtils.deserialize(SerializationUtils.serialize(jsonData))));
     assertEquals(0, anotherJsonData.compareTo((CellData) SerializationUtils.deserialize(SerializationUtils.serialize(anotherJsonData))));
     assertTrue(jsonData.compareTo(anotherJsonData) < 0);

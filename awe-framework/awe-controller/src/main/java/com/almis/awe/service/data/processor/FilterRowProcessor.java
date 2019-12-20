@@ -1,6 +1,5 @@
 package com.almis.awe.service.data.processor;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.FilterColumn;
@@ -31,7 +30,6 @@ public class FilterRowProcessor implements RowProcessor {
    *
    * @param rowList row list
    * @return row list processed
-   * @throws AWException AWE exception
    */
   public List<Map<String, CellData>> process(List<Map<String, CellData>> rowList) {
     DataList dataList = new DataList();

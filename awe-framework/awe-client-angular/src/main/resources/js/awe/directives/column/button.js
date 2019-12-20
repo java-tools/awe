@@ -1,4 +1,4 @@
-import { aweApplication } from "./../../awe";
+import {aweApplication} from "./../../awe";
 import "../../services/button";
 
 // Column button directive
@@ -14,8 +14,8 @@ aweApplication.directive('aweColumnButton',
         },
         link: function (scope, elem, attrs) {
           // Create column, criterion and component
-          let column = new Column(attrs);
-          let component = new Button(scope, column.id, elem);
+          const column = new Column(attrs);
+          const component = new Button(scope, column.id, elem);
 
           // Initialize criterion and column
           column.init(component).asButton();
@@ -31,7 +31,7 @@ aweApplication.directive('aweColumnButton',
             // Launch action list
             component.pendingActions = false;
             ActionController.addActionList(component.controller.actions, true, scope);
-            scope.storeEvent('click');
+            component.storeEvent('click');
           };
         }
       };

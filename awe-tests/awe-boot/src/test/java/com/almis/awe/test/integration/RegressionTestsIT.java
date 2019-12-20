@@ -381,7 +381,7 @@ public class RegressionTestsIT extends SeleniumUtilities {
     checkSelectNumberOfResults("SelReq", 4);
 
     // Select result
-    selectResult("general");
+    selectResult("General");
 
     // Write on criterion
     writeText("Txt", "sino");
@@ -415,7 +415,7 @@ public class RegressionTestsIT extends SeleniumUtilities {
     clearText(selector + " input.select2-input");
 
     // Write select
-    writeText(By.cssSelector(selector + " input.select2-input"), search2);
+    writeTextOnDriver(By.cssSelector(selector + " input.select2-input"), search2);
 
     // Click selector
     selectResult(match);

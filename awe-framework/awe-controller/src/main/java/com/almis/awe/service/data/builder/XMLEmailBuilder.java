@@ -8,12 +8,16 @@ import com.almis.awe.model.entities.email.EmailItem;
 import com.almis.awe.model.entities.email.EmailMessage;
 import com.almis.awe.model.entities.queries.Variable;
 import com.almis.awe.model.type.EmailMessageType;
+import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.service.QueryService;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.apache.commons.lang3.StringEscapeUtils;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.mail.internet.InternetAddress;
 import java.io.File;
@@ -28,10 +32,15 @@ import java.util.regex.Matcher;
 /**
  * Created by dfuentes on 10/05/2017.
  */
+@Getter
+@Setter
+@Accessors(chain = true)
 public class XMLEmailBuilder extends EmailBuilder {
   private QueryService queryService;
+  private QueryUtil queryUtil;
   private Email email;
   private Map<String, Variable> variables;
+  private ObjectNode parameters;
 
   private static final String BREAK_LINE_START = "<br>";
   private static final String BREAK_LINE = "<br/>";
@@ -40,30 +49,19 @@ public class XMLEmailBuilder extends EmailBuilder {
    * Builder constructor
    *
    * @param queryService
-   * @param mailSender
    */
   @Autowired
-  public XMLEmailBuilder(QueryService queryService, JavaMailSender mailSender) {
-    super(mailSender);
+  public XMLEmailBuilder(QueryService queryService, QueryUtil queryUtil) {
+    super();
     this.queryService = queryService;
-  }
-
-  @Override
-  protected void initialize() {
-    super.initialize();
-    // Initialize arrays and maps
-    variables = new HashMap<>();
-  }
-
-  @Override
-  protected void setDefaultMailSender() {
-    setMailSender(mailSender);
+    this.queryUtil = queryUtil;
+    this.variables = new HashMap<>();
   }
 
   /**
    * Parse given XML email template
    *
-   * @return 
+   * @return
    * @throws AWException
    */
   public XMLEmailBuilder parseEmail() throws AWException {
@@ -101,15 +99,10 @@ public class XMLEmailBuilder extends EmailBuilder {
    * Set variables
    *
    * @param variable Variable
-   * @param value    Value
    * @return this
    */
-  public XMLEmailBuilder addVariable(Variable variable, String value) {
+  public XMLEmailBuilder addVariable(Variable variable) {
     this.variables.put(variable.getId(), variable);
-
-    // Add parameters to context
-    getRequest().setParameter(variable.getId(), JsonNodeFactory.instance.textNode(value));
-
     return this;
   }
 
@@ -119,11 +112,11 @@ public class XMLEmailBuilder extends EmailBuilder {
    * @param variables Variables
    * @return this
    */
-  public XMLEmailBuilder setVariables(List<Variable> variables) {
+  public XMLEmailBuilder setVariables(List<Variable> variables) throws AWException {
     if (variables != null) {
       for (Variable variable : variables) {
         this.variables.put(variable.getId(), variable);
-        getRequest().setParameter(variable.getId(), JsonNodeFactory.instance.textNode(variable.getValue()));
+        variable.setValue(getVariableAsString(variable));
       }
     }
 
@@ -131,30 +124,9 @@ public class XMLEmailBuilder extends EmailBuilder {
   }
 
   /**
-   * Get Email object
-   *
-   * @return
-   */
-
-  public Email getEmail() {
-    return email;
-  }
-
-  /**
-   * Set email object
-   *
-   * @param email Email
-   * @return this
-   */
-  public XMLEmailBuilder setEmail(Email email) {
-    this.email = email;
-    return this;
-  }
-
-  /**
    * Parse attachments from email template
    */
-  private void parseAttachments() {
+  private void parseAttachments() throws AWException {
     if (this.email.getAttachmentList() != null) {
       for (EmailItem attachment : this.email.getAttachmentList()) {
 
@@ -163,8 +135,8 @@ public class XMLEmailBuilder extends EmailBuilder {
         String name = attachment.getLabel();
 
         // Get variable values
-        String filePath = this.variables.get(path) == null ? "" : this.variables.get(path).getValue();
-        String fileName = this.variables.get(name) == null ? "" : this.variables.get(name).getValue();
+        String filePath = this.variables.get(path) == null ? "" : getVariableAsString(variables.get(path));
+        String fileName = this.variables.get(name) == null ? "" : getVariableAsString(variables.get(name));
 
         // Insert new attachment for each email item
         if (!filePath.isEmpty() && !fileName.isEmpty()) {
@@ -179,9 +151,7 @@ public class XMLEmailBuilder extends EmailBuilder {
    */
   private void parseCCo() throws AWException {
     if (this.email.getCcoList() != null) {
-      for (EmailItem cco : this.email.getCcoList()) {
-        addCco(parseMailElement(cco));
-      }
+      parseMailElement(getParsedEmail().getCco(), email.getCcoList());
     }
   }
 
@@ -190,9 +160,7 @@ public class XMLEmailBuilder extends EmailBuilder {
    */
   private void parseCC() throws AWException {
     if (this.email.getCcList() != null) {
-      for (EmailItem cc : this.email.getCcList()) {
-        addCc(parseMailElement(cc));
-      }
+      parseMailElement(getParsedEmail().getCc(), email.getCcList());
     }
   }
 
@@ -201,9 +169,7 @@ public class XMLEmailBuilder extends EmailBuilder {
    */
   private void parseTo() throws AWException {
     if (this.email.getToList() != null) {
-      for (EmailItem to : this.email.getToList()) {
-        addTo(parseMailElement(to));
-      }
+      parseMailElement(getParsedEmail().getTo(), email.getToList());
     }
   }
 
@@ -211,15 +177,15 @@ public class XMLEmailBuilder extends EmailBuilder {
    * Parse from element from email template
    */
   private void parseFrom() throws AWException {
-    setFrom(parseMailElement(this.email.getFrom()));
+    getParsedEmail().setFrom(parseMailElement(this.email.getFrom()));
   }
 
   private InternetAddress parseMailElement(EmailItem item) throws AWException {
     try {
       InternetAddress address = new InternetAddress();
 
-      String emailAddress = variables.get(item.getValue()).getValue();
-      String name = variables.get(item.getLabel()).getValue();
+      String emailAddress = getVariableAsString(variables.get(item.getValue()));
+      String name = getVariableAsString(variables.get(item.getLabel()));
 
       address.setAddress(emailAddress);
       address.setPersonal(name);
@@ -230,25 +196,49 @@ public class XMLEmailBuilder extends EmailBuilder {
     }
   }
 
+  private void parseMailElement(List<InternetAddress> addresses, List<EmailItem> items) throws AWException {
+    try {
+      for (EmailItem item : items) {
+        JsonNode emailAddressJson = getVariable(variables.get(item.getValue()));
+        JsonNode emailNameJson = getVariable(variables.get(item.getLabel()));
+        if (emailAddressJson.isArray()) {
+          for (int i = 0, t = emailAddressJson.size(); i < t; i++) {
+            InternetAddress address = new InternetAddress();
+            address.setPersonal(emailNameJson.get(i).asText());
+            address.setAddress(emailAddressJson.get(i).asText());
+            addresses.add(address);
+          }
+        } else {
+          InternetAddress address = new InternetAddress();
+          address.setAddress(emailAddressJson.asText());
+          address.setPersonal(emailNameJson.asText());
+          addresses.add(address);
+        }
+      }
+    } catch (UnsupportedEncodingException e) {
+      throw new AWException(getLocale("ERROR_TITLE_DURING_EMAIL_SEND"), getLocale("ERROR_MESSAGE_EMAIL_GENERATE_DESTINATION"), e);
+    }
+  }
+
   /**
    * Parse body list
    *
    * @param bodyList
    */
-  private void parseBody(List<EmailMessage> bodyList) {
-    switch (getMessageType()) {
+  private void parseBody(List<EmailMessage> bodyList) throws AWException {
+    switch (getParsedEmail().getMessageType()) {
       case TEXT:
         parseBody(EmailMessageType.TEXT, bodyList);
 
         // remove HTML characters
-        String bodyMessage = getBody();
-        bodyMessage = StringEscapeUtils.unescapeHtml4(bodyMessage);
+        String bodyMessage = getParsedEmail().getBody();
+        bodyMessage = StringEscapeUtils.unescapeHtml(bodyMessage);
 
         // Change <br/> to new lines
         bodyMessage = bodyMessage.replace(BREAK_LINE, "\n");
         bodyMessage = bodyMessage.replace(BREAK_LINE_START, "\n");
 
-        setBody(bodyMessage);
+        getParsedEmail().setBody(bodyMessage);
         break;
       case HTML:
       default:
@@ -263,7 +253,7 @@ public class XMLEmailBuilder extends EmailBuilder {
    * @param type     Message type
    * @param bodyList Body list
    */
-  private void parseBody(EmailMessageType type, List<EmailMessage> bodyList) {
+  private void parseBody(EmailMessageType type, List<EmailMessage> bodyList) throws AWException {
     StringBuilder textBodyBuilder = new StringBuilder();
 
     for (EmailMessage body : bodyList) {
@@ -276,13 +266,13 @@ public class XMLEmailBuilder extends EmailBuilder {
         Variable variable = variables.get(value);
 
         if (variable != null) {
-          currentTextBody = variable.getValue();
+          currentTextBody = getVariableAsString(variable);
         }
       }
       textBodyBuilder.append(currentTextBody);
     }
 
-    setBody(replaceWildcards(textBodyBuilder.toString()));
+    getParsedEmail().setBody(replaceWildcards(textBodyBuilder.toString()));
   }
 
   /**
@@ -306,7 +296,7 @@ public class XMLEmailBuilder extends EmailBuilder {
       subjectMessageBuilder.append(currentSubjectMessage);
     }
 
-    setSubject(replaceWildcards(subjectMessageBuilder.toString()));
+    getParsedEmail().setSubject(replaceWildcards(subjectMessageBuilder.toString()));
   }
 
   /**
@@ -358,7 +348,7 @@ public class XMLEmailBuilder extends EmailBuilder {
       emailMessageList.addAll(email.getAttachmentList());
     }
 
-    // TODO: launch in threads
+    //
     manageQueryResults(email.getQuery());
     for (EmailMessage message : emailMessageList) {
       manageQueryResults(message.getQuery());
@@ -378,7 +368,8 @@ public class XMLEmailBuilder extends EmailBuilder {
           for (Entry<String, CellData> entry : row.entrySet()) {
             Variable variable = new Variable();
             variable.setName(entry.getKey());
-            addVariable(variable, entry.getValue().getStringValue());
+            variable.setValue(entry.getValue().getStringValue());
+            addVariable(variable);
           }
         }
       }
@@ -398,10 +389,10 @@ public class XMLEmailBuilder extends EmailBuilder {
     String messageOut = msg;
 
     while (mat.find()) {
-      for (Integer matIdx = 1, matTot = mat.groupCount(); matIdx <= matTot; matIdx++) {
+      for (int matIdx = 1, matTot = mat.groupCount(); matIdx <= matTot; matIdx++) {
         // Retrieve wildcard value
         String wldStr = mat.group(matIdx);
-        String val = getRequest().getParameterAsString(wldStr);
+        String val = getVariables().get(wldStr).getValue();
         if (val == null || val.trim().isEmpty()) {
           val = "";
         }
@@ -411,5 +402,13 @@ public class XMLEmailBuilder extends EmailBuilder {
     }
 
     return messageOut;
+  }
+
+  private JsonNode getVariable(Variable variable) throws AWException {
+    return queryUtil.getParameter(variable, getParameters());
+  }
+
+  private String getVariableAsString(Variable variable) throws AWException {
+    return getVariable(variable).asText();
   }
 }

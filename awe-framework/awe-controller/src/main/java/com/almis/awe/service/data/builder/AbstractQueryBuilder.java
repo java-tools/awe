@@ -1,15 +1,18 @@
 package com.almis.awe.service.data.builder;
 
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.dto.SortColumn;
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.entities.queries.Query;
 import com.almis.awe.model.util.data.QueryUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -20,6 +23,9 @@ import java.util.Map;
 /**
  * Abstract query builder
  */
+@Getter
+@Setter
+@Accessors(chain = true)
 public abstract class AbstractQueryBuilder extends ServiceConfig implements QueryBuilder {
 
   // Autowired services
@@ -34,60 +40,12 @@ public abstract class AbstractQueryBuilder extends ServiceConfig implements Quer
 
   /**
    * Autowired constructor
+   *
    * @param queryUtil Query utilities
    */
   @Autowired
   public AbstractQueryBuilder(QueryUtil queryUtil) {
     this.queryUtil = queryUtil;
-  }
-
-  /**
-   * Retrieve query
-   *
-   * @return Query
-   */
-  protected Query getQuery() {
-    return query;
-  }
-
-  /**
-   * Store query
-   *
-   * @param query Query
-   * @return this
-   */
-  public QueryBuilder setQuery(Query query) {
-    this.query = query;
-    return this;
-  }
-
-  /**
-   * Get component address
-   *
-   * @return Address
-   */
-  public ComponentAddress getAddress() {
-    return address;
-  }
-
-  /**
-   * Set component address
-   *
-   * @param address Address
-   * @return this
-   */
-  public AbstractQueryBuilder setAddress(ComponentAddress address) {
-    this.address = address;
-    return this;
-  }
-
-  /**
-   * Get index
-   *
-   * @return Variable index
-   */
-  public Integer getVariableIndex() {
-    return this.variableIndex;
   }
 
   /**
@@ -128,27 +86,6 @@ public abstract class AbstractQueryBuilder extends ServiceConfig implements Quer
   }
 
   /**
-   * Retrieve query generated variables
-   *
-   * @return Query parameters
-   */
-  public ObjectNode getParameters() {
-    // Get generated variables
-    return parameters;
-  }
-
-  /**
-   * Set parameters
-   *
-   * @param parameters Parameter map
-   * @return this
-   */
-  public AbstractQueryBuilder setParameters(ObjectNode parameters) {
-    this.parameters = parameters;
-    return this;
-  }
-
-  /**
    * Generate the sortlist from component sort
    *
    * @param sortList Component sort
@@ -163,23 +100,18 @@ public abstract class AbstractQueryBuilder extends ServiceConfig implements Quer
    *
    * @param varValue Variable
    * @return Variable as string
-   * @throws AWException Variable retrieval was wrong
    */
-  protected String getVariableAsString(JsonNode varValue) throws AWException {
+  protected String getVariableAsString(JsonNode varValue) {
     String val;
 
-    try {
-      if (varValue == null || varValue.isNull()) {
-        val = null;
-      } else if (varValue.isValueNode()) {
-        val = varValue.asText();
-      } else if (varValue.isTextual()) {
-        val = varValue.textValue();
-      } else {
-        val = varValue.toString();
-      }
-    } catch (Exception exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_GENERATING_VARIABLE_VALUE"), getElements().getLocale("ERROR_MESSAGE_GENERATING_VARIABLE_VALUE", varValue.toString()), exc);
+    if (varValue == null || varValue.isNull()) {
+      val = null;
+    } else if (varValue.isValueNode()) {
+      val = varValue.asText();
+    } else if (varValue.isTextual()) {
+      val = varValue.textValue();
+    } else {
+      val = varValue.toString();
     }
 
     // Return variable value

@@ -1,0 +1,1 @@
+In this directory you should add your static files which will be served by the application server.

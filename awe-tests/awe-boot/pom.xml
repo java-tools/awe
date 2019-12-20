@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-starter-parent</artifactId>
-    <version>4.1.7</version>
+    <version>4.2.0</version>
     <relativePath>../../awe-framework/awe-starters/awe-starter-parent</relativePath>
   </parent>
 
@@ -90,6 +90,10 @@
       <groupId>com.almis.awe</groupId>
       <artifactId>awe-developer</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-scheduler</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>com.almis.awe</groupId>
@@ -116,6 +120,11 @@
       <artifactId>awe-developer-spring-boot-starter</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-scheduler-spring-boot-starter</artifactId>
+    </dependency>
+
     <!-- ADE -->
     <dependency>
       <groupId>com.almis.ade</groupId>
@@ -126,12 +135,6 @@
           <artifactId>jython</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-
-    <!-- Spring session -->
-    <dependency>
-      <groupId>org.springframework.session</groupId>
-      <artifactId>spring-session</artifactId>
     </dependency>
 
     <!-- JDBC Drivers -->
@@ -160,27 +163,12 @@
     <resources>
       <resource>
         <directory>src/main/resources</directory>
-        <includes>
-          <include>**/application/**</include>
-          <include>**/config/**</include>
-          <include>**/sql/**</include>
-          <include>**/static/**</include>
-          <include>*</include>
-        </includes>
         <filtering>true</filtering>
-      </resource>
-      <resource>
-        <directory>src/main/resources/images</directory>
-        <targetPath>${project.build.directory}/classes/static/images</targetPath>
-        <filtering>false</filtering>
       </resource>
     </resources>
     <testResources>
       <testResource>
         <directory>src/test/resources</directory>
-        <includes>
-          <include>**/**</include>
-        </includes>
         <filtering>true</filtering>
       </testResource>
     </testResources>
@@ -319,6 +307,15 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>validate</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- Frontend generation -->

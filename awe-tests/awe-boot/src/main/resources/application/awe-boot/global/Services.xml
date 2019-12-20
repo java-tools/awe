@@ -145,13 +145,7 @@
         list="true" />
     </java>
   </service>
-  <!-- <service id="startScheduler" launch-phase="APPLICATION_START"> <java
-    classname="com.almis.awe.scheduler.controller.SchedulerController" method="startNoQuartz"
-    /> </service> <se<servicervice id="startScheduler" launch-phase="APPLICATION_START">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController"
-    method="start" /> </service> <service id="stopScheduler" launch-phase="APPLICATION_END">
-    <java classname="com.almis.awe.scheduler.controller.SchedulerController"
-    method="stop" /> </service> -->
+
   <!-- Load user json file -->
   <service id="loadUserJsonFile">
     <java classname="com.almis.awe.test.UserList" method="loadUsersJsonFile" />
@@ -367,6 +361,20 @@
     <java classname="com.almis.awe.test.service.DummyService" method="getDummyData">
       <service-parameter name="value" type="JSON"/>
     </java>
+  </service>
+
+  <service id="waitSomeSeconds">
+    <java classname="com.almis.awe.test.service.DummyService" method="waitSomeSeconds">
+      <service-parameter name="secondsToWait" type="INTEGER"/>
+    </java>
+  </service>
+
+  <service id="testLaunchServiceOnEndApplication" launch-phase="APPLICATION_END">
+    <java classname="com.almis.awe.test.service.DummyService" method="doNothing"/>
+  </service>
+
+  <service id="getDataListWithOutPostProcessed">
+    <java classname="com.almis.awe.test.service.DummyService" method="getDummyUnprocessedData"/>
   </service>
 
 </services>

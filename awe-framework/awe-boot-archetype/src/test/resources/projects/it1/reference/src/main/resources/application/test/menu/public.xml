@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : public.xml
+    Author     : Pablo GARCIA
+    Description: Public profile options
+-->
+<menu screen="signin" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/menu.xsd"
+      context="screen" default-action="screen">
+  <option name="signin" screen="signin" invisible="true" />
+  <option name="change_password" screen="change_password" invisible="true" />
+</menu>

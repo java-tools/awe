@@ -21,6 +21,7 @@ import org.stringtemplate.v4.STErrorListener;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupFile;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class TemplateConfig {
 
     for (String module : modules) {
       String modulePath = environment.getProperty(modulePrefix + module) + AweConstants.FILE_SEPARATOR;
-      String path = applicationPath + modulePath + templatePath + filePath;
+      String path = Paths.get(applicationPath, modulePath, templatePath, filePath).toString();
       ClassPathResource resource = new ClassPathResource(path);
       if (resource.exists()) {
         paths.add(new STGroupFile(resource.getPath()));

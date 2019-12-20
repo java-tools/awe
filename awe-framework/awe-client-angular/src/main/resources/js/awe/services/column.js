@@ -216,7 +216,7 @@ aweApplication.factory('Column',
           /**
            * On row change or grid change, reinitialize the cell
            */
-          var onRowChange = function () {
+          const onRowChange = function () {
             updateAddressAndModel();
             updateEditing();
             component.updateVisibleValue();

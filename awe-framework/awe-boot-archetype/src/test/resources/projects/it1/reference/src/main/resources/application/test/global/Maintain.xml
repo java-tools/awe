@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : Maintain.xml
+    Author     : Pablo GARCIA
+    Description: maintain list definition.
+-->
+<maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/maintain.xsd">
+
+</maintain>

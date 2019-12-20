@@ -1,0 +1,23 @@
+{
+  "name": "test",
+  "version": "2.1-SNAPSHOT",
+  "description": "Javascript webpack libraries",
+  "main": "./src/main/resources/webpack",
+  "scripts": {
+  	"global-install": "npm prune && npm install --no-optional -g webpack webpack-dev-server",
+    "build": "webpack"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "css-loader": "^0.28.11",
+    "exports-loader": "^0.6.4",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^0.11.1",
+    "imports-loader": "^0.7.1",
+    "less": "^3.0.0",
+    "less-loader": "^4.0.3",
+    "style-loader": "^0.17.0",
+    "url-loader": "^0.5.8",
+    "webpack": "^3.12.0"
+  }
+}

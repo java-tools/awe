@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -446,6 +447,17 @@ public final class StringUtil {
 
     // Adds splitted Array to ArrayNode
     return mapper.valueToTree(splittedVal);
+  }
+
+  /**
+   * Generates a string list
+   *
+   * @param pattern Pattern
+   * @param value   String value
+   * @return Value as ArrayNode
+   */
+  public static List<String> toStringList(String pattern, String value) {
+    return Arrays.asList(value.split(pattern));
   }
 
   /**

@@ -124,6 +124,11 @@ public class Query implements XMLNode, Copyable {
   @XStreamAsAttribute
   private Boolean paginationManaged;
 
+  // Skip post process query result
+  @XStreamAlias("post-process")
+  @XStreamAsAttribute
+  private Boolean postProcessed;
+
   // Query filter group list
   @XStreamAlias("where")
   private FilterAnd filterGroup;
@@ -175,6 +180,14 @@ public class Query implements XMLNode, Copyable {
    */
   public boolean isPaginationManaged() {
     return paginationManaged != null && paginationManaged;
+  }
+
+  /**
+   * Returns if is post processed
+   * @return Is postProcessed
+   */
+  public boolean isPostProcessed() {
+    return postProcessed == null || postProcessed;
   }
 
   /**

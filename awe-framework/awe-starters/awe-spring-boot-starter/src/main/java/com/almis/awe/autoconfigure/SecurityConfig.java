@@ -5,6 +5,7 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.dao.UserDAO;
 import com.almis.awe.dao.UserDAOImpl;
 import com.almis.awe.model.component.AweElements;
+import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.security.accessbean.LoginAccessControl;
@@ -32,6 +33,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ldap.core.support.LdapContextSource;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -193,7 +195,6 @@ public class SecurityConfig extends ServiceConfig {
       if (sameOrigin) {
         http.headers().frameOptions().sameOrigin();
       }
-
     }
 
     /**
@@ -251,6 +252,17 @@ public class SecurityConfig extends ServiceConfig {
     }
 
     /**
+     * Required by Spring Boot 2
+     * @return
+     * @throws Exception
+     */
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+      return super.authenticationManagerBean();
+    }
+
+    /**
      * Username and password authentication filter
      * @return Json Authentication filter
      */
@@ -304,8 +316,8 @@ public class SecurityConfig extends ServiceConfig {
      * @return Logout handler
      */
     @Bean
-    public AweLogoutHandler logoutHandler(AweSessionDetails sessionDetails) {
-      return new AweLogoutHandler(sessionDetails);
+    public AweLogoutHandler logoutHandler(AweSessionDetails sessionDetails, AweRequest request) {
+      return new AweLogoutHandler(sessionDetails, request);
     }
 
     /**

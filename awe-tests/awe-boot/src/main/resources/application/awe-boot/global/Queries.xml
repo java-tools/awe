@@ -536,6 +536,15 @@
     <order-by field="ParNam" type="DESC"/>
   </query>
 
+  <query id="TransformBoolean">
+    <table id="ope"/>
+    <field id="l1_act" table="ope" alias="boolean1" transform="BOOLEAN"/>
+    <constant value="false" transform="BOOLEAN" alias="boolean2"/>
+    <constant value="true" type="BOOLEAN" transform="BOOLEAN" alias="boolean3"/>
+    <constant value="{lala: true}" type="OBJECT" transform="BOOLEAN" alias="boolean4"/>
+    <order-by field="l1_nom" type="ASC"/>
+  </query>
+
   <query id="TransformNumber">
     <table id="ope"/>
     <field id="IdeOpe" table="ope" alias="number" transform="NUMBER" pattern="###,###.00"/>
@@ -565,8 +574,13 @@
     <field id="date3" alias="date3" transform="DATE_RDB"/>
     <field id="date4" alias="date4" transform="JS_TIMESTAMP"/>
     <field id="date5" alias="date5" transform="JS_DATE"/>
-    <field id="date6" alias="date6" transform="TIMESTAMP"/>
-    <field id="date7" alias="date7" transform="TIME"/>
+    <field id="date7" alias="date6" transform="TIME"/>
+    <order-by field="date2" type="DESC"/>
+  </query>
+
+  <query id="TransformTimestampService" service="getDateList">
+    <field id="date6" alias="date1" transform="TIMESTAMP"/>
+    <field id="date6" alias="date2" transform="TIMESTAMP_MS"/>
     <order-by field="date2" type="DESC"/>
   </query>
 
@@ -622,10 +636,11 @@
     <variable id="hola" type="STRING_ENCRYPT" value="hola"/>
   </query>
 
-  <query id="TransformArray">
+  <query id="TransformArrayAndList">
     <table id="ope"/>
     <field id="l1_nom" alias="nombre"/>
-    <constant value="1,2,3,4,5,6" alias="list" transform="ARRAY" pattern=","/>
+    <constant value="1,2,3,4,5,6" alias="lArrayNode" transform="ARRAY" pattern=","/>
+    <constant value="1,2,3,4,5,6" alias="lArrayList" transform="LIST" pattern=","/>
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
@@ -884,6 +899,7 @@
     <field id="l1_nom"/>
     <field variable="date" alias="date" transform="DATE"/>
     <field variable="time" alias="time" transform="TIME"/>
+    <field variable="timestamp" alias="timestamp" transform="TIMESTAMP_MS"/>
     <where>
       <and>
         <filter left-field="l1_nom" condition="eq" right-variable="test" trim="true"/>
@@ -892,6 +908,7 @@
     <variable id="test" type="STRING" value="test"/>
     <variable id="date" type="SYSTEM_DATE"/>
     <variable id="time" type="SYSTEM_TIME"/>
+    <variable id="timestamp" type="SYSTEM_DATE"/>
   </query>
 
   <query id="VariableNull">
@@ -1256,7 +1273,7 @@
       <computed alias="value" format="[Prg2]"/>
     </compound>
     <compound alias="TxtSty">
-      <computed alias="style" format="[Prg2] &lt; 0 ? 'text-danger' : ''" eval="true"/>
+      <computed alias="cell-style" format="[Prg2] &lt; 0 ? 'text-danger' : ''" eval="true"/>
       <computed alias="label" format="[Prg2]" transform="NUMBER" pattern="###,##0.00"/>
       <computed alias="value" format="[Prg2]" transform="NUMBER" pattern="###,##0.00"/>
     </compound>
@@ -2808,6 +2825,10 @@
       <constant value="1" type="INTEGER"/>
       <constant value="1" type="INTEGER"/>
     </operation>
+  </query>
+
+  <query id="testQueryWithOutPostProcess" service="getDataListWithOutPostProcessed" post-process="false" >
+    <field id="value"/>
   </query>
 
 </queries>

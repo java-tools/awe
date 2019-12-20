@@ -40,4 +40,29 @@ public class DateUtilTest extends TestUtil {
     assertEquals(expect3, date3);
     assertEquals(expect4, date4);
   }
+
+  /**
+   * Test of check public addresses
+   * @throws Exception Test error
+   */
+  @Test
+  public void testDateAndTime() throws Exception {
+    // Prepare
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    Date expect = simpleDateFormat.parse("23/10/1978");
+    Date expect2 = simpleDateFormat.parse("02/01/2018");
+    Date expect5 = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").parse("23/10/1978 20:11:23");
+
+    // Run
+    Date date5 = DateUtil.getDateWithTimeFromCriteria("23/10/1978", "20:11:23");
+    Date date6 = DateUtil.addTimeToDate(expect, "20:11:23");
+    Date date7 = DateUtil.addTimeToDate(expect2, "");
+    Date date8 = DateUtil.addTimeToDate(expect2, null);
+
+    // Assert
+    assertEquals(expect5, date5);
+    assertEquals(expect5, date6);
+    assertEquals(expect2, date7);
+    assertEquals(expect2, date8);
+  }
 }

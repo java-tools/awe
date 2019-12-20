@@ -2,20 +2,16 @@ package com.almis.awe.test.controller;
 
 import com.almis.awe.model.component.AweSession;
 import com.almis.awe.session.AweSessionDetails;
+import com.almis.awe.test.listener.TestSessionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.session.MapSession;
-import org.springframework.session.Session;
-import org.springframework.session.SessionRepository;
-import org.springframework.session.web.http.SessionRepositoryFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by dfuentes on 29/05/2017.
@@ -33,10 +29,6 @@ public class SessionController {
 
   @Autowired
   private HttpSession httpSession;
-
-  @Autowired
-  private SessionRegistry sessionRegistry;
-
 
   /**
    * Set session parameter
@@ -90,15 +82,8 @@ public class SessionController {
    */
   @GetMapping("/invalidate")
   @ResponseBody
-  public String invalidate(HttpServletRequest request) throws Exception {
-
-    List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
-    for (Object principal : allPrincipals) {
-      List<SessionInformation> sessionList = sessionRegistry.getAllSessions(principal, false);
-      for (SessionInformation information : sessionList) {
-        information.expireNow();
-      }
-    }
+  public String invalidate(HttpServletRequest request) {
+    TestSessionListener.getAllSessions().values().forEach(HttpSession::invalidate);
 
     // Return string
     return "session invalidated";

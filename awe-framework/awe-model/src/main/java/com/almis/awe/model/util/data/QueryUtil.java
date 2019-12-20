@@ -108,7 +108,11 @@ public class QueryUtil extends ServiceConfig {
     // Get defined variables
     for (Variable variable : variables) {
       if (index == null) {
-        variableMap.put(variable.getId(), new QueryParameter(getParameter(variable, parameters), variableIsList(variable, parameters), ParameterType.valueOf(variable.getType())));
+        JsonNode value = getParameter(variable, parameters);
+        boolean isList = variableIsList(variable, parameters);
+        if (!variableMap.containsKey(variable.getId()) || allowVariable(variable, value)) {
+          variableMap.put(variable.getId(), new QueryParameter(value, isList, ParameterType.valueOf(variable.getType())));
+        }
       } else {
         JsonNode parameter = getParameter(variable, parameters);
         if (variableIsList(variable, parameters)) {
@@ -120,6 +124,23 @@ public class QueryUtil extends ServiceConfig {
     }
 
     return variableMap;
+  }
+
+  /**
+   * Check if add variable into variable map or not
+   * @param variable Variable
+   * @param value Json value
+   * @return Add variable into variable map
+   */
+  private boolean allowVariable(Variable variable, JsonNode value) {
+    switch (ParameterType.valueOf(variable.getType())) {
+      case SYSTEM_DATE:
+      case SYSTEM_TIME:
+      case SYSTEM_TIMESTAMP:
+        return true;
+      default:
+        return !variable.isOptional() || value != null && !value.isNull();
+    }
   }
 
   /**
@@ -141,8 +162,8 @@ public class QueryUtil extends ServiceConfig {
    * @param query       Query
    * @throws AWException Error generating variables
    */
-  public void addToVariableMap(Map<String, QueryParameter> variableMap, Query query) throws AWException {
-    Map<String, QueryParameter> queryParameterMap = getVariableMap(query, null);
+  public void addToVariableMap(Map<String, QueryParameter> variableMap, Query query, ObjectNode parameters) throws AWException {
+    Map<String, QueryParameter> queryParameterMap = getVariableMap(query, parameters);
     // Get defined variables
     for (Map.Entry<String, QueryParameter> entry: queryParameterMap.entrySet()) {
       if (!variableMap.containsKey(entry.getKey()) || (!isEmptyParameter(entry.getValue()))) {
@@ -156,11 +177,11 @@ public class QueryUtil extends ServiceConfig {
    *
    * @param dataList DataList
    */
-  public void addDataListToRequestParameters(DataList dataList) {
+  public void addDataListToRequestParameters(DataList dataList, ObjectNode parameters) {
     // Get defined variables
     List<String> columnList = DataListUtil.getColumnList(dataList);
     for (String columnId : columnList) {
-      getRequest().getParameterList().set(columnId, DataListUtil.getColumnAsArrayNode(dataList, columnId));
+      parameters.set(columnId, DataListUtil.getColumnAsArrayNode(dataList, columnId));
     }
   }
 
@@ -225,6 +246,17 @@ public class QueryUtil extends ServiceConfig {
   public ObjectNode getParameters(String alias, String page, String max) {
     // Force page and max if not null
     return getParameters(getParameters(), alias, page, max);
+  }
+
+  /**
+   * Prepare query variables if not defined previously
+   *
+   * @param alias Database alias
+   * @return Query parameter map
+   */
+  public ObjectNode getParameters(String alias) {
+    // Force page and max if not null
+    return getParameters(getParameters(), alias, null, null);
   }
 
   /**
@@ -374,11 +406,13 @@ public class QueryUtil extends ServiceConfig {
       case DATE:
       case TIME:
       case TIMESTAMP:
+
       case STRINGN:
         parameter = getStringWithNullsParameter(parameter, stringValue);
         break;
       case SYSTEM_DATE:
       case SYSTEM_TIME:
+      case SYSTEM_TIMESTAMP:
       case NULL:
         parameter = nodeFactory.nullNode();
         break;

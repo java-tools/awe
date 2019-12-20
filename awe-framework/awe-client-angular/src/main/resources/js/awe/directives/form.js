@@ -4,18 +4,19 @@ import _ from "lodash";
 
 // Form directive
 aweApplication.directive('aweForm',
-  ['ServerData', 'Control', 'ActionController', 'AweSettings', 'AweUtilities', 'Validator',
+  ['ServerData', 'Control', 'ActionController', 'AweSettings', 'AweUtilities', 'Validator', 'Connection',
     /**
      * Form directive
-     * @param {Service} ServerData Server data
-     * @param {Service} Control Control service
-     * @param {Service} Control Control service
-     * @param {Service} $actionController ActionController service
-     * @param {Service} $settings AWE $settings
-     * @param {Service} Utilities AWE Utilities
-     * @param {Service} Validator Validator service
+     * @param {object} ServerData Server data
+     * @param {object} Control Control service
+     * @param {object} Control Control service
+     * @param {object} $actionController ActionController service
+     * @param {object} $settings AWE $settings
+     * @param {object} Utilities AWE Utilities
+     * @param {object} Validator Validator service
+     * @param {object} $connection Connection service
      */
-    function (ServerData, Control, $actionController, $settings, Utilities, Validator) {
+    function (ServerData, Control, $actionController, $settings, Utilities, Validator, $connection) {
 
       /**
        * Retrieve reseteable scopes
@@ -23,7 +24,7 @@ aweApplication.directive('aweForm',
        * @param {type} scope
        * @returns {Array}
        */
-      var getReseteableScopes = function (target, scope) {
+      const getReseteableScopes = function (target, scope) {
         var reseteableScopes = [];
         if (target) {
           // Reset target model
@@ -67,7 +68,7 @@ aweApplication.directive('aweForm',
         return reseteableScopes;
       };
 
-      var FormActions = {
+      const FormActions = {
         /**
          * Validate the form
          * @param {Action} action Action received
@@ -164,7 +165,7 @@ aweApplication.directive('aweForm',
 
           // Retrieve target specific attributes for the server call
           if (target) {
-            let api = Control.getAddressApi(target);
+            const api = Control.getAddressApi(target);
             if (api && api.getSpecificFields) {
               // Add form values
               _.merge(parameters, api.getSpecificFields());
@@ -201,21 +202,18 @@ aweApplication.directive('aweForm',
         },
         /**
          * Update controller with action values
-         * @param {Action} action Action received
+         * @param {object} action Action received
          */
         updateController: function (action) {
           // Retrieve parameters
-          let parameters = _.cloneDeep(action.attr("parameters"));
-          let data = parameters.datalist || {};
-          let values = data.rows || {};
-          let address = action.attr("callbackTarget");
-          let attribute = parameters.attribute;
-          let value = parameters.value || values[0].value;
+          const parameters = _.cloneDeep(action.attr("parameters"));
+          const data = parameters.datalist || {};
+          const values = data.rows || [{}];
+          const address = action.attr("callbackTarget");
           delete data.rows;
 
           // Change controller
-          let attributes = {};
-          attributes[attribute] = value;
+          const attributes = {[parameters.attribute]: parameters.value || values[0].value};
           Control.changeControllerAttribute(address, attributes);
 
           // Finish action
@@ -257,8 +255,8 @@ aweApplication.directive('aweForm',
         },
         /**
          * Restore view selected values
-         * @param {Service} action
-         * @param {Object} scope
+         * @param {object} action
+         * @param {object} scope
          */
         restore: function (action, scope) {
           // Get parameters
@@ -298,6 +296,9 @@ aweApplication.directive('aweForm',
         logout: function (action) {
           // Close following actions
           $actionController.deleteStack();
+
+          // Close connection
+          $connection.disconnect();
 
           // Zombie action (to accept server actions)
           action.attr("alive", true);

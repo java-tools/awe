@@ -1,7 +1,7 @@
 import {DefaultSettings} from "../../../main/resources/js/awe/data/options";
 
 describe('awe-framework/awe-client-angular/src/test/js/services/settings.js', function() {
-  let $injector, $utilities, $settings, $storage, $rootScope, $translate, $httpBackend, $log, $state, $serverData;
+  let $injector, $utilities, $settings, $storage, $rootScope, $translate, $httpBackend, $log, $state, $serverData, $connection;
   let originalTimeout;
 
   // Mock module
@@ -19,6 +19,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/settings.js', fu
       $log = $injector.get('$log');
       $state = $injector.get('$state');
       $serverData = $injector.get('ServerData');
+      $connection = $injector.get('Connection');
     }]);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
@@ -47,12 +48,14 @@ describe('awe-framework/awe-client-angular/src/test/js/services/settings.js', fu
 
   it('should init settings', function() {
     spyOn($state, "go");
+    spyOn($connection, "init").and.returnValue({then: (fn) => fn()});
     $settings.settingsLoaded(DefaultSettings);
     expect($state.go).toHaveBeenCalled();
   });
 
   it('should init settings reloading current screen', function() {
     spyOn($state, "go");
+    spyOn($connection, "init").and.returnValue({then: (fn) => fn()});
     $settings.settingsLoaded({...DefaultSettings, reloadCurrentScreen: true});
     expect($state.go).toHaveBeenCalled();
   });
@@ -68,13 +71,11 @@ describe('awe-framework/awe-client-angular/src/test/js/services/settings.js', fu
 
   it('should set a token', function(done) {
     spyOn($settings, "get").and.returnValue("es");
-    spyOn($storage, "putSession");
     spyOn($injector, "get").and.returnValue({init: fn => null});
-    spyOn($storage, "putRoot").and.callFake(done);
+    spyOn($storage, "putSession").and.callFake(done);
     spyOn($storage, "getSession").and.returnValue("tutu");
     $settings.setToken("tutu");
     expect($storage.putSession).toHaveBeenCalled();
-    expect($storage.putRoot).toHaveBeenCalled();
   });
 
   it('should clear a token', function() {

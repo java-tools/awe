@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
@@ -40,10 +39,6 @@ public class QueryService extends ServiceConfig {
   // Constants
   private static final String ERROR_TITLE_RETRIEVING_DATA = "ERROR_TITLE_RETRIEVING_DATA";
   private static final String ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND = "ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND";
-
-  // Connection type
-  @Value("${awe.database.connection.type}")
-  private String databaseType;
 
   /**
    * Autowired constructor
@@ -66,7 +61,9 @@ public class QueryService extends ServiceConfig {
   public ServiceData launchQueryAction() throws AWException {
     if (getRequest().getTargetAction() != null) {
       return launchQuery(getRequest().getTargetAction());
-    } else throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
+    } else {
+      throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
+    }
   }
 
   /**
@@ -78,7 +75,9 @@ public class QueryService extends ServiceConfig {
   public ServiceData updateModelAction() throws AWException {
     if (getRequest().getTargetAction() != null) {
       return updateModel(getRequest().getTargetAction());
-    } else throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
+    } else {
+      throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
+    }
   }
 
   /**
@@ -90,7 +89,9 @@ public class QueryService extends ServiceConfig {
   public ServiceData checkUniqueAction() throws AWException {
     if (getRequest().getTargetAction() != null) {
       return checkUnique(getRequest().getTargetAction());
-    } else throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
+    } else {
+      throw new AWException(getLocale(ERROR_TITLE_RETRIEVING_DATA), getLocale(ERROR_MESSAGE_TARGET_ACTION_NOT_FOUND));
+    }
   }
 
   /**
@@ -281,7 +282,7 @@ public class QueryService extends ServiceConfig {
    */
   @Cacheable(value = "queryEnum", key = "#p0")
   public ServiceData launchEnumQuery(String enumId) throws AWException {
-    return launchEnumQuery(enumId, null, null);
+    return launchEnumQuery(enumId, "1", "0");
   }
 
   /**
@@ -417,33 +418,6 @@ public class QueryService extends ServiceConfig {
     }
 
     return query;
-  }
-
-  /**
-   * Initialize database connector
-   */
-  public void initDatabaseConnector() {
-    try {
-      if (databaseType != null) {
-        initDatasourceConnections();
-      }
-    } catch (Exception exc) {
-      getLogger().log(QueryService.class, Level.ERROR, "Database connector not found. Database type is <>", databaseType);
-    }
-  }
-
-  /**
-   * Initialize datasource connections
-   */
-  private void initDatasourceConnections() {
-    try {
-      AweRoutingDataSource dataSource = getBean(AweRoutingDataSource.class);
-      if (dataSource != null) {
-        dataSource.loadDataSources();
-      }
-    } catch (Exception exc) {
-      getLogger().log(QueryService.class, Level.INFO, "AweRoutingDataSource not found. Using default datasource");
-    }
   }
 
   /**

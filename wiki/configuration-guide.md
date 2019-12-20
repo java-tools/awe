@@ -9,6 +9,7 @@ Almis Web Engine > **[Home](../README.md)**
 * **[Maven](#maven)**
 * **[Modules](modules.md)**
 * **[Properties](properties.md)**
+* **[Database migration](database-migration.md)**
 * **[Application options](application-options.md)**
 * **[Session](session-configuration.md)**
 

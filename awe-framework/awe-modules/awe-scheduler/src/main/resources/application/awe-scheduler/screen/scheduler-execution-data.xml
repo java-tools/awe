@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : scheduler-tasks.xml
+    Created on : 10 de Noviembre del 2015
+    Author     : David FUENTES
+    Description: Lista de tareas del Scheduler
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd"
+        template="window" label="MENU_SCHEDULER_TASKS" help="HELP_SCREEN_SCHEDULER_TASKS">
+  <tag source="center">
+    <criteria id="path" component="hidden"/>
+    <criteria id="content-type" component="hidden" value="text/plain"/>
+    <criteria id="reload-execution-data" component="hidden" server-action="maintain-silent" target-action="reloadExecutionScreen"/>
+    <dialog id="execution-data" modal="true" style="modal-lg expand" help="HELP_SCREEN_EXECUTION_DATA">
+      <tag type="div" style="stat-panel no-margin no-border-radius widget-support-tickets">
+        <tag type="div" style="stat-row">
+          <tag type="div" id="execution-header" style="stat-cell bg-success darker ticket-label valign-middle">
+            <!-- Stat panel bg icon -->
+            <tag type="div" id="execution-icon" style="fa fa-check bg-icon bg-icon-sm"/>
+            <tag type="div" style="text-bg text-bold" label="SCREEN_TEXT_EXECUTION_DETAILS"/>
+            <criteria id="execution-title" style="text-sm no-label no-margin" component="text-view"/>
+          </tag>
+        </tag>
+        <tag type="div" style="stat-row">
+          <tag type="div" style="stat-counters no-border-b no-padding text-center">
+            <tag type="div" style="stat-cell col-xs-4 padding-sm no-padding-hr">
+              <tag type="div" style="text-xs text-uppercase text-light-gray" label="SCREEN_TEXT_TASK"/>
+              <criteria id="task-id" style="text-bold no-label no-margin" size="lg" component="text-view"/>
+            </tag>
+            <tag type="div" style="stat-cell col-xs-4 padding-sm no-padding-hr">
+              <tag type="div" style="text-xs text-uppercase text-light-gray" label="SCREEN_TEXT_EXECUTION"/>
+              <criteria id="execution-id" style="text-bold no-label no-margin" size="lg" component="text-view"/>
+            </tag>
+            <tag type="div" style="stat-cell col-xs-4 padding-sm no-padding-hr">
+              <tag type="div" style="text-xs text-uppercase text-light-gray" label="SCREEN_TEXT_LAUNCHED_BY"/>
+              <criteria id="execution-launched-by" style="text-bold no-label no-margin" size="lg" component="text-view"/>
+            </tag>
+          </tag>
+        </tag>
+        <tag type="div" style="stat-row">
+          <tag type="div" style="stat-counters no-border-b no-padding text-center">
+            <tag type="div" style="stat-cell col-xs-4 padding-sm no-padding-hr">
+              <tag type="div" style="text-xs text-uppercase text-light-gray" label="SCREEN_TEXT_START_TIME"/>
+              <criteria id="execution-start-time" style="text-xs text-bold no-label no-margin" component="text-view"/>
+            </tag>
+            <tag type="div" style="stat-cell col-xs-4 padding-sm no-padding-hr">
+              <tag type="div" style="text-xs text-uppercase text-light-gray" label="SCREEN_TEXT_END_TIME"/>
+              <criteria id="execution-end-time" style="text-xs text-bold no-label no-margin" component="text-view"/>
+            </tag>
+            <tag type="div" style="stat-cell col-xs-4 padding-sm no-padding-hr">
+              <tag type="div" style="text-xs text-uppercase text-light-gray" label="SCREEN_TEXT_EXECUTION_TIME"/>
+              <criteria id="execution-time" style="text-xs text-bold no-label no-margin" component="text-view"/>
+            </tag>
+          </tag>
+        </tag>
+        <tag type="div" style="stat-row">
+          <tag type="div" style="stat-counters no-padding text-center">
+            <tag type="div" style="stat-cell col-xs-4 padding-sm no-padding-hr">
+              <tag type="div" style="text-xs text-uppercase text-light-gray" label="SCREEN_TEXT_MORE_INFORMATION"/>
+              <criteria id="execution-information" style="text-xs text-bold no-label no-margin" component="text-view"/>
+            </tag>
+          </tag>
+        </tag>
+      </tag>
+      <widget type="log-viewer" id="executionLogViewer" style="expand scrollable black-log" server-action="get-log-file">
+        <widget-parameter type="boolean" name="stickBottom" value="true"/>
+        <dependency source-type="value" target-type="enable-autorefresh" value="5">
+          <dependency-element id="execution-data" event="open"/>
+        </dependency>
+        <dependency target-type="disable-autorefresh">
+          <dependency-element id="execution-data" event="close"/>
+        </dependency>
+      </widget>
+      <tag type="div" style="modal-footer">
+        <tag type="div" style="pull-right">
+          <button label="BUTTON_CLOSE" icon="close" id="buttonCloseExecution" button-type="submit"
+                  help="HELP_CLOSE_HELP_BUTTON">
+            <button-action type="close" target="execution-data"/>
+          </button>
+        </tag>
+      </tag>
+    </dialog>
+  </tag>
+</screen>

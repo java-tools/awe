@@ -1,4 +1,14 @@
 
+# Changelog for AWE 4.2.0
+*20/12/2019*
+
+- Error with ArrayNode and TextNode from SEQUENCE. [MR #159](https://gitlab.com/aweframework/awe/merge_requests/159) (Pablo Javier García Mora)
+- Fix selenium tests issue on chrome when deleting an email server. [MR #158](https://gitlab.com/aweframework/awe/merge_requests/158) (Pablo Javier García Mora)
+- TextCriteriaBuilder doesn't have all required methods. [MR #157](https://gitlab.com/aweframework/awe/merge_requests/157) (Pablo Javier García Mora)
+- Add missing dependency action `change-language` in Actions. [MR #156](https://gitlab.com/aweframework/awe/merge_requests/156) (Pablo Javier García Mora)
+- Add a parameter to avoid AWE DataList post-processing when returns a DataList. [MR #155](https://gitlab.com/aweframework/awe/merge_requests/155) (Pablo Vidal Otero)
+- **[HAS IMPACTS]** Scheduler module. [MR #123](https://gitlab.com/aweframework/awe/merge_requests/123) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.1.7
 *05/12/2019*
 

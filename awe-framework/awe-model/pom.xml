@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-dependencies</artifactId>
-    <version>4.1.7</version>
+    <version>4.2.0</version>
     <relativePath>../awe-dependencies</relativePath>
   </parent>
 
@@ -24,7 +25,8 @@
     <sonar.language>java</sonar.language>
     <performancetest.host>localhost</performancetest.host>
     <performancetest.port>18080</performancetest.port>
-    <performancetest.path />
+    <performancetest.path/>
+    <skip.delombok>false</skip.delombok>
   </properties>
 
   <dependencies>
@@ -121,11 +123,26 @@
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
-      </dependency>
+    </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.6</version>
     </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.7</version>
+    </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Delombok plugin -->
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>

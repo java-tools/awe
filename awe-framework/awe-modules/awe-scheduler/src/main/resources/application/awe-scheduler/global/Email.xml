@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Email.xml
+    Created on : 28 de Noviembre de 2011
+    Author     : Aitor UGARTE
+    Description: Email define file
+-->
+
+<emails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/email.xsd">
+  <email id="SchTskEmaRep">
+    <from label="FromValue" value="FromValue" />
+    <to label="ToValue" value="ToValue" />
+    <subject label="RepTit" value="RepTit" />
+    <body label="RepMsg" type="html" value="RepMsgHtml"/>
+    <body label="RepMsg" type="text" value="RepMsgText"/>
+    <variable type="STRING" id="FromValue" property="scheduler.report.email.from.value" />
+    <variable type="STRING" id="ToValue" name="ToValue"/>
+    <variable type="STRING" id="RepTit" name="RepTit"/>
+    <variable type="STRING" id="RepMsgHtml" name="RepMsgHtml"/>
+    <variable type="STRING" id="RepMsgText" name="RepMsgText"/>
+  </email>
+</emails>

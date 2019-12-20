@@ -52,16 +52,18 @@ public class ServiceQueryConnector extends AbstractQueryConnector {
     // Get elapsed query time
     getLogger().checkpoint(timeLapse);
 
-    // Generate results
-    Map<String, QueryParameter> variableMap = getQueryUtil().getVariableMap(query, parameters);
-    result = generateResults(result, query, variableMap);
+    // Process and generate results
+    if (query.isPostProcessed()) {
+      Map<String, QueryParameter> variableMap = getQueryUtil().getVariableMap(query, parameters);
+      result = generateResults(result, query, variableMap);
+    }
 
     // Get elapsed datalist time
     getLogger().checkpoint(timeLapse);
 
     // Log query
     getLogger().log(ServiceQueryConnector.class, Level.INFO, "[{0}] =>  {1} records. Prepare service time: {2}s - Service time: {3}s - Datalist time: {4}s - Total time: {5}s",
-      query.getId(),
+      query.getService(),
       result.getDataList().getRecords(),
       getLogger().getElapsed(timeLapse, AweConstants.PREPARATION_TIME),
       getLogger().getElapsed(timeLapse, AweConstants.EXECUTION_TIME),

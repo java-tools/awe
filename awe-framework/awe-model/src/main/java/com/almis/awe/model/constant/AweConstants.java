@@ -12,6 +12,10 @@ public class AweConstants {
   private AweConstants() {
   }
 
+  // LOG
+  public static final String DOUBLE_LOG_LINE = "======================================================";
+  public static final String LOG_LINE = "----------------------------------------------------------------------------------";
+
   // TEXT
   public static final String MESSAGE = "message";
   public static final String ERROR = "error";
@@ -107,6 +111,8 @@ public class AweConstants {
   public static final String JSON_ICON_PARAMETER = "icon";
   public static final String JSON_IMAGE_PARAMETER = "image";
   public static final String JSON_STYLE_PARAMETER = "style";
+  public static final String JSON_TITLE_PARAMETER = "title";
+  public static final String JSON_CELL_STYLE_PARAMETER = "cell-style";
   public static final String JSON_ID_PARAMETER = "id";
   public static final String JSON_SCREEN = "screen";
   public static final String JSON_OPTION = "option";
@@ -217,7 +223,6 @@ public class AweConstants {
 
   // DATABASE
   public static final String DATABASE_CONNECTIONS_QUERY = "DatabaseConnections";
-  public static final String DATABASE_BEAN_TRANSLATION = "DatabaseBeanTranslation";
 
   // JMS
   public static final String JMS_CONNECTIONS_QUERY = "JmsConnections";

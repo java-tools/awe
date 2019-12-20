@@ -1,14 +1,14 @@
-import { aweApplication } from "./../awe";
+import {aweApplication} from "./../awe";
 
 // Button service
 aweApplication.factory('Button',
   ['Component', 'Storage', 'ActionController', 'AweUtilities',
     /**
      * Button generic methods
-     * @param {Service} Component component
-     * @param {Service} Storage service
-     * @param {Service} ActionController service
-     * @param {Service} Utilities service
+     * @param {Object} Component component
+     * @param {Object} Storage service
+     * @param {Object} ActionController service
+     * @param {Object} Utilities service
      */
     function (Component, Storage, ActionController, Utilities) {
 
@@ -25,7 +25,7 @@ aweApplication.factory('Button',
         this.component = new Component(scope, id);
         // Store mouse down
         this.component.pendingActions = false;
-        var button = this;
+        const button = this;
 
         /**
          * Initialize as button
@@ -35,6 +35,7 @@ aweApplication.factory('Button',
         };
         return this.component;
       }
+
       Button.prototype = {
 
         /**
@@ -42,8 +43,8 @@ aweApplication.factory('Button',
          */
         init: function () {
           // Init as component
-          var button = this;
-          var component = this.component;
+          const button = this;
+          const component = this.component;
           if (!component.asComponent()) {
             // If component initialization is wrong, cancel initialization
             return false;
@@ -80,7 +81,10 @@ aweApplication.factory('Button',
            */
           component.scope.onClick = function () {
             component.pendingActions = false;
-            ActionController.addActionList(component.controller.actions, true, {address: component.address, context: component.context});
+            ActionController.addActionList(component.controller.actions, true, {
+              address: component.address,
+              context: component.context
+            });
             component.storeEvent('click');
           };
 
@@ -110,10 +114,10 @@ aweApplication.factory('Button',
            * Retrieve button class
            * @return {String} button class
            */
-          var getClass = function () {
-            var buttonClass = [];
-            var buttonStyle = component.controller && component.controller.style ? component.controller.style : "";
-            var buttonSize = "btn-" + component.scope.size;
+          const getClass = function () {
+            let buttonClass = [];
+            let buttonStyle = component.controller && component.controller.style ? component.controller.style : "";
+            let buttonSize = "btn-" + component.scope.size;
             buttonClass.push(buttonStyle);
             if (buttonStyle === "" || buttonStyle.indexOf('no-class') === -1) {
               buttonClass.push("btn");
@@ -135,9 +139,9 @@ aweApplication.factory('Button',
            * Retrieve button group class
            * @return {String} button group class
            */
-          var getGroupClass = function () {
-            var buttonClass = [];
-            var buttonStyle = component.controller.style || "";
+          const getGroupClass = function () {
+            let buttonClass = [];
+            let buttonStyle = component.controller.style || "";
             if (buttonStyle === "" || buttonStyle.indexOf('no-class') === -1) {
               buttonClass.push("btn-group");
             }
@@ -153,7 +157,7 @@ aweApplication.factory('Button',
           /**
            * Check if there are pending actions, and if true, launch them
            */
-          var checkPendingActions = function () {
+          const checkPendingActions = function () {
             if (component.pendingActions) {
               component.scope.onClick();
             }
@@ -162,7 +166,7 @@ aweApplication.factory('Button',
           /**
            * Initialize help rules
            */
-          var initHelp = function () {
+          const initHelp = function () {
             // Set context menu if existing
             if (component.controller && "help" in component.controller) {
               Utilities.timeout(function () {
@@ -194,6 +198,14 @@ aweApplication.factory('Button',
 
           // Initially update classes
           component.updateClasses();
+
+          /**
+           * Basic getSpecificFields function (To be overwritten on complex directives)
+           * @returns {Object} Specific fields from component
+           */
+          component.getSpecificFields = function () {
+            return {buttonValue: component.model.selected, buttonAddress: component.address};
+          };
 
           //****************************************************************************
           // EVENT LISTENERS
