@@ -60,7 +60,6 @@
     <skip.selenium>true</skip.selenium>
     <skip.main>false</skip.main>
     <skip.frontend>false</skip.frontend>
-    <skip.xml.validation>true</skip.xml.validation>
     <skip.delombok>true</skip.delombok>
   </properties>
 
@@ -368,14 +367,11 @@
           <version>${plugin-xml-maven.version}</version>
           <executions>
             <execution>
-              <phase>compile</phase>
-              <goals>
-                <goal>validate</goal>
-              </goals>
+              <id>validate</id>
+              <phase>none</phase>
             </execution>
           </executions>
           <configuration>
-            <skip>${skip.xml.validation}</skip>
             <validationSets>
               <validationSet>
                 <dir>${check.xml.directory}/${application.acronym}/</dir>

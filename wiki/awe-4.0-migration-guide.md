@@ -212,26 +212,19 @@ Almis Web Engine > **[Home](../README.md)**
         </executions>
       </plugin>
 
-      <!-- Validate XML files -->
+      <!-- Xml validation -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
-        <version>1.0.2</version>
         <executions>
           <execution>
+            <id>validate</id>
+            <phase>compile</phase>
             <goals>
               <goal>validate</goal>
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <validationSets>
-            <validationSet>
-              <dir>${project.build.directory}/classes/application/${application.acronym}/</dir>
-              <validating>true</validating>
-            </validationSet>
-          </validationSets>
-        </configuration>
       </plugin>
       
       <!-- Build an executable JAR -->
