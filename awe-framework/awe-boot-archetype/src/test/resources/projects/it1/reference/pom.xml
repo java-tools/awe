@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-starter-parent</artifactId>
-    <version>4.2.0-SNAPSHOT</version>
+    <version>${project.version}</version>
     <relativePath />
   </parent>
 
@@ -18,7 +18,7 @@
 
   <properties>
     <!-- Application maven properties -->
-    <awe.version>4.2.0-SNAPSHOT</awe.version>
+    <awe.version>${project.version}</awe.version>
     <java.version>1.8</java.version>
     <application.name>test V2.1-SNAPSHOT</application.name>
     <application.acronym>test</application.acronym>
@@ -26,8 +26,8 @@
     <!-- Build properties -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <project.build.frontend>${project.build.directory}/classes/static/</project.build.frontend>
-    <check.xml.directory>${project.basedir}/src/main/resources/application/</check.xml.directory>
+    <project.build.frontend>\${project.build.directory}/classes/static/</project.build.frontend>
+    <check.xml.directory>\${project.basedir}/src/main/resources/application/</check.xml.directory>
   </properties>
 
   <dependencies>
@@ -94,7 +94,7 @@
       </resource>
       <resource>
         <directory>src/main/resources/images</directory>
-        <targetPath>${project.build.directory}/classes/static/images</targetPath>
+        <targetPath>\${project.build.directory}/classes/static/images</targetPath>
         <filtering>false</filtering>
       </resource>
     </resources>
@@ -115,7 +115,7 @@
                 <artifactItem>
                   <groupId>com.almis.awe</groupId>
                   <artifactId>awe-generic-screens</artifactId>
-                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <outputDirectory>\${project.build.directory}</outputDirectory>
                   <includes>schemas/**,</includes>
                 </artifactItem>
               </artifactItems>
@@ -132,7 +132,7 @@
                 <artifactItem>
                   <groupId>com.almis.awe</groupId>
                   <artifactId>awe-generic-screens</artifactId>
-                  <outputDirectory>${project.build.frontend}</outputDirectory>
+                  <outputDirectory>\${project.build.frontend}</outputDirectory>
                   <includes>docs/**</includes>
                 </artifactItem>
               </artifactItems>
@@ -149,7 +149,7 @@
                 <artifactItem>
                   <groupId>com.almis.awe</groupId>
                   <artifactId>awe-client-angular</artifactId>
-                  <outputDirectory>${project.build.frontend}</outputDirectory>
+                  <outputDirectory>\${project.build.frontend}</outputDirectory>
                   <includes>images/**,css/**</includes>
                 </artifactItem>
               </artifactItems>
@@ -202,7 +202,7 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <show>public</show>
-          <outputDirectory>${project.build.directory}/apidocs</outputDirectory>
+          <outputDirectory>\${project.build.directory}/apidocs</outputDirectory>
         </configuration>
       </plugin>
       <plugin>
