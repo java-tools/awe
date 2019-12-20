@@ -1085,7 +1085,7 @@ public class SchedulerTestsIT extends SeleniumUtilities {
     waitForButton("clearAndStopScheduler");
 
     // Click button
-    clickButton("clearAndStopScheduler", true);
+    clickButton("clearAndStopScheduler");
 
     // Wait for message
     checkAndCloseMessage("success");
@@ -1094,7 +1094,7 @@ public class SchedulerTestsIT extends SeleniumUtilities {
     waitForButton("restartScheduler");
 
     // Click button
-    clickButton("restartScheduler", true);
+    clickButton("restartScheduler");
 
     // Wait for message
     checkAndCloseMessage("success");
@@ -1103,7 +1103,7 @@ public class SchedulerTestsIT extends SeleniumUtilities {
     waitForButton("stopScheduler");
 
     // Click button
-    clickButton("stopScheduler", true);
+    clickButton("stopScheduler");
 
     // Wait for message
     checkAndCloseMessage("success");
@@ -1112,7 +1112,7 @@ public class SchedulerTestsIT extends SeleniumUtilities {
     waitForButton("startScheduler");
 
     // Click button
-    clickButton("startScheduler", true);
+    clickButton("startScheduler");
 
     // Wait for message
     checkAndCloseMessage("success");
