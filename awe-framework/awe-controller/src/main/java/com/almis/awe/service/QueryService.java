@@ -421,6 +421,20 @@ public class QueryService extends ServiceConfig {
   }
 
   /**
+   * Init datasource connections
+   */
+  public void initDatasourceConnections() {
+    try {
+      AweRoutingDataSource dataSource = getBean(AweRoutingDataSource.class);
+      if (dataSource != null) {
+        dataSource.loadDataSources();
+      }
+    } catch (Exception exc) {
+      getLogger().log(QueryService.class, Level.INFO, "AweRoutingDataSource not found. Using default datasource");
+    }
+  }
+
+  /**
    * Reload datasource connections
    */
   public void reloadDatasourceConnections() {
