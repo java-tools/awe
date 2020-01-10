@@ -11,10 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.zone.ZoneRules;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,19 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
   "classpath:cache.properties"
 })
 public class SchedulerQueriesTest extends AweSpringDatabaseTests {
-
-  /**
-   * Asserts the JSON in the response
-   *
-   * @param queryName    query name
-   * @param result       Result
-   * @param expectedRows Expected rows
-   * @return Result list
-   * @throws Exception Test error
-   */
-  private ArrayNode assertResultJson(String queryName, String result, int expectedRows) throws Exception {
-    return assertResultJson(queryName, result, expectedRows, 1, 1, expectedRows);
-  }
 
   /**
    * Asserts the JSON in the response
@@ -104,26 +87,6 @@ public class SchedulerQueriesTest extends AweSpringDatabaseTests {
       .session(session))
       .andExpect(status().isOk())
       .andExpect(content().json(expected))
-      .andReturn();
-    return mvcResult.getResponse().getContentAsString();
-  }
-
-  /**
-   * Performs the mock request and returns the response as a string
-   *
-   * @param queryName Query ID
-   * @param variables Variables
-   * @return Output
-   * @throws Exception Error performing request
-   */
-  private String performRequest(String queryName, String variables) throws Exception {
-    MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
-      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
-      .content("{" + variables + "}")
-      .contentType(MediaType.APPLICATION_JSON)
-      .accept(MediaType.APPLICATION_JSON)
-      .session(session))
-      .andExpect(status().isOk())
       .andReturn();
     return mvcResult.getResponse().getContentAsString();
   }
