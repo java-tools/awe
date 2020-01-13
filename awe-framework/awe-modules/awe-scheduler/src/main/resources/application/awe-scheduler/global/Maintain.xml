@@ -768,14 +768,18 @@
       <variable id="taskId" type="INTEGER" name="taskId" />
       <variable id="executions" type="INTEGER" name="executions" />
     </serve>
+  </target>
+
+  <!-- Delete execution logs -->
+  <target name="purgeExecutionLogs">
     <delete>
       <table id="AweSchExe" />
       <where>
         <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
-        <filter left-field="ExeTsk" condition="in" query="getExecutionsToPurge"/>
+        <filter left-field="ExeTsk" condition="in" right-variable="executions"/>
       </where>
       <variable id="taskId" type="INTEGER" name="taskId" />
-      <variable id="executions" type="INTEGER" name="executions" />
+      <variable id="executions" type="INTEGER" name="executionId" />
     </delete>
   </target>
 

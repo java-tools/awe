@@ -831,12 +831,8 @@
     </where>
   </query>
 
-  <query id="getExecutionsToPurge">
-    <table query="getTaskExecutionDates"/>
+  <query id="getExecutionsToPurge" service="getExecutionsToPurge">
     <field id="executionId"/>
-    <where>
-      <filter left-field="rowNumber" condition="gt" right-variable="executions"/>
-    </where>
     <variable id="taskId" type="INTEGER" name="taskId"/>
     <variable id="executions" type="INTEGER" name="executions"/>
   </query>
@@ -845,16 +841,6 @@
     <table id="AweSchExe"/>
     <field id="IdeTsk" alias="taskId"/>
     <field id="ExeTsk" alias="executionId"/>
-  </query>
-
-  <query id="getTaskExecutionDates">
-    <table query="getSortedExecutions"/>
-    <field id="initialDate"/>
-    <field id="executionId"/>
-    <over alias="rowNumber">
-      <field function="ROW_NUMBER"/>
-    </over>
-    <variable id="taskId" type="INTEGER" name="taskId"/>
   </query>
 
   <query id="getSortedExecutions">

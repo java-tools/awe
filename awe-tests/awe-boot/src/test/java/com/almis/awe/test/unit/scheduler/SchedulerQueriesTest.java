@@ -99,11 +99,27 @@ public class SchedulerQueriesTest extends AweSpringDatabaseTests {
   @Test
   public void testExecutionsToPurge() throws Exception {
     String queryName = "getExecutionsToPurge";
-    String variables = "\"taskId\":2, \"executions\": 5";
+    String variables = "\"taskId\":2,\"executions\":5";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"id\":1,\"executionId\":5},{\"id\":2,\"executionId\":4},{\"id\":3,\"executionId\":3},{\"id\":4,\"executionId\":2},{\"id\":5,\"executionId\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, expected);
     logger.warn(result);
     assertResultJson(queryName, result, 5, 1, 1, 5);
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testExecutionsToPurgeBig() throws Exception {
+    String queryName = "getExecutionsToPurge";
+    String variables = "\"taskId\":2,\"executions\":12";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, expected);
+    logger.warn(result);
+    assertResultJson(queryName, result, 0, 1, 1, 0);
   }
 }

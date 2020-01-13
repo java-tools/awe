@@ -32,6 +32,7 @@ import com.almis.awe.scheduler.filechecker.FileChecker;
 import com.almis.awe.scheduler.util.TaskUtil;
 import com.almis.awe.service.MaintainService;
 import com.almis.awe.service.QueryService;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
@@ -278,22 +279,44 @@ public class TaskDAO extends ServiceConfig {
   }
 
   /**
+   * Retrieve executions to purge (sorted)
+   * @param taskId
+   * @param executions
+   * @return
+   * @throws AWException
+   */
+  public ServiceData getExecutionsToPurge(Integer taskId, Integer executions) throws AWException {
+    ObjectNode parameters = queryUtil.getParameters(null, "1", "0");
+    parameters.put(TASK_ID, taskId);
+    ServiceData serviceData = queryService.launchPrivateQuery(GET_ALL_EXECUTIONS_WITH_DATES, parameters);
+    DataList dataList = serviceData.getDataList();
+
+    // Filter rows
+    dataList.setRows(serviceData.getDataList().getRows().stream().skip(executions).collect(Collectors.toList()));
+    dataList.getRows().forEach(row -> row.remove("id"));
+
+    // Set records
+    dataList.setRecords(serviceData.getDataList().getRows().size());
+
+    return serviceData;
+  }
+
+  /**
    * Purge execution log files
    *
    * @param taskId
    * @throws AWException
    */
   public ServiceData purgeExecutionLogFiles(Integer taskId, Integer executions) throws AWException {
-    ObjectNode parameters = queryUtil.getParameters();
+    ArrayNode executionsToPurge = JsonNodeFactory.instance.arrayNode();
     String logPath = executionLogPath;
-    parameters.put(TASK_ID, taskId);
-    parameters.put("executions", executions);
-    DataList dataList = queryService.launchPrivateQuery(GET_EXECUTIONS_TO_PURGE, parameters).getDataList();
+    DataList dataList = getExecutionsToPurge(taskId, executions).getDataList();
     List<TaskExecution> taskExecutionList = DataListUtil.asBeanList(dataList, TaskExecution.class);
 
     for (TaskExecution taskExecution : taskExecutionList) {
       // Delete each task execution file
       try {
+        executionsToPurge.add(taskExecution.getExecutionId());
         Path logFilePath = getExecutionLogFilePath(logPath, taskId, taskExecution.getExecutionId());
         if (logFilePath.toFile().exists()) {
           Files.delete(logFilePath);
@@ -303,7 +326,15 @@ public class TaskDAO extends ServiceConfig {
       }
     }
 
-    return new ServiceData();
+    // Add executions id to parameters
+    ObjectNode parameters = queryUtil.getParameters();
+    parameters.set("executionId", executionsToPurge);
+    parameters.put(TASK_ID, taskId);
+    if (executionsToPurge.size() > 0) {
+      return maintainService.launchPrivateMaintain(PURGE_EXECUTION_LOGS, parameters);
+    } else {
+      return new ServiceData();
+    }
   }
 
   /**
