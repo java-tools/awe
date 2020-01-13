@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 public class SuggestAttributes<B extends AbstractCriteriaBuilder> extends AbstractAttributes<B> {
   private Integer timeout;
   private String checkTarget;
-  private boolean strict;
+  private boolean strict = true;
 
   public SuggestAttributes(B builder) {
     super(builder);
