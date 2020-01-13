@@ -13,6 +13,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -457,7 +458,7 @@ public final class StringUtil {
    * @return Value as ArrayNode
    */
   public static List<String> toStringList(String pattern, String value) {
-    return Arrays.asList(value.split(pattern));
+    return value.trim().isEmpty() ? Collections.emptyList() : Arrays.asList(value.split(pattern));
   }
 
   /**
