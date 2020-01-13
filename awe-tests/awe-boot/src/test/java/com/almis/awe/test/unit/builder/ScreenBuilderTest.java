@@ -751,12 +751,10 @@ public class ScreenBuilderTest {
             .setLeftLabel(20)
             .setPlaceholder("placeholder")
             .setPrintable(Printable.EXCEL)
-            .setReadonly(true)
             .setProperty("proper.ty")
             .setUnit("unit1")
             .setValidation("required")
             .setVariable("variable1")
-            .setVisible(true)
             .setSpecific("specific")
             .setSession("sessionVariable")
             .setMessage("MESSAGE")
@@ -783,7 +781,6 @@ public class ScreenBuilderTest {
             .setUnit("unit1")
             .setValidation("required")
             .setVariable("variable1")
-            .setVisible(true)
             .setSpecific("specific")
             .setSession("sessionVariable")
             .setMessage("MESSAGE")
@@ -806,7 +803,7 @@ public class ScreenBuilderTest {
     assertSame(20, criterion.getLeftLabel());
     assertEquals("placeholder", criterion.getPlaceholder());
     assertEquals(criterion.getPrintable(), Printable.EXCEL.toString());
-    assertSame(true, criterion.isReadonly());
+    assertSame(false, criterion.isReadonly());
     assertSame(true, criterion.isStrict());
     assertEquals("proper.ty", criterion.getProperty());
     assertEquals("unit1", criterion.getUnit());
@@ -823,9 +820,9 @@ public class ScreenBuilderTest {
     assertEquals("lg", criterion2.getSize());
     assertSame(false, criterion2.isAutoload());
     assertSame(5, criterion2.getAutorefresh());
-    assertSame(true, criterion2.isCapitalize());
-    assertSame(true, criterion2.isCheckEmpty());
-    assertSame(true, criterion2.isCheckInitial());
+    assertTrue(criterion2.isCapitalize());
+    assertTrue(criterion2.isCheckEmpty());
+    assertTrue(criterion2.isCheckInitial());
     assertEquals(criterion2.getComponentType(), Component.FILTERED_CALENDAR.toString());
     assertEquals("dd/mm/yyyy", criterion2.getDateFormat());
     assertSame(true, criterion2.isShowTodayButton());
@@ -901,7 +898,6 @@ public class ScreenBuilderTest {
               .setReadonly(true)
               .setUnit("unit1")
               .setValidation("required")
-              .setVisible(true)
               .setValue("asada")
               .setId("column1"),
             new CalendarColumnBuilder()
@@ -955,7 +951,6 @@ public class ScreenBuilderTest {
     assertSame(true, column.isChecked());
     assertSame(true, column.isCheckInitial());
     assertEquals(Printable.EXCEL.toString(), column.getPrintable());
-    assertSame(true, column.isReadonly());
     assertSame(true, column.isReadonly());
     assertEquals("unit1", column.getUnit());
     assertEquals("required", column.getValidation());

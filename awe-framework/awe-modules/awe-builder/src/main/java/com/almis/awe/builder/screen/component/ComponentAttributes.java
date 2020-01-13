@@ -25,7 +25,7 @@ public class ComponentAttributes<B extends AbstractComponentBuilder> extends Abs
   private String targetAction;
   private boolean autoload;
   private Integer autorefresh;
-  private boolean visible;
+  private boolean visible = true;
   private String name;
 
   public ComponentAttributes(B builder) {
