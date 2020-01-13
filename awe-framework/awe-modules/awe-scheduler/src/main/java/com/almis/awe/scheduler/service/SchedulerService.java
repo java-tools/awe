@@ -145,6 +145,16 @@ public class SchedulerService extends ServiceConfig {
   }
 
   /**
+   * Retrieve the executions to purge
+   *
+   * @return ServiceData
+   * @throws AWException
+   */
+  public ServiceData getExecutionsToPurge(Integer taskId, Integer executions) throws AWException {
+    return taskDAO.getExecutionsToPurge(taskId, executions);
+  }
+
+  /**
    * Execute the selected task now
    *
    * @param taskId

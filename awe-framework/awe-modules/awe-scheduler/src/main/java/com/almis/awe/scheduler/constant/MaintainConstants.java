@@ -16,9 +16,9 @@ public class MaintainConstants {
   public static final String FILE_UPDATE_MODIFICATION_QUERY = "updateFile";
   public static final String TASK_START = "startTask";
   public static final String TASK_END = "endTask";
-  public static final String GET_EXECUTIONS_TO_PURGE = "getExecutionsToPurge";
+  public static final String GET_ALL_EXECUTIONS_WITH_DATES = "getSortedExecutions";
+  public static final String PURGE_EXECUTION_LOGS = "purgeExecutionLogs";
   public static final String GET_ALL_EXECUTIONS = "getAllExecutions";
   public static final String UPDATE_INTERRUPTED_TASKS = "updateInterruptedTasks";
   public static final String TASK_UPDATE_STATUS = "updateTaskStatus";
-
 }
