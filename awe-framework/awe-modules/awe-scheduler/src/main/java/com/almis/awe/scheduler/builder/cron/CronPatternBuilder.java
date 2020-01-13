@@ -151,7 +151,7 @@ public class CronPatternBuilder implements Serializable {
   }
 
   private boolean isNullOrEmpty(List<String> list) {
-    return list == null || list.isEmpty();
+    return list == null || list.isEmpty() || (list.size() == 1 && "".equalsIgnoreCase(list.get(0)));
   }
 
   /**
