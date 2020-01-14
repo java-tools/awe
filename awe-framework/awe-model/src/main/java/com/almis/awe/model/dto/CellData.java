@@ -11,10 +11,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
-import lombok.NonNull;
 import lombok.experimental.Accessors;
 import lombok.extern.log4j.Log4j2;
 
+import javax.validation.constraints.NotNull;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -205,7 +205,7 @@ public class CellData implements Comparable<CellData>, Copyable {
         } else {
           return stringToDate(getStringValue());
         }
-      // Get value as date
+        // Get value as date
       case STRING:
       default:
         return stringToDate(getStringValue());
@@ -411,7 +411,7 @@ public class CellData implements Comparable<CellData>, Copyable {
     return new CellData(this);
   }
 
-  private void writeObject(@NonNull ObjectOutputStream stream) throws IOException {
+  private void writeObject(@NotNull ObjectOutputStream stream) throws IOException {
 
     stream.writeBoolean(printable);
     stream.writeBoolean(sendStringValue);
@@ -450,7 +450,7 @@ public class CellData implements Comparable<CellData>, Copyable {
     }
   }
 
-  private void readObject(@NonNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
+  private void readObject(@NotNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
 
     this.printable = stream.readBoolean();
     this.sendStringValue = stream.readBoolean();

@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NonNull;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -174,7 +174,7 @@ public class QueryParameter implements Copyable {
     return new QueryParameter(this);
   }
 
-  private void writeObject(@NonNull ObjectOutputStream stream) throws IOException {
+  private void writeObject(@NotNull ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     ObjectMapper objectMapper = new ObjectMapper();
     byte[] jsonBytes = objectMapper.writeValueAsBytes(value);
@@ -182,7 +182,7 @@ public class QueryParameter implements Copyable {
     stream.writeObject(jsonBytes);
   }
 
-  private void readObject(@NonNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
+  private void readObject(@NotNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     byte[] jsonBytes = new byte[stream.readInt()];
     stream.readFully(jsonBytes);

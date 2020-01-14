@@ -66,6 +66,7 @@ import org.mockito.Mockito;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -1092,5 +1093,14 @@ public class ScreenBuilderTest {
     assertEquals("tab1", wizard.getId());
     assertEquals("LABEL", wizardPanel.getLabel());
     assertEquals("div", wizardPanel.getType());
+  }
+
+  /**
+   * Set null screen
+   */
+  @Test(expected = NullPointerException.class)
+  public void setNullScreen() {
+    when(aweElements.setScreen(any())).thenCallRealMethod();
+    aweElements.setScreen(null);
   }
 }
