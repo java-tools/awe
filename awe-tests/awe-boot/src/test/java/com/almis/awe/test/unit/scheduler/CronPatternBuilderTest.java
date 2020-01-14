@@ -167,7 +167,7 @@ public class CronPatternBuilderTest extends TestUtil {
     schedule.setRepeatType(5);
     schedule.setRepeatNumber(1);
     schedule.setDate(new Date());
-    schedule.setTime("0:00");
+    schedule.setTime("00:00:01");
     schedule.setHourList(Arrays.asList("9", "15"));
     schedule.setWeekDayList(Collections.emptyList());
     schedule.setWeekList(Collections.emptyList());
