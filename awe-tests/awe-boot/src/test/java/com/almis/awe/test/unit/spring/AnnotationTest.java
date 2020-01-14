@@ -13,9 +13,9 @@ import org.junit.Test;
 
 import java.io.File;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
 
 /**
  * Class used for testing rest services through ActionController
@@ -82,7 +82,7 @@ public class AnnotationTest extends AweSpringBootTests {
     // Test variable input
     String inputValue = "This is the variable input value";
     String returnValue = "This is the return value";
-    given(aweSession.getParameter(anyObject(), anyString())).willReturn(inputValue, returnValue);
+    given(aweSession.getParameter(any(), anyString())).willReturn(inputValue, returnValue);
     String inputVariableText = annotationTestService.addParameterToSessionFromInputVariable(inputValue);
     Assert.assertEquals(inputVariableText, annotationTestService.getValueFromSessionOnInputVariable("This text should be overwritten"));
 
@@ -115,7 +115,7 @@ public class AnnotationTest extends AweSpringBootTests {
     FileData fileData = new FileData(new java.io.File(file).getName(), new java.io.File(file).length(), "application/octet-stream");
     fileData.setBasePath(new File(file).getParent());
     fileData.setFileName("customName");
-    String fileDataString = fileUtil.fileDataToString(fileData);
+    String fileDataString = FileUtil.fileDataToString(fileData);
 
     ClientAction clientAction = annotationTestService.downloadFile();
     Assert.assertEquals(fileDataString, clientAction.getParameterMap().get("filename"));
