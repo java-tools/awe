@@ -1,8 +1,8 @@
 package com.almis.awe.test.unit.builder;
 
-import com.almis.awe.builder.enumerates.*;
 import com.almis.awe.builder.enumerates.ChartAxis;
 import com.almis.awe.builder.enumerates.Component;
+import com.almis.awe.builder.enumerates.*;
 import com.almis.awe.builder.screen.*;
 import com.almis.awe.builder.screen.accordion.AccordionBuilder;
 import com.almis.awe.builder.screen.accordion.AccordionItemBuilder;
@@ -16,7 +16,10 @@ import com.almis.awe.builder.screen.criteria.FilteredCalendarCriteriaBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyActionBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyElementBuilder;
-import com.almis.awe.builder.screen.grid.*;
+import com.almis.awe.builder.screen.grid.CalendarColumnBuilder;
+import com.almis.awe.builder.screen.grid.CheckboxColumnBuilder;
+import com.almis.awe.builder.screen.grid.GridBuilder;
+import com.almis.awe.builder.screen.grid.GroupHeaderBuilder;
 import com.almis.awe.builder.screen.info.InfoBuilder;
 import com.almis.awe.builder.screen.info.InfoButtonBuilder;
 import com.almis.awe.builder.screen.info.InfoCriteriaBuilder;
@@ -30,8 +33,8 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.menu.Menu;
-import com.almis.awe.model.entities.screen.*;
 import com.almis.awe.model.entities.screen.View;
+import com.almis.awe.model.entities.screen.*;
 import com.almis.awe.model.entities.screen.component.*;
 import com.almis.awe.model.entities.screen.component.action.ButtonAction;
 import com.almis.awe.model.entities.screen.component.action.Dependency;
@@ -42,7 +45,6 @@ import com.almis.awe.model.entities.screen.component.button.ContextButton;
 import com.almis.awe.model.entities.screen.component.button.ContextSeparator;
 import com.almis.awe.model.entities.screen.component.button.InfoButton;
 import com.almis.awe.model.entities.screen.component.chart.*;
-import com.almis.awe.model.entities.screen.component.container.AccordionItem;
 import com.almis.awe.model.entities.screen.component.container.TabContainer;
 import com.almis.awe.model.entities.screen.component.container.WizardPanel;
 import com.almis.awe.model.entities.screen.component.criteria.Criteria;
@@ -64,7 +66,7 @@ import org.mockito.Mockito;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class ScreenBuilderTest {
@@ -79,8 +81,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen without elements
-   *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void buildClientAction() throws Exception {
@@ -93,7 +94,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen without elements
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void build() throws Exception {
@@ -122,31 +123,24 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with an invalid id
-   *
-   * @throws Exception
+    * @throws AWException exception
    */
-  @Test
-  public void buildScreenInvalidId() throws Exception {
-    try {
-      ScreenBuilder builder = new ScreenBuilder()
-        .setId("aR!$fg");
-    } catch (AWException exc) {
-      assertTrue(true);
-      return;
-    }
-    assertTrue(false);
+  @Test(expected = AWException.class)
+  public void buildScreenInvalidId() throws AWException {
+    ScreenBuilder builder = new ScreenBuilder().setId("aR!$fg");
+    builder.build();
   }
 
   /**
    * Build a single screen with a tag
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addTag() throws Exception {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
-      .addTag((TagBuilder) new TagBuilder()
+      .addTag(new TagBuilder()
         .setSource(Source.CENTER.toString())
         .setType("div")
         .setLabel("LABEL")
@@ -163,7 +157,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a tag
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addMessage() throws Exception {
@@ -180,7 +174,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a dialog
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addDialog() throws Exception {
@@ -191,23 +185,23 @@ public class ScreenBuilderTest {
         .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
-        .addDialog((DialogBuilder) new DialogBuilder().setOnClose(OnClose.ACCEPT).setLabel("DIALOG_LABEL")));
+        .addDialog(new DialogBuilder().setOnClose(OnClose.ACCEPT).setLabel("DIALOG_LABEL")));
 
     Screen screen = builder.build();
-    assertEquals("DIALOG_LABEL", ((Dialog) screen.getElementList().get(0).getElementList().get(0)).getLabel());
+    assertEquals("DIALOG_LABEL", screen.getElementList().get(0).getElementList().get(0).getLabel());
     assertTrue(OnClose.ACCEPT.equalsStr(((Dialog) screen.getElementList().get(0).getElementList().get(0)).getOnClose()));
   }
 
   /**
    * Build a single screen with an include
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addInclude() throws Exception {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
-      .addTag((TagBuilder) new TagBuilder()
+      .addTag(new TagBuilder()
         .setSource("center")
         .setLabel("LABEL")
         .setStyle("expand")
@@ -224,7 +218,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a view
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addView() throws Exception {
@@ -245,18 +239,18 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a tag list
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addTagList() throws Exception {
     ScreenBuilder builder = new ScreenBuilder()
       .setId(UUID.randomUUID().toString())
-      .addTag((TagBuilder) new TagBuilder()
+      .addTag(new TagBuilder()
         .setSource("center")
         .setLabel("LABEL")
         .setStyle("expand")
         .setType("div")
-        .addTagList((TagListBuilder) new TagListBuilder()
+        .addTagList(new TagListBuilder()
           .setAutoload(true)
           .setAutorefresh(5)
           .setInitialLoad(InitialLoad.QUERY)
@@ -278,7 +272,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a resizable
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addResizable() throws Exception {
@@ -301,7 +295,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a pivot table
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addPivotTable() throws Exception {
@@ -352,7 +346,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a window
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addWindow() throws Exception {
@@ -373,13 +367,13 @@ public class ScreenBuilderTest {
     assertEquals("icon", ((Window) screen.getElementList().get(0).getElementList().get(0)).getIcon());
     assertEquals("LABEL", screen.getElementList().get(0).getElementList().get(0).getLabel());
     assertEquals("style", screen.getElementList().get(0).getElementList().get(0).getStyle());
-    assertEquals(true, ((Window) screen.getElementList().get(0).getElementList().get(0)).isMaximize());
+    assertTrue(((Window) screen.getElementList().get(0).getElementList().get(0)).isMaximize());
   }
 
   /**
    * Build a single screen with a menu
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addMenu() throws Exception {
@@ -402,7 +396,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a frame
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addFrame() throws Exception {
@@ -429,7 +423,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with an accordion
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addAccordion() throws Exception {
@@ -453,16 +447,16 @@ public class ScreenBuilderTest {
     Screen screen = builder.build();
     assertSame(true, ((Accordion) screen.getElementList().get(0).getElementList().get(0)).isAutocollapse());
     assertEquals("selected", ((Accordion) screen.getElementList().get(0).getElementList().get(0)).getSelected());
-    assertEquals("notSelected", ((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0)).getId());
-    assertEquals("LABEL", ((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(0)).getLabel());
-    assertEquals("selected", ((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(1)).getId());
-    assertEquals("OTHER_LABEL", ((AccordionItem) screen.getElementList().get(0).getElementList().get(0).getElementList().get(1)).getLabel());
+    assertEquals("notSelected", screen.getElementList().get(0).getElementList().get(0).getElementList().get(0).getId());
+    assertEquals("LABEL", screen.getElementList().get(0).getElementList().get(0).getElementList().get(0).getLabel());
+    assertEquals("selected", screen.getElementList().get(0).getElementList().get(0).getElementList().get(1).getId());
+    assertEquals("OTHER_LABEL", screen.getElementList().get(0).getElementList().get(0).getElementList().get(1).getLabel());
   }
 
   /**
    * Build a single screen with a button
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addButton() throws Exception {
@@ -528,7 +522,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a chart
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addChart() throws Exception {
@@ -600,7 +594,7 @@ public class ScreenBuilderTest {
             .setTargetType(TargetType.ATTRIBUTE)
             .setType(DependencyType.AND)
             .setValue("value")
-            .addDependencyAction((DependencyActionBuilder) new DependencyActionBuilder()
+            .addDependencyAction(new DependencyActionBuilder()
               .setServerAction(ServerAction.GET_SERVER_FILE)
               .setTargetAction("TargetAction")
               .setTarget("target")
@@ -688,6 +682,7 @@ public class ScreenBuilderTest {
     assertEquals("value", contextButton.getValue());
 
     ContextSeparator contextSeparator = (ContextSeparator) chart.getElementList().get(3);
+    assertNotNull(contextSeparator);
     Dependency dependency = (Dependency) chart.getElementList().get(4);
     assertEquals("formule", dependency.getFormule());
     assertSame(true, dependency.isInitial());
@@ -726,7 +721,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a criterion
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addCriterion() throws Exception {
@@ -849,7 +844,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a grid
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addGrid() throws Exception {
@@ -970,7 +965,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with an info
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addInfo() throws Exception {
@@ -1008,7 +1003,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a tab
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addTab() throws Exception {
@@ -1040,7 +1035,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a widget
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addWidget() throws Exception {
@@ -1072,7 +1067,7 @@ public class ScreenBuilderTest {
   /**
    * Build a single screen with a wizard
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   @Test
   public void addWizard() throws Exception {
