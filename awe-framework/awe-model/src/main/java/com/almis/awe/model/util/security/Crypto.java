@@ -1,6 +1,7 @@
 package com.almis.awe.model.util.security;
 
 import com.almis.awe.exception.AWException;
+import lombok.NonNull;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,7 +9,6 @@ import javax.crypto.*;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.validation.constraints.NotNull;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
@@ -203,7 +203,7 @@ public final class Crypto {
      * @param encoding Encoding
      * @return Encrypted text
      */
-    public static String encrypt(@NotNull String plaintext, String passphrase, String encoding) {
+    public static String encrypt(@NonNull String plaintext, String passphrase, String encoding) {
       if (plaintext.length() == 0) {
         return null;
       }
@@ -232,7 +232,7 @@ public final class Crypto {
      * @param encoding Encoding
      * @return Decrypted text
      */
-    public static String decrypt(@NotNull String encrypted, String passphrase, String encoding) {
+    public static String decrypt(@NonNull String encrypted, String passphrase, String encoding) {
       if (encrypted.length() == 0) {
         return null;
       }

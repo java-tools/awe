@@ -7,10 +7,9 @@ import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.entities.queries.Query;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.NonNull;
 import org.apache.logging.log4j.Level;
 import org.springframework.cache.annotation.Cacheable;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * QueryLauncher Class
@@ -22,14 +21,14 @@ public class QueryLauncher extends ServiceConfig {
 
   /**
    * Launches a query
-   * 
-   * @param query Query
+   *
+   * @param query      Query
    * @param parameters Parameters
    * @return Query data
    * @throws AWException Query has failed
    */
   @Cacheable(value = "queryData", condition = "#p0.isCacheable()", key = "{ #p0.getId(), #p1.toString() }")
-  public ServiceData launchQuery(@NotNull Query query, ObjectNode parameters) throws AWException {
+  public ServiceData launchQuery(@NonNull Query query, ObjectNode parameters) throws AWException {
     QueryConnector queryLauncher;
     try {
       queryLauncher = getQueryConnector(query);
@@ -43,8 +42,8 @@ public class QueryLauncher extends ServiceConfig {
   /**
    * Subscribe to a query
    *
-   * @param query Query
-   * @param address Component address
+   * @param query      Query
+   * @param address    Component address
    * @param parameters Parameters
    * @return Query data
    * @throws AWException Query has failed
@@ -68,27 +67,27 @@ public class QueryLauncher extends ServiceConfig {
    */
   private QueryConnector getQueryConnector(Query query) throws AWException {
 
-      QueryConnector connector = null;
+    QueryConnector connector = null;
 
-      if (query.getService() != null) {
-        connector = getBean(ServiceQueryConnector.class);
-      } else if (query.getEnumerated() != null) {
-        connector = getBean(EnumQueryConnector.class);
-      } else if (query.getQueue() != null) {
-        try {
-          connector = getBean(QueueQueryConnector.class);
-        } catch (Exception exc) {
-          throw new AWException("Queue query connector not found. Perhaps JMS is not activated?", exc);
-        }
-      } else {
-        try {
-          connector = getBean(SQLQueryConnector.class);
-        } catch (Exception exc) {
-          throw new AWException("SQL query connector not found. Perhaps SQL DATABASE is not activated?", exc);
-        }
+    if (query.getService() != null) {
+      connector = getBean(ServiceQueryConnector.class);
+    } else if (query.getEnumerated() != null) {
+      connector = getBean(EnumQueryConnector.class);
+    } else if (query.getQueue() != null) {
+      try {
+        connector = getBean(QueueQueryConnector.class);
+      } catch (Exception exc) {
+        throw new AWException("Queue query connector not found. Perhaps JMS is not activated?", exc);
       }
+    } else {
+      try {
+        connector = getBean(SQLQueryConnector.class);
+      } catch (Exception exc) {
+        throw new AWException("SQL query connector not found. Perhaps SQL DATABASE is not activated?", exc);
+      }
+    }
 
-      return connector;
+    return connector;
   }
 
 }

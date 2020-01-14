@@ -6,8 +6,8 @@ import com.almis.awe.model.entities.Copyable;
 import com.almis.awe.model.type.MaintainType;
 import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.*;
+import lombok.NonNull;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -129,12 +129,12 @@ public class MaintainResultDetails implements Copyable {
     return new MaintainResultDetails(this);
   }
 
-  private void writeObject(@NotNull ObjectOutputStream stream) throws IOException {
+  private void writeObject(@NonNull ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     ListUtil.writeMap(stream, this.parameterMap);
   }
 
-  private void readObject(@NotNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
+  private void readObject(@NonNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     this.parameterMap = ListUtil.readMap(stream, QueryParameter.class);
   }

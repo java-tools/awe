@@ -45,7 +45,8 @@ public class UploadController extends ServiceConfig {
 
   /**
    * Autowired constructor
-   * @param fileService File service
+   *
+   * @param fileService      File service
    * @param broadcastService Broadcast service
    */
   @Autowired
@@ -56,14 +57,15 @@ public class UploadController extends ServiceConfig {
 
   /**
    * Upload a file
-   * @param token Request token
-   * @param file File to upload
-   * @param address Component address
-   * @param destination Destination folder
+   *
+   * @param token            Request token
+   * @param file             File to upload
+   * @param address          Component address
+   * @param destination      Destination folder
    * @param uploadIdentifier Uploader identifier
    * @throws AWException Error uploading file
    */
-  @PostMapping(value="/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+  @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
   @ResponseStatus(HttpStatus.OK)
   public void handleFileUpload(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
                                @RequestParam("file") MultipartFile file,
@@ -87,7 +89,7 @@ public class UploadController extends ServiceConfig {
     // Broadcast file uploaded
     broadcastService.broadcastMessageToUID(token, new ClientAction("file-uploaded")
       .setAsync(true)
-      .setAddress(new ComponentAddress((ObjectNode) parameters.get(AweConstants.PARAMETER_ADDRESS)))
+      .setAddress(new ComponentAddress(parameters.get(AweConstants.PARAMETER_ADDRESS)))
       .addParameter("path", FileUtil.fileDataToString(fileData))
       .addParameter("name", fileData.getFileName())
       .addParameter("size", fileData.getFileSize())
@@ -96,6 +98,7 @@ public class UploadController extends ServiceConfig {
 
   /**
    * Handle upload error
+   *
    * @param exc Exception to handle
    * @return Response error
    */
@@ -108,6 +111,7 @@ public class UploadController extends ServiceConfig {
 
   /**
    * Handle upload error
+   *
    * @param exc Exception to handle
    * @return Response error
    */
@@ -119,6 +123,7 @@ public class UploadController extends ServiceConfig {
 
   /**
    * Handle upload error
+   *
    * @param exc Exception to handle
    * @return Response error
    */
@@ -130,9 +135,10 @@ public class UploadController extends ServiceConfig {
 
   /**
    * Broadcast error
-   * @param title Title
+   *
+   * @param title   Title
    * @param message Message
-   * @param exc Exception
+   * @param exc     Exception
    */
   private String broadcastError(String title, String message, Exception exc) {
     String connectionKey = getSession().getParameter(String.class, AweConstants.SESSION_TOKEN);

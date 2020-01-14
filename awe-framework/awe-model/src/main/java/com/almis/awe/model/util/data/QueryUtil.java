@@ -15,11 +15,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,7 +98,7 @@ public class QueryUtil extends ServiceConfig {
    *
    * @param variables  Variable map
    * @param parameters Parameter list
-   * @param index Index
+   * @param index      Index
    * @return Query parameter map
    * @throws AWException Error generating variables
    */
@@ -128,8 +128,9 @@ public class QueryUtil extends ServiceConfig {
 
   /**
    * Check if add variable into variable map or not
+   *
    * @param variable Variable
-   * @param value Json value
+   * @param value    Json value
    * @return Add variable into variable map
    */
   private boolean allowVariable(Variable variable, JsonNode value) {
@@ -165,7 +166,7 @@ public class QueryUtil extends ServiceConfig {
   public void addToVariableMap(Map<String, QueryParameter> variableMap, Query query, ObjectNode parameters) throws AWException {
     Map<String, QueryParameter> queryParameterMap = getVariableMap(query, parameters);
     // Get defined variables
-    for (Map.Entry<String, QueryParameter> entry: queryParameterMap.entrySet()) {
+    for (Map.Entry<String, QueryParameter> entry : queryParameterMap.entrySet()) {
       if (!variableMap.containsKey(entry.getKey()) || (!isEmptyParameter(entry.getValue()))) {
         variableMap.put(entry.getKey(), entry.getValue());
       }
@@ -220,6 +221,7 @@ public class QueryUtil extends ServiceConfig {
 
   /**
    * Prepare query variables if not defined previously
+   *
    * @return Query parameter map
    */
   public ObjectNode getParameters() {
@@ -228,6 +230,7 @@ public class QueryUtil extends ServiceConfig {
 
   /**
    * Prepare query variables if not defined previously
+   *
    * @param parameters Parameters
    * @return Query parameter map
    */
@@ -263,12 +266,12 @@ public class QueryUtil extends ServiceConfig {
    * Prepare query variables if not defined previously
    *
    * @param parameters Parameters
-   * @param alias Query alias
-   * @param page  Page number
-   * @param max   Max elements per page
+   * @param alias      Query alias
+   * @param page       Page number
+   * @param max        Max elements per page
    * @return Query parameter map
    */
-  public ObjectNode getParameters(@NotNull ObjectNode parameters, String alias, String page, String max) {
+  public ObjectNode getParameters(@NonNull ObjectNode parameters, String alias, String page, String max) {
     // Force page and max if not null
     return forceAliasPageAndMax(parameters, alias, page, max);
   }
@@ -371,11 +374,12 @@ public class QueryUtil extends ServiceConfig {
 
   /**
    * Retrieve parameter as Json
+   *
    * @param stringValue String value
-   * @param parameter Parameter
-   * @param type Type
-   * @param variableId Variable id
-   * @param parseList Try to parse parameter as list
+   * @param parameter   Parameter
+   * @param type        Type
+   * @param variableId  Variable id
+   * @param parseList   Try to parse parameter as list
    * @return Parameter as JSON
    * @throws AWException Error retrieving variable value
    */
@@ -448,7 +452,7 @@ public class QueryUtil extends ServiceConfig {
       try {
         output = new ObjectMapper().reader().readTree(stringParameter);
       } catch (IOException exc) {
-        throw new AWException(getElements().getLocale("ERROR_MESSAGE_PARSING_OBJECT", stringParameter),  exc);
+        throw new AWException(getElements().getLocale("ERROR_MESSAGE_PARSING_OBJECT", stringParameter), exc);
       }
     }
     return output;
@@ -510,12 +514,12 @@ public class QueryUtil extends ServiceConfig {
   /**
    * Finds out if a variable value is a list
    *
-   * @param variable Variable
+   * @param variable   Variable
    * @param parameters Parameters
    * @return isList
    * @throws AWException AWE exception
    */
-  public boolean variableIsList(@NotNull Variable variable, ObjectNode parameters) throws AWException {
+  public boolean variableIsList(@NonNull Variable variable, ObjectNode parameters) throws AWException {
     boolean list = false;
 
     if (variable.getName() != null) {
@@ -620,6 +624,7 @@ public class QueryUtil extends ServiceConfig {
 
   /**
    * Retrieve database alias
+   *
    * @param parameters Query parameters
    * @return Database alias
    */

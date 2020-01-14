@@ -3,13 +3,9 @@ package com.almis.awe.model.dto;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Copyable;
 import com.almis.awe.model.util.data.ListUtil;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -96,14 +92,14 @@ public class DataList implements Serializable, Copyable {
     }
   }
 
-  private void writeObject(@NotNull ObjectOutputStream stream) throws IOException {
+  private void writeObject(@NonNull ObjectOutputStream stream) throws IOException {
     stream.writeLong(total);
     stream.writeLong(page);
     stream.writeLong(records);
     stream.writeObject(new ArrayList<>(rows));
   }
 
-  private void readObject(@NotNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
+  private void readObject(@NonNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
     this.total = stream.readLong();
     this.page = stream.readLong();
     this.records = stream.readLong();

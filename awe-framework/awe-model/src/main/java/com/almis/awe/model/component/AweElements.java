@@ -27,6 +27,7 @@ import com.almis.awe.model.entities.services.Service;
 import com.almis.awe.model.entities.services.Services;
 import com.almis.awe.model.type.LaunchPhaseType;
 import com.almis.awe.model.util.log.LogUtil;
+import lombok.NonNull;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
-import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -461,7 +461,7 @@ public class AweElements {
    * @return Screen
    */
   @CachePut(value = "screen", key = "#p0.getId()")
-  public Screen setScreen(@NotNull Screen screen) {
+  public Screen setScreen(@NonNull Screen screen) {
     // Store screen
     screenMap.put(screen.getId(), screen);
 

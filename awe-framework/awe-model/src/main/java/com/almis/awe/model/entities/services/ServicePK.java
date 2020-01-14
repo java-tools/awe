@@ -2,9 +2,9 @@ package com.almis.awe.model.entities.services;
 
 import com.almis.awe.model.util.data.ListUtil;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -87,12 +87,12 @@ public class ServicePK implements Serializable {
     return out;
   }
 
-  private void writeObject(@NotNull ObjectOutputStream stream) throws IOException {
+  private void writeObject(@NonNull ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     ListUtil.writeList(stream, this.variableList);
   }
 
-  private void readObject(@NotNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
+  private void readObject(@NonNull ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     this.variableList = ListUtil.readList(stream, String.class);
   }
