@@ -4,8 +4,6 @@ import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.menu.Option;
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
@@ -110,41 +108,13 @@ public abstract class AbstractAction extends Element {
    * @return value list string
    */
   @JsonGetter("parameters")
-  public ObjectNode getActionValues() {
-    ObjectNode actionValues = JsonNodeFactory.instance.objectNode();
-
-    // Add option into parameters
-    if (getName() != null) {
-      actionValues.put("target", getName());
-    }
-
-    // Add target
-    if (getTarget() != null) {
-      actionValues.put("target", getTarget());
-    }
-
-    // Add value
-    if (getValue() != null) {
-      actionValues.put("value", getValue());
-    }
-
-    // Add label
-    if (getLabel() != null) {
-      actionValues.put("label", getLabel());
-    }
-
-    // Add action name
-    if (getServerAction() != null) {
-      actionValues.put("serverAction", getServerAction());
-    }
-
-    // Add target into values
-    if (getTargetAction() != null) {
-      actionValues.put("targetAction", getTargetAction());
-    }
-
-    // Generate parameter list in a string
-    return actionValues;
+  public ActionParameters getActionValues() {
+    return new ActionParameters()
+      .setTarget(getTarget() != null ? getTarget() : getName())
+      .setValue(getValue())
+      .setLabel(getLabel())
+      .setServerAction(getServerAction())
+      .setTargetAction(getTargetAction());
   }
 
   /**
