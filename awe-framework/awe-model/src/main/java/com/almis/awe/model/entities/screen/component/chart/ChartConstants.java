@@ -2,16 +2,16 @@ package com.almis.awe.model.entities.screen.component.chart;
 
 /**
  * Chart Constants
- *
+ * <p>
  * Constants of chart element
- *
  *
  * @author Pablo VIDAL - 20/OCT/2014
  */
 public class ChartConstants {
 
   // Private constructor
-  private ChartConstants() {}
+  private ChartConstants() {
+  }
 
   // Chart constant
   // ----------------------------------------------------------

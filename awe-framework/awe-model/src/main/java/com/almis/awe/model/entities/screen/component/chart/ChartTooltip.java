@@ -3,9 +3,6 @@ package com.almis.awe.model.entities.screen.component.chart;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.CrosshairType;
 import com.almis.awe.model.util.data.ListUtil;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import lombok.EqualsAndHashCode;
@@ -22,12 +19,11 @@ import java.util.Map;
 
 /**
  * ChartTooltip Class
- *
+ * <p>
  * Used to parse a chart tooltip tag with XStream
- *
- *
+ * <p>
+ * <p>
  * Generates an Chart widget
- *
  *
  * @author Pablo VIDAL - 21/OCT/2014
  */
@@ -92,6 +88,7 @@ public class ChartTooltip extends AbstractChart {
 
   /**
    * Returns is enabled
+   *
    * @return Is enabled
    */
   public boolean isEnabled() {
@@ -100,6 +97,7 @@ public class ChartTooltip extends AbstractChart {
 
   /**
    * Returns is floating
+   *
    * @return Is floating
    */
   public boolean isShared() {

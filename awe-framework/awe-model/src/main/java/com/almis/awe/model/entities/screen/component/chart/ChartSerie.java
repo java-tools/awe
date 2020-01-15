@@ -2,8 +2,6 @@ package com.almis.awe.model.entities.screen.component.chart;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.util.data.ListUtil;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
@@ -20,7 +18,7 @@ import java.util.Map;
 
 /**
  * ChartSerie Class
- *
+ * <p>
  * Used to parse a chart Serie tag with XStream
  * Generates an Chart widget
  *
@@ -91,6 +89,7 @@ public class ChartSerie extends AbstractChart {
 
   /**
    * Returns is drill down
+   *
    * @return Is drill down
    */
   public boolean isDrillDown() {

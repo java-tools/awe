@@ -2,8 +2,6 @@ package com.almis.awe.model.entities.screen.component.chart;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.util.data.ListUtil;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
@@ -20,12 +18,11 @@ import java.util.Map;
 
 /**
  * ChartLegend Class
- *
+ * <p>
  * Used to parse a chart legend tag with XStream
- *
- *
+ * <p>
+ * <p>
  * Generates an Chart widget
- *
  *
  * @author Pablo VIDAL - 20/OCT/2014
  */
@@ -84,6 +81,7 @@ public class ChartLegend extends AbstractChart {
 
   /**
    * Returns is enabled
+   *
    * @return Is enabled
    */
   public boolean isEnabled() {
@@ -92,6 +90,7 @@ public class ChartLegend extends AbstractChart {
 
   /**
    * Returns is floating
+   *
    * @return Is floating
    */
   public boolean isFloating() {

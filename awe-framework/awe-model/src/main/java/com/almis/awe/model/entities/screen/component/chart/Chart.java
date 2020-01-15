@@ -28,12 +28,11 @@ import java.util.Map;
 
 /**
  * Chart Class
- *
+ * <p>
  * Used to parse a chart tag with XStream
- *
- *
+ * <p>
+ * <p>
  * Generates an Chart widget
- *
  *
  * @author Pablo VIDAL - 20/OCT/2014
  */
@@ -140,6 +139,7 @@ public class Chart extends AbstractChart {
 
   /**
    * Returns if is stock chart
+   *
    * @return Is stock chart
    */
   public boolean isStockChart() {
@@ -148,6 +148,7 @@ public class Chart extends AbstractChart {
 
   /**
    * Returns if is inverted
+   *
    * @return Is inverted
    */
   public boolean isInverted() {
@@ -156,6 +157,7 @@ public class Chart extends AbstractChart {
 
   /**
    * Returns if data labels are enabled
+   *
    * @return Data labels are enabled
    */
   public boolean isEnableDataLabels() {
@@ -397,6 +399,7 @@ public class Chart extends AbstractChart {
 
   /**
    * Generate legend if defined
+   *
    * @param charTypePlotOpt Plot options
    */
   private void generateLegend(ObjectNode charTypePlotOpt) {
@@ -497,6 +500,7 @@ public class Chart extends AbstractChart {
 
   /**
    * Is a stacking chart
+   *
    * @return if is stack
    */
   public boolean isStacking() {
