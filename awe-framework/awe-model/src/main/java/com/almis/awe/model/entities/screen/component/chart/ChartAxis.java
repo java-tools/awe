@@ -99,11 +99,11 @@ public class ChartAxis extends AbstractChart {
 
     // Set axis title
     if (getLabel() != null) {
-      model.put(ChartConstants.TITLE, new TextParameter(getLabel()));
+      model.put(ChartConstants.TITLE, getTextParameter(getLabel()));
     }
 
     // Set labels node
-    model.put(ChartConstants.LABELS, new LabelParameter(getLabelFormat(), getFormatterFunction(), getLabelRotation()));
+    model.put(ChartConstants.LABELS, getLabelParameter(getLabelFormat(), getFormatterFunction(), getLabelRotation()));
     // ----------------------------------------------------
 
     // Set axis type

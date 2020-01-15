@@ -13,6 +13,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,5 +54,37 @@ public abstract class AbstractChart extends Component {
         chartParameter.addParameterModel(model);
       }
     }
+  }
+
+  /**
+   * Get text parameter
+   * @param value
+   * @return
+   */
+  protected Map<String, Object> getTextParameter(String value) {
+    Map<String, Object> text = new HashMap<>();
+    text.put("text", value);
+    return text;
+  }
+
+  /**
+   * Get label parameter
+   * @param format
+   * @param formatter
+   * @param rotation
+   * @return
+   */
+  protected Map<String, Object> getLabelParameter(String format, String formatter, Float rotation) {
+    Map<String, Object> label = new HashMap<>();
+    if (format != null) {
+      label.put("format", format);
+    }
+    if (formatter != null) {
+      label.put("formatter", formatter);
+    }
+    if (rotation != null) {
+      label.put("rotation", rotation);
+    }
+    return label;
   }
 }

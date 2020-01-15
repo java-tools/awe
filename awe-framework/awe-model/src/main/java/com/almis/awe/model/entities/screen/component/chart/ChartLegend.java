@@ -117,7 +117,7 @@ public class ChartLegend extends AbstractChart {
 
     // Add legend title
     if (getLabel() != null) {
-      model.put(ChartConstants.TITLE, new TextParameter(getLabel()));
+      model.put(ChartConstants.TITLE, getTextParameter(getLabel()));
     }
 
     // Add horizontal align

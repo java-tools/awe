@@ -7,8 +7,6 @@ import com.almis.awe.model.type.ChartType;
 import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -197,12 +195,12 @@ public class Chart extends AbstractChart {
 
     // Add chat title
     if (getLabel() != null) {
-      chartModel.put(ChartConstants.TITLE, new TextParameter(getLabel()));
+      chartModel.put(ChartConstants.TITLE, getTextParameter(getLabel()));
     }
 
     // Add chat subtitle
     if (getSubTitle() != null) {
-      chartModel.put(ChartConstants.SUBTITLE, new TextParameter(getSubTitle()));
+      chartModel.put(ChartConstants.SUBTITLE, getTextParameter(getSubTitle()));
     }
 
     // Add xAsis model
@@ -247,10 +245,8 @@ public class Chart extends AbstractChart {
    * @return Json chart node general
    */
   @SuppressWarnings("incomplete-switch")
-  private JsonNode getChartInfo() {
-    // Variable definition
-    JsonNodeFactory factory = JsonNodeFactory.instance;
-    ObjectNode chartNode = factory.objectNode();
+  private Map<String, Object> getChartInfo() {
+    Map<String, Object> chartInfo = new HashMap<>();
 
     // Set chart TYPE attributes
     // --------------------------------------------------------------------------
@@ -258,56 +254,56 @@ public class Chart extends AbstractChart {
     if (this.getType() != null) {
       switch (chartType) {
         case COLUMN_3D:
-          chartNode.put(ChartConstants.TYPE, ChartConstants.COLUMN);
+          chartInfo.put(ChartConstants.TYPE, ChartConstants.COLUMN);
           break;
         case PIE_3D:
         case DONUT:
         case DONUT_3D:
         case SEMICIRCLE:
-          chartNode.put(ChartConstants.TYPE, ChartConstants.PIE);
+          chartInfo.put(ChartConstants.TYPE, ChartConstants.PIE);
           break;
         default:
-          chartNode.put(ChartConstants.TYPE, chartType.toString().toLowerCase());
+          chartInfo.put(ChartConstants.TYPE, chartType.toString().toLowerCase());
           break;
       }
     }
 
     // Set if inverted
     // --------------------------------------------------------------------------
-    chartNode.put(ChartConstants.INVERTED, isInverted());
+    chartInfo.put(ChartConstants.INVERTED, isInverted());
 
     // Check 3D options
     if (is3DChart()) {
-      ObjectNode options3DNode = factory.objectNode();
+      Map<String, Object> options3DNode = new HashMap<>();
       options3DNode.put(ChartConstants.ENABLED, true);
       switch (chartType) {
         case COLUMN_3D:
-          options3DNode.set(ChartConstants.ALPHA, factory.numberNode(15));
-          options3DNode.set(ChartConstants.BETA, factory.numberNode(15));
+          options3DNode.put(ChartConstants.ALPHA, 15);
+          options3DNode.put(ChartConstants.BETA, 15);
           break;
 
         case PIE_3D:
-          options3DNode.set(ChartConstants.ALPHA, factory.numberNode(45));
-          options3DNode.set(ChartConstants.BETA, factory.numberNode(0));
+          options3DNode.put(ChartConstants.ALPHA, 45);
+          options3DNode.put(ChartConstants.BETA, 0);
           break;
 
         case DONUT_3D:
-          options3DNode.set(ChartConstants.ALPHA, factory.numberNode(45));
+          options3DNode.put(ChartConstants.ALPHA, 45);
           break;
 
         default:
           options3DNode.put(ChartConstants.ENABLED, false);
 
       }
-      chartNode.set(ChartConstants.OPTIONS3D, options3DNode);
+      chartInfo.put(ChartConstants.OPTIONS3D, options3DNode);
     }
 
     // Set zoom TYPE
     if (this.getZoomType() != null) {
-      chartNode.put(ChartConstants.ZOOM_TYPE, this.getZoomType());
+      chartInfo.put(ChartConstants.ZOOM_TYPE, this.getZoomType());
     }
 
-    return chartNode;
+    return chartInfo;
   }
 
   /**
@@ -315,11 +311,11 @@ public class Chart extends AbstractChart {
    *
    * @return Json plotOptions node
    */
-  private JsonNode getPlotOptions() {
+  private Map<String, Object> getPlotOptions() {
     // Variable definition
     JsonNodeFactory factory = JsonNodeFactory.instance;
-    ObjectNode plotOptionsNode = factory.objectNode();
-    ObjectNode charTypePlotOpt = factory.objectNode();
+    Map<String, Object> plotOptionsNode = new HashMap<>();
+    Map<String, Object> charTypePlotOpt = new HashMap<>();
     ChartType chartType = ChartType.valueOf(this.getType().toUpperCase());
 
     // Stacked chart series
@@ -330,11 +326,11 @@ public class Chart extends AbstractChart {
     if (is3DChart()) {
       switch (chartType) {
         case PIE_3D:
-          charTypePlotOpt.set(ChartConstants.DEPTH, factory.numberNode(35));
+          charTypePlotOpt.put(ChartConstants.DEPTH, 35);
           break;
         case DONUT_3D:
-          charTypePlotOpt.set(ChartConstants.INNER_SIZE, factory.numberNode(100));
-          charTypePlotOpt.set(ChartConstants.DEPTH, factory.numberNode(45));
+          charTypePlotOpt.put(ChartConstants.INNER_SIZE, 100);
+          charTypePlotOpt.put(ChartConstants.DEPTH, 45);
           break;
         default:
       }
@@ -342,7 +338,7 @@ public class Chart extends AbstractChart {
 
     // Data labels
     if (this.isEnableDataLabels()) {
-      ObjectNode dataLabelsNode = factory.objectNode();
+      Map<String, Object> dataLabelsNode = new HashMap<>();
       dataLabelsNode.put(ChartConstants.ENABLED, true);
 
       // Format data labels
@@ -350,20 +346,20 @@ public class Chart extends AbstractChart {
         dataLabelsNode.put(ChartConstants.FORMAT, this.getFormatDataLabels());
       }
 
-      charTypePlotOpt.set(ChartConstants.DATALABELS, dataLabelsNode);
+      charTypePlotOpt.put(ChartConstants.DATALABELS, dataLabelsNode);
     }
 
     // Set fields to plot options node
     switch (chartType) {
       case COLUMN_3D:
-        plotOptionsNode.set(ChartConstants.COLUMN, charTypePlotOpt);
+        plotOptionsNode.put(ChartConstants.COLUMN, charTypePlotOpt);
         break;
       case PIE:
       case PIE_3D:
         generateLegend(charTypePlotOpt);
         charTypePlotOpt.put(ChartConstants.CURSOR, ChartConstants.POINTER);
         charTypePlotOpt.put(ChartConstants.ALLOW_POINT_SELECT, true);
-        plotOptionsNode.set(ChartConstants.PIE, charTypePlotOpt);
+        plotOptionsNode.put(ChartConstants.PIE, charTypePlotOpt);
         break;
 
       case DONUT:
@@ -372,7 +368,7 @@ public class Chart extends AbstractChart {
         charTypePlotOpt.put(ChartConstants.CURSOR, ChartConstants.POINTER);
         charTypePlotOpt.put(ChartConstants.ALLOW_POINT_SELECT, true);
         charTypePlotOpt.put(ChartConstants.INNER_SIZE, "50%");
-        plotOptionsNode.set(ChartConstants.PIE, charTypePlotOpt);
+        plotOptionsNode.put(ChartConstants.PIE, charTypePlotOpt);
         break;
 
       case SEMICIRCLE:
@@ -380,18 +376,18 @@ public class Chart extends AbstractChart {
         charTypePlotOpt.put(ChartConstants.CURSOR, ChartConstants.POINTER);
         charTypePlotOpt.put(ChartConstants.ALLOW_POINT_SELECT, true);
         // Set start and eng angle of circle
-        charTypePlotOpt.set(ChartConstants.START_ANGLE, factory.numberNode(-90));
-        charTypePlotOpt.set(ChartConstants.END_ANGLE, factory.numberNode(90));
+        charTypePlotOpt.put(ChartConstants.START_ANGLE, factory.numberNode(-90));
+        charTypePlotOpt.put(ChartConstants.END_ANGLE, factory.numberNode(90));
         // Set center of semicircle
-        ArrayNode centerArrayNode = factory.arrayNode();
+        List<Object> centerArrayNode = new ArrayList<>();
         centerArrayNode.add("50%");
         centerArrayNode.add("75%");
-        charTypePlotOpt.set(ChartConstants.CENTER, centerArrayNode);
+        charTypePlotOpt.put(ChartConstants.CENTER, centerArrayNode);
         charTypePlotOpt.put(ChartConstants.INNER_SIZE, "50%");
-        plotOptionsNode.set(ChartConstants.PIE, charTypePlotOpt);
+        plotOptionsNode.put(ChartConstants.PIE, charTypePlotOpt);
         break;
       default:
-        plotOptionsNode.set(chartType.toString().toLowerCase(), charTypePlotOpt);
+        plotOptionsNode.put(chartType.toString().toLowerCase(), charTypePlotOpt);
     }
 
     return plotOptionsNode;
@@ -402,7 +398,7 @@ public class Chart extends AbstractChart {
    *
    * @param charTypePlotOpt Plot options
    */
-  private void generateLegend(ObjectNode charTypePlotOpt) {
+  private void generateLegend(Map<String, Object> charTypePlotOpt) {
     if (this.chartLegend != null && this.chartLegend.isEnabled()) {
       charTypePlotOpt.put(ChartConstants.SHOW_IN_LEGEND, true);
     }

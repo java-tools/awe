@@ -148,7 +148,7 @@ public class ChartParameter extends AbstractChart {
    */
   public Map<String, Object> getParameterObject(Map<String, Object> model) {
     // Get array node if it has already the parameter
-    Map<String, Object> objectMap = (Map<String, Object>) (model.containsKey(this.getName()) ? model.get(this.getName()) : new HashMap<>());
+    Map<String, Object> objectMap = (Map<String, Object>) (model.containsKey(getName()) ? model.get(getName()) : new HashMap<>());
 
     // Get elements (columns)
     List<ChartParameter> parameterList = getElementList();
