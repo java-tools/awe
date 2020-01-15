@@ -70,24 +70,6 @@ public class ChartParameter extends AbstractChart {
   }
 
   /**
-   * Get chart parameter by name
-   *
-   * @param name Parameter name
-   * @return Parameter name
-   */
-  public ChartParameter getChartParameterByName(String name) {
-    ChartParameter parameterFound = null;
-    // Get chart parameter list
-    List<ChartParameter> parameterList = getElementList();
-    for (ChartParameter parameter : parameterList) {
-      if (name.equalsIgnoreCase(parameter.getName())) {
-        parameterFound = parameter;
-      }
-    }
-    return parameterFound;
-  }
-
-  /**
    * Returns the chart parameter node
    *
    * @param model Parent node
