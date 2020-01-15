@@ -21,7 +21,10 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Chart Class
@@ -165,80 +168,75 @@ public class Chart extends AbstractChart {
    * @return Chart model
    */
   @JsonGetter("chartModel")
-  public ObjectNode getChartModel() {
-    JsonNodeFactory factory = JsonNodeFactory.instance;
-    ObjectNode chartNode = factory.objectNode();
+  public Map<String, Object> getChartModel() {
+    Map<String, Object> chartModel = new HashMap<>();
 
     // Add node general chart options
     if (getType() != null) {
       // Check if is stock chart
-      chartNode.put(ChartConstants.STOCK_CHART, isStockChart());
+      chartModel.put(ChartConstants.STOCK_CHART, isStockChart());
 
       // Add chart general information
-      chartNode.set(ChartConstants.CHART, getChartInfo());
+      chartModel.put(ChartConstants.CHART, getChartInfo());
 
       // Add plotOptions to chart
-      chartNode.set(ChartConstants.PLOT_OPTIONS, getPlotOptions());
+      chartModel.put(ChartConstants.PLOT_OPTIONS, getPlotOptions());
     }
 
     // Set theme
     if (getTheme() != null) {
-      chartNode.put(ChartConstants.THEME, getTheme());
+      chartModel.put(ChartConstants.THEME, getTheme());
     }
 
     // Disable chart credits
-    ObjectNode creditsNode = factory.objectNode();
-    creditsNode.put(ChartConstants.ENABLED, false);
-    chartNode.set(ChartConstants.CREDITS, creditsNode);
+    Map<String, Object> creditsMap = new HashMap<>();
+    creditsMap.put(ChartConstants.ENABLED, false);
+    chartModel.put(ChartConstants.CREDITS, creditsMap);
 
     // Add chat title
     if (getLabel() != null) {
-      ObjectNode nodeTitle = JsonNodeFactory.instance.objectNode();
-      nodeTitle.put(ChartConstants.TEXT, this.getLabel());
-      chartNode.set(ChartConstants.TITLE, nodeTitle);
+      chartModel.put(ChartConstants.TITLE, new TextParameter(getLabel()));
     }
 
     // Add chat subtitle
     if (getSubTitle() != null) {
-      ObjectNode nodeSubTitle = JsonNodeFactory.instance.objectNode();
-      nodeSubTitle.put(ChartConstants.TEXT, this.getSubTitle());
-      chartNode.set(ChartConstants.SUBTITLE, nodeSubTitle);
+      chartModel.put(ChartConstants.SUBTITLE, new TextParameter(getSubTitle()));
     }
 
     // Add xAsis model
     if (getXAxisList() != null) {
-      chartNode.set(ChartConstants.X_AXIS, this.getAxisModel(getXAxisList()));
+      chartModel.put(ChartConstants.X_AXIS, getAxisModel(getXAxisList()));
     }
     // Add yAsis model
     if (getYAxisList() != null) {
-      chartNode.set(ChartConstants.Y_AXIS, this.getAxisModel(getYAxisList()));
+      chartModel.put(ChartConstants.Y_AXIS, getAxisModel(getYAxisList()));
     }
 
     // Add series model
     if (getSerieList() != null) {
-      chartNode.set(ChartConstants.SERIES, this.getSeriesModel(getSerieList(), false));
+      chartModel.put(ChartConstants.SERIES, this.getSeriesModel(getSerieList(), false));
 
       // Add drilldown series model
-      ObjectNode seriesDrilldown = JsonNodeFactory.instance.objectNode();
-      seriesDrilldown.set(ChartConstants.SERIES, this.getSeriesModel(getSerieList(), true));
-      chartNode.set(ChartConstants.DRILL_DOWN, seriesDrilldown);
+      Map<String, Object> seriesDrilldown = new HashMap<>();
+      seriesDrilldown.put(ChartConstants.SERIES, getSeriesModel(getSerieList(), true));
+      chartModel.put(ChartConstants.DRILL_DOWN, seriesDrilldown);
     }
 
     // Add tooltip model
     if (getChartTooltip() != null) {
-      chartNode.set(ChartConstants.TOOLTIP, this.getTooltipModel(getChartTooltip()));
+      chartModel.put(ChartConstants.TOOLTIP, this.getTooltipModel(getChartTooltip()));
     }
 
     // Add legend model
     if (getChartLegend() != null) {
-      chartNode.set(ChartConstants.LEGEND, this.getLegendModel(getChartLegend()));
+      chartModel.put(ChartConstants.LEGEND, this.getLegendModel(getChartLegend()));
     }
 
     // Update model with chart parameters
-    addParameters(chartNode);
+    addParameters(chartModel);
 
     // Return string parameter list
-    return chartNode;
+    return chartModel;
   }
 
   /**
@@ -413,10 +411,8 @@ public class Chart extends AbstractChart {
    * @param typeAxisList axis TYPE element list
    * @return Json node with Axis element
    */
-  private JsonNode getAxisModel(List<ChartAxis> typeAxisList) {
-
-    // Array with TYPE of Axis
-    ArrayNode axisModel = JsonNodeFactory.instance.arrayNode();
+  private List<Object> getAxisModel(List<ChartAxis> typeAxisList) {
+    List<Object> axisModel = new ArrayList<>();
 
     // Add axis controller attributes
     for (ChartAxis axis : typeAxisList) {
@@ -432,10 +428,10 @@ public class Chart extends AbstractChart {
    * @param drilldown flag inidicate serie drilldown TYPE
    * @return Json node with series element
    */
-  private JsonNode getSeriesModel(List<ChartSerie> serieList, boolean drilldown) {
+  private List<Object> getSeriesModel(List<ChartSerie> serieList, boolean drilldown) {
 
     // Array with chart series
-    ArrayNode seriesModel = JsonNodeFactory.instance.arrayNode();
+    List<Object> seriesModel = new ArrayList<>();
 
     // Add axis controller attributes
     for (ChartSerie serie : serieList) {
@@ -452,7 +448,7 @@ public class Chart extends AbstractChart {
    * @param chartTooltip Tooltip object
    * @return Json node with tooltip element
    */
-  private JsonNode getTooltipModel(ChartTooltip chartTooltip) {
+  private Map<String, Object> getTooltipModel(ChartTooltip chartTooltip) {
     // Get tooltip controller
     return chartTooltip.getModel();
   }
@@ -463,7 +459,7 @@ public class Chart extends AbstractChart {
    * @param chartLegend Legend object
    * @return Json node with legend element
    */
-  private JsonNode getLegendModel(ChartLegend chartLegend) {
+  private Map<String, Object> getLegendModel(ChartLegend chartLegend) {
     return chartLegend.getModel();
   }
 

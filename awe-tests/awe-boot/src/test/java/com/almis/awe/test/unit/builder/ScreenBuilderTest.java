@@ -63,6 +63,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -663,7 +664,7 @@ public class ScreenBuilderTest {
     assertTrue(DataType.DOUBLE.equalsStr(chartParameter.getType()));
     assertEquals("parameterName", chartParameter.getName());
     assertEquals("0.1213", chartParameter.getValue());
-    assertEquals(0.1213, chartParameter.getParameterValue(JsonNodeFactory.instance.objectNode()).asDouble(), 0.01);
+    assertEquals(0.1213, (Double) chartParameter.getParameterValue(new HashMap<>()), 0.01);
 
     ChartSerie chartSerie = (ChartSerie) chart.getElementList().get(1);
     assertEquals("red", chartSerie.getColor());

@@ -2,8 +2,6 @@ package com.almis.awe.model.entities.screen.component.chart;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.util.data.ListUtil;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import lombok.EqualsAndHashCode;
@@ -13,14 +11,16 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * ChartAxis Class
- *
+ * <p>
  * Used to parse a chart Axis tag with XStream
- *
- *
+ * <p>
+ * <p>
  * Generates an Chart widget
- *
  *
  * @author Pablo VIDAL - 21/OCT/2014
  */
@@ -73,6 +73,7 @@ public class ChartAxis extends AbstractChart {
 
   /**
    * Returns if allow decimals
+   *
    * @return Allow decimals
    */
   public boolean isAllowDecimal() {
@@ -81,6 +82,7 @@ public class ChartAxis extends AbstractChart {
 
   /**
    * Returns if is opposite
+   *
    * @return Is opposite
    */
   public boolean isOpposite() {
@@ -92,61 +94,37 @@ public class ChartAxis extends AbstractChart {
    *
    * @return Axis model
    */
-  public ObjectNode getModel() {
-
-    // Variable definition
-    JsonNodeFactory factory = JsonNodeFactory.instance;
-    ObjectNode axisNode = factory.objectNode();
-
-    // ----------- labels node in axis ------------
-    // --------------------------------------------------
-    ObjectNode labelNode = factory.objectNode();
+  public Map<String, Object> getModel() {
+    Map<String, Object> model = new HashMap<>();
 
     // Set axis title
     if (getLabel() != null) {
-      ObjectNode nodeTitle = factory.objectNode();
-      nodeTitle.put(ChartConstants.TEXT, getLabel());
-      axisNode.set(ChartConstants.TITLE, nodeTitle);
-    }
-
-    // Set label format
-    if (getLabelFormat() != null) {
-      labelNode.put(ChartConstants.FORMAT, getLabelFormat());
-    }
-
-    // Set label format
-    if (getFormatterFunction() != null) {
-      labelNode.put(ChartConstants.FORMATTER, getFormatterFunction());
-    }
-
-    // Set label rotation
-    if (getLabelRotation() != null) {
-      labelNode.put(ChartConstants.ROTATION, getLabelRotation());
+      model.put(ChartConstants.TITLE, new TextParameter(getLabel()));
     }
 
     // Set labels node
-    axisNode.set(ChartConstants.LABELS, labelNode);
+    model.put(ChartConstants.LABELS, new LabelParameter(getLabelFormat(), getFormatterFunction(), getLabelRotation()));
     // ----------------------------------------------------
 
     // Set axis type
     if (getType() != null) {
-      axisNode.put(ChartConstants.TYPE, getType());
+      model.put(ChartConstants.TYPE, getType());
     }
 
     // Set tick-interval
     if (getTickInterval() != null) {
-      axisNode.put(ChartConstants.TICK_INTERVAL, Integer.valueOf(getTickInterval()));
+      model.put(ChartConstants.TICK_INTERVAL, Integer.valueOf(getTickInterval()));
     }
 
     // Set allow-decimal
-    axisNode.put(ChartConstants.ALLOW_DECIMALS, isAllowDecimal());
+    model.put(ChartConstants.ALLOW_DECIMALS, isAllowDecimal());
 
     // Axis opposite
-    axisNode.put(ChartConstants.OPPOSITE, isOpposite());
+    model.put(ChartConstants.OPPOSITE, isOpposite());
 
     // Update model with chart parameters
-    addParameters(axisNode);
+    addParameters(model);
 
-    return axisNode;
+    return model;
   }
 }
