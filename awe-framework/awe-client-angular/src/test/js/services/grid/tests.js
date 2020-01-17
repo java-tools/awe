@@ -1,1 +1,3 @@
-import './commons.js';
+describe('Grid', function() {
+  require('./commons.js');
+});

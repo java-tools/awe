@@ -1,6 +1,6 @@
 import {DefaultSettings} from "../../../main/resources/js/awe/data/options";
 
-describe('awe-framework/awe-client-angular/src/test/js/services/settings.js', function() {
+describe('Settings service', function() {
   let $injector, $utilities, $settings, $storage, $rootScope, $translate, $httpBackend, $log, $state, $serverData, $connection;
   let originalTimeout;
 

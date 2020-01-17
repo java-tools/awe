@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/services/action.js', function() {
+describe('Action service', function() {
   let $injector, Action, $log;
   let originalTimeout;
 

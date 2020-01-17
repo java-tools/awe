@@ -1,1 +1,3 @@
-import './actionController.js';
+describe('Singletons', function() {
+  require('./actionController.js');
+});

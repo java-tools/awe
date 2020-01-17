@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/services/chart/chart.js', function () {
+describe('Chart service', function () {
   let $injector, Chart, $rootScope;
   let originalTimeout;
 

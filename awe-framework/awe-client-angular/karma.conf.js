@@ -118,7 +118,7 @@ module.exports = (config) => {
     sonarQubeUnitReporter: {
       sonarQubeVersion: 'LATEST',
       outputFile: path.join("junit", "javascriptUnitTests.xml"),
-      overrideTestDescription: false,
+      overrideTestDescription: true,
       testFilePattern: '.js',
       useBrowserName: false
     },
