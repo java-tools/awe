@@ -1,4 +1,4 @@
-describe('Action Controller singleton', function() {
+describe('awe-framework/awe-client-angular/src/test/js/services/actionController.js', function() {
   let $injector, $actionController, $settings, $utilities;
   let originalTimeout;
 

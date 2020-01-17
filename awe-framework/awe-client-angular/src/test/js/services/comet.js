@@ -1,4 +1,4 @@
-describe('Comet service', function() {
+describe('awe-framework/awe-client-angular/src/test/js/services/comet.js', function() {
   let $injector, $utilities, $actionController, $comet;
   let originalTimeout;
 

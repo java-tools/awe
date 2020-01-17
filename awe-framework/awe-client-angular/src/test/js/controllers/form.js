@@ -1,6 +1,6 @@
 import {DefaultSettings} from "../../../main/resources/js/awe/data/options";
 
-describe('Form controller', function() {
+describe('awe-framework/awe-client-angular/src/test/js/controllers/form.js', function() {
   let $scope, $compile, $utilities, $settings, $actionController, $control, $serverData, $validator, $httpBackend;
   let originalTimeout;
 

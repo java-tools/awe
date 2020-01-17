@@ -1,4 +1,4 @@
-describe('Validation Rules service', function() {
+describe('awe-framework/awe-client-angular/src/test/js/services/validationRules.js', function() {
   let $control, $settings, $rules;
   let originalTimeout;
 

@@ -1,4 +1,4 @@
-describe('View controller', function() {
+describe('awe-framework/awe-client-angular/src/test/js/controllers/view.js', function() {
   let scope, controller, $utilities, $actionController, $loadingBar, $storage;
   let originalTimeout;
 

@@ -1,6 +1,6 @@
 import {DefaultSettings} from "../../../main/resources/js/awe/data/options";
 
-describe('Selector service', function() {
+describe('awe-framework/awe-client-angular/src/test/js/services/selector.js', function() {
   let $injector, $utilities, $settings, $control, $rootScope, $translate, $httpBackend, $log, $actionController, $criterion, $selector;
   let originalTimeout;
   let controller = {};

@@ -1,4 +1,4 @@
-describe('Control service', function() {
+describe('awe-framework/awe-client-angular/src/test/js/services/control.js', function() {
   let $injector, $control, $utilities, $storage, $log;
   let originalTimeout;
 

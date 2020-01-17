@@ -1,7 +1,7 @@
 import { DefaultSettings } from "./../../../main/resources/js/awe/data/options";
 import { launchScreenAction } from "../utils";
 
-describe('Screen service', function() {
+describe('awe-framework/awe-client-angular/src/test/js/services/screen.js', function() {
   let $injector, $utilities, $settings, $actionController, $windowMock, $control, $rootScope, $state, $storage, $httpBackend, $location;
   let originalTimeout;
 

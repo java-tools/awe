@@ -1,7 +1,7 @@
 import { DefaultSettings } from "./../../../main/resources/js/awe/data/options";
 import { launchScreenAction } from "../utils";
 
-describe('Select component', function() {
+describe('awe-framework/awe-client-angular/src/test/js/components/select.js', function() {
   var $injector, $rootScope, $compile, $httpBackend, $actionController, $screen, $control, $storage;
 
   // Mock module

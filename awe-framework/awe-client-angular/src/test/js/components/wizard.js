@@ -1,7 +1,7 @@
 import { DefaultSettings } from "./../../../main/resources/js/awe/data/options";
 import { launchScreenAction } from "../utils";
 
-describe('Wizard component', function() {
+describe('awe-framework/awe-client-angular/src/test/js/components/wizard.js', function() {
   let $injector, $rootScope, $compile, $httpBackend, $actionController, $storage, $control, $utilities;
   let model = {page:1, records:3, selected: "3", total:1, values:[{label: "Step 1", value: "1"}, {label: "Step 2", value: "2"}, {label: "Step 3", value: "3"}]};
   let emptyModel = {page:1, records:0, selected: null, total:0, values:[]};

@@ -1,4 +1,4 @@
-describe('Validator service', function() {
+describe('awe-framework/awe-client-angular/src/test/js/services/validator.js', function() {
   let $control, $utilities, $settings, $validator, $window;
   let originalTimeout;
 

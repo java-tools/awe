@@ -1,4 +1,4 @@
-describe('ServerData service', function() {
+describe('awe-framework/awe-client-angular/src/test/js/services/serverData.js', function() {
   let $injector, $serverData, $storage, $log;
   let originalTimeout;
 
