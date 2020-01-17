@@ -13,6 +13,7 @@ import com.almis.awe.service.data.builder.SQLQueryBuilder;
 import com.almis.awe.service.data.connector.maintain.SQLMaintainConnector;
 import com.almis.awe.service.data.connector.query.SQLQueryConnector;
 import com.almis.awe.template.FixedOracleTemplates;
+import com.almis.awe.template.FixedSQLServerTemplates;
 import com.querydsl.sql.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -77,7 +78,7 @@ public class SQLConfig {
   @Bean
   @Scope("prototype")
   public Configuration sqlserverDatabaseConfiguration() {
-    return getConfiguration(new SQLServer2012Templates());
+    return getConfiguration(new FixedSQLServerTemplates());
   }
 
   /**

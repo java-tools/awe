@@ -61,13 +61,9 @@
   <!-- Scheduler task list -->
   <query id="getTaskExecutionList">
     <table id="AweSchExe"/>
-    <field id="ExeTsk" alias="ExeTsk"/>
-    <operation alias="id" operator="CONCAT">
-      <field id="IdeTsk"/>
-      <constant value="-"/>
-      <field id="ExeTsk"/>
-    </operation>
     <field id="IdeTsk" alias="IdeTsk"/>
+    <field id="ExeTsk" alias="ExeTsk"/>
+    <computed alias="id" format="[IdeTsk]-[ExeTsk]"/>
     <field id="GrpTsk" alias="TypLch"/>
     <field id="Sta" alias="Sta"/>
     <field id="IniDat" alias="ExeLstTim"/>
