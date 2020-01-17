@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/services/column.js', function() {
+describe('Column service', function() {
   let $injector, $control, $utilities, Column;
   let originalTimeout;
   let address = {"component": "grid", "view": "report", "row": "2", "column": "value"};

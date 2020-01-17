@@ -1,5 +1,5 @@
 import { DefaultSettings } from "./../../../main/resources/js/awe/data/options";
-import { launchScreenAction } from "../services/screen";
+import { launchScreenAction } from "../utils";
 
 describe('Select component', function() {
   var $injector, $rootScope, $compile, $httpBackend, $actionController, $screen, $control, $storage;

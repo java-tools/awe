@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/services/component.js', function () {
+describe('Component service', function () {
   let $rootScope, $injector, $control, $utilities, Component;
   let originalTimeout;
   let address = {"component": "comp1", "view": "report"};

@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/controllers/download.js', function() {
+describe('Download controller', function() {
   let scope, controller, $utilities, $actionController, $dependencyController, $screen;
   let originalTimeout;
 

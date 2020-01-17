@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/services/ajax.js', function() {
+describe('Ajax service', function() {
   let $injector, $ajax, $settings, $httpBackend, $loadingBar, $actionController, Action;
   let originalTimeout;
 

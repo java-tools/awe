@@ -1,28 +1,7 @@
 import { DefaultSettings } from "./../../../main/resources/js/awe/data/options";
+import { launchScreenAction } from "../utils";
 
-/**
- * Launch a screen action
- * @param {String} actionName Action name
- * @param {String} actionMethod Action method
- * @param {Object} parameters Parameters
- * @param {Function} done Launch when done
- */
-export function launchScreenAction($injector, actionName, actionMethod, parameters, done) {
-  let $screen = $injector.get('Screen');
-  let $actionController = $injector.get('ActionController');
-
-  // Launch action
-  $actionController.closeAllActions();
-  let action = $actionController.generateAction({type: actionName, ...parameters}, {address: {view: "base"}}, true, true);
-
-  // Spy screen action
-  spyOn(action, "accept").and.callFake(done);
-
-  // Call action
-  $screen[actionMethod].call(this, action);
-}
-
-describe('awe-framework/awe-client-angular/src/test/js/services/screen.js', function() {
+describe('Screen service', function() {
   let $injector, $utilities, $settings, $actionController, $windowMock, $control, $rootScope, $state, $storage, $httpBackend, $location;
   let originalTimeout;
 

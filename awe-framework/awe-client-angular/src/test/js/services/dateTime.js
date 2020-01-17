@@ -1,6 +1,6 @@
 import {DefaultSettings} from "../../../main/resources/js/awe/data/options";
 
-describe('awe-framework/awe-client-angular/src/test/js/services/dateTime.js', function() {
+describe('DateTime service', function() {
   let $injector, $utilities, $settings, $control, $rootScope, $translate, $httpBackend, $log, $actionController, $criterion, $dateTime;
   let originalTimeout;
   let controller = {};

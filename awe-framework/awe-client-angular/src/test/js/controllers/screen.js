@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/controllers/screen.js', function() {
+describe('Screen controller', function() {
   let scope, controller, $settings, $actionController, $dependencyController, $screen;
   let originalTimeout;
 

@@ -1,7 +1,7 @@
 import { DefaultSettings } from "./../../../main/resources/js/awe/data/options";
 import Slider from "bootstrap-slider";
 
-describe('awe-framework/awe-client-angular/src/test/js/plugins/uiSlider.js', function() {
+describe('uiSlider plugin', function() {
   let $rootScope, $compile, $httpBackend, $storage, $control, $utilities;
   let numericOptions = "{precision:5}";
   let controller = {numberFormat: "{min: 0}", checkInitial: true, checkTarget:false, checked:false, component:"wizard", contextMenu:[], dependencies:[], icon:"search", id:"wizardId", loadAll:false, optional:false, placeholder:"SCREEN_TEXT_USER", printable:true, readonly:false, required:true, size:"lg", strict:true, style:"no-label", validation:"required", visible:true};

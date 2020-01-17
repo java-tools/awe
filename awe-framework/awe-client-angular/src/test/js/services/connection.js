@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/services/connection.js', function() {
+describe('Connection service', function() {
   let $injector, $ajax, $connection;
   let originalTimeout;
 

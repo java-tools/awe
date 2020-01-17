@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js', function () {
+describe('Commons service', function () {
   let $injector, GridCommons;
   let originalTimeout;
   const getDefaultComponent = () => ({

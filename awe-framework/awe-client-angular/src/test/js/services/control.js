@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/services/control.js', function() {
+describe('Control service', function() {
   let $injector, $control, $utilities, $storage, $log;
   let originalTimeout;
 
@@ -81,7 +81,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/control.js', fun
 
     // Mock
     spyOn($storage, "has").and.callFake(action => {
-      return action === "otra" ? false : true;
+      return action !== "otra";
     });
     spyOn($storage, "get").and.returnValue({"lala":{"tutu":{"cells":{"tutu":"epa"}}, "otro":{}}});
     spyOn($utilities, "getCellId").and.returnValue("lolo");

@@ -8744,30 +8744,35 @@
             <span class="text-bold text-uppercase" translate-multiple="PARAMETER_PRN_ACTION"></span>
             <span translate-multiple="HELP_CRITERION" class="text-xxs text-uppercase"></span>
           </h6>
+          <p class=" no-margin text-justify" translate-multiple="HELP_PRINT_ACTION_CRITERION"></p>
         </div><div class="help-snippet padding-sm-vr no-padding-t">
           <h6 class="text-success text-semibold text-sm">
             <i class="fa fa-pencil-square-o fa-fw"></i>
             <span class="text-bold text-uppercase" translate-multiple="PARAMETER_PRN_TYPE"></span>
             <span translate-multiple="HELP_CRITERION" class="text-xxs text-uppercase"></span>
           </h6>
+          <p class=" no-margin text-justify" translate-multiple="HELP_PRINT_SELECTION_CRITERION"></p>
         </div><div class="help-snippet padding-sm-vr no-padding-t">
           <h6 class="text-success text-semibold text-sm">
             <i class="fa fa-pencil-square-o fa-fw"></i>
             <span class="text-bold text-uppercase" translate-multiple="PARAMETER_DBL_FORMAT"></span>
             <span translate-multiple="HELP_CRITERION" class="text-xxs text-uppercase"></span>
           </h6>
+          <p class=" no-margin text-justify" translate-multiple="HELP_PRINT_NUMERIC_FORMAT_CRITERION"></p>
         </div><div class="help-snippet padding-sm-vr no-padding-t">
           <h6 class="text-success text-semibold text-sm">
             <i class="fa fa-pencil-square-o fa-fw"></i>
             <span class="text-bold text-uppercase" translate-multiple="PARAMETER_PRN_FORMAT"></span>
             <span translate-multiple="HELP_CRITERION" class="text-xxs text-uppercase"></span>
           </h6>
+          <p class=" no-margin text-justify" translate-multiple="HELP_PRINT_FORMAT_CRITERION"></p>
         </div><div class="help-snippet padding-sm-vr no-padding-t">
           <h6 class="text-success text-semibold text-sm">
             <i class="fa fa-pencil-square-o fa-fw"></i>
             <span class="text-bold text-uppercase" translate-multiple="ENUM_EML_DST_USR"></span>
             <span translate-multiple="HELP_CRITERION" class="text-xxs text-uppercase"></span>
           </h6>
+          <p class=" no-margin text-justify" translate-multiple="HELP_PRINT_DESTINATION_USERS_CRITERION"></p>
         </div>
         <hr/><div class="help-snippet padding-sm-vr no-padding-t">
           <h6 class="text-light-gray text-semibold text-sm">
@@ -8780,6 +8785,7 @@
             <span class="text-bold text-uppercase" translate-multiple="PARAMETER_REPORT_ORIENTATION"></span>
             <span translate-multiple="HELP_CRITERION" class="text-xxs text-uppercase"></span>
           </h6>
+          <p class=" no-margin text-justify" translate-multiple="HELP_PRINT_ORIENTATION_CRITERION"></p>
         </div>
         <hr/><div class="help-snippet padding-sm-vr no-padding-t">
           <h6 class="text-default text-semibold text-sm">

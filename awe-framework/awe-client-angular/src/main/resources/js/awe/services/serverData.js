@@ -235,7 +235,7 @@ aweApplication.factory('ServerData',
         getComponentData: function (component, model, method, args) {
           // Get data for component
           if (method in component) {
-            var componentData = component[method](args);
+            let componentData = component[method](args);
             // Check and warn if value is overwritten
             _.each(componentData, function (parameter, parameterId) {
               if (parameterId in model) {
@@ -272,11 +272,12 @@ aweApplication.factory('ServerData',
          */
         getFormValuesForPrinting: function () {
           // Retrieve action data
-          var model = {};
-          var api = Storage.get("api");
-          var fullModel = Storage.get("model");
-          var orientationModel = fullModel["report"]["reportOrientation"];
-          var orientation = orientationModel.selected || "PORTRAIT";
+          let model = {};
+          let api = Storage.get("api");
+          let fullModel = Storage.get("model");
+          let fullModelReport = fullModel["report"] || {};
+          let orientationModel = fullModelReport["reportOrientation"] || {};
+          let orientation = orientationModel.selected || "PORTRAIT";
 
           // Retrieve components from each view
           _.each(api, function (view) {

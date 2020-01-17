@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/services/utilities.js', function() {
+describe('Utilities service', function() {
   let $injector, $utilities
   let originalTimeout;
 
