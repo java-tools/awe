@@ -88,8 +88,8 @@ public class SchedulerConfig {
    * @return Task service
    */
   @Bean
-  public TaskService taskService(QueryService queryService, TaskDAO taskDAO) {
-    return new TaskService(queryService, taskDAO);
+  public TaskService taskService(QueryService queryService, QueryUtil queryUtil, TaskDAO taskDAO) {
+    return new TaskService(queryService, queryUtil, taskDAO);
   }
 
   /**

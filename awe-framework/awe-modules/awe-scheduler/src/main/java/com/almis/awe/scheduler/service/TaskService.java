@@ -4,6 +4,7 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
+import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.dao.TaskDAO;
 import com.almis.awe.service.QueryService;
@@ -23,16 +24,19 @@ public class TaskService {
 
   // Autowired services
   private QueryService queryService;
+  private QueryUtil queryUtil;
   private TaskDAO taskDAO;
 
   /**
    * Autowired constructor
-   *
    * @param queryService
+   * @param queryUtil
+   * @param taskDAO
    */
   @Autowired
-  public TaskService(QueryService queryService, TaskDAO taskDAO) {
+  public TaskService(QueryService queryService, QueryUtil queryUtil, TaskDAO taskDAO) {
     this.queryService = queryService;
+    this.queryUtil = queryUtil;
     this.taskDAO = taskDAO;
   }
 
@@ -45,7 +49,8 @@ public class TaskService {
     // Load the list of task from database
     List<Future<Task>> taskList = new ArrayList<>();
     try {
-      DataList dataList = queryService.launchPrivateQuery(SCHEDULER_LOAD_TASK_DETAILS_QUERY).getDataList();
+      DataList dataList = queryService.launchPrivateQuery(SCHEDULER_LOAD_TASK_DETAILS_QUERY,
+        queryUtil.getParameters(null, "1", "0")).getDataList();
       log.debug("[SCHEDULER][TASKS] Starting tasks load from current database");
 
       for (Map<String, CellData> row : dataList.getRows()) {
