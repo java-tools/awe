@@ -1,3 +1,1 @@
-describe('Chart', function() {
-  require('./chart.js');
-});
+require('./chart.js');

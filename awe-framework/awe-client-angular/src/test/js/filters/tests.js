@@ -1,4 +1,4 @@
-describe('awe-framework/awe-client-angular/src/test/js/filters/test.js', function() {
+describe('awe-framework/awe-client-angular/src/test/js/filters/tests.js', function() {
   var $filter, $translate, $control, $utilities, $settings;
   // Mock module
   beforeEach(function() {

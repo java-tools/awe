@@ -1,3 +1,1 @@
-describe('Singletons', function() {
-  require('./actionController.js');
-});
+require('./actionController.js');

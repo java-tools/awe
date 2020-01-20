@@ -1,3 +1,1 @@
-describe('Grid', function() {
-  require('./commons.js');
-});
+require('./commons.js');
