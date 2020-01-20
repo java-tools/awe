@@ -12,7 +12,8 @@ import org.junit.runners.Suite;
   CriteriaTest.class,
   QueryTest.class,
   ServiceDataTest.class,
-  ChartParameterTest.class
+  ChartParameterTest.class,
+  AweRequestTest.class
 })
 @RunWith(Suite.class)
 public class PojoTestsSuite {
