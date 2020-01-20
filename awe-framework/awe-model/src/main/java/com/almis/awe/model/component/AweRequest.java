@@ -1,6 +1,7 @@
 package com.almis.awe.model.component;
 
 import com.almis.awe.model.dto.CellData;
+import com.almis.awe.model.util.data.DateUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADER;
@@ -45,9 +47,9 @@ public class AweRequest {
   /**
    * Initialize parameters with targetId
    *
-   * @param targetId Action target
+   * @param targetId   Action target
    * @param parameters Servlet request
-   * @param token token
+   * @param token      token
    */
   public void init(String targetId, ObjectNode parameters, String token) {
     // Set target action
@@ -64,7 +66,7 @@ public class AweRequest {
    * Initialize parameters
    *
    * @param parameters Request parameters
-   * @param token token
+   * @param token      token
    */
   public void init(ObjectNode parameters, String token) {
     // Read parameters
@@ -75,59 +77,38 @@ public class AweRequest {
   }
 
   /**
-   * Stores the specific value of a parameter list in the internal parameter list
-   *
-   * @param name  Parameter name
-   * @param valueList Parameter value
-   */
-  public void setParameter(String name, List<CellData> valueList) {
-    ArrayNode nodeList = JsonNodeFactory.instance.arrayNode();
-    if (valueList != null) {
-      for (CellData value : valueList) {
-        nodeList.add(getCellDataAsParameter(value));
-      }
-      setParameter(name, nodeList);
-    }
-  }
-
-  /**
-   * Stores the specific value of a parameter list in the internal parameter list
-   *
-   * @param name  Parameter name
-   * @param valueList Parameter value
-   */
-  public void setParameter(String name, String... valueList) {
-    ArrayNode nodeList = JsonNodeFactory.instance.arrayNode();
-    if (valueList != null) {
-      for (String value : valueList) {
-        nodeList.add(value);
-      }
-      setParameter(name, nodeList);
-    }
-  }
-
-  /**
    * Stores the specific value of a parameter in the internal parameter list
    *
-   * @param name  Parameter name
-   * @param value Parameter value
+   * @param name      Parameter name
+   * @param valueList Parameter value
    */
-  public void setParameter(String name, Object value) {
-    setParameterObject(name, value);
+  public void setParameter(String name, Object... valueList) {
+    if (valueList == null) {
+      getParameterList().set(name, getParameterValue(null));
+    } else if (valueList.length > 1) {
+      ArrayNode nodeList = JsonNodeFactory.instance.arrayNode();
+      for (Object value : valueList) {
+        nodeList.add(getParameterValue(value));
+      }
+      setParameter(name, nodeList);
+    } else {
+      getParameterList().set(name, getParameterValue(valueList[0]));
+    }
   }
 
   /**
-   * Set parameter object
-   * @param name
-   * @param value
+   * Retrieve any parameter as JsonNode
+   *
+   * @param value Value
+   * @return JsonNode of value
    */
-  private void setParameterObject(String name, Object value) {
-    if (value != null) {
-      if (value instanceof JsonNode) {
-        getParameterList().set(name, (JsonNode) value);
-      } else {
-        getParameterList().putPOJO(name, value);
-      }
+  private JsonNode getParameterValue(Object value) {
+    JsonNodeFactory factory = JsonNodeFactory.instance;
+    ObjectMapper mapper = new ObjectMapper();
+    if (value instanceof Date) {
+      return factory.textNode(DateUtil.dat2WebTimestamp((Date) value));
+    } else {
+      return mapper.convertValue(value, JsonNode.class);
     }
   }
 
@@ -183,8 +164,8 @@ public class AweRequest {
   public String getParameterAsString(String parameterId) {
     String parameterValue = null;
     JsonNode parameter = getParameter(parameterId);
-    if (parameter != null) {
-      parameterValue = parameter.textValue();
+    if (parameter != null && !parameter.isNull()) {
+      parameterValue = parameter.asText();
     }
     return parameterValue;
   }
@@ -287,6 +268,7 @@ public class AweRequest {
 
   /**
    * Get connection token
+   *
    * @return Connection token
    */
   public String getToken() {
@@ -295,6 +277,7 @@ public class AweRequest {
 
   /**
    * Set connection token
+   *
    * @param token Connection token
    * @return this
    */
