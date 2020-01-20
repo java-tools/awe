@@ -561,7 +561,8 @@ public class TaskDAO extends ServiceConfig {
    * @throws AWException
    */
   public ServiceData getTaskExecutionList(Integer taskId) throws AWException {
-    ServiceData serviceData = queryService.launchQuery("getTaskExecutionList");
+    ObjectNode parameters = queryUtil.getParameters(null, "1", "0");
+    ServiceData serviceData = queryService.launchQuery("getTaskExecutionList", parameters);
     long averageExecution = getAverageTime(taskId);
     String logPath = executionLogPath;
 
@@ -818,7 +819,8 @@ public class TaskDAO extends ServiceConfig {
    */
   public ServiceData getTaskList() throws AWException {
     // Get task list details
-    ServiceData serviceData = queryService.launchQuery(SCHEDULER_LOAD_TASK_DETAILS_WITH_FILTER_QUERY);
+    ObjectNode parameters = queryUtil.getParameters(null, "1", "0");
+    ServiceData serviceData = queryService.launchQuery(SCHEDULER_LOAD_TASK_DETAILS_WITH_FILTER_QUERY, parameters);
     DataList filtered = new DataList();
     for (Map<String, CellData> row : serviceData.getDataList().getRows()) {
       // Add other parameters from the scheduler to the datalist
