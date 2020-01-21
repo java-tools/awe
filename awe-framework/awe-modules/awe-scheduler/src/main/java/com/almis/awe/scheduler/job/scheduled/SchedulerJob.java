@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
 @Component
 @Getter
 @Setter
-public class SchedulerJob implements InterruptableJob {
+public abstract class SchedulerJob implements InterruptableJob {
 
   private Task task;
   private TaskExecution execution;
