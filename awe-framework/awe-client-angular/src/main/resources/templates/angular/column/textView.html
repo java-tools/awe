@@ -1,4 +1,4 @@
-<div ng-show="component.controller.visible" class="column-input text-{{::component.controller.align}} no-animate" ui-dependency="dependencies" ng-mouseup="onClick()" ng-cloak title="{{component.visibleValue}}">
+<div ng-show="component.controller.visible" class="column-input text-{{::component.controller.align}} no-animate" ui-dependency="dependencies" ng-mouseup="onClick()" ng-cloak title="{{(component.controller.title || component.model.values[0].title || component.visibleValue) | translateMultiple}}">
   <span class="{{classes}} {{component.model.values[0].style}} col-xs-{{(component.controller.unit || component.model.values[0].unit) ? '10' : '12'}}" ng-cloak>
     <span ng-if="component.controller.icon || component.model.values[0].icon" class="text-icon fa fa-fw fa-{{component.controller.icon || component.model.values[0].icon}}" ng-cloak></span>
     <span class="text-value" ng-cloak>{{component.visibleValue}}</span>
