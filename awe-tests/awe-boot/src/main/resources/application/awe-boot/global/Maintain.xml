@@ -187,6 +187,35 @@
     </insert>
   </target>
 
+  <target name="SingleAndMultipleInsertWithSequence">
+    <insert>
+      <table id="AweThm"/>
+      <field id="IdeThm" sequence="ThmKey" variable="ThmVar"/>
+      <constant id="Nam" value="AWEBOOT-TEST"/>
+      <constant id="Act" type="INTEGER" value="1"/>
+      <variable id="ThmVar" type="INTEGER" name="ThmVar"/>
+    </insert>
+    <insert multiple="true">
+      <table id="HISAweThm"/>
+      <field id="HISope" variable="Other"/>
+      <constant id="HISact" value="X"/>
+      <constant id="HISdat" type="SYSTEM_DATE"/>
+      <field id="IdeThm" variable="ThmVar"/>
+      <field id="Nam" sequence="ThmKey"/>
+      <constant id="Act" type="INTEGER" value="1"/>
+      <variable id="ThmVar" type="INTEGER" name="ThmVar"/>
+      <variable id="Other" type="STRING" name="variable"/>
+    </insert>
+    <delete>
+      <table id="HISAweThm"/>
+      <where>
+        <and>
+          <filter left-field="HISact" condition="eq"><right-operand><constant value="X"/></right-operand></filter>
+        </and>
+      </where>
+    </delete>
+  </target>
+
   <target name="SimpleSingleInsertFromVariable">
     <insert>
       <table id="HISAweDbs"/>
