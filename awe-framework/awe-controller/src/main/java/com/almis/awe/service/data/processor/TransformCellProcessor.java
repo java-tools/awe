@@ -172,7 +172,7 @@ public class TransformCellProcessor implements CellProcessor {
     Date date = cell.getDateValue();
     if (date != null) {
       cell.setValue(date.getTime());
-      cell.setSendStringValue(true);
+      cell.setSendStringValue(false);
       transformed = String.valueOf(date.getTime());
     }
     return transformed;

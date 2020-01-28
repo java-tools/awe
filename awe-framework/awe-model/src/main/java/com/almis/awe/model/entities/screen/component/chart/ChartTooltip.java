@@ -92,7 +92,7 @@ public class ChartTooltip extends AbstractChart {
    * @return Is enabled
    */
   public boolean isEnabled() {
-    return enabled != null && enabled;
+    return enabled == null || enabled;
   }
 
   /**
