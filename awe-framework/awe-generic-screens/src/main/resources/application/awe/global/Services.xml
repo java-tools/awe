@@ -153,9 +153,6 @@
   <service id="ChgLogLvl">
     <java classname="com.almis.awe.service.LogService" method="changeLevel" />
   </service>
-  <service id="RepGenPdfLst">
-    <java classname="com.almis.awe.service.ReportService" method="getReportList" />
-  </service>
   <service id="viewPdf">
     <java classname="com.almis.awe.service.ReportService" method="viewPdfFile" />
   </service>
