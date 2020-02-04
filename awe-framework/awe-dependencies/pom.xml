@@ -44,7 +44,7 @@
 
     <!-- plugin versions -->
     <plugin-spring-boot.version>2.1.5.RELEASE</plugin-spring-boot.version>
-    <plugin-frontend.version>1.7.6</plugin-frontend.version>
+    <plugin-frontend.version>1.9.1</plugin-frontend.version>
     <plugin-compiler.version>3.5.1</plugin-compiler.version>
     <plugin-sonar.version>3.5.0.1254</plugin-sonar.version>
     <plugin-surefire.version>2.22.0</plugin-surefire.version>
