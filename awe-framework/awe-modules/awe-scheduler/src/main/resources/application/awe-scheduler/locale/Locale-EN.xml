@@ -91,9 +91,11 @@
   <locale name="MENU_NEW_SCHEDULER_CALENDAR" value="New calendar"/>
   <locale name="MENU_NEW_SCHEDULER_SERVER" value="New server"/>
   <locale name="MENU_NEW_SCHEDULER_TASK" value="New scheduled task"/>
+  <locale name="MENU_SCHEDULER" value="Scheduler"/>
   <locale name="MENU_SCHEDULER_CALENDARS" value="Calendars"/>
   <locale name="MENU_SCHEDULER_EDIT_CALENDAR" value="Edit calendar"/>
   <locale name="MENU_SCHEDULER_MANAGEMENT" value="Scheduler management"/>
+  <locale name="MENU_SCHEDULER_SERVERS" value="External servers"/>
   <locale name="MENU_SCHEDULER_TASKS" value="Task manager"/>
   <locale name="MENU_TASKS_BATCH" value="Task batch definition"/>
   <locale name="MENU_TASKS_BATCH_AUDIT" value="Processes batch audit"/>
