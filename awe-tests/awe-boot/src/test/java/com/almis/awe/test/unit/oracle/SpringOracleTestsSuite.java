@@ -14,6 +14,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
   MaintainOracleTest.class,
   QueryOracleTest.class,
+  OraclePerformanceTestsSuite.class,
   DirectServiceCallTest.class
 })
 @ExcludeCategory({NotCIDatabaseTest.class, NotOracleDatabaseTest.class})

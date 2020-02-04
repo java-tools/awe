@@ -14,10 +14,11 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
   MaintainMySQLTest.class,
   QueryMySQLTest.class,
+  MySQLPerformanceTestsSuite.class,
   DirectServiceCallTest.class
 })
 @ExcludeCategory({NotCIDatabaseTest.class, NotMySQLDatabaseTest.class})
 @Category(CIDatabaseTest.class)
-public class SpringMysqlTestsSuite {
+public class SpringMySQLTestsSuite {
 }
 

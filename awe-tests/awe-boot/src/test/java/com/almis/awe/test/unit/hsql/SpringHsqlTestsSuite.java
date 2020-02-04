@@ -11,7 +11,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
   MaintainTest.class,
   QueryTest.class,
+  HsqlPerformanceTestsSuite.class,
   DirectServiceCallTest.class
+
 })
 public class SpringHsqlTestsSuite {
 }

@@ -14,10 +14,11 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
   MaintainSQLServerTest.class,
   QuerySQLServerTest.class,
+  SQLServerPerformanceTestsSuite.class,
   DirectServiceCallTest.class
 })
 @ExcludeCategory({NotCIDatabaseTest.class, NotSQLServerDatabaseTest.class})
 @Category(CIDatabaseTest.class)
-public class SpringSqlserverTestsSuite {
+public class SpringSQLServerTestsSuite {
 }
 

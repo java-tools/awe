@@ -3182,6 +3182,18 @@ public class QueryTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of big data evaluation
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testBigDataEvalPerformance() throws Exception {
+    String queryName = "NumTstLst";
+    String result = performRequest(queryName, "", DATABASE);
+    assertResultServiceJson(queryName, result, 30, 1, 200, 6000);
+  }
+
+  /**
    * Asserts the JSON in the response
    *
    * @param queryName    Query name

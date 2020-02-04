@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 /**
  * StringUtil Class
- *
+ * <p>
  * String Utilities for AWE
  *
  * @author Pablo GARCIA - 20/JAN/2011
@@ -501,8 +501,9 @@ public final class StringUtil {
 
   /**
    * Shorten a text if longer than size
-   * @param text Text to shorten
-   * @param size Max text size
+   *
+   * @param text        Text to shorten
+   * @param size        Max text size
    * @param replacement Text to replace the extra characters
    * @return Shortened string
    */

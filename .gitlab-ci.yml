@@ -120,7 +120,7 @@ MySQL UT:
   variables:
     MYSQL_DATABASE: "awetestdb"
     MYSQL_ROOT_PASSWORD: "$DATABASE_PASSWORD"
-    UNIT_TEST_SUITE: SpringMysqlTestsSuite.class
+    UNIT_TEST_SUITE: SpringMySQLTestsSuite.class
     TEST_NAME: mysql
   services:
     - mysql
@@ -134,7 +134,7 @@ SQL Server UT:
     MSSQL_HOST: microsoft-mssql-server-linux
     ACCEPT_EULA: Y
     SA_PASSWORD: "$DATABASE_PASSWORD"
-    UNIT_TEST_SUITE: SpringSqlserverTestsSuite.class
+    UNIT_TEST_SUITE: SpringSQLServerTestsSuite.class
     TEST_NAME: sqlserver
   services:
     - microsoft/mssql-server-linux
