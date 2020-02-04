@@ -1,0 +1,33 @@
+---
+scenarioName: Initialize tests
+steps:
+  - name: login
+    url: "/action/login"
+    method: POST
+    request:
+      headers:
+        Cookie: "JSESSIONID=3CB633380F145F4133FF67F0DE809456"
+        Authorization: e94cf596-578b-439b-87a8-70ae8bf25162
+        Content-Type: application/json
+      body:
+        cod_usr: "test"
+        pwd_usr: "test"
+    verify:
+      status: 200
+      headers:
+        Content-Type:
+          - application/json;charset=UTF-8
+  - name: insert_test_data
+    url: "/action/maintain/testDatabaseInitialization"
+    method: POST
+    request:
+      headers:
+        Cookie: ${$.login.request.headers.Cookie}
+        Authorization: ${$.login.response.body[1].parameters.token}
+        Content-Type: application/json
+      body: "${JSON.FILE:performance/data/initialization.json}"
+    verify:
+      status: 200
+      headers:
+        Content-Type:
+          - application/json;charset=UTF-8

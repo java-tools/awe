@@ -33,6 +33,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
 
   /**
    * Set computed
+   *
    * @param computed Computed field
    * @return Computed processor
    * @throws AWException Error adding computed field
@@ -43,14 +44,14 @@ public class ComputedColumnProcessor implements ColumnProcessor {
     // Calculate transform
     if (computed.isTransform()) {
       transformProcessor = new TransformCellProcessor()
-              .setField(computed);
+        .setField(computed);
     }
 
     // Calculate translate
     if (computed.isTranslate()) {
       translateProcessor = new TranslateCellProcessor()
-              .setElements(getElements())
-              .setField(computed);
+        .setElements(getElements())
+        .setField(computed);
     }
 
     // Generate format matcher
@@ -60,6 +61,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
 
   /**
    * Set variable map
+   *
    * @param variableMap Variable map
    * @return Computed processor
    */
@@ -70,6 +72,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
 
   /**
    * Set Awe Elements
+   *
    * @param elements AWE Elements
    * @return Computed processor
    */
@@ -81,6 +84,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
 
   /**
    * Retrieve Awe Elements
+   *
    * @return Awe elements
    */
   private AweElements getElements() throws AWException {
@@ -92,7 +96,8 @@ public class ComputedColumnProcessor implements ColumnProcessor {
 
   /**
    * Add a variable (stringified)
-   * @param name variable name
+   *
+   * @param name  variable name
    * @param value variable value (as string)
    * @return DataListBuilder
    */
@@ -107,6 +112,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
 
   /**
    * Retrieve column identifier
+   *
    * @return Column identifier
    */
   public String getColumnIdentifier() {
@@ -115,6 +121,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
 
   /**
    * Process row
+   *
    * @param row Data row
    * @throws AWException AWE exception
    */
@@ -142,7 +149,8 @@ public class ComputedColumnProcessor implements ColumnProcessor {
 
   /**
    * Replace the expression with row values
-   * @param row Row values
+   *
+   * @param row   Row values
    * @param value Expression
    * @return Expression replaced
    */
@@ -165,7 +173,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
         } else if (cell != null && !cell.getStringValue().isEmpty()) {
           // Fill with cell value
           variableValue = cell.getStringValue();
-        } else if (computed.getNullValue() != null){
+        } else if (computed.getNullValue() != null) {
           // Fill with null value
           variableValue = computed.getNullValue();
         }
@@ -185,6 +193,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
 
   /**
    * Evaluate expression
+   *
    * @param value Value
    * @return Evaluated expression
    * @throws AWException Error parsing value
@@ -194,11 +203,10 @@ public class ComputedColumnProcessor implements ColumnProcessor {
     if (computed.isEval()) {
       Object evaluated;
       try {
-        ScriptEngine engine = (ScriptEngine) elements.getApplicationContext().getBean("javascriptEngine");
-        evaluated = StringUtil.eval(value, engine);
+        evaluated = StringUtil.eval(value, elements.getApplicationContext().getBean(ScriptEngine.class));
       } catch (ScriptException exc) {
         throw new AWException(elements.getLocale("ERROR_TITLE_EXPRESSION_EVALUATION"),
-                elements.getLocale("ERROR_MESSAGE_EXPRESSION_EVALUATION", value), exc);
+          elements.getLocale("ERROR_MESSAGE_EXPRESSION_EVALUATION", value), exc);
       }
       if (evaluated == null) {
         evaluatedExpression.setNull();

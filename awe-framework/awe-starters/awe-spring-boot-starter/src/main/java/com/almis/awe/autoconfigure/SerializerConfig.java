@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
@@ -23,6 +26,23 @@ public class SerializerConfig {
 
   @Value("${xml.parser.allowed.paths}")
   private String[] allowedPaths;
+  private ThreadLocal<ScriptEngine> engineThread;
+
+  /**
+   * On construct initialize threadlocal
+   */
+  @PostConstruct
+  public void onConstruct() {
+    engineThread = ThreadLocal.withInitial(() -> new ScriptEngineManager().getEngineByName("JavaScript"));
+  }
+
+  /**
+   * On destroy remove threadlocal
+   */
+  @PreDestroy
+  public void onDestroy() {
+    engineThread.remove();
+  }
 
   /**
    * XStream serializer
@@ -61,8 +81,8 @@ public class SerializerConfig {
    * @return Javascript engine
    */
   @Bean
-  @ConditionalOnMissingBean
+  @Scope("prototype")
   public ScriptEngine javascriptEngine() {
-    return new ScriptEngineManager().getEngineByName("JavaScript");
+    return engineThread.get();
   }
 }
