@@ -88,9 +88,11 @@
   <locale name="MENU_NEW_SCHEDULER_CALENDAR" value="Nuevo calendario"/>
   <locale name="MENU_NEW_SCHEDULER_SERVER" value="Nuevo servidor"/>
   <locale name="MENU_NEW_SCHEDULER_TASK" value="Nueva tarea planificada"/>
+  <locale name="MENU_SCHEDULER" value="Planificador"/>
   <locale name="MENU_SCHEDULER_CALENDARS" value="Calendarios"/>
   <locale name="MENU_SCHEDULER_EDIT_CALENDAR" value="Editar calendario"/>
   <locale name="MENU_SCHEDULER_MANAGEMENT" value="Gestión del planificador"/>
+  <locale name="MENU_SCHEDULER_SERVERS" value="Servidores externos"/>
   <locale name="MENU_SCHEDULER_TASKS" value="Gestor de tareas"/>
   <locale name="MENU_TASKS_BATCH" value="Definición de tareas batch"/>
   <locale name="MENU_TASKS_BATCH_AUDIT" value="Auditoría de tareas batch"/>
