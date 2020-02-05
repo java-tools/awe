@@ -698,16 +698,27 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           var columnData = [];
           var address = angular.extend({column: columnId}, component.address);
           var column = component.getColumn(columnId);
+          var selectedRowData = [];
+          var selected = Utilities.asArray(component.model.selected);
 
           _.each(component.model.values, function (row) {
             var rowId = row[component.constants.ROW_IDENTIFIER];
             address.row = rowId;
+            var isSelected = selected.indexOf(rowId) > -1;
             var cellValue = component.getVisibleData(address, row, column);
             columnData.push(cellValue);
+
+            // Get selected rows if there is only one row selected
+            if (isSelected) {
+              selectedRowData.push(cellValue);
+            }
           });
 
           // Format data list
           data[columnId] = columnData;
+
+          // Store selected data
+          component.getSelectedCellData(data, columnId, selectedRowData);
           return data;
         };
 
