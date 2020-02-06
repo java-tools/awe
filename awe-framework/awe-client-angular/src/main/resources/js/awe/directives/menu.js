@@ -8,9 +8,12 @@ aweApplication.directive('aweMenu',
       return {
         restrict: 'E',
         replace: false,
-        templateUrl: function () {
-          return serverData.getAngularTemplateUrl('menu');
-        },
+        template:
+          `<ul class="awe-menu {{::controller.style}}" ng-class="{'menu-minimized': status.minimized, 'ng-hide': !isVisible()}" ng-cloak>
+            <awe-option ng-repeat="option in options| allowedOption track by option.name" controller="option" status="status" on-option-click="onOptionClick()" menu-type="{{::menuType}}"
+                        close-first-level="closeFirstLevel()" first-level="true" selected-option="selectedOption" option-title="{{::option.title}}" option-name="{{::option.name}}"
+                        option-style="{{::option.style}}" option-icon="{{::option.icon}}" option-text="{{::option.label}}"></awe-option>
+          </ul>`,
         scope: {
           'menuId': '@'
         },
@@ -24,7 +27,7 @@ aweApplication.directive('aweMenu',
 
           // Initialize options
           scope.menuType = scope.controller.style && scope.controller.style.indexOf("horizontal") !== -1 ? "horizontal" : "vertical";
-          scope.visible = true;
+          scope.visible = !$("body").hasClass("mmc");
           scope.status = {minimized: false, animating: false, resolution: "desktop"};
           scope.options = [];
           scope.selectedOption = {name: "", opened: {}};
