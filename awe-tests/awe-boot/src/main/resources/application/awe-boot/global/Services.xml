@@ -325,6 +325,10 @@
     <rest server="islandia" method="GET" endpoint="/concerts" wrapper="com.almis.awe.test.bean.Concerts"/>
   </service>
 
+  <service id="testExternalRestSecurity">
+    <rest server="postman-security" method="GET" endpoint="/basic-auth" wrapper="com.almis.awe.test.bean.PostmanAuth"/>
+  </service>
+
   <service id="testPostman">
     <rest server="postman" method="GET" endpoint="/gzip" wrapper="com.almis.awe.test.bean.Postman"/>
   </service>

@@ -22,16 +22,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.jasypt.encryption.StringEncryptor;
-import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
-import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -71,8 +67,9 @@ public class SecurityConfig extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param sessionDetails Session details
-   * @param logger Logger
+   * @param logger         Logger
    */
   @Autowired
   public SecurityConfig(AweSessionDetails sessionDetails, LogUtil logger, AweElements elements) {
@@ -106,7 +103,6 @@ public class SecurityConfig extends ServiceConfig {
      * Get authentication from value
      *
      * @param value Value
-     *
      * @return Authentication mode
      */
     public static AUTHENTICATION_MODE fromValue(String value) {
@@ -129,13 +125,13 @@ public class SecurityConfig extends ServiceConfig {
   @Value("${screen.parameter.password:pwd_usr}")
   private String passwordParameter;
 
-  @Value ("${language.default}:en")
+  @Value("${language.default}:en")
   private String defaultLocale;
 
-  @Value ("${security.auth.mode:bbdd}")
+  @Value("${security.auth.mode:bbdd}")
   private String authenticationProviderSource;
 
-  @Value ("${security.role.prefix:ROLE_}")
+  @Value("${security.role.prefix:ROLE_}")
   private String rolePrefix;
 
   // Custom authentication
@@ -146,22 +142,22 @@ public class SecurityConfig extends ServiceConfig {
   @Value("#{'${security.auth.ldap.url:}'.split(',')}")
   private List<String> ldapUrl;
 
-  @Value ("${security.auth.ldap.user:}")
+  @Value("${security.auth.ldap.user:}")
   private String ldapUserFilter;
 
-  @Value ("${security.auth.ldap.password.bind:}")
+  @Value("${security.auth.ldap.password.bind:}")
   private String ldapPassword;
 
-  @Value ("${security.auth.ldap.user.bind:}")
+  @Value("${security.auth.ldap.user.bind:}")
   private String ldapUserDN;
 
-  @Value ("${security.auth.ldap.basedn:}")
+  @Value("${security.auth.ldap.basedn:}")
   private String ldapBaseDN;
 
-  @Value ("${security.auth.ldap.timeout:}")
+  @Value("${security.auth.ldap.timeout:}")
   private String ldapConnectTimeout;
 
-  @Value ("${security.headers.frameOptions.sameOrigin:true}")
+  @Value("${security.headers.frameOptions.sameOrigin:true}")
   private boolean sameOrigin;
 
   @Value("${session.cookie.name:AWESESSIONID}")
@@ -177,7 +173,6 @@ public class SecurityConfig extends ServiceConfig {
      * Spring security configuration
      *
      * @param http Http security object
-     *
      * @throws Exception Configure error
      */
     @Override
@@ -207,7 +202,7 @@ public class SecurityConfig extends ServiceConfig {
 
       AUTHENTICATION_MODE mode = AUTHENTICATION_MODE.fromValue(authenticationProviderSource);
       mode = mode == null ? AUTHENTICATION_MODE.BBDD : mode;
-      logger.log(getClass(),Level.INFO, "Using authentication mode: " + mode);
+      logger.log(getClass(), Level.INFO, "Using authentication mode: " + mode);
 
       switch (mode) {
         case CUSTOM:
@@ -234,9 +229,10 @@ public class SecurityConfig extends ServiceConfig {
 
     /**
      * Initialize request
+     *
      * @param request Request
      */
-    private void initRequest(HttpServletRequest request)  {
+    private void initRequest(HttpServletRequest request) {
       String body = "{}";
       if (request instanceof AweHttpServletRequestWrapper) {
         body = ((AweHttpServletRequestWrapper) request).getBody();
@@ -253,6 +249,7 @@ public class SecurityConfig extends ServiceConfig {
 
     /**
      * Required by Spring Boot 2
+     *
      * @return
      * @throws Exception
      */
@@ -264,12 +261,13 @@ public class SecurityConfig extends ServiceConfig {
 
     /**
      * Username and password authentication filter
+     *
      * @return Json Authentication filter
      */
     @Bean
     public JsonAuthenticationFilter authenticationFilter() {
       JsonAuthenticationFilter authenticationFilter = new JsonAuthenticationFilter(elements);
-      authenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/action/login","POST"));
+      authenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/action/login", "POST"));
       authenticationFilter.setUsernameParameter(usernameParameter);
       authenticationFilter.setPasswordParameter(passwordParameter);
       authenticationFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
@@ -312,6 +310,7 @@ public class SecurityConfig extends ServiceConfig {
 
     /**
      * Retrieve a logout handler
+     *
      * @param sessionDetails Session details
      * @return Logout handler
      */
@@ -322,6 +321,7 @@ public class SecurityConfig extends ServiceConfig {
 
     /**
      * Configure ldap user details mapper
+     *
      * @param userDAO user dao
      * @return Ldap user details context mapper
      */
@@ -348,6 +348,7 @@ public class SecurityConfig extends ServiceConfig {
 
     /**
      * Configure User detail service
+     *
      * @param userDAO User DAO
      * @return User detail service
      */
@@ -376,7 +377,7 @@ public class SecurityConfig extends ServiceConfig {
     @ConditionalOnMissingBean
     public LdapContextSource contextSource() {
       // Environment properties
-      Map<String,Object> environmentProperties = Collections.synchronizedMap(new HashMap<>());
+      Map<String, Object> environmentProperties = Collections.synchronizedMap(new HashMap<>());
       environmentProperties.put("com.sun.jndi.ldap.connect.timeout", ldapConnectTimeout);
 
       LdapContextSource ldapContextSource = new LdapContextSource();
@@ -402,47 +403,13 @@ public class SecurityConfig extends ServiceConfig {
     }
   }
 
-  /**
-   * Jasypt string encryptor to encrypt/decrypt properties
-   * @param masterKey Master key
-   * @param encryptorConfig Encryptor configuration
-   * @return String encryptor bean
-   */
-  @Bean
-  @ConditionalOnMissingBean
-  public StringEncryptor jasyptStringEncryptor(@Value("${security.master.key:fdvsd4@sdsa08}") String masterKey,
-                                               SimpleStringPBEConfig encryptorConfig) {
-    PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
-    encryptorConfig.setPassword(masterKey);
-    encryptor.setConfig(encryptorConfig);
-    return encryptor;
-  }
-
-  /**
-   * Jasypt string encriptor configuration
-   *
-   * @return Encryptor configuration
-   */
-  @Bean
-  @Scope("prototype")
-  @ConditionalOnMissingBean
-  public SimpleStringPBEConfig encryptorConfig() {
-    SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-    config.setAlgorithm("PBEWithMD5AndDES");
-    config.setKeyObtentionIterations("1000");
-    config.setPoolSize("1");
-    config.setProviderName("SunJCE");
-    config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-    config.setStringOutputType("base64");
-    return config;
-  }
-
   /////////////////////////////////////////////
   // SERVICES
   /////////////////////////////////////////////
 
   /**
    * Access service
+   *
    * @param menuService Menu service
    * @return Access service bean
    */

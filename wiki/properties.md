@@ -526,6 +526,16 @@ Here you can define the security behaviours of your application.
 ################################################
 # Password encryption variable
 security.master.key=xxxxxxxxxxxxx
+
+# Jasypt properties (for decrypting properties)
+jasypt.encryptor.password=${security.master.key}
+jasypt.encryptor.algorithm=PBEWithMD5AndDES
+jasypt.encryptor.keyObtentionIterations=1000
+jasypt.encryptor.poolSize=1
+jasypt.encryptor.providerName=SunJCE
+jasypt.encryptor.saltGeneratorClassname=org.jasypt.salt.RandomSaltGenerator
+jasypt.encryptor.stringOutputType=base64
+
 # Activate json encryption (0 - deactivated|1 - activated)
 security.json.encryption=0
 # Encrypted parameter list name

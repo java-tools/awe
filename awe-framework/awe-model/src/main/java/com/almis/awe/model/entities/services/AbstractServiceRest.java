@@ -53,4 +53,10 @@ public abstract class AbstractServiceRest implements ServiceType {
   // Input Parameter List
   @XStreamImplicit
   private List<ServiceInputParameter> parameterList;
+
+  // Security attributes
+  private String authentication;
+  private String username;
+  private String password;
+  private String token;
 }
