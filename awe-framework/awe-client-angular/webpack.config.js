@@ -43,7 +43,7 @@ module.exports = {
       { test: require.resolve('jquery'), use: [{loader: 'expose-loader', options: 'jQuery'},{loader: 'expose-loader', options: '$'}]},
       { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/},
       // Hack to load angular synchronously
-      { test : /[\/]angular\.js$/, loader : "exports?angular"},
+      { test : /[\/]angular\.js$/, loader : "exports-loader?angular"},
       { test : /\.css$/, include : [ styleDir ], use : [MiniCssExtractPlugin.loader, "css-loader"]},
       { test : /\.less$/, include : [ styleDir ], use : [MiniCssExtractPlugin.loader, "css-loader", {
           loader: "less-loader", options: { lessPlugins: [ new LessPluginAutoPrefix({browsers: autoprefixerBrowsers}) ],

@@ -34,7 +34,7 @@ module.exports = {
     rules : [
       { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/},
       // Hack to load angular synchronously
-      { test : /[\/]angular\.js$/, loader : "exports?angular"},
+      { test : /[\/]angular\.js$/, loader : "exports-loader?angular"},
       { test : /\.css$/, include : [ styleDir ], use : [MiniCssExtractPlugin.loader, "css-loader"]},
       { test : /\.less$/, include : [ styleDir ], use : [MiniCssExtractPlugin.loader, "css-loader", {
           loader: "less-loader", options: { lessPlugins: [ new LessPluginAutoPrefix({browsers: autoprefixerBrowsers}) ],
