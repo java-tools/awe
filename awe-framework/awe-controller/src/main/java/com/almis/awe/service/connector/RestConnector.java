@@ -39,7 +39,11 @@ public class RestConnector extends AbstractRestConnector {
 
       // Retrieve rest server (if defined)
       if (rest.getServer() != null) {
-        url = getProperty("rest.server." +  rest.getServer());
+        String serverProperty = "rest.server." +  rest.getServer();
+        url = getProperty(serverProperty);
+        rest.setAuthentication(getProperty(serverProperty + ".authentication"));
+        rest.setUsername(getProperty(serverProperty + ".authentication.username"));
+        rest.setPassword(getProperty(serverProperty + ".authentication.password"));
       }
 
       // Add endpoint to url

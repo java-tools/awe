@@ -183,6 +183,16 @@ public class RestServiceTest extends AweSpringRestTests {
    * @throws Exception Test error
    */
   @Test
+  public void testExternalRestApiWithSecurity() throws Exception {
+    doRestTest("TestExternalRestApiWithSecurity", "data", "\"value\":3,", null);
+  }
+
+  /**
+   * Call a external rest API
+   *
+   * @throws Exception Test error
+   */
+  @Test
   @Category(CIDatabaseTest.class)
   public void testPostmanRestApi() throws Exception {
     doRestTest("TestPostmanRestApi", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"acceptLanguage\":\"\",\"acceptEncoding\":\"gzip,deflate\",\"cookie\":\"\",\"method\":\"GET\",\"gzipped\":\"true\",\"postmanToken\":\"\",\"id\":1,\"cacheControl\":\"\",\"accept\":\"application/json, application/*+json\"}]}}},{\"type\":\"end-load\"}]");

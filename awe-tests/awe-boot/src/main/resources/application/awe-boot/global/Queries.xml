@@ -2264,6 +2264,8 @@
     <variable id="format" type="STRING" value="json"/>
   </query>
 
+  <query id="TestExternalRestApiWithSecurity" service="testExternalRestSecurity"/>
+
   <query id="TestPostmanRestApi" service="testPostman"/>
 
   <query id="CallAluMicroservice" service="aluGetKey">

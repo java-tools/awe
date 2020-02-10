@@ -38,6 +38,24 @@ public class AccessService extends ServiceConfig {
   @Value("${application.theme:sky}")
   private String defaultTheme;
 
+  @Value("${jasypt.encryptor.algorithm:PBEWithMD5AndDES}")
+  private String jasyptAlgorithm;
+
+  @Value("${jasypt.encryptor.keyObtentionIterations:1000}")
+  private Integer jasyptKeyObtentionIterations;
+
+  @Value("${jasypt.encryptor.poolSize:1}")
+  private Integer jasyptPoolSize;
+
+  @Value("${jasypt.encryptor.providerName:SunJCE}")
+  private String jasyptProviderName;
+
+  @Value("${jasypt.encryptor.saltGeneratorClassname:org.jasypt.salt.RandomSaltGenerator}")
+  private String jasyptSaltGeneratorClassname;
+
+  @Value("${jasypt.encryptor.stringOutputType:base64}")
+  private String jasyptStringOutputType;
+
   // Autowire
   private MenuService menuService;
 
@@ -185,8 +203,14 @@ public class AccessService extends ServiceConfig {
     }
 
     // Get encode bean
-    SimpleStringPBEConfig config = (SimpleStringPBEConfig) getBean("encryptorConfig");
+    SimpleStringPBEConfig config = new SimpleStringPBEConfig();
     config.setPassword(key);
+    config.setAlgorithm(jasyptAlgorithm);
+    config.setKeyObtentionIterations(jasyptKeyObtentionIterations);
+    config.setPoolSize(jasyptPoolSize);
+    config.setProviderName(jasyptProviderName);
+    config.setSaltGeneratorClassName(jasyptSaltGeneratorClassname);
+    config.setStringOutputType(jasyptStringOutputType);
     PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
     encryptor.setConfig(config);
 

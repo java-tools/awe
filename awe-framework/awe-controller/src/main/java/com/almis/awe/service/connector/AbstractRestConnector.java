@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.util.LinkedMultiValueMap;
@@ -40,7 +41,8 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
   /**
    * Autowired constructor
-   * @param logger Logger
+   *
+   * @param logger         Logger
    * @param requestFactory Request factory
    */
   @Autowired
@@ -64,7 +66,14 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
     UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(url);
 
     // Define request manager
-    RestTemplate restTemplate = new RestTemplate(requestFactory);
+    RestTemplate restTemplate;
+    if (service.getAuthentication() != null) {
+      restTemplate = new RestTemplateBuilder()
+        .basicAuthentication(service.getUsername(), service.getPassword())
+        .build();
+    } else {
+      restTemplate = new RestTemplate(requestFactory);
+    }
 
     // Define request object
     HttpEntity request;
@@ -155,9 +164,10 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
   /**
    * Generate parameters as MAP
-   * @param rest Rest service
-   * @param uriBuilder URI builder
-   * @param urlParameters URL parameters
+   *
+   * @param rest                 Rest service
+   * @param uriBuilder           URI builder
+   * @param urlParameters        URL parameters
    * @param paramsMapFromRequest Parameters from request
    * @return Entity
    */
@@ -180,8 +190,9 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
   /**
    * Read parameter map
+   *
    * @param requestParametersMap Request parameters
-   * @param param Parameter to read
+   * @param param                Parameter to read
    * @param paramsMapFromRequest Parameters from request
    */
   private void readParameterMap(MultiValueMap<String, String> requestParametersMap, ServiceInputParameter param, Map<String, Object> paramsMapFromRequest) {
@@ -193,7 +204,7 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
       for (JsonNode value : nodeValue) {
         requestParametersMap.add(paramName, value.asText());
       }
-    } else if (nodeValue == null){
+    } else if (nodeValue == null) {
       requestParametersMap.set(paramName, null);
     } else {
       requestParametersMap.set(paramName, nodeValue.asText());
@@ -202,9 +213,10 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
   /**
    * Generate parameters as JSON
-   * @param rest Rest service
-   * @param uriBuilder URI Builder
-   * @param urlParameters URL parameters
+   *
+   * @param rest                 Rest service
+   * @param uriBuilder           URI Builder
+   * @param urlParameters        URL parameters
    * @param paramsMapFromRequest Parameters from request
    * @return Entity
    * @throws JsonProcessingException Error processing JSON
@@ -229,9 +241,10 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
   /**
    * Read parameter json
+   *
    * @param requestParametersJson Request parameters
-   * @param param Parameter to read
-   * @param paramsMapFromRequest Parameters from request
+   * @param param                 Parameter to read
+   * @param paramsMapFromRequest  Parameters from request
    */
   private void readParameterJson(ObjectNode requestParametersJson, ServiceInputParameter param, Map<String, Object> paramsMapFromRequest) {
     // If it has parameters, expand the url avoiding parameters already used
@@ -245,7 +258,7 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
         for (JsonNode value : nodeValue) {
           list.add(value);
         }
-      } else if (!nodeValue.isNull() && !nodeValue.asText().isEmpty()){
+      } else if (!nodeValue.isNull() && !nodeValue.asText().isEmpty()) {
         list.add(nodeValue);
       }
       nodeValue = list;
@@ -255,9 +268,10 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
   /**
    * Set parameters into URI
-   * @param rest Rest service
-   * @param uriBuilder URI builder
-   * @param parameterName Parameter name
+   *
+   * @param rest                 Rest service
+   * @param uriBuilder           URI builder
+   * @param parameterName        Parameter name
    * @param paramsMapFromRequest Parameter map
    */
   private void setParametersInURI(AbstractServiceRest rest, UriComponentsBuilder uriBuilder, String parameterName, Map<String, Object> paramsMapFromRequest) {
