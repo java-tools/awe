@@ -40,6 +40,9 @@
     <skip.main>false</skip.main>
     <skip.selenium>true</skip.selenium>
     <skip.junit>false</skip.junit>
+
+    <!-- Build environment -->
+    <build.environment>development</build.environment>
   </properties>
 
   <dependencies>
