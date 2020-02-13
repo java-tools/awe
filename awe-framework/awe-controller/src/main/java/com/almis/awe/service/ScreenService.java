@@ -269,7 +269,7 @@ public class ScreenService extends ServiceConfig {
   private void launchScreenOnLoadEvent(Screen screen) throws AWException {
     // Launch on load maintain if defined
     if (screen.getOnLoad() != null) {
-      maintainService.launchMaintain(screen.getOnLoad());
+      maintainService.launchPrivateMaintain(screen.getOnLoad());
     }
   }
 
