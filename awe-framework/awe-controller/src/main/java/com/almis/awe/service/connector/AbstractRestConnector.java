@@ -1,6 +1,7 @@
 package com.almis.awe.service.connector;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ResponseWrapper;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.dto.ServiceDataWrapper;
@@ -27,6 +28,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,7 +130,7 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
       throw new AWException(String.format("Operation unsuccessful %d", response.getStatusCodeValue()));
     }
 
-    return response.getBody().toServiceData();
+    return Optional.ofNullable((ResponseWrapper) response.getBody()).orElse((ResponseWrapper) new ServiceDataWrapper().setDataList(new DataList())).toServiceData();
   }
 
   /**
