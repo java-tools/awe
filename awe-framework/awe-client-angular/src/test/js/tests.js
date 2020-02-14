@@ -15,3 +15,4 @@ import './components/tests.js';
 import './services/tests.js';
 import './singletons/tests.js';
 import './plugins/tests.js';
+import './viewers/tests.js';

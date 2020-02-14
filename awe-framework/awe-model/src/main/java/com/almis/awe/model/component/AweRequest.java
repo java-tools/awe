@@ -83,16 +83,26 @@ public class AweRequest {
    * @param valueList Parameter value
    */
   public void setParameter(String name, Object... valueList) {
+    getParameterList().set(name, getParameterValueFromList(valueList));
+  }
+
+  /**
+   * Retrieve parameter value from list
+   *
+   * @param valueList
+   * @return
+   */
+  private JsonNode getParameterValueFromList(Object... valueList) {
     if (valueList == null) {
-      getParameterList().set(name, getParameterValue(null));
+      return getParameterValue(null);
     } else if (valueList.length > 1) {
       ArrayNode nodeList = JsonNodeFactory.instance.arrayNode();
       for (Object value : valueList) {
         nodeList.add(getParameterValue(value));
       }
-      setParameter(name, nodeList);
+      return nodeList;
     } else {
-      getParameterList().set(name, getParameterValue(valueList[0]));
+      return getParameterValue(valueList[0]);
     }
   }
 

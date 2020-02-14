@@ -69,6 +69,16 @@ aweApplication.factory('Connection',
           return ajax.post(url, data, expectedContent);
         },
         /**
+         * Send post message with a promise
+         * @param {String} url Message url
+         * @param {Object} data Message data
+         * @param {String} expectedContent Content type expected
+         * @param {String} responseType Response type expected
+         */
+        getFile: function (url, data, expectedContent, responseType) {
+          return ajax.getFile(url, data, expectedContent, responseType);
+        },
+        /**
          * Subscribe to a channel
          * @param token
          */
