@@ -28,6 +28,7 @@
     "bootstrap-timepicker": "^0.5.2",
     "caniuse-lite": "^1.0.30001015",
     "downloadjs": "^1.4.7",
+    "pdfobject": "^2.1.1",
     "font-awesome": "^4.7.0",
     "highcharts": "^4.1.8",
     "jquery": "^2.2.4",

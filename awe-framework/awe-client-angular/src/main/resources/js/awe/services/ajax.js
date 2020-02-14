@@ -109,6 +109,21 @@ aweApplication.factory('Ajax',
           }, expectedContent);
         },
         /**
+         * Get a file
+         * @param {String} url Message url
+         * @param {Object} data Post message data
+         * @param {String} expectedContent Content type expected
+         * @param {String} responseType Response type expected
+         */
+        getFile: function (url, data, expectedContent, responseType) {
+          return $ajax.httpRequest({
+            method: 'POST',
+            url: url,
+            data: data,
+            responseType: responseType
+          }, expectedContent);
+        },
+        /**
          * Send request
          * @param {String} parameters Request parameters
          * @param {Object} expectedContent Content type expected

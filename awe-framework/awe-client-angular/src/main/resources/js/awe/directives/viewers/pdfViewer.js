@@ -1,4 +1,5 @@
 import { aweApplication } from "./../../awe";
+const PDFObject = require("pdfobject");
 
 // PDF viewer
 aweApplication.directive('awePdfViewer',
@@ -8,17 +9,16 @@ aweApplication.directive('awePdfViewer',
       return {
         restrict: 'E',
         replace: true,
-        templateUrl: function () {
-          return ServerData.getAngularTemplateUrl('pdfViewer');
-        },
+        template: `<div class="pdf-viewer {{::controller.style}} expandible-vertical" ng-cloak></div>`,
         scope: {
           'widgetId': '@pdfViewerId'
         },
         /**
          * Link function
          * @param {Object} scope Directive scope
+         * @param {object} $element Directive node
          */
-        link: function (scope) {
+        link: function (scope, $element) {
           // Init as component
           var component = new Component(scope, scope.widgetId);
           if (!component.asComponent()) {
@@ -32,24 +32,17 @@ aweApplication.directive('awePdfViewer',
           component.reload = function () {
 
             // Get path of file
-            var parameters = ServerData.getFormValues();
-            var targetAction = scope.controller[$settings.get("targetActionKey")];
+            let parameters = ServerData.getFormValues();
+            let targetAction = scope.controller[$settings.get("targetActionKey")];
             // Add a random value for reload
             parameters["r"] = Math.random();
 
-            // Get parameters encoded
-            let parameterList = [];
-            _.each(parameters, function(value, key) {
-              parameterList.push(`${key}=${encodeURI(value)}`);
-            });
-
-            // Generate url
-            var fileData = ServerData.getFileUrl("stream/maintain/" + targetAction + "?" + parameterList.join("&"));
-
-            // Change url in iframe
-            if (fileData !== null) {
-              scope.urlPdf = fileData;
-            }
+            Connection.getFile(ServerData.getFileUrl("stream/maintain/" + targetAction), parameters, "application/pdf", "blob")
+                .then(response => {
+                  let file = new Blob([response.data], { type: 'application/pdf' });
+                  let url = window.URL.createObjectURL(file);
+                  PDFObject.embed(url, ".pdf-viewer");
+                });
           };
         }
       };
