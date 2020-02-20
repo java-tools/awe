@@ -142,6 +142,9 @@ public class PrintTestsIT extends SeleniumUtilities {
     // Go to matrix test
     gotoScreen(menuOptions);
 
+    // Wait for button
+    waitForButton("ButPrn");
+
     // Click print button
     clickButton("ButPrn");
 

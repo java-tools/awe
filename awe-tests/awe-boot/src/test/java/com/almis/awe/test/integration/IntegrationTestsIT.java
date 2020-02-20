@@ -491,6 +491,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Go to screen
     gotoScreen("test", "criteria", "criteria-reset");
 
+    // Wait for button
+    waitForButton("ButRst");
+
     // Write text
     writeText("CrtTst", "test");
 
