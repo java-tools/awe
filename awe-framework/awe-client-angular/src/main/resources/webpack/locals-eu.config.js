@@ -1,5 +1,4 @@
 import "moment/locale/es";
-import "numeral/locales/es";
 import "./../js/lib/highcharts/i18n/highcharts.eu";
 import "bootstrap-markdown/locale/bootstrap-markdown.es";
 import "./../js/lib/pivotTable/i18n/pivot.eu";
