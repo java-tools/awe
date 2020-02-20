@@ -32,7 +32,8 @@ public final class Crypto {
   /**
    * Private constructor to hide the implicit one
    */
-  private Crypto() {}
+  private Crypto() {
+  }
 
   /**
    * Utils
@@ -53,17 +54,18 @@ public final class Crypto {
     /**
      * Private constructor of Utils class
      */
-    private Utils() {}
+    private Utils() {
+    }
 
     /**
      * Encode with pbkdf
      *
-     * @param password password
-     * @param salt salt
+     * @param password       password
+     * @param salt           salt
      * @param iterationCount iteration count
-     * @param dkLen dk length
+     * @param dkLen          dk length
      * @return encoded key
-     * @throws InvalidKeyException Invalid key exception
+     * @throws InvalidKeyException      Invalid key exception
      * @throws NoSuchAlgorithmException No such algorithm exception
      */
     public static String pbkdf2(String password, String salt, int iterationCount, int dkLen) throws InvalidKeyException, NoSuchAlgorithmException {
@@ -159,10 +161,12 @@ public final class Crypto {
     /**
      * Constructor
      */
-    private AES() {}
+    private AES() {
+    }
 
     /**
      * Generate IV
+     *
      * @return IV
      */
     private static Cipher generateCipher(byte[] iv, String passphrase, int mode) {
@@ -179,6 +183,7 @@ public final class Crypto {
 
     /**
      * Get Secret key from key
+     *
      * @param key Key
      * @return Secret key spec
      */
@@ -200,7 +205,7 @@ public final class Crypto {
      *
      * @param plaintext  Text to encrypt
      * @param passphrase Password for encryption
-     * @param encoding Encoding
+     * @param encoding   Encoding
      * @return Encrypted text
      */
     public static String encrypt(@NonNull String plaintext, String passphrase, String encoding) {
@@ -227,9 +232,9 @@ public final class Crypto {
     /**
      * Decrypt with AES algorithm
      *
-     * @param encrypted Ciphered text
+     * @param encrypted  Ciphered text
      * @param passphrase Password for decryption
-     * @param encoding Encoding
+     * @param encoding   Encoding
      * @return Decrypted text
      */
     public static String decrypt(@NonNull String encrypted, String passphrase, String encoding) {
@@ -331,15 +336,16 @@ public final class Crypto {
    */
   public static class HASH {
 
-    private HASH(){}
+    private HASH() {
+    }
 
     /**
      * Create a HASH with algorithm
      *
-     * @param message Message to hash
+     * @param message   Message to hash
      * @param algorithm algorithm to use
-     * @param salt salt of algorithm
-     * @param encoding charset encoding
+     * @param salt      salt of algorithm
+     * @param encoding  charset encoding
      * @return Hash
      * @throws AWException No such algorithm
      */
@@ -447,11 +453,11 @@ public final class Crypto {
      * Constructor
      *
      * @throws NoSuchAlgorithmException No such algorithm
-     * @throws InvalidKeySpecException Invalid key
-     * @throws NoSuchPaddingException No such padding
+     * @throws InvalidKeySpecException  Invalid key
+     * @throws NoSuchPaddingException   No such padding
      */
     public RSA() throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException {
-      cipher = Cipher.getInstance("RSA");
+      cipher = Cipher.getInstance("RSA/None/OAEPWITHSHA-256ANDMGF1PADDING");
       fact = KeyFactory.getInstance("RSA");
       setNewKey(KEY_SIZE_BITS);
     }
@@ -462,7 +468,7 @@ public final class Crypto {
      * @param keySize Key size
      * @return Key is stored
      * @throws NoSuchAlgorithmException No such algorithm
-     * @throws InvalidKeySpecException Invalid key
+     * @throws InvalidKeySpecException  Invalid key
      */
     private boolean setNewKey(int keySize) throws NoSuchAlgorithmException, InvalidKeySpecException {
       if (keySize <= 0) {
@@ -523,8 +529,8 @@ public final class Crypto {
      * @param plaintext Text to encrypt
      * @return encrypted text
      * @throws IllegalBlockSizeException illegal block size exception
-     * @throws BadPaddingException bad padding exception
-     * @throws InvalidKeyException invalid key exception
+     * @throws BadPaddingException       bad padding exception
+     * @throws InvalidKeyException       invalid key exception
      */
     public String encrypt(String plaintext) throws IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
       if (plaintext.length() == 0) {
@@ -539,11 +545,11 @@ public final class Crypto {
      * Decrypt text
      *
      * @param ciphertext Encrypted text
-     * @param encoding encoding
+     * @param encoding   encoding
      * @return Decrypted text
      * @throws IllegalBlockSizeException illegal block size exception
-     * @throws BadPaddingException bad padding exception
-     * @throws InvalidKeyException invalid key exception
+     * @throws BadPaddingException       bad padding exception
+     * @throws InvalidKeyException       invalid key exception
      */
     public String decrypt(String ciphertext, String encoding) throws IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
       if (ciphertext.length() == 0) {
