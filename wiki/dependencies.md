@@ -314,6 +314,13 @@ Dependency actions are actions launched when a dependency has been activated and
 </dependency>
 ```
 
+**Use a dependency just in the selected row**
+```xml
+<dependency initial="true" target-type="enable">
+  <dependency-element id="GridName" attribute="selectedRow" condition="eq" id2="GridName" attribute2="currentRow"/>
+</dependency>
+```
+
 > **Note:** If you want to retrieve a *selected row value* from a grid column which isn't editable, you must add an [event launcher](#events) to make sure the dependency is being launched when selecting a row (i.e. `event="select-row"`)
 
 
