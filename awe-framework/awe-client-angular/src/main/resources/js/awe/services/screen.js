@@ -301,6 +301,19 @@ aweApplication.factory("Screen",
           $actionController.acceptAction(action);
         },
         /**
+         * Redirect to another URL
+         * @param {Action} action Action received
+         */
+        redirect: function (action) {
+          let url = action.attr("target");
+
+          // Redirect browser
+          $window.location.url = url;
+
+          // Close action
+          $actionController.acceptAction(action);
+        },
+        /**
          * Close the current window
          * @param {Action} action Action received
          */
