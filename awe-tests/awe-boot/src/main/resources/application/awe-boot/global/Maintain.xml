@@ -752,6 +752,21 @@
     </serve>
   </target>
 
+  <target name="TestComplexJavaParametersPOJO">
+    <serve service="TestComplexJavaParametersPOJO">
+      <variable id="name" type="STRING" value="name"/>
+      <variable id="userGroupName" type="STRING" value="userGroupName"/>
+      <variable id="eventHallName" type="STRING" value="eventHallName"/>
+    </serve>
+  </target>
+
+  <target name="TestComplexRestParametersPOJO">
+    <serve service="TestComplexRestParametersPOJO">
+      <variable id="tutu" type="STRING" value="lala"/>
+      <variable id="concert" type="OBJECT" name="concert"/>
+    </serve>
+  </target>
+
   <target name="testRetrieveDataAndInsertAfter">
     <retrieve-data>
       <table id="AweDbs"/>

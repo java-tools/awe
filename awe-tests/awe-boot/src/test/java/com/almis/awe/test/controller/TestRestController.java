@@ -5,6 +5,7 @@ import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.service.MaintainService;
 import com.almis.awe.service.QueryService;
+import com.almis.awe.test.bean.Concert;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,6 +145,20 @@ public class TestRestController {
     // Initialize parameters
     aweRequest.init(JsonNodeFactory.instance.objectNode(), "asasd");
     aweRequest.setParameterList(result);
+    return new ServiceData();
+  }
+
+  /**
+   * Test post parameter list
+   *
+   * @return Empty service data
+   */
+  @PutMapping(value = "/complex/pojoJSON/{tutu}")
+  @ResponseBody
+  public ServiceData testPostParameterListPOJO(@PathVariable("tutu") String tutu, @RequestBody Concert concert) throws AWException {
+    // Initialize parameters
+    aweRequest.init(JsonNodeFactory.instance.objectNode(), "asasd");
+
     return new ServiceData();
   }
 

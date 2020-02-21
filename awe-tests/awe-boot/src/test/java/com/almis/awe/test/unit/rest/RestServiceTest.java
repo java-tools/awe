@@ -1,5 +1,6 @@
 package com.almis.awe.test.unit.rest;
 
+import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.test.unit.categories.CIDatabaseTest;
 import lombok.extern.log4j.Log4j2;
 import org.junit.After;
@@ -165,6 +166,16 @@ public class RestServiceTest extends AweSpringRestTests {
   @Test
   public void testComplexPostParametersJson() throws Exception {
     doRestTest("TestComplexRestPostParametersJson", "maintain", "\"value\":1,", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"DELETE\",\"rowsAffected\":1,\"parameterMap\":{\"Action\":\"T\",\"User\":\"testIncludeTarget\",\"_page_\":1,\"_max_\":30}}]}}]");
+  }
+
+  /**
+   * Rest test: Complex post with POJO
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testComplexPostParametersPOJO() throws Exception {
+    doRestTest("TestComplexJavaParametersPOJO", "maintain", "\"name\":\"my concert\",\"userGroupName\":\"user group\",\"eventHallName\":\"great hall\",", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[]}}]");
   }
 
   /**
