@@ -234,6 +234,11 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
           setParametersInURI(rest, uriBuilder, paramName, paramsMapFromRequest);
           readParameterJson(requestParametersJson, param, paramsMapFromRequest);
         }
+
+        // If parameter is a POJO, replace all parameters from request parameters
+        if (param.getBeanClass() != null) {
+          requestParametersJson = readParameterPOJO(param, paramsMapFromRequest);
+        }
       }
     }
 
@@ -266,6 +271,19 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
       nodeValue = list;
     }
     requestParametersJson.set(paramName, nodeValue);
+  }
+
+  /**
+   * Read parameter POJO
+   *
+   * @param param                 Parameter to read
+   * @param paramsMapFromRequest  Parameters from request
+   */
+  private ObjectNode readParameterPOJO(ServiceInputParameter param, Map<String, Object> paramsMapFromRequest) {
+    // If it has parameters, expand the url avoiding parameters already used
+    ObjectMapper mapper = new ObjectMapper();
+    String paramName = param.getName();
+    return mapper.valueToTree(paramsMapFromRequest.get(paramName));
   }
 
   /**
