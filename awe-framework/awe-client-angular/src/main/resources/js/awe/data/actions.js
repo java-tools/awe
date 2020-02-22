@@ -19,6 +19,7 @@ export const ClientActions = {
     "add-class": {method: "addClass"},
     "remove-class": {method: "removeClass"},
     "print": {method: "screenPrint"},
+    "redirect": {method: "redirect"},
     "close-window": {method: "closeWindow"},
     "end-dependency": {method: "endDependency"}
   },

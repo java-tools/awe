@@ -214,6 +214,15 @@ describe('awe-framework/awe-client-angular/src/test/js/services/screen.js', func
     });
   });
 
+  // Launch redirect action
+  it('should launch a redirect action', function(done) {
+    $windowMock.location = { url : "" };
+    launchScreenAction($injector, "redirect", "redirect", {id: 2, target: "http://alla.que.voy"}, () => {
+      expect($windowMock.location.url).toBe("http://alla.que.voy");
+      done();
+    });
+  });
+
   // Launch close-window action
   it('should launch a close-window action', function(done) {
     spyOn($windowMock, "close").and.callFake(() => {
