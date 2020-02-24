@@ -218,34 +218,34 @@ Launch Sonar:
   except:
     - /^release/.*$/
 
-include:
-  - template: SAST.gitlab-ci.yml
-  - template: DAST.gitlab-ci.yml
-  - template: Dependency-Scanning.gitlab-ci.yml
-  - template: License-Scanning.gitlab-ci.yml
-
+#include:
+#  - template: SAST.gitlab-ci.yml
+#  - template: DAST.gitlab-ci.yml
+#  - template: Dependency-Scanning.gitlab-ci.yml
+# - template: License-Scanning.gitlab-ci.yml
+#
 # Analysis extension
-.analyze:
-  tags:
-  - docker
-  except:
-  - /^release/.*$/
-
-sast:
-  stage: analysis
-  extends: .analyze
-
-dast:
-  stage: analysis
-  extends: .analyze
-
-dependency_scanning:
-  stage: analysis
-  extends: .analyze
-
-license_scanning:
-  stage: analysis
-  extends: .analyze
+#.analyze:
+#  tags:
+#  - docker
+#  except:
+#  - /^release/.*$/
+#
+#sast:
+#  stage: analysis
+#  extends: .analyze
+#
+#dast:
+#  stage: analysis
+#  extends: .analyze
+#
+#dependency_scanning:
+#  stage: analysis
+#  extends: .analyze
+#
+#license_scanning:
+#  stage: analysis
+#  extends: .analyze
 
 ##############################
 # Site stage
