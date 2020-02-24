@@ -37,7 +37,6 @@ stages:
   - unit test
   - integration test
   - analysis
-  - check
   - site
   - package
   - deploy
@@ -237,27 +236,6 @@ Launch Sonar:
 #dependency_scanning:
 #  stage: analysis
 #  extends: .analyze
-
-##############################
-# Check stage
-##############################
-
-Check Sonar:
-  stage: check
-  image: cfmanteiga/alpine-bash-curl-jq:latest
-  cache: {}
-  dependencies: []
-  script:
-    - sonarUrl="https://sonarcloud.io/api/project_branches/list?project=AWE"
-    - sonarBranches=`curl -s $sonarUrl`
-    - echo $sonarBranches
-    - echo "Branch to check - $CI_COMMIT_REF_NAME"
-    - sonarStatus=`echo $sonarBranches | jq --arg BRANCH "$CI_COMMIT_REF_NAME" '.branches | map(select(.name == $BRANCH)) | .[0].status.qualityGateStatus'`
-    - echo "Sonar has ended with a $sonarStatus status"
-    - exitWithErrors=`echo $sonarStatus | sed -e 's/"//g' | awk '{printf ($1 != "OK")}'`
-    - exit $exitWithErrors
-  except:
-    - /^release/.*$/
 
 ##############################
 # Site stage
