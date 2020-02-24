@@ -1,4 +1,43 @@
 
+# Changelog for AWE 4.2.1
+*24/02/2020*
+
+- Add a redirect action to go outside AWE. [MR #196](https://gitlab.com/aweframework/awe/merge_requests/196) (Pablo Javier García Mora)
+- Allow sending beans as json values in REST requests. [MR #193](https://gitlab.com/aweframework/awe/merge_requests/193) (Pablo Javier García Mora)
+- Docs - How to use a dependency just in the selected row. [MR #192](https://gitlab.com/aweframework/awe/merge_requests/192) (Mario Bastardo)
+- When a date is pasted into a date criterion, it doesn't take the date value. [MR #191](https://gitlab.com/aweframework/awe/merge_requests/191) (Pablo Javier García Mora)
+- Retrieve ServiceData even if rest response is null. [MR #190](https://gitlab.com/aweframework/awe/merge_requests/190) (Pablo Javier García Mora)
+- Allow to define security for REST Servers. [MR #189](https://gitlab.com/aweframework/awe/merge_requests/189) (Pablo Javier García Mora)
+- Fix menu visibility if started as minimized (still not working). [MR #188](https://gitlab.com/aweframework/awe/merge_requests/188) (Pablo Javier García Mora)
+- Missing request header exception using view-pdf-file action. [MR #187](https://gitlab.com/aweframework/awe/merge_requests/187) (Pablo Javier García Mora)
+- Fix menu visibility if started as minimized. [MR #186](https://gitlab.com/aweframework/awe/merge_requests/186) (Pablo Javier García Mora)
+- .SELECTED parameters are not being sent when there is a dialog and a request for print data. [MR #185](https://gitlab.com/aweframework/awe/merge_requests/185) (Pablo Javier García Mora)
+- Increase the version of frontend-maven-plugin to latest. [MR #184](https://gitlab.com/aweframework/awe/merge_requests/184) (Pablo Javier García Mora)
+- Cast exception in ReportDesigner.getGridDataParameters when a Parameter is null. [MR #183](https://gitlab.com/aweframework/awe/merge_requests/183) (Pablo Javier García Mora)
+- Panelable.getReportStructure tries to read dependencies as elements, and throws a null pointer. [MR #182](https://gitlab.com/aweframework/awe/merge_requests/182) (Pablo Javier García Mora)
+- Some Scheduler locales are not defined in the right module. [MR #181](https://gitlab.com/aweframework/awe/merge_requests/181) (Pablo Javier García Mora)
+- Define some performance tests over query computed components. [MR #180](https://gitlab.com/aweframework/awe/merge_requests/180) (Pablo Javier García Mora)
+- Error printing with awe-boot docker image. [MR #179](https://gitlab.com/aweframework/awe/merge_requests/179) (Pablo Vidal Otero)
+- Charts with  datetime type axis are not working correctly. [MR #178](https://gitlab.com/aweframework/awe/merge_requests/178) (Pablo Vidal Otero)
+- Remove RepGenPdf screen and all its queries. [MR #177](https://gitlab.com/aweframework/awe/merge_requests/177) (Pablo Vidal Otero)
+- Use sequence in `insert multiple=true`. [MR #176](https://gitlab.com/aweframework/awe/merge_requests/176) (Pablo Javier García Mora)
+- **[HAS IMPACTS]** Fix cell-style documentation in grid definitions. [MR #175](https://gitlab.com/aweframework/awe/merge_requests/175) (Pablo Javier García Mora)
+- getRequest() returns null when used in a Scheduler Task. [MR #174](https://gitlab.com/aweframework/awe/merge_requests/174) (Pablo Javier García Mora)
+- Task list grid in scheduler-tasks screen is only showing 30 results. [MR #173](https://gitlab.com/aweframework/awe/merge_requests/173) (Pablo Javier García Mora)
+- Exception in ServerDAO.findServer when there are no defined servers. [MR #172](https://gitlab.com/aweframework/awe/merge_requests/172) (Pablo Javier García Mora)
+- getRequest().setParameter POJO object. [MR #171](https://gitlab.com/aweframework/awe/merge_requests/171) (Pablo Javier García Mora)
+- getTaskExecutionList query adding fields in id instead of concat in SQS. [MR #170](https://gitlab.com/aweframework/awe/merge_requests/170) (Pablo Javier García Mora)
+- Scheduler Task list only retrieves 30 results at application start. [MR #169](https://gitlab.com/aweframework/awe/merge_requests/169) (Pablo Javier García Mora)
+- Server-print action error. [MR #168](https://gitlab.com/aweframework/awe/merge_requests/168) (Pablo Javier García Mora)
+- There are some warning in compilation process. [MR #167](https://gitlab.com/aweframework/awe/merge_requests/167) (Pablo Vidal Otero)
+- File Manager block. [MR #166](https://gitlab.com/aweframework/awe/merge_requests/166) (Pablo Vidal Otero)
+- bug awe builder criteria are hidden by default. [MR #165](https://gitlab.com/aweframework/awe/merge_requests/165) (Pablo Javier García Mora)
+- Invalid CronExpression when reading some scheduler tasks. [MR #164](https://gitlab.com/aweframework/awe/merge_requests/164) (Pablo Javier García Mora)
+- Fix hash tests. [MR #163](https://gitlab.com/aweframework/awe/merge_requests/163) (Pablo Vidal Otero)
+- Function ROW_NUMBER in over fields in SQL SERVER not working properly. [MR #162](https://gitlab.com/aweframework/awe/merge_requests/162) (Pablo Javier García Mora)
+- Pick a new ADE version. [MR #161](https://gitlab.com/aweframework/awe/merge_requests/161) (Pablo Javier García Mora)
+- DataSource Map doesn't initialize when FlyWay is not active. [MR #160](https://gitlab.com/aweframework/awe/merge_requests/160) (Pablo Vidal Otero)
+
 # Changelog for AWE 4.2.0
 *20/12/2019*
 
