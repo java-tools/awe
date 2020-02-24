@@ -1,1 +1,1 @@
-import './chart.js';
+require('./chart.js');

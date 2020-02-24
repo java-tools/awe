@@ -2,8 +2,6 @@ package com.almis.awe.model.entities.screen.component.chart;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.util.data.ListUtil;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
@@ -14,11 +12,13 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ChartSerie Class
- *
+ * <p>
  * Used to parse a chart Serie tag with XStream
  * Generates an Chart widget
  *
@@ -89,6 +89,7 @@ public class ChartSerie extends AbstractChart {
 
   /**
    * Returns is drill down
+   *
    * @return Is drill down
    */
   public boolean isDrillDown() {
@@ -100,63 +101,62 @@ public class ChartSerie extends AbstractChart {
    *
    * @return Model node
    */
-  public ObjectNode getModel() {
+  public Map<String, Object> getModel() {
 
     // Variable definition
-    JsonNodeFactory factory = JsonNodeFactory.instance;
-    ObjectNode serieNode = factory.objectNode();
+    Map<String, Object> model = new HashMap<>();
 
     // Add id serie
     if (getId() != null) {
-      serieNode.put(ChartConstants.ID, getId());
+      model.put(ChartConstants.ID, getId());
     }
 
     // Add name of serie
     if (getLabel() != null && !getLabel().isEmpty()) {
-      serieNode.put(ChartConstants.NAME, getLabel());
+      model.put(ChartConstants.NAME, getLabel());
     }
 
     // Add type of serie
     if (getType() != null) {
-      serieNode.put(ChartConstants.TYPE, getType());
+      model.put(ChartConstants.TYPE, getType());
     }
 
     // Add color of serie
     if (getColor() != null) {
-      serieNode.put(ChartConstants.COLOR, getColor());
+      model.put(ChartConstants.COLOR, getColor());
     }
 
     // Add index xAxix
     if (getXAxis() != null) {
-      serieNode.set(ChartConstants.X_AXIS, factory.numberNode(Integer.valueOf(getXAxis())));
+      model.put(ChartConstants.X_AXIS, Integer.valueOf(getXAxis()));
     }
 
     // Add index yAxix
     if (getYAxis() != null) {
-      serieNode.set(ChartConstants.Y_AXIS, factory.numberNode(Integer.valueOf(getYAxis())));
+      model.put(ChartConstants.Y_AXIS, Integer.valueOf(getYAxis()));
     }
 
     // Add xValue field name
     if (getXValue() != null && !getXValue().isEmpty()) {
-      serieNode.put(ChartConstants.X_VALUE, getXValue());
+      model.put(ChartConstants.X_VALUE, getXValue());
     }
     // Add yValue field name
     if (getYValue() != null && !getYValue().isEmpty()) {
-      serieNode.put(ChartConstants.Y_VALUE, getYValue());
+      model.put(ChartConstants.Y_VALUE, getYValue());
     }
     // Add zValue field name
     if (getZValue() != null && !getZValue().isEmpty()) {
-      serieNode.put(ChartConstants.Z_VALUE, getZValue());
+      model.put(ChartConstants.Z_VALUE, getZValue());
     }
 
     // Add drilldown serie id
     if (isDrillDown() && getDrillDownSerie() != null) {
-      serieNode.put(ChartConstants.DRILL_DOWN, getDrillDownSerie());
+      model.put(ChartConstants.DRILL_DOWN, getDrillDownSerie());
     }
 
     // Add extra parameters
-    addParameters(serieNode);
+    addParameters(model);
 
-    return serieNode;
+    return model;
   }
 }

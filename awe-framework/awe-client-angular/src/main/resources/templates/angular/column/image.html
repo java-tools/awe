@@ -1,1 +1,1 @@
-<img ng-src="{{component.model.values[0].image}}" class="grid-image no-animate {{component.model.values[0].style}}" ng-alt="{{component.model.values[0].label| translateMultiple}}" title="{{component.model.values[0].label| translateMultiple}}"/>
+<img ng-src="{{component.model.values[0].image}}" class="grid-image no-animate {{component.model.values[0].style}}" ng-alt="{{component.model.values[0].label | translateMultiple}}" title="{{(component.model.values[0].title || component.model.values[0].label) | translateMultiple}}"/>

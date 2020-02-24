@@ -1,6 +1,7 @@
 package com.almis.awe.test.unit.database;
 
 import com.almis.awe.component.AweDatabaseContextHolder;
+import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.test.unit.categories.CIDatabaseTest;
 import com.almis.awe.test.unit.categories.NotCIDatabaseTest;
 import com.almis.awe.test.unit.categories.NotHSQLDatabaseTest;
@@ -2257,7 +2258,11 @@ public class QueryTest extends AweSpringDatabaseTests {
   public void testDatabaseStringHash() throws Exception {
     String queryName = "VariableStringHash";
     String variables = "";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"hashEncrypt\":\"A3Ee0dvjsWU=\",\"l1_nom\":\"test\",\"hashPbk\":\"ac7129c6b96e83745a953e80335a172d74a41d12d91b0e19a21c10cb8a861b65\",\"hashRipemd\":\"72c931bcdede01f4b5ef55a9a4f40405e3d516cb\",\"hashSha\":\"655e786674d9d3e77bc05ed1de37b4b6bc89f788829f9f3c679e7687b410c89b\"}]}}},{\"type\":\"end-load\"}]";
+    String hashPbkResult = EncodeUtil.encodePBKDF2WithHmacSHA1("prueba");
+    String hashEncryptResult = EncodeUtil.encryptRipEmd160("prueba");
+    String hashRipEmdResult = EncodeUtil.encodeRipEmd160("prueba");
+    String hashShaResult = EncodeUtil.hash(EncodeUtil.HashingAlgorithms.SHA_256, "prueba");
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"hashEncrypt\":\"" + hashEncryptResult + "\",\"l1_nom\":\"test\",\"hashPbk\":\"" + hashPbkResult + "\",\"hashRipemd\":\"" + hashRipEmdResult + "\",\"hashSha\":\"" + hashShaResult + "\"}]}}},{\"type\":\"end-load\"}]";
 
     String result = performRequest(queryName, variables, DATABASE, expected);
     assertResultVariablesJson(queryName, result, 1);
@@ -3174,6 +3179,18 @@ public class QueryTest extends AweSpringDatabaseTests {
 
     String result = performRequest(queryName, variables, DATABASE, expected);
     assertResultServiceJson(queryName, result, 7);
+  }
+
+  /**
+   * Test of big data evaluation
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testBigDataEvalPerformance() throws Exception {
+    String queryName = "NumTstLst";
+    String result = performRequest(queryName, "", DATABASE);
+    assertResultServiceJson(queryName, result, 30, 1, 200, 6000);
   }
 
   /**

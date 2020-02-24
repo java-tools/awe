@@ -1,26 +1,5 @@
 import { DefaultSettings } from "./../../../main/resources/js/awe/data/options";
-
-/**
- * Launch a screen action
- * @param {String} actionName Action name
- * @param {String} actionMethod Action method
- * @param {Object} parameters Parameters
- * @param {Function} done Launch when done
- */
-export function launchScreenAction($injector, actionName, actionMethod, parameters, done) {
-  let $screen = $injector.get('Screen');
-  let $actionController = $injector.get('ActionController');
-
-  // Launch action
-  $actionController.closeAllActions();
-  let action = $actionController.generateAction({type: actionName, ...parameters}, {address: {view: "base"}}, true, true);
-
-  // Spy screen action
-  spyOn(action, "accept").and.callFake(done);
-
-  // Call action
-  $screen[actionMethod].call(this, action);
-}
+import { launchScreenAction } from "../utils";
 
 describe('awe-framework/awe-client-angular/src/test/js/services/screen.js', function() {
   let $injector, $utilities, $settings, $actionController, $windowMock, $control, $rootScope, $state, $storage, $httpBackend, $location;
@@ -231,6 +210,15 @@ describe('awe-framework/awe-client-angular/src/test/js/services/screen.js', func
     spyOn($windowMock, "print");
     return launchScreenAction($injector, "print", "screenPrint", {id: 1, parameters:{}}, () => {
       expect($windowMock.print).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  // Launch redirect action
+  it('should launch a redirect action', function(done) {
+    $windowMock.location = { url : "" };
+    launchScreenAction($injector, "redirect", "redirect", {id: 2, target: "http://alla.que.voy"}, () => {
+      expect($windowMock.location.url).toBe("http://alla.que.voy");
       done();
     });
   });

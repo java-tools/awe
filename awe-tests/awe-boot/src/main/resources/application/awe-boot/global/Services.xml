@@ -315,6 +315,19 @@
     </rest>
   </service>
 
+  <service id="TestComplexJavaParametersPOJO">
+    <java classname="com.almis.awe.test.service.DummyQualifierService" method="testComplexRestParametersPOJO">
+      <service-parameter type="OBJECT" bean-class="com.almis.awe.test.bean.Concert"/>
+    </java>
+  </service>
+
+  <service id="TestComplexRestParametersPOJO">
+    <rest method="PUT" endpoint="http://localhost:18081/testapi/complex/pojoJSON/{tutu}" content-type="JSON">
+      <service-parameter type="STRING" name="tutu"/>
+      <service-parameter type="OBJECT" name="concert" bean-class="com.almis.awe.test.bean.Concert"/>
+    </rest>
+  </service>
+
   <service id="testComplexRestPostParametersJson">
     <rest server="local" method="POST" endpoint="/testapi/complex/parameters/json/testRestParameters" content-type="JSON">
       <service-parameter type="INTEGER" name="value" />
@@ -323,6 +336,10 @@
 
   <service id="testExternalRest">
     <rest server="islandia" method="GET" endpoint="/concerts" wrapper="com.almis.awe.test.bean.Concerts"/>
+  </service>
+
+  <service id="testExternalRestSecurity">
+    <rest server="postman-security" method="GET" endpoint="/basic-auth" wrapper="com.almis.awe.test.bean.PostmanAuth"/>
   </service>
 
   <service id="testPostman">

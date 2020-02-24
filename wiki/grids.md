@@ -151,29 +151,55 @@ To define a **grid** or a **treegrid** in AWE you must follow the next structure
 
 ### Specific column components
 
-There are several components developed specifically to be used in grid cells. These are those components:
+There are several components developed specifically to be used in grid cells. 
+These components need a special structure on the query which fills them:
 
-#### Text view column component
+```xml
+<compound alias="specialCell">
+  <computed alias="value" format="xxx"/>  
+  <computed alias="label" format="xxx" translate="EnumTranslate"/>
+</compound>
+```
 
-This component is very useful to show an styled text inside a grid with an icon. The compound attributes to fill this component are the following:
+These are the cells which use the special structure:
+
+#### Standard cell without components
+
+When you send a **compound structure** to a standard cell, you can use the following attributes:
 
 | Attribute   |  Description                                                                                                |
 | ----------- | ------------------------------------------------------------------------------------------------------------|
+| value       | Value which will be sent to the server  |
+| label       | Text which will be shown. You can use [i18n](i18n-internationalization.md) files (locales) |
+| title       | Text to show when you move the mouse over the icon. You can use [i18n](i18n-internationalization.md) files (locales) |
+| cell-style  | CSS class to format the contents |
+
+#### Text view column component
+
+This component is very useful to show an styled text inside a grid with an icon. The **compound attributes** to fill this component are the following:
+
+| Attribute   |  Description                                                                                                |
+| ----------- | ------------------------------------------------------------------------------------------------------------|
+| value       | Value which will be sent to the server  |
+| label       | Text which will be shown. You can use [i18n](i18n-internationalization.md) files (locales) |
+| title       | Text to show when you move the mouse over the icon. You can use [i18n](i18n-internationalization.md) files (locales) |
 | icon        | Icon class. You can check all iconset at [FontAwesome](http://fontawesome.io/icons/) |
-| value | Text to show. |
-| label       | Text to show when you move the mouse over the icon. You can use [i18n](i18n-internationalization.md) files (locales) |
-| style | CSS class to format the contents |
+| unit        | Unit label (shown on the right of the cell). You can use [i18n](i18n-internationalization.md) files (locales) |
+| style       | CSS class to format the contents |
 
 #### Icon column component
 
 ![IconColumn](images/IconColumn.png)
 
-This component is very useful to show an icon inside a grid. The compound attributes to fill this component are the following:
+This component is very useful to show an icon inside a grid. The **compound attributes** to fill this component are the following:
 
 | Attribute   |  Description                                                                                                |
 | ----------- | ------------------------------------------------------------------------------------------------------------|
-| icon        | Icon class. You can check all iconset at [FontAwesome](http://fontawesome.io/icons/) |
+| value       | Value which will be sent to the server  |
 | label       | Text to show when you move the mouse over the icon. You can use [i18n](i18n-internationalization.md) files (locales) |
+| title       | Text to show when you move the mouse over the icon. You can use [i18n](i18n-internationalization.md) files (locales) |
+| icon        | Icon class. You can check all iconset at [FontAwesome](http://fontawesome.io/icons/) |
+| style       | CSS class to format the contents |
 
 #### Formatted text column component
 
@@ -186,12 +212,15 @@ This component is very useful to show HTML code inside a grid. There are two typ
 
 ![ImageColumn](images/ImageColumn.png)
 
-This component is very useful to show an image inside a grid. The compound attributes to fill this component are the following:
+This component is very useful to show an image inside a grid. The **compound attributes** to fill this component are the following:
 
 | Attribute   |  Description                                                                                                |
 | ----------- | ------------------------------------------------------------------------------------------------------------|
+| value       | Value which will be sent to the server  |
+| label       | Alternate text. You can use [i18n](i18n-internationalization.md) files (locales) |
+| title       | Text to show when you move the mouse over the icon. You can use [i18n](i18n-internationalization.md) files (locales) |
 | image       | Image path |
-| label       | Text to show when you move the mouse over the image. You can use [i18n](i18n-internationalization.md) files (locales) |
+| style       | CSS class to format the contents |
 
 #### Button column component
 
@@ -201,9 +230,11 @@ A button column is a component which allows to launch a set of `button-action` d
 
 | Attribute   |  Description                                                                                                |
 | ----------- | ------------------------------------------------------------------------------------------------------------|
-| icon        | Icon class to show in the button. You can check all iconset at [FontAwesome](http://fontawesome.io/icons/) |
+| value       | Value which will be sent to the server  |
 | label       | Text to show in the button. You can use [i18n](i18n-internationalization.md) files (locales) |
 | title       | Text to show when you move the mouse over the button. You can use [i18n](i18n-internationalization.md) files (locales) |
+| icon        | Icon class to show in the button. You can check all iconset at [FontAwesome](http://fontawesome.io/icons/) |
+| style       | CSS class to format the contents |
 
 #### Progress column component
 
@@ -214,8 +245,9 @@ The progress component is very useful to show the status of a job, or a task.
 | Attribute   |  Description                                                                                                |
 | ----------- | ------------------------------------------------------------------------------------------------------------|
 | value       | Value (in percentage (0-100) of the progress bar |
-| label       | Text to show in the progress bar |
+| label       | Text to show in the progress bar (ie percentage) |
 | title       | Text to show when you move the mouse over the button. You can use [i18n](i18n-internationalization.md) files (locales) |
+| style       | CSS class to format the contents |
 
 #### Sparkline column component
 

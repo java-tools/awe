@@ -1,5 +1,5 @@
 import { DefaultSettings } from "./../../../main/resources/js/awe/data/options";
-import { launchScreenAction } from "../services/screen";
+import { launchScreenAction } from "../utils";
 
 describe('awe-framework/awe-client-angular/src/test/js/components/tab.js', function() {
   let $injector, $rootScope, $compile, $httpBackend, $actionController, $storage, $control, $utilities;

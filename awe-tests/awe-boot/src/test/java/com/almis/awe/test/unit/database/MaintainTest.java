@@ -230,6 +230,29 @@ public class MaintainTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
+  public void testSingleAndMultipleInsertWithSequence() throws Exception {
+    String maintainName = "SingleAndMultipleInsertWithSequence";
+    String variables = "\"variable\": [\"tutu1\", \"tutu2\"],";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.debug(result);
+    assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1l),
+      new MaintainResultDetails(MaintainType.DELETE, 2l)
+    });
+
+    // Clean the mess
+    cleanUp("CleanUpSequence");
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
   public void testMultipleInsertWithSequenceTwice() throws Exception {
     String maintainName = "MultipleInsertWithSequence";
     String variables = "\"variable\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\"],";

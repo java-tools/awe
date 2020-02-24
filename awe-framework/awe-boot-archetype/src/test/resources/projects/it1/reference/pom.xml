@@ -28,6 +28,9 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.frontend>\${project.build.directory}/classes/static/</project.build.frontend>
     <check.xml.directory>\${project.basedir}/src/main/resources/application/</check.xml.directory>
+
+    <!-- Build environment -->
+    <build.environment>development</build.environment>
   </properties>
 
   <dependencies>

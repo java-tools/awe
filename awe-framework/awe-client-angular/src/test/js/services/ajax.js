@@ -109,6 +109,19 @@ describe('awe-framework/awe-client-angular/src/test/js/services/ajax.js', functi
     $httpBackend.flush();
   });
 
+  // Should launch a get request
+  it('should launch a get file request', function() {
+    // Mock
+    spyOn($settings, "settingsLoaded");
+
+    // Launch
+    let request = $ajax.getFile("http://server/action/test", {}, "application/pdf", "blob");
+
+    // Assert
+    request.then(response => expect(response.data).toEqual({}));
+    $httpBackend.flush();
+  });
+
   // Should serialize the parameters
   it('should get action urls', function() {
     // Launch

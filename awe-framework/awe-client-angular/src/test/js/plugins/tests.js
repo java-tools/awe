@@ -1,2 +1,2 @@
-import './uiNumeric.js';
-import './uiSlider.js';
+require('./uiNumeric.js');
+require('./uiSlider.js');

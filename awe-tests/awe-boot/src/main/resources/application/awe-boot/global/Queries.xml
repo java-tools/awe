@@ -1781,7 +1781,49 @@
   <!-- Numeric matrix test -->
   <query id="NumTstLst" distinct="true">
     <table id="HISAweDbs"/>
-    <field id="HISdat" alias="Num"/>
+    <field id="HISope" alias="Ope"/>
+    <field id="HISdat" alias="Dat" transform="DATE_MS"/>
+    <field id="HISact" alias="Act"/>
+    <computed format="[Dat]" eval="true" alias="Num"/>
+    <computed format="[Dat]" eval="true" alias="Num01"/>
+    <computed format="[Dat]" eval="true" alias="Num02"/>
+    <computed format="[Dat]" eval="true" alias="Num03"/>
+    <computed format="[Dat]" eval="true" alias="Num04"/>
+    <computed format="[Dat]" eval="true" alias="Num05"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num1"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num2"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num3"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num4"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num5"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num6"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num7"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num8"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num9"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num10"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num11"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num12"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num13"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num14"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num15"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num16"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num17"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num18"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num19"/>
+    <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num20"/>
+  </query>
+
+  <!-- Numeric matrix test -->
+  <query id="NumTstLstPrf" distinct="true" public="true">
+    <table id="HISAweDbs"/>
+    <field id="HISope" alias="Ope"/>
+    <field id="HISdat" alias="Dat" transform="DATE_MS"/>
+    <field id="HISact" alias="Act"/>
+    <computed format="[Dat]" eval="true" alias="Num"/>
+    <computed format="[Dat]" eval="true" alias="Num01"/>
+    <computed format="[Dat]" eval="true" alias="Num02"/>
+    <computed format="[Dat]" eval="true" alias="Num03"/>
+    <computed format="[Dat]" eval="true" alias="Num04"/>
+    <computed format="[Dat]" eval="true" alias="Num05"/>
     <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num1"/>
     <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num2"/>
     <computed format="(1/(parseInt(Math.random()*10,10)+1))*10" eval="true" alias="Num3"/>
@@ -2221,6 +2263,8 @@
     <variable id="planet" type="STRING" name="value"/>
     <variable id="format" type="STRING" value="json"/>
   </query>
+
+  <query id="TestExternalRestApiWithSecurity" service="testExternalRestSecurity"/>
 
   <query id="TestPostmanRestApi" service="testPostman"/>
 

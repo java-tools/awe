@@ -107,7 +107,7 @@
     POP-UPs
   -->
   <tag source="modal">
-    <include target-screen="NewPrnOpt" target-source="center" />
+    <include target-screen="PrnOpt" target-source="center" />
     <include target-screen="screen-help" target-source="center"/>
   </tag>
 </screen>

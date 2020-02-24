@@ -68,6 +68,18 @@ describe('awe-framework/awe-client-angular/src/test/js/services/connection.js', 
     expect($ajax.post).toHaveBeenCalled();
   });
 
+  // Get file request
+  it('should launch a get file', function() {
+    // Mock
+    spyOn($ajax, "getFile");
+
+    // Launch
+    $connection.getFile("http://server/action/test", {}, "application/pdf", "blob");
+
+    // Assert
+    expect($ajax.getFile).toHaveBeenCalled();
+  });
+
   // Serialize parameters
   it('should serialize parameters', function() {
     // Mock

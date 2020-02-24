@@ -8,14 +8,18 @@ aweApplication.directive('aweMenu',
       return {
         restrict: 'E',
         replace: false,
-        templateUrl: function () {
-          return serverData.getAngularTemplateUrl('menu');
-        },
+        template:
+          `<ul class="awe-menu {{::controller.style}}" ng-class="{'menu-minimized': status.minimized, 'ng-hide': !isVisible()}" ng-cloak>
+            <awe-option ng-repeat="option in options| allowedOption track by option.name" controller="option" status="status" on-option-click="onOptionClick()" menu-type="{{::menuType}}"
+                        close-first-level="closeFirstLevel()" first-level="true" selected-option="selectedOption" option-title="{{::option.title}}" option-name="{{::option.name}}"
+                        option-style="{{::option.style}}" option-icon="{{::option.icon}}" option-text="{{::option.label}}"></awe-option>
+          </ul>`,
         scope: {
           'menuId': '@'
         },
         link: function (scope, element) {
           // Init as component
+          let $body = $("body");
           let component = new Component(scope, scope.menuId);
           if (!component.asComponent()) {
             // If component initialization is wrong, cancel initialization
@@ -24,8 +28,9 @@ aweApplication.directive('aweMenu',
 
           // Initialize options
           scope.menuType = scope.controller.style && scope.controller.style.indexOf("horizontal") !== -1 ? "horizontal" : "vertical";
-          scope.visible = true;
-          scope.status = {minimized: false, animating: false, resolution: "desktop"};
+          let isMinimized = $body.hasClass("mmc");
+          scope.visible = isMinimized ? scope.menuType !== "horizontal" : true;
+          scope.status = {minimized: isMinimized, animating: false, resolution: "desktop"};
           scope.options = [];
           scope.selectedOption = {name: "", opened: {}};
 
@@ -98,19 +103,19 @@ aweApplication.directive('aweMenu',
             if (scope.menuType === "horizontal") {
               scope.visible = !scope.visible;
               // Toggle mmc class to body
-              $('body').toggleClass("mmc", !scope.visible);
+              $body.toggleClass("mmc", !scope.visible);
             } else {
               // Close first level first (if resolution is tablet)
               scope.status.minimized = !scope.status.minimized;
               scope.status.animating = true;
-              $('body').toggleClass("mmc", scope.status.minimized);
+              $body.toggleClass("mmc", scope.status.minimized);
               switch (scope.status.resolution) {
                 case "tablet":
                 case "mobile":
-                  $('body').toggleClass("mme", !scope.status.minimized);
+                  $body.toggleClass("mme", !scope.status.minimized);
                   break;
                 default:
-                  $('body').toggleClass("mme", false);
+                  $body.toggleClass("mme", false);
                   break;
               }
 
@@ -273,7 +278,7 @@ aweApplication.directive('aweMenu',
           // Remove all listeners on unload
           listeners['resize'] = scope.$on("$destroy", function () {
             // Remove body classes
-            $('body').removeClass("mmc mme");
+            $body.removeClass("mme");
             Utilities.clearListeners(listeners);
           });
 

@@ -1,0 +1,22 @@
+---
+scenarioName: Validate AWE performance in queries
+steps:
+  - name: big_eval_query
+    url: "/action/data/NumTstLstPrf"
+    method: POST
+    request:
+      headers:
+        Authorization: e94cf596-578b-439b-87a8-70ae8bf25162
+        Content-Type: application/json
+      body:
+        t: t
+    verify:
+      status: 200
+      headers:
+        Content-Type:
+          - application/json;charset=UTF-8
+      body:
+        - parameters:
+            datalist:
+              total: 202
+              records: 6048

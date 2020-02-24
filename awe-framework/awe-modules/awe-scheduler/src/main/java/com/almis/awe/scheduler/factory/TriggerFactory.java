@@ -56,7 +56,7 @@ public class TriggerFactory {
 
         // Calculate progress refresh time
         Integer averageTime = (Integer) dataMap.get(TASK_JOB_AVERAGE_TIME);
-        int progressTime = averageTime == 0 ? 1000 : averageTime / 100;
+        int progressTime = averageTime == 0 ? 1000 : Math.max(1, averageTime / 100);
 
         // Generate trigger
         return generateTriggerBuilder(dataMap, (String) dataMap.get("id"), "PROGRESS")

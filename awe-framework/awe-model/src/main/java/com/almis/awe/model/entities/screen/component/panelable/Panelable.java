@@ -2,6 +2,7 @@ package com.almis.awe.model.entities.screen.component.panelable;
 
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
+import com.almis.awe.model.entities.screen.component.container.Container;
 import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -60,8 +61,8 @@ public abstract class Panelable extends AbstractCriteria {
     ArrayNode panelableValues = (ArrayNode) dataNode.get(AweConstants.JSON_ALL);
 
     // Call generate method on all children
-    for (Element element : getElementList()) {
-      if (printAllTabs || element.getId().equalsIgnoreCase(selectedTab)) {
+    for (Container element : getChildrenByType(Container.class)) {
+      if (printAllTabs || selectedTab.equalsIgnoreCase(element.getId())) {
         element.getReportStructure(printElementList, getTabLabel(element.getId(), panelableValues), parameters, dataSuffix);
       }
     }

@@ -1,9 +1,7 @@
-let path = require("path");
-let webpack = require("webpack");
-let testDir = path.join(__dirname, "src", "test", "js");
-let resourcesDir = path.join(__dirname, "src", "main", "resources");
-let tests = path.join(testDir, "tests.js");
-let dir = path.join(__dirname, "src", "main", "resources", "webpack");
+const path = require("path");
+const webpack = require("webpack");
+const testDir = path.join(__dirname, "src", "test", "js");
+const tests = path.join(testDir, "tests.js");
 const libPath = path.resolve(__dirname, "src", "main", "resources", "js", "lib");
 
 // Fix webpack for karma

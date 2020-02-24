@@ -1,5 +1,5 @@
-<div ng-show="component.controller.visible && component.model.values[0].value > 0" class="column-progress no-animate" ui-dependency="dependencies" ng-attr-title="{{component.model.values[0].title}}" ng-cloak>
-  <div class="progress-text">{{component.model.values[0].label}}</div>
+<div ng-show="component.controller.visible && component.model.values[0].value > 0" class="column-progress no-animate" ui-dependency="dependencies" title="{{component.model.values[0].title| translateMultiple}}" ng-cloak>
+  <div class="progress-text">{{component.model.values[0].label | translateMultiple}}</div>
   <div class="progress progress-striped active">
     <div class="progress-bar {{component.model.values[0].style}}" ng-style="{width: (model.values[0].value + '%')}"></div>
   </div>

@@ -5,6 +5,7 @@ import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.service.MaintainService;
 import com.almis.awe.service.QueryService;
+import com.almis.awe.test.bean.Concert;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
-import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADER;
-
 
 /**
  * Created by pgarcia on 18/05/2018.
  */
 @Controller
-@RequestMapping ("/testapi")
+@RequestMapping("/testapi")
 public class TestRestController {
 
   @Autowired
@@ -37,6 +36,7 @@ public class TestRestController {
 
   /**
    * Test get send
+   *
    * @return Empty service data
    */
   @GetMapping("/simple")
@@ -47,6 +47,7 @@ public class TestRestController {
 
   /**
    * Test post send
+   *
    * @return Empty service data
    */
   @PostMapping("/simple")
@@ -57,6 +58,7 @@ public class TestRestController {
 
   /**
    * Test get send
+   *
    * @return Empty service data
    */
   @GetMapping("/complex/{name}")
@@ -67,6 +69,7 @@ public class TestRestController {
 
   /**
    * Test post send
+   *
    * @return Empty service data
    */
   @PostMapping("/complex/{name}")
@@ -77,6 +80,7 @@ public class TestRestController {
 
   /**
    * Test get send
+   *
    * @return Empty service data
    */
   @GetMapping("/complex/{name}/{value}")
@@ -91,6 +95,7 @@ public class TestRestController {
 
   /**
    * Test post send
+   *
    * @return Empty service data
    */
   @PostMapping(value = "/complex/parameters/{name}")
@@ -105,19 +110,21 @@ public class TestRestController {
 
   /**
    * Test post parameter list
+   *
    * @return Empty service data
    */
   @PostMapping(value = "/complex/parameterList")
   @ResponseBody
   public ServiceData testPostParameterList(@RequestParam(name = "integerList", required = true) List<Integer> integerList,
                                            @RequestParam(name = "stringList", required = true) List<String> stringList,
-                                           @RequestParam(name = "dateList", required = true) @DateTimeFormat(pattern="dd/MM/yyyy") List<Date> dateList) throws AWException {
+                                           @RequestParam(name = "dateList", required = true) @DateTimeFormat(pattern = "dd/MM/yyyy") List<Date> dateList) throws AWException {
     // Initialize parameters
     return new ServiceData();
   }
 
   /**
    * Test post parameter list
+   *
    * @return Empty service data
    */
   @PostMapping(value = "/complex/parameterListGetParameters")
@@ -129,6 +136,7 @@ public class TestRestController {
 
   /**
    * Test post parameter list
+   *
    * @return Empty service data
    */
   @PostMapping(value = "/complex/parameterListJson")
@@ -141,7 +149,22 @@ public class TestRestController {
   }
 
   /**
+   * Test post parameter list
+   *
+   * @return Empty service data
+   */
+  @PutMapping(value = "/complex/pojoJSON/{tutu}")
+  @ResponseBody
+  public ServiceData testPostParameterListPOJO(@PathVariable("tutu") String tutu, @RequestBody Concert concert) throws AWException {
+    // Initialize parameters
+    aweRequest.init(JsonNodeFactory.instance.objectNode(), "asasd");
+
+    return new ServiceData();
+  }
+
+  /**
    * Test post send json
+   *
    * @return Empty service data
    */
   @PostMapping(value = "/complex/parameters/json/{name}")

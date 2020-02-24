@@ -5,10 +5,6 @@ import com.almis.awe.model.type.ChartParameterType;
 import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import lombok.EqualsAndHashCode;
@@ -18,16 +14,18 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ChartParameter Class
- *
+ * <p>
  * Used to parse a chart parameter or parameter list with XStream
- *
- *
+ * <p>
+ * <p>
  * Generates an Chart widget
- *
  *
  * @author Pablo VIDAL - 21/OCT/2014
  */
@@ -63,113 +61,83 @@ public class ChartParameter extends AbstractChart {
   /**
    * Add chart parameter to node parent
    *
-   * @param parentAttributes Json object with controller attributes of parent
+   * @param model Map with controller attributes of parent
    */
-  public void addParameterModel(ObjectNode parentAttributes) {
-    if (parentAttributes != null) {
-      parentAttributes.set(this.getName(), this.getParameterValue(parentAttributes));
+  public void addParameterModel(Map<String, Object> model) {
+    if (model != null) {
+      model.put(getName(), getParameterValue(model));
     }
-  }
-
-  /**
-   * Get chart parameter by name
-   *
-   * @param name Parameter name
-   * @return Parameter name
-   */
-  public ChartParameter getChartParameterByName(String name) {
-    ChartParameter parameterFound = null;
-    // Get chart parameter list
-    List<ChartParameter> parameterList = getElementList();
-    for (ChartParameter parameter : parameterList) {
-      if (name.equalsIgnoreCase(parameter.getName())) {
-        parameterFound = parameter;
-      }
-    }
-    return parameterFound;
   }
 
   /**
    * Returns the chart parameter node
    *
-   * @param parentAttributes Json node parent
+   * @param model Parent node
    * @return Parameter element string
    */
   @JsonValue
-  public JsonNode getParameterValue(ObjectNode parentAttributes) {
-
-    JsonNode node = JsonNodeFactory.instance.nullNode();
-
+  public Object getParameterValue(Map<String, Object> model) {
     // Add dependency element value
     if (this.getType() != null) {
-      switch (ChartParameterType.valueOf(this.getType().toUpperCase())) {
-        case STRING:
-          node = JsonNodeFactory.instance.textNode(this.getValue());
-          break;
+      switch (ChartParameterType.valueOf(getType().toUpperCase())) {
         case BOOLEAN:
-          node = JsonNodeFactory.instance.booleanNode(Boolean.parseBoolean(this.getValue()));
-          break;
+          return Boolean.parseBoolean(getValue());
         case INTEGER:
-          node = JsonNodeFactory.instance.numberNode(Integer.valueOf(this.getValue()));
-          break;
+          return Integer.valueOf(getValue());
         case LONG:
-          node = JsonNodeFactory.instance.numberNode(Long.valueOf(this.getValue()));
-          break;
+          return Long.valueOf(getValue());
         case FLOAT:
-          node = JsonNodeFactory.instance.numberNode(Float.valueOf(this.getValue()));
-          break;
+          return Float.valueOf(getValue());
         case DOUBLE:
-          node = JsonNodeFactory.instance.numberNode(Double.valueOf(this.getValue()));
-          break;
+          return Double.valueOf(getValue());
         case ARRAY:
-          node = this.getParameterArray(parentAttributes);
-          break;
+          return getParameterArray(model);
         case OBJECT:
-          node = this.getParameterObject(parentAttributes);
-          break;
+          return getParameterObject(model);
         case NULL:
+          return null;
+        case STRING:
         default:
-          node = JsonNodeFactory.instance.nullNode();
-          break;
+          return getValue();
       }
     }
-    return node;
+    return getValue();
   }
 
   /**
    * Returns the chart parameter list for a json arrayNode
    *
-   * @param parentAttributes Json node parent
+   * @param model Json node parent
    * @return ArrayNode
    */
-  public ArrayNode getParameterArray(ObjectNode parentAttributes) {
+  public List<Object> getParameterArray(Map<String, Object> model) {
     // Get array node if it has already the parameter
-    ArrayNode arrayNode = (ArrayNode) (parentAttributes.has(this.getName()) ? parentAttributes.get(this.getName()) : JsonNodeFactory.instance.arrayNode());
+    List modelList = (List) (model.containsKey(getName()) ? model.get(getName()) : new ArrayList<>());
 
     // Get chart parameter list
     List<ChartParameter> parameterList = getElementList();
     for (ChartParameter parameter : parameterList) {
-      arrayNode.add(parameter.getParameterValue(parentAttributes));
+      modelList.add(parameter.getParameterValue(model));
     }
-    return arrayNode;
+    return modelList;
   }
 
   /**
    * Returns the chart parameter list for a json ObjectNode
    *
-   * @param parentAttributes Json node parent
+   * @param model Json node parent
    * @return ObjectNode
    */
-  public ObjectNode getParameterObject(ObjectNode parentAttributes) {
+  public Map<String, Object> getParameterObject(Map<String, Object> model) {
     // Get array node if it has already the parameter
-    ObjectNode objectNode = (ObjectNode) (parentAttributes.has(this.getName()) ? parentAttributes.get(this.getName()) : JsonNodeFactory.instance.objectNode());
+    Map<String, Object> objectMap = (Map<String, Object>) (model.containsKey(getName()) ? model.get(getName()) : new HashMap<>());
 
     // Get elements (columns)
     List<ChartParameter> parameterList = getElementList();
     for (ChartParameter parameter : parameterList) {
-      objectNode.set(parameter.getName(), parameter.getParameterValue(objectNode));
+      objectMap.put(parameter.getName(), parameter.getParameterValue(objectMap));
     }
 
-    return objectNode;
+    return objectMap;
   }
 }

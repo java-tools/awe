@@ -3,16 +3,17 @@ package com.almis.awe.model.util.data;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.vladsch.flexmark.ast.Node;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.util.options.MutableDataSet;
-import org.apache.commons.lang3.StringEscapeUtils;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.data.MutableDataSet;
+import org.apache.commons.text.StringEscapeUtils;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +24,7 @@ import java.util.regex.Pattern;
 
 /**
  * StringUtil Class
- *
+ * <p>
  * String Utilities for AWE
  *
  * @author Pablo GARCIA - 20/JAN/2011
@@ -457,7 +458,7 @@ public final class StringUtil {
    * @return Value as ArrayNode
    */
   public static List<String> toStringList(String pattern, String value) {
-    return Arrays.asList(value.split(pattern));
+    return value.trim().isEmpty() ? Collections.emptyList() : Arrays.asList(value.split(pattern));
   }
 
   /**
@@ -500,8 +501,9 @@ public final class StringUtil {
 
   /**
    * Shorten a text if longer than size
-   * @param text Text to shorten
-   * @param size Max text size
+   *
+   * @param text        Text to shorten
+   * @param size        Max text size
    * @param replacement Text to replace the extra characters
    * @return Shortened string
    */

@@ -7,8 +7,6 @@ import com.almis.awe.model.type.ChartType;
 import com.almis.awe.model.util.data.ListUtil;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -21,16 +19,18 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Chart Class
- *
+ * <p>
  * Used to parse a chart tag with XStream
- *
- *
+ * <p>
+ * <p>
  * Generates an Chart widget
- *
  *
  * @author Pablo VIDAL - 20/OCT/2014
  */
@@ -137,6 +137,7 @@ public class Chart extends AbstractChart {
 
   /**
    * Returns if is stock chart
+   *
    * @return Is stock chart
    */
   public boolean isStockChart() {
@@ -145,6 +146,7 @@ public class Chart extends AbstractChart {
 
   /**
    * Returns if is inverted
+   *
    * @return Is inverted
    */
   public boolean isInverted() {
@@ -153,6 +155,7 @@ public class Chart extends AbstractChart {
 
   /**
    * Returns if data labels are enabled
+   *
    * @return Data labels are enabled
    */
   public boolean isEnableDataLabels() {
@@ -165,80 +168,75 @@ public class Chart extends AbstractChart {
    * @return Chart model
    */
   @JsonGetter("chartModel")
-  public ObjectNode getChartModel() {
-    JsonNodeFactory factory = JsonNodeFactory.instance;
-    ObjectNode chartNode = factory.objectNode();
+  public Map<String, Object> getChartModel() {
+    Map<String, Object> chartModel = new HashMap<>();
 
     // Add node general chart options
     if (getType() != null) {
       // Check if is stock chart
-      chartNode.put(ChartConstants.STOCK_CHART, isStockChart());
+      chartModel.put(ChartConstants.STOCK_CHART, isStockChart());
 
       // Add chart general information
-      chartNode.set(ChartConstants.CHART, getChartInfo());
+      chartModel.put(ChartConstants.CHART, getChartInfo());
 
       // Add plotOptions to chart
-      chartNode.set(ChartConstants.PLOT_OPTIONS, getPlotOptions());
+      chartModel.put(ChartConstants.PLOT_OPTIONS, getPlotOptions());
     }
 
     // Set theme
     if (getTheme() != null) {
-      chartNode.put(ChartConstants.THEME, getTheme());
+      chartModel.put(ChartConstants.THEME, getTheme());
     }
 
     // Disable chart credits
-    ObjectNode creditsNode = factory.objectNode();
-    creditsNode.put(ChartConstants.ENABLED, false);
-    chartNode.set(ChartConstants.CREDITS, creditsNode);
+    Map<String, Object> creditsMap = new HashMap<>();
+    creditsMap.put(ChartConstants.ENABLED, false);
+    chartModel.put(ChartConstants.CREDITS, creditsMap);
 
     // Add chat title
     if (getLabel() != null) {
-      ObjectNode nodeTitle = JsonNodeFactory.instance.objectNode();
-      nodeTitle.put(ChartConstants.TEXT, this.getLabel());
-      chartNode.set(ChartConstants.TITLE, nodeTitle);
+      chartModel.put(ChartConstants.TITLE, getTextParameter(getLabel()));
     }
 
     // Add chat subtitle
     if (getSubTitle() != null) {
-      ObjectNode nodeSubTitle = JsonNodeFactory.instance.objectNode();
-      nodeSubTitle.put(ChartConstants.TEXT, this.getSubTitle());
-      chartNode.set(ChartConstants.SUBTITLE, nodeSubTitle);
+      chartModel.put(ChartConstants.SUBTITLE, getTextParameter(getSubTitle()));
     }
 
     // Add xAsis model
     if (getXAxisList() != null) {
-      chartNode.set(ChartConstants.X_AXIS, this.getAxisModel(getXAxisList()));
+      chartModel.put(ChartConstants.X_AXIS, getAxisModel(getXAxisList()));
     }
     // Add yAsis model
     if (getYAxisList() != null) {
-      chartNode.set(ChartConstants.Y_AXIS, this.getAxisModel(getYAxisList()));
+      chartModel.put(ChartConstants.Y_AXIS, getAxisModel(getYAxisList()));
     }
 
     // Add series model
     if (getSerieList() != null) {
-      chartNode.set(ChartConstants.SERIES, this.getSeriesModel(getSerieList(), false));
+      chartModel.put(ChartConstants.SERIES, this.getSeriesModel(getSerieList(), false));
 
       // Add drilldown series model
-      ObjectNode seriesDrilldown = JsonNodeFactory.instance.objectNode();
-      seriesDrilldown.set(ChartConstants.SERIES, this.getSeriesModel(getSerieList(), true));
-      chartNode.set(ChartConstants.DRILL_DOWN, seriesDrilldown);
+      Map<String, Object> seriesDrilldown = new HashMap<>();
+      seriesDrilldown.put(ChartConstants.SERIES, getSeriesModel(getSerieList(), true));
+      chartModel.put(ChartConstants.DRILL_DOWN, seriesDrilldown);
     }
 
     // Add tooltip model
     if (getChartTooltip() != null) {
-      chartNode.set(ChartConstants.TOOLTIP, this.getTooltipModel(getChartTooltip()));
+      chartModel.put(ChartConstants.TOOLTIP, this.getTooltipModel(getChartTooltip()));
     }
 
     // Add legend model
     if (getChartLegend() != null) {
-      chartNode.set(ChartConstants.LEGEND, this.getLegendModel(getChartLegend()));
+      chartModel.put(ChartConstants.LEGEND, this.getLegendModel(getChartLegend()));
     }
 
     // Update model with chart parameters
-    addParameters(chartNode);
+    addParameters(chartModel);
 
     // Return string parameter list
-    return chartNode;
+    return chartModel;
   }
 
   /**
@@ -247,10 +245,8 @@ public class Chart extends AbstractChart {
    * @return Json chart node general
    */
   @SuppressWarnings("incomplete-switch")
-  private JsonNode getChartInfo() {
-    // Variable definition
-    JsonNodeFactory factory = JsonNodeFactory.instance;
-    ObjectNode chartNode = factory.objectNode();
+  private Map<String, Object> getChartInfo() {
+    Map<String, Object> chartInfo = new HashMap<>();
 
     // Set chart TYPE attributes
     // --------------------------------------------------------------------------
@@ -258,56 +254,56 @@ public class Chart extends AbstractChart {
     if (this.getType() != null) {
       switch (chartType) {
         case COLUMN_3D:
-          chartNode.put(ChartConstants.TYPE, ChartConstants.COLUMN);
+          chartInfo.put(ChartConstants.TYPE, ChartConstants.COLUMN);
           break;
         case PIE_3D:
         case DONUT:
         case DONUT_3D:
         case SEMICIRCLE:
-          chartNode.put(ChartConstants.TYPE, ChartConstants.PIE);
+          chartInfo.put(ChartConstants.TYPE, ChartConstants.PIE);
           break;
         default:
-          chartNode.put(ChartConstants.TYPE, chartType.toString().toLowerCase());
+          chartInfo.put(ChartConstants.TYPE, chartType.toString().toLowerCase());
           break;
       }
     }
 
     // Set if inverted
     // --------------------------------------------------------------------------
-    chartNode.put(ChartConstants.INVERTED, isInverted());
+    chartInfo.put(ChartConstants.INVERTED, isInverted());
 
     // Check 3D options
     if (is3DChart()) {
-      ObjectNode options3DNode = factory.objectNode();
+      Map<String, Object> options3DNode = new HashMap<>();
       options3DNode.put(ChartConstants.ENABLED, true);
       switch (chartType) {
         case COLUMN_3D:
-          options3DNode.set(ChartConstants.ALPHA, factory.numberNode(15));
-          options3DNode.set(ChartConstants.BETA, factory.numberNode(15));
+          options3DNode.put(ChartConstants.ALPHA, 15);
+          options3DNode.put(ChartConstants.BETA, 15);
           break;
 
         case PIE_3D:
-          options3DNode.set(ChartConstants.ALPHA, factory.numberNode(45));
-          options3DNode.set(ChartConstants.BETA, factory.numberNode(0));
+          options3DNode.put(ChartConstants.ALPHA, 45);
+          options3DNode.put(ChartConstants.BETA, 0);
           break;
 
         case DONUT_3D:
-          options3DNode.set(ChartConstants.ALPHA, factory.numberNode(45));
+          options3DNode.put(ChartConstants.ALPHA, 45);
           break;
 
         default:
           options3DNode.put(ChartConstants.ENABLED, false);
 
       }
-      chartNode.set(ChartConstants.OPTIONS3D, options3DNode);
+      chartInfo.put(ChartConstants.OPTIONS3D, options3DNode);
     }
 
     // Set zoom TYPE
     if (this.getZoomType() != null) {
-      chartNode.put(ChartConstants.ZOOM_TYPE, this.getZoomType());
+      chartInfo.put(ChartConstants.ZOOM_TYPE, this.getZoomType());
     }
 
-    return chartNode;
+    return chartInfo;
   }
 
   /**
@@ -315,11 +311,11 @@ public class Chart extends AbstractChart {
    *
    * @return Json plotOptions node
    */
-  private JsonNode getPlotOptions() {
+  private Map<String, Object> getPlotOptions() {
     // Variable definition
     JsonNodeFactory factory = JsonNodeFactory.instance;
-    ObjectNode plotOptionsNode = factory.objectNode();
-    ObjectNode charTypePlotOpt = factory.objectNode();
+    Map<String, Object> plotOptionsNode = new HashMap<>();
+    Map<String, Object> charTypePlotOpt = new HashMap<>();
     ChartType chartType = ChartType.valueOf(this.getType().toUpperCase());
 
     // Stacked chart series
@@ -330,11 +326,11 @@ public class Chart extends AbstractChart {
     if (is3DChart()) {
       switch (chartType) {
         case PIE_3D:
-          charTypePlotOpt.set(ChartConstants.DEPTH, factory.numberNode(35));
+          charTypePlotOpt.put(ChartConstants.DEPTH, 35);
           break;
         case DONUT_3D:
-          charTypePlotOpt.set(ChartConstants.INNER_SIZE, factory.numberNode(100));
-          charTypePlotOpt.set(ChartConstants.DEPTH, factory.numberNode(45));
+          charTypePlotOpt.put(ChartConstants.INNER_SIZE, 100);
+          charTypePlotOpt.put(ChartConstants.DEPTH, 45);
           break;
         default:
       }
@@ -342,7 +338,7 @@ public class Chart extends AbstractChart {
 
     // Data labels
     if (this.isEnableDataLabels()) {
-      ObjectNode dataLabelsNode = factory.objectNode();
+      Map<String, Object> dataLabelsNode = new HashMap<>();
       dataLabelsNode.put(ChartConstants.ENABLED, true);
 
       // Format data labels
@@ -350,20 +346,20 @@ public class Chart extends AbstractChart {
         dataLabelsNode.put(ChartConstants.FORMAT, this.getFormatDataLabels());
       }
 
-      charTypePlotOpt.set(ChartConstants.DATALABELS, dataLabelsNode);
+      charTypePlotOpt.put(ChartConstants.DATALABELS, dataLabelsNode);
     }
 
     // Set fields to plot options node
     switch (chartType) {
       case COLUMN_3D:
-        plotOptionsNode.set(ChartConstants.COLUMN, charTypePlotOpt);
+        plotOptionsNode.put(ChartConstants.COLUMN, charTypePlotOpt);
         break;
       case PIE:
       case PIE_3D:
         generateLegend(charTypePlotOpt);
         charTypePlotOpt.put(ChartConstants.CURSOR, ChartConstants.POINTER);
         charTypePlotOpt.put(ChartConstants.ALLOW_POINT_SELECT, true);
-        plotOptionsNode.set(ChartConstants.PIE, charTypePlotOpt);
+        plotOptionsNode.put(ChartConstants.PIE, charTypePlotOpt);
         break;
 
       case DONUT:
@@ -372,7 +368,7 @@ public class Chart extends AbstractChart {
         charTypePlotOpt.put(ChartConstants.CURSOR, ChartConstants.POINTER);
         charTypePlotOpt.put(ChartConstants.ALLOW_POINT_SELECT, true);
         charTypePlotOpt.put(ChartConstants.INNER_SIZE, "50%");
-        plotOptionsNode.set(ChartConstants.PIE, charTypePlotOpt);
+        plotOptionsNode.put(ChartConstants.PIE, charTypePlotOpt);
         break;
 
       case SEMICIRCLE:
@@ -380,18 +376,18 @@ public class Chart extends AbstractChart {
         charTypePlotOpt.put(ChartConstants.CURSOR, ChartConstants.POINTER);
         charTypePlotOpt.put(ChartConstants.ALLOW_POINT_SELECT, true);
         // Set start and eng angle of circle
-        charTypePlotOpt.set(ChartConstants.START_ANGLE, factory.numberNode(-90));
-        charTypePlotOpt.set(ChartConstants.END_ANGLE, factory.numberNode(90));
+        charTypePlotOpt.put(ChartConstants.START_ANGLE, factory.numberNode(-90));
+        charTypePlotOpt.put(ChartConstants.END_ANGLE, factory.numberNode(90));
         // Set center of semicircle
-        ArrayNode centerArrayNode = factory.arrayNode();
+        List<Object> centerArrayNode = new ArrayList<>();
         centerArrayNode.add("50%");
         centerArrayNode.add("75%");
-        charTypePlotOpt.set(ChartConstants.CENTER, centerArrayNode);
+        charTypePlotOpt.put(ChartConstants.CENTER, centerArrayNode);
         charTypePlotOpt.put(ChartConstants.INNER_SIZE, "50%");
-        plotOptionsNode.set(ChartConstants.PIE, charTypePlotOpt);
+        plotOptionsNode.put(ChartConstants.PIE, charTypePlotOpt);
         break;
       default:
-        plotOptionsNode.set(chartType.toString().toLowerCase(), charTypePlotOpt);
+        plotOptionsNode.put(chartType.toString().toLowerCase(), charTypePlotOpt);
     }
 
     return plotOptionsNode;
@@ -399,9 +395,10 @@ public class Chart extends AbstractChart {
 
   /**
    * Generate legend if defined
+   *
    * @param charTypePlotOpt Plot options
    */
-  private void generateLegend(ObjectNode charTypePlotOpt) {
+  private void generateLegend(Map<String, Object> charTypePlotOpt) {
     if (this.chartLegend != null && this.chartLegend.isEnabled()) {
       charTypePlotOpt.put(ChartConstants.SHOW_IN_LEGEND, true);
     }
@@ -413,10 +410,8 @@ public class Chart extends AbstractChart {
    * @param typeAxisList axis TYPE element list
    * @return Json node with Axis element
    */
-  private JsonNode getAxisModel(List<ChartAxis> typeAxisList) {
-
-    // Array with TYPE of Axis
-    ArrayNode axisModel = JsonNodeFactory.instance.arrayNode();
+  private List<Object> getAxisModel(List<ChartAxis> typeAxisList) {
+    List<Object> axisModel = new ArrayList<>();
 
     // Add axis controller attributes
     for (ChartAxis axis : typeAxisList) {
@@ -432,10 +427,10 @@ public class Chart extends AbstractChart {
    * @param drilldown flag inidicate serie drilldown TYPE
    * @return Json node with series element
    */
-  private JsonNode getSeriesModel(List<ChartSerie> serieList, boolean drilldown) {
+  private List<Object> getSeriesModel(List<ChartSerie> serieList, boolean drilldown) {
 
     // Array with chart series
-    ArrayNode seriesModel = JsonNodeFactory.instance.arrayNode();
+    List<Object> seriesModel = new ArrayList<>();
 
     // Add axis controller attributes
     for (ChartSerie serie : serieList) {
@@ -452,7 +447,7 @@ public class Chart extends AbstractChart {
    * @param chartTooltip Tooltip object
    * @return Json node with tooltip element
    */
-  private JsonNode getTooltipModel(ChartTooltip chartTooltip) {
+  private Map<String, Object> getTooltipModel(ChartTooltip chartTooltip) {
     // Get tooltip controller
     return chartTooltip.getModel();
   }
@@ -463,7 +458,7 @@ public class Chart extends AbstractChart {
    * @param chartLegend Legend object
    * @return Json node with legend element
    */
-  private JsonNode getLegendModel(ChartLegend chartLegend) {
+  private Map<String, Object> getLegendModel(ChartLegend chartLegend) {
     return chartLegend.getModel();
   }
 
@@ -501,6 +496,7 @@ public class Chart extends AbstractChart {
 
   /**
    * Is a stacking chart
+   *
    * @return if is stack
    */
   public boolean isStacking() {

@@ -2,8 +2,6 @@ package com.almis.awe.model.entities.screen.component.chart;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.util.data.ListUtil;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
@@ -14,16 +12,17 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ChartLegend Class
- *
+ * <p>
  * Used to parse a chart legend tag with XStream
- *
- *
+ * <p>
+ * <p>
  * Generates an Chart widget
- *
  *
  * @author Pablo VIDAL - 20/OCT/2014
  */
@@ -82,6 +81,7 @@ public class ChartLegend extends AbstractChart {
 
   /**
    * Returns is enabled
+   *
    * @return Is enabled
    */
   public boolean isEnabled() {
@@ -90,6 +90,7 @@ public class ChartLegend extends AbstractChart {
 
   /**
    * Returns is floating
+   *
    * @return Is floating
    */
   public boolean isFloating() {
@@ -101,48 +102,45 @@ public class ChartLegend extends AbstractChart {
    *
    * @return Legend model
    */
-  public ObjectNode getModel() {
+  public Map<String, Object> getModel() {
 
     // Variable definition
-    JsonNodeFactory factory = JsonNodeFactory.instance;
-    ObjectNode legendNode = factory.objectNode();
+    Map<String, Object> model = new HashMap<>();
 
     // Add enable
-    legendNode.put(ChartConstants.ENABLED, isEnabled());
+    model.put(ChartConstants.ENABLED, isEnabled());
 
     // Layout type
     if (getLayout() != null) {
-      legendNode.put(ChartConstants.LAYOUT, getLayout());
+      model.put(ChartConstants.LAYOUT, getLayout());
     }
 
     // Add legend title
     if (getLabel() != null) {
-      ObjectNode nodeTitle = factory.objectNode();
-      nodeTitle.put(ChartConstants.TEXT, getLabel());
-      legendNode.set(ChartConstants.TITLE, nodeTitle);
+      model.put(ChartConstants.TITLE, getTextParameter(getLabel()));
     }
 
     // Add horizontal align
     if (getAlign() != null) {
-      legendNode.put(ChartConstants.ALIGN, getAlign());
+      model.put(ChartConstants.ALIGN, getAlign());
     }
 
     // Add vertical align
     if (getVerticalAlign() != null) {
-      legendNode.put(ChartConstants.VERTICAL_ALIGN, getVerticalAlign());
+      model.put(ChartConstants.VERTICAL_ALIGN, getVerticalAlign());
     }
 
     // Add if legend is floating
-    legendNode.put(ChartConstants.FLOATING, isFloating());
+    model.put(ChartConstants.FLOATING, isFloating());
 
     // Add border width
     if (getBorderWidth() != null) {
-      legendNode.set(ChartConstants.BORDER_WIDTH, factory.numberNode(Integer.valueOf(getBorderWidth())));
+      model.put(ChartConstants.BORDER_WIDTH, Integer.valueOf(getBorderWidth()));
     }
 
     // Update model with chart parameters
-    addParameters(legendNode);
+    addParameters(model);
 
-    return legendNode;
+    return model;
   }
 }

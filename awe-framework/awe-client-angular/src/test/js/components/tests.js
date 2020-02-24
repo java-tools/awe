@@ -1,4 +1,5 @@
-/*import './numeric.js';
-import './select.js';*/
-import './wizard.js';
-import './tab.js';
+require('./wizard.js');
+require('./tab.js');
+require('./menu.js');
+//require('./numeric.js');
+//require('./select.js');

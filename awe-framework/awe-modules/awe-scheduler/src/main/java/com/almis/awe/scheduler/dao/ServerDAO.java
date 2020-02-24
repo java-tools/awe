@@ -10,6 +10,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 import static com.almis.awe.scheduler.constant.QueryConstants.SCHEDULER_SERVER_DATA;
 
 @Repository
@@ -38,12 +40,16 @@ public class ServerDAO {
    * @return
    */
   public Server findServer(Integer serverId, String database) throws AWException {
-
     // Generate parameters
     ObjectNode parameters = queryUtil.getParameters(database, "1", "0");
     parameters.put("serverId", serverId);
 
     // Retrieve server
-    return DataListUtil.asBeanList(queryService.launchPrivateQuery(SCHEDULER_SERVER_DATA, parameters).getDataList(), Server.class).get(0);
+    List<Server> serverList = DataListUtil.asBeanList(queryService.launchPrivateQuery(SCHEDULER_SERVER_DATA, parameters).getDataList(), Server.class);
+    if (!serverList.isEmpty()) {
+      return serverList.get(0);
+    }
+
+    return null;
   }
 }

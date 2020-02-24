@@ -1,5 +1,6 @@
 package com.almis.awe.test.unit.rest;
 
+import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.test.unit.categories.CIDatabaseTest;
 import lombok.extern.log4j.Log4j2;
 import org.junit.After;
@@ -168,6 +169,16 @@ public class RestServiceTest extends AweSpringRestTests {
   }
 
   /**
+   * Rest test: Complex post with POJO
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testComplexPostParametersPOJO() throws Exception {
+    doRestTest("TestComplexJavaParametersPOJO", "maintain", "\"name\":\"my concert\",\"userGroupName\":\"user group\",\"eventHallName\":\"great hall\",", "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"type\":\"ok\",\"title\":\"Operation successful\",\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[]}}]");
+  }
+
+  /**
    * Call a external rest API
    *
    * @throws Exception Test error
@@ -175,6 +186,16 @@ public class RestServiceTest extends AweSpringRestTests {
   @Test
   public void testExternalRestApi() throws Exception {
     doRestTest("TestExternalRestApi", "data", "\"value\":3,", null);
+  }
+
+  /**
+   * Call a external rest API
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testExternalRestApiWithSecurity() throws Exception {
+    doRestTest("TestExternalRestApiWithSecurity", "data", "\"value\":3,", null);
   }
 
   /**

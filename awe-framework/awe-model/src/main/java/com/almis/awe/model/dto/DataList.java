@@ -20,9 +20,8 @@ import java.util.Map;
 
 /**
  * DataList Class
- *
+ * <p>
  * Data list formatted as an standard data output
- *
  *
  * @author Pablo GARCIA - 24/JUN/2010
  */
@@ -33,19 +32,24 @@ import java.util.Map;
 @Builder(toBuilder = true)
 public class DataList implements Serializable, Copyable {
   // Total pages
-  @Builder.Default private long total = 1;
+  @Builder.Default
+  private long total = 1;
 
   // Page number
-  @Builder.Default private long page = 1;
+  @Builder.Default
+  private long page = 1;
 
   // Total records
-  @Builder.Default private long records = 0;
+  @Builder.Default
+  private long records = 0;
 
   // Row list
-  @Builder.Default private List<Map<String, CellData>> rows = new ArrayList<>();
+  @Builder.Default
+  private List<Map<String, CellData>> rows = new ArrayList<>();
 
   /**
    * Copy constructor
+   *
    * @param other Other datalist
    */
   public DataList(DataList other) {
@@ -107,6 +111,6 @@ public class DataList implements Serializable, Copyable {
     this.total = stream.readLong();
     this.page = stream.readLong();
     this.records = stream.readLong();
-    this.rows = (List<Map<String, CellData>>)stream.readObject();
+    this.rows = (List<Map<String, CellData>>) stream.readObject();
   }
 }

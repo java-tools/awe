@@ -1,9 +1,12 @@
-let path = require("path");
-let webpack = require("webpack");
-let ExtractTextPlugin = require("extract-text-webpack-plugin");
-let dir = path.join(__dirname, "src", "main", "resources", "webpack");
+const path = require("path");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const LessPluginAutoPrefix = require('less-plugin-autoprefix');
+const dir = path.join(__dirname, "src", "main", "resources", "webpack");
+const styleDir = path.resolve(__dirname, "src", "main", "resources", "less");
+const autoprefixerBrowsers = ['last 2 versions', '> 1%', 'opera 12.1', 'bb 10', 'android 4', 'IE 10'];
 
 module.exports = {
+  mode: process.env.NODE_ENV,
   devtool : "source-map",
   entry : {
     "specific" : path.join(dir, "app.config.js")
@@ -13,59 +16,38 @@ module.exports = {
     path: path.join(__dirname, 'target', 'classes', 'static'),
     publicPath : "../"
   },
+  optimization: {
+    splitChunks: {
+      name: true,
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'commons',
+          chunks: 'all'
+        }
+      }
+    }
+  },
   module : {
-    rules : [ {
-      test : /\.css$/,
-      include : [ path.resolve(__dirname, "src", "main", "resources", "css") ],
-      use : ExtractTextPlugin.extract({
-        fallback : "style-loader",
-        use : "css-loader"
-      })
-    }, {
-      test : /\.less$/,
-      include : [ path.resolve(__dirname, "src", "main", "resources", "less") ],
-      use : ExtractTextPlugin.extract({
-        fallback : "style-loader",
-        use : [ "css-loader", "less-loader" ]
-      }),
-    }, {
-      test : /\.(jpg|gif|png)$/,
-      use: [{
-        loader: "url-loader",
-        options: {
-          limit: 100000,
-          name: "./images/[hash].[ext]"
-        }
-      }]
-    }, {
-      test : /\.woff[2]*?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      use: [{
-        loader: "url-loader",
-        options: {
-          limit: 10000,
-          mimetype: "application/font-woff",
-          name: "./fonts/[hash].[ext]"
-        }
-      }]
-    }, {
-      test : /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      use: [{
-        loader: "file-loader",
-        options: {
-          name: "./fonts/[hash].[ext]"
-        }
-      }]
-    }]
+    rules : [
+      { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/},
+      // Hack to load angular synchronously
+      { test : /[\/]angular\.js$/, loader : "exports-loader?angular"},
+      { test : /\.css$/, include : [ styleDir ], use : [MiniCssExtractPlugin.loader, "css-loader"]},
+      { test : /\.less$/, include : [ styleDir ], use : [MiniCssExtractPlugin.loader, "css-loader", {
+          loader: "less-loader", options: { lessPlugins: [ new LessPluginAutoPrefix({browsers: autoprefixerBrowsers}) ],
+            minimize: true, sourceMap: true}}]},
+      { test : /\.(jpg|gif|png)$/, loader : 'url-loader?limit=100000&name=./images/[hash].[ext]'},
+      { test : /\.woff[2]*?(\?v=[0-9]\.[0-9]\.[0-9])?$/, use : "url-loader?limit=10000&mimetype=application/font-woff&name=./fonts/[hash].[ext]"},
+      { test : /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, use : "file-loader?name=./fonts/[hash].[ext]"}
+    ]
   },
   resolve : {
     extensions : [ ".js", ".css", ".less", "*" ]
   },
-  plugins : [
-    new ExtractTextPlugin({
-      filename: "css/specific.css",
-      disable: false,
-      allChunks: true
-    }),
-    new webpack.optimize.UglifyJsPlugin({ uglifyOptions: {compress: { warnings: true, drop_console: false}}, cache: true, parallel:true, sourceMap: true})
-  ]
+  plugins : [ new MiniCssExtractPlugin({
+    filename: "css/specific.css",
+    disable: false,
+    allChunks: true
+  })]
 };

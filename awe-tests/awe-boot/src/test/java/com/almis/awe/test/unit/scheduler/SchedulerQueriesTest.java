@@ -11,10 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.zone.ZoneRules;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -33,19 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
   "classpath:cache.properties"
 })
 public class SchedulerQueriesTest extends AweSpringDatabaseTests {
-
-  /**
-   * Asserts the JSON in the response
-   *
-   * @param queryName    query name
-   * @param result       Result
-   * @param expectedRows Expected rows
-   * @return Result list
-   * @throws Exception Test error
-   */
-  private ArrayNode assertResultJson(String queryName, String result, int expectedRows) throws Exception {
-    return assertResultJson(queryName, result, expectedRows, 1, 1, expectedRows);
-  }
 
   /**
    * Asserts the JSON in the response
@@ -109,23 +92,19 @@ public class SchedulerQueriesTest extends AweSpringDatabaseTests {
   }
 
   /**
-   * Performs the mock request and returns the response as a string
+   * Test of launchAction method, of class ActionController.
    *
-   * @param queryName Query ID
-   * @param variables Variables
-   * @return Output
-   * @throws Exception Error performing request
+   * @throws Exception Test error
    */
-  private String performRequest(String queryName, String variables) throws Exception {
-    MvcResult mvcResult = mockMvc.perform(post("/action/data/" + queryName)
-      .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
-      .content("{" + variables + "}")
-      .contentType(MediaType.APPLICATION_JSON)
-      .accept(MediaType.APPLICATION_JSON)
-      .session(session))
-      .andExpect(status().isOk())
-      .andReturn();
-    return mvcResult.getResponse().getContentAsString();
+  @Test
+  public void testExecutionsToPurge() throws Exception {
+    String queryName = "getExecutionsToPurge";
+    String variables = "\"taskId\":2,\"executions\":5";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"id\":1,\"executionId\":5},{\"id\":2,\"executionId\":4},{\"id\":3,\"executionId\":3},{\"id\":4,\"executionId\":2},{\"id\":5,\"executionId\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, expected);
+    logger.warn(result);
+    assertResultJson(queryName, result, 5, 1, 1, 5);
   }
 
   /**
@@ -134,13 +113,13 @@ public class SchedulerQueriesTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
-  public void testExecutionsToPurge() throws Exception {
+  public void testExecutionsToPurgeBig() throws Exception {
     String queryName = "getExecutionsToPurge";
-    String variables = "\"taskId\":2, \"executions\": 5";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"id\":1,\"executionId\":5},{\"id\":2,\"executionId\":4},{\"id\":3,\"executionId\":3},{\"id\":4,\"executionId\":2},{\"id\":5,\"executionId\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String variables = "\"taskId\":2,\"executions\":12";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
 
     String result = performRequest(queryName, variables, expected);
     logger.warn(result);
-    assertResultJson(queryName, result, 5, 1, 1, 5);
+    assertResultJson(queryName, result, 0, 1, 1, 0);
   }
 }

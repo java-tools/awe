@@ -1,1 +1,1 @@
-import './commons.js';
+require('./commons.js');

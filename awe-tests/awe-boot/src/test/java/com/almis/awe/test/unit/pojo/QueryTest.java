@@ -2,9 +2,11 @@ package com.almis.awe.test.unit.pojo;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.queries.*;
+import com.almis.awe.service.data.connector.query.QueryLauncher;
 import com.almis.awe.test.unit.TestUtil;
 import com.thoughtworks.xstream.XStream;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 
 import java.util.Arrays;
 
@@ -17,6 +19,9 @@ import static org.junit.Assert.assertNull;
  * @author pgarcia
  */
 public class QueryTest extends TestUtil {
+
+  @InjectMocks
+  private QueryLauncher queryLauncher;
 
   String expectedQuery = "SQL QUERY:\n" +
     "SELECT variable(fieldVariable) as alias1, fieldTable.fieldId, CONCAT(\"tutu\", \"lala\", ADD(field, 1), \"lolo\") as alias3, " +
@@ -124,7 +129,8 @@ public class QueryTest extends TestUtil {
           .setField("fieldSort")
           .setTable("tableSort")
           .setType("ASC")));
-    } catch (AWException exc) {}
+    } catch (AWException exc) {
+    }
   }
 
   /**
@@ -317,5 +323,10 @@ public class QueryTest extends TestUtil {
     // Assert
     assertEquals(expected, xmlOutput);
     assertNull(transitionField.getField());
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testNullQuery() throws AWException {
+    queryLauncher.launchQuery(null, null);
   }
 }

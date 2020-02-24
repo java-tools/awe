@@ -83,6 +83,20 @@ public class ClientActionBuilderTest {
   }
 
   /**
+   * Build a redirect action with ClientActionBuilder
+   */
+  @Test
+  public void testRedirectClientAction(){
+    ClientAction action = new RedirectActionBuilder("http://alla.que.voy").build();
+
+    // Assertions
+    assertEquals("redirect", action.getType());
+    assertEquals("http://alla.que.voy", action.getTarget());
+    checkSimpleClientActionBuilder("redirect", new RedirectActionBuilder());
+  }
+
+
+  /**
    * Build a download action with ClientActionBuilder
    */
   @Test

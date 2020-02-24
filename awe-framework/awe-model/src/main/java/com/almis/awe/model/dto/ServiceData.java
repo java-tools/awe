@@ -49,7 +49,7 @@ public class ServiceData implements Serializable, Copyable {
   @Builder.Default private String message = "";
 
   // Service response data
-  @Builder.Default private Serializable data = null;
+  @Builder.Default private transient Object data = null;
 
   // Service response data (as datalist)
   @Builder.Default private DataList dataList = null;

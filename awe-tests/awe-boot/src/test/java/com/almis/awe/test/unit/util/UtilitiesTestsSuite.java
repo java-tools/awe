@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
   DateUtilTest.class,
   ZipFileUtilTest.class,
   FileUtilTest.class,
-  TimeUtilTest.class
+  TimeUtilTest.class,
+  QueryUtilTest.class
 })
 @RunWith(Suite.class)
 public class UtilitiesTestsSuite {

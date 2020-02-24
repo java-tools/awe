@@ -9,12 +9,15 @@ import org.junit.runners.Suite;
   SchedulerDAOTest.class,
   CalendarDAOTest.class,
   CommandDAOTest.class,
+  FileDAOTest.class,
+  ServerDAOTest.class,
   FTPFileCheckerTest.class,
   FolderFileCheckerTest.class,
-  FileDAOTest.class,
   BroadcastReportJobTest.class,
   EmailReportJobTest.class,
-  CronPatternBuilderTest.class
+  CronPatternBuilderTest.class,
+  ExecutionServiceTest.class,
+  TaskBuilderTest.class
 })
 @RunWith(Suite.class)
 public class SchedulerTestSuite {

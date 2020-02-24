@@ -473,6 +473,15 @@ REST services are very useful to connect to REST API's. Their xml structure is:
 > **Note:** `server` and `wrapper` attributes are optional. `server` attribute is used to retrieve the `rest.server.[server]` property, 
 > which is appended to the `endpoint` defined url. `wrapper` attribute defines a class name which will be used to manage the REST call response
 > and translate it into a `ServiceData` class, suitable for AWE.  
+> 
+> Rest server configuration example:
+>
+>```properties
+> rest.server.core=http://localhost:18080/core
+> rest.server.core.authentication=basic
+> rest.server.core.authentication.username=rest_username
+> rest.server.core.authentication.password=ENC(rest_password_encoded)
+>```
 
 ### REST services examples
 

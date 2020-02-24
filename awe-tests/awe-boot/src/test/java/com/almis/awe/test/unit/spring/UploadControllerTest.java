@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -43,7 +43,7 @@ public class UploadControllerTest extends AweSpringBootTests {
    * @throws Exception
    */
   private void doUploadTest(MockMultipartFile file, String address, String destination, ResultMatcher status) throws Exception {
-    mockMvc.perform(fileUpload("/file/upload")
+    mockMvc.perform(multipart("/file/upload")
       .file(file)
       .param("address", address)
       .param("destination", destination)

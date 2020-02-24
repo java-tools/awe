@@ -25,7 +25,7 @@ public final class RipEmd160 {
       13, 3, 7, 15, 14, 5, 6, 2, 4, 0, 5, 9, 7, 12, 2, 10, 14, 1, 3, 8, 11, 6, 15, 13},
     {5, 14, 7, 0, 9, 2, 11, 4, 13, 6, 15, 8, 1, 10, 3, 12, 6, 11, 3, 7, 0, 13, 5, 10, 14, 15, 8, 12, 4, 9, 1, 2, 15, 5, 1, 3, 7, 14, 6, 9, 11, 8, 12, 2, 10, 0, 4, 13, 8, 6, 4, 1, 3, 11, 15, 0, 5,
       12, 2, 13, 9, 7, 10, 14, 12, 15, 10, 4, 1, 5, 8, 7, 6, 2, 13, 14, 0, 3, 9, 11}};
-  public static final String PBE_WITH_MD5_AND_DESCBCPKCS5_PADDING = "PBEWithMD5AndDES/CBC/PKCS5Padding";
+  public static final String CIPHER_MODE = "PBEWithMD5AndDES/CBC/PKCS5Padding";
   private int[] mdBuf;
   private Cipher encrypter;
   private Cipher decrypter;
@@ -64,8 +64,8 @@ public final class RipEmd160 {
       PBEParameterSpec ps = new PBEParameterSpec(salt, C20);
       SecretKeyFactory kf = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
       SecretKey k = kf.generateSecret(new javax.crypto.spec.PBEKeySpec(password.toCharArray()));
-      encrypter = Cipher.getInstance(PBE_WITH_MD5_AND_DESCBCPKCS5_PADDING);
-      decrypter = Cipher.getInstance(PBE_WITH_MD5_AND_DESCBCPKCS5_PADDING);
+      encrypter = Cipher.getInstance(CIPHER_MODE);
+      decrypter = Cipher.getInstance(CIPHER_MODE);
       encrypter.init(Cipher.ENCRYPT_MODE, k, ps);
       decrypter.init(Cipher.DECRYPT_MODE, k, ps);
     } catch (Exception exc) {

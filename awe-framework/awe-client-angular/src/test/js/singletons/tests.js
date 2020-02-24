@@ -1,1 +1,1 @@
-import './actionController.js';
+require('./actionController.js');

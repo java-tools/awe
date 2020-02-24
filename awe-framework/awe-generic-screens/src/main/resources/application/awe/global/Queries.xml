@@ -1764,15 +1764,6 @@
     <field id="value" />
   </query>
 
-  <!-- Get Generated Report List -->
-  <query id="RepGenPdfLst" service="RepGenPdfLst">
-    <field id="SrvAct" />
-    <field id="Fil" />
-    <field id="Nam" />
-    <field id="Dat" />
-    <order-by field="Dat" type="DESC" />
-  </query>
-
   <!-- Get Style config for Jasper reports-->
   <query id="UsrStlLst" distinct="false" public="false" cacheable="false">
     <table id="AweStlCnf" alias="stlCnf" />

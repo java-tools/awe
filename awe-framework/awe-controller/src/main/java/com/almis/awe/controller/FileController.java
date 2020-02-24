@@ -33,9 +33,10 @@ public class FileController extends ServiceConfig {
 
   /**
    * Autowired constructor
-   * @param fileService File service
+   *
+   * @param fileService     File service
    * @param maintainService Maintain service
-   * @param logger Logger service
+   * @param logger          Logger service
    */
   @Autowired
   public FileController(FileService fileService, MaintainService maintainService, LogUtil logger) {
@@ -46,7 +47,8 @@ public class FileController extends ServiceConfig {
 
   /**
    * Retrieve text file
-   * @param token Connection token
+   *
+   * @param token      Connection token
    * @param parameters Parameters
    * @return File content
    * @throws AWException Error retrieving file
@@ -67,7 +69,8 @@ public class FileController extends ServiceConfig {
 
   /**
    * Retrieve generic file stream
-   * @param token Connection parameters
+   *
+   * @param token      Connection parameters
    * @param parameters Parameters
    * @return File content
    * @throws AWException Error retrieving file
@@ -90,15 +93,14 @@ public class FileController extends ServiceConfig {
    * Retrieve generic file stream
    *
    * @param parameters Parameters
-   * @param targetId Maintain target id
+   * @param targetId   Maintain target id
    * @return File content
    * @throws AWException Error retrieving file
    */
-  @GetMapping("/stream/maintain/{targetId}")
   @PostMapping("/stream/maintain/{targetId}")
-  public ResponseEntity<FileSystemResource> getFileAsStream(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
-                                                            @RequestBody ObjectNode parameters,
-                                                            @PathVariable("targetId") String targetId) throws AWException {
+  public ResponseEntity<FileSystemResource> getFileAsStreamPOST(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
+                                                                @RequestBody ObjectNode parameters,
+                                                                @PathVariable("targetId") String targetId) throws AWException {
     // Initialize parameters
     getRequest().init(parameters, token);
 
@@ -111,14 +113,15 @@ public class FileController extends ServiceConfig {
 
   /**
    * Retrieve file for download
-   * @param token Connection token
+   *
+   * @param token      Connection token
    * @param parameters Parameters
    * @return File content
    * @throws AWException Error retrieving file
    */
   @PostMapping("/download")
   public ResponseEntity<byte[]> downloadFile(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
-                                                          @RequestBody ObjectNode parameters) throws AWException {
+                                             @RequestBody ObjectNode parameters) throws AWException {
     // Initialize parameters
     getRequest().init(parameters, token);
 
@@ -128,16 +131,17 @@ public class FileController extends ServiceConfig {
 
   /**
    * Retrieve file for download
-   * @param token Connection token
+   *
+   * @param token      Connection token
    * @param parameters Parameters
-   * @param targetId Maintain target
+   * @param targetId   Maintain target
    * @return File content
    * @throws AWException Error retrieving file
    */
   @PostMapping("/download/maintain/{targetId}")
   public ResponseEntity<byte[]> downloadFileMaintain(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
-                                                                  @RequestBody ObjectNode parameters,
-                                                                  @PathVariable("targetId") String targetId) throws AWException {
+                                                     @RequestBody ObjectNode parameters,
+                                                     @PathVariable("targetId") String targetId) throws AWException {
     // Initialize parameters
     getRequest().init(targetId, parameters, token);
 
@@ -170,6 +174,7 @@ public class FileController extends ServiceConfig {
 
   /**
    * Handle error
+   *
    * @param exc Exception to handle
    */
   @ExceptionHandler(AWException.class)

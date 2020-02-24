@@ -10,10 +10,7 @@ import org.springframework.beans.PropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiPredicate;
 
 /**
@@ -240,7 +237,7 @@ public final class DataListUtil {
       }
 
       // Set field value if found in row
-      for (Field field : beanClass.getDeclaredFields()) {
+      for (Field field : getAllFields(beanClass)) {
         if (row.containsKey(field.getName())) {
           PropertyAccessor rowBeanAccesor = PropertyAccessorFactory.forDirectFieldAccess(rowBean);
           rowBeanAccesor.setPropertyValue(field.getName(), row.get(field.getName()).getObjectValue());
@@ -268,13 +265,23 @@ public final class DataListUtil {
       PropertyAccessor rowBeanAccesor = PropertyAccessorFactory.forDirectFieldAccess(bean);
 
       // Set field value if found in row
-      for (Field field : bean.getClass().getDeclaredFields()) {
+      for (Field field : getAllFields(bean.getClass())) {
         row.put(field.getName(), new CellData(rowBeanAccesor.getPropertyValue(field.getName())));
       }
 
       dataList.addRow(row);
     }
     return dataList;
+  }
+
+  private static List<Field> getAllFields(Class<?> type) {
+    List<Field> fields = new ArrayList<>(Arrays.asList(type.getDeclaredFields()));
+
+    if (type.getSuperclass() != null) {
+      fields.addAll(getAllFields(type.getSuperclass()));
+    }
+
+    return fields;
   }
 
   /**

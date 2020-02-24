@@ -186,11 +186,11 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Go to screen
     gotoScreen("test", "criteria", "criteria-test");
 
-    // Wait for value
-    checkCriterionContents("Tar", "checkbox off");
-
     // Wait for button
     waitForButton("ButRst");
+
+    // Wait for value
+    checkCriterionContents("Tar", "checkbox off");
 
     // Check selector
     checkSelectContents("Sug", "test (Manager)");
@@ -491,6 +491,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Go to screen
     gotoScreen("test", "criteria", "criteria-reset");
 
+    // Wait for button
+    waitForButton("ButRst");
+
     // Write text
     writeText("CrtTst", "test");
 
@@ -500,11 +503,17 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Click button
     clickButton("ButRstTar");
 
+    // Wait for button
+    waitForButton("ButRst");
+
     // Check text
     checkCriterionContents("CrtTst", "1");
 
     // Click button
     clickButton("ButRst");
+
+    // Wait for button
+    waitForButton("ButTxt");
 
     // Check text
     checkCriterionContents("CrtTst", "xml");
@@ -512,11 +521,17 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Click button
     clickButton("ButTxt");
 
+    // Wait for button
+    waitForButton("ButRstSpe");
+
     // Check text
     checkCriterionContents("CrtTstTxtHid", "otra cosa");
 
     // Click button
     clickButton("ButRstSpe");
+
+    // Wait for button
+    waitForButton("ButTxt");
 
     // Check text
     checkCriterionContents("CrtTstTxtHid", "RstTst");
@@ -524,17 +539,26 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Click button
     clickButton("ButTxt");
 
+    // Wait for button
+    waitForButton("ButRstTarSpe");
+
     // Check text
     checkCriterionContents("CrtTstTxtHid", "otra cosa");
 
     // Click button
     clickButton("ButRstTarSpe");
 
+    // Wait for button
+    waitForButton("ButRst");
+
     // Check text
     checkCriterionContents("CrtTstTxtHid", "RstTst");
 
     // Click button
     clickButton("ButRst");
+
+    // Wait for button
+    waitForButton("ButTxt");
 
     // Check text
     checkCriterionContents("CrtTstTxtHid", "");
@@ -545,11 +569,17 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Click button
     clickButton("ButTxt");
 
+    // Wait for button
+    waitForButton("ButRstSpe");
+
     // Check text
     checkCriterionContents("CrtTstTxtHid", "otra cosa");
 
     // Click button
     clickButton("ButRstSpe");
+
+    // Wait for button
+    waitForButton("ButRstSpe");
 
     // Check text
     checkCriterionContents("CrtTstTxtHid", "RstTst");

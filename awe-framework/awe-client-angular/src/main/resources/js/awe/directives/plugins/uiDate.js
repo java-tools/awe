@@ -83,10 +83,16 @@ aweApplication.directive('uiDate',
              * Event initialization
              */
             function initEvents() {
+              let component = scope.component;
               listeners = {};
 
               // Watch for language change
               listeners["languageChanged"] = scope.$on('languageChanged', updatePlugin);
+
+              // Update model on change
+              elem.datepicker().on("changeDate", () => {
+                component.model.selected = elem.children().val()
+              });
             }
 
             /**

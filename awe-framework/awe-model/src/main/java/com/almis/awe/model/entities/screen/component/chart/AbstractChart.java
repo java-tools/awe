@@ -4,7 +4,6 @@ import com.almis.awe.model.entities.screen.component.Component;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
 import lombok.EqualsAndHashCode;
@@ -14,11 +13,13 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ChartAxis Class
- *
+ * <p>
  * Used to parse a chart Axis tag with XStream
  * Generates an Chart widget
  *
@@ -47,11 +48,43 @@ public abstract class AbstractChart extends Component {
    *
    * @param model Json node of element
    */
-  public void addParameters(ObjectNode model) {
+  public void addParameters(Map<String, Object> model) {
     if (this.getParameterList() != null) {
       for (ChartParameter chartParameter : this.getParameterList()) {
         chartParameter.addParameterModel(model);
       }
     }
+  }
+
+  /**
+   * Get text parameter
+   * @param value
+   * @return
+   */
+  protected Map<String, Object> getTextParameter(String value) {
+    Map<String, Object> text = new HashMap<>();
+    text.put("text", value);
+    return text;
+  }
+
+  /**
+   * Get label parameter
+   * @param format
+   * @param formatter
+   * @param rotation
+   * @return
+   */
+  protected Map<String, Object> getLabelParameter(String format, String formatter, Float rotation) {
+    Map<String, Object> label = new HashMap<>();
+    if (format != null) {
+      label.put("format", format);
+    }
+    if (formatter != null) {
+      label.put("formatter", formatter);
+    }
+    if (rotation != null) {
+      label.put("rotation", rotation);
+    }
+    return label;
   }
 }

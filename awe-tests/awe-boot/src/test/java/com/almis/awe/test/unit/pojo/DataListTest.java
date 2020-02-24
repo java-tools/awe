@@ -1,5 +1,6 @@
 package com.almis.awe.test.unit.pojo;
 
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.FilterColumn;
 import com.almis.awe.model.dto.SortColumn;
@@ -328,4 +329,13 @@ public class DataListTest extends TestUtil {
     // Assert
     assertEquals(4, nonesData.getRows().size());
   }
+
+  /**
+   * Export as bean list a null datalist
+   */
+  @Test(expected = NullPointerException.class)
+  public void asBeanListNull() throws AWException {
+    DataListUtil.asBeanList(null, null);
+  }
+
 }

@@ -3,8 +3,6 @@ package com.almis.awe.service;
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWESessionException;
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.event.ScreenChangeEvent;
-import com.almis.awe.model.tracker.AweClientTracker;
 import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
@@ -19,16 +17,18 @@ import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.model.entities.screen.component.Component;
 import com.almis.awe.model.entities.screen.data.ScreenComponent;
 import com.almis.awe.model.entities.screen.data.ScreenData;
+import com.almis.awe.model.event.ScreenChangeEvent;
+import com.almis.awe.model.tracker.AweClientTracker;
 import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.service.screen.ScreenComponentGenerator;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.NonNull;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
-import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -269,7 +269,7 @@ public class ScreenService extends ServiceConfig {
   private void launchScreenOnLoadEvent(Screen screen) throws AWException {
     // Launch on load maintain if defined
     if (screen.getOnLoad() != null) {
-      maintainService.launchMaintain(screen.getOnLoad());
+      maintainService.launchPrivateMaintain(screen.getOnLoad());
     }
   }
 
@@ -359,7 +359,7 @@ public class ScreenService extends ServiceConfig {
    * @return Screen component list
    * @throws AWException Error retrieving screen element list
    */
-  public ServiceData getScreenElementList(@NotNull String screenId, String suggest) throws AWException {
+  public ServiceData getScreenElementList(@NonNull String screenId, String suggest) throws AWException {
     // Get screen from option
     Screen screen = menuService.getScreen(screenId);
     List<Component> componentList = screen.getElementsByType(Component.class);

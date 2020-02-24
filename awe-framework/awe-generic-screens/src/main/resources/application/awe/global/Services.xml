@@ -77,6 +77,9 @@
   <service id="checkUnique">
     <java classname="com.almis.awe.service.QueryService" method="checkUniqueAction" />
   </service>
+  <service id="InitDatabaseConnections" launch-phase="APPLICATION_START">
+    <java classname="com.almis.awe.service.QueryService" method="initDatasourceConnections" />
+  </service>
   <service id="ReloadDatabaseConnections">
     <java classname="com.almis.awe.service.QueryService" method="reloadDatasourceConnections" />
   </service>
@@ -149,9 +152,6 @@
   </service>
   <service id="ChgLogLvl">
     <java classname="com.almis.awe.service.LogService" method="changeLevel" />
-  </service>
-  <service id="RepGenPdfLst">
-    <java classname="com.almis.awe.service.ReportService" method="getReportList" />
   </service>
   <service id="viewPdf">
     <java classname="com.almis.awe.service.ReportService" method="viewPdfFile" />

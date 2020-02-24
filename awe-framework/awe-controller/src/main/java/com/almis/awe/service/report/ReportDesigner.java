@@ -468,7 +468,10 @@ public class ReportDesigner extends ServiceConfig {
     boolean firstRow = true;
     ArrayNode firstFieldData = JsonNodeFactory.instance.arrayNode();
     if (!fields.isEmpty()) {
-      firstFieldData = (ArrayNode) parameters.get(fields.get(0));
+      JsonNode firstField = parameters.get(fields.get(0));
+      if (firstField.isArray()) {
+        firstFieldData = (ArrayNode) firstField;
+      }
     }
 
     // Add _style_ to fields if it exists

@@ -3,9 +3,6 @@ package com.almis.awe.model.entities.screen.component.chart;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.type.CrosshairType;
 import com.almis.awe.model.util.data.ListUtil;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import lombok.EqualsAndHashCode;
@@ -15,14 +12,18 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * ChartTooltip Class
- *
+ * <p>
  * Used to parse a chart tooltip tag with XStream
- *
- *
+ * <p>
+ * <p>
  * Generates an Chart widget
- *
  *
  * @author Pablo VIDAL - 21/OCT/2014
  */
@@ -87,14 +88,16 @@ public class ChartTooltip extends AbstractChart {
 
   /**
    * Returns is enabled
+   *
    * @return Is enabled
    */
   public boolean isEnabled() {
-    return enabled != null && enabled;
+    return enabled == null || enabled;
   }
 
   /**
    * Returns is floating
+   *
    * @return Is floating
    */
   public boolean isShared() {
@@ -106,69 +109,68 @@ public class ChartTooltip extends AbstractChart {
    *
    * @return tooltip model
    */
-  public ObjectNode getModel() {
+  public Map<String, Object> getModel() {
 
     // Variable definition
-    JsonNodeFactory factory = JsonNodeFactory.instance;
-    ObjectNode tooltipNode = factory.objectNode();
-    tooltipNode.put("enabled", isEnabled());
+    Map<String, Object> model = new HashMap<>();
+    model.put("enabled", isEnabled());
 
     // Add crosshairs
     if (getCrosshairs() != null) {
       // Crosshair type
       CrosshairType crosshairType = CrosshairType.valueOf(getCrosshairs().toUpperCase());
-      ArrayNode crosshairNode = factory.arrayNode();
-      tooltipNode.set(CROSSHAIRS_TEXT, crosshairNode);
+      List<Object> crosshairList = new ArrayList<>();
+      model.put(CROSSHAIRS_TEXT, crosshairList);
       switch (crosshairType) {
         case XAXIS:
-          crosshairNode.add(Boolean.TRUE);
-          crosshairNode.add(Boolean.FALSE);
+          crosshairList.add(Boolean.TRUE);
+          crosshairList.add(Boolean.FALSE);
           break;
         case YAXIS:
-          crosshairNode.add(Boolean.FALSE);
-          crosshairNode.add(Boolean.TRUE);
+          crosshairList.add(Boolean.FALSE);
+          crosshairList.add(Boolean.TRUE);
           break;
         case ALL:
-          crosshairNode.add(Boolean.TRUE);
-          crosshairNode.add(Boolean.TRUE);
+          crosshairList.add(Boolean.TRUE);
+          crosshairList.add(Boolean.TRUE);
           break;
         default:
-          crosshairNode.add(Boolean.FALSE);
-          crosshairNode.add(Boolean.FALSE);
+          crosshairList.add(Boolean.FALSE);
+          crosshairList.add(Boolean.FALSE);
       }
     }
 
     // Add number of decimals
     if (getNumberDecimals() != null) {
-      tooltipNode.put(ChartConstants.VALUE_DECIMALS, getNumberDecimals());
+      model.put(ChartConstants.VALUE_DECIMALS, getNumberDecimals());
     }
 
     // Add prefix
     if (getPrefix() != null) {
-      tooltipNode.put(ChartConstants.PREFIX, getPrefix());
+      model.put(ChartConstants.PREFIX, getPrefix());
     }
 
     // Add suffix
     if (getSuffix() != null) {
-      tooltipNode.put(ChartConstants.SUFFIX, getSuffix());
+      model.put(ChartConstants.SUFFIX, getSuffix());
     }
 
     // Add point format
     if (getPointFormat() != null) {
-      tooltipNode.put(ChartConstants.POINT_FORMAT, getPointFormat());
+      model.put(ChartConstants.POINT_FORMAT, getPointFormat());
     }
 
     // Add date format
     if (getDateFormat() != null) {
-      tooltipNode.put(ChartConstants.DATE_FORMAT, getDateFormat());
+      model.put(ChartConstants.DATE_FORMAT, getDateFormat());
     }
 
-    // Add shared tootltip
-    tooltipNode.put(ChartConstants.SHARED, isShared());
+    // Add shared tooltip
+    model.put(ChartConstants.SHARED, isShared());
 
     // Add extra parameters
-    addParameters(tooltipNode);
+    addParameters(model);
 
-    return tooltipNode;
+    return model;
   }
 }

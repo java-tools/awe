@@ -68,8 +68,6 @@
   <locale name="HELP_SEARCH_REMOVE_SERIE_BUTTON" value="Remove serie of chart"/>
   <locale name="HELP_SEARCH_REPLACE_SERIE_BUTTON" value="Replace all series in a chart"/>
   <locale name="MENU_GRID_CHART" value="Grids and Charts"/>
-  <locale name="MENU_SCHEDULER" value="Scheduler"/>
-  <locale name="MENU_SCHEDULER_SERVERS" value="External servers"/>
   <locale name="MENU_TEST" value="Tests"/>
   <locale name="MENU_TEST_ACCORDIONS" value="Accordions"/>
   <locale name="MENU_TEST_BUTTONS" value="Buttons"/>

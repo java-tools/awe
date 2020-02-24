@@ -68,8 +68,6 @@
   <locale name="HELP_SEARCH_REMOVE_SERIE_BUTTON" value="Retirer série de graphique"/>
   <locale name="HELP_SEARCH_REPLACE_SERIE_BUTTON" value="Remplacer toutes les séries dans un graphique"/>
   <locale name="MENU_GRID_CHART" value="Matrices et graphiques"/>
-  <locale name="MENU_SCHEDULER" value="Planificateur"/>
-  <locale name="MENU_SCHEDULER_SERVERS" value="Des serveurs externes"/>
   <locale name="MENU_TEST" value="Test"/>
   <locale name="MENU_TEST_ACCORDIONS" value="Accordéons"/>
   <locale name="MENU_TEST_BUTTONS" value="Boutons"/>

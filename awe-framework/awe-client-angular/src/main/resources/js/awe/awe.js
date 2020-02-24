@@ -62,5 +62,8 @@ export const aweApplication = angular.module("aweApplication", [
 // Init settings and preload templates
 .run(["AweSettings", $settings => $settings.init().then(() => $settings.preloadTemplates())]);
 
+// Export jquery
+export const jQuery = $;
+
 // Put aweApplication on self to be accessed by the external tools, as fileManager
 self.aweApplication = aweApplication;

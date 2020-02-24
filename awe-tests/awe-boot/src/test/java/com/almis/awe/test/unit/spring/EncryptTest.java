@@ -84,4 +84,20 @@ public class EncryptTest extends AweSpringBootTests {
     String decrypted = Crypto.AES.decrypt("asdads", null, "UTF-8");
     assertNull(decrypted);
   }
+
+  /**
+   * Check encrypt with AES a null value
+   */
+  @Test(expected = NullPointerException.class)
+  public void checkEncryptNull() {
+    Crypto.AES.encrypt(null, null, "UTF-8");
+  }
+
+  /**
+   * Check decrypt with AES a null value
+   */
+  @Test(expected = NullPointerException.class)
+  public void checkDecryptNull() {
+    Crypto.AES.decrypt(null, null, "UTF-8");
+  }
 }
