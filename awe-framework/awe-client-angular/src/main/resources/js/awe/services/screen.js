@@ -308,7 +308,7 @@ aweApplication.factory("Screen",
           let url = action.attr("target");
 
           // Redirect browser
-          $window.location.url = url;
+          $window.location.href = url;
 
           // Close action
           $actionController.acceptAction(action);

@@ -216,9 +216,9 @@ describe('awe-framework/awe-client-angular/src/test/js/services/screen.js', func
 
   // Launch redirect action
   it('should launch a redirect action', function(done) {
-    $windowMock.location = { url : "" };
+    $windowMock.location = { href : "" };
     launchScreenAction($injector, "redirect", "redirect", {id: 2, target: "http://alla.que.voy"}, () => {
-      expect($windowMock.location.url).toBe("http://alla.que.voy");
+      expect($windowMock.location.href).toBe("http://alla.que.voy");
       done();
     });
   });
