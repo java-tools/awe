@@ -14,7 +14,8 @@ import org.junit.runners.Suite;
   UserServiceTest.class,
   UploadControllerTest.class,
   BroadcastServiceTest.class,
-  EmailServiceTest.class
+  EmailServiceTest.class,
+  ScreenModelGeneratorTest.class
 })
 @RunWith(Suite.class)
 public class SpringBootTestsSuite {

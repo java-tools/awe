@@ -113,7 +113,7 @@ public class Chart extends AbstractChart {
   @XStreamImplicit(itemFieldName = "y-axis")
   private List<ChartAxis> yAxisList;
 
-  // Chart Y Axis list
+  // Serie list
   @JsonIgnore
   @XStreamImplicit
   private List<ChartSerie> serieList;

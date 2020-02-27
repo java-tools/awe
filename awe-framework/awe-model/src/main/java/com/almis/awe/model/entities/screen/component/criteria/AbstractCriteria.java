@@ -222,6 +222,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is checked
+   *
    * @return criteria is checked
    */
   @JsonGetter("checked")
@@ -231,6 +232,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is showing a slider
+   *
    * @return criteria show slider
    */
   public boolean isShowSlider() {
@@ -239,6 +241,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is readonly
+   *
    * @return criteria is readonly
    */
   @JsonGetter("readonly")
@@ -248,6 +251,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is capitalize
+   *
    * @return criteria is capitalize
    */
   public boolean isCapitalize() {
@@ -256,6 +260,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is capitalize
+   *
    * @return criteria is capitalize
    */
   @JsonGetter("strict")
@@ -265,6 +270,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is optional
+   *
    * @return criteria is optional
    */
   @JsonGetter("optional")
@@ -274,6 +280,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is checkEmpty
+   *
    * @return criteria is checkEmpty
    */
   @JsonGetter("checkEmpty")
@@ -283,6 +290,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is checkInitial
+   *
    * @return criteria is checkInitial
    */
   @JsonGetter("checkInitial")
@@ -292,6 +300,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is showWeekends
+   *
    * @return criteria is showWeekends
    */
   public boolean isShowWeekends() {
@@ -300,6 +309,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is showFutureDates
+   *
    * @return criteria is showFutureDates
    */
   public boolean isShowFutureDates() {
@@ -308,6 +318,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Returns if criteria is showTodayButton
+   *
    * @return criteria is showTodayButton
    */
   public boolean isShowTodayButton() {
@@ -368,6 +379,7 @@ public abstract class AbstractCriteria extends Component {
 
   /**
    * Check if component is printable
+   *
    * @return Component is printable
    */
   @JsonGetter("printable")

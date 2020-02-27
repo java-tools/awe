@@ -48,8 +48,7 @@ public abstract class Panelable extends AbstractCriteria {
   private static final long serialVersionUID = 4769623059339446522L;
 
   @XStreamOmitField
-  private
-  Map<String, String> tabValues;
+  private Map<String, String> tabValues;
 
   @JsonIgnore
   @Override
