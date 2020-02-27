@@ -1,6 +1,7 @@
 package com.almis.awe.model.entities.screen.component;
 
 import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.component.action.Dependency;
 import com.almis.awe.model.entities.screen.component.button.ContextButton;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.annotation.*;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -110,6 +112,9 @@ public abstract class Component extends Element {
   @XStreamAlias("load-all")
   @XStreamAsAttribute
   private Boolean loadAll;
+
+  @XStreamOmitField
+  private DataList dataList;
 
   /**
    * Returns if component is autoload

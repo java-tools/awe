@@ -1,6 +1,7 @@
 package com.almis.awe.service.screen;
 
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.dao.InitialLoadDao;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.component.AweSession;
@@ -19,7 +20,6 @@ import com.almis.awe.model.entities.screen.data.ScreenComponent;
 import com.almis.awe.model.entities.screen.data.ScreenData;
 import com.almis.awe.model.type.InputType;
 import com.almis.awe.model.type.LoadType;
-import com.almis.awe.dao.InitialLoadDao;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
@@ -47,8 +47,9 @@ public class ScreenModelGenerator extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param screenRestrictionGenerator Screen restriction generator
-   * @param initialLoadDao Initial load service
+   * @param initialLoadDao             Initial load service
    */
   @Autowired
   public ScreenModelGenerator(ScreenRestrictionGenerator screenRestrictionGenerator, InitialLoadDao initialLoadDao) {
@@ -60,7 +61,7 @@ public class ScreenModelGenerator extends ServiceConfig {
    * Add screen target to initialization list
    *
    * @param initializationList Initialization list
-   * @param screenTarget Screen target
+   * @param screenTarget       Screen target
    */
   void addScreenTarget(List<AweThreadInitialization> initializationList, String screenTarget) {
     initializationList.add(new AweThreadInitialization().setParameters(getRequest().getParametersSafe()).setTarget(screenTarget.trim()).setInitialLoadType(LoadType.SCREEN));
@@ -68,6 +69,7 @@ public class ScreenModelGenerator extends ServiceConfig {
 
   /**
    * Add screen configuration to initialization list
+   *
    * @return Screen configuration thread
    */
   AweThreadInitialization getScreenConfigurationThread() {
@@ -78,22 +80,22 @@ public class ScreenModelGenerator extends ServiceConfig {
    * Add component target to initialization list
    *
    * @param initializationList Initialization list
-   * @param component Component
+   * @param component          Component
    */
   void addMenuTarget(List<AweThreadInitialization> initializationList, Component component) {
     // Set initialization list
     initializationList.add(new AweThreadInitialization()
-            .setTarget(AweConstants.SCREEN_RESTRICTION_QUERY)
-            .setParameters(getRequest().getParametersSafe().put(AweConstants.COMPONENT_MAX, "0"))
-            .setComponentId(component.getElementKey())
-            .setInitialLoadType(LoadType.MENU));
+      .setTarget(AweConstants.SCREEN_RESTRICTION_QUERY)
+      .setParameters(getRequest().getParametersSafe().put(AweConstants.COMPONENT_MAX, "0"))
+      .setComponentId(component.getElementKey())
+      .setInitialLoadType(LoadType.MENU));
   }
 
   /**
    * Add component target to initialization list
    *
    * @param initializationList Initialization list
-   * @param component Component
+   * @param component          Component
    */
   void addComponentTarget(List<AweThreadInitialization> initializationList, Component component) {
     // Calculate elements per page
@@ -140,8 +142,8 @@ public class ScreenModelGenerator extends ServiceConfig {
    * Add column target to initialization list
    *
    * @param initializationList Initialization list
-   * @param gridId Grid identifier
-   * @param column Column
+   * @param gridId             Grid identifier
+   * @param column             Column
    */
   void addColumnTarget(List<AweThreadInitialization> initializationList, String gridId, Column column) {
     ObjectNode parameters = getRequest().getParametersSafe();
@@ -159,8 +161,8 @@ public class ScreenModelGenerator extends ServiceConfig {
    * Launch initial load list in threads and update screen component values
    *
    * @param initializationList Initialization thread list
-   * @param componentMap Component map
-   * @param data Screen data
+   * @param componentMap       Component map
+   * @param data               Screen data
    * @throws AWException Error launching initial load list
    */
   void launchInitialLoadList(List<AweThreadInitialization> initializationList, Map<String, ScreenComponent> componentMap, ScreenData data) throws AWException {
@@ -203,8 +205,8 @@ public class ScreenModelGenerator extends ServiceConfig {
    * Store screen target data in components
    *
    * @param taskScreenMap Screen task map
-   * @param componentMap Component map
-   * @param data Screen data
+   * @param componentMap  Component map
+   * @param data          Screen data
    */
   private void storeScreenTargetData(Map<String, Future<ServiceData>> taskScreenMap, Map<String, ScreenComponent> componentMap, ScreenData data) {
     // Retrieve screen data if defined
@@ -229,9 +231,9 @@ public class ScreenModelGenerator extends ServiceConfig {
   /**
    * Store menu restrictions
    *
-   * @param taskResult Task result
+   * @param taskResult    Task result
    * @param menuContainer Menu container
-   * @param data Screen data
+   * @param data          Screen data
    */
   private void storeMenuRestrictions(Future<ServiceData> taskResult, MenuContainer menuContainer, ScreenData data) {
     try {
@@ -250,8 +252,8 @@ public class ScreenModelGenerator extends ServiceConfig {
    * Store component target data
    *
    * @param taskComponentMap Component task map
-   * @param componentMap Component map
-   * @param data Screen data
+   * @param componentMap     Component map
+   * @param data             Screen data
    */
   private void storeComponentTargetData(Map<String, Future<ServiceData>> taskComponentMap, Map<String, ScreenComponent> componentMap, ScreenData data) {
     // Retrieve component initial data
@@ -268,15 +270,15 @@ public class ScreenModelGenerator extends ServiceConfig {
    * Store column target data
    *
    * @param taskColumnMap Component task map
-   * @param componentMap Component map
-   * @param data Screen data
+   * @param componentMap  Component map
+   * @param data          Screen data
    */
   private void storeColumnTargetData(Map<String, Map<String, Future<ServiceData>>> taskColumnMap, Map<String, ScreenComponent> componentMap, ScreenData data) {
     // Retrieve component initial data
     for (Entry<String, Map<String, Future<ServiceData>>> entryMap : taskColumnMap.entrySet()) {
       Map<String, Future<ServiceData>> columnServiceDataMap = entryMap.getValue();
       Grid grid = (Grid) componentMap.get(entryMap.getKey()).getController();
-      for (Entry<String, Future<ServiceData>> entry: columnServiceDataMap.entrySet()) {
+      for (Entry<String, Future<ServiceData>> entry : columnServiceDataMap.entrySet()) {
         // Retrieve future data
         storeDataInComponent(entry.getValue(), grid.getColumnById(entry.getKey()), data);
       }
@@ -287,8 +289,8 @@ public class ScreenModelGenerator extends ServiceConfig {
    * Store data in component
    *
    * @param futureData Future
-   * @param component Screen component
-   * @param data Screen data
+   * @param component  Screen component
+   * @param data       Screen data
    */
   private void storeDataInComponent(Future<ServiceData> futureData, ScreenComponent component, ScreenData data) {
     // Retrieve future data
@@ -327,7 +329,7 @@ public class ScreenModelGenerator extends ServiceConfig {
   /**
    * Apply restricted value list from screen configuration
    *
-   * @param component Component
+   * @param component     Component
    * @param componentData Component data
    */
   private void applyRestrictedValueList(ScreenComponent component, DataList componentData) {
@@ -346,7 +348,7 @@ public class ScreenModelGenerator extends ServiceConfig {
   /**
    * Add components to Screen Data
    *
-   * @param data Screen initial data
+   * @param data         Screen initial data
    * @param componentMap Component map
    */
   private void addScreenTargetDataToComponent(DataList data, Map<String, ScreenComponent> componentMap) {
@@ -365,7 +367,7 @@ public class ScreenModelGenerator extends ServiceConfig {
   /**
    * Get a list of selected data
    *
-   * @param data Target action data
+   * @param data        Target action data
    * @param componentId Component identifier
    */
   private List<CellData> getSelectedData(DataList data, String componentId) {
@@ -380,10 +382,26 @@ public class ScreenModelGenerator extends ServiceConfig {
   }
 
   /**
+   * Generate component model from datalist
+   *
+   * @param data            Data
+   * @param screenComponent Screen component
+   */
+  public void generateComponentModelFromDataList(DataList data, ScreenComponent screenComponent) {
+    if (data != null) {
+      screenComponent.getModel()
+        .setPage(data.getPage())
+        .setRecords(data.getRecords())
+        .setTotal(data.getTotal())
+        .setValues(data.getRows());
+    }
+  }
+
+  /**
    * Generate static values from component and add them to screen component model
    *
-   * @param criterion Criterion object
-   * @param screenComponent Screen component
+   * @param criterion        Criterion object
+   * @param screenComponent  Screen component
    * @param screenParameters Screen paremeters (stored from keep-criteria)
    */
   void generateScreenCriterionModel(AbstractCriteria criterion, ScreenComponent screenComponent, ObjectNode screenParameters) {
@@ -394,6 +412,9 @@ public class ScreenModelGenerator extends ServiceConfig {
       model.setDefaultValues(defaultValues);
     }
 
+    // Store data if defined
+    generateComponentModelFromDataList(criterion.getDataList(), screenComponent);
+
     // Initialize Checkbox and Radio models
     initializeCheckboxRadioModel(criterion, screenComponent);
   }
@@ -401,7 +422,7 @@ public class ScreenModelGenerator extends ServiceConfig {
   /**
    * Generate static values from component and add them to screen component model
    *
-   * @param criterion Criterion object
+   * @param criterion       Criterion object
    * @param screenComponent Screen component
    */
   private void initializeCheckboxRadioModel(AbstractCriteria criterion, ScreenComponent screenComponent) {

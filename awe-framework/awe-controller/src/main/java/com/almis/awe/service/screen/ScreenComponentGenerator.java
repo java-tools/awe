@@ -142,7 +142,7 @@ public class ScreenComponentGenerator extends ServiceConfig {
 
       // Generate grid
       if (component instanceof Grid) {
-        generateScreenGrid((Grid) screenComponent.getController(), initializationList);
+        generateScreenGrid((Grid) screenComponent.getController(), screenComponent, initializationList);
       }
 
       // Generate menu
@@ -204,7 +204,7 @@ public class ScreenComponentGenerator extends ServiceConfig {
    * @param grid Grid component
    * @param initializationList Initialization list
    */
-  private void generateScreenGrid(Grid grid, List<AweThreadInitialization> initializationList) throws AWException {
+  private void generateScreenGrid(Grid grid, ScreenComponent screenComponent, List<AweThreadInitialization> initializationList) throws AWException {
     // If the component is a grid, store columns' initial load
     List<Column> columns = grid.getElementsByType(Column.class);
     List<ScreenColumn> columnList = new ArrayList<>();
@@ -227,6 +227,9 @@ public class ScreenComponentGenerator extends ServiceConfig {
       }
     }
 
+    // If grid has data, store in model
+    screenModelGenerator.generateComponentModelFromDataList(grid.getDataList(), screenComponent);
+
     // Get grid columns
     for (Column column : columns) {
       // Generate component model
@@ -244,6 +247,9 @@ public class ScreenComponentGenerator extends ServiceConfig {
         .setController(columnController)
         .setId(column.getName())
         .setModel(new ComponentModel());
+
+      // Store column data if defined
+      screenModelGenerator.generateComponentModelFromDataList(column.getDataList(), columnComponent);
 
       // Add screen component to grid
       columnList.add(columnComponent);

@@ -31,7 +31,7 @@ import static com.almis.awe.model.constant.AweConstants.NO_KEY;
 
 /**
  * Grid Class
- *
+ * <p>
  * Used to parse a grid tag with XStream
  * Generates an screen data grid
  *
@@ -179,6 +179,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
 
   /**
    * Check if grid is editable
+   *
    * @return Grid is editable
    */
   @JsonGetter("editable")
@@ -188,6 +189,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
 
   /**
    * Check if grid is checkbox multiselect
+   *
    * @return Grid is checkbox multiselect
    */
   @JsonGetter("checkboxMultiselect")
@@ -197,6 +199,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
 
   /**
    * Check if grid disable pagination
+   *
    * @return Grid disable pagination
    */
   @JsonGetter("disablePagination")
@@ -206,6 +209,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
 
   /**
    * Check if grid has row numbers
+   *
    * @return Grid has row numbers
    */
   @JsonGetter("rowNumbers")
@@ -215,6 +219,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
 
   /**
    * Check if grid send all data
+   *
    * @return Grid send all data
    */
   @JsonGetter("sendAll")
@@ -224,6 +229,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
 
   /**
    * Check if grid is multiselect
+   *
    * @return Grid is multiselect
    */
   @JsonGetter("multiselect")
@@ -233,6 +239,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
 
   /**
    * Check if grid is multioperation
+   *
    * @return Grid is multoperation
    */
   @JsonGetter("multioperation")
@@ -242,6 +249,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
 
   /**
    * Check if grid is validate on save
+   *
    * @return Grid is validate on save
    */
   @JsonGetter("validateOnSave")
@@ -251,6 +259,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
 
   /**
    * Check if grid show totals
+   *
    * @return Grid show totals
    */
   @JsonGetter("showTotals")
@@ -260,6 +269,7 @@ public abstract class AbstractGrid extends AbstractCriteria {
 
   /**
    * Returns if grid is a treegrid or not
+   *
    * @return Grid is a treegrid
    */
   @JsonGetter("treegrid")
