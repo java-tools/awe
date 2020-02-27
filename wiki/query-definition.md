@@ -243,6 +243,7 @@ The *field* element has the following attributes:
 - `MIN`: Min value
 - `SUM`: Sum values
 - `ROW_NUMBER`: Row number
+- `RANK`: Aggregation rank
 - `TRUNCDATE` (not standard): Truncate date
 - `YEAR`: Retrieve year from date
 - `MONTH`: Retrieve month from date

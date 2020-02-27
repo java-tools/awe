@@ -671,6 +671,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return Expressions.dateOperation(Integer.class, Ops.DateTimeOps.DAY_OF_MONTH, fieldExpression);
       case "ROW_NUMBER":
         return SQLExpressions.rowNumber();
+      case "RANK":
+        return SQLExpressions.rank();
       case "SUM":
       default:
         return new WindowOver<>(Long.class, Ops.AggOps.SUM_AGG, fieldExpression);
