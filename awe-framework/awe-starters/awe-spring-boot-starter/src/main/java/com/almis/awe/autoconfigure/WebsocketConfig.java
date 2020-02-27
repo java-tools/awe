@@ -3,7 +3,6 @@ package com.almis.awe.autoconfigure;
 import com.almis.awe.listener.WebSocketEventListener;
 import com.almis.awe.model.tracker.AweClientTracker;
 import com.almis.awe.model.tracker.AweConnectionTracker;
-import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.BroadcastService;
 import com.almis.awe.service.InitService;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,14 +90,12 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
    *
    * @param brokerMessagingTemplate Messaging template
    * @param connectionTracker       Connection tracker
-   * @param logger                  Logger
    * @return Broadcasting service bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public BroadcastService broadcastService(SimpMessagingTemplate brokerMessagingTemplate, AweConnectionTracker connectionTracker,
-                                           LogUtil logger) {
-    return new BroadcastService(brokerMessagingTemplate, connectionTracker, logger);
+  public BroadcastService broadcastService(SimpMessagingTemplate brokerMessagingTemplate, AweConnectionTracker connectionTracker) {
+    return new BroadcastService(brokerMessagingTemplate, connectionTracker);
   }
 
   /////////////////////////////////////////////
