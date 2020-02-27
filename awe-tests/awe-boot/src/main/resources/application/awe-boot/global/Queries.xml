@@ -2630,6 +2630,11 @@
       <partition-by field="l1_nom"/>
       <order-by field="l1_nom" type="ASC"/>
     </over>
+    <over alias="rankValue">
+      <field function="RANK"/>
+      <partition-by field="l1_nom"/>
+      <order-by field="l1_nom" type="ASC"/>
+    </over>
     <order-by field="l1_nom" type="ASC"/>
   </query>
 

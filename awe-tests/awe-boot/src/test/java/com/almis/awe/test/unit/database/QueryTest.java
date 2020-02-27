@@ -2784,7 +2784,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   @Category(CIDatabaseTest.class)
   public void testOverPartitionOrder() throws Exception {
     String queryName = "testOverPartitionOrder";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"name\":\"donald\",\"id\":1,\"rowNumber\":\"donald\"},{\"name\":\"jaimito\",\"id\":2,\"rowNumber\":\"jaimito\"},{\"name\":\"jorgito\",\"id\":3,\"rowNumber\":\"jorgito\"},{\"name\":\"juanito\",\"id\":4,\"rowNumber\":\"juanito\"},{\"name\":\"test\",\"id\":5,\"rowNumber\":null}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"name\":\"donald\",\"id\":1,\"rowNumber\":\"donald\",\"rankValue\":1},{\"name\":\"jaimito\",\"id\":2,\"rowNumber\":\"jaimito\",\"rankValue\":1},{\"name\":\"jorgito\",\"id\":3,\"rowNumber\":\"jorgito\",\"rankValue\":1},{\"name\":\"juanito\",\"id\":4,\"rowNumber\":\"juanito\",\"rankValue\":1},{\"name\":\"test\",\"id\":5,\"rowNumber\":null,\"rankValue\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
     assumeTrue(!isInMemoryDatabase());
     String result = performRequest(queryName, "", DATABASE, expected);
     assertResultJson(queryName, result, 5);

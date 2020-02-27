@@ -548,6 +548,7 @@
       <xs:enumeration value="ABS" />
       <xs:enumeration value="TRUNCDATE" />
       <xs:enumeration value="ROW_NUMBER" />
+      <xs:enumeration value="RANK" />
       <xs:enumeration value="YEAR" />
       <xs:enumeration value="MONTH" />
       <xs:enumeration value="DAY" />
