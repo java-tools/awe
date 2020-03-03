@@ -25,6 +25,46 @@
     <variable id="suggest" type="STRINGB" name="suggest"/>
   </query>
 
+  <!-- GET THE EMAIL LIST OF ACTIVE USERS -->
+  <query id="SchActUsrEmlSug">
+    <table id="ope" />
+    <field id="EmlAdr" alias="value" />
+    <field id="l1_nom" alias="Usr" noprint="true"/>
+    <computed format="([Usr]) [value] " alias="label" />
+    <where>
+      <and>
+        <or>
+          <filter left-field="l1_nom" condition="like" right-variable="UserB"/>
+          <filter left-field="EmlAdr" condition="like" right-variable="UserB"/>
+        </or>
+        <filter left-field="EmlAdr" condition="is not null"/>
+        <filter left-field="l1_act" condition="eq" right-variable="active" />
+      </and>
+    </where>
+    <variable id="active" type="INTEGER" value="1" />
+    <variable id="UserB" type="STRINGB" name="suggest"/>
+  </query>
+
+  <!-- GET THE EMAIL LIST OF ACTIVE USERS -->
+  <query id="SchActUsrSug">
+    <table id="ope" />
+    <field id="l1_nom" alias="value" />
+    <field id="EmlAdr" alias="Eml" noprint="true"/>
+    <computed format="[value] ([Eml])" alias="label" />
+    <where>
+      <and>
+        <or>
+          <filter left-field="l1_nom" condition="like" right-variable="UserB"/>
+          <filter left-field="EmlAdr" condition="like" right-variable="UserB"/>
+        </or>
+        <filter left-field="l1_nom" condition="is not null"/>
+        <filter left-field="l1_act" condition="eq" right-variable="active" />
+      </and>
+    </where>
+    <variable id="active" type="INTEGER" value="1" />
+    <variable id="UserB" type="STRINGB" name="suggest"/>
+  </query>
+
   <!-- Mantain suggest -->
   <query id="getPublicMaintainList" service="getMaintainList" cacheable="true">
     <field id="Ide" alias="value"/>

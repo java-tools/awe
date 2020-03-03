@@ -219,7 +219,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
     // Check transformations
     if (field.isTransform()) {
       TransformCellProcessor transformProcessor = new TransformCellProcessor();
-      transformProcessor.setField(field);
+      transformProcessor.setElements(getElements()).setField(field);
       builder.addTransform(transformProcessor);
     }
 

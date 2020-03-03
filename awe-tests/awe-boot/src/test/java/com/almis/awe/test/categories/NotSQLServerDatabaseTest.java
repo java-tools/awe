@@ -1,4 +1,4 @@
-package com.almis.awe.test.unit.categories;
+package com.almis.awe.test.categories;
 
 public interface NotSQLServerDatabaseTest {
 }

@@ -52,6 +52,7 @@ You must have Maven 3.x installed on your computer as well as a JDK 8 or higher
   * [Advanced application developer guide](wiki/advanced-developer-guide.md)
   * [Developer tools](wiki/developer-tools.md)
   * [Scheduler guide](wiki/scheduler-guide.md)
+  * [Notifier guide](wiki/notifier-guide.md)
   * [Selenium tests guide](wiki/selenium-tests-guide.md)
   * [Printing engine guide](wiki/print-guide.md)
   * [Debugging guide](wiki/debugging-guide.md)

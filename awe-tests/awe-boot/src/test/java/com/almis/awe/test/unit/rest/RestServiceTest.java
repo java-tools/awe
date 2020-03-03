@@ -1,7 +1,6 @@
 package com.almis.awe.test.unit.rest;
 
-import com.almis.awe.model.dto.ServiceData;
-import com.almis.awe.test.unit.categories.CIDatabaseTest;
+import com.almis.awe.test.categories.CIDatabaseTest;
 import lombok.extern.log4j.Log4j2;
 import org.junit.After;
 import org.junit.Before;

@@ -113,6 +113,15 @@
       <option name="update-scheduler-calendar" screen="update-scheduler-calendar" invisible="true" />
     </option>
   </option>
+  <option name="notifier-separator" separator="true"/>
+  <option name="user-settings" screen="user-settings" invisible="true"/>
+  <option name="notifier" label="MENU_NOTIFIER" icon="flash">
+    <option name="subscriptions" screen="subscriptions" label="MENU_NOTIFIER_SUBSCRIPTIONS" icon="ticket">
+      <option name="new-subscription" screen="new-subscription" invisible="true" />
+      <option name="update-subscription" screen="update-subscription" invisible="true" />
+    </option>
+    <option name="notifications" screen="notifications" label="MENU_NOTIFIER_NOTIFICATIONS" icon="bell" />
+  </option>
   <option name="developer-separator" separator="true"/>
   <option name="developer" label="MENU_DEVELOPER" icon="paint-brush">
     <option name="path-manager" label="MENU_PATH" screen="path-manager" icon="terminal"/>

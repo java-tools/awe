@@ -126,6 +126,7 @@
   <locale name="CONNECTION_TYPE_HTTP" value="http"/>
   <locale name="CONNECTION_TYPE_HTTPS" value="https"/>
   <locale name="CONNECTION_TYPE_SSH" value="ssh"/>
+  <locale name="DAYS" value="{0}j"/>
   <locale name="ELEMENT_GENERIC_HELP" value="Element type --&gt;"/>
   <locale name="ELEMENT_HELP_LABEL" value="Label"/>
   <locale name="ELEMENT_TYPE_BUTTON" value="Button"/>
@@ -791,6 +792,7 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="HELP_TYPE" value="Type"/>
   <locale name="HELP_UPDATE_BUTTON" value="Aller au nouveau écran avec les données sélectionnées pour les módifier"/>
   <locale name="HELP_VIEW_BUTTON" value="Aller au nouveau écran avec les données sélectionnées pour les régarder"/>
+  <locale name="HOURS" value="{0}h"/>
   <locale name="INFO_MESSAGE_PARSING_NUMBER_NULL" value="Le paramètre {0} ne peut pas être analysée comme nombre: &apos;&apos;{1}&apos;&apos; - Défini comme null"/>
   <locale name="INFO_TITLE_WEB_SERVICE_CALL" value="Informatión"/>
   <locale name="MENU_ACT_USR" value="Notifier les utilisateurs actives"/>
@@ -842,6 +844,10 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="MENU_TOOLS_UNIKEY" value="Codes du systeme"/>
   <locale name="MENU_TOOLS_USERS" value="Utilisateurs"/>
   <locale name="MENU_USER_HELP" value="Guide utilisateur"/>
+  <locale name="MILLISECONDS" value="{0}ms"/>
+  <locale name="MINUTES" value="{0}m"/>
+  <locale name="MONTH" value="{0} mois"/>
+  <locale name="MONTHS" value="{0} mois"/>
   <locale name="MSG_PASSWD_NEW" value="Après avoir entré le appuyez sur le bouton de confirmation de mot de passe"/>
   <locale name="OK_MESSAGE_CLEARING_ALL_CACHE" value="Se han borrado todas las caches correctamente"/>
   <locale name="OK_MESSAGE_CLEARING_CACHE" value="La cache -{0}- a ete correctement effacee"/>
@@ -1160,8 +1166,10 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="SCREEN_TITLE_USR_NEW" value="Insertion des utilisateurs"/>
   <locale name="SCREEN_TITLE_USR_UPD" value="Modification des utilisateurs"/>
   <locale name="SCREEN_TITLE_USR_VIW" value="Consultation d&apos;utilisateur"/>
+  <locale name="SECONDS" value="{0}s"/>
   <locale name="SELECT2_SEARCH_VALUE" value="Chercher un valeur"/>
   <locale name="SELECT2_SELECT_VALUE" value="Sélectionner un valeur"/>
+  <locale name="TIME_AGO" value="il y a {0}"/>
   <locale name="VALIDATOR_MESSAGE_CHECK_AT_LEAST" value="Veuillez cocher au moins {value2} réponses"/>
   <locale name="VALIDATOR_MESSAGE_DATE" value="Veuillez entrer une date valide"/>
   <locale name="VALIDATOR_MESSAGE_DIGITS" value="Veuillez saisir uniquement des chiffres"/>
@@ -1192,4 +1200,8 @@ Un site est défini comme un *séparé nœud d'application*, avec ses propres [b
   <locale name="WARNING_TITLE_DUPLICATED_SERVER" value="Serveur existant"/>
   <locale name="WARNING_TITLE_DUPLICATED_USER" value="Utilisateur existant"/>
   <locale name="WARNING_TITLE_WEB_SERVICE_CALL" value="Attentión"/>
+  <locale name="WEEK" value="{0} semaine"/>
+  <locale name="WEEKS" value="{0} semaines"/>
+  <locale name="YEAR" value="{0} année"/>
+  <locale name="YEARS" value="{0} ans"/>
 </locales>

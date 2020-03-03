@@ -120,6 +120,11 @@
       </dependency>
       <dependency>
         <groupId>com.almis.awe</groupId>
+        <artifactId>awe-notifier-spring-boot-starter</artifactId>
+        <version>${awe.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.almis.awe</groupId>
         <artifactId>awe-rest-spring-boot-starter</artifactId>
         <version>${awe.version}</version>
       </dependency>
@@ -161,6 +166,11 @@
       <dependency>
         <groupId>com.almis.awe</groupId>
         <artifactId>awe-developer</artifactId>
+        <version>${awe.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.almis.awe</groupId>
+        <artifactId>awe-notifier</artifactId>
         <version>${awe.version}</version>
       </dependency>
       <dependency>

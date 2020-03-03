@@ -2,6 +2,7 @@ package com.almis.awe.model.entities.screen.component.button;
 
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.Element;
+import com.almis.awe.model.entities.screen.component.Info;
 import com.almis.awe.model.entities.screen.component.action.ButtonAction;
 import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -33,7 +34,7 @@ import java.util.List;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Accessors(chain = true)
-@XStreamInclude({Button.class, InfoButton.class, ContextButton.class, ContextSeparator.class})
+@XStreamInclude({Button.class, Info.class, InfoButton.class, ContextButton.class, ContextSeparator.class})
 public abstract class AbstractButton extends AbstractCriteria {
 
   private static final long serialVersionUID = 4537762712903942049L;

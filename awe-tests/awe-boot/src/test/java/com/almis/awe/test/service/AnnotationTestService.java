@@ -34,7 +34,7 @@ public class AnnotationTestService {
    * @return
    */
   public String localeFromParameters(
-    @Locale (language = "ES") String test) {
+    @Locale (language = "es") String test) {
     String testValue = test;
     return testValue;
   }

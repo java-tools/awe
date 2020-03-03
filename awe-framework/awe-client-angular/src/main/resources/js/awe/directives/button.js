@@ -7,6 +7,7 @@ aweApplication.directive('aweButton',
     function ($serverData, Button) {
       return {
         restrict: 'E',
+        transclude: true,
         replace: true,
         templateUrl: () => $serverData.getAngularTemplateUrl('button'),
         scope: {

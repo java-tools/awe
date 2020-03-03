@@ -72,7 +72,7 @@ public class JsonAuthenticationFilter extends UsernamePasswordAuthenticationFilt
         parameters.get(getUsernameParameter()).asText(),
         parameters.get(getPasswordParameter()).asText());
     } catch (IOException exc) {
-      throw new InternalAuthenticationServiceException(elements.getLocale("ERROR_MESSAGE_INVALID_ARGUMENTS"));
+      throw new InternalAuthenticationServiceException(elements.getLocaleWithLanguage("ERROR_MESSAGE_INVALID_ARGUMENTS", elements.getLanguage()));
     }
   }
 }

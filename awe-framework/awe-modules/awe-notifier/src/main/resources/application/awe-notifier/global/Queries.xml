@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<queries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/queries.xsd">
+
+  <query id="notifications" service="notifications"/>
+  <query id="user-notifications">
+    <table id="AweNot" alias="notifications"/>
+    <field id="Ide" table="notifications" alias="value"/>
+    <field id="Nom" table="notifications" alias="title"/>
+    <field id="Des" table="notifications" alias="description"/>
+    <field id="Dat" table="notifications" alias="date" transform="DATE_SINCE"/>
+    <field id="Ico" table="notifications" alias="icon"/>
+    <field id="Typ" table="notifications" alias="type" translate="notification-type"/>
+    <field id="Scr" table="notifications" alias="screen"/>
+    <field id="Cod" table="notifications" alias="code"/>
+    <join>
+      <table id="ope" alias="users"/>
+      <and>
+        <filter left-field="l1_nom" left-table="users" condition="eq" right-variable="user" ignorecase="true"/>
+      </and>
+    </join>
+    <join type="LEFT">
+      <table id="AweNotUsr" alias="userNotifications"/>
+      <and>
+        <filter left-field="IdeOpe" left-table="userNotifications" condition="eq" right-field="IdeOpe" right-table="users"/>
+        <filter left-field="IdeNot" left-table="userNotifications" condition="eq" right-field="Ide" right-table="notifications"/>
+      </and>
+    </join>
+    <join>
+      <table id="AweSub" alias="subscriptions"/>
+      <and>
+        <filter left-field="Ide" left-table="subscriptions" condition="eq" right-field="IdeSub"
+                right-table="notifications"/>
+      </and>
+    </join>
+    <join>
+      <table id="AweSubUsr" alias="userSubscriptions"/>
+      <and>
+        <filter left-field="IdeOpe" left-table="userSubscriptions" condition="eq" right-field="IdeOpe" right-table="users"/>
+        <filter left-field="IdeSub" left-table="userSubscriptions" condition="eq" right-field="IdeSub" right-table="notifications"/>
+        <filter left-field="SubNot" left-table="userSubscriptions" condition="eq"><right-operand><constant value="1" type="INTEGER"/></right-operand></filter>
+      </and>
+    </join>
+    <where>
+      <and>
+        <filter condition="eq" right-variable="unread" optional="true">
+          <left-operand>
+            <operation operator="COALESCE">
+              <field id="Unr" table="userNotifications"/>
+              <constant type="INTEGER" value="1"/>
+            </operation>
+          </left-operand>
+        </filter>
+      </and>
+    </where>
+    <order-by field="Dat" table="notifications" type="DESC"/>
+    <variable id="user" type="STRING" session="user"/>
+    <variable id="unread" type="INTEGER" value="1"/>
+  </query>
+
+  <query id="get-interested-users" distinct="true">
+    <table id="ope" alias="users"/>
+    <field id="l1_nom" alias="user"/>
+    <field id="SubNot" alias="byWeb" transform="BOOLEAN"/>
+    <field id="SubEma" alias="byEmail" transform="BOOLEAN"/>
+    <join>
+      <table id="AweSubUsr" alias="userSubscriptions"/>
+      <and>
+        <filter left-field="IdeOpe" left-table="userSubscriptions" condition="eq" right-field="IdeOpe" right-table="users"/>
+      </and>
+    </join>
+    <join>
+      <table id="AweSub" alias="subscriptions"/>
+      <and>
+        <filter left-field="Acr" left-table="subscriptions" condition="eq" right-variable="subscription"/>
+        <filter left-field="Ide" left-table="subscriptions" condition="eq" right-field="IdeSub" right-table="userSubscriptions"/>
+      </and>
+    </join>
+    <variable id="subscription" type="STRING" name="subscription"/>
+  </query>
+
+  <query id="notification-list">
+    <table id="AweNot" alias="notifications"/>
+    <field id="Ide" table="notifications" alias="id"/>
+    <field id="Nom" table="notifications" alias="notification-name"/>
+    <field id="Des" table="notifications" alias="notification-description"/>
+    <field id="Scr" table="notifications" alias="notification-screen"/>
+    <field id="Cod" table="notifications" alias="notification-code"/>
+    <field id="Dat" table="notifications" alias="notification-date" transform="TIMESTAMP"/>
+    <field id="Ico" table="notifications" alias="icon"/>
+    <operation alias="unreadSort" operator="COALESCE">
+      <field id="Unr" table="userNotifications"/>
+      <constant type="INTEGER" value="1"/>
+    </operation>
+    <field id="Typ" table="notifications" alias="typeSort"/>
+    <compound alias="notification-icon">
+      <computed format="[typeSort]" alias="value"/>
+      <computed format="fa-[icon] fa-inverse fa-border icon-fixed-width-grid" alias="icon"/>
+      <computed format="[typeSort]" alias="style" translate="notification-style"/>
+      <computed format="[typeSort]" alias="title" translate="notification-label"/>
+      <computed format="" alias="label"/>
+    </compound>
+    <compound alias="notification-read">
+      <computed format="[unreadSort]" alias="value"/>
+      <computed format="[unreadSort]" alias="icon" translate="notification-read-icon"/>
+      <computed format="[unreadSort]" alias="style" translate="notification-read-style"/>
+      <computed format="[unreadSort]" alias="title" translate="notification-read-label"/>
+    </compound>
+    <computed alias="_style_" format="[unreadSort]" translate="unread-style"/>
+    <join>
+      <table id="ope" alias="users"/>
+      <and>
+        <filter left-field="l1_nom" left-table="users" condition="eq" right-variable="user" ignorecase="true"/>
+      </and>
+    </join>
+    <join type="LEFT">
+      <table id="AweNotUsr" alias="userNotifications"/>
+      <and>
+        <filter left-field="IdeOpe" left-table="userNotifications" condition="eq" right-field="IdeOpe" right-table="users"/>
+        <filter left-field="IdeNot" left-table="userNotifications" condition="eq" right-field="Ide" right-table="notifications"/>
+      </and>
+    </join>
+    <join>
+      <table id="AweSub" alias="subscriptions"/>
+      <and>
+        <filter left-field="Ide" left-table="subscriptions" condition="eq" right-field="IdeSub" right-table="notifications"/>
+      </and>
+    </join>
+    <join>
+      <table id="AweSubUsr" alias="userSubscriptions"/>
+      <and>
+        <filter left-field="IdeOpe" left-table="userSubscriptions" condition="eq" right-field="IdeOpe" right-table="users"/>
+        <filter left-field="IdeSub" left-table="userSubscriptions" condition="eq" right-field="IdeSub" right-table="notifications"/>
+      </and>
+    </join>
+    <where>
+      <and>
+        <filter left-field="IdeSub" left-table="notifications" condition="eq" right-variable="subscription" optional="true"/>
+        <filter left-field="Typ" left-table="notifications" condition="eq" right-variable="type" optional="true"/>
+        <filter condition="eq" right-variable="unread" optional="true">
+          <left-operand>
+            <operation operator="COALESCE">
+              <field id="Unr" table="userNotifications"/>
+              <constant type="INTEGER" value="1"/>
+            </operation>
+          </left-operand>
+        </filter>
+        <or>
+          <filter left-field="Nom" left-table="notifications" condition="like" right-variable="search" optional="true" ignorecase="true"/>
+          <filter left-field="Des" left-table="notifications" condition="like" right-variable="search" optional="true" ignorecase="true"/>
+        </or>
+      </and>
+    </where>
+    <order-by field="Dat" table="notifications" type="DESC"/>
+    <variable id="user" type="STRING" session="user"/>
+    <variable id="unread" type="INTEGER" name="unread"/>
+    <variable id="type" type="STRING" name="type"/>
+    <variable id="subscription" type="INTEGER" name="subscription"/>
+    <variable id="search" type="STRINGB" name="search"/>
+  </query>
+
+  <query id="subscription-suggest">
+    <table id="AweSub" alias="subscriptions"/>
+    <field id="Ide" table="subscriptions" alias="value"/>
+    <field id="Nom" table="subscriptions" alias="label"/>
+    <where>
+      <or>
+        <filter left-field="Acr" left-table="subscriptions" condition="like" right-variable="search" optional="true" ignorecase="true"/>
+        <filter left-field="Nom" left-table="subscriptions" condition="like" right-variable="search" optional="true" ignorecase="true"/>
+        <filter left-field="Des" left-table="subscriptions" condition="like" right-variable="search" optional="true" ignorecase="true"/>
+      </or>
+    </where>
+    <variable id="search" type="STRINGB" name="suggest"/>
+  </query>
+
+  <query id="subscription-acronym">
+    <table id="AweSub" alias="subscriptions"/>
+    <field id="Ide" table="subscriptions" alias="value"/>
+    <where>
+      <and>
+        <filter left-field="Acr" left-table="subscriptions" condition="eq" right-variable="acronym" ignorecase="true"/>
+      </and>
+    </where>
+    <variable id="acronym" type="STRING" name="subscription" optional="true"/>
+    <variable id="acronym" type="STRING" name="acronym" optional="true"/>
+  </query>
+
+  <query id="user-acronym">
+    <table id="ope" alias="users"/>
+    <field id="IdeOpe" table="users" alias="value"/>
+    <where>
+      <and>
+        <filter left-field="l1_nom" left-table="users" condition="eq" right-variable="user" ignorecase="true"/>
+      </and>
+    </where>
+    <variable id="user" type="STRING" session="user"/>
+  </query>
+
+  <query id="subscription-list">
+    <table id="AweSub" alias="subscriptions"/>
+    <field id="Ide" table="subscriptions" alias="id"/>
+    <field id="Acr" table="subscriptions" alias="subscription-acronym"/>
+    <field id="Nom" table="subscriptions" alias="subscription-name"/>
+    <field id="Des" table="subscriptions" alias="subscription-description"/>
+    <field id="Act" table="subscriptions" alias="activeSort"/>
+    <compound alias="subscription-active">
+      <computed format="[activeSort]" alias="value"/>
+      <computed format="[activeSort]" alias="icon" translate="active-icon"/>
+      <computed format="[activeSort]" alias="style" translate="active-style"/>
+      <computed format="[activeSort]" alias="label" translate="active-label"/>
+    </compound>
+    <where>
+      <and>
+        <filter left-field="Act" left-table="subscriptions" condition="eq" right-variable="active" optional="true"/>
+        <or>
+          <filter left-field="Acr" left-table="subscriptions" condition="like" right-variable="search" optional="true" ignorecase="true"/>
+          <filter left-field="Nom" left-table="subscriptions" condition="like" right-variable="search" optional="true" ignorecase="true"/>
+          <filter left-field="Des" left-table="subscriptions" condition="like" right-variable="search" optional="true" ignorecase="true"/>
+        </or>
+      </and>
+    </where>
+    <variable id="active" type="INTEGER" name="active"/>
+    <variable id="search" type="STRINGB" name="search"/>
+  </query>
+
+  <query id="my-subscriptions">
+    <table id="AweSub" alias="subscriptions"/>
+    <field id="Ide" table="subscriptions" alias="value"/>
+    <field id="Nom" table="subscriptions" alias="name"/>
+    <operation alias="valueWeb" operator="COALESCE">
+      <field id="SubNot" table="userSubscriptions"/>
+      <constant type="INTEGER" value="0"/>
+    </operation>
+    <computed format="[valueWeb]" alias="iconWeb" translate="active-icon-button"/>
+    <computed format="[valueWeb]" alias="styleWeb" translate="active-style"/>
+    <operation alias="valueEmail" operator="COALESCE">
+      <field id="SubEma" table="userSubscriptions"/>
+      <constant type="INTEGER" value="0"/>
+    </operation>
+    <computed format="[valueEmail]" alias="iconEmail" translate="active-icon-button"/>
+    <computed format="[valueEmail]" alias="styleEmail" translate="active-style"/>
+    <join type="LEFT">
+      <table id="AweSubUsr" alias="userSubscriptions"/>
+      <and>
+        <filter left-field="IdeOpe" left-table="userSubscriptions" condition="in" query="user-acronym"/>
+        <filter left-field="IdeSub" left-table="userSubscriptions" condition="eq" right-field="Ide" right-table="subscriptions"/>
+      </and>
+    </join>
+    <variable id="user" type="STRING" session="user"/>
+  </query>
+
+  <query id="get-subscription">
+    <table id="AweSubUsr" alias="userSubscriptions"/>
+    <field id="IdeOpe" alias="user"/>
+    <field id="SubNot" alias="web"/>
+    <field id="SubEma" alias="email"/>
+    <where>
+      <and>
+        <filter left-field="IdeOpe" condition="in" query="user-acronym"/>
+        <filter left-field="IdeSub" condition="eq" right-variable="subscription"/>
+      </and>
+    </where>
+    <variable id="user" type="STRING" session="user"/>
+    <variable id="subscription" type="INTEGER" name="buttonValue"/>
+  </query>
+
+</queries>

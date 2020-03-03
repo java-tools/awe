@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/services.xsd">
+
+  <service id="notifications">
+    <java classname="com.almis.awe.notifier.service.NotifierService" method="getNotifications"/>
+  </service>
+
+  <service id="toggle-web-subscription">
+    <java classname="com.almis.awe.notifier.service.NotifierService" method="toggleWebSubscription">
+      <service-parameter type="STRING" name="user"/>
+      <service-parameter type="INTEGER" name="subscription"/>
+    </java>
+  </service>
+
+  <service id="toggle-email-subscription">
+    <java classname="com.almis.awe.notifier.service.NotifierService" method="toggleEmailSubscription">
+      <service-parameter type="STRING" name="user"/>
+      <service-parameter type="INTEGER" name="subscription"/>
+    </java>
+  </service>
+
+</services>

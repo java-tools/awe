@@ -337,6 +337,37 @@ public class DummyService extends ServiceConfig {
   }
 
   /**
+   * Returns the system date
+   *
+   * @return Service Data
+   */
+  public ServiceData getElapsedTimeList() {
+
+    ServiceData serviceData = new ServiceData();
+
+    // Get system version
+    serviceData.setDataList(new DataList());
+    DataListUtil.addColumn(serviceData.getDataList(), "ms1", Collections.singletonList(1200 * 24 * 60 * 60 * 1000L));
+    DataListUtil.addColumn(serviceData.getDataList(), "ms2", Collections.singletonList(400 * 24 * 60 * 60 * 1000L));
+    DataListUtil.addColumn(serviceData.getDataList(), "ms3", Collections.singletonList(70 * 24 * 60 * 60 * 1000L));
+    DataListUtil.addColumn(serviceData.getDataList(), "ms4", Collections.singletonList(35 * 24 * 60 * 60 * 1000L));
+    DataListUtil.addColumn(serviceData.getDataList(), "ms5", Collections.singletonList(18 * 24 * 60 * 60 * 1000L));
+    DataListUtil.addColumn(serviceData.getDataList(), "ms6", Collections.singletonList(9 * 24 * 60 * 60 * 1000L));
+    DataListUtil.addColumn(serviceData.getDataList(), "ms7", Collections.singletonList(3 * 24 * 60 * 60 * 1000L));
+    DataListUtil.addColumn(serviceData.getDataList(), "ms8", Collections.singletonList(8 * 60 * 60 * 1000L));
+    DataListUtil.addColumn(serviceData.getDataList(), "ms9", Collections.singletonList(5 * 60 * 1000L));
+    DataListUtil.addColumn(serviceData.getDataList(), "ms10", Collections.singletonList(7 * 1000L));
+    DataListUtil.addColumn(serviceData.getDataList(), "ms11", Collections.singletonList(222L));
+
+    // Get calendar 3 years ago
+    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    calendar.add(Calendar.YEAR, -3);
+    DataListUtil.addColumn(serviceData.getDataList(), "dateSince", Collections.singletonList(calendar.getTime()));
+
+    return serviceData;
+  }
+
+  /**
    * Retrieve dummy data
    *
    * @param planet Planet bean

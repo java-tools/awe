@@ -65,6 +65,14 @@ aweApplication.directive('aweContextOption',
               }
 
               /**
+               * Basic getSpecificFields function (To be overwritten on complex directives)
+               * @returns {Object} Specific fields from component
+               */
+              component.getSpecificFields = function () {
+                return {buttonValue: component.model.selected, buttonAddress: component.address};
+              };
+
+              /**
                * Show the submenu (if it exists)
                */
               var showSubmenu = function () {

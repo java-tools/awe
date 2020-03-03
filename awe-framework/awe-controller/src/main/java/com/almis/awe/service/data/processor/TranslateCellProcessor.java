@@ -71,7 +71,7 @@ public class TranslateCellProcessor implements CellProcessor, AweContextAware {
 
     // Get translated label
     String label = translateEnumerated.findLabel(value);
-    cell.setValue(getElements().getLocale(label));
+    cell.setValue(getElements().getLocaleWithLanguage(label, getElements().getLanguage()));
 
     // Store computed in row
     return cell;

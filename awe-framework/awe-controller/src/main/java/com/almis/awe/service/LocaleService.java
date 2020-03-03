@@ -50,7 +50,7 @@ public class LocaleService extends ServiceConfig {
 
       return out;
     } catch (Exception exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_READING_LOCALS"), getElements().getLocale("ERROR_MESSAGE_READING_LOCALS"), exc);
+      throw new AWException(getLocale("ERROR_TITLE_READING_LOCALS"), getLocale("ERROR_MESSAGE_READING_LOCALS"), exc);
     }
   }
 

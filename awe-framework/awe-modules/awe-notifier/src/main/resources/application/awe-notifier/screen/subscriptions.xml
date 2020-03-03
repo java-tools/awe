@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window"
+        label="SCREEN_TITLE_SUBSCRIPTIONS" help="SCREEN_HELP_SUBSCRIPTIONS">
+  <tag source="hidden">
+    <message id="delete-message" title="CONFIRM_TITLE_DELETE" message="CONFIRM_MESSAGE_DELETE" />
+  </tag>
+  <tag source="buttons">
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt" />
+    </button>
+    <button label="BUTTON_PRINT" icon="print" id="ButPrn" help="HELP_PRINT_BUTTON">
+      <button-action type="validate" />
+      <button-action type="dialog" target="PrnOpt" />
+    </button>
+    <button label="BUTTON_UPDATE" icon="edit" id="ButUpd" help="HELP_UPDATE_BUTTON">
+      <button-action type="screen" target="update-subscription" />
+      <dependency target-type="disable" initial="true">
+        <dependency-element id="subscription-list" condition="ne" value="1" />
+      </dependency>
+    </button>
+    <button label="BUTTON_DELETE" icon="trash" id="ButDel" help="HELP_DELETE_BUTTON">
+      <button-action type="confirm" target="delete-message" />
+      <button-action type="server" server-action="maintain" target-action="delete-subscriptions" />
+      <button-action type="filter" target="subscription-list" />
+      <dependency target-type="disable" initial="true">
+        <dependency-element id="subscription-list" condition="lt" value="1" />
+      </dependency>
+    </button>
+    <button label="BUTTON_NEW" icon="plus-circle" id="ButNew" help="HELP_NEW_BUTTON">
+      <button-action type="screen" target="new-subscription" />
+      <dependency source-type="value" target-type="label" value="BUTTON_NEW" initial="true">
+        <dependency-element id="subscription-list" condition="eq" value="0"/>
+      </dependency>
+      <dependency target-type="disable" initial="true">
+        <dependency-element id="subscription-list" condition="gt" value="1" />
+      </dependency>
+    </button>
+  </tag>
+  <tag source="center">
+    <window label="SCREEN_TEXT_CRITERIA" icon="filter">
+      <tag type="div" style="panel-body">
+        <criteria label="PARAMETER_SEARCH" icon="search" component="text" id="search" style="col-xs-12 col-sm-6 col-md-4 col-lg-3" />
+        <criteria label="PARAMETER_ACTIVE" icon="check" component="select" id="active" optional="true" initial-load="enum" target-action="Es1Es0" style="col-xs-12 col-sm-4 col-md-2 col-lg-1" />
+      </tag>
+      <tag type="div" style="panel-footer">
+        <tag type="div" style="pull-right">
+          <button button-type="reset" label="BUTTON_RESET" icon="eraser" id="button-reset" help="HELP_RESET_BUTTON" />
+          <button button-type="submit" label="BUTTON_SEARCH" icon="search" id="button-search" help="HELP_SEARCH_BUTTON">
+            <button-action type="filter" target="subscription-list" />
+          </button>
+        </tag>
+      </tag>
+    </window>
+    <window style="expand" maximize="true" label="SCREEN_TEXT_SUBSCRIPTIONS" icon="ticket">
+      <grid id="subscription-list" style="expand" initial-load="query" server-action="data" target-action="subscription-list" multiselect="true" max="30">
+        <column name="id" hidden="true" />
+        <column label="PARAMETER_ACRONYM" name="subscription-acronym" charlength="10" />
+        <column label="PARAMETER_NAME" name="subscription-name" charlength="30" />
+        <column label="PARAMETER_DESCRIPTION" name="subscription-description" charlength="50" />
+        <column label="PARAMETER_ACTIVE" component="icon" name="subscription-active" sort-field="subscription-active-sort" align="center" charlength="10" />
+      </grid>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="PrnOpt" target-source="center" />
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

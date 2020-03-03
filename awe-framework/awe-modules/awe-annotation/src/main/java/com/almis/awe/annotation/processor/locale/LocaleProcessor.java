@@ -72,9 +72,9 @@ public class LocaleProcessor {
   private String getTranslatedLocale(String localeId, String lang, String[] params) {
     String parsed;
     if (params == null) {
-      parsed = aweElementsObjectFactory.getObject().getLocale(localeId, lang);
+      parsed = aweElementsObjectFactory.getObject().getLocaleWithLanguage(localeId, lang);
     } else {
-      parsed = aweElementsObjectFactory.getObject().getLocale(localeId, (Object[]) params);
+      parsed = aweElementsObjectFactory.getObject().getLocaleWithLanguage(localeId, lang, (Object[]) params);
     }
     return parsed;
   }

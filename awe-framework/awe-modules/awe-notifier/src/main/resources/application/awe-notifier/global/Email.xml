@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Email.xml
+    Created on : 28 de Noviembre de 2011
+    Author     : Aitor UGARTE
+    Description: Email define file
+-->
+
+<emails xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/email.xsd">
+  <email id="notify-users">
+    <from query="SesUsr" label="SesNam" value="SesEma" />
+    <to query="GetEmaLst" label="UsrNam" value="UsrEml" />
+    <subject label="EMAIL_SUBJECT_NOTIFY" value="asd"/>
+    <body label="EMAIL_MESSAGE_HTML_HEADER" type="html" value=""/>
+    <body label="EMAIL_MESSAGE_HTML_NOTIFY" type="html" value=""/>
+    <body label="EMAIL_MESSAGE_HTML_BOTTOM" type="html" value=""/>
+    <body label="EMAIL_MESSAGE_TEXT_NOTIFY" type="text" value=""/>
+  </email>
+</emails>

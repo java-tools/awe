@@ -12,8 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
   MaintainRestControllerTest.class,
   ScreenConfigurationTest.class,
   ScreenControllerTest.class,
-  ScreenRestrictionTest.class,
-  TagListTest.class
+  ScreenRestrictionTest.class
 })
 public class SpringRestTestsSuite {
 }

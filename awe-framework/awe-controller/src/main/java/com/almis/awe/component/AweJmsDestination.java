@@ -131,8 +131,8 @@ public class AweJmsDestination {
     } catch (AWException exc) {
       throw exc;
     } catch (Exception exc) {
-      throw new AWException(elements.getLocale("ERROR_TITLE_DESTINATION_FAILED"),
-              elements.getLocale("ERROR_MESSAGE_DESTINATION_FAILED", destinationInfo.getDestination()), exc);
+      throw new AWException(elements.getLocaleWithLanguage("ERROR_TITLE_DESTINATION_FAILED", elements.getLanguage()),
+              elements.getLocaleWithLanguage("ERROR_MESSAGE_DESTINATION_FAILED", elements.getLanguage(), destinationInfo.getDestination()), exc);
     }
 
     return destination;
@@ -157,8 +157,8 @@ public class AweJmsDestination {
       // Get destination
       destination = (Destination) envContext.lookup(destinationInfo.getDestination());
     } catch (Exception exc) {
-      throw new AWException(elements.getLocale("ERROR_TITLE_QUEUE_DESTINATION_NOT_FOUND"),
-              elements.getLocale("ERROR_MESSAGE_QUEUE_DESTINATION_NOT_FOUND", destinationInfo.getDestination()), exc);
+      throw new AWException(elements.getLocaleWithLanguage("ERROR_TITLE_QUEUE_DESTINATION_NOT_FOUND", elements.getLanguage()),
+              elements.getLocaleWithLanguage("ERROR_MESSAGE_QUEUE_DESTINATION_NOT_FOUND", elements.getLanguage(), destinationInfo.getDestination()), exc);
     }
 
     return destination;

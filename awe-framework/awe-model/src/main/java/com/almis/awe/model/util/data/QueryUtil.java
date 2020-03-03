@@ -452,7 +452,7 @@ public class QueryUtil extends ServiceConfig {
       try {
         output = new ObjectMapper().reader().readTree(stringParameter);
       } catch (IOException exc) {
-        throw new AWException(getElements().getLocale("ERROR_MESSAGE_PARSING_OBJECT", stringParameter), exc);
+        throw new AWException(getLocale("ERROR_MESSAGE_PARSING_OBJECT", stringParameter), exc);
       }
     }
     return output;
@@ -503,7 +503,7 @@ public class QueryUtil extends ServiceConfig {
         // Retrieve Json node
         return getRequest().getParameter(name);
       } catch (Exception exc) {
-        throw new AWException(getElements().getLocale("ERROR_TITLE_RETRIEVING_ELEMENT_PARAMETERS"), getElements().getLocale("ERROR_MESSAGE_READING_PARAMETER", name));
+        throw new AWException(getLocale("ERROR_TITLE_RETRIEVING_ELEMENT_PARAMETERS"), getLocale("ERROR_MESSAGE_READING_PARAMETER", name));
       }
     } else {
       return parameters.get(name);

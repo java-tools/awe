@@ -44,6 +44,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
     // Calculate transform
     if (computed.isTransform()) {
       transformProcessor = new TransformCellProcessor()
+        .setElements(getElements())
         .setField(computed);
     }
 
@@ -205,8 +206,8 @@ public class ComputedColumnProcessor implements ColumnProcessor {
       try {
         evaluated = StringUtil.eval(value, elements.getApplicationContext().getBean(ScriptEngine.class));
       } catch (ScriptException exc) {
-        throw new AWException(elements.getLocale("ERROR_TITLE_EXPRESSION_EVALUATION"),
-          elements.getLocale("ERROR_MESSAGE_EXPRESSION_EVALUATION", value), exc);
+        throw new AWException(elements.getLocaleWithLanguage("ERROR_TITLE_EXPRESSION_EVALUATION", elements.getLanguage()),
+          elements.getLocaleWithLanguage("ERROR_MESSAGE_EXPRESSION_EVALUATION", elements.getLanguage(), value), exc);
       }
       if (evaluated == null) {
         evaluatedExpression.setNull();

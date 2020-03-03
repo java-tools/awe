@@ -480,6 +480,8 @@
       <xs:enumeration value="TIMESTAMP_MS"/>
       <xs:enumeration value="JS_DATE"/>
       <xs:enumeration value="JS_TIMESTAMP"/>
+      <xs:enumeration value="ELAPSED_TIME"/>
+      <xs:enumeration value="DATE_SINCE"/>
       <xs:enumeration value="NUMBER"/>
       <xs:enumeration value="NUMBER_PLAIN"/>
       <xs:enumeration value="BOOLEAN"/>
@@ -584,6 +586,7 @@
       <xs:enumeration value="SUB" />
       <xs:enumeration value="MULT" />
       <xs:enumeration value="DIV" />
+      <xs:enumeration value="MOD" />
       <xs:enumeration value="POWER" />
       <xs:enumeration value="ADD_SECONDS" />
       <xs:enumeration value="ADD_MINUTES" />

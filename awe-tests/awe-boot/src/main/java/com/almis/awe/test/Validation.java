@@ -31,7 +31,7 @@ public class Validation extends ServiceConfig {
     Matcher matchAccount = BANK_ACCOUNT_PATTERN.matcher(bankAccount);
     if (!matchAccount.matches()) {
       check.setType(AnswerType.WARNING);
-      check.setMessage(getElements().getLocale("ERROR_MESSAGE_WRONG_BANK_ACCOUNT", bankAccount));
+      check.setMessage(getLocale("ERROR_MESSAGE_WRONG_BANK_ACCOUNT", bankAccount));
     }
     return check;
   }
