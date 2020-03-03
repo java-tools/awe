@@ -5,7 +5,10 @@ import com.almis.awe.model.component.AweContextAware;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
-import com.almis.awe.model.entities.queries.*;
+import com.almis.awe.model.entities.queries.SqlField;
+import com.almis.awe.model.entities.queries.Totalize;
+import com.almis.awe.model.entities.queries.TotalizeBy;
+import com.almis.awe.model.entities.queries.TotalizeField;
 import com.almis.awe.model.util.data.NumericUtil;
 
 import java.text.ParseException;
@@ -25,6 +28,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Set Awe Elements
+   *
    * @return Totalize Column Processor
    */
   public TotalizeColumnProcessor setElements(AweElements elements) {
@@ -34,6 +38,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Retrieve Awe Elements
+   *
    * @return Awe Elements
    */
   private AweElements getElements() throws AWException {
@@ -45,6 +50,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Set transform field
+   *
    * @param totalize Totalize field
    * @return TotalizeColumnProcessor
    */
@@ -55,6 +61,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Set field list
+   *
    * @param fieldList Field list
    * @return TotalizeColumnProcessor
    */
@@ -65,6 +72,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Check if add a new line
+   *
    * @param row Row to check
    * @return Add a new line
    */
@@ -90,9 +98,10 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Check totalized line
-   * @param row Row to check
+   *
+   * @param row        Row to check
    * @param totalizeBy Totalize by
-   * @param addLine Add line value
+   * @param addLine    Add line value
    * @return Add line or not
    */
   private boolean checkTotalizedLine(Map<String, CellData> row, TotalizeBy totalizeBy, boolean addLine) {
@@ -111,6 +120,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Retrieve a new totalize line
+   *
    * @return New totalize line
    */
   private Map<String, CellData> getNewLine() {
@@ -123,7 +133,8 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
       CellData cell = null;
 
       TransformCellProcessor transformProcessor = new TransformCellProcessor()
-              .setField(field);
+        .setElements(elements)
+        .setField(field);
 
       columnIdentifier = transformProcessor.getColumnIdentifier();
       totalizeIdentifier = columnIdentifier + totalizeIdentifier;
@@ -145,7 +156,8 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Add a new line with values
-   * @param row Row data
+   *
+   * @param row  Row data
    * @param list Row list
    * @throws AWException Error adding a new line
    */
@@ -154,7 +166,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
     Map<String, CellData> newRow = getNewLine();
 
     // Add label
-    newRow.put(totalize.getField(), new CellData(getElements().getLocale(totalize.getLabel())));
+    newRow.put(totalize.getField(), new CellData(getElements().getLocaleWithLanguage(totalize.getLabel(), getElements().getLanguage())));
 
     // Add style value
     if (totalize.getStyle() != null) {
@@ -170,6 +182,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Retrieve column identifier
+   *
    * @return Column identifier
    */
   public String getColumnIdentifier() {
@@ -178,6 +191,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Process row
+   *
    * @param row Row to process
    * @return Null (Interface requirements)
    * @throws AWException Error processing row
@@ -210,7 +224,8 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Calculate totalized row
-   * @param row Row to be calculated
+   *
+   * @param row           Row to be calculated
    * @param totalizeField Totalize field
    * @throws AWException Error generating values
    */
@@ -250,6 +265,7 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
 
   /**
    * Fix double value with string value
+   *
    * @param doubleValue Double value
    * @param stringValue String value
    * @return Double value fixed
@@ -263,8 +279,8 @@ public class TotalizeColumnProcessor implements ColumnProcessor, AweContextAware
         try {
           return NumericUtil.parseNumericString(stringValue).doubleValue();
         } catch (ParseException exc) {
-          throw new AWException(getElements().getLocale("ERROR_TITLE_PARSING_TEXT"),
-            getElements().getLocale("ERROR_MESSAGE_PARSING_TEXT", stringValue, "double"), exc);
+          throw new AWException(getElements().getLocaleWithLanguage("ERROR_TITLE_PARSING_TEXT", getElements().getLanguage()),
+            getElements().getLocaleWithLanguage("ERROR_MESSAGE_PARSING_TEXT", getElements().getLanguage(),stringValue, "double"), exc);
         }
       }
     } else {

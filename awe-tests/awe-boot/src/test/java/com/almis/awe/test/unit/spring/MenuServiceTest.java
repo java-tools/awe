@@ -78,6 +78,6 @@ public class MenuServiceTest extends AweSpringBootTests {
   @Test
   public void getAvailablePrivateScreenList() throws Exception {
     given(aweSession.isAuthenticated()).willReturn(true);
-    assertEquals(21, menuService.getAvailableScreenList("").getDataList().getRecords());
+    assertEquals(26, menuService.getAvailableScreenList("").getDataList().getRecords());
   }
 }

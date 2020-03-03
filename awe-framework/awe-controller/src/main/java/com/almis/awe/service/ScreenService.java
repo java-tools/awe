@@ -8,6 +8,7 @@ import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
+import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.Global;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.enumerated.EnumeratedGroup;
@@ -15,6 +16,7 @@ import com.almis.awe.model.entities.menu.Menu;
 import com.almis.awe.model.entities.screen.Message;
 import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.model.entities.screen.component.Component;
+import com.almis.awe.model.entities.screen.component.TagList;
 import com.almis.awe.model.entities.screen.data.ScreenComponent;
 import com.almis.awe.model.entities.screen.data.ScreenData;
 import com.almis.awe.model.event.ScreenChangeEvent;
@@ -46,18 +48,22 @@ public class ScreenService extends ServiceConfig {
   private MaintainService maintainService;
   private ScreenComponentGenerator screenComponentGenerator;
   private ApplicationEventPublisher eventPublisher;
+  private TemplateService templateService;
 
   /**
    * Autowired constructor
    *
    * @param menuService              Menu service
    * @param maintainService          Maintain service
+   * @param templateService          Template service
    * @param screenComponentGenerator Screen component generator
+   * @param eventPublisher           Event publisher
    */
   @Autowired
-  public ScreenService(MenuService menuService, MaintainService maintainService, ScreenComponentGenerator screenComponentGenerator, ApplicationEventPublisher eventPublisher) {
+  public ScreenService(MenuService menuService, MaintainService maintainService, TemplateService templateService, ScreenComponentGenerator screenComponentGenerator, ApplicationEventPublisher eventPublisher) {
     this.menuService = menuService;
     this.maintainService = maintainService;
+    this.templateService = templateService;
     this.screenComponentGenerator = screenComponentGenerator;
     this.eventPublisher = eventPublisher;
   }
@@ -435,5 +441,36 @@ public class ScreenService extends ServiceConfig {
     // Set datalist to service
     serviceData.setDataList(dataList);
     return serviceData;
+  }
+
+  /**
+   * Generate taglist data
+   *
+   * @param option    Option
+   * @param tagListId TagList
+   * @return Taglist data
+   */
+  public ServiceData getTaglistData(String option, String tagListId) throws AWException {
+    TagList tagList = null;
+    if (option == null) {
+      tagList = templateService.getTagList(tagListId);
+    } else {
+      tagList = templateService.getTagList(option, tagListId);
+    }
+
+    // Get taglist data
+    ServiceData serviceData = templateService.loadTagListData(tagList);
+
+    // Generate rendered taglist as object
+    List<Element> elementList = screenComponentGenerator.generateTagListElements(templateService.generateTaglistTemplate(tagList, serviceData.getDataList()));
+
+    // Generate component map
+    Map<String, ScreenComponent> componentMap = screenComponentGenerator.generateTagListComponentMap(tagListId, elementList);
+
+    // Generate service data
+    return serviceData
+      .addClientAction(new ClientAction("taglist-data")
+        .addParameter("components", componentMap)
+        .addParameter("html", templateService.renderTagList(elementList)));
   }
 }

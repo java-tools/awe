@@ -266,5 +266,24 @@
     <option label="ENUM_REPORT_ORIENTATION_PORTRAIT" value="PORTRAIT" />
     <option label="ENUM_REPORT_ORIENTATION_LANDSCAPE" value="LANDSCAPE" />
   </group>
-
+  <group id="locked-icon">
+    <option label="fa-unlock" value="0"/>
+    <option label="fa-lock" value="1"/>
+  </group>
+  <group id="locked-style">
+    <option label="text-light-gray" value="0"/>
+    <option label="text-danger" value="1"/>
+  </group>
+  <group id="active-icon">
+    <option label="fa-times" value="0"/>
+    <option label="fa-check" value="1"/>
+  </group>
+  <group id="active-style">
+    <option label="text-danger" value="0"/>
+    <option label="text-success" value="1"/>
+  </group>
+  <group id="active-label">
+    <option label="ENUM_NO" value="0"/>
+    <option label="ENUM_YES" value="1"/>
+  </group>
 </enumerated>

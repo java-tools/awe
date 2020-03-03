@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window"
+        label="SCREEN_TITLE_SETTINGS" help="SCREEN_HELP_SETTINGS">
+  <tag source="center" type="div" style="panel-padding no-padding-t expand" expandible="vertical">
+    <tag type="div" style="stat-panel no-margin bordered expand scrollable" expandible="vertical">
+      <tag type="div" style="panel-padding col-sm-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6 expand" expandible="vertical">
+        <!-- Subscriptions -->
+        <tag type="h4" style="padding-sm no-padding-t padding-xs-hr">
+          <tag type="span" style="fa fa-ticket text-info fa-fw"/>
+          <tag type="span" label="SCREEN_TEXT_SUBSCRIPTIONS" style="padding-xs-hr"/>
+        </tag>
+        <tag type="ul" style="list-group no-margin">
+          <tag type="li" style="list-group-item row no-border padding-xs-hr">
+            <tag type="div" style="subscription-text col-xs-8 col-md-10"/>
+            <tag type="div" style="subscription-web text-center col-xs-2 col-md-1 text-default">
+              <tag type="span" style="fa fa-bell"/>
+              <tag type="div" style="text-center text-uppercase h6 no-margin-b" label="SCREEN_TEXT_WEB"/>
+            </tag>
+            <tag type="div" style="subscription-email text-center col-xs-2 col-md-1 text-default">
+              <tag type="span" style="fa fa-envelope"/>
+              <tag type="div" style="text-center text-uppercase h6 no-margin-b" label="SCREEN_TEXT_EMAIL"/>
+            </tag>
+          </tag>
+        </tag>
+        <tag-list type="ul" style="list-group no-margin" id="subscription-list" initial-load="query" target-action="my-subscriptions" max="0" autoload="true">
+          <tag type="li" style="list-group-item row no-border-hr no-border-b padding-xs-hr">
+            <tag type="div" style="subscription-text col-xs-8 col-md-10" label="[name]"/>
+            <tag type="div" style="text-center col-xs-2 col-md-1">
+              <tag type="div" style="btn-group btn-group-justified">
+                <button type="div" id="subscription-web-[value]" icon="[iconWeb] [styleWeb]" style="col-xs-12 btn-outline no-border" value="[value]">
+                  <button-action type="server" server-action="maintain-silent" target-action="toggle-web-subscription" silent="true"/>
+                  <button-action type="filter" target="subscription-list" async="true" silent="true"/>
+                  <button-action type="filter" target="notification-bulletin" context="base" async="true" silent="true"/>
+                </button>
+              </tag>
+            </tag>
+            <tag type="div" style="text-center col-xs-2 col-md-1">
+              <tag type="div" style="btn-group btn-group-justified">
+                <button type="div" id="subscription-email-[value]" icon="[iconEmail] [styleEmail]" style="col-xs-12 btn-outline no-border" value="[value]">
+                  <button-action type="server" server-action="maintain-silent" target-action="toggle-email-subscription" silent="true"/>
+                  <button-action type="filter" target="subscription-list" async="true" silent="true"/>
+                  <button-action type="filter" target="notification-bulletin" context="base" async="true" silent="true"/>
+                </button>
+              </tag>
+            </tag>
+          </tag>
+        </tag-list>
+      </tag>
+    </tag>
+  </tag>
+</screen>

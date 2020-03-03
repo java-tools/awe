@@ -119,7 +119,7 @@ public class SQLQueryConnector extends AbstractQueryConnector {
       }
       results = allResults;
     } catch (Exception exc) {
-      throw new AWEQueryException(getElements().getLocale("ERROR_TITLE_RETRIEVING_DATA"), getElements().getLocale("ERROR_MESSAGE_EXECUTING_SERVICE_QUERY", query.getId()),
+      throw new AWEQueryException(getLocale("ERROR_TITLE_RETRIEVING_DATA"), getLocale("ERROR_MESSAGE_EXECUTING_SERVICE_QUERY", query.getId()),
         StringUtil.toUnilineText(queryBuilt.toString()), exc);
     }
 
@@ -144,7 +144,7 @@ public class SQLQueryConnector extends AbstractQueryConnector {
     } catch (AWException exc) {
       throw new AWEQueryException(exc.getTitle(), exc.getMessage(), StringUtil.toUnilineText(queryBuilt.toString()), exc);
     } catch (Exception exc) {
-      throw new AWEQueryException(getElements().getLocale("ERROR_TITLE_RETRIEVING_DATA"), getElements().getLocale("ERROR_MESSAGE_EXECUTING_SERVICE_QUERY", query.getId()),
+      throw new AWEQueryException(getLocale("ERROR_TITLE_RETRIEVING_DATA"), getLocale("ERROR_MESSAGE_EXECUTING_SERVICE_QUERY", query.getId()),
         StringUtil.toUnilineText(queryBuilt.toString()), exc);
     }
 

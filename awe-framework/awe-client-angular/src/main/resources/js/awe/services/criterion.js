@@ -84,14 +84,6 @@ aweApplication.factory('Criterion',
            */
           selectedValues: function (component) {
             return Utilities.asArray(component.model.selected).length;
-          },
-          /**
-           * Retrieve total values
-           * @param {object} component Component scope
-           * @returns {integer} Total values length
-           */
-          totalValues: function (component) {
-            return component.model.values.length;
           }
         };
 

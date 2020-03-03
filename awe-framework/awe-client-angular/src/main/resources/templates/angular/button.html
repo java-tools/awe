@@ -1,8 +1,8 @@
 <div ng-show="controller.visible" class="{{::groupClass}}" ui-dependency="dependencies" ng-cloak>
   <button type="{{::component.buttonType}}" id="{{::buttonId}}" title="{{controller.title| translateMultiple}}"
-          class="{{classes}}" ng-disabled="isDisabled()" ng-click="onClick()" ng-mousedown="onMouseDown()">
-    <i ng-if="::controller.icon !== ''" class="fa fa-{{::controller.icon}}"></i>
-    <span ng-if="::controller.label !== ''" class="button-text" translate-multiple="{{controller.label}}"></span>
+          class="{{classes}}" ng-disabled="isDisabled()" ng-click="onClick()" ng-mousedown="onMouseDown()" ng-transclude>
+    <i ng-if="::controller.icon" class="fa fa-{{::controller.icon}}"></i>
+    <span ng-if="::controller.label" class="button-text" translate-multiple="{{controller.label}}"></span>
   </button>
   <awe-context-menu ng-cloak></awe-context-menu>
 </div>

@@ -175,8 +175,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       JsonNode variableValue = variables.get(variable.getId()).getValue();
       boolean isList = variables.get(variable.getId()).isList();
       if (isList) {
-        throw new AWException(getElements().getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"),
-          getElements().getLocale("ERROR_MESSAGE_MALFORMED_QUERY_LIST_FIELD", variableName));
+        throw new AWException(getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"),
+          getLocale("ERROR_MESSAGE_MALFORMED_QUERY_LIST_FIELD", variableName));
       }
       variableExpression = getVariableAsExpression(variableValue, ParameterType.valueOf(variable.getType()));
     }
@@ -248,6 +248,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       case "SUB":
       case "MULT":
       case "DIV":
+      case "MOD":
         result = null;
         for (Expression operand : operands) {
           result = result == null ? operand : Expressions.numberOperation(Long.class, Ops.valueOf(operation.getOperator()), result, operand);
@@ -775,8 +776,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
     } catch (AWException exc) {
       throw exc;
     } catch (Exception exc) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_GENERATING_FILTER),
-        getElements().getLocale("ERROR_MESSAGE_GENERATING_FILTER", filter.toString()), exc);
+      throw new AWException(getLocale(ERROR_TITLE_GENERATING_FILTER),
+        getLocale("ERROR_MESSAGE_GENERATING_FILTER", filter.toString()), exc);
     }
   }
 
@@ -895,7 +896,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   private Expression getOperandVariableExpression(Filter filter, Field field) throws AWException {
     Variable variable = getQuery().getVariableDefinition(field.getVariable());
     if (variable == null) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_GENERATING_VARIABLE_VALUE"), getElements().getLocale("ERROR_MESSAGE_GENERATING_VARIABLE_VALUE", field.getVariable()));
+      throw new AWException(getLocale("ERROR_TITLE_GENERATING_VARIABLE_VALUE"), getLocale("ERROR_MESSAGE_GENERATING_VARIABLE_VALUE", field.getVariable()));
     }
 
     // Get variable values from previously prepared map
@@ -990,8 +991,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       return Expressions.TRUE;
       // NON OPTIONAL in, add a check with NULL
     } else {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_GENERATING_FILTER),
-        getElements().getLocale("ERROR_MESSAGE_EMPTY_LIST_OPTIONAL", filter.toString()));
+      throw new AWException(getLocale(ERROR_TITLE_GENERATING_FILTER),
+        getLocale("ERROR_MESSAGE_EMPTY_LIST_OPTIONAL", filter.toString()));
     }
     return Expressions.list(expressionList.toArray(new Expression[0]));
   }

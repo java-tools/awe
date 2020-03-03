@@ -3,6 +3,7 @@ package com.almis.awe.autoconfigure;
 import com.almis.awe.dao.TemplateDao;
 import com.almis.awe.listener.TemplateErrorListener;
 import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.dao.AweElementsDao;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.HelpService;
 import com.almis.awe.service.MenuService;
@@ -59,6 +60,7 @@ public class TemplateConfig {
 
   /**
    * Autowired constructor
+   *
    * @param environment Environment
    */
   @Autowired
@@ -68,7 +70,7 @@ public class TemplateConfig {
 
   /**
    * Returns the list of paths found in all modules defined
-   * 
+   *
    * @param filePath suffix of file
    * @return Path list
    */
@@ -89,6 +91,7 @@ public class TemplateConfig {
 
   /**
    * Define String Template group
+   *
    * @param errorListener Error listener to attach
    * @return Template group
    */
@@ -130,7 +133,7 @@ public class TemplateConfig {
 
   /**
    * Retrieve help template group
-   * 
+   *
    * @return Partials template group
    */
   @Bean("helpTemplateGroup")
@@ -140,7 +143,7 @@ public class TemplateConfig {
 
   /**
    * Retrieve screens template group
-   * 
+   *
    * @return Partials template group
    */
   @Bean("screensTemplateGroup")
@@ -154,14 +157,16 @@ public class TemplateConfig {
 
   /**
    * Template DAO
-   * @param menuService Menu service
+   *
+   * @param menuService       Menu service
+   * @param aweElementsDao    AWE Elements DAO
    * @param helpTemplateGroup Help template group
    * @return Template service bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public TemplateDao templateDao(MenuService menuService, @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup) {
-    return new TemplateDao(menuService, helpTemplateGroup);
+  public TemplateDao templateDao(MenuService menuService, AweElementsDao aweElementsDao, @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup) {
+    return new TemplateDao(menuService, aweElementsDao, helpTemplateGroup);
   }
 
   /////////////////////////////////////////////
@@ -170,11 +175,12 @@ public class TemplateConfig {
 
   /**
    * Template service
-   * @param menuService Menu service
+   *
+   * @param menuService           Menu service
    * @param elementsTemplateGroup Elements template group
-   * @param helpTemplateGroup Help template group
-   * @param screensTemplateGroup Screens template group
-   * @param queryService Query service
+   * @param helpTemplateGroup     Help template group
+   * @param screensTemplateGroup  Screens template group
+   * @param queryService          Query service
    * @return Template service bean
    */
   @Bean
@@ -190,6 +196,7 @@ public class TemplateConfig {
 
   /**
    * Help service
+   *
    * @param templateService Template service
    * @return Help service bean
    */

@@ -26,12 +26,10 @@ import static org.mockito.BDDMockito.given;
 public class AnnotationTest extends AweSpringBootTests {
 
   private AnnotationTestService annotationTestService;
-  private FileUtil fileUtil;
 
   @Before
   public void loadBeans() {
     annotationTestService = getBean(AnnotationTestService.class);
-    fileUtil = getBean(FileUtil.class);
   }
 
   @Test
@@ -40,9 +38,9 @@ public class AnnotationTest extends AweSpringBootTests {
     String valueFromInput = annotationTestService.localeFromParameters("ENUM_LAN_ES");
     String valueFromReturn = annotationTestService.localeFromReturnedValue();
 
-    Assert.assertEquals("Spanish", valueFromInput);
-    Assert.assertEquals("Spanish", valueFromReturn);
-    Assert.assertEquals("Spanish", annotationTestService.localeFromAnnotationValue("This value should be overwritten"));
+    Assert.assertEquals("Español", valueFromInput);
+    Assert.assertEquals("Español", valueFromReturn);
+    Assert.assertEquals("Español", annotationTestService.localeFromAnnotationValue("This value should be overwritten"));
   }
 
   @Test

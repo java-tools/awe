@@ -1,6 +1,8 @@
 package com.almis.awe.service.data.processor;
 
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.component.AweContextAware;
+import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.entities.queries.OutputField;
 import com.almis.awe.model.type.CellDataType;
@@ -16,8 +18,9 @@ import java.util.Date;
 /**
  * TransformCellProcessor class
  */
-public class TransformCellProcessor implements CellProcessor {
+public class TransformCellProcessor implements CellProcessor, AweContextAware {
   private OutputField field;
+  private AweElements elements;
 
   /**
    * Set transform field
@@ -27,6 +30,28 @@ public class TransformCellProcessor implements CellProcessor {
   public TransformCellProcessor setField(OutputField field) {
     this.field = field;
     return this;
+  }
+
+  /**
+   * Set Awe Elements (Set in first place always)
+   * @param elements awe elements
+   * @return translate cell processor
+   */
+  public TransformCellProcessor setElements(AweElements elements) {
+    this.elements = elements;
+    return this;
+  }
+
+  /**
+   * Retrieve Awe Elements
+   *
+   * @return AWE elements
+   */
+  private AweElements getElements() {
+    if (elements == null) {
+      throw new NullPointerException("Awe Elements not defined");
+    }
+    return elements;
   }
 
   /**
@@ -82,7 +107,15 @@ public class TransformCellProcessor implements CellProcessor {
         case DATE_RDB:
           transformed = processRDBDate(cell);
           break;
-          
+
+        case ELAPSED_TIME:
+          transformed = processElapsedTime(cell);
+          break;
+
+        case DATE_SINCE:
+          transformed = processDateSince(cell);
+          break;
+
         case NUMBER:
           transformed = processNumber(cell);
           break;
@@ -158,6 +191,38 @@ public class TransformCellProcessor implements CellProcessor {
       cell.setValue(date);
       cell.setSendStringValue(true);
       transformed = DateUtil.dat2WebDate(date);
+    }
+    return transformed;
+  }
+
+  /**
+   * Process cell as elapsed time
+   * @param cell Cell
+   * @return Transformation
+   */
+  private String processElapsedTime(@NotNull CellData cell) {
+    String transformed = cell.getStringValue();
+    Long elapsed = (Long) cell.getValue();
+    if (elapsed != null) {
+      cell.setValue(elapsed);
+      cell.setSendStringValue(true);
+      transformed = DateUtil.elapsedTime(elapsed, getElements());
+    }
+    return transformed;
+  }
+
+  /**
+   * Process cell date since
+   * @param cell Cell
+   * @return Transformation
+   */
+  private String processDateSince(@NotNull CellData cell) {
+    String transformed = cell.getStringValue();
+    Date date = cell.getDateValue();
+    if (date != null) {
+      cell.setValue(date);
+      cell.setSendStringValue(true);
+      transformed = DateUtil.dateSince(date, getElements());
     }
     return transformed;
   }

@@ -129,6 +129,7 @@
   <locale name="CONNECTION_TYPE_HTTP" value="http"/>
   <locale name="CONNECTION_TYPE_HTTPS" value="https"/>
   <locale name="CONNECTION_TYPE_SSH" value="ssh"/>
+  <locale name="DAYS" value="{0}d"/>
   <locale name="ELEMENT_GENERIC_HELP" value="Tipo de elemento --&gt;"/>
   <locale name="ELEMENT_HELP_LABEL" value="Etiqueta"/>
   <locale name="ELEMENT_TYPE_BUTTON" value="Boton"/>
@@ -794,6 +795,7 @@ Un sitio se define como un *nodo de aplicación separado*, con sus propias [base
   <locale name="HELP_TYPE" value="Tipo"/>
   <locale name="HELP_UPDATE_BUTTON" value="Ir a una nueva ventana con los datos del elemento seleccionado donde pueden ser modificados"/>
   <locale name="HELP_VIEW_BUTTON" value="Ir a una nueva ventana con los datos del elemento seleccionado en modo consulta"/>
+  <locale name="HOURS" value="{0}h"/>
   <locale name="INFO_MESSAGE_PARSING_NUMBER_NULL" value="El parámetro {0} no puede ser analizado como número: &apos;&apos;{1}&apos;&apos; - Establecido como null"/>
   <locale name="INFO_TITLE_WEB_SERVICE_CALL" value="Información"/>
   <locale name="MENU_ACT_USR" value="Notificar usuarios activos"/>
@@ -845,6 +847,10 @@ Un sitio se define como un *nodo de aplicación separado*, con sus propias [base
   <locale name="MENU_TOOLS_UNIKEY" value="Códigos del sistema"/>
   <locale name="MENU_TOOLS_USERS" value="Usuarios"/>
   <locale name="MENU_USER_HELP" value="Manual de usuario"/>
+  <locale name="MILLISECONDS" value="{0}ms"/>
+  <locale name="MINUTES" value="{0}m"/>
+  <locale name="MONTH" value="{0} mes"/>
+  <locale name="MONTHS" value="{0} meses"/>
   <locale name="MSG_PASSWD_NEW" value="Despues de introducir la password pulsar boton confirmar"/>
   <locale name="OK_MESSAGE_CLEARING_ALL_CACHE" value="Se han borrado todas las caches correctamente"/>
   <locale name="OK_MESSAGE_CLEARING_CACHE" value="Se ha borrado la cache -{0}- correctamente"/>
@@ -1163,8 +1169,10 @@ Un sitio se define como un *nodo de aplicación separado*, con sus propias [base
   <locale name="SCREEN_TITLE_USR_NEW" value="Alta de usuario"/>
   <locale name="SCREEN_TITLE_USR_UPD" value="Modificación de usuario"/>
   <locale name="SCREEN_TITLE_USR_VIW" value="Consulta de usuario"/>
+  <locale name="SECONDS" value="{0}s"/>
   <locale name="SELECT2_SEARCH_VALUE" value="Buscar un valor"/>
   <locale name="SELECT2_SELECT_VALUE" value="Seleccione un valor"/>
+  <locale name="TIME_AGO" value="hace {0}"/>
   <locale name="VALIDATOR_MESSAGE_CHECK_AT_LEAST" value="Por favor, marque al menos {value2} respuestas"/>
   <locale name="VALIDATOR_MESSAGE_DATE" value="Por favor, introduzca una fecha válida"/>
   <locale name="VALIDATOR_MESSAGE_DIGITS" value="Por favor, introduzca sólo dígitos"/>
@@ -1195,4 +1203,8 @@ Un sitio se define como un *nodo de aplicación separado*, con sus propias [base
   <locale name="WARNING_TITLE_DUPLICATED_SERVER" value="Servidor duplicado"/>
   <locale name="WARNING_TITLE_DUPLICATED_USER" value="Usuario duplicado"/>
   <locale name="WARNING_TITLE_WEB_SERVICE_CALL" value="Atención"/>
+  <locale name="WEEK" value="{0} semana"/>
+  <locale name="WEEKS" value="{0} semanas"/>
+  <locale name="YEAR" value="{0} año"/>
+  <locale name="YEARS" value="{0} años"/>
 </locales>

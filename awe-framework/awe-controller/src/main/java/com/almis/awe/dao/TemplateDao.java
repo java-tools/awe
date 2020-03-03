@@ -2,6 +2,7 @@ package com.almis.awe.dao;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.dao.AweElementsDao;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.menu.Option;
 import com.almis.awe.model.entities.screen.Screen;
@@ -16,6 +17,7 @@ import org.stringtemplate.v4.STGroup;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 /*
  * File Imports
@@ -31,18 +33,22 @@ public class TemplateDao {
 
   // Autowired services
   private MenuService menuService;
+  private AweElementsDao aweElementsDao;
   private STGroup helpTemplateGroup;
 
   /**
    * Autowired constructor
    *
    * @param menuService       Menu service
+   * @param aweElementsDao    AWE Elements DAO
    * @param helpTemplateGroup Help templates
    */
   @Autowired
   public TemplateDao(MenuService menuService,
+                     AweElementsDao aweElementsDao,
                      @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup) {
     this.menuService = menuService;
+    this.aweElementsDao = aweElementsDao;
     this.helpTemplateGroup = helpTemplateGroup;
   }
 
@@ -115,5 +121,15 @@ public class TemplateDao {
 
     // Retrieve code
     return screenTemplate;
+  }
+
+  /**
+   * Generate taglist XML from object
+   *
+   * @param tagListElements TagList elements
+   * @return TagList elements XML template
+   */
+  public String generateTaglistXml(List<Element> tagListElements) {
+    return tagListElements.stream().map(e -> aweElementsDao.toXMLString(Element.class, e)).collect(Collectors.joining());
   }
 }

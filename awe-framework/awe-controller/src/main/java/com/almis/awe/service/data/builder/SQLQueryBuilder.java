@@ -100,12 +100,12 @@ public class SQLQueryBuilder extends SQLBuilder {
 
     // Throws exception if query is not defined
     if (getQuery() == null) {
-      throw new NullPointerException(getElements().getLocale("ERROR_TITLE_NOT_DEFINED", "query"));
+      throw new NullPointerException(getLocale("ERROR_TITLE_NOT_DEFINED", "query"));
     }
 
     // Throws exceptions if factory is not defined
     if (getFactory() == null) {
-      throw new NullPointerException(getElements().getLocale("ERROR_TITLE_NOT_DEFINED", "factory"));
+      throw new NullPointerException(getLocale("ERROR_TITLE_NOT_DEFINED", "factory"));
     }
 
     // Prepare query variables
@@ -285,8 +285,8 @@ public class SQLQueryBuilder extends SQLBuilder {
         joinQuery.on(getFilterGroups(joinFilterGroup));
       }
     } catch (Exception exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"),
-              getElements().getLocale("ERROR_MESSAGE_QUERY_JOIN", join.toString(), getQuery().getId()), exc);
+      throw new AWException(getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"),
+              getLocale("ERROR_MESSAGE_QUERY_JOIN", join.toString(), getQuery().getId()), exc);
     }
   }
 

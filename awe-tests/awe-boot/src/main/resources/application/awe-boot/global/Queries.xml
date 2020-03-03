@@ -597,6 +597,22 @@
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
+  <query id="TransformElapsedTimeService" service="getElapsedTimeList">
+    <field id="ms1" alias="years" transform="ELAPSED_TIME"/>
+    <field id="ms2" alias="year" transform="ELAPSED_TIME"/>
+    <field id="ms3" alias="months" transform="ELAPSED_TIME"/>
+    <field id="ms4" alias="month" transform="ELAPSED_TIME"/>
+    <field id="ms5" alias="weeks" transform="ELAPSED_TIME"/>
+    <field id="ms6" alias="week" transform="ELAPSED_TIME"/>
+    <field id="ms7" alias="days" transform="ELAPSED_TIME"/>
+    <field id="ms8" alias="hours" transform="ELAPSED_TIME"/>
+    <field id="ms9" alias="minutes" transform="ELAPSED_TIME"/>
+    <field id="ms10" alias="seconds" transform="ELAPSED_TIME"/>
+    <field id="ms11" alias="milliseconds" transform="ELAPSED_TIME"/>
+    <field id="dateSince" alias="dateSince" transform="DATE_SINCE"/>
+  </query>
+
+
   <query id="TransformDateMilliseconds">
     <table id="ope"/>
     <field id="l1_psd" alias="fecha" transform="DATE_MS"/>

@@ -6,7 +6,8 @@
     Author     : Pablo GARCIA
     Description: Navigation bar
 -->
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="full">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="full">
 
   <!--
   SAMPLE DEFAULT PARAMETER LOADING
@@ -27,52 +28,61 @@
         <tag type="h1">
           <tag type="span" label="APP_CLIENT"></tag>
         </tag>
-        <button button-type="button" style="no-class navbar-toggle collapsed" id="ButNavCol" icon="bars icon navbar-icon">
-          <button-action type="toggle-navbar" />
+        <button button-type="button" style="no-class navbar-toggle collapsed" id="ButNavCol"
+                icon="bars icon navbar-icon">
+          <button-action type="toggle-navbar"/>
         </button>
       </tag>
       <tag type="div" id="main-navbar-collapse" style="collapse navbar-collapse main-navbar-collapse">
         <tag type="div" style="right clearfix">
           <!-- Profile -->
           <tag type="ul" style="nav navbar-nav pull-right right-navbar-nav">
-            <info id="Dab" icon="database" unit="3" style="nav-icon-btn-success">
-              <dependency source-type="launcher" target-type="label" target-action="database" initial="true">
-                <dependency-element id="database" attribute="text" alias="database"/>
-              </dependency>
-            </info>
+            <include target-screen="notification-panel" target-source="notification-panel"/>
             <info id="ButSetTog" icon="cog" title="SCREEN_TEXT_SETTINGS" dropdown-style="dropdown-lg">
-              <info-criteria icon="puzzle-piece" title="SCREEN_TEXT_MODULE" component="select" id="module" initial-load="query" target-action="ModNamByOpeSel" session="module"
+              <info-criteria icon="puzzle-piece" title="SCREEN_TEXT_MODULE" component="select" id="module"
+                             initial-load="query" target-action="ModNamByOpeSel" session="module"
                              style="col-xs-12 no-label" info-style="form-group">
-                <dependency >
-                  <dependency-element id="module" />
-                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarMod" silent="true" />
+                <dependency>
+                  <dependency-element id="module"/>
+                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarMod"
+                                     silent="true"/>
                 </dependency>
               </info-criteria>
-              <info-criteria icon="sitemap" title="SCREEN_TEXT_SITE" component="select" id="site" initial-load="query" target-action="SitNamByOpeSel" session="site" style="col-xs-12 no-label"
+              <info-criteria icon="sitemap" title="SCREEN_TEXT_SITE" component="select" id="site" initial-load="query"
+                             target-action="SitNamByOpeSel" session="site" style="col-xs-12 no-label"
                              info-style="form-group">
-                <dependency >
-                  <dependency-element id="site" />
-                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarSit" />
-                  <dependency-action type="server" server-action="data" target-action="DbsAlsBySitModSel" target="database" />
+                <dependency>
+                  <dependency-element id="site"/>
+                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarSit"/>
+                  <dependency-action type="server" server-action="data" target-action="DbsAlsBySitModSel"
+                                     target="database"/>
                 </dependency>
               </info-criteria>
-              <info-criteria icon="database" title="SCREEN_TEXT_DBS" component="select" id="database" initial-load="query" target-action="DbsAlsBySitModSel" session="database" style="col-xs-12 no-label"
+              <info-criteria icon="database" title="SCREEN_TEXT_DBS" component="select" id="database"
+                             initial-load="query" target-action="DbsAlsBySitModSel" session="database"
+                             style="col-xs-12 no-label"
                              info-style="form-group">
-                <dependency >
-                  <dependency-element id="database" />
-                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarDbs" silent="true" />
+                <dependency>
+                  <dependency-element id="database"/>
+                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarDbs"
+                                     silent="true"/>
                 </dependency>
               </info-criteria>
             </info>
-            <info id="ButSetAutRef" icon="refresh" title="SCREEN_TEXT_REFRESH_SETTINGS" dropdown-style="dropdown-lg padding-xs-hr">
-              <info-criteria id="RefreshTime" icon="clock-o" title="SCREEN_TEXT_REFRESH_TIME" placeholder="SCREEN_TEXT_TIME_SECONDS" component="numeric" style="col-xs-12 no-label" info-style="col-xs-10 no-padding-hr" />
-              <info-button id="ButPauseRefresh" title="BUTTON_PAUSE" icon="pause" info-style="navbar-form-awe col-xs-2 no-padding-hr" style="no-padding">
+            <info id="ButSetAutRef" icon="refresh" title="SCREEN_TEXT_REFRESH_SETTINGS"
+                  dropdown-style="dropdown-lg padding-xs-hr">
+              <info-criteria id="RefreshTime" icon="clock-o" title="SCREEN_TEXT_REFRESH_TIME"
+                             placeholder="SCREEN_TEXT_TIME_SECONDS" component="numeric" style="col-xs-12 no-label"
+                             info-style="col-xs-10 no-padding-hr"/>
+              <info-button id="ButPauseRefresh" title="BUTTON_PAUSE" icon="pause"
+                           info-style="navbar-form-awe col-xs-2 no-padding-hr" style="no-padding">
                 <button-action type="remove-class" target="#ButSetAutRef .fa-refresh" target-action="fa-spin"/>
                 <dependency target-type="show" initial="true">
                   <dependency-element id="SetAutoload" condition="eq" value="1"/>
                 </dependency>
               </info-button>
-              <info-button id="ButPlayRefresh" title="BUTTON_PLAY" icon="play" info-style="navbar-form-awe col-xs-2 no-padding-hr" style="no-padding">
+              <info-button id="ButPlayRefresh" title="BUTTON_PLAY" icon="play"
+                           info-style="navbar-form-awe col-xs-2 no-padding-hr" style="no-padding">
                 <button-action type="add-class" target="#ButSetAutRef .fa-refresh" target-action="fa-spin"/>
                 <dependency target-type="show" initial="true">
                   <dependency-element id="SetAutoload" condition="eq" value="0"/>
@@ -80,25 +90,30 @@
               </info-button>
             </info>
             <info id="ButUsrAct" icon="user" initial-load="query" target-action="connectedUser">
-              <info-criteria icon="image" title="PARAMETER_THEME" component="select" id="theme" initial-load="query" target-action="ThmSelVal" session="theme" style="col-xs-12 no-label"
+              <include target-screen="notification-panel" target-source="user-settings"/>
+              <info-criteria icon="image" title="PARAMETER_THEME" component="select" id="theme" initial-load="query"
+                             target-action="ThmSelVal" session="theme" style="col-xs-12 no-label"
                              info-style="form-group">
-                <dependency >
-                  <dependency-element id="theme" />
-                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarThm" silent="true" />
-                  <dependency-action type="change-theme" target="theme" />
+                <dependency>
+                  <dependency-element id="theme"/>
+                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarThm"
+                                     silent="true"/>
+                  <dependency-action type="change-theme" target="theme"/>
                 </dependency>
               </info-criteria>
-              <info-criteria icon="language" title="PARAMETER_LANGUAGE" component="select" id="language" initial-load="enum" target-action="Lan" session="language" style="col-xs-12 no-label"
+              <info-criteria icon="language" title="PARAMETER_LANGUAGE" component="select" id="language"
+                             initial-load="enum" target-action="Lan" session="language" style="col-xs-12 no-label"
                              info-style="form-group">
-                <dependency >
-                  <dependency-element id="language" />
-                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarLan" silent="true" />
-                  <dependency-action type="change-language" target="language" />
+                <dependency>
+                  <dependency-element id="language"/>
+                  <dependency-action type="server" server-action="maintain-silent" target-action="SesVarLan"
+                                     silent="true"/>
+                  <dependency-action type="change-language" target="language"/>
                 </dependency>
               </info-criteria>
             </info>
             <info-button id="ButLogOut" icon="sign-out" title="BUTTON_LOGOUT">
-              <button-action type="logout" />
+              <button-action type="logout"/>
             </info-button>
           </tag>
         </tag>

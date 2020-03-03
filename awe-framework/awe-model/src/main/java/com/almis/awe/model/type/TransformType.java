@@ -19,6 +19,8 @@ public enum TransformType {
   TIMESTAMP_MS,
   JS_DATE,
   JS_TIMESTAMP,
+  ELAPSED_TIME,
+  DATE_SINCE,
   NUMBER,
   NUMBER_PLAIN,
   BOOLEAN,

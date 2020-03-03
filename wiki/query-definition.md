@@ -265,6 +265,8 @@ These are the possible values for the `transform` attribute:
 * **JS_TIMESTAMP**: Transform the output field **(Date/String)** into a javascript timestamp field (`MM/dd/yyyy HH:mm:ss`)
 * **GENERIC_DATE**: Transform the output field **(String)** from a date format defined on `format-from` to a date format defined on `format-to`
 * **DATE_RDB**: Transform the output field **(String)** from an English RDF format (`dd-MMM-yyyy`) to a web date field (`dd/MM/yyyy`)
+* **ELAPSED_TIME**: Transform the output field **(Long)** from a long millisecond value to a localized string indicating the elapsed time (`12h`)
+* **DATE_SINCE**: Transform the output field **(Date)** into a localized string with the difference of time from now (`5 min ago`)
 * **NUMBER**: Transform the output field as a number with a pattern. **IMPORTANT**:
  *  When using this transform, the associated pattern has to have thousand separator. For instance: ###,###.00
  * **NEVER** use this transform if the retrieved data is for a numeric component
@@ -331,6 +333,7 @@ These are the possible values for the `operator` attribute:
 * **SUB**: Substract two fields
 * **MULT**: Multiply two fields
 * **DIV**: Divide two fields
+* **MOD**: Operator `MOD`
 * **POWER**: Power of two fields
 * **ADD_SECONDS**: Add seconds to a date field
 * **ADD_MINUTES**: Add minutes to a date field

@@ -90,6 +90,10 @@ export const ClientActions = {
     "file-uploaded": {method: "onFileUploaded"},
     "clear-file": {method: "onReset"}
   },
+  // Available taglist actions
+  taglist: {
+    "taglist-data": {method: "onData"},
+  },
   // Available grid actions
   grid: {
     // Shared actions

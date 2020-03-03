@@ -22,6 +22,7 @@
     <module>awe-annotation</module>
     <module>awe-builder</module>
     <module>awe-developer</module>
+    <module>awe-notifier</module>
     <module>awe-rest</module>
     <module>awe-tools</module>
     <module>awe-scheduler</module>

@@ -20,14 +20,14 @@
         <tag type="div" style="expand" expandible="vertical">
           <tag type="div" style="panel-body expand">
             <tag type="div" style="row">
-              <tag-list type="div" style="text-lg" initial-load="query" target-action="ConUsr">
+              <tag-list type="div" style="text-lg" initial-load="query" target-action="ConUsr" autoload="true">
                 <tag>
                   <text>[Val]</text>
                 </tag>
               </tag-list>
             </tag>
             <tag type="div" style="row">
-              <tag-list initial-load="query" target-action="ConUsr">
+              <tag-list initial-load="query" target-action="ConUsr" autoload="true">
                 <tag type="div" style="text-light-gray text-semibold text-xs text-uppercase" label="[Val]"/>
               </tag-list>
             </tag>

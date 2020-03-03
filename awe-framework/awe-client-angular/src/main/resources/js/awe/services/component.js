@@ -61,10 +61,18 @@ aweApplication.factory('Component',
           /**
            * Retrieve value
            * @param {object} component Component scope
-           * @returns {mixed} Current  value
+           * @returns {string} Current  value
            */
           value: function (component) {
             return String(component.model.selected);
+          },
+          /**
+           * Retrieve total values
+           * @param {object} component Component scope
+           * @returns {number} Total values length
+           */
+          totalValues: function (component) {
+            return component.model.records || 0;
           },
           /**
            * Retrieve if component is visible or not

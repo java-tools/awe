@@ -955,6 +955,14 @@ aweApplication.factory('AweUtilities',
          */
         debounce: function(func, wait) {
           return _.debounce(() => $timeout(func), wait);
+        },
+        /**
+         * Generate an endpoint url based on arguments
+         */
+        generateEndpointUrl: function() {
+          let endpoint = "";
+          Array.prototype.slice.call(arguments).filter(v => !Utilities.isEmpty(v)).forEach(v => endpoint += "/" + v);
+          return endpoint;
         }
       };
       return Utilities;

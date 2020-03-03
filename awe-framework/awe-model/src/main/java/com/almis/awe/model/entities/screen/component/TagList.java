@@ -12,13 +12,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
  * TagList Class
- *
+ * <p>
  * Used to generate a tag list with XStream
- *
  *
  * @author Pablo GARCIA - 10/MAR/2014
  */
@@ -40,6 +41,11 @@ public class TagList extends Component {
     return this.toBuilder()
       .elementList(ListUtil.copyList(getElementList()))
       .build();
+  }
+
+  @Override
+  public <T> List<T> getElementsByType(boolean processDialog, Class<T>... elementClassList) {
+    return Collections.emptyList();
   }
 
   /**

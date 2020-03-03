@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<enumerated xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/enumerated.xsd">
+
+  <group id="notification-label">
+    <option label="ENUM_NOTIFICATION_NORMAL" value="NORMAL"/>
+    <option label="ENUM_NOTIFICATION_OK" value="OK"/>
+    <option label="ENUM_NOTIFICATION_INFO" value="INFO"/>
+    <option label="ENUM_NOTIFICATION_WARNING" value="WARNING"/>
+    <option label="ENUM_NOTIFICATION_ERROR" value="ERROR"/>
+  </group>
+
+  <group id="notification-type">
+    <option label="default" value="NORMAL"/>
+    <option label="success" value="OK"/>
+    <option label="info" value="INFO"/>
+    <option label="warning" value="WARNING"/>
+    <option label="danger" value="ERROR"/>
+  </group>
+
+  <group id="notification-style">
+    <option label="bg-default" value="NORMAL"/>
+    <option label="bg-success" value="OK"/>
+    <option label="bg-info" value="INFO"/>
+    <option label="bg-warning" value="WARNING"/>
+    <option label="bg-danger" value="ERROR"/>
+  </group>
+
+  <group id="notification-read-icon">
+    <option label="fa-eye" value="0"/>
+    <option label="fa-eye-slash" value="1"/>
+  </group>
+
+  <group id="active-icon-button">
+    <option label="times" value="0"/>
+    <option label="check" value="1"/>
+  </group>
+
+  <group id="notification-read-style">
+    <option label="text-success" value="0"/>
+    <option label="text-danger" value="1"/>
+  </group>
+
+  <group id="notification-read-label">
+    <option label="ENUM_NOTIFICATION_READ" value="0"/>
+    <option label="ENUM_NOTIFICATION_UNREAD" value="1"/>
+  </group>
+
+  <group id="unread-style">
+    <option label="faded" value="0"/>
+    <option label="" value="1"/>
+  </group>
+
+</enumerated>

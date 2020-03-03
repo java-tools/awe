@@ -118,7 +118,7 @@ public class UploadController extends ServiceConfig {
   @ExceptionHandler(MaxUploadSizeExceededException.class)
   @ResponseStatus(HttpStatus.PAYLOAD_TOO_LARGE)
   public String handleMaxSizeException(MaxUploadSizeExceededException exc) {
-    return broadcastError(getElements().getLocale("ERROR_TITLE_SIZE_LIMIT"), exc.getLocalizedMessage(), exc);
+    return broadcastError(getLocale("ERROR_TITLE_SIZE_LIMIT"), exc.getLocalizedMessage(), exc);
   }
 
   /**
@@ -130,7 +130,7 @@ public class UploadController extends ServiceConfig {
   @ExceptionHandler({MultipartException.class, FileUploadException.class, Exception.class})
   @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
   public String handleIOException(Exception exc) {
-    return broadcastError(getElements().getLocale("ERROR_TITLE_FILE_UPLOAD"), exc.getLocalizedMessage(), exc);
+    return broadcastError(getLocale("ERROR_TITLE_FILE_UPLOAD"), exc.getLocalizedMessage(), exc);
   }
 
   /**

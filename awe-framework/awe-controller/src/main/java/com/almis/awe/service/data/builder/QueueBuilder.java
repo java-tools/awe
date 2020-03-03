@@ -126,8 +126,8 @@ public class QueueBuilder extends AbstractQueryBuilder {
     try {
       // Check response object
       if (queue.getResponse() == null) {
-        throw new AWException(getElements().getLocale(ERROR_TITLE_BAD_QUEUE_DEFINITION_FORMAT),
-          getElements().getLocale("ERROR_MESSAGE_BAD_QUEUE_RESPONSE_DEFINITION_FORMAT", queue.getId()));
+        throw new AWException(getLocale(ERROR_TITLE_BAD_QUEUE_DEFINITION_FORMAT),
+          getLocale("ERROR_MESSAGE_BAD_QUEUE_RESPONSE_DEFINITION_FORMAT", queue.getId()));
       }
 
       // Generate listener
@@ -157,8 +157,8 @@ public class QueueBuilder extends AbstractQueryBuilder {
     } catch (AWException exc) {
       throw exc;
     } catch (Exception exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_RECEIVING_QUEUE_MESSAGE"),
-        getElements().getLocale("ERROR_MESSAGE_RECEIVING_QUEUE_MESSAGE", queue.getId()),
+      throw new AWException(getLocale("ERROR_TITLE_RECEIVING_QUEUE_MESSAGE"),
+        getLocale("ERROR_MESSAGE_RECEIVING_QUEUE_MESSAGE", queue.getId()),
         exc);
     }
 
@@ -180,8 +180,8 @@ public class QueueBuilder extends AbstractQueryBuilder {
 
     // Check if queue exists
     if (queue == null) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_LAUNCHING_QUEUE"),
-        getElements().getLocale("ERROR_MESSAGE_QUEUE_NOT_FOUND", queue.getId()));
+      throw new AWException(getLocale("ERROR_TITLE_LAUNCHING_QUEUE"),
+        getLocale("ERROR_MESSAGE_QUEUE_NOT_FOUND", queue.getId()));
     }
 
     // Waits for response
@@ -239,8 +239,8 @@ public class QueueBuilder extends AbstractQueryBuilder {
     try {
       // Check request object
       if (queue.getRequest() == null) {
-        throw new AWException(getElements().getLocale(ERROR_TITLE_BAD_QUEUE_DEFINITION_FORMAT),
-          getElements().getLocale("ERROR_MESSAGE_BAD_QUEUE_REQUEST_DEFINITION_FORMAT", queue.getId()));
+        throw new AWException(getLocale(ERROR_TITLE_BAD_QUEUE_DEFINITION_FORMAT),
+          getLocale("ERROR_MESSAGE_BAD_QUEUE_REQUEST_DEFINITION_FORMAT", queue.getId()));
       }
 
       // Get jmsTemplate
@@ -263,8 +263,8 @@ public class QueueBuilder extends AbstractQueryBuilder {
     } catch (AWException exc) {
       throw exc;
     } catch (Exception exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_SENDING_QUEUE_MESSAGE"),
-        getElements().getLocale("ERROR_MESSAGE_SENDING_QUEUE_MESSAGE", queue.getId()), exc);
+      throw new AWException(getLocale("ERROR_TITLE_SENDING_QUEUE_MESSAGE"),
+        getLocale("ERROR_MESSAGE_SENDING_QUEUE_MESSAGE", queue.getId()), exc);
     }
 
     return messageId;
@@ -286,7 +286,7 @@ public class QueueBuilder extends AbstractQueryBuilder {
     try {
       // Check response object
       if (queue.getResponse() == null) {
-        throw new AWException(getElements().getLocale(ERROR_TITLE_BAD_QUEUE_DEFINITION_FORMAT), getElements().getLocale(
+        throw new AWException(getLocale(ERROR_TITLE_BAD_QUEUE_DEFINITION_FORMAT), getLocale(
           "ERROR_MESSAGE_BAD_QUEUE_RESPONSE_DEFINITION_FORMAT", queue.getId()));
       }
 
@@ -303,8 +303,8 @@ public class QueueBuilder extends AbstractQueryBuilder {
 
       // Check if response is null or exceded timeout
       if (responseMessage == null) {
-        throw new AWException(getElements().getLocale("ERROR_TITLE_JMS_TIMEOUT"),
-          getElements().getLocale("ERROR_MESSAGE_JMS_TIMEOUT",
+        throw new AWException(getElements().getLocaleWithLanguage("ERROR_TITLE_JMS_TIMEOUT", getElements().getLanguage()),
+          getElements().getLocaleWithLanguage("ERROR_MESSAGE_JMS_TIMEOUT", getElements().getLanguage(),
             queue.getId(), responseTimeout));
       }
 
@@ -314,8 +314,8 @@ public class QueueBuilder extends AbstractQueryBuilder {
     } catch (AWException exc) {
       throw exc;
     } catch (NumberFormatException exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_RECEIVING_QUEUE_MESSAGE"),
-        getElements().getLocale("ERROR_MESSAGE_RECEIVING_QUEUE_MESSAGE", queue.getId()),
+      throw new AWException(getLocale("ERROR_TITLE_RECEIVING_QUEUE_MESSAGE"),
+        getLocale("ERROR_MESSAGE_RECEIVING_QUEUE_MESSAGE", queue.getId()),
         exc);
     }
 
@@ -346,8 +346,8 @@ public class QueueBuilder extends AbstractQueryBuilder {
       template.send(jmsDestination.getDestination(request.getDestination()), messageCreator);
       correlationId = messageCreator.getMessage().getJMSMessageID();
     } catch (JMSException exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_PARSING_REQUEST_MESSAGE"),
-        getElements().getLocale("ERROR_MESSAGE_PARSING_REQUEST_MESSAGE"), exc);
+      throw new AWException(getLocale("ERROR_TITLE_PARSING_REQUEST_MESSAGE"),
+        getLocale("ERROR_MESSAGE_PARSING_REQUEST_MESSAGE"), exc);
     }
 
     return correlationId;

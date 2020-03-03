@@ -182,5 +182,11 @@
       <service-parameter type="STRING" name="manualHeader" />
     </java>
   </service>
+  <service id="getTaglistData">
+    <java classname="com.almis.awe.service.ScreenService" method="getTaglistData">
+      <service-parameter type="STRING" name="option" />
+      <service-parameter type="STRING" name="taglist" />
+    </java>
+  </service>
 
 </services>

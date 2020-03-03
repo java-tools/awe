@@ -308,22 +308,24 @@
     <field id="EmlAdr" table="ope" alias="Eml" />
     <field id="EmlSrv" table="ope" alias="EmlSrv" />
     <field id="l1_lan" table="ope" alias="Lan" />
-    <field id="l1_lan" table="ope" alias="LanTxt" translate="LanUsr" />
+    <field id="l1_lan" table="ope" alias="LanTxt" translate="LanUsr"/>
+    <field id="PwdLck" table="ope" alias="Lck" />
     <compound alias="LanImg">
       <computed format="images/flags/[Lan].svg" alias="image" />
-      <computed format="[Lan]-flag" alias="style" />
-      <computed format="[LanTxt]" alias="label" />
-    </compound>
-    <field id="l1_act" table="ope" alias="StaTxt" translate="Es1Es0" />
-    <field id="PwdLck" table="ope" alias="PwdLck" />
-    <compound alias="BlkIco">
-      <computed format="'[PwdLck]' == '0' ? 'fa-unlock' : 'fa-lock'" alias="icon" eval="true"/>
-      <computed format="[PwdLck]" alias="label" translate="Es1Es0" />
+      <computed format="[Lan]-flag" alias="style"/>
+      <computed format="[LanTxt]" alias="label"/>
     </compound>
     <compound alias="StaIco">
-      <computed format="'[Sta]' == '0' ? 'fa-times' : 'fa-check'" alias="icon" eval="true"/>
-      <computed format="'[Sta]' == '0' ? 'text-danger' : 'text-success'" alias="style" eval="true"/>
-      <computed format="[StaTxt]" alias="label" />
+      <computed format="[Sta]" alias="value"/>
+      <computed format="[Sta]" alias="label" translate="active-label"/>
+      <computed format="[Sta]" alias="icon" translate="active-icon"/>
+      <computed format="[Sta]" alias="style" translate="active-style"/>
+    </compound>
+    <compound alias="BlkIco">
+      <computed format="[Lck]" alias="value"/>
+      <computed format="[Lck]" alias="label" translate="Es1Es0"/>
+      <computed format="[Lck]" alias="style" translate="locked-style"/>
+      <computed format="[Lck]" alias="icon" translate="locked-icon"/>
     </compound>
     <field id="OpeNam" table="ope" alias="Nam" />
     <join>
@@ -796,13 +798,13 @@
     <field id="ScrIni" table="mod" alias="ScrIni" />
     <field id="Nam" table="thm" alias="ThmTxt" />
     <field id="IdeThm" table="mod" alias="IdeThm" />
-    <field id="Act" table="mod" alias="ActTxt" translate="Es1Es0" />
     <field id="Act" table="mod" alias="Act" />
     <field id="Ord" table="mod" alias="Ord" />
     <compound alias="ActIco">
-      <computed format="'[Act]' == '0' ? 'fa-times' : 'fa-check'" alias="icon" eval="true"/>
-      <computed format="'[Act]' == '0' ? 'text-danger' : 'text-success'" alias="style" eval="true"/>
-      <computed format="[ActTxt]" alias="label" />
+      <computed format="[Act]" alias="value"/>
+      <computed format="[Act]" alias="icon" translate="active-icon"/>
+      <computed format="[Act]" alias="style" translate="active-style"/>
+      <computed format="[Act]" alias="label" translate="active-label"/>
     </compound>
     <join type="LEFT">
       <table id="AweThm" alias="thm" />
@@ -941,11 +943,11 @@
     <field id="ScrIni" table="Pro" alias="ScrIni" />
     <field id="Res" table="Pro" alias="Res" />
     <field id="Act" table="Pro" alias="Act" />
-    <field id="Act" table="Pro" alias="ActTxt" translate="Es1Es0" />
     <compound alias="ActIco">
-      <computed format="'[Act]' == '0' ? 'fa-times' : 'fa-check'" alias="icon" eval="true"/>
-      <computed format="'[Act]' == '0' ? 'text-danger' : 'text-success'" alias="style" eval="true"/>
-      <computed format="[ActTxt]" alias="label" />
+      <computed format="[Act]" alias="value"/>
+      <computed format="[Act]" alias="icon" translate="active-icon"/>
+      <computed format="[Act]" alias="style" translate="active-style"/>
+      <computed format="[Act]" alias="label" translate="active-label"/>
     </compound>
     <join type="LEFT">
       <table id="AweThm" alias="thm" />
@@ -1013,11 +1015,11 @@
       <computed alias="title" format="[NamVal]"/>
     </compound>
     <field id="Act" alias="Act" />
-    <field id="Act" alias="ActTxt" translate="Es1Es0" />
     <compound alias="ActIco">
-      <computed format="'[Act]' == '0' ? 'fa-times' : 'fa-check'" alias="icon" eval="true"/>
-      <computed format="'[Act]' == '0' ? 'text-danger' : 'text-success'" alias="style" eval="true"/>
-      <computed format="[ActTxt]" alias="label" />
+      <computed format="[Act]" alias="value"/>
+      <computed format="[Act]" alias="icon" translate="active-icon"/>
+      <computed format="[Act]" alias="style" translate="active-style"/>
+      <computed format="[Act]" alias="label" translate="active-label"/>
     </compound>
     <where>
       <and>
@@ -1224,11 +1226,11 @@
     <field id="Drv" alias="Drv" />
     <field id="Drv" alias="DrvTxt" translate="DrvTyp" />
     <field id="Act" alias="Act" />
-    <field id="Act" alias="ActTxt" translate="Es1Es0" />
     <compound alias="ActIco">
-      <computed format="'[Act]' == '0' ? 'fa-times' : 'fa-check'" alias="icon" eval="true"/>
-      <computed format="'[Act]' == '0' ? 'text-danger' : 'text-success'" alias="style" eval="true"/>
-      <computed format="[ActTxt]" alias="label" />
+      <computed format="[Act]" alias="value"/>
+      <computed format="[Act]" alias="icon" translate="active-icon"/>
+      <computed format="[Act]" alias="style" translate="active-style"/>
+      <computed format="[Act]" alias="label" translate="active-label"/>
     </compound>
     <where>
       <and>
@@ -1282,9 +1284,10 @@
     <field id="Ord" table="sit" alias="Ord" />
     <field id="Act" table="sit" alias="Act"/>
     <compound alias="ActIco">
-      <computed format="'[Act]' == '0' ? 'fa-times' : 'fa-check'" alias="icon" eval="true"/>
-      <computed format="'[Act]' == '0' ? 'text-danger' : 'text-success'" alias="style" eval="true"/>
-      <computed format="[Act]" alias="label" translate="Es1Es0"/>
+      <computed format="[Act]" alias="value"/>
+      <computed format="[Act]" alias="icon" translate="active-icon"/>
+      <computed format="[Act]" alias="style" translate="active-style"/>
+      <computed format="[Act]" alias="label" translate="active-label"/>
     </compound>
     <where>
       <and>
@@ -1890,9 +1893,10 @@
     <field id="EmlPwd" alias="EmlPwd" />
     <field id="Act" alias="Act" />
     <compound alias="ActIco">
-      <computed format="'[Act]' == '0' ? 'fa-times' : 'fa-check'" alias="icon" eval="true"/>
-      <computed format="'[Act]' == '0' ? 'text-danger' : 'text-success'" alias="style" eval="true"/>
-      <computed format="[Act]" alias="label" translate="Es1Es0" />
+      <computed format="[Act]" alias="value"/>
+      <computed format="[Act]" alias="icon" translate="active-icon"/>
+      <computed format="[Act]" alias="style" translate="active-style"/>
+      <computed format="[Act]" alias="label" translate="active-label"/>
     </compound>
     <where>
       <and>
@@ -2020,9 +2024,10 @@
     <field id="DstNam" alias="DstNam" />
     <field id="Act" alias="Act" />
     <compound alias="ActIco">
-      <computed format="'[Act]' == '0' ? 'fa-times' : 'fa-check'" alias="icon" eval="true"/>
-      <computed format="'[Act]' == '0' ? 'text-danger' : 'text-success'" alias="style" eval="true"/>
-      <computed format="[Act]" alias="label" />
+      <computed format="[Act]" alias="value"/>
+      <computed format="[Act]" alias="icon" translate="active-icon"/>
+      <computed format="[Act]" alias="style" translate="active-style"/>
+      <computed format="[Act]" alias="label" translate="active-label"/>
     </compound>
     <where>
       <and>
@@ -2119,26 +2124,6 @@
     <variable id="User" type="STRINGB" name="suggest"/>
   </query>
 
-  <!-- GET THE EMAIL LIST OF ACTIVE USERS -->
-  <query id="SchActUsrEmlSug">
-    <table id="ope" />
-    <field id="EmlAdr" alias="value" />
-    <field id="l1_nom" alias="Usr" noprint="true"/>
-    <computed format="([Usr]) [value] " alias="label" />
-    <where>
-      <and>
-        <or>
-          <filter left-field="l1_nom" condition="like" right-variable="UserB"/>
-          <filter left-field="EmlAdr" condition="like" right-variable="UserB"/>
-        </or>
-        <filter left-field="EmlAdr" condition="is not null"/>
-        <filter left-field="l1_act" condition="eq" right-variable="active" />
-      </and>
-    </where>
-    <variable id="active" type="INTEGER" value="1" />
-    <variable id="UserB" type="STRINGB" name="suggest"/>
-  </query>
-
   <!-- GET THE EMAIL VALUE AND LABEL FROM ARRAYNODE -->
   <query id="GetEmaFrmArr">
     <table id="ope" />
@@ -2152,26 +2137,6 @@
       </and>
     </where>
     <variable id="emailList" type="STRING" name="RepEmaDst" />
-  </query>
-
-  <!-- GET THE EMAIL LIST OF ACTIVE USERS -->
-  <query id="SchActUsrSug">
-    <table id="ope" />
-    <field id="l1_nom" alias="value" />
-    <field id="EmlAdr" alias="Eml" noprint="true"/>
-    <computed format="[value] ([Eml])" alias="label" />
-    <where>
-      <and>
-        <or>
-          <filter left-field="l1_nom" condition="like" right-variable="UserB"/>
-          <filter left-field="EmlAdr" condition="like" right-variable="UserB"/>
-        </or>
-        <filter left-field="l1_nom" condition="is not null"/>
-        <filter left-field="l1_act" condition="eq" right-variable="active" />
-      </and>
-    </where>
-    <variable id="active" type="INTEGER" value="1" />
-    <variable id="UserB" type="STRINGB" name="suggest"/>
   </query>
 
   <!-- GET THE EMAIL VALUE AND LABEL FROM ARRAYNODE -->
@@ -2189,93 +2154,16 @@
     <variable id="Users" type="STRING" name="RepUsrDst" />
   </query>
 
-  <!-- USER DATA -->
-  <query id="UsrUpd" cacheable="true">
-    <table id="ope" alias="ope" />
-    <field id="IdeOpe" table="ope" alias="IdeOpe" />
-    <field id="l1_nom" table="ope" alias="Nom" />
-    <field id="Nam" table="Pro" alias="Pro" />
-    <field id="Nam" table="thm" alias="Thm" />
-    <field id="ScrIni" table="ope" alias="ScrIni" />
-    <field id="Res" table="ope" alias="Res" />
-    <field id="l1_act" table="ope" alias="Sta" />
-    <field id="PcPrn" table="ope" alias="Prn" />
-    <field id="WebPrn" table="ope" alias="WebPrn" />
-    <field id="EmlAdr" table="ope" alias="Eml" />
-    <field id="EmlSrv" table="ope" alias="EmlSrv" />
-    <field id="l1_lan" table="ope" alias="Lan" />
-    <field id="l1_lan" table="ope" alias="LanTxt" translate="LanUsr" />
-    <field id="l1_act" table="ope" alias="StaTxt" translate="Es1Es0" />
-    <field id="PwdLck" table="ope" alias="PwdLck" />
-    <compound alias="BlkIco">
-      <computed format="AUTHENTICATION_STATUS_[PwdLck]" alias="icon"/>
-      <computed format="[PwdLck]" alias="label" translate="Es1Es0"/>
-      <computed format="[PwdLck]" alias="value"/>
-    </compound>
-    <compound alias="StaIco">
-      <computed format="'[Sta]' == '0' ? 'fa-times' : 'fa-check'" alias="icon" eval="true"/>
-      <computed format="'[Sta]' == '0' ? 'text-danger' : 'text-success'" alias="style" eval="true"/>
-      <computed format="[Sta]" alias="label" translate="Es1Es0"/>
-      <computed format="[Sta]" alias="value"/>
-    </compound>
-    <field id="OpeNam" table="ope" alias="Nam" />
-    <join>
-      <table id="AwePro" alias="Pro" />
-      <and>
-        <filter left-field="IdePro" left-table="ope" condition="eq" right-field="IdePro" right-table="Pro" />
-      </and>
-    </join>
-    <join type="LEFT">
-      <table id="AweThm" alias="thm" />
-      <and>
-        <filter left-field="IdeThm" left-table="ope" condition="eq" right-field="IdeThm" right-table="thm" />
-      </and>
-    </join>
-    <where>
-      <and>
-        <filter left-field="IdeOpe" left-table="ope" condition="in" right-variable="Usr" />
-      </and>
-    </where>
-    <variable id="Usr" type="INTEGER" name="IdeOpe" />
-  </query>
-
   <!-- User Manual of App -->
   <query id="getUsrHlpPth" service="getUsrHlpPth">
     <field id="Pth" />
     <field id="Nam" />
   </query>
 
-  <!-- Retrieve last task execution -->
-  <query id="getLastTaskExecution">
-    <table id="AweSchExe" />
-    <field id="IniDat" alias="initialDate" function="MAX"/>
-    <field id="EndDat" alias="endDate" function="MAX"/>
-    <where>
-      <and>
-        <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
-        <filter left-field="GrpTsk" condition="eq" right-variable="taskGroup"/>
-      </and>
-    </where>
-    <group-by field="IdeTsk"/>
-    <variable id="taskId" type="INTEGER" name="taskId" />
-    <variable id="taskGroup" type="STRING" name="taskGroup" />
-
+  <!-- Tag List Data -->
+  <query id="getTaglistData" service="getTaglistData">
+    <variable id="option" type="STRINGN" name="option"/>
+    <variable id="taglist" type="STRING" name="taglist"/>
   </query>
-
-  <!-- Retrieve last task execution -->
-  <query id="getMostRecentExecutionDate">
-    <table id="AweSchExe" />
-    <field id="IniDat" alias="initialDate" function="MAX"/>
-    <where>
-      <and>
-        <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
-        <filter left-field="GrpTsk" condition="eq" right-variable="taskGroup"/>
-      </and>
-    </where>
-    <group-by field="IdeTsk"/>
-    <variable id="taskId" type="INTEGER" name="taskId" />
-    <variable id="taskGroup" type="STRING" name="taskGroup" />
-  </query>
-
 
 </queries>
