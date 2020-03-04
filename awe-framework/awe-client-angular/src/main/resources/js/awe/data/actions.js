@@ -20,6 +20,7 @@ export const ClientActions = {
     "remove-class": {method: "removeClass"},
     "print": {method: "screenPrint"},
     "redirect": {method: "redirect"},
+    "redirect-screen": {method: "redirectScreen"},
     "close-window": {method: "closeWindow"},
     "end-dependency": {method: "endDependency"}
   },

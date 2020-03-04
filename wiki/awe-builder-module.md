@@ -55,6 +55,31 @@ serviceData.addClientAction(new ScreenActionBuilder("another-screen-option").bui
 
 This sample creates a client action which will try to navigate to the option defined as `another-screen-option`.
 
+####  **`redirect` action builder**
+
+This action makes the application to redirect to another URL.
+
+Usage:
+
+```java
+serviceData.addClientAction(new RedirectActionBuilder("http://go.to.another.url").build());
+```
+
+This sample creates a client action which will try to navigate to the URL `http://go.to.another.url`.
+
+####  **`redirect-screen` action builder**
+
+This action makes the application to redirect a specific screen to another URL.
+
+Usage:
+
+```java
+serviceData.addClientAction(new RedirectScreenActionBuilder("specific-screen", "http://go.to.another.url").build());
+```
+
+This sample creates a client action which will try to navigate to the URL `http://go.to.another.url` if the
+current screen is `specific-screen` (useful for dynamic-generated screens).
+
 ####  **`fill` action builder**
 
 This action sends a list of data to a component:

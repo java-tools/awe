@@ -22,7 +22,7 @@
 
   <!--Delete subscriptions-->
   <target name="delete-subscriptions">
-    <delete multiple="true" audit="HISAweSub">
+    <delete audit="HISAweSub" multiple="audit">
       <table id="AweSub"/>
       <field id="Ide" variable="id" audit="true"/>
       <field id="Acr" variable="acronym" audit="true"/>
@@ -31,14 +31,14 @@
       <field id="Act" variable="active" audit="true"/>
       <where>
         <and>
-          <filter left-field="Ide" condition="in" right-variable="Ide"/>
+          <filter left-field="Ide" condition="in" right-variable="id"/>
         </and>
       </where>
-      <variable id="id" type="STRING" name="id"/>
-      <variable id="acronym" type="STRING" name="acronym"/>
-      <variable id="name" type="STRING" name="name"/>
-      <variable id="description" type="STRING" name="description"/>
-      <variable id="active" type="INTEGER" name="active"/>
+      <variable id="id" type="INTEGER" name="id"/>
+      <variable id="acronym" type="STRING" name="subscription-acronym"/>
+      <variable id="name" type="STRING" name="subscription-name"/>
+      <variable id="description" type="STRING" name="subscription-description"/>
+      <variable id="active" type="INTEGER" name="subscription-active"/>
     </delete>
   </target>
 
@@ -66,7 +66,7 @@
 
   <!-- Insert new notification -->
   <target name="new-notification">
-    <insert audit="HISAweNot">
+    <insert>
       <table id="AweNot"/>
       <field id="Ide" sequence="Not"/>
       <field id="IdeSub" query="subscription-acronym"/>

@@ -1,4 +1,4 @@
-import { aweApplication } from "./../awe";
+import {aweApplication} from "./../awe";
 
 // Screen service
 aweApplication.factory("Screen",
@@ -45,7 +45,7 @@ aweApplication.factory("Screen",
           }
 
           // Location is not the same
-          if (!$utilities.sameUrl(target,$location.url())) {
+          if (!$utilities.sameUrl(target, $location.url())) {
             // Redirect to the screen
             let state = $utilities.getState(target);
             $state.go(state.to, state.parameters, {reload: false, inherit: true, notify: true, location: true});
@@ -114,7 +114,7 @@ aweApplication.factory("Screen",
           var parameters = action.attr("parameters");
           var time = parameters.target || 1;
 
-          $utilities.timeout(function() {
+          $utilities.timeout(function () {
             // Finish action
             $actionController.acceptAction(action);
           }, time);
@@ -312,6 +312,19 @@ aweApplication.factory("Screen",
 
           // Close action
           $actionController.acceptAction(action);
+        },
+        /**
+         * Redirect screen to another URL
+         * @param {Action} action Action received
+         */
+        redirectScreen: function (action) {
+          let screen = action.attr("parameters").screen;
+          if (screen === $storage.get("screen")[action.attr("view")].name) {
+            $screen.redirect(action);
+          } else {
+            // Close action
+            $actionController.acceptAction(action);
+          }
         },
         /**
          * Close the current window

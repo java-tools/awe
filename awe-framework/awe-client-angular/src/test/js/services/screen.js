@@ -223,6 +223,24 @@ describe('awe-framework/awe-client-angular/src/test/js/services/screen.js', func
     });
   });
 
+  it('should launch a redirect screen action on other screen', function(done) {
+    $windowMock.location = { href : "" };
+    spyOn($storage, "get").and.returnValue({base: {name: "otherScreen"}});
+    launchScreenAction($injector, "redirect-screen", "redirectScreen", {id: 2,  view: "base", target: "http://alla.que.voy", parameters: {screen: "currentScreen"}}, () => {
+      expect($windowMock.location.href).toBe("");
+      done();
+    });
+  });
+
+  it('should launch a redirect screen action on current screen', function(done) {
+    $windowMock.location = { href : "" };
+    spyOn($storage, "get").and.returnValue({base: {name: "currentScreen"}});
+    launchScreenAction($injector, "redirect-screen", "redirectScreen", {id: 2, view: "base", target: "http://alla.que.voy", parameters: {screen: "currentScreen"}}, () => {
+      expect($windowMock.location.href).toBe("http://alla.que.voy");
+      done();
+    });
+  });
+
   // Launch close-window action
   it('should launch a close-window action', function(done) {
     spyOn($windowMock, "close").and.callFake(() => {

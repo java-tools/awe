@@ -116,7 +116,7 @@ public class NotifierServiceTest {
 
   @Test
   public void testNotify() throws Exception {
-    when(queryService.launchQuery(anyString())).thenReturn(new ServiceData().setDataList(DataListUtil.fromBeanList(Arrays.asList(
+    when(queryService.launchPrivateQuery(anyString())).thenReturn(new ServiceData().setDataList(DataListUtil.fromBeanList(Arrays.asList(
       new InterestedUsersDto().setUser("tutu").setByEmail(true).setByWeb(false),
       new InterestedUsersDto().setUser("lala").setByEmail(false).setByWeb(false),
       new InterestedUsersDto().setUser("trololo").setByEmail(true).setByWeb(true),
@@ -127,9 +127,9 @@ public class NotifierServiceTest {
     notifierService.notify(new NotificationDto().setType(NotificationType.NORMAL));
 
     // Assert
-    verify(queryService, times(1)).launchQuery(anyString());
+    verify(queryService, times(1)).launchPrivateQuery(anyString());
     verify(broadcastService, times(1)).broadcastMessageToUsers(any(ClientAction.class), anyString(), anyString());
-    verify(maintainService, times(1)).launchMaintain(eq("new-notification"), any(ObjectNode.class));
-    verify(maintainService, times(1)).launchMaintain(eq("notify-email-users"), any(ObjectNode.class));
+    verify(maintainService, times(1)).launchPrivateMaintain(eq("new-notification"), any(ObjectNode.class));
+    verify(maintainService, times(1)).launchPrivateMaintain(eq("notify-email-users"), any(ObjectNode.class));
   }
 }
