@@ -131,10 +131,10 @@ public class NotifierService {
     ObjectMapper mapper = new ObjectMapper();
 
     // Store notification
-    maintainService.launchMaintain(INSERT_NOTIFICATION, mapper.valueToTree(notification));
+    maintainService.launchPrivateMaintain(INSERT_NOTIFICATION, mapper.valueToTree(notification));
 
     // Get users interested in notification
-    DataList dataList = queryService.launchQuery(INTERESTED_USERS).getDataList();
+    DataList dataList = queryService.launchPrivateQuery(INTERESTED_USERS).getDataList();
     List<InterestedUsersDto> userList = DataListUtil.asBeanList(dataList, InterestedUsersDto.class);
 
     // Refresh connected users
@@ -145,6 +145,6 @@ public class NotifierService {
     // Send email notifications
     ObjectNode parameters = mapper.valueToTree(notification);
     parameters.set("UsrPrn", mapper.valueToTree(userList.stream().filter(InterestedUsersDto::isByEmail).map(InterestedUsersDto::getUser).collect(Collectors.toList())));
-    maintainService.launchMaintain(NOTIFY_EMAIL_USERS, parameters);
+    maintainService.launchPrivateMaintain(NOTIFY_EMAIL_USERS, parameters);
   }
 }

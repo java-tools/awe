@@ -5,6 +5,7 @@
         label="SCREEN_TITLE_UPDATE_SUBSCRIPTIONS" help="SCREEN_HELP_UPDATE_SUBSCRIPTIONS">
   <tag source="hidden">
     <message id="update-message" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE"/>
+    <message id="unique-check-message" title="WARNING_TITLE_DUPLICATED_ACRONYM" message="WARNING_MESSAGE_DUPLICATED_ACRONYM"/>
     <criteria component="hidden" id="id" variable="id"/>
   </tag>
   <tag source="buttons">
@@ -16,6 +17,7 @@
     </button>
     <button button-type="submit" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
       <button-action type="validate" target="subscription-data"/>
+      <button-action type="server" server-action="control-unique-cancel" target-action="check-subscription" target="unique-check-message" />
       <button-action type="confirm" target="update-message"/>
       <button-action type="server" server-action="maintain" target-action="update-subscription"/>
       <button-action type="back"/>

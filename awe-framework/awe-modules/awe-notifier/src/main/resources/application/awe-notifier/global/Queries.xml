@@ -182,8 +182,20 @@
         <filter left-field="Acr" left-table="subscriptions" condition="eq" right-variable="acronym" ignorecase="true"/>
       </and>
     </where>
-    <variable id="acronym" type="STRING" name="subscription" optional="true"/>
-    <variable id="acronym" type="STRING" name="acronym" optional="true"/>
+    <variable id="acronym" type="STRING" name="subscription"/>
+  </query>
+
+  <query id="check-subscription">
+    <table id="AweSub" alias="subscriptions"/>
+    <field id="Ide" table="subscriptions" alias="value"/>
+    <where>
+      <and>
+        <filter left-field="Acr" left-table="subscriptions" condition="eq" right-variable="acronym" ignorecase="true"/>
+        <filter left-field="Ide" left-table="subscriptions" condition="ne" right-variable="id" optional="true"/>
+      </and>
+    </where>
+    <variable id="acronym" type="STRING" name="acronym"/>
+    <variable id="id" type="INTEGER" name="id"/>
   </query>
 
   <query id="user-acronym">

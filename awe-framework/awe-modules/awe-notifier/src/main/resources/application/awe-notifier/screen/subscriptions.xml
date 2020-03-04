@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" keep-criteria="true"
         xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window"
         label="SCREEN_TITLE_SUBSCRIPTIONS" help="SCREEN_HELP_SUBSCRIPTIONS">
   <tag source="hidden">

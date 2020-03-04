@@ -39,4 +39,7 @@
   <locale name="SCREEN_TITLE_NOTIFICATIONS" value="Notificaciones"/>
   <locale name="SCREEN_TITLE_SETTINGS" value="Configuración de usuario"/>
   <locale name="SCREEN_TITLE_SUBSCRIPTIONS" value="Suscripciones"/>
+  <locale name="SCREEN_TITLE_UPDATE_SUBSCRIPTIONS" value="Actualización de la suscripción"/>
+  <locale name="WARNING_MESSAGE_DUPLICATED_ACRONYM" value="El acrónimo seleccionado ya está definido. Por favor, cámbielo por otro."/>
+  <locale name="WARNING_TITLE_DUPLICATED_ACRONYM" value="Acrónimo duplicado"/>
 </locales>

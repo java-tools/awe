@@ -16,8 +16,8 @@
     </button>
     <button button-type="submit" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
       <button-action type="validate" target="subscription-data"/>
+      <button-action type="server" server-action="control-unique-cancel" target-action="check-subscription" target="unique-check-message" />
       <button-action type="confirm" target="new-message"/>
-      <button-action type="server" server-action="control-unique-cancel" target-action="subscription-acronym" target="UniMsg" />
       <button-action type="server" server-action="maintain" target-action="new-subscription"/>
       <button-action type="back"/>
     </button>
