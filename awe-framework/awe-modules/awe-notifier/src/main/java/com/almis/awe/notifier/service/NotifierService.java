@@ -5,6 +5,7 @@ import com.almis.awe.builder.client.UpdateControllerActionBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
+import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.notifier.dto.InterestedUsersDto;
 import com.almis.awe.notifier.dto.NotificationDto;
@@ -129,22 +130,25 @@ public class NotifierService {
    */
   public void notify(NotificationDto notification) throws AWException {
     ObjectMapper mapper = new ObjectMapper();
+    ObjectNode parameters = mapper.valueToTree(notification);
 
     // Store notification
-    maintainService.launchPrivateMaintain(INSERT_NOTIFICATION, mapper.valueToTree(notification));
+    maintainService.launchPrivateMaintain(INSERT_NOTIFICATION, parameters);
 
     // Get users interested in notification
-    DataList dataList = queryService.launchPrivateQuery(INTERESTED_USERS).getDataList();
+    DataList dataList = queryService.launchPrivateQuery(INTERESTED_USERS, parameters).getDataList();
     List<InterestedUsersDto> userList = DataListUtil.asBeanList(dataList, InterestedUsersDto.class);
 
     // Refresh connected users
     broadcastService.broadcastMessageToUsers(
-      new FilterActionBuilder("notification-bulletin").build(),
-      userList.stream().filter(InterestedUsersDto::isByWeb).map(InterestedUsersDto::getUser).toArray(String[]::new));
+      new FilterActionBuilder(new ComponentAddress().setComponent("notification-bulletin").setView("base")).build(),
+      userList.stream().filter(InterestedUsersDto::isByWeb).map(InterestedUsersDto::getUser).map(String::trim).toArray(String[]::new));
 
     // Send email notifications
-    ObjectNode parameters = mapper.valueToTree(notification);
-    parameters.set("UsrPrn", mapper.valueToTree(userList.stream().filter(InterestedUsersDto::isByEmail).map(InterestedUsersDto::getUser).collect(Collectors.toList())));
-    maintainService.launchPrivateMaintain(NOTIFY_EMAIL_USERS, parameters);
+    List<String> interestedEmailUsers = userList.stream().filter(InterestedUsersDto::isByEmail).map(InterestedUsersDto::getUser).map(String::trim).collect(Collectors.toList());
+    if (!interestedEmailUsers.isEmpty()) {
+      parameters.set("UsrPrn", mapper.valueToTree(interestedEmailUsers));
+      maintainService.launchPrivateMaintain(NOTIFY_EMAIL_USERS, parameters);
+    }
   }
 }
