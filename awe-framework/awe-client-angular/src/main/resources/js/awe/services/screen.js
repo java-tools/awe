@@ -28,6 +28,7 @@ aweApplication.factory("Screen",
           // Retrieve action parameters
           let parameters = action.attr("parameters");
           let context = action.attr("context");
+          let reload = parameters.reload || false;
 
           // If token received
           if ("token" in parameters) {
@@ -45,10 +46,10 @@ aweApplication.factory("Screen",
           }
 
           // Location is not the same
-          if (!$utilities.sameUrl(target, $location.url())) {
+          if (!$utilities.sameUrl(target, $location.url()) || reload) {
             // Redirect to the screen
-            let state = $utilities.getState(target);
-            $state.go(state.to, state.parameters, {reload: false, inherit: true, notify: true, location: true});
+            let state = $utilities.getState(target, reload);
+            $state.transitionTo(state.to, state.parameters, {reload: false, inherit: true, notify: true, location: true});
 
             // Finish screen action
             $actionController.acceptAction(action);

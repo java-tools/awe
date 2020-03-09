@@ -1,15 +1,17 @@
 // Route method definition
+const fixParameters = (p) =>  {if ("subScreenId" in p) {p.subScreenId = p.subScreenId.split("?")[0];} else if ("screenId" in p) {p.screenId = p.screenId.split("?")[0];}};
 export const routeMethods = {
   "base": () => "",
   "public": ["$stateParams", (p) => "screen/public/" + p.screenId],
   "private": ["$stateParams", (p) => "screen/private/" + p.screenId],
   "screenData": ["$stateParams", "ServerData", (p, $serverData) => {
+      fixParameters(p);
       let view = routeMethods.view(p);
       return $serverData.getScreenData(routeMethods.screen(p), view).then(() => view);
     }],
   "template": (p) => angular.element(document).injector().get('ServerData').getTemplateUrl(routeMethods.screen(p), routeMethods.view(p)),
   "view": (p) => "subScreenId" in p ? "report" : "base",
-  "screen": (p) => "subScreenId" in p ? p.subScreenId : "screenId" in p ? p.screenId : null
+  "screen": (p) => "subScreenId" in p ? p.subScreenId.split("?")[0] : "screenId" in p ? p.screenId.split("?")[0] : null
 };
 
 // Routing data for view controller

@@ -113,6 +113,9 @@
       <variable id="notification" type="INTEGER" name="buttonValue"/>
       <variable id="unread" type="INTEGER" value="0"/>
     </insert>
+    <serve service="go-to-notification-screen">
+      <variable id="notification" type="INTEGER" name="buttonValue"/>
+    </serve>
   </target>
 
   <!-- Mark multiple notifications as read/unread -->

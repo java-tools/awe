@@ -10,6 +10,7 @@ import "angular-mocks";
 
 // Tests
 import './controllers/tests.js';
+import './data/tests.js';
 import './filters/tests.js';
 import './components/tests.js';
 import './services/tests.js';
