@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -112,6 +114,23 @@ public class NotifierServiceTest {
     // Assert
     verify(queryService, times(1)).launchQuery(anyString());
     verify(maintainService, times(1)).launchMaintain(eq("update-user-subscription"), any(ObjectNode.class));
+  }
+
+  @Test
+  public void goToNotificationScreen() throws Exception {
+    DataList dataList = new DataList();
+    Map<String, CellData> row = new HashMap<>();
+    row.put("screen", new CellData("screen"));
+    dataList.addRow(row);
+    when(queryService.launchQuery(anyString(), any(ObjectNode.class))).thenReturn(new ServiceData().setDataList(dataList));
+
+    // Run
+    ServiceData result = notifierService.goToNotificationScreen(1);
+
+    // Assert
+    verify(queryService, times(1)).launchQuery(anyString(), any(ObjectNode.class));
+    assertEquals(1, result.getClientActionList().size());
+    assertNotNull(result.getClientActionList().get(0));
   }
 
   @Test

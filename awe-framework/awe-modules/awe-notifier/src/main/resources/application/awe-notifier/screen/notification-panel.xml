@@ -16,7 +16,6 @@
             <tag type="div" style="notification-icon fa fa-[icon] bg-[type]"/>
             <button-action type="value" target="selected-notification" value="[code]" async="true" silent="true"/>
             <button-action type="server" server-action="maintain-silent" target-action="read-notification" silent="true"/>
-            <button-action type="screen" target="[screen]" context="screen/private/home" async="true" silent="true"/>
             <button-action type="filter" target="notification-bulletin" async="true" silent="true"/>
           </button>
         </tag-list>

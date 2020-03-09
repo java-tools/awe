@@ -65,6 +65,12 @@ describe('awe-framework/awe-client-angular/src/test/js/services/screen.js', func
     launchScreenAction($injector, "screen", "screen", {parameters:{screen: "lala"}, context: "epa"}, done);
   });
 
+  // Launch screen action
+  it('should launch a screen action with screen reloading', function(done) {
+    spyOn($location, "url").and.returnValue("/epa/lala");
+    launchScreenAction($injector, "screen", "screen", {parameters:{screen: "lala", reload: true}, context: "epa"}, done);
+  });
+
   // Launch reload action
   it('should launch a reload action', function(done) {
     return launchScreenAction($injector, "reload", "reload", {parameters:{}}, done);

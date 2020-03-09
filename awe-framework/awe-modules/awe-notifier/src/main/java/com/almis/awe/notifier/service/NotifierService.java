@@ -1,6 +1,7 @@
 package com.almis.awe.notifier.service;
 
 import com.almis.awe.builder.client.FilterActionBuilder;
+import com.almis.awe.builder.client.ScreenActionBuilder;
 import com.almis.awe.builder.client.UpdateControllerActionBuilder;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.DataList;
@@ -25,6 +26,7 @@ public class NotifierService {
   // Queries
   private static final String USER_NOTIFICATIONS = "user-notifications";
   private static final String GET_SUBSCRIPTION = "get-subscription";
+  private static final String GET_NOTIFICATION = "get-notification";
   private static final String INSERT_SUBSCRIPTION = "insert-user-subscription";
   private static final String UPDATE_SUBSCRIPTION = "update-user-subscription";
   private static final String INSERT_NOTIFICATION = "new-notification";
@@ -121,6 +123,17 @@ public class NotifierService {
       parameters.put(EMAIL, (Integer.parseInt(DataListUtil.getData(dataList, 0, EMAIL)) + 1) % 2);
       return maintainService.launchMaintain(UPDATE_SUBSCRIPTION, parameters);
     }
+  }
+
+  /**
+   * Go to notification screen
+   * @param notificationId Notification id
+   * @return Service data
+   */
+  public ServiceData goToNotificationScreen(Integer notificationId) throws AWException {
+    DataList dataList = queryService.launchQuery(GET_NOTIFICATION, JsonNodeFactory.instance.objectNode().put("notification", notificationId)).getDataList();
+    List<NotificationDto> notificationDtoList = DataListUtil.asBeanList(dataList, NotificationDto.class);
+    return new ServiceData().addClientAction(new ScreenActionBuilder(notificationDtoList.get(0).getScreen(), true).setContext("screen/private/home").setAsync(true).setSilent(true).build());
   }
 
   /**

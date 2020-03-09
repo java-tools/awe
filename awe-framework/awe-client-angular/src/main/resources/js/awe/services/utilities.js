@@ -917,35 +917,44 @@ aweApplication.factory('AweUtilities',
          * Retrieve application context path
          * @return Context path
          */
-        getState: function(location) {
+        getState: function(location, reload) {
           let state = {};
           let locationFixed = location.replace(Utilities.getContextPath(), "");
           let locationData = locationFixed.split('/');
-          if (locationFixed.indexOf('/public') != -1) {
+          let maxState = null;
+          if (locationFixed.indexOf('/public') !== -1) {
             // Public state
             state.to = 'public.screen';
             state.parameters = {
               screenId: locationData[3],
               subScreenId: locationData[4]
             };
-          } else if (locationFixed.indexOf('/private') != -1) {
+            maxState = "subScreenId";
+          } else if (locationFixed.indexOf('/private') !== -1) {
             // Private state
             state.to = 'private.screen';
             state.parameters = {
               screenId: locationData[3],
               subScreenId: locationData[4]
             };
-          } else if (locationFixed.indexOf('/screen') != -1) {
+            maxState = "subScreenId";
+          } else if (locationFixed.indexOf('/screen') !== -1) {
             // Global state
             state.to = 'global';
             state.parameters = {
               screenId: locationData[2]
             };
+            maxState = "screenId";
           } else {
             // Index
             state.to = 'index';
             state.parameters = {};
           }
+
+          if (reload && maxState != null) {
+            state.parameters[maxState] += "?" + Math.floor(Math.random() * 100);
+          }
+
           return state;
         },
         /**

@@ -277,4 +277,21 @@
     <variable id="subscription" type="INTEGER" name="buttonValue"/>
   </query>
 
+  <query id="get-notification">
+    <table id="AweNot" alias="notification"/>
+    <field id="Ide" table="notification" alias="id"/>
+    <field id="Nom" table="notification" alias="title"/>
+    <field id="Des" table="notification" alias="description"/>
+    <field id="Scr" table="notification" alias="screen"/>
+    <field id="Cod" table="notification" alias="code"/>
+    <field id="Dat" table="notification" alias="date"/>
+    <field id="Ico" table="notification" alias="icon"/>
+    <where>
+      <and>
+        <filter left-field="Ide" condition="eq" right-variable="notification"/>
+      </and>
+    </where>
+    <variable id="notification" type="INTEGER" name="notification"/>
+  </query>
+
 </queries>

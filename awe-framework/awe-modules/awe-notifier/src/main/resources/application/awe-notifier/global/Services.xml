@@ -21,4 +21,10 @@
     </java>
   </service>
 
+  <service id="go-to-notification-screen">
+    <java classname="com.almis.awe.notifier.service.NotifierService" method="goToNotificationScreen">
+      <service-parameter type="INTEGER" name="notification"/>
+    </java>
+  </service>
+
 </services>

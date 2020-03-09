@@ -79,6 +79,14 @@ public class ClientActionBuilderTest {
     // Assertions
     assertEquals("screen", action.getType());
     assertEquals("testScreen", action.getTarget());
+
+    action = new ScreenActionBuilder("testScreen", Boolean.TRUE).build();
+
+    // Assertions
+    assertEquals("screen", action.getType());
+    assertEquals("testScreen", action.getTarget());
+    assertTrue((Boolean) action.getParameters().get("reload"));
+
     checkSimpleClientActionBuilder("screen", new ScreenActionBuilder());
   }
 

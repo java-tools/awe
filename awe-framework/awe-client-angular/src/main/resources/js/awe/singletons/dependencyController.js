@@ -5,9 +5,10 @@ aweApplication.service('DependencyController',
   ['$log', 'AweUtilities', 'Dependency', 'ActionController',
     /**
      * Dependency generic methods
-     * @param {Service} $log
-     * @param {Service} Utilities
-     * @param {Service} Dependency
+     * @param {Object} $log
+     * @param {Object} Utilities
+     * @param {Object} Dependency
+     * @param {Object} $actionController
      */
     function ($log, Utilities, Dependency, $actionController) {
 
@@ -34,16 +35,14 @@ aweApplication.service('DependencyController',
        * @param {Object} component Dependency component
        */
       this.register = function (dependencies, component) {
-        var controller = this;
+        let controller = this;
         _.each(dependencies, function (dependencyValues, index) {
           dependencyValues.index = index;
           controller.dependencies.push(new Dependency(dependencyValues, component));
         });
 
         // Check for pending
-        var pending = _.remove(this.pendingInitialization, function (address) {
-          return _.isEqual(component.address, address);
-        });
+        let pending = _.remove(this.pendingInitialization, a => _.isEqual(component.address, a));
 
         // If there were pending, restart them after register
         if (pending.length > 0) {
@@ -57,9 +56,10 @@ aweApplication.service('DependencyController',
        */
       this.unregister = function (component) {
         // Filter out dependencies
-        var removed = _.remove(this.dependencies, function (dependency) {
-          return dependency.belongsTo(component.address, component.controller.optionId);
-        });
+        let removed = _.remove(this.dependencies, d => d.belongsTo(component.address, component.controller.optionId));
+
+        // Remove all component dependencies
+        component.dependencies = [];
 
         // Destroy removed dependencies
         this.remove(removed);
@@ -71,15 +71,14 @@ aweApplication.service('DependencyController',
        */
       this.unregisterView = function (view) {
         // Filter out dependencies
-        var removed = _.remove(this.dependencies, function (dependency) {
-          return dependency.component.address.view === view;
-        });
+        let componentsToRemove = _.uniqBy(this.dependencies.filter(d => d.component.view === view).map(d => d.component), "id");
 
-        if (removed.length > 0) {
-          $log.debug("[Dependencies] Removing " + removed.length + " dependencies of view", view);
+        if (componentsToRemove.length > 0) {
+          $log.debug("[Dependencies] Removing " + componentsToRemove.length + " components with dependencies of view " + view, view);
 
           // Destroy removed dependencies
-          this.remove(removed);
+          let _self = this;
+          componentsToRemove.forEach(c => _self.unregister(c));
         }
       };
 
@@ -89,9 +88,7 @@ aweApplication.service('DependencyController',
        */
       this.remove = function (dependencies) {
         // Destroy removed dependencies
-        _.each(dependencies, function (dependency) {
-          dependency.destroy();
-        });
+        dependencies.forEach(d => d.destroy());
       };
 
       /* *****************************

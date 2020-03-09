@@ -40,4 +40,16 @@ describe('awe-framework/awe-client-angular/src/test/js/services/utilities.js', f
     expect($utilities.compareContainValues("tutu lala ellele", "jander")).toBe(false);
     expect($utilities.compareContainValues("jander", "jander clander")).toBe(false);
   });
+
+  it('should get state', function() {
+    // Assert
+    expect($utilities.getState("/screen/public/home/tutu", false)).toEqual({to: 'public.screen', parameters: {screenId: "home", subScreenId: "tutu"}});
+    expect($utilities.getState("/screen/private/home/tutu", false)).toEqual({to: 'private.screen', parameters: {screenId: "home", subScreenId: "tutu"}});
+    expect($utilities.getState("/screen/tutu", false)).toEqual({to: 'global', parameters: {screenId: "tutu"}});
+    expect($utilities.getState("/", false)).toEqual({to: 'index', parameters: {}});
+    expect($utilities.getState("/ascasc/Asvasv", false)).toEqual({to: 'index', parameters: {}});
+    expect($utilities.getState("/screen/public/home/tutu", true).to).toEqual('public.screen');
+    expect($utilities.getState("/screen/public/home/tutu", true).parameters.screenId).toEqual('home');
+    expect($utilities.getState("/screen/public/home/tutu", true).parameters.subScreenId).toContain('tutu?');
+  });
 });

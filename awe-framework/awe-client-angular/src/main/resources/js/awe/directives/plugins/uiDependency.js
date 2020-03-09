@@ -21,12 +21,6 @@ aweApplication.directive('uiDependency',
               initialized = true;
               // Unwatch initialization
               initWatch();
-
-              // Remove all listeners on unload
-              scope.$on("$destroy", function () {
-                // Clear listeners
-                DependencyController.unregister(component);
-              });
             }
           }
         }
