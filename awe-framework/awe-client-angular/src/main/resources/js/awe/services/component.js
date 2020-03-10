@@ -21,7 +21,6 @@ aweApplication.factory('Component',
        */
       function destroyTimers(component) {
         Utilities.timeout.cancel(component.helpTimer);
-        Utilities.timeout.cancel(component.eventTimer);
         Utilities.interval.cancel(component.autoRefreshTimer);
       }
 
