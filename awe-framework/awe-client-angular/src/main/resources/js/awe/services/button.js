@@ -81,6 +81,7 @@ aweApplication.factory('Button',
            */
           component.scope.onClick = function () {
             component.pendingActions = false;
+            Utilities.timeout.cancel(component.helpTimer);
             ActionController.addActionList(component.controller.actions, true, {
               address: component.address,
               context: component.context
