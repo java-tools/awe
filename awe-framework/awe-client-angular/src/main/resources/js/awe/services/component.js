@@ -29,6 +29,7 @@ aweApplication.factory('Component',
        * @param {object} component
        */
       function destroy(component) {
+        component.controller.disabled = true;
         destroyTimers(component);
         // Clear listeners
         Utilities.clearListeners(component.listeners);
