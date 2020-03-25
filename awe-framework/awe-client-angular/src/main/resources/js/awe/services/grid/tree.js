@@ -217,12 +217,20 @@ aweApplication.factory('GridTree',
           };
           /**
            * Toggle the tree row
-           * @param {type} row
-           * @param {type} expanded
+           * @param {object} row
+           * @param {boolean} expanded
            */
           component.toggleTreeRow = function (row, expanded) {
             row.$$expanded = expanded;
-            setNodeIcon(row);
+            if (component.controller.loadAll) {
+              if (expanded) {
+                grid.api.treeBase.expandRow(row);
+              } else {
+                grid.api.treeBase.collapseRow(row);
+              }
+            } else {
+              setNodeIcon(row);
+            }
             deferRowsRendered().then(function () {
               component.updateGridScrollBars();
             });
@@ -243,6 +251,8 @@ aweApplication.factory('GridTree',
               onUpdatedGridData();
               if (!component.initialized) {
                 component.initialized = true;
+              }
+              if (component.controller.loadAll) {
                 // Expand initial status
                 component.expandInitialStatus();
               }

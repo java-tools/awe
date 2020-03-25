@@ -830,6 +830,9 @@ public class ApplicationTestsIT extends SeleniumUtilities {
     // Wait for reset button
     clickButton("ButEnc", true);
 
+    // Wait for reset button
+    waitForButton("ButRst");
+
     // Check criterion contents
     checkCriterionContents("CrtEnc", "dOakAf2lwfqAke4O41A0Ww==");
   }
