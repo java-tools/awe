@@ -1,8 +1,11 @@
+import {DefaultSettings} from "../../../main/resources/js/awe/data/options";
+
 describe('awe-framework/awe-client-angular/src/test/js/services/component.js', function () {
-  let $rootScope, $injector, $control, $utilities, Component;
+  let $rootScope, $injector, $control, $utilities, Component, $httpBackend;
   let originalTimeout;
   let address = {"component": "comp1", "view": "report"};
-  let scope = {view: "report", $parent: {$parent: {}}, $on: () => null, $emit: () => null};
+  let scopedFunctions = {};
+  let scope = {view: "report", $parent: {$parent: {}}, $on: (k, fn) => scopedFunctions[k] = fn, $emit: () => null};
   let controller;
   let model;
   // Mock module
@@ -15,6 +18,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/component.js', f
       $control = $injector.get('Control');
       $utilities = $injector.get('AweUtilities');
       Component = $injector.get('Component');
+      $httpBackend = $injector.get("$httpBackend");
 
       controller = {visible: true};
       model = {selected: "text", records: 14, model: [{value:"text", label:"Visible text"}]};
@@ -22,6 +26,8 @@ describe('awe-framework/awe-client-angular/src/test/js/services/component.js', f
       spyOn($control, "checkComponent").and.returnValue(true);
       spyOn($control, "getAddressModel").and.returnValue(model);
       spyOn($control, "getAddressController").and.returnValue(controller);
+
+      $httpBackend.when('POST', 'settings').respond(DefaultSettings);
     }]);
 
 
@@ -104,6 +110,102 @@ describe('awe-framework/awe-client-angular/src/test/js/services/component.js', f
     comp.init();
 
     // Assert
+    expect(comp.alive).toBe(true);
     expect(comp.attributeMethods.totalValues(comp)).toBe(0);
+
+  });
+
+  it('should destroy a component', function () {
+    // Prepare
+    spyOn($utilities, "clearListeners");
+    delete model.records;
+    let comp = new Component(scope, "comp2");
+    comp.init();
+    comp.helpNode = {off: jasmine.createSpy('helpNodeOFF')};
+
+    // Call destroy
+    scopedFunctions["$destroy"]();
+
+    // Assert
+    expect(comp.alive).toBe(false);
+    expect(comp.helpNode.off).toHaveBeenCalled();
+    expect($utilities.clearListeners).toHaveBeenCalled();
+  });
+
+  it('should initialize a help node', function () {
+    // Prepare
+    spyOn($control, "publish");
+    spyOn($utilities, "timeout").and.callFake(fn => fn());
+    delete model.records;
+    let comp = new Component(scope, "comp2");
+    let help = {node: document.createElement("div")};
+    comp.init();
+    comp.initHelpNode(help);
+    $(help.node).trigger("mouseover");
+    $(help.node).trigger("mouseout");
+
+    // Assert
+    expect(comp.alive).toBe(true);
+    expect($utilities.timeout).toHaveBeenCalled();
+    expect($control.publish).toHaveBeenCalledTimes(2);
+  });
+
+  it('should call a help node with a destroyed object', function () {
+    // Prepare
+    spyOn($control, "publish");
+    spyOn($utilities, "timeout").and.callFake(fn => fn());
+    delete model.records;
+    let comp = new Component(scope, "comp2");
+    let help = {node: document.createElement("div")};
+    comp.init();
+    comp.initHelpNode(help);
+    comp.alive = false;
+    $(help.node).trigger("mouseover");
+    $(help.node).trigger("mouseout");
+
+    // Assert
+    expect($utilities.timeout).toHaveBeenCalledTimes(0);
+    expect($control.publish).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call a help node with a disabled object when showing', function () {
+    // Prepare
+    spyOn($control, "publish");
+    delete model.records;
+    let comp = new Component(scope, "comp2");
+    let help = {node: document.createElement("div")};
+    spyOn($utilities, "timeout").and.callFake(fn => {
+      comp.isDisabled = () => true;
+      fn();
+    });
+    comp.init();
+    comp.isDisabled = () => false;
+    comp.initHelpNode(help);
+    $(help.node).trigger("mouseover");
+    $(help.node).trigger("mouseout");
+
+    // Assert
+    expect($utilities.timeout).toHaveBeenCalledTimes(1);
+    expect($control.publish).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call a help node with a component not hover when showing', function () {
+    // Prepare
+    spyOn($control, "publish");
+    delete model.records;
+    let comp = new Component(scope, "comp2");
+    let help = {node: document.createElement("div")};
+    spyOn($utilities, "timeout").and.callFake(fn => {
+      comp.helpOver = false;
+      fn();
+    });
+    comp.init();
+    comp.initHelpNode(help);
+    $(help.node).trigger("mouseover");
+    $(help.node).trigger("mouseout");
+
+    // Assert
+    expect($utilities.timeout).toHaveBeenCalledTimes(1);
+    expect($control.publish).toHaveBeenCalledTimes(1);
   });
 });

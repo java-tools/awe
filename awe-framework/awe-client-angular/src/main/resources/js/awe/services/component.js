@@ -29,7 +29,9 @@ aweApplication.factory('Component',
        * @param {object} component
        */
       function destroy(component) {
-        component.controller.disabled = true;
+        component.helpNode && component.helpNode.off();
+        component.helpOver = false;
+        component.alive = false;
         destroyTimers(component);
         // Clear listeners
         Utilities.clearListeners(component.listeners);
@@ -93,6 +95,7 @@ aweApplication.factory('Component',
          */
         init: function () {
           var component = this;
+          component.alive = true;
           // Check if identifier exists
           if (component.id) {
             // View
@@ -373,27 +376,29 @@ aweApplication.factory('Component',
          */
         initHelpNode: function (help) {
           var component = this;
-          var $helpNode = $(help.node);
+          component.helpOver = false;
+          component.helpNode = $(help.node);
           var isDisabled = function () {
             return component.isDisabled ? component.isDisabled() : false;
           };
           var onEnter = function () {
-            component.scope.cursorHover = true;
-            Utilities.timeout.cancel(component.helpTimer);
-            if (!isDisabled()) {
-              component.helpTimer = Utilities.timeout(function () {
-                if (component.scope.cursorHover && !isDisabled()) {
-                  Control.publish('showHelp', help);
-                }
-              }, $settings.get("helpTimeout"));
+            if (component.alive && !isDisabled()) {
+              component.helpOver = true;
+              Utilities.timeout.cancel(component.helpTimer);
+              component.helpTimer = Utilities.timeout(showHelp, $settings.get("helpTimeout"));
+            }
+          };
+          let showHelp = function () {
+            if (component.helpOver && !isDisabled()) {
+              Control.publish('showHelp', help);
             }
           };
           var onLeave = function () {
-            component.scope.cursorHover = false;
+            component.helpOver = false;
             Utilities.timeout.cancel(component.helpTimer);
             Control.publish('hideHelp');
           };
-          $helpNode.on({mouseenter: onEnter, mousedown: onLeave, mouseleave: onLeave});
+          component.helpNode.on({mouseenter: onEnter, mousedown: onLeave, mouseleave: onLeave});
         },
         /**
          * Checks autoload
