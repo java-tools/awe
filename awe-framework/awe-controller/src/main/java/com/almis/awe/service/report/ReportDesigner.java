@@ -566,7 +566,10 @@ public class ReportDesigner extends ServiceConfig {
    */
   private ColumnType addRowData(CellData cell, List<Object> rowData) {
     ColumnType type;
-    if (cell != null) {
+    if (cell != null && cell.isSendStringValue()) {
+      rowData.add(cell.getStringValue());
+      type = ColumnType.STRING;
+    } else if (cell != null) {
       switch (cell.getType()) {
         case OBJECT:
         case JSON:
