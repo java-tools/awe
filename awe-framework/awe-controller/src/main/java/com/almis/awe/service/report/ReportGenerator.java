@@ -23,9 +23,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Generate the component controllers of the screen
@@ -44,6 +48,9 @@ public class ReportGenerator extends ServiceConfig {
 
   @Value("${application.paths.reports:@reports/}")
   private String reportsPath;
+
+  @Value("${application.paths.reports.historic:@historicReports/}")
+  private String historicReportsPath;
 
   /**
    * Autowired constructor
@@ -148,10 +155,10 @@ public class ReportGenerator extends ServiceConfig {
    * Generate report format (Async)
    *
    * @param builderService template export builder
-   * @param format format
-   * @param fileName file name
-   * @param basePath base path
-   * @return  future with generate report action
+   * @param format         format
+   * @param fileName       file name
+   * @param basePath       base path
+   * @return future with generate report action
    * @throws AWException AWE exception
    */
   public ClientAction generateReportFormat(TemplateExporterBuilderService builderService, String format, String fileName, String basePath) throws AWException {
@@ -206,7 +213,9 @@ public class ReportGenerator extends ServiceConfig {
     }
 
     // Generate file data
-    FileData fileData = new FileData(fullFileName, new File(basePath + fullFileName).length(), mimeType);
+    File reportFile = new File(basePath + fullFileName);
+    FileData fileData = new FileData(fullFileName, reportFile.length(), mimeType);
+    storeHistoricReport(reportFile);
     fileData.setBasePath(basePath);
 
     // Log report
@@ -216,5 +225,40 @@ public class ReportGenerator extends ServiceConfig {
     return new ClientAction("get-file")
       .addParameter("filename", FileUtil.fileDataToString(fileData));
 
+  }
+
+  /**
+   * Store historic report in historic report path
+   *
+   * @param reportFile Report to store
+   */
+  private void storeHistoricReport(File reportFile) {
+    // Retrieve file date and database
+    Date reportDate = new Date(reportFile.lastModified());
+    String database = getSessionDatabase();
+    String reportDateFormatted = DateUtil.dat2SqlDateString(reportDate);
+
+    // Generate historic directory
+    File historicPath = Paths.get(StringUtil.getAbsolutePath(historicReportsPath, applicationBasePath), reportDateFormatted, Optional.ofNullable(database).orElse("")).toFile();
+    try {
+      Files.createDirectories(historicPath.toPath());
+      Files.copy(reportFile.toPath(), Paths.get(historicPath.getAbsolutePath(), reportFile.getName()));
+    } catch (IOException exc) {
+      // Log report
+      getLogger().log(ReportGenerator.class, Level.ERROR, "Historic report file ({0}) NOT generated on {1}", reportFile.getAbsolutePath(), historicPath.getAbsolutePath(), exc);
+    }
+  }
+
+  /**
+   * Retrieve session database (safely)
+   *
+   * @return Session database
+   */
+  private String getSessionDatabase() {
+    try {
+      return getSession().getParameter(String.class, AweConstants.SESSION_DATABASE);
+    } catch (Exception exc) {
+      return "";
+    }
   }
 }

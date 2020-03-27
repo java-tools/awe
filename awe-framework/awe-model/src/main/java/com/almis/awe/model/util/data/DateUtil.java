@@ -263,6 +263,17 @@ public final class DateUtil {
   }
 
   /**
+   * Transforms a date into a SQL Date
+   *
+   * @param date Date
+   * @return SQL Date
+   */
+  public static String dat2SqlDateString(java.util.Date date) {
+    /* Return sql Date */
+    return DATE_FORMAT_SQL.format(date);
+  }
+
+  /**
    * Transforms a sql timestamp into a java Date
    *
    * @param timestamp Date
