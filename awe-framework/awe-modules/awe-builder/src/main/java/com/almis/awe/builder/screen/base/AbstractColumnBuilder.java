@@ -164,7 +164,7 @@ public abstract class AbstractColumnBuilder<T extends AbstractColumnBuilder, I e
    * @param width Column width
    * @return This
    */
-  public T setWidth(Integer width) {
+  public T setWidth(String width) {
     getColumnAttributes().setWidth(width);
     return (T) this;
   }

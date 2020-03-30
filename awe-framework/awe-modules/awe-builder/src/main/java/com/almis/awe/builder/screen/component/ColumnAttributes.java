@@ -25,7 +25,7 @@ public class ColumnAttributes<B extends AbstractColumnBuilder> extends AbstractA
   private boolean sendable;
   private boolean sortable;
   private Integer charLength;
-  private Integer width;
+  private String width;
 
   public ColumnAttributes(B builder) {
     super(builder);
