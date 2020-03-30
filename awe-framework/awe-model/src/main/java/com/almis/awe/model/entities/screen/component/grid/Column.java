@@ -57,7 +57,7 @@ public class Column extends AbstractCriteria {
   // Column WIDTH in pixels
   @XStreamAlias("width")
   @XStreamAsAttribute
-  private Integer width;
+  private String width;
 
   // Column WIDTH in characters
   @JsonProperty("charlength")

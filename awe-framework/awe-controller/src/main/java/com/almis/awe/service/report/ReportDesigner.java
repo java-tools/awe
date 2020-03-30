@@ -416,7 +416,7 @@ public class ReportDesigner extends ServiceConfig {
     if (column.getCharLength() != null) {
       columnWidth = column.getCharLength() * pixelsPerCharacter;
     } else if (column.getWidth() != null) {
-      columnWidth = column.getWidth();
+      columnWidth = column.getWidth().equalsIgnoreCase("*") ? 300 : Integer.parseInt(column.getWidth());
     }
     return columnWidth;
   }
