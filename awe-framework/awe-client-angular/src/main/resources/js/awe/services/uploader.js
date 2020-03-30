@@ -65,7 +65,7 @@ aweApplication.factory('Uploader',
            * Validate the file
            */
           component.scope.validate = function(file) {
-            if (file.size > $settings.get("uploadMaxSize")) {
+            if (file.size > ($settings.get("uploadMaxSize") * 1024 * 1024)) {
               // Send error message
               $actionController.sendMessage(component.scope, 'error', 'ERROR_TITLE_FILE_UPLOAD', $translate.instant('ERROR_MESSAGE_SIZE_LIMIT', { elementSize: $utilities.getSizeString(file.size), maxSize: $utilities.getSizeString($settings.get("uploadMaxSize"))}));
 
