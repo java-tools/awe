@@ -8,10 +8,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
-import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.config.Configuration;
-import org.apache.logging.log4j.core.config.LoggerConfig;
-import org.apache.logging.log4j.core.config.xml.XmlConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -19,7 +15,6 @@ import org.springframework.context.ApplicationContext;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
-import java.util.Map;
 
 /**
  * LogUtil Class
@@ -30,9 +25,6 @@ import java.util.Map;
 public class LogUtil {
 
   // Log management
-  private LoggerContext loggerContext;
-  private Configuration logConfiguration;
-  private Logger loggerUtil;
   private ApplicationContext context;
 
   @Value("${application.log.users.level:info}")
@@ -179,61 +171,6 @@ public class LogUtil {
   }
 
   /**
-   * Change level to logger
-   *
-   * @param logName  Log name
-   * @param logLevel Log level
-   */
-  public void changeLogLevel(String logName, String logLevel) {
-    String level = logLevel;
-    LoggerConfig loggerConfig;
-    try {
-      if (logName != null && !logName.isEmpty()) {
-        loggerConfig = ((XmlConfiguration) logConfiguration).getLogger(logName);
-      } else {
-        // Change root logger
-        loggerConfig = logConfiguration.getRootLogger();
-      }
-
-      // Set level
-      level = setLoggerConfig(logLevel, loggerConfig);
-
-      // Update loggers
-      loggerContext.updateLoggers();
-
-    } catch (Exception exc) {
-      loggerUtil.log(Level.ERROR, "Error changing log level in Logger {0} to {1} level", new Object[]{logName, level}, exc);
-    }
-  }
-
-  /**
-   * Set logger config
-   *
-   * @param level        Level to put
-   * @param loggerConfig Logger configuration
-   * @return Final level
-   */
-  private String setLoggerConfig(String level, LoggerConfig loggerConfig) {
-    String finalLevel = level;
-    switch (level) {
-      case "ERROR":
-      case "WARN":
-      case "DEBUG":
-      case "TRACE":
-      case "FATAL":
-      case "INFO":
-        loggerConfig.setLevel(Level.toLevel(level));
-        break;
-      default:
-        // Default level
-        finalLevel = defaultLogLevel;
-        loggerConfig.setLevel(Level.toLevel(finalLevel));
-        break;
-    }
-    return finalLevel;
-  }
-
-  /**
    * Generate message
    *
    * @param message Message string
@@ -340,25 +277,6 @@ public class LogUtil {
     // Return rootLogger if userLogger and classLogger not exist
     return (loggerInstance == null) ? LogManager.getRootLogger() : loggerInstance;
   }
-
-  /**
-   * Check if logger exists
-   *
-   * @param logName logger name
-   * @return true if logger exist else false
-   */
-  public boolean loggerExists(String logName) {
-    Map<String, LoggerConfig> mapLoggers = logConfiguration.getLoggers();
-    // List loggers
-    for (Map.Entry<String, LoggerConfig> entry : mapLoggers.entrySet()) {
-      String loggerName = entry.getKey();
-      if (loggerUtil.isDebugEnabled()) {
-        loggerUtil.log(Level.DEBUG, loggerName);
-      }
-    }
-    return mapLoggers.containsKey(logName);
-  }
-
 
   /**
    * Generate a time lapse

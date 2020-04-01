@@ -313,7 +313,7 @@
       <tabcontainer id="TreMat">
         <window style="expand" expandible="vertical">
           <grid id="TreGrd" treegrid="true" expand-column="TreGrd_Nam" tree-id="TreGrd_id" tree-parent="TreGrd_parent" style="expand" server-action="data" load-all="true" target-action="ProModTrePro"
-            initial-load="query" initial-level="3">
+            initial-level="3" autoload="true">
             <column label="PARAMETER_NAME" name="TreGrd_Nam" sort-field="TreGrd_Nam" align="left" sortable="false" charlength="40" />
             <column label="PARAMETER_LEVEL" name="TreGrd_lev" style="highlight" sort-field="TreGrd_lev" align="right" sortable="false" charlength="20" formatter="number" summary-type="sum">
               <dependency target-type="hide-column" initial="true">

@@ -5,8 +5,7 @@ import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.tracker.AweConnectionTracker;
 import com.almis.awe.model.type.AnswerType;
-import com.almis.awe.model.util.log.LogUtil;
-import org.apache.logging.log4j.Level;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -21,26 +20,23 @@ import java.util.Set;
  *
  * @author Pablo GARCIA
  */
+@Log4j2
 public class BroadcastService extends ServiceConfig {
 
   // Autowired services
   private SimpMessagingTemplate brokerMessagingTemplate;
   private AweConnectionTracker connectionTracker;
-  private LogUtil logger;
 
   /**
    * Autowired constructor
    *
    * @param brokerMessagingTemplate Broker messaging template
    * @param connectionTracker       Connection tracker
-   * @param logger                  Logger
    */
   @Autowired
-  public BroadcastService(SimpMessagingTemplate brokerMessagingTemplate, AweConnectionTracker connectionTracker,
-                          LogUtil logger) {
+  public BroadcastService(SimpMessagingTemplate brokerMessagingTemplate, AweConnectionTracker connectionTracker) {
     this.brokerMessagingTemplate = brokerMessagingTemplate;
     this.connectionTracker = connectionTracker;
-    this.logger = logger;
   }
 
   /**
@@ -49,8 +45,21 @@ public class BroadcastService extends ServiceConfig {
    * @param actionList Action list to broadcast
    */
   public void broadcastMessage(ClientAction... actionList) {
-    logger.log(BroadcastService.class, Level.DEBUG, "Broadcasting message to all connected customers: {0} actions", actionList.length);
+    log.debug("Broadcasting message to all connected customers: {} actions", actionList.length);
     brokerMessagingTemplate.convertAndSend("/topic/broadcast", actionList);
+  }
+
+  /**
+   * Broadcast an action list
+   *
+   * @param screen     Screen to broadcast messages to
+   * @param actionList Action list to broadcast
+   */
+  public void broadcastMessageToScreen(String screen, ClientAction... actionList) {
+    log.debug("Broadcasting message to screen {}: {} actions", screen, actionList.length);
+    connectionTracker
+      .getScreenConnections(screen)
+      .forEach(connection -> broadcastMessageToUID(connection, actionList));
   }
 
   /**
@@ -118,7 +127,7 @@ public class BroadcastService extends ServiceConfig {
    * @param actionList Action list to broadcast
    */
   public void broadcastMessageToUID(String cometUID, ClientAction... actionList) {
-    logger.log(BroadcastService.class, Level.DEBUG, "Broadcasting message to {0}: {1} actions", "/topic/" + cometUID, actionList.length);
+    log.debug("Broadcasting message to /topic/{}: {} actions", cometUID, actionList.length);
     brokerMessagingTemplate.convertAndSend("/topic/" + cometUID, actionList);
   }
 

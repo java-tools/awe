@@ -5,6 +5,7 @@ import com.almis.awe.model.event.ScreenChangeEvent;
 import org.springframework.context.event.EventListener;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,6 +46,23 @@ public class AweConnectionTracker {
       return connectedUsers.get(user).keySet();
     }
     return Collections.emptySet();
+  }
+
+  /**
+   * Retrieve connections which are in a concrete screen
+   *
+   * @param screen Screen
+   * @return Connection set
+   */
+  public Set<String> getScreenConnections(String screen) {
+    Set<String> connections = new HashSet<>();
+    connectedUsers
+      .entrySet()
+      .forEach(e1 -> connections.addAll(e1.getValue().entrySet().stream()
+        .filter(e2 -> screen.equalsIgnoreCase(e2.getValue().getScreen()))
+        .map(Entry::getKey)
+        .collect(Collectors.toSet())));
+    return connections;
   }
 
   /**

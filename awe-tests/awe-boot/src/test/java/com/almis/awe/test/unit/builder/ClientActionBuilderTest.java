@@ -79,6 +79,14 @@ public class ClientActionBuilderTest {
     // Assertions
     assertEquals("screen", action.getType());
     assertEquals("testScreen", action.getTarget());
+
+    action = new ScreenActionBuilder("testScreen", Boolean.TRUE).build();
+
+    // Assertions
+    assertEquals("screen", action.getType());
+    assertEquals("testScreen", action.getTarget());
+    assertTrue((Boolean) action.getParameters().get("reload"));
+
     checkSimpleClientActionBuilder("screen", new ScreenActionBuilder());
   }
 
@@ -95,6 +103,20 @@ public class ClientActionBuilderTest {
     checkSimpleClientActionBuilder("redirect", new RedirectActionBuilder());
   }
 
+
+  /**
+   * Build a redirect screen action with ClientActionBuilder
+   */
+  @Test
+  public void testRedirectScreenClientAction(){
+    ClientAction action = new RedirectScreenActionBuilder("currentScreen", "http://alla.que.voy").build();
+
+    // Assertions
+    assertEquals("redirect-screen", action.getType());
+    assertEquals("http://alla.que.voy", action.getTarget());
+    assertEquals("currentScreen", action.getParameters().get("screen"));
+    checkSimpleClientActionBuilder("redirect-screen", new RedirectScreenActionBuilder());
+  }
 
   /**
    * Build a download action with ClientActionBuilder

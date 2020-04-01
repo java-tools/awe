@@ -685,7 +685,6 @@ public class AweElements {
    * @param localeIdentifier Local identifier
    * @return Selected locale
    */
-  @Cacheable(value = "locale", key = "{ #p0 }")
   public String getLocale(String localeIdentifier) {
     return getLocaleWithLanguage(localeIdentifier, getLanguage());
   }
@@ -696,7 +695,6 @@ public class AweElements {
    * @param localeIdentifier Local identifier
    * @return Selected locale
    */
-  @Cacheable(value = "locale", key = "{ #p0, #p1.toString() }")
   public String getLocale(String localeIdentifier, Object... tokenList) {
     return getLocaleWithLanguage(localeIdentifier, getLanguage(), tokenList);
   }
@@ -710,7 +708,7 @@ public class AweElements {
   @Cacheable(value = "locale", key = "{ #p0, #p1 }")
   public String getLocaleWithLanguage(String localeIdentifier, String language) {
     String locale = localeIdentifier;
-    Map<String, String> locales = localeList.get(language);
+    Map<String, String> locales = localeList.get(language.toLowerCase());
 
     // Check if locale exists, and retrieve it
     if (localeIdentifier != null && locales.containsKey(localeIdentifier)) {

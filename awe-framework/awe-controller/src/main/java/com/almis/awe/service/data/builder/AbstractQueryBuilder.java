@@ -57,7 +57,7 @@ public abstract class AbstractQueryBuilder extends ServiceConfig implements Quer
   public Map<String, QueryParameter> getVariables() throws AWException {
     // Throws exception if query is not defined
     if (getQuery() == null) {
-      throw new NullPointerException(getElements().getLocale("ERROR_TITLE_NOT_DEFINED", "query"));
+      throw new NullPointerException(getLocale("ERROR_TITLE_NOT_DEFINED", "query"));
     }
 
     // Generate variables

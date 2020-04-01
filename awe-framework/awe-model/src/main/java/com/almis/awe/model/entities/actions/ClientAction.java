@@ -73,6 +73,10 @@ public class ClientAction implements Copyable {
   @XStreamAlias("address")
   private ComponentAddress address;
 
+  // Client action context
+  @XStreamOmitField
+  private String context;
+
   /**
    * Client action constructor with type argument. Generates a client action
    *

@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-starter-parent</artifactId>
-    <version>4.2.1</version>
+    <version>4.2.2</version>
     <relativePath>../../awe-framework/awe-starters/awe-starter-parent</relativePath>
   </parent>
 
@@ -95,6 +95,10 @@
     </dependency>
     <dependency>
       <groupId>com.almis.awe</groupId>
+      <artifactId>awe-notifier</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.almis.awe</groupId>
       <artifactId>awe-scheduler</artifactId>
     </dependency>
 
@@ -121,6 +125,11 @@
     <dependency>
       <groupId>com.almis.awe</groupId>
       <artifactId>awe-developer-spring-boot-starter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.almis.awe</groupId>
+      <artifactId>awe-notifier-spring-boot-starter</artifactId>
     </dependency>
 
     <dependency>
@@ -378,9 +387,9 @@
         </dependency>
       </dependencies>
     </profile>
-    <!-- CI profile -->
+    <!-- SQLServer profile -->
     <profile>
-      <id>gitlab-ci</id>
+      <id>sqlserver</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
@@ -391,12 +400,30 @@
           <version>7.2.2.jre8</version>
           <scope>test</scope>
         </dependency>
+      </dependencies>
+    </profile>
+    <!-- MySQL profile -->
+    <profile>
+      <id>mysql</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <dependencies>
         <dependency>
           <groupId>mysql</groupId>
           <artifactId>mysql-connector-java</artifactId>
           <version>8.0.16</version>
           <scope>test</scope>
         </dependency>
+      </dependencies>
+    </profile>
+    <!-- Oracle profile -->
+    <profile>
+      <id>oracle</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <dependencies>
         <dependency>
           <groupId>com.oracle.jdbc</groupId>
           <artifactId>ojdbc8</artifactId>

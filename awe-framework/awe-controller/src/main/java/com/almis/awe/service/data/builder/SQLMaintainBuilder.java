@@ -156,20 +156,20 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
     // Throws exception if query is not defined
     if (getQuery() == null) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_NOT_DEFINED, "query"));
+      throw new AWException(getLocale(ERROR_TITLE_NOT_DEFINED, "query"));
     }
 
     // Throws exceptions if factory is not defined
     if (getFactory() == null) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_NOT_DEFINED, "factory"));
+      throw new AWException(getLocale(ERROR_TITLE_NOT_DEFINED, "factory"));
     }
 
     if (operation == null) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_NOT_DEFINED, "operation"));
+      throw new AWException(getLocale(ERROR_TITLE_NOT_DEFINED, "operation"));
     }
 
     if (operation == MaintainBuildOperation.BATCH_INCREASING_ELEMENTS && previousQuery == null) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_NOT_DEFINED, "previousQuery"));
+      throw new AWException(getLocale(ERROR_TITLE_NOT_DEFINED, "previousQuery"));
     }
   }
 
@@ -293,7 +293,7 @@ public class SQLMaintainBuilder extends SQLBuilder {
    */
   private RelationalPath<?> getTable() throws AWException {
     if (getQuery().getTableList().isEmpty()) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN), getElements().getLocale("ERROR_MESSAGE_NOT_DEFINED_IN", "table", this.getQuery().getId()));
+      throw new AWException(getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN), getLocale("ERROR_MESSAGE_NOT_DEFINED_IN", "table", this.getQuery().getId()));
     }
     return getTable(getQuery().getTableList().get(0), false);
   }
@@ -310,8 +310,8 @@ public class SQLMaintainBuilder extends SQLBuilder {
     SQLQuery<Long> getKey = getFactory().select(Expressions.numberPath(Long.class, "KeyVal")).from(buildPath("AweKey")).where(Expressions.stringPath("KeyNam").eq(sequence));
     List<Long> idsStored = getKey.fetch();
     if (idsStored.size() != 1) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN),
-        getElements().getLocale("ERROR_MESSAGE_SEQUENCE_NOT_DEFINED", sequence));
+      throw new AWException(getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN),
+        getLocale("ERROR_MESSAGE_SEQUENCE_NOT_DEFINED", sequence));
     }
     Long id = idsStored.get(0);
 
@@ -322,8 +322,8 @@ public class SQLMaintainBuilder extends SQLBuilder {
       .where(Expressions.stringPath("KeyNam").eq(sequence));
     Long rowsAffected = updateKey.execute();
     if (rowsAffected != 1) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN),
-        getElements().getLocale("ERROR_MESSAGE_SEQUENCE_NOT_UPDATED", sequence));
+      throw new AWException(getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN),
+        getLocale("ERROR_MESSAGE_SEQUENCE_NOT_UPDATED", sequence));
     }
 
     return String.valueOf(id + 1);
@@ -393,8 +393,8 @@ public class SQLMaintainBuilder extends SQLBuilder {
 
     // Check if there are field list
     if (getQuery().getFieldList() == null) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_NO_AUDIT_FIELDS"),
-        getElements().getLocale("ERROR_MESSAGE_NO_AUDIT_FIELDS", getQuery().getId()));
+      throw new AWException(getLocale("ERROR_TITLE_NO_AUDIT_FIELDS"),
+        getLocale("ERROR_MESSAGE_NO_AUDIT_FIELDS", getQuery().getId()));
     }
 
     paths.add(buildPath(auditUserField));

@@ -109,8 +109,8 @@
               <dependency-element id="GrdEdi" column="Dat" attribute="selectedRowValue" alias="Date" />
             </dependency>
           </column>
-          <column label="PARAMETER_TEXTAREA" name="Tar" sort-field="Tar" align="left" component="textarea" charlength="40" />
-          <column label="PARAMETER_UPLOADER" name="Upl" sort-field="Upl" align="left" component="uploader" charlength="30" />
+          <column label="PARAMETER_TEXTAREA" name="Tar" sort-field="Tar" align="left" component="textarea" width="*" />
+          <column label="PARAMETER_UPLOADER" name="Upl" sort-field="Upl" align="left" component="uploader" width="*" />
           <column label="" name="Ico" sort-field="Ico" align="center" component="icon" charlength="6" />
         </group-header>
         <column label="PARAMETER_CHECKBOX" name="ChkBox" sort-field="ChkBox" align="center" component="checkbox" charlength="12" />

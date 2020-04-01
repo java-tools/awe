@@ -497,15 +497,16 @@
       //
 
       .widget-notifications {
-        a:hover {
-          color: #fff !important;
-        }
-
         .notification,
         .notifications-link {
           border-color: lighten(@menu-color, 4%);
+          color: @menu-active-color;
           margin: 0 -2px;
-          .border-bottom-radius(@border-radius-base);
+        }
+
+        .notifications-link:hover {
+          background-color: darken(@menu-color, 4%);
+          color: #fff;
         }
 
         .notification-description {

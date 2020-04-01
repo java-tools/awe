@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/maintain.xsd">
+  <!--
+  SCHEDULER SERVER
+  -->
+  <!-- Insert new subscription -->
+  <target name="new-subscription">
+    <insert audit="HISAweSub">
+      <table id="AweSub"/>
+      <field id="Ide" sequence="Sub"/>
+      <field id="Acr" variable="acronym"/>
+      <field id="Nom" variable="name"/>
+      <field id="Des" variable="description"/>
+      <field id="Act" variable="active"/>
+      <variable id="acronym" type="STRING" name="acronym"/>
+      <variable id="name" type="STRING" name="name"/>
+      <variable id="description" type="STRING" name="description"/>
+      <variable id="active" type="INTEGER" name="active"/>
+    </insert>
+  </target>
+
+  <!--Delete subscriptions-->
+  <target name="delete-subscriptions">
+    <delete audit="HISAweSub" multiple="audit">
+      <table id="AweSub"/>
+      <field id="Ide" variable="id" audit="true"/>
+      <field id="Acr" variable="acronym" audit="true"/>
+      <field id="Nom" variable="name" audit="true"/>
+      <field id="Des" variable="description" audit="true"/>
+      <field id="Act" variable="active" audit="true"/>
+      <where>
+        <and>
+          <filter left-field="Ide" condition="in" right-variable="id"/>
+        </and>
+      </where>
+      <variable id="id" type="INTEGER" name="id"/>
+      <variable id="acronym" type="STRING" name="subscription-acronym"/>
+      <variable id="name" type="STRING" name="subscription-name"/>
+      <variable id="description" type="STRING" name="subscription-description"/>
+      <variable id="active" type="INTEGER" name="subscription-active"/>
+    </delete>
+  </target>
+
+  <!--Update subscriptions-->
+  <target name="update-subscription">
+    <update audit="HISAweSub">
+      <table id="AweSub"/>
+      <field id="Ide" variable="id" audit="true"/>
+      <field id="Acr" variable="acronym"/>
+      <field id="Nom" variable="name"/>
+      <field id="Des" variable="description"/>
+      <field id="Act" variable="active"/>
+      <where>
+        <and>
+          <filter left-field="Ide" condition="eq" right-variable="id"/>
+        </and>
+      </where>
+      <variable id="id" type="STRING" name="id"/>
+      <variable id="acronym" type="STRING" name="acronym"/>
+      <variable id="name" type="STRING" name="name"/>
+      <variable id="description" type="STRING" name="description"/>
+      <variable id="active" type="INTEGER" name="active"/>
+    </update>
+  </target>
+
+  <!-- Insert new notification -->
+  <target name="new-notification">
+    <insert>
+      <table id="AweNot"/>
+      <field id="Ide" sequence="Not"/>
+      <field id="IdeSub" query="subscription-acronym"/>
+      <field id="Nom" variable="name"/>
+      <field id="Des" variable="description"/>
+      <field id="Typ" variable="type"/>
+      <field id="Ico" variable="icon"/>
+      <field id="Scr" variable="screen"/>
+      <field id="Cod" variable="code"/>
+      <field id="Dat" variable="date"/>
+      <variable id="subscription" type="STRING" name="subscription"/>
+      <variable id="name" type="STRING" name="title"/>
+      <variable id="description" type="STRING" name="description"/>
+      <variable id="icon" type="STRING" name="icon"/>
+      <variable id="screen" type="STRING" name="screen"/>
+      <variable id="type" type="STRING" name="type"/>
+      <variable id="code" type="STRING" name="code"/>
+      <variable id="date" type="SYSTEM_DATE"/>
+    </insert>
+  </target>
+
+  <!-- Read a notification -->
+  <target name="read-notification">
+    <delete audit="HISAweNotUsr">
+      <table id="AweNotUsr"/>
+      <field id="IdeNot" variable="notification"/>
+      <field id="IdeOpe" query="user-acronym"/>
+      <where>
+        <and>
+          <filter left-field="IdeOpe" condition="in" query="user-acronym"/>
+          <filter left-field="IdeNot" condition="eq" right-variable="notification"/>
+        </and>
+      </where>
+      <variable id="user" type="STRING" session="user"/>
+      <variable id="notification" type="INTEGER" name="buttonValue"/>
+    </delete>
+    <insert audit="HISAweNotUsr">
+      <table id="AweNotUsr"/>
+      <field id="Ide" sequence="NotUsr"/>
+      <field id="IdeNot" variable="notification"/>
+      <field id="IdeOpe" query="user-acronym"/>
+      <field id="Unr" variable="unread"/>
+      <variable id="user" type="STRING" session="user"/>
+      <variable id="notification" type="INTEGER" name="buttonValue"/>
+      <variable id="unread" type="INTEGER" value="0"/>
+    </insert>
+    <serve service="go-to-notification-screen">
+      <variable id="notification" type="INTEGER" name="buttonValue"/>
+    </serve>
+  </target>
+
+  <!-- Mark multiple notifications as read/unread -->
+  <target name="toggle-notifications">
+    <delete audit="HISAweNotUsr" multiple="audit">
+      <table id="AweNotUsr"/>
+      <field id="IdeNot" variable="notification"/>
+      <field id="IdeOpe" query="user-acronym"/>
+      <where>
+        <and>
+          <filter left-field="IdeOpe" condition="in" query="user-acronym"/>
+          <filter left-field="IdeNot" condition="in" right-variable="notification"/>
+        </and>
+      </where>
+      <variable id="user" type="STRING" session="user"/>
+      <variable id="notification" type="INTEGER" name="id"/>
+    </delete>
+    <insert audit="HISAweNotUsr" multiple="true">
+      <table id="AweNotUsr"/>
+      <field id="Ide" sequence="NotUsr"/>
+      <field id="IdeNot" variable="notification"/>
+      <field id="IdeOpe" query="user-acronym"/>
+      <field id="Unr" variable="unread"/>
+      <variable id="user" type="STRING" session="user"/>
+      <variable id="notification" type="INTEGER" name="id"/>
+      <variable id="unread" type="INTEGER" name="buttonValue"/>
+    </insert>
+  </target>
+
+  <target name="toggle-web-subscription">
+    <serve service="toggle-web-subscription">
+      <variable id="subscription" type="INTEGER" name="buttonValue"/>
+      <variable id="user" type="STRING" session="user"/>
+    </serve>
+  </target>
+
+  <target name="toggle-email-subscription">
+    <serve service="toggle-email-subscription">
+      <variable id="subscription" type="INTEGER" name="buttonValue"/>
+      <variable id="user" type="STRING" session="user"/>
+    </serve>
+  </target>
+
+  <target name="insert-user-subscription">
+    <insert audit="HISAweSubUsr">
+      <table id="AweSubUsr"/>
+      <field id="Ide" sequence="SubUsr"/>
+      <field id="IdeSub" variable="subscription"/>
+      <field id="IdeOpe" query="user-acronym"/>
+      <field id="SubNot" variable="web"/>
+      <field id="SubEma" variable="email"/>
+      <variable id="user" type="STRING" name="user"/>
+      <variable id="subscription" type="INTEGER" name="subscription"/>
+      <variable id="web" type="INTEGER" name="web"/>
+      <variable id="email" type="INTEGER" name="email"/>
+    </insert>
+  </target>
+
+  <target name="update-user-subscription">
+    <update audit="HISAweSubUsr">
+      <table id="AweSubUsr"/>
+      <field id="SubNot" variable="web"/>
+      <field id="SubEma" variable="email"/>
+      <where>
+        <and>
+          <filter left-field="IdeOpe" condition="eq" right-variable="user"/>
+          <filter left-field="IdeSub" condition="eq" right-variable="subscription"/>
+        </and>
+      </where>
+      <variable id="user" type="INTEGER" name="user"/>
+      <variable id="subscription" type="INTEGER" name="subscription"/>
+      <variable id="web" type="INTEGER" name="web"/>
+      <variable id="email" type="INTEGER" name="email"/>
+    </update>
+  </target>
+
+  <target name="notify-email-users">
+    <send-email id="notify-users"/>
+  </target>
+
+</maintain>

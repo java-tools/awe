@@ -3,14 +3,13 @@ package com.almis.awe.model.util.data;
 /*
  * File Imports
  */
+
+import com.almis.awe.model.component.AweElements;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.core.util.datetime.FastDateFormat;
 
 import java.text.ParseException;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * DateUtil Class
@@ -24,7 +23,8 @@ public final class DateUtil {
   /**
    * Private constructor to enclose the default one
    */
-  private DateUtil() {}
+  private DateUtil() {
+  }
 
   /* Util name */
   private static final String UTILITY_NAME = "DATE UTILITY";
@@ -260,6 +260,17 @@ public final class DateUtil {
   public static java.sql.Date dat2SqlDate(java.util.Date date) {
     /* Return sql Date */
     return java.sql.Date.valueOf(DATE_FORMAT_SQL.format(date));
+  }
+
+  /**
+   * Transforms a date into a SQL Date
+   *
+   * @param date Date
+   * @return SQL Date
+   */
+  public static String dat2SqlDateString(java.util.Date date) {
+    /* Return sql Date */
+    return DATE_FORMAT_SQL.format(date);
   }
 
   /**
@@ -847,7 +858,7 @@ public final class DateUtil {
       outDat = DATE_FORMAT_JS.format(wbsDat);
     } catch (Exception exc) {
       outDat = date;
-      log.error("[{}] Error parsing WBS date to JS date -{}-", UTILITY_NAME, date , exc);
+      log.error("[{}] Error parsing WBS date to JS date -{}-", UTILITY_NAME, date, exc);
     }
 
     /* Return web date string */
@@ -983,7 +994,7 @@ public final class DateUtil {
    * @param date Date criteria [dd/MM/yyyy]
    * @param time Time criteria [HH:mm:ss]
    * @return Object date from criterions or null value if any criterion are null
-   *         with format [dd/MM/yyyy HH:mm:ss]
+   * with format [dd/MM/yyyy HH:mm:ss]
    */
   public static Date getDateWithTimeFromCriteria(String date, String time) {
     Date fullDate = null;
@@ -1001,7 +1012,7 @@ public final class DateUtil {
    * @param date Date criteria [dd/MM/yyyy]
    * @param time Time criteria [HH:mm:ss]
    * @return Object date from criteria or null value if any criterion is null
-   *         with format [dd/MM/yyyy HH:mm:ss]
+   * with format [dd/MM/yyyy HH:mm:ss]
    */
   public static Date addTimeToDate(Date date, String time) {
     Date fullDate = date;
@@ -1018,9 +1029,9 @@ public final class DateUtil {
   /**
    * TransformColumn a date from a format to another date format
    *
-   * @param dateIn Input date
+   * @param dateIn     Input date
    * @param formatFrom Initial date format
-   * @param formatTo Final date format
+   * @param formatTo   Final date format
    * @return Date formatted
    */
   public static String generic2Date(String dateIn, String formatFrom, String formatTo) {
@@ -1101,6 +1112,57 @@ public final class DateUtil {
 
     /* Return rdb date string in UPPERCASE */
     return outDat.toUpperCase();
+  }
+
+  /**
+   * Retrieve how much time has elapsed from milliseconds
+   *
+   * @param milliseconds Difference in milliseconds
+   * @param elements     AWE Elements
+   * @return Date since
+   */
+  public static String elapsedTime(Long milliseconds, AweElements elements) {
+    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    calendar.setTimeInMillis(milliseconds);
+    int mYear = calendar.get(Calendar.YEAR) - 1970;
+    int mMonth = calendar.get(Calendar.MONTH);
+    int mDay = calendar.get(Calendar.DAY_OF_MONTH) - 1;
+    int mHour = calendar.get(Calendar.HOUR);
+
+    if (mYear > 1) {
+      return elements.getLocaleWithLanguage("YEARS", elements.getLanguage(), mYear);
+    } else if (mYear > 0) {
+      return elements.getLocaleWithLanguage("YEAR", elements.getLanguage(), 1);
+    } else if (mMonth > 1) {
+      return elements.getLocaleWithLanguage("MONTHS", elements.getLanguage(), mMonth);
+    } else if (mMonth > 0) {
+      return elements.getLocaleWithLanguage("MONTH", elements.getLanguage(), 1);
+    } else if (mDay > 14) {
+      return elements.getLocaleWithLanguage("WEEKS", elements.getLanguage(), Math.floorDiv(mDay, 7));
+    } else if (mDay > 7) {
+      return elements.getLocaleWithLanguage("WEEK", elements.getLanguage(), 1);
+    } else if (mDay > 0) {
+      return elements.getLocaleWithLanguage("DAYS", elements.getLanguage(), mDay);
+    } else if (mHour > 0) {
+      return elements.getLocaleWithLanguage("HOURS", elements.getLanguage(), mHour);
+    } else if (calendar.get(Calendar.MINUTE) > 0) {
+      return elements.getLocaleWithLanguage("MINUTES", elements.getLanguage(), calendar.get(Calendar.MINUTE));
+    } else if (calendar.get(Calendar.SECOND) > 0) {
+      return elements.getLocaleWithLanguage("SECONDS", elements.getLanguage(), calendar.get(Calendar.SECOND));
+    } else {
+      return elements.getLocaleWithLanguage("MILLISECONDS", elements.getLanguage(), milliseconds);
+    }
+  }
+
+  /**
+   * Retrieve how much time has elapsed since a date
+   *
+   * @param date     Date to check
+   * @param elements AWE Elements
+   * @return Date since
+   */
+  public static String dateSince(java.util.Date date, AweElements elements) {
+    return elements.getLocaleWithLanguage("TIME_AGO", elements.getLanguage(), elapsedTime(new Date().getTime() - date.getTime(), elements));
   }
 
   /**

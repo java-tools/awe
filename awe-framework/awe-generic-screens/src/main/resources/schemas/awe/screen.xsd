@@ -575,7 +575,7 @@
     <xs:attribute name="autorefresh" type="xs:integer" />
     <xs:attribute name="align" type="alignEnum" />
     <xs:attribute name="charlength" type="xs:integer" />
-    <xs:attribute name="width" type="xs:integer" />
+    <xs:attribute name="width" type="columnWidth" />
     <xs:attribute name="sort-field" type="xs:string" />
     <xs:attribute name="hidden" type="booleanEnum" />
     <xs:attribute name="visible" type="booleanEnum" />
@@ -823,7 +823,9 @@
       <xs:element ref="info-button" />
       <xs:element ref="info-criteria" />
       <xs:element ref="tag" />
+      <xs:element ref="include" />
       <xs:element ref="info" />
+      <xs:element ref="button-action" />
     </xs:choice>
     <xs:attributeGroup ref="infoAttr" />
   </xs:complexType>
@@ -867,6 +869,8 @@
   <!-- Button Type -->
   <xs:complexType name="buttonType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="tag" />
+      <xs:element ref="include" />
       <xs:element ref="button-action" />
       <xs:element ref="dependency" />
     </xs:choice>
@@ -1678,4 +1682,14 @@
       <xs:enumeration value="reject" />
     </xs:restriction>
   </xs:simpleType>
+
+
+  <!-- Modal on close enum -->
+  <xs:simpleType name="columnWidth">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([0-9]+|\*)"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+
 </xs:schema>

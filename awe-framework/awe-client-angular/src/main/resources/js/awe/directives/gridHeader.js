@@ -35,7 +35,7 @@ aweApplication.directive('aweGridHeader',
               if (column.colDef.hidden) {
                 return;
               }
-              totalWidth += column.width;
+              totalWidth += column.width === "*" ? column.drawnWidth : column.width;
               var header = null;
               if (column.name in headers) {
                 header = headers[column.name];
@@ -77,7 +77,7 @@ aweApplication.directive('aweGridHeader',
            * Adapt scroll to viewport
            */
           function resize() {
-            refreshHeaders(null, scope.aweGridHeader.columnHeaders);
+            Utilities.debounce(() => refreshHeaders(null, scope.aweGridHeader.columnHeaders), 100);
           }
 
           // create cols as soon as $gridscope is avavilable

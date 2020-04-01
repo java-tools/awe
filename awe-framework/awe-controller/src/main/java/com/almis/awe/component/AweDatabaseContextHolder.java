@@ -146,8 +146,8 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
     if (dataSourceMap.containsKey(alias)) {
       return (DataSource) dataSourceMap.get(alias);
     } else {
-      throw new AWException(elements.getLocale(ERROR_TITLE_INVALID_CONNECTION),
-        elements.getLocale("ERROR_MESSAGE_UNDEFINED_DATASOURCE", alias));
+      throw new AWException(elements.getLocaleWithLanguage(ERROR_TITLE_INVALID_CONNECTION, elements.getLanguage()),
+        elements.getLocaleWithLanguage("ERROR_MESSAGE_UNDEFINED_DATASOURCE", elements.getLanguage(), alias));
     }
   }
 

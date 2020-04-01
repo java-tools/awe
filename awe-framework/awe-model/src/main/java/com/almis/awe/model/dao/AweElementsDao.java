@@ -333,6 +333,28 @@ public class AweElementsDao {
   }
 
   /**
+   * Deserialize string template
+   * @param clazz Object class
+   * @param template String template
+   * @param <T>
+   * @return Object deserialized
+   */
+  public synchronized <T> String toXMLString(Class<T> clazz, T template) {
+    return serializer.writeStringFromObject(clazz, template);
+  }
+
+  /**
+   * Deserialize string template
+   * @param clazz Object class
+   * @param template String template
+   * @param <T>
+   * @return Object deserialized
+   */
+  public synchronized <T> T parseTemplate(Class<T> clazz, String template) {
+    return serializer.getObjectFromTemplate(clazz, template);
+  }
+
+  /**
    * Deserialize XML
    * @param clazz Object class
    * @param stream XML Stream

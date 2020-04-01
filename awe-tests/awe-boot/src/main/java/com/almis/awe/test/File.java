@@ -39,8 +39,7 @@ public class File extends ServiceConfig {
       FileInputStream file = new FileInputStream(fullPath + fileData.getFileName());
       fileData.setFileStream(file);
     } catch (FileNotFoundException exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_READING_FILE"),
-              getElements().getLocale("Error reading file {0} from {1}", new Object[]{fileData.getFileName(), fullPath}), exc);
+      throw new AWException(getLocale("ERROR_TITLE_READING_FILE"), getLocale("Error reading file {0} from {1}", fileData.getFileName(), fullPath), exc);
     }
 
     // Set variables

@@ -126,6 +126,7 @@
   <locale name="CONNECTION_TYPE_HTTP" value="http"/>
   <locale name="CONNECTION_TYPE_HTTPS" value="https"/>
   <locale name="CONNECTION_TYPE_SSH" value="ssh"/>
+  <locale name="DAYS" value="{0}d"/>
   <locale name="ELEMENT_GENERIC_HELP" value="Element type --&gt;"/>
   <locale name="ELEMENT_HELP_LABEL" value="Label"/>
   <locale name="ELEMENT_TYPE_BUTTON" value="Button"/>
@@ -791,6 +792,7 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="HELP_TYPE" value="Type"/>
   <locale name="HELP_UPDATE_BUTTON" value="Go to a new screen with the selected item data in which you can update the item information"/>
   <locale name="HELP_VIEW_BUTTON" value="Go to a new screen with the selected item data, just to check it"/>
+  <locale name="HOURS" value="{0}h"/>
   <locale name="INFO_MESSAGE_PARSING_NUMBER_NULL" value="Parameter {0} can&apos;&apos;t be parsed as number: &apos;&apos;{1}&apos;&apos; - Set as null"/>
   <locale name="INFO_TITLE_WEB_SERVICE_CALL" value="Information"/>
   <locale name="MENU_ACT_USR" value="Notify active users"/>
@@ -842,6 +844,10 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="MENU_TOOLS_UNIKEY" value="System codes"/>
   <locale name="MENU_TOOLS_USERS" value="Users"/>
   <locale name="MENU_USER_HELP" value="User manual"/>
+  <locale name="MILLISECONDS" value="{0}ms"/>
+  <locale name="MINUTES" value="{0}m"/>
+  <locale name="MONTH" value="{0} month"/>
+  <locale name="MONTHS" value="{0} months"/>
   <locale name="MSG_PASSWD_NEW" value="After entering the password press confirm button"/>
   <locale name="OK_MESSAGE_CLEARING_ALL_CACHE" value="All caches have been cleared sucessfully"/>
   <locale name="OK_MESSAGE_CLEARING_CACHE" value="-{0}-  cache has been cleared sucessfully"/>
@@ -1160,8 +1166,10 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="SCREEN_TITLE_USR_NEW" value="New user"/>
   <locale name="SCREEN_TITLE_USR_UPD" value="Update user"/>
   <locale name="SCREEN_TITLE_USR_VIW" value="View user"/>
+  <locale name="SECONDS" value="{0}s"/>
   <locale name="SELECT2_SEARCH_VALUE" value="Search value"/>
   <locale name="SELECT2_SELECT_VALUE" value="Select a value"/>
+  <locale name="TIME_AGO" value="{0} ago"/>
   <locale name="VALIDATOR_MESSAGE_CHECK_AT_LEAST" value="Please check at least {value2} answers"/>
   <locale name="VALIDATOR_MESSAGE_DATE" value="Please enter a valid date"/>
   <locale name="VALIDATOR_MESSAGE_DIGITS" value="Please enter only digits"/>
@@ -1192,4 +1200,8 @@ A site is defined as a *separated application node*, with it's own [databases](#
   <locale name="WARNING_TITLE_DUPLICATED_SERVER" value="Duplicated server name"/>
   <locale name="WARNING_TITLE_DUPLICATED_USER" value="Duplicated user name"/>
   <locale name="WARNING_TITLE_WEB_SERVICE_CALL" value="Warning!"/>
+  <locale name="WEEK" value="{0} week"/>
+  <locale name="WEEKS" value="{0} weeks"/>
+  <locale name="YEAR" value="{0} year"/>
+  <locale name="YEARS" value="{0} years"/>
 </locales>

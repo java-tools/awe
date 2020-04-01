@@ -3,7 +3,7 @@ package com.almis.awe.test.unit.database;
 import com.almis.awe.model.details.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
 import com.almis.awe.service.MaintainService;
-import com.almis.awe.test.unit.categories.NotOracleDatabaseTest;
+import com.almis.awe.test.categories.NotOracleDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;

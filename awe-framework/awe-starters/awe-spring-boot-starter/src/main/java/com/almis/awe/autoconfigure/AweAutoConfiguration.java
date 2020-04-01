@@ -256,13 +256,15 @@ public class AweAutoConfiguration {
    *
    * @param menuService              Menu service
    * @param maintainService          Maintain service
+   * @param templateService          Template service
    * @param screenComponentGenerator Screen component generator
    * @return Screen service bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public ScreenService screenService(MenuService menuService, MaintainService maintainService, ScreenComponentGenerator screenComponentGenerator, ApplicationEventPublisher eventPublisher) {
-    return new ScreenService(menuService, maintainService, screenComponentGenerator, eventPublisher);
+  public ScreenService screenService(MenuService menuService, MaintainService maintainService, TemplateService templateService,
+                                     ScreenComponentGenerator screenComponentGenerator, ApplicationEventPublisher eventPublisher) {
+    return new ScreenService(menuService, maintainService, templateService, screenComponentGenerator, eventPublisher);
   }
 
   /**
@@ -415,14 +417,15 @@ public class AweAutoConfiguration {
    * @param screenModelGenerator         Screen model
    * @param screenConfigurationGenerator Screen configuration
    * @param initialLoadDao               Initial load service
+   * @param aweElementsDao               AWE Elements DAO
    * @return Screen component generator bean
    */
   @Bean
   @ConditionalOnMissingBean
   public ScreenComponentGenerator screenComponentGenerator(AweRequest request, ScreenModelGenerator screenModelGenerator,
                                                            ScreenConfigurationGenerator screenConfigurationGenerator,
-                                                           InitialLoadDao initialLoadDao) {
-    return new ScreenComponentGenerator(request, screenModelGenerator, screenConfigurationGenerator, initialLoadDao);
+                                                           InitialLoadDao initialLoadDao, AweElementsDao aweElementsDao) {
+    return new ScreenComponentGenerator(request, screenModelGenerator, screenConfigurationGenerator, initialLoadDao, aweElementsDao);
   }
 
   /////////////////////////////////////////////

@@ -1,5 +1,5 @@
 describe('awe-framework/awe-client-angular/src/test/js/services/serverData.js', function() {
-  let $injector, $serverData, $storage, $log;
+  let $injector, $serverData, $storage, $connection, $log;
   let originalTimeout;
 
   // Mock module
@@ -10,6 +10,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/serverData.js', 
       $injector = __$injector__;
       $serverData = $injector.get('ServerData');
       $storage = $injector.get('Storage');
+      $connection = $injector.get('Connection');
       $log = $injector.get('$log');
     }]);
 
@@ -30,5 +31,11 @@ describe('awe-framework/awe-client-angular/src/test/js/services/serverData.js', 
     spyOn($storage, "get").and.returnValue({report:{reportOrientation:{selected:"LANDSCAPE", getPrintData: () => ({tutu: "lala"})}, otro: {}}});
     $log.debug($serverData.getFormValuesForPrinting());
     expect($serverData.getFormValuesForPrinting()).toEqual({tutu: "lala"});
+  });
+
+  it('should get template url', function() {
+    spyOn($connection, "getRawUrl").and.returnValue("");
+    expect($serverData.getTemplateUrl("option", "view")).toBe("/template/screen/view/option");
+    expect($serverData.getTemplateUrl("", "view")).toBe("/template/screen");
   });
 });

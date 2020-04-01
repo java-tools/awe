@@ -3,18 +3,19 @@ import _ from "lodash";
 
 // Server data service
 aweApplication.factory('ServerData',
-  ['Connection', '$log', 'Storage', 'AweSettings', 'ActionController', 'Control', '$templateCache',
+  ['Connection', '$log', 'Storage', 'AweSettings', 'ActionController', 'Control', '$templateCache', 'AweUtilities',
     /**
      *
-     * @param {type} Connection
-     * @param {type} $log
-     * @param {type} Storage
-     * @param {type} $settings
-     * @param {type} ActionController
-     * @param {type} Control
-     * @param {type} $templateCache
+     * @param {object} Connection
+     * @param {object} $log
+     * @param {object} Storage
+     * @param {object} $settings
+     * @param {object} ActionController
+     * @param {object} Control
+     * @param {object} $templateCache
+     * @param {object} $utilities
      */
-    function (Connection, $log, Storage, $settings, ActionController, Control, $templateCache) {
+    function (Connection, $log, Storage, $settings, ActionController, Control, $templateCache, $utilities) {
       let ServerData = {
         /**
          * Retrieve a screen template code
@@ -46,10 +47,10 @@ aweApplication.factory('ServerData',
          * @param {String} view Screen view
          */
         storeScreenData: function (data, view) {
-          var controller = Storage.get("controller");
-          var messages = Storage.get("messages");
-          var api = Storage.get("api");
-          var screen = Storage.get("screen");
+          let controller = Storage.get("controller");
+          let messages = Storage.get("messages");
+          let api = Storage.get("api");
+          let screen = Storage.get("screen");
 
           // Store data
           if (data !== null) {
@@ -61,45 +62,54 @@ aweApplication.factory('ServerData',
 
             // Generate component api
             api[view] = {};
-
-            // Store screen model in scope
-            var viewModel = {};
             controller[view] = {};
+            let modelView = {};
             _.each(data.components, function (component) {
-              // Define model architecture
-              var modelArchitecture = {values: [], selected: null, defaultValues: null};
-              // Add model values
-              if (component.model !== null) {
-                _.each(component.model, function (value, attribute) {
-                  modelArchitecture[attribute] = value;
-                });
-
-                // Get selected values as list or single value
-                if ("selected" in component.model) {
-                  modelArchitecture.selected = Control.formatDataList(component.model.selected);
-                  modelArchitecture.previous = _.cloneDeep(modelArchitecture.selected);
-                }
-
-                // Get selected values as list or single value
-                if ("defaultValues" in component.model) {
-                  modelArchitecture.defaultValues = Control.formatDataList(component.model.defaultValues);
-                }
-              }
-
-              // Store controller in view
-              component.controller.optionId = screen[view].option;
-              controller[view][component.id] = component.controller;
-
-              // Store model in view
-              viewModel[component.id] = modelArchitecture;
-
-              // Pregenerate api for the component
-              api[view][component.id] = {};
+              ServerData.storeComponent(component, modelView, controller[view], api[view], screen[view].option)
             });
 
             // Change model
-            Control.changeViewModel(view, viewModel, false);
+            Control.changeViewModel(view, modelView, false);
           }
+        },
+        /**
+         * Store a component in view
+         * @param component Component
+         * @param model View model
+         * @param controller View controller
+         * @param api View API
+         * @param option Option
+         */
+        storeComponent: function (component, model, controller, api, option) {
+          // Define model architecture
+          let fixedModel = {values: [], selected: null, defaultValues: null};
+          // Add model values
+          if (component.model !== null) {
+            _.each(component.model, function (value, attribute) {
+              fixedModel[attribute] = value;
+            });
+
+            // Get selected values as list or single value
+            if ("selected" in component.model) {
+              fixedModel.selected = Control.formatDataList(component.model.selected);
+              fixedModel.previous = _.cloneDeep(fixedModel.selected);
+            }
+
+            // Get selected values as list or single value
+            if ("defaultValues" in component.model) {
+              fixedModel.defaultValues = Control.formatDataList(component.model.defaultValues);
+            }
+          }
+
+          // Store controller in view
+          component.controller.optionId = option;
+          controller[component.id] = component.controller;
+
+          // Store model in view
+          model[component.id] = fixedModel;
+
+          // Pregenerate api for the component
+          api[component.id] = {};
         },
         /**
          * Retrieve a screen template code
@@ -108,14 +118,16 @@ aweApplication.factory('ServerData',
          * @returns {String} Screen template
          */
         getTemplateUrl: function (screen, view) {
-          var template = "";
+          let template = "";
           // Add option
-          if (screen !== null) {
-            template = "/" + view + "/" + screen;
+          if (!$utilities.isEmpty(screen)) {
+            template = $utilities.generateEndpointUrl("template", "screen", view, screen);
+          } else {
+            template = $utilities.generateEndpointUrl("template", "screen");
           }
 
           // Retrieve url
-          return Connection.getRawUrl() + "/template/screen" + template;
+          return Connection.getRawUrl() + template;
         },
         /**
          * Retrieve a screen template code
@@ -124,19 +136,8 @@ aweApplication.factory('ServerData',
          * @returns {String} Screen template
          */
         getTaglistUrl: function (option, taglist) {
-          var template = "";
-          // Add option
-          if (option !== null) {
-            template += "/" + option;
-          }
-
-          // Add taglist
-          if (taglist !== null) {
-            template += "/" + taglist;
-          }
-
           // Retrieve url
-          return Connection.getRawUrl() + "/taglist" + template;
+          return Connection.getRawUrl() + $utilities.generateEndpointUrl("taglist", option, taglist);
         },
         /**
          * Retrieve the help url for a screen
@@ -144,15 +145,8 @@ aweApplication.factory('ServerData',
          * @returns {String} Help template url
          */
         getHelpUrl: function (option) {
-          // Add action
-          var template = "";
-          // Add option
-          if (option !== null) {
-            template = "/" + option;
-          }
-
           // Retrieve url
-          return Connection.getRawUrl() + "/template/help" + template;
+          return Connection.getRawUrl() + $utilities.generateEndpointUrl("template", "help", option);
         },
         /**
          * Retrieves a generic file url
@@ -161,19 +155,8 @@ aweApplication.factory('ServerData',
          * @returns {String} Help template url
          */
         getGenericFileUrl: function (action, target) {
-          // Add action
-          var template = "";
-          // Add option
-          if (action !== null) {
-            template += "/" + action;
-            // Add target
-            if (target !== null) {
-              template += "/" + target;
-            }
-          }
-
           // Retrieve url
-          return Connection.getRawUrl() + template;
+          return Connection.getRawUrl() + $utilities.generateEndpointUrl(action, target);
         },
         /**
          * Compose url and parameters to retrieve a file from server
@@ -191,11 +174,7 @@ aweApplication.factory('ServerData',
          * @returns {String} Server file URL
          */
         getFileUrl: function (action) {
-          let call = "/file";
-          if (action) {
-            call += "/" + action;
-          }
-          return Connection.getRawUrl() + call;
+          return Connection.getRawUrl() + $utilities.generateEndpointUrl("file", action);
         },
         /**
          * Retrieve an angular template code
@@ -203,10 +182,7 @@ aweApplication.factory('ServerData',
          * @returns {String} Angular template url
          */
         getAngularTemplateUrl: function (template) {
-          if (template !== null) {
-            return Connection.getRawUrl() + "/template/angular/" + template;
-          }
-          return "";
+          return Connection.getRawUrl() + $utilities.generateEndpointUrl("template", "angular", template);
         },
         /**
          * Preload an angular template code

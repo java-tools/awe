@@ -8,6 +8,7 @@ import com.almis.awe.builder.screen.component.ComponentAttributes;
 import com.almis.awe.builder.screen.component.ElementAttributes;
 import com.almis.awe.builder.screen.context.ContextSeparatorBuilder;
 import com.almis.awe.builder.screen.dependency.DependencyBuilder;
+import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.entities.screen.component.Component;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -241,6 +242,17 @@ public abstract class AbstractComponentBuilder<T, I extends Component> extends A
    */
   public T setIconLoading(IconLoading icon) {
     getComponentAttributes().setIconLoading(icon);
+    return (T) this;
+  }
+
+  /**
+   * Set data
+   *
+   * @param data
+   * @return
+   */
+  public T setData(DataList data) {
+    getComponentAttributes().setData(data);
     return (T) this;
   }
 

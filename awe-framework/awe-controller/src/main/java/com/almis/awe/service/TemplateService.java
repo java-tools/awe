@@ -1,25 +1,12 @@
 package com.almis.awe.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Future;
-import java.util.regex.Matcher;
-
-import com.almis.awe.dao.TemplateDao;
-import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.Cacheable;
-import org.stringtemplate.v4.ST;
-import org.stringtemplate.v4.STGroup;
-
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.dao.TemplateDao;
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
-import com.almis.awe.exception.AWException;
+import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.menu.Menu;
 import com.almis.awe.model.entities.menu.Option;
@@ -27,6 +14,20 @@ import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.model.entities.screen.Tag;
 import com.almis.awe.model.entities.screen.component.TagList;
 import com.almis.awe.model.type.LoadType;
+import com.almis.awe.model.util.data.StringUtil;
+import org.apache.logging.log4j.Level;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
+import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Future;
+import java.util.regex.Matcher;
 
 /**
  * Manage AWE screen access
@@ -43,12 +44,13 @@ public class TemplateService extends ServiceConfig {
 
   /**
    * Autowired constructor
-   * @param menuService Menu service
+   *
+   * @param menuService           Menu service
    * @param elementsTemplateGroup Element templates
-   * @param helpTemplateGroup Help templates
-   * @param screensTemplateGroup Screen templates
-   * @param queryService Query service
-   * @param templateDao Template DAO
+   * @param helpTemplateGroup     Help templates
+   * @param screensTemplateGroup  Screen templates
+   * @param queryService          Query service
+   * @param templateDao           Template DAO
    */
   @Autowired
   public TemplateService(MenuService menuService,
@@ -84,7 +86,7 @@ public class TemplateService extends ServiceConfig {
   /**
    * Retrieve a screen template
    *
-   * @param view Screen view
+   * @param view     Screen view
    * @param optionId Screen option identifier
    * @return Template
    * @throws AWException error generating template
@@ -104,8 +106,8 @@ public class TemplateService extends ServiceConfig {
   /**
    * Generate screen template
    *
-   * @param screen Screen object
-   * @param view Screen view
+   * @param screen   Screen object
+   * @param view     Screen view
    * @param optionId Option identifier
    * @return Screen template
    * @throws AWException Error generating breadcrumbs
@@ -194,7 +196,7 @@ public class TemplateService extends ServiceConfig {
   /**
    * Generate option help template
    *
-   * @param optionId Option identifier
+   * @param optionId   Option identifier
    * @param developers Help for developers
    * @return Application help template
    * @throws AWException Error generating breadcrumbs
@@ -224,8 +226,8 @@ public class TemplateService extends ServiceConfig {
    * Generate menu help
    *
    * @param elementList Option list
-   * @param level Option level
-   * @param developers Help for developers
+   * @param level       Option level
+   * @param developers  Help for developers
    * @return Screen template
    * @throws AWException Error generating breadcrumbs
    */
@@ -256,95 +258,112 @@ public class TemplateService extends ServiceConfig {
    * @return Taglist template
    * @throws AWException error generating taglist template
    */
-  public String generateTaglistTemplate(String tagListId) throws AWException {
-    return generateTaglistTemplate(menuService.getDefaultScreen(), tagListId);
+  public TagList getTagList(String tagListId) throws AWException {
+    return getTagList(menuService.getDefaultScreen(), tagListId);
   }
 
   /**
    * Generates an taglist template from a screen and a taglist id
    *
-   * @param optionId Option identifier
+   * @param optionId  Option identifier
    * @param tagListId Taglist identifier
    * @return Taglist template
    * @throws AWException error generating taglist template
    */
-  public String generateTaglistTemplate(String optionId, String tagListId) throws AWException {
+  public TagList getTagList(String optionId, String tagListId) throws AWException {
     Screen screen = menuService.getOptionScreen(optionId);
     if (screen == null) {
       throw new AWException(getLocale("ERROR_TITLE_OPTION_NOT_DEFINED"), getLocale("ERROR_MESSAGE_OPTION_HAS_NOT_BEEN_DEFINED", optionId));
     }
-    return generateTaglistTemplate(screen, tagListId);
+    return getTagList(screen, tagListId);
   }
 
   /**
-   * Generates an taglist template from a screen and a taglist id
+   * Retrieve taglist
    *
-   * @param screen Screen
+   * @param screen    Screen
    * @param tagListId Taglist identifier
    * @return Taglist template
    * @throws AWException error generating taglist template
    */
-  public String generateTaglistTemplate(Screen screen, String tagListId) throws AWException {
+  public TagList getTagList(Screen screen, String tagListId) throws AWException {
+    return (TagList) (screen.getElementsById(tagListId).get(0));
+  }
 
-    TagList tagList = (TagList) (screen.getElementsById(tagListId).get(0));
-    DataList data = null;
-
+  /**
+   * Retrieve taglist data
+   *
+   * @param tagList TagList
+   * @return ServiceData Taglist data
+   * @throws AWException error generating taglist template
+   */
+  public ServiceData loadTagListData(TagList tagList) throws AWException {
     // Check initial load attribute
     if (tagList.getInitialLoad() != null) {
       LoadType initialLoadValue = LoadType.valueOf(tagList.getInitialLoad().toUpperCase());
       switch (initialLoadValue) {
         case QUERY:
-          data = queryService.launchQuery(tagList.getTargetAction(), "1", tagList.getMax() == null ? "0" : tagList.getMax().toString()).getDataList();
-          break;
+          return queryService.launchQuery(tagList.getTargetAction(), "1", tagList.getMax() == null ? "0" : tagList.getMax().toString());
         case ENUM:
         default:
-          data = queryService.launchEnumQuery(tagList.getTargetAction(), "1", tagList.getMax() == null ? "0" : tagList.getMax().toString()).getDataList();
-          break;
+          return queryService.launchEnumQuery(tagList.getTargetAction(), "1", tagList.getMax() == null ? "0" : tagList.getMax().toString());
       }
     }
+    return new ServiceData().setDataList(new DataList());
+  }
 
+  /**
+   * Generates a taglist template from taglist and data
+   *
+   * @param tagList
+   * @param data
+   * @return
+   */
+  public List<String> generateTaglistTemplate(TagList tagList, DataList data) {
     // For each row, generate the children code
-    return generateTaglistData(data, renderTagList(tagList));
+    return generateTaglistData(data, templateDao.generateTaglistXml(tagList.getElementList()));
   }
 
   /**
    * Render taglist template
-   * @param template Template
+   *
+   * @param templateList Template
    * @return Template rendered
    */
-  public String renderTagList(Element template) {
+  public String renderTagList(List<Element> templateList) {
     StringBuilder builder = new StringBuilder();
     // Call generate method on all children
-    for (Element child : template.getElementList()) {
+    for (Element template : templateList) {
       // Generate the children
-      builder.append(child.generateTemplate(elementsTemplateGroup).render());
+      builder.append(template.generateTemplate(elementsTemplateGroup).render());
     }
     return builder.toString();
   }
 
   /**
    * Generate taglist data
-   * @param data Data
+   *
+   * @param data     Data
    * @param template Row template
    */
-  private String generateTaglistData(DataList data, String template) {
-    StringBuilder builder = new StringBuilder();
+  private List<String> generateTaglistData(DataList data, String template) {
+    List<String> tagList = new ArrayList<>();
     if (data != null) {
       for (Map<String, CellData> row : data.getRows()) {
-        String rowString = template;
+        String elementTemplate = template;
         // Create the matcher
-        Matcher matcher = TagList.wildcard.matcher(rowString);
+        Matcher matcher = TagList.wildcard.matcher(elementTemplate);
         while (matcher.find()) {
-          for (int matIdx = 1, matTot = matcher.groupCount(); matIdx <= matTot; matIdx++) {
-            String keyCol = matcher.group(matIdx);
-            CellData dat = row.get(keyCol);
-            rowString = rowString.replace("[" + keyCol + "]", dat.getStringValue());
+          String keyCol = matcher.group(1);
+          CellData dat = row.get(keyCol);
+          if (dat != null) {
+            elementTemplate = elementTemplate.replace("[" + keyCol + "]", StringUtil.fixHTMLValue(dat.getStringValue()));
           }
         }
-        builder.append(rowString);
+        tagList.add(elementTemplate);
       }
     }
-    return builder.toString();
+    return tagList;
   }
 
   /**

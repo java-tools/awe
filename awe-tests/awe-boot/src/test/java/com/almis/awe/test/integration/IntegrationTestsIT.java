@@ -683,8 +683,14 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Go to screen
     gotoScreen("test", "matrix", "matrix-test");
 
+    // Wait for button
+    waitForButton("ButPrn");
+
     // Click row contents
     clickRowContents("GrdSta", "awedb1");
+
+    // Wait for button
+    waitForButton("ButPrn");
 
     // Click on tab
     clickTab("TabSelMat", "ENUM_MATRIX_MULTISELECT");
@@ -704,6 +710,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
   public void t042_gridTestBaseContextMenu() throws Exception {
     // Title
     setTestTitle("Grid test: base grid with context menu");
+
+    // Wait for button
+    waitForButton("ButPrn");
 
     // Click on tab
     clickTab("TabSelMat", "ENUM_MATRIX_STATIC");
@@ -748,6 +757,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     // Title
     setTestTitle("Grid test: Multiselect");
 
+    // Wait for button
+    waitForButton("ButPrn");
+
     // Click on tab
     clickTab("TabSelMat", "ENUM_MATRIX_MULTISELECT");
 
@@ -772,6 +784,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
   public void t061_gridTestEditable() throws Exception {
     // Title
     setTestTitle("Grid test: Editable");
+
+    // Wait for button
+    waitForButton("ButPrn");
 
     // Click on tab
     clickTab("TabSelMat", "ENUM_MATRIX_EDITABLE");
@@ -839,6 +854,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
   public void t071_gridTestMultiOperation() throws Exception {
     // Title
     setTestTitle("Grid test: Multioperation");
+
+    // Wait for button
+    waitForButton("ButPrn");
 
     // Click on tab
     clickTab("TabSelMat", "ENUM_MATRIX_MULTIOPTION");

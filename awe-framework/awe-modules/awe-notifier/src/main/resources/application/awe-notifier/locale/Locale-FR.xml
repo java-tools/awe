@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Document   : Locale-FR
+  Description: Application Locales
+-->
+
+<!--$Id$-->
+
+<locales xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
+  <locale name="BUTTON_SET_READ" value="Marquer comme lu"/>
+  <locale name="BUTTON_SET_UNREAD" value="Marquer comme non lu"/>
+  <locale name="BUTTON_SETTINGS" value="Paramètres"/>
+  <locale name="BUTTON_SHOW_NOTIFICATIONS" value="Afficher notifications"/>
+  <locale name="EMAIL_MESSAGE_HTML_NOTIFY" value="&lt;strong&gt;Sujet:&lt;/strong&gt; [#subscription#]&lt;br/&gt;&lt;br/&gt;&#xa;[#description#]&lt;br/&gt;"/>
+  <locale name="EMAIL_MESSAGE_TEXT_NOTIFY" value="Sujet: [#subscription#]&#xa;&#xa;[#description#]"/>
+  <locale name="EMAIL_SUBJECT_NOTIFY" value="[NOTIFICATION] [#title#]"/>
+  <locale name="ENUM_NOTIFICATION_ERROR" value="Erreur"/>
+  <locale name="ENUM_NOTIFICATION_INFO" value="Instructif"/>
+  <locale name="ENUM_NOTIFICATION_NORMAL" value="Normal"/>
+  <locale name="ENUM_NOTIFICATION_OK" value="Succès"/>
+  <locale name="ENUM_NOTIFICATION_WARNING" value="Avertissement"/>
+  <locale name="HELP_SET_READ" value="Marquer toutes les notifications sélectionnées comme lu"/>
+  <locale name="HELP_SET_UNREAD" value="Marquer toutes les notifications sélectionnées comme non lu"/>
+  <locale name="MENU_NOTIFIER" value="Déclarant"/>
+  <locale name="MENU_NOTIFIER_NOTIFICATIONS" value="Notifications"/>
+  <locale name="MENU_NOTIFIER_SUBSCRIPTIONS" value="Abonnements"/>
+  <locale name="NO_NOTIFICATIONS" value="Pas de notifications"/>
+  <locale name="PARAMETER_SUBSCRIPTION" value="Abonnement"/>
+  <locale name="PARAMETER_UNREAD" value="Non lus"/>
+  <locale name="SCREEN_HELP_NEW_SUBSCRIPTION" value="Ici, vous pouvez ajouter un nouvel abonnement"/>
+  <locale name="SCREEN_HELP_NOTIFICATIONS" value="L&apos;écran du liste des notifications. Vous permet de consulter toutes les notifications et les marquer comme lu/non lu."/>
+  <locale name="SCREEN_HELP_SUBSCRIPTIONS" value="Cette fenêtre gère la définition de souscription des sujets pour les notifications"/>
+  <locale name="SCREEN_TEXT_EMAIL" value="E-mail"/>
+  <locale name="SCREEN_TEXT_NOTIFICATIONS" value="Notifications"/>
+  <locale name="SCREEN_TEXT_SUBSCRIPTION_DATA" value="Données d&apos;abonnement"/>
+  <locale name="SCREEN_TEXT_SUBSCRIPTIONS" value="Abonnements"/>
+  <locale name="SCREEN_TEXT_WEB" value="Web"/>
+  <locale name="SCREEN_TITLE_NEW_SUBSCRIPTION" value="Nouvel abonnement"/>
+  <locale name="SCREEN_TITLE_NOTIFICATIONS" value="Notifications"/>
+  <locale name="SCREEN_TITLE_SETTINGS" value="Paramètres d&apos;utilisateur"/>
+  <locale name="SCREEN_TITLE_SUBSCRIPTIONS" value="Abonnements"/>
+  <locale name="SCREEN_TITLE_UPDATE_SUBSCRIPTIONS" value="Mise à jour de l&apos;abonnement"/>
+  <locale name="WARNING_MESSAGE_DUPLICATED_ACRONYM" value="L&apos;acronyme sélectionné de est déjà défini. Veuillez le modifier."/>
+  <locale name="WARNING_TITLE_DUPLICATED_ACRONYM" value="Dupliqué acronyme"/>
+</locales>

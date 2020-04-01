@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-framework</artifactId>
-    <version>4.2.1</version>
+    <version>4.2.2</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -120,6 +120,11 @@
       </dependency>
       <dependency>
         <groupId>com.almis.awe</groupId>
+        <artifactId>awe-notifier-spring-boot-starter</artifactId>
+        <version>${awe.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.almis.awe</groupId>
         <artifactId>awe-rest-spring-boot-starter</artifactId>
         <version>${awe.version}</version>
       </dependency>
@@ -161,6 +166,11 @@
       <dependency>
         <groupId>com.almis.awe</groupId>
         <artifactId>awe-developer</artifactId>
+        <version>${awe.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.almis.awe</groupId>
+        <artifactId>awe-notifier</artifactId>
         <version>${awe.version}</version>
       </dependency>
       <dependency>

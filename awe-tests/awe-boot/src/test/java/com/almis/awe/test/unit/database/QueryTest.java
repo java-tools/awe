@@ -2,9 +2,9 @@ package com.almis.awe.test.unit.database;
 
 import com.almis.awe.component.AweDatabaseContextHolder;
 import com.almis.awe.model.util.security.EncodeUtil;
-import com.almis.awe.test.unit.categories.CIDatabaseTest;
-import com.almis.awe.test.unit.categories.NotCIDatabaseTest;
-import com.almis.awe.test.unit.categories.NotHSQLDatabaseTest;
+import com.almis.awe.test.categories.CIDatabaseTest;
+import com.almis.awe.test.categories.NotCIDatabaseTest;
+import com.almis.awe.test.categories.NotHSQLDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -1657,6 +1657,21 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
+  public void testDatabaseTransformElapsedTimeService() throws Exception {
+    String queryName = "TransformElapsedTimeService";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"years\":\"3 years\",\"year\":\"1 year\",\"months\":\"2 months\",\"month\":\"1 month\",\"weeks\":\"2 weeks\",\"week\":\"1 week\",\"days\":\"3d\",\"hours\":\"8h\",\"minutes\":\"5m\",\"seconds\":\"7s\",\"milliseconds\":\"222ms\", \"dateSince\":\"3 years ago\"}]}}},{\"type\":\"end-load\"}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertQueryResultJson(queryName, result, 1);
+  }
+
+  /**
+   * Test of launchAction method, of class ActionController.
+   *
+   * @throws Exception Test error
+   */
+  @Test
   public void testDatabaseTransformDateJavascript() throws Exception {
     String queryName = "TransformJavascriptDate";
     String variables = "";
@@ -2784,7 +2799,7 @@ public class QueryTest extends AweSpringDatabaseTests {
   @Category(CIDatabaseTest.class)
   public void testOverPartitionOrder() throws Exception {
     String queryName = "testOverPartitionOrder";
-    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"name\":\"donald\",\"id\":1,\"rowNumber\":\"donald\"},{\"name\":\"jaimito\",\"id\":2,\"rowNumber\":\"jaimito\"},{\"name\":\"jorgito\",\"id\":3,\"rowNumber\":\"jorgito\"},{\"name\":\"juanito\",\"id\":4,\"rowNumber\":\"juanito\"},{\"name\":\"test\",\"id\":5,\"rowNumber\":null}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"name\":\"donald\",\"id\":1,\"rowNumber\":\"donald\",\"rankValue\":1},{\"name\":\"jaimito\",\"id\":2,\"rowNumber\":\"jaimito\",\"rankValue\":1},{\"name\":\"jorgito\",\"id\":3,\"rowNumber\":\"jorgito\",\"rankValue\":1},{\"name\":\"juanito\",\"id\":4,\"rowNumber\":\"juanito\",\"rankValue\":1},{\"name\":\"test\",\"id\":5,\"rowNumber\":null,\"rankValue\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
     assumeTrue(!isInMemoryDatabase());
     String result = performRequest(queryName, "", DATABASE, expected);
     assertResultJson(queryName, result, 5);

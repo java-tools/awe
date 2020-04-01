@@ -2,14 +2,18 @@ package com.almis.awe.service.screen;
 
 
 import com.almis.awe.config.ServiceConfig;
+import com.almis.awe.dao.InitialLoadDao;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.dao.AweElementsDao;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.dto.SortColumn;
+import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.menu.Menu;
 import com.almis.awe.model.entities.menu.Option;
 import com.almis.awe.model.entities.screen.Screen;
+import com.almis.awe.model.entities.screen.Tag;
 import com.almis.awe.model.entities.screen.component.Component;
 import com.almis.awe.model.entities.screen.component.MenuContainer;
 import com.almis.awe.model.entities.screen.component.action.AbstractAction;
@@ -18,9 +22,9 @@ import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.entities.screen.component.grid.Grid;
 import com.almis.awe.model.entities.screen.data.*;
-import com.almis.awe.dao.InitialLoadDao;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 import static com.almis.awe.model.constant.AweConstants.NO_TAG;
 
@@ -41,31 +46,37 @@ public class ScreenComponentGenerator extends ServiceConfig {
   private ScreenModelGenerator screenModelGenerator;
   private ScreenConfigurationGenerator screenConfigurationGenerator;
   private InitialLoadDao initialLoadDao;
+  private AweElementsDao aweElementsDao;
 
   @Value("${settings.dataSuffix:.data}")
   private String dataSuffix;
 
   /**
    * Autowired constructor
-   * @param request Request
-   * @param screenModelGenerator Screen model generator
+   *
+   * @param request                      Request
+   * @param screenModelGenerator         Screen model generator
    * @param screenConfigurationGenerator Screen configuration generator
-   * @param initialLoadDao Initial load service
+   * @param initialLoadDao               Initial load service
+   * @param aweElementsDao               AWE Elements DAO
    */
   @Autowired
   public ScreenComponentGenerator(AweRequest request, ScreenModelGenerator screenModelGenerator,
-                                  ScreenConfigurationGenerator screenConfigurationGenerator, InitialLoadDao initialLoadDao) {
+                                  ScreenConfigurationGenerator screenConfigurationGenerator, InitialLoadDao initialLoadDao,
+                                  AweElementsDao aweElementsDao) {
     this.aweRequest = request;
     this.screenModelGenerator = screenModelGenerator;
     this.screenConfigurationGenerator = screenConfigurationGenerator;
     this.initialLoadDao = initialLoadDao;
+    this.aweElementsDao = aweElementsDao;
   }
 
   /**
    * Generate component map
-   * @param screen Screen object
-   * @param data Screen data
-   * @param menu Current menu
+   *
+   * @param screen         Screen object
+   * @param data           Screen data
+   * @param menu           Current menu
    * @param storedCriteria Stored criteria
    * @return Component map
    */
@@ -80,7 +91,7 @@ public class ScreenComponentGenerator extends ServiceConfig {
     if (screen.getTarget() != null) {
       // Add a screen target for each
       String[] screenTargetList = screen.getTarget().split(AweConstants.COMMA_SEPARATOR);
-      for (String screenTarget: screenTargetList) {
+      for (String screenTarget : screenTargetList) {
         screenModelGenerator.addScreenTarget(initializationList, screenTarget);
       }
     }
@@ -95,7 +106,7 @@ public class ScreenComponentGenerator extends ServiceConfig {
       // Add component
       List<Component> components = screen.getElementsByType(Component.class);
       for (Component component : components) {
-        generateComponent(screen, component, initializationList, componentMap, storedCriteria, menu);
+        generateComponent(screen.getId(), component, initializationList, componentMap, storedCriteria, menu);
       }
 
       // Launch all initial load actions and store the values
@@ -113,15 +124,16 @@ public class ScreenComponentGenerator extends ServiceConfig {
 
   /**
    * Generate component
-   * @param screen Screen
-   * @param component Component
+   *
+   * @param containerId        Container id
+   * @param component          Component
    * @param initializationList Initialization list
-   * @param componentMap Component map
-   * @param storedCriteria Stored criteria
-   * @param menu Current menu
+   * @param componentMap       Component map
+   * @param storedCriteria     Stored criteria
+   * @param menu               Current menu
    * @throws AWException
    */
-  private void generateComponent(Screen screen, Component component, List<AweThreadInitialization> initializationList, Map<String, ScreenComponent> componentMap, ObjectNode storedCriteria, Menu menu) throws AWException {
+  private void generateComponent(String containerId, Component component, List<AweThreadInitialization> initializationList, Map<String, ScreenComponent> componentMap, ObjectNode storedCriteria, Menu menu) throws AWException {
     if (!NO_TAG.equalsIgnoreCase(component.getComponentTag())) {
       // Generate component model
       ScreenComponent screenComponent = new ScreenComponent();
@@ -142,7 +154,7 @@ public class ScreenComponentGenerator extends ServiceConfig {
 
       // Generate grid
       if (component instanceof Grid) {
-        generateScreenGrid((Grid) screenComponent.getController(), initializationList);
+        generateScreenGrid((Grid) screenComponent.getController(), screenComponent, initializationList);
       }
 
       // Generate menu
@@ -155,15 +167,16 @@ public class ScreenComponentGenerator extends ServiceConfig {
         componentMap.put(component.getElementKey(), screenComponent);
       } else {
         throw new AWException(getLocale("ERROR_TITLE_SCREEN_GENERATION_ERROR"),
-          getLocale("ERROR_MESSAGE_DUPLICATED_IDENTIFIER", component.getElementKey(), screen.getId()));
+          getLocale("ERROR_MESSAGE_DUPLICATED_IDENTIFIER", component.getElementKey(), containerId));
       }
     }
   }
 
   /**
    * Generate menu for component
+   *
    * @param menuContainer Menu container
-   * @param currentMenu Current menu
+   * @param currentMenu   Current menu
    */
   private void generateScreenMenu(MenuContainer menuContainer, Menu currentMenu, List<AweThreadInitialization> initializationList) throws AWException {
     // If the component is a menu container, store the menu in the component
@@ -179,12 +192,13 @@ public class ScreenComponentGenerator extends ServiceConfig {
 
   /**
    * Apply option actions to menu
+   *
    * @param menu Menu
    */
   public void applyOptionActions(Menu menu) {
     // For each option, add actions
     List<Option> options = menu.getElementsByType(Option.class);
-    for (Option option: options) {
+    for (Option option : options) {
       if (option.getActionList() == null) {
         String serverAction = option.getServerAction() != null ? option.getServerAction() : menu.getDefaultAction();
         String context = option.getScreenContext() != null ? option.getScreenContext() : menu.getScreenContext();
@@ -201,10 +215,11 @@ public class ScreenComponentGenerator extends ServiceConfig {
 
   /**
    * Generate grid component
-   * @param grid Grid component
+   *
+   * @param grid               Grid component
    * @param initializationList Initialization list
    */
-  private void generateScreenGrid(Grid grid, List<AweThreadInitialization> initializationList) throws AWException {
+  private void generateScreenGrid(Grid grid, ScreenComponent screenComponent, List<AweThreadInitialization> initializationList) throws AWException {
     // If the component is a grid, store columns' initial load
     List<Column> columns = grid.getElementsByType(Column.class);
     List<ScreenColumn> columnList = new ArrayList<>();
@@ -227,6 +242,9 @@ public class ScreenComponentGenerator extends ServiceConfig {
       }
     }
 
+    // If grid has data, store in model
+    screenModelGenerator.generateComponentModelFromDataList(grid.getDataList(), screenComponent);
+
     // Get grid columns
     for (Column column : columns) {
       // Generate component model
@@ -245,6 +263,9 @@ public class ScreenComponentGenerator extends ServiceConfig {
         .setId(column.getName())
         .setModel(new ComponentModel());
 
+      // Store column data if defined
+      screenModelGenerator.generateComponentModelFromDataList(column.getDataList(), columnComponent);
+
       // Add screen component to grid
       columnList.add(columnComponent);
 
@@ -256,5 +277,36 @@ public class ScreenComponentGenerator extends ServiceConfig {
 
     // Set column list
     grid.setColumnList(columnList);
+  }
+
+
+  /**
+   * Generate taglist component map
+   *
+   * @param templateList Taglist replaced templates
+   * @return Taglist component map
+   */
+  public List<Element> generateTagListElements(List<String> templateList) {
+    // Render template into taglist
+    return templateList.stream().map(s -> aweElementsDao.parseTemplate(Element.class, s)).collect(Collectors.toList());
+  }
+
+  /**
+   * Generate taglist component map
+   *
+   * @param templateElements Taglist replaced elements
+   * @return Taglist component map
+   */
+  public Map<String, ScreenComponent> generateTagListComponentMap(String tagListId, List<Element> templateElements) throws AWException {
+    Map<String, ScreenComponent> taglistComponents = new HashMap<>();
+
+    // Add component
+    List<Component> components = new Tag().setElementList(templateElements).getElementsByType(Component.class);
+    for (Component component : components) {
+      generateComponent(tagListId, component, Collections.emptyList(), taglistComponents, JsonNodeFactory.instance.objectNode(), null);
+    }
+
+    // Retrieve taglist components
+    return taglistComponents;
   }
 }

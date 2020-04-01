@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window"
+        label="SCREEN_TITLE_UPDATE_SUBSCRIPTIONS" help="SCREEN_HELP_UPDATE_SUBSCRIPTIONS">
+  <tag source="hidden">
+    <message id="update-message" title="CONFIRM_TITLE_UPDATE" message="CONFIRM_MESSAGE_UPDATE"/>
+    <message id="unique-check-message" title="WARNING_TITLE_DUPLICATED_ACRONYM" message="WARNING_MESSAGE_DUPLICATED_ACRONYM"/>
+    <criteria component="hidden" id="id" variable="id"/>
+  </tag>
+  <tag source="buttons">
+    <button button-type="button" label="BUTTON_BACK" icon="arrow-circle-left" id="ButBck" help="HELP_BACK_BUTTON">
+      <button-action type="back"/>
+    </button>
+    <button label="BUTTON_SCREEN_HELP" icon="question-circle" id="ButHlp" help="HELP_HELP_BUTTON">
+      <button-action type="dialog" target="HlpOpt"/>
+    </button>
+    <button button-type="submit" label="BUTTON_CONFIRM" icon="save" id="ButCnf" help="HELP_CONFIRM_BUTTON">
+      <button-action type="validate" target="subscription-data"/>
+      <button-action type="server" server-action="control-unique-cancel" target-action="check-subscription" target="unique-check-message" />
+      <button-action type="confirm" target="update-message"/>
+      <button-action type="server" server-action="maintain" target-action="update-subscription"/>
+      <button-action type="back"/>
+    </button>
+  </tag>
+  <tag source="center">
+    <window label="SCREEN_TEXT_SUBSCRIPTION_DATA" icon="ticket" style="expand" expandible="vertical">
+      <tag id="subscription-data" type="div" style="panel-body">
+        <criteria label="PARAMETER_ACRONYM" icon="font" component="text" id="acronym" style="col-xs-12 col-md-3 col-lg-2" validation="{required: true, maxlength: 10}" variable="subscription-acronym"/>
+        <criteria label="PARAMETER_NAME" icon="book" component="text" id="name" style="col-xs-12 col-md-6 col-lg-4" validation="{required: true, maxlength: 30}" variable="subscription-name"/>
+        <criteria label="PARAMETER_ACTIVE" icon="check" component="select" initial-load="enum" target-action="Es1Es0" id="active" style="col-xs-12 col-md-3 col-lg-2" validation="required"
+                  variable="subscription-active"/>
+        <criteria label="PARAMETER_DESCRIPTION" component="textarea" id="description" style="col-xs-12" validation="{maxlength: 250}" variable="subscription-description"/>
+      </tag>
+    </window>
+  </tag>
+  <tag source="modal">
+    <include target-screen="screen-help" target-source="center"/>
+  </tag>
+</screen>

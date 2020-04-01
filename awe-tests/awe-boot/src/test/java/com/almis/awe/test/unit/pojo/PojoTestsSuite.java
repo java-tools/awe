@@ -1,5 +1,6 @@
 package com.almis.awe.test.unit.pojo;
 
+import com.almis.awe.model.tracker.AweConnectionTracker;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -13,7 +14,8 @@ import org.junit.runners.Suite;
   QueryTest.class,
   ServiceDataTest.class,
   ChartParameterTest.class,
-  AweRequestTest.class
+  AweRequestTest.class,
+  AweConnectionTrackerTest.class
 })
 @RunWith(Suite.class)
 public class PojoTestsSuite {

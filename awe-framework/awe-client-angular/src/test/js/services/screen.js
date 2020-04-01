@@ -65,6 +65,12 @@ describe('awe-framework/awe-client-angular/src/test/js/services/screen.js', func
     launchScreenAction($injector, "screen", "screen", {parameters:{screen: "lala"}, context: "epa"}, done);
   });
 
+  // Launch screen action
+  it('should launch a screen action with screen reloading', function(done) {
+    spyOn($location, "url").and.returnValue("/epa/lala");
+    launchScreenAction($injector, "screen", "screen", {parameters:{screen: "lala", reload: true}, context: "epa"}, done);
+  });
+
   // Launch reload action
   it('should launch a reload action', function(done) {
     return launchScreenAction($injector, "reload", "reload", {parameters:{}}, done);
@@ -216,9 +222,27 @@ describe('awe-framework/awe-client-angular/src/test/js/services/screen.js', func
 
   // Launch redirect action
   it('should launch a redirect action', function(done) {
-    $windowMock.location = { url : "" };
+    $windowMock.location = { href : "" };
     launchScreenAction($injector, "redirect", "redirect", {id: 2, target: "http://alla.que.voy"}, () => {
-      expect($windowMock.location.url).toBe("http://alla.que.voy");
+      expect($windowMock.location.href).toBe("http://alla.que.voy");
+      done();
+    });
+  });
+
+  it('should launch a redirect screen action on other screen', function(done) {
+    $windowMock.location = { href : "" };
+    spyOn($storage, "get").and.returnValue({base: {name: "otherScreen"}});
+    launchScreenAction($injector, "redirect-screen", "redirectScreen", {id: 2,  view: "base", target: "http://alla.que.voy", parameters: {screen: "currentScreen"}}, () => {
+      expect($windowMock.location.href).toBe("");
+      done();
+    });
+  });
+
+  it('should launch a redirect screen action on current screen', function(done) {
+    $windowMock.location = { href : "" };
+    spyOn($storage, "get").and.returnValue({base: {name: "currentScreen"}});
+    launchScreenAction($injector, "redirect-screen", "redirectScreen", {id: 2, view: "base", target: "http://alla.que.voy", parameters: {screen: "currentScreen"}}, () => {
+      expect($windowMock.location.href).toBe("http://alla.que.voy");
       done();
     });
   });

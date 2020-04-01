@@ -5,7 +5,7 @@
   <parent>
     <artifactId>awe-dependencies</artifactId>
     <groupId>com.almis.awe</groupId>
-    <version>4.2.1</version>
+    <version>4.2.2</version>
     <relativePath>../awe-dependencies</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -22,6 +22,7 @@
     <module>awe-annotation</module>
     <module>awe-builder</module>
     <module>awe-developer</module>
+    <module>awe-notifier</module>
     <module>awe-rest</module>
     <module>awe-tools</module>
     <module>awe-scheduler</module>

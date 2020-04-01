@@ -19,5 +19,4 @@ com.almis.awe.controller.FileController,\
 com.almis.awe.controller.SettingsController,\
 com.almis.awe.controller.TemplateController,\
 com.almis.awe.controller.StaticResourcesController,\
-com.almis.awe.controller.TagListController,\
 com.almis.awe.controller.UploadController

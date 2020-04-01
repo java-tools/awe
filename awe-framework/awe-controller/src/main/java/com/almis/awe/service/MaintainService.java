@@ -511,7 +511,7 @@ public class MaintainService extends ServiceConfig {
     if (message != null && !message.trim().isEmpty()) {
       messageBuilder.append(newLine).append(message);
     } else if (label != null && !label.trim().isEmpty()) {
-      messageBuilder.append(newLine).append(getElements().getLocale(label));
+      messageBuilder.append(newLine).append(getLocale(label));
     }
   }
 

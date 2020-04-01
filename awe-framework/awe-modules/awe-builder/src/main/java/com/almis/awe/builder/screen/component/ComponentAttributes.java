@@ -5,6 +5,7 @@ import com.almis.awe.builder.enumerates.InitialLoad;
 import com.almis.awe.builder.enumerates.ServerAction;
 import com.almis.awe.builder.screen.base.AbstractAttributes;
 import com.almis.awe.builder.screen.base.AbstractComponentBuilder;
+import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.entities.screen.component.Component;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class ComponentAttributes<B extends AbstractComponentBuilder> extends Abs
   private Integer autorefresh;
   private boolean visible = true;
   private String name;
+  private DataList data;
 
   public ComponentAttributes(B builder) {
     super(builder);
@@ -49,7 +51,8 @@ public class ComponentAttributes<B extends AbstractComponentBuilder> extends Abs
       .setAutoload(isAutoload())
       .setAutorefresh(getAutorefresh())
       .setLoadAll(isLoadAll())
-      .setVisible(isVisible());
+      .setVisible(isVisible())
+      .setDataList(getData());
 
     if (getInitialLoad() != null) {
       component.setInitialLoad(getInitialLoad().toString());

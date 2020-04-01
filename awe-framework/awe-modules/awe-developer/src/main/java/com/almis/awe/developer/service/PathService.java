@@ -86,8 +86,8 @@ public class PathService extends ServiceConfig {
       properties = new Properties();
       properties.load(in);
     } catch (IOException exc) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_UPDATE_WRK_DIR),
-              getElements().getLocale(ERROR_MESSAGE_UPDATE_WRK_DIR), exc);
+      throw new AWException(getLocale(ERROR_TITLE_UPDATE_WRK_DIR),
+              getLocale(ERROR_MESSAGE_UPDATE_WRK_DIR), exc);
     }
     return properties;
   }
@@ -101,12 +101,12 @@ public class PathService extends ServiceConfig {
       try {
         new File(developerPath).mkdirs();
         if (!propertiesFile.createNewFile()) {
-          throw new AWException(getElements().getLocale(ERROR_TITLE_UPDATE_WRK_DIR),
-                  getElements().getLocale(ERROR_MESSAGE_UPDATE_WRK_DIR));
+          throw new AWException(getLocale(ERROR_TITLE_UPDATE_WRK_DIR),
+                  getLocale(ERROR_MESSAGE_UPDATE_WRK_DIR));
         }
       } catch (IOException exc) {
-        throw new AWException(getElements().getLocale(ERROR_TITLE_UPDATE_WRK_DIR),
-                getElements().getLocale(ERROR_MESSAGE_UPDATE_WRK_DIR));
+        throw new AWException(getLocale(ERROR_TITLE_UPDATE_WRK_DIR),
+                getLocale(ERROR_MESSAGE_UPDATE_WRK_DIR));
       }
     }
   }
@@ -123,8 +123,8 @@ public class PathService extends ServiceConfig {
     try (FileOutputStream out = new FileOutputStream(getFinalPath())) {
       properties.store(out, null);
     } catch (IOException exc) {
-      throw new AWException(getElements().getLocale(ERROR_TITLE_UPDATE_WRK_DIR),
-              getElements().getLocale("ERROR_MESSAGE_UPDATE_WRK_DIR2"), exc);
+      throw new AWException(getLocale(ERROR_TITLE_UPDATE_WRK_DIR),
+              getLocale("ERROR_MESSAGE_UPDATE_WRK_DIR2"), exc);
     }
   }
 
@@ -150,8 +150,8 @@ public class PathService extends ServiceConfig {
     ServiceData serviceData = new ServiceData();
     // Update path
     updatePath(path);
-    serviceData.setTitle(getElements().getLocale("CONFIRM_TITLE_UPDATE_WRK_DIR"))
-            .setMessage(getElements().getLocale("CONFIRM_MESSAGE_UPDATE_WRK_DIR"));
+    serviceData.setTitle(getLocale("CONFIRM_TITLE_UPDATE_WRK_DIR"))
+            .setMessage(getLocale("CONFIRM_MESSAGE_UPDATE_WRK_DIR"));
     return serviceData;
   }
 }

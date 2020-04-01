@@ -58,6 +58,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
     // Go to matrix test
     gotoScreen("test", "matrix", "matrix-test");
 
+    // Wait for button
+    waitForButton("ButPrn");
+
     // Click on tab
     clickTab("TabSelMat", "EDITABLE");
 

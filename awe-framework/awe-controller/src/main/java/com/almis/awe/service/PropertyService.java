@@ -17,6 +17,7 @@ import org.springframework.core.env.MutablePropertySources;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by pgarcia on 12/06/2017.
@@ -50,37 +51,29 @@ public class PropertyService extends ServiceConfig {
 
     // Retrieve properties from database if database is enabled
     if (databaseEnabled) {
-      Map aweDatabaseProperties = new HashMap();
-      String propertyName = "";
       try {
         getLogger().log(PropertyService.class, Level.INFO, "===== Loading database properties =====");
 
         // Retrieve application properties
-        serviceData = queryService.launchPrivateQuery(AweConstants.APPLICATION_PARAMETERS_QUERY);
-        DataList dataList = serviceData.getDataList();
-        List<Map<String, CellData>> applicationPropertyList = dataList.getRows();
+        DataList dataList = queryService.launchPrivateQuery(AweConstants.APPLICATION_PARAMETERS_QUERY, "1", "0").getDataList();
 
         // Store them into a properties object
-        for (Map<String, CellData> property : applicationPropertyList) {
-          // Store application property into environment
-          propertyName = property.get(AweConstants.PARAMETER_NAME).getStringValue();
-          String propertyValue = property.get(AweConstants.PARAMETER_VALUE).getStringValue();
-          aweDatabaseProperties.put(propertyName, propertyValue);
+        Map<String, Object> aweDatabaseProperties = dataList.getRows().stream().collect(Collectors.toMap(r -> r.get(AweConstants.PARAMETER_NAME).getStringValue(), r -> r.get(AweConstants.PARAMETER_VALUE).getStringValue()));
+
+        // Update environment sources
+        MutablePropertySources propertySources = environment.getPropertySources();
+        MapPropertySource propertySource = new MapPropertySource(AweConstants.AWE_DATABASE_PROPERTIES, aweDatabaseProperties);
+
+        // Store property source
+        if (propertySources.contains(AweConstants.AWE_DATABASE_PROPERTIES)) {
+          propertySources.replace(AweConstants.AWE_DATABASE_PROPERTIES, propertySource);
+        } else {
+          propertySources.addFirst(propertySource);
         }
-        // Add properties to system
+
+        getLogger().log(PropertyService.class, Level.INFO, "===== Database properties loaded ({0} properties) =====", dataList.getRows().size());
       } catch (AWException exc) {
-        getLogger().log(AweElements.class, Level.ERROR, "Error generating database property: {0}", exc, propertyName);
-      }
-
-      // Update environment sources
-      MutablePropertySources propertySources = environment.getPropertySources();
-      MapPropertySource propertySource = new MapPropertySource(AweConstants.AWE_DATABASE_PROPERTIES, aweDatabaseProperties);
-
-      // Store property source
-      if (propertySources.contains(AweConstants.AWE_DATABASE_PROPERTIES)) {
-        propertySources.replace(AweConstants.AWE_DATABASE_PROPERTIES, propertySource);
-      } else {
-        propertySources.addFirst(propertySource);
+        getLogger().log(AweElements.class, Level.ERROR, "Error loading database properties", exc);
       }
     }
 

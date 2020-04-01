@@ -20,6 +20,7 @@ export const ClientActions = {
     "remove-class": {method: "removeClass"},
     "print": {method: "screenPrint"},
     "redirect": {method: "redirect"},
+    "redirect-screen": {method: "redirectScreen"},
     "close-window": {method: "closeWindow"},
     "end-dependency": {method: "endDependency"}
   },
@@ -89,6 +90,10 @@ export const ClientActions = {
     "file-status": {method: "onFileStatus"},
     "file-uploaded": {method: "onFileUploaded"},
     "clear-file": {method: "onReset"}
+  },
+  // Available taglist actions
+  taglist: {
+    "taglist-data": {method: "onData"},
   },
   // Available grid actions
   grid: {

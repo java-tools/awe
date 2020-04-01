@@ -3,7 +3,7 @@ import "./commons";
 
 // Base grid service
 aweApplication.factory('GridBase',
-  ['AweUtilities', 'Control', 'Component', 'GridEvents', 'GridCommons', '$translate', '$filter', '$log',
+  ['AweUtilities', 'Control', 'Component', 'GridEvents', 'GridCommons', '$translate', '$filter', '$log', 'uiGridConstants',
     /**
      * Grid generic methods
      * @param {service} Utilities Utilities service
@@ -14,8 +14,9 @@ aweApplication.factory('GridBase',
      * @param {service} $filter Filtering service
      * @param {service} $log Log service
      * @param {service} Component Component service
+     * @param {service} uiGridConstants Grid constants
      */
-    function (Utilities, Control, Component, GridEvents, GridCommons, $translate, $filter, $log) {
+    function (Utilities, Control, Component, GridEvents, GridCommons, $translate, $filter, $log, uiGridConstants) {
 
       /**
        * Grid constructor

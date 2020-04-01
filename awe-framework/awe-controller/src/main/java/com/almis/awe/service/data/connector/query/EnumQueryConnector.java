@@ -90,7 +90,7 @@ public class EnumQueryConnector extends AbstractQueryConnector {
     } catch (AWException exc) {
       throw exc;
     } catch (Exception exc) {
-      throw new AWEQueryException(getElements().getLocale("ERROR_TITLE_LAUNCHING_ENUM_QUERY"), exc.getMessage(), enumId, exc);
+      throw new AWEQueryException(getLocale("ERROR_TITLE_LAUNCHING_ENUM_QUERY"), exc.getMessage(), enumId, exc);
     }
 
     // Get elapsed query time

@@ -20,6 +20,7 @@ public class ClientActionBuilder<T> {
 
   private String type;
   private String target;
+  private String context;
   private ComponentAddress address;
   private Boolean async;
   private Boolean silent;
@@ -33,6 +34,7 @@ public class ClientActionBuilder<T> {
     return ClientAction.builder()
       .type(getType())
       .target(getTarget())
+      .context(getContext())
       .address(getAddress())
       .async(getAsync())
       .silent(getSilent())

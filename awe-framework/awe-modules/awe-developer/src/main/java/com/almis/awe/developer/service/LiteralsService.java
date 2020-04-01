@@ -161,7 +161,7 @@ public class LiteralsService extends ServiceConfig {
     try {
       storeUpdatedLocale(codeLang.toUpperCase(), code, text, markdown, formatSelector);
     } catch (Exception exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_STORING_TRANSLATION"), getElements().getLocale("ERROR_MESSAGE_STORING_TRANSLATION", code, text), exc);
+      throw new AWException(getLocale("ERROR_TITLE_STORING_TRANSLATION"), getLocale("ERROR_MESSAGE_STORING_TRANSLATION", code, text), exc);
     }
 
     String value;
@@ -171,8 +171,8 @@ public class LiteralsService extends ServiceConfig {
       value = markdown;
     }
 
-    serviceData.setTitle(getElements().getLocale("OK_TITLE_LOCAL_UPDATED"));
-    serviceData.setMessage(getElements().getLocale("OK_MESSAGE_LOCAL_UPDATED", code));
+    serviceData.setTitle(getLocale("OK_TITLE_LOCAL_UPDATED"));
+    serviceData.setMessage(getLocale("OK_MESSAGE_LOCAL_UPDATED", code));
 
     // Build address of cell
     ComponentAddress address = new ComponentAddress("report", "GrdTraLit", codeLang, "lite");
@@ -220,12 +220,12 @@ public class LiteralsService extends ServiceConfig {
           storeNewLocale(actualLangCode, code, newLiteral);
 
           // Set service data
-          serviceData.setTitle(getElements().getLocale("OK_TITLE_NEW_LOCAL"));
-          serviceData.setMessage(getElements().getLocale("OK_MESSAGE_NEW_LOCAL", code));
+          serviceData.setTitle(getLocale("OK_TITLE_NEW_LOCAL"));
+          serviceData.setMessage(getLocale("OK_MESSAGE_NEW_LOCAL", code));
         } else {
           // Send warning
-          serviceData.setTitle(getElements().getLocale("WARNING_TITLE_NEW_LOCAL"));
-          serviceData.setMessage(getElements().getLocale("WARNING_MESSAGE_LOCAL_ALREADY_EXISTS", code));
+          serviceData.setTitle(getLocale("WARNING_TITLE_NEW_LOCAL"));
+          serviceData.setMessage(getLocale("WARNING_MESSAGE_LOCAL_ALREADY_EXISTS", code));
           serviceData.setType(AnswerType.WARNING);
         }
       }
@@ -254,8 +254,8 @@ public class LiteralsService extends ServiceConfig {
       storeDeletedLocale(codeLang, code);
     }
 
-    serviceData.setTitle(getElements().getLocale("OK_TITLE_REMOVED_LOCAL"));
-    serviceData.setMessage(getElements().getLocale("OK_MESSAGE_REMOVED_LOCAL", code));
+    serviceData.setTitle(getLocale("OK_TITLE_REMOVED_LOCAL"));
+    serviceData.setMessage(getLocale("OK_MESSAGE_REMOVED_LOCAL", code));
     return serviceData;
 
   }
@@ -357,12 +357,12 @@ public class LiteralsService extends ServiceConfig {
       translation = textList.get(0).asText();
 
       if ("".equalsIgnoreCase(translation)) {
-        throw new AWException(getElements().getLocale("ERROR_TITLE_RETRIEVING_TRANSLATION"),
-          getElements().getLocale("ERROR_MESSAGE_RETRIEVING_TRANSLATION", toLang, literal));
+        throw new AWException(getLocale("ERROR_TITLE_RETRIEVING_TRANSLATION"),
+          getLocale("ERROR_MESSAGE_RETRIEVING_TRANSLATION", toLang, literal));
       }
     } catch (IOException exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_RETRIEVING_TRANSLATION"),
-        getElements().getLocale("ERROR_MESSAGE_RETRIEVING_TRANSLATION", toLang, literal), exc);
+      throw new AWException(getLocale("ERROR_TITLE_RETRIEVING_TRANSLATION"),
+        getLocale("ERROR_MESSAGE_RETRIEVING_TRANSLATION", toLang, literal), exc);
     }
 
     return translation;
@@ -654,8 +654,8 @@ public class LiteralsService extends ServiceConfig {
       LocaleUtil.printHeader(xmlOut, fileName, FILE_DESCRIPTION, true);
       xstream.toXML(locales, xmlOut);
     } catch (Exception exc) {
-      throw new AWException(getElements().getLocale("ERROR_TITLE_STORE_FILE"),
-        getElements().getLocale("ERROR_MESSAGE_STORE_FILE", fileName), exc);
+      throw new AWException(getLocale("ERROR_TITLE_STORE_FILE"),
+        getLocale("ERROR_MESSAGE_STORE_FILE", fileName), exc);
     }
   }
 
