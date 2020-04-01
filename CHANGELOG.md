@@ -1,4 +1,21 @@
 
+# Changelog for AWE 4.2.2
+*01/04/2020*
+
+- Property `file.upload.max.size` is read in bytes instead of mega bytes. [MR #209](https://gitlab.com/aweframework/awe/merge_requests/209) (Pablo Javier García Mora)
+- Allow to define * as column width. [MR #208](https://gitlab.com/aweframework/awe/merge_requests/208) (Pablo Javier García Mora)
+- Application parameters not recoverd with getProperty. [MR #207](https://gitlab.com/aweframework/awe/merge_requests/207) (Pablo Javier García Mora)
+- Cast exception in generic print for grids with numeric values. [MR #206](https://gitlab.com/aweframework/awe/merge_requests/206) (Pablo Javier García Mora)
+- Make a Reports historic copy. [MR #205](https://gitlab.com/aweframework/awe/merge_requests/205) (Pablo Javier García Mora)
+- Treegrid doesn't open expanded branches on defined initial level if loaded with `autoload` and `load-all`. [MR #204](https://gitlab.com/aweframework/awe/merge_requests/204) (Pablo Javier García Mora)
+- Destroy help timeout when clicking a button. [MR #203](https://gitlab.com/aweframework/awe/merge_requests/203) (Pablo Javier García Mora)
+- Improve `screen` client action to reload the page if it is the same. [MR #202](https://gitlab.com/aweframework/awe/merge_requests/202) (Pablo Javier García Mora)
+- Add a new action to redirect a specific screen (broadcast to specific screen). [MR #201](https://gitlab.com/aweframework/awe/merge_requests/201) (Pablo Javier García Mora)
+- **[HAS IMPACTS]** Notification module. [MR #200](https://gitlab.com/aweframework/awe/merge_requests/200) (Pablo Javier García Mora)
+- Add function SQL RANK. [MR #199](https://gitlab.com/aweframework/awe/merge_requests/199) (Pablo Javier García Mora)
+- Add a broadcasting method to send actions to a concrete screen. [MR #198](https://gitlab.com/aweframework/awe/merge_requests/198) (Pablo Javier García Mora)
+- Allow to define component values for grids, wizards, tabs and charts when generating them with builder module. [MR #197](https://gitlab.com/aweframework/awe/merge_requests/197) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.2.1
 *24/02/2020*
 
