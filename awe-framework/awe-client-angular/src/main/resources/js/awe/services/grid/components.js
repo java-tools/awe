@@ -158,6 +158,33 @@ aweApplication.factory('GridComponents',
             return cellApi[cellId];
           };
 
+          /**
+           * Delete row for components with
+           */
+          component.deleteRow = function (rowId) {
+            // Restore row values
+            let selectedRow = rowId || component.getSelectedRow();
+
+            // Remove all cells
+            component.deleteRowCells(selectedRow);
+
+            // Delete physically the row
+            component.deleteRowSpecific(selectedRow);
+          };
+
+          /**
+           * Delete row cells
+           */
+          component.deleteRowCells = function (rowId) {
+            _.each(component.getColumns(), (column)  => {
+              let address = {component: component.id, row: rowId, column: column.name};
+              let cellId = Utilities.getCellId(address);
+              delete component.model.cells[cellId];
+              delete component.controller.cells[cellId];
+              delete component.api.cells[cellId];
+            });
+          };
+
           return true;
         }
       };

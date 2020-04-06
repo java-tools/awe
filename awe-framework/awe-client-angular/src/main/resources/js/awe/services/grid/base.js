@@ -439,12 +439,14 @@ aweApplication.factory('GridBase',
             if (row) {
               // Calculate rowIndex
               var rowIndex = Control.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
-              // Remove data from the model
-              component.model.values.splice(rowIndex, 1);
-              // Remove a record
-              changeRecords(component.model.records - 1);
-              // Publish model changed
-              component.updateModelSpecific();
+              if (rowIndex > -1) {
+                // Remove data from the model
+                component.model.values.splice(rowIndex, 1);
+                // Remove a record
+                changeRecords(component.model.records - 1);
+                // Publish model changed
+                component.updateModelSpecific();
+              }
             }
             return deferRowsRendered();
           };

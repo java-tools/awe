@@ -1070,14 +1070,6 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           }
         };
         /**
-         * Delete the current row
-         */
-        component.deleteRow = function () {
-          // Restore row values
-          var selectedRow = component.getSelectedRow();
-          component.deleteRowSpecific(selectedRow);
-        };
-        /**
          * Add a new row
          *
          * @param {integer} position

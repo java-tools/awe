@@ -1025,4 +1025,68 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
     // Assert
     expect(columnValues1).toEqual(null);
   });
+
+  it('should delete the selected row (on GridComponents)', function () {
+    // Mock
+    var spy = jasmine.createSpy('spy');
+    let component = {
+      constants: {ROW_IDENTIFIER: "id"},
+      controller: {columnModel: []},
+      scope: {$on: () => null, charSize: 7},
+      enableSorting: true,
+      listeners: {},
+      api: {},
+      model: {
+        selected: ["1"],
+        values: [{id: 1}, {id: 2}, {id: 4}, {id: 5}, {id: 6}, {id: 7}]
+      },
+      address: {view: "viewId", component: "componentId"},
+      resetSelection: () => null,
+      selectRow: () => null,
+      storeEvent: () => null,
+      getColumns: () => null
+    };
+    let commons = new GridCommons(component);
+    commons.init();
+    spyOn(component, "getColumns").and.returnValue(["tutu", "lala"]);
+    component.deleteRowSpecific = spy;
+
+    // Launch
+    component.deleteRow();
+
+    // Assert
+    expect(spy).toHaveBeenCalledWith('1');
+  });
+
+  it('should delete a row (on GridComponents)', function () {
+    // Mock
+    var spy = jasmine.createSpy('spy');
+    let component = {
+      constants: {ROW_IDENTIFIER: "id"},
+      controller: {columnModel: []},
+      scope: {$on: () => null, charSize: 7},
+      enableSorting: true,
+      listeners: {},
+      api: {},
+      model: {
+        selected: ["1"],
+        values: [{id: 1}, {id: 2}, {id: 4}, {id: 5}, {id: 6}, {id: 7}]
+      },
+      address: {view: "viewId", component: "componentId"},
+      resetSelection: () => null,
+      selectRow: () => null,
+      storeEvent: () => null,
+      getColumns: () => null
+    };
+    let commons = new GridCommons(component);
+    commons.init();
+    spyOn(component, "getColumns").and.returnValue(["tutu", "lala"]);
+    component.deleteRowSpecific = spy;
+
+    // Launch
+    component.deleteRow("5");
+
+    // Assert
+    expect(spy).toHaveBeenCalledWith('5');
+  });
 });

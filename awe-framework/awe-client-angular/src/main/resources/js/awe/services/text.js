@@ -55,11 +55,10 @@ aweApplication.factory('Text',
             var values = component.model.values;
 
             // Changed selected
-            if ("selected" in changed) {
-              values[0] = {value: selected, label: selected || ""};
-            // Changed values
-            } else if ("values" in changed && values.length > 0) {
+            if ("values" in changed) {
               component.model.selected = values[0].value;
+            } else {
+              values[0] = {value: selected, label: selected || ""};
             }
           }
 
