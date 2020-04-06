@@ -670,18 +670,20 @@ aweApplication.factory('GridTree',
             if (rowId) {
               // Calculate rowIndex
               var rowIndex = Control.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
-              // Remove data from the model
-              var rowToDelete = component.model.values[rowIndex];
-              removeRow(component, rowToDelete);
-              // Remove from parent
-              var parentIndex = rowToDelete.$$parent.$$children.indexOf(rowToDelete);
-              rowToDelete.$$parent.$$children.splice(parentIndex, 1);
-              // Recalculate parent icon
-              if (rowToDelete.$$treeLevel > 0) {
-                rowToDelete.$$parent.$$isLeaf = rowToDelete.$$parent.$$children.length === 0;
-                setNodeIcon(rowToDelete.$$parent);
+              if (rowIndex > -1) {
+                // Remove data from the model
+                var rowToDelete = component.model.values[rowIndex];
+                removeRow(component, rowToDelete);
+                // Remove from parent
+                var parentIndex = rowToDelete.$$parent.$$children.indexOf(rowToDelete);
+                rowToDelete.$$parent.$$children.splice(parentIndex, 1);
+                // Recalculate parent icon
+                if (rowToDelete.$$treeLevel > 0) {
+                  rowToDelete.$$parent.$$isLeaf = rowToDelete.$$parent.$$children.length === 0;
+                  setNodeIcon(rowToDelete.$$parent);
+                }
+                component.scope.gridOptions.data = component.model.values;
               }
-              component.scope.gridOptions.data = component.model.values;
             }
             return deferRowsRendered().then(onUpdatedGridData);
           };

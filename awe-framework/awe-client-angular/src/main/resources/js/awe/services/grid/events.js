@@ -263,7 +263,7 @@ aweApplication.factory('GridEvents',
         onDeleteRow: function (parameters, scope) {
           // Remove the selected row
           var component = scope.component;
-          component.deleteRow();
+          component.deleteRow(parameters.rowId);
 
           // Call select rows event
           component.unselectRows();

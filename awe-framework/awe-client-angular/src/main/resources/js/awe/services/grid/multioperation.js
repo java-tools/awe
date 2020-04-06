@@ -133,24 +133,29 @@ aweApplication.factory('GridMultioperation',
           /**
            * Delete the current row
            */
-          component.deleteRow = function () {
+          component.deleteRow = function (rowId) {
             // Hide context menu if showing
             component.hideContextMenu();
 
             // Get selected row
-            let selectedRow = component.getSelectedRows();
+            let selectedRow = Utilities.asArray(rowId || component.getSelectedRows());
 
             // If selectedRow is not null, remove row
             _.each(selectedRow, function (row) {
               // Calculate rowIndex
               let rowIndex = Control.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
+              if (rowIndex > -1) {
+                // If row has been added previously, delete row
+                if (component.model.values[rowIndex][component.constants.ROW_TYPE_NAME] === component.constants.ROW_ACTIONS.INSERT.value) {
+                  // Delete row cells
+                  component.deleteRowCells(row);
 
-              // If row has been added previously, delete row
-              if (component.model.values[rowIndex][component.constants.ROW_TYPE_NAME] === component.constants.ROW_ACTIONS.INSERT.value) {
-                component.deleteRowSpecific(row);
-                // Else mark row as deleted
-              } else {
-                changeRowOperation(row, component.constants.ROW_ACTIONS.DELETE);
+                  // Delete row
+                  component.deleteRowSpecific(row);
+                  // Else mark row as deleted
+                } else {
+                  changeRowOperation(row, component.constants.ROW_ACTIONS.DELETE);
+                }
               }
             });
           };
