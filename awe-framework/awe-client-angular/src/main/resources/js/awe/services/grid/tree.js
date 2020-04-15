@@ -553,21 +553,23 @@ aweApplication.factory('GridTree',
                   rowIndex = 0;
                   break;
                 case "before":
-                  parentRow = selectedRow.$$parent;
-                  childIndex = parentRow.$$children.indexOf(selectedRow);
                   rowData.$$treeLevel = selectedRow.$$treeLevel;
-                  rowData.$$parent = parentRow;
-                  parentRow.$$children.splice(childIndex, 0, rowData);
+                  parentRow = selectedRow.$$parent;
+                  if (parentRow) {
+                    childIndex = parentRow.$$children.indexOf(selectedRow);
+                    rowData.$$parent = parentRow;
+                    parentRow.$$children.splice(childIndex, 0, rowData);
+                  }
                   break;
                 case "after":
-                  parentRow = selectedRow.$$parent;
-                  childIndex = parentRow.$$children.indexOf(selectedRow);
                   rowData.$$treeLevel = selectedRow.$$treeLevel;
-                  rowData.$$parent = parentRow;
-                  parentRow.$$children.splice(childIndex + 1, 0, rowData);
-                  $log.info("Selected row index for AFTER: " + rowIndex);
                   rowIndex = getNextIndex(rowIndex, selectedRow.$$treeLevel, component.model.values);
-                  $log.info("New row index for AFTER: " + rowIndex);
+                  parentRow = selectedRow.$$parent;
+                  if (parentRow) {
+                    childIndex = parentRow.$$children.indexOf(selectedRow);
+                    rowData.$$parent = parentRow;
+                    parentRow.$$children.splice(childIndex + 1, 0, rowData);
+                  }
                   break;
                 case "child":
                   // Finish loading parent
@@ -674,13 +676,15 @@ aweApplication.factory('GridTree',
                 // Remove data from the model
                 var rowToDelete = component.model.values[rowIndex];
                 removeRow(component, rowToDelete);
-                // Remove from parent
-                var parentIndex = rowToDelete.$$parent.$$children.indexOf(rowToDelete);
-                rowToDelete.$$parent.$$children.splice(parentIndex, 1);
-                // Recalculate parent icon
-                if (rowToDelete.$$treeLevel > 0) {
-                  rowToDelete.$$parent.$$isLeaf = rowToDelete.$$parent.$$children.length === 0;
-                  setNodeIcon(rowToDelete.$$parent);
+                if (rowToDelete.$$parent) {
+                  // Remove from parent
+                  var parentIndex = rowToDelete.$$parent.$$children.indexOf(rowToDelete);
+                  rowToDelete.$$parent.$$children.splice(parentIndex, 1);
+                  // Recalculate parent icon
+                  if (rowToDelete.$$treeLevel > 0) {
+                    rowToDelete.$$parent.$$isLeaf = rowToDelete.$$parent.$$children.length === 0;
+                    setNodeIcon(rowToDelete.$$parent);
+                  }
                 }
                 component.scope.gridOptions.data = component.model.values;
               }
