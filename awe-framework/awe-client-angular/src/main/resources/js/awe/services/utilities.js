@@ -975,14 +975,14 @@ aweApplication.factory('AweUtilities',
         },
         /**
          * Retrieve row index
-         * @param {string} model Grid model
-         * @param {string} rowId Row identifier
+         * @param {array} values Grid model
+         * @param {mixed} rowId Row identifier
          * @param {string} identifier Row identifier field
          * @returns {integer} Selected row index in values array
          */
-        getRowIndex: function (model, rowId, identifier) {
-          for (var index = 0, total = model.length; index < total; index++) {
-            if (String(model[index][identifier]) === String(rowId)) {
+        getRowIndex: function (values, rowId, identifier) {
+          for (let index = 0, total = values.length; index < total; index++) {
+            if (String(values[index][identifier]) === String(rowId)) {
               return index;
             }
           }
