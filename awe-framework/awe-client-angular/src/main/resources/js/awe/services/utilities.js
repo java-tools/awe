@@ -972,6 +972,21 @@ aweApplication.factory('AweUtilities',
           let endpoint = "";
           Array.prototype.slice.call(arguments).filter(v => !Utilities.isEmpty(v)).forEach(v => endpoint += "/" + v);
           return endpoint;
+        },
+        /**
+         * Retrieve row index
+         * @param {string} model Grid model
+         * @param {string} rowId Row identifier
+         * @param {string} identifier Row identifier field
+         * @returns {integer} Selected row index in values array
+         */
+        getRowIndex: function (model, rowId, identifier) {
+          for (var index = 0, total = model.length; index < total; index++) {
+            if (String(model[index][identifier]) === String(rowId)) {
+              return index;
+            }
+          }
+          return -1;
         }
       };
       return Utilities;

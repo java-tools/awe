@@ -1,4 +1,4 @@
-import { aweApplication } from "./../../awe";
+import {aweApplication} from "./../../awe";
 import "./commons";
 
 // Tree grid service
@@ -12,7 +12,9 @@ aweApplication.factory('GridTree',
        */
       function sortTreeValues(tree) {
         let sortedTree = [];
-        _.each(tree, node => {sortedTree = sortedTree.concat([node, ...sortTreeValues(node.$$children)]);});
+        _.each(tree, node => {
+          sortedTree = sortedTree.concat([node, ...sortTreeValues(node.$$children)]);
+        });
 
         return sortedTree;
       }
@@ -324,6 +326,7 @@ aweApplication.factory('GridTree',
                 setNodeIcon(node);
               });
             }
+
             setLevels(tree.$$children, 0);
             component.treeData = tree;
             return data;
@@ -442,11 +445,11 @@ aweApplication.factory('GridTree',
             // Check if column is already shown
             var column = grid.api.grid.getColumn(columnId);
             if (column.colDef.hidden) {
-            	column.colDef.hidden = false;
-            	column.colDef.width = column.colDef.initialWidth;
-            	column.width = column.colDef.initialWidth;
-            	column.drawnWidth = column.colDef.initialWidth;
-            	finishPendingActions();
+              column.colDef.hidden = false;
+              column.colDef.width = column.colDef.initialWidth;
+              column.width = column.colDef.initialWidth;
+              column.drawnWidth = column.colDef.initialWidth;
+              finishPendingActions();
               Utilities.timeout(onChangeColumns);
             }
           };
@@ -458,10 +461,10 @@ aweApplication.factory('GridTree',
             // Check if column is already hidden
             var column = grid.api.grid.getColumn(columnId);
             if (!column.colDef.hidden) {
-            	column.colDef.hidden = true;
-            	column.colDef.width = 0;
-            	column.width = 0;
-            	column.drawnWidth = 0;
+              column.colDef.hidden = true;
+              column.colDef.width = 0;
+              column.width = 0;
+              column.drawnWidth = 0;
               finishPendingActions();
               Utilities.timeout(onChangeColumns);
             }
@@ -527,7 +530,7 @@ aweApplication.factory('GridTree',
             let selectedRow = null;
             let parentRow;
             let childIndex;
-              rowData.$$treeLevel = 0;
+            rowData.$$treeLevel = 0;
             newId = data && data.id ? data.id : "new-row-" + component.addedRows;
             component.addedRows++;
             rowData[component.constants.ROW_IDENTIFIER] = newId;
@@ -544,7 +547,7 @@ aweApplication.factory('GridTree',
             // Generate new row
             var rowIndex = component.model.values.length;
             if (row) {
-              rowIndex = Control.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
+              rowIndex = Utilities.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
               selectedRow = component.model.values[rowIndex];
 
               // Calculate rowIndex and treeLevel
@@ -671,7 +674,7 @@ aweApplication.factory('GridTree',
             // If selectedRow is not null, remove row
             if (rowId) {
               // Calculate rowIndex
-              var rowIndex = Control.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
+              var rowIndex = Utilities.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
               if (rowIndex > -1) {
                 // Remove data from the model
                 var rowToDelete = component.model.values[rowIndex];
@@ -698,8 +701,8 @@ aweApplication.factory('GridTree',
           component.gridSizeChanged = function () {
             var size = getGridSize();
             var changed = size.width > 0 && size.height > 0 && (
-                grid.measures.height !== size.height || grid.measures.width !== size.width ||
-                grid.measures.modelLength !== component.model.values.length);
+              grid.measures.height !== size.height || grid.measures.width !== size.width ||
+              grid.measures.modelLength !== component.model.values.length);
             if (changed) {
               grid.measures = {
                 ...size,
@@ -730,6 +733,7 @@ aweApplication.factory('GridTree',
           component.isGridVisible = function () {
             return Utilities.isVisible(grid.element[0]);
           };
+
           /******************************************************************************
            * PRIVATE METHODS
            *****************************************************************************/
@@ -747,6 +751,7 @@ aweApplication.factory('GridTree',
             // Resize the grid (to show or not scrollbars)
             component.resize();
           }
+
           /**
            * On scroll start
            */
@@ -756,6 +761,7 @@ aweApplication.factory('GridTree',
             // Bind clickout scroll
             //component.layers["clickout"].on("scroll", onChangeLayout);
           }
+
           /**
            * On scroll end
            */
@@ -765,6 +771,7 @@ aweApplication.factory('GridTree',
             // Unbind clickout scroll
             //component.layers["clickout"].off("scroll", onChangeLayout);
           }
+
           /**
            * On row collapsed
            * @param {type} row
@@ -774,6 +781,7 @@ aweApplication.factory('GridTree',
             // Toggle row collapsed
             component.toggleTreeRow(row.entity, false);
           }
+
           /**
            * On row expanded
            * @param {type} row
@@ -783,6 +791,7 @@ aweApplication.factory('GridTree',
             // Toggle row expanded
             component.toggleTreeRow(row.entity, true);
           }
+
           /**
            * Link to scope function (onSelectRow)
            */
@@ -792,6 +801,7 @@ aweApplication.factory('GridTree',
               updateSelectedRows();
             }
           }
+
           /**
            * Link to scope function (onChangeColumns)
            */
@@ -803,6 +813,7 @@ aweApplication.factory('GridTree',
               component.repositionSaveButton();
             }
           }
+
           /**
            * Refresh model
            */
@@ -815,6 +826,7 @@ aweApplication.factory('GridTree',
             }
             component.updateModel();
           }
+
           /**
            * Manage on sort event
            * @param {Grid} gridScope
@@ -929,6 +941,7 @@ aweApplication.factory('GridTree',
               component.repositionSaveButton();
             }
           }
+
           /**
            * Launch a promise on rows rendered
            * @param {type} onDefer
@@ -954,6 +967,7 @@ aweApplication.factory('GridTree',
             // Retrieve new id
             return deferred.promise;
           }
+
           /**
            * Finish the pending actions
            */
@@ -983,6 +997,7 @@ aweApplication.factory('GridTree',
               component.reload();
             }
           }
+
           /**
            * Updates selected rows in grid
            */

@@ -58,7 +58,7 @@ aweApplication.factory('GridComponents',
             var address = cell.address;
 
             // Get grid row index
-            var rowIndex = Control.getRowIndex(component.model.values, address.row, component.constants.ROW_IDENTIFIER);
+            var rowIndex = Utilities.getRowIndex(component.model.values, address.row, component.constants.ROW_IDENTIFIER);
 
             // If rowIndex is -1, the row is the footer row
             if (rowIndex !== -1) {
@@ -86,7 +86,7 @@ aweApplication.factory('GridComponents',
 
             if (!(cellId in cellModel)) {
               // Calculate rowIndex and selected value
-              var rowIndex = Control.getRowIndex(component.model.values, address.row, component.constants.ROW_IDENTIFIER);
+              var rowIndex = Utilities.getRowIndex(component.model.values, address.row, component.constants.ROW_IDENTIFIER);
 
               // Retrieve value list if exists
               var valueList = component.getColumnValueList(address);

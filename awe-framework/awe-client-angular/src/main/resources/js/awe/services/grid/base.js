@@ -390,7 +390,7 @@ aweApplication.factory('GridBase',
             // Generate new row
             var rowIndex = component.model.values.length;
             if (row) {
-              var foundRowIndex = Control.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
+              var foundRowIndex = Utilities.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
               if (foundRowIndex != -1) {
                 rowIndex = foundRowIndex;
               }
@@ -438,7 +438,7 @@ aweApplication.factory('GridBase',
             // If selectedRow is not null, remove row
             if (row) {
               // Calculate rowIndex
-              var rowIndex = Control.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
+              var rowIndex = Utilities.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
               if (rowIndex > -1) {
                 // Remove data from the model
                 component.model.values.splice(rowIndex, 1);
