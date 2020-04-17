@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -30,6 +31,7 @@ import org.testcontainers.containers.Network;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
@@ -90,13 +92,13 @@ public class SeleniumUtilities {
   @Value("${failsafe.browser:headless-chrome}")
   private String browser;
 
-  private static BrowserWebDriverContainer browserWebDriverContainer;
+  private static BrowserWebDriverContainer browserWebDriverContainer = null;
 
   /**
    * Set up test
    */
   @Before
-  public void setUpTest() throws Exception {
+  public void setUpTest() {
     // Setup window size
     String windowSize = "--window-size=" + browserWidth + "," + browserHeight;
 
@@ -106,18 +108,21 @@ public class SeleniumUtilities {
     firefoxProfile.setPreference("network.proxy.no_proxies_on", "localhost, 127.0.0.1");
     firefoxOptions.setProfile(firefoxProfile);
     firefoxOptions.addArguments(windowSize);
+    firefoxOptions.setLogLevel(FirefoxDriverLogLevel.ERROR);
 
     // Setup chrome options
     ChromeOptions chromeOptions = new ChromeOptions();
     chromeOptions.addArguments(windowSize);
 
     // Define browser web driver container
-    browserWebDriverContainer = (BrowserWebDriverContainer) new BrowserWebDriverContainer()
-      .withRecordingMode(VncRecordingMode.RECORD_FAILING, new File(screenshotPath))
-      .withRecordingFileFactory(new DefaultRecordingFileFactory())
-      .withPrivilegedMode(true)
-      .withSharedMemorySize(2000000000l)
-      .withNetwork(Network.SHARED);
+    if (browserWebDriverContainer == null) {
+      browserWebDriverContainer = (BrowserWebDriverContainer) new BrowserWebDriverContainer()
+        .withRecordingMode(VncRecordingMode.RECORD_FAILING, new File(screenshotPath))
+        .withRecordingFileFactory(new DefaultRecordingFileFactory())
+        .withPrivilegedMode(true)
+        .withSharedMemorySize(2000000000L)
+        .withNetwork(Network.SHARED);
+    }
 
     if (getDriver() == null) {
       switch (browser) {
@@ -255,7 +260,7 @@ public class SeleniumUtilities {
    *
    * @param condition Expected condition
    */
-  private void waitUntil(ExpectedCondition condition) {
+  private void waitUntil(ExpectedCondition<?> condition) {
     String message = condition.toString();
     try {
       new WebDriverWait(driver, timeout).until(condition);
@@ -289,7 +294,7 @@ public class SeleniumUtilities {
 
       // Now you can do whatever you need to do with it, for example copy somewhere
       try {
-        path.toFile().getParentFile().mkdirs();
+        Files.createDirectories(path.getParent());
         FileUtils.copyFile(scrFile, path.toFile());
       } catch (IOException ioExc) {
         log.error("Error trying to store screenshot at: " + path, ioExc);
@@ -615,7 +620,7 @@ public class SeleniumUtilities {
     By popoverSelector = By.cssSelector(".popover:not(.ng-hide)");
     try {
       // Safecheck
-      Integer safecheck = 0;
+      int safecheck = 0;
 
       // Move mouse while help is being displayed
       List<WebElement> popovers = getElements(popoverSelector);
@@ -832,7 +837,7 @@ public class SeleniumUtilities {
    */
   private void suggestMultipleFromSelector(String parentSelector, boolean clear, String search, String label) {
     // Safecheck
-    Integer safecheck = 0;
+    int safecheck = 0;
     By searchBox = By.cssSelector(parentSelector + " input.select2-input");
 
     // Wait for element present
@@ -962,7 +967,7 @@ public class SeleniumUtilities {
       waitUntil(visibilityOfElementLocated(By.name(option)));
 
       // If it is not the last option, check if it is already opened
-      List openedChildren = getElements(By.xpath("//*[contains(@name,'" + option + "')]/following-sibling::ul[contains(@class,'opened')]"));
+      List<WebElement> openedChildren = getElements(By.xpath("//*[contains(@name,'" + option + "')]/following-sibling::ul[contains(@class,'opened')]"));
       if (optionNumber == menuOptions.length || openedChildren.isEmpty()) {
         // Click on screen
         click(By.name(option));
@@ -980,7 +985,7 @@ public class SeleniumUtilities {
   /**
    * Wait for css selector
    *
-   * @param cssSelector
+   * @param cssSelector CSS Selector
    */
   protected By waitForCssSelector(String cssSelector) {
     By selector = By.cssSelector(cssSelector);
@@ -2073,7 +2078,7 @@ public class SeleniumUtilities {
     ExpectedCondition<Boolean> condition = and(invisibilityOfElementLocated(selector), GRID_LOADER_IS_NOT_VISIBLE);
 
     // Assert element is not located
-    assertWithScreenshot(condition.toString(), condition.apply(driver).booleanValue());
+    assertWithScreenshot(condition.toString(), condition.apply(driver));
   }
 
   /**
