@@ -190,6 +190,7 @@ public class SeleniumUtilities {
   @AfterClass
   public static void cleanDrivers() {
     if (getDriver() != null) {
+      getDriver().close();
       getDriver().quit();
       setDriver(null);
     }
@@ -197,6 +198,7 @@ public class SeleniumUtilities {
     if (browserWebDriverContainer != null) {
       browserWebDriverContainer.stop();
       browserWebDriverContainer.close();
+      browserWebDriverContainer = null;
     }
   }
 
