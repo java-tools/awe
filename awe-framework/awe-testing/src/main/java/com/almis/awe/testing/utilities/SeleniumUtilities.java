@@ -117,7 +117,7 @@ public class SeleniumUtilities {
       switch (browser) {
         case "docker-firefox":
           startURL = "http://" + getHost() + ":" + serverPort + contextPath;
-          setDriver(getWebDriver(firefoxOptions));
+          setDriver(getDockerWebDriver(firefoxOptions));
           break;
         case "firefox":
           WebDriverManager.firefoxdriver().setup();
@@ -130,7 +130,7 @@ public class SeleniumUtilities {
           break;
         case "docker-chrome":
           startURL = "http://" + getHost() + ":" + serverPort + contextPath;
-          setDriver(getWebDriver(chromeOptions));
+          setDriver(getDockerWebDriver(chromeOptions));
           break;
         case "headless-chrome":
           WebDriverManager.chromedriver().setup();
@@ -167,7 +167,7 @@ public class SeleniumUtilities {
    * Get browser web driver   *
    * @return
    */
-  private WebDriver getWebDriver(MutableCapabilities capabilities) {
+  private WebDriver getDockerWebDriver(MutableCapabilities capabilities) {
     try (BrowserWebDriverContainer webDriverContainer = (BrowserWebDriverContainer) new BrowserWebDriverContainer()
       .withCapabilities(capabilities)
       .withRecordingMode(VncRecordingMode.RECORD_FAILING, new File(screenshotPath))
@@ -190,9 +190,11 @@ public class SeleniumUtilities {
   @AfterClass
   public static void cleanDrivers() {
     if (getDriver() != null) {
+      log.info("Disposing web driver...");
       getDriver().close();
       getDriver().quit();
       setDriver(null);
+      log.info("Web driver disposed");
     }
   }
 
