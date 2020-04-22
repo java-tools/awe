@@ -92,8 +92,6 @@ public class SeleniumUtilities {
   @Value("${failsafe.browser:headless-chrome}")
   private String browser;
 
-  private static BrowserWebDriverContainer browserWebDriverContainer = null;
-
   /**
    * Set up test
    */
@@ -115,23 +113,11 @@ public class SeleniumUtilities {
     chromeOptions.addArguments(windowSize);
 
     // Define browser web driver container
-    if (browserWebDriverContainer == null) {
-      browserWebDriverContainer = (BrowserWebDriverContainer) new BrowserWebDriverContainer()
-        .withRecordingMode(VncRecordingMode.RECORD_FAILING, new File(screenshotPath))
-        .withRecordingFileFactory(new DefaultRecordingFileFactory())
-        .withPrivilegedMode(true)
-        .withSharedMemorySize(2000000000L)
-        .withNetwork(Network.SHARED);
-    }
-
     if (getDriver() == null) {
       switch (browser) {
         case "docker-firefox":
-          browserWebDriverContainer
-            .withCapabilities(firefoxOptions)
-            .start();
           startURL = "http://" + getHost() + ":" + serverPort + contextPath;
-          setDriver(browserWebDriverContainer.getWebDriver());
+          setDriver(getWebDriver(firefoxOptions));
           break;
         case "firefox":
           WebDriverManager.firefoxdriver().setup();
@@ -143,11 +129,8 @@ public class SeleniumUtilities {
           setDriver(new FirefoxDriver(firefoxOptions));
           break;
         case "docker-chrome":
-          browserWebDriverContainer
-            .withCapabilities(chromeOptions)
-            .start();
           startURL = "http://" + getHost() + ":" + serverPort + contextPath;
-          setDriver(browserWebDriverContainer.getWebDriver());
+          setDriver(getWebDriver(chromeOptions));
           break;
         case "headless-chrome":
           WebDriverManager.chromedriver().setup();
@@ -180,6 +163,23 @@ public class SeleniumUtilities {
     }
   }
 
+  /**
+   * Get browser web driver   *
+   * @return
+   */
+  private WebDriver getWebDriver(MutableCapabilities capabilities) {
+    try (BrowserWebDriverContainer webDriverContainer = (BrowserWebDriverContainer) new BrowserWebDriverContainer()
+      .withCapabilities(capabilities)
+      .withRecordingMode(VncRecordingMode.RECORD_FAILING, new File(screenshotPath))
+      .withRecordingFileFactory(new DefaultRecordingFileFactory())
+      .withPrivilegedMode(true)
+      .withSharedMemorySize(2000000000L)
+      .withNetwork(Network.SHARED)) {
+      webDriverContainer.start();
+      return webDriverContainer.getWebDriver();
+    }
+  }
+
   private String getHost() {
     return SystemUtils.IS_OS_LINUX ? "172.17.0.1" : "host.docker.internal";
   }
@@ -193,12 +193,6 @@ public class SeleniumUtilities {
       getDriver().close();
       getDriver().quit();
       setDriver(null);
-    }
-
-    if (browserWebDriverContainer != null) {
-      browserWebDriverContainer.stop();
-      browserWebDriverContainer.close();
-      browserWebDriverContainer = null;
     }
   }
 
