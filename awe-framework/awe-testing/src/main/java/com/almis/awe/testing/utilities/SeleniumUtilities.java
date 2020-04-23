@@ -191,7 +191,9 @@ public class SeleniumUtilities {
   public static void cleanDrivers() {
     if (getDriver() != null) {
       log.info("Disposing web driver...");
-      getDriver().close();
+      if (getDriver() instanceof ChromeDriver) {
+        getDriver().close();
+      }
       getDriver().quit();
       setDriver(null);
       log.info("Web driver disposed");
