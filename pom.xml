@@ -30,8 +30,6 @@
     <jacoco.reportPaths>${jacoco.base.reports}/coverage-reports</jacoco.reportPaths>
 
     <!-- Sonar configuration -->
-    <sonar.projectKey>aweframework_awe</sonar.projectKey>
-    <sonar.organization>aweframework</sonar.organization>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.links.homepage>https://gitlab.com/aweframework/awe</sonar.links.homepage>
     <sonar.links.ci>https://gitlab.com/aweframework/awe/pipelines</sonar.links.ci>
