@@ -10,7 +10,8 @@ variables:
   SAST_PULL_ANALYZER_IMAGES: "0"
   SAST_RUN_ANALYZER_TIMEOUT: 30m
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-  SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.qualitygate.wait=true"
+  SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.qualitygate.wait=true"
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   SKIP_TESTS: "-DskipTests"
   IT_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false -DgenerateIntegrationReport=true"
   UT_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.frontend=true -DgenerateIntegrationReport=true"
@@ -23,6 +24,8 @@ variables:
   KUBERNETES_PROJECT_ID: wired-armor-229610
   KUBERNETES_CLUSTER_NAME: awe-boot-cluster
   CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+
 
 cache:
   key: $CACHE_KEY
@@ -201,6 +204,10 @@ Chrome IT:
 Launch Sonar:
   stage: analysis
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  cache:
+    key: $CACHE_KEY
+    paths:
+      - .sonar/cache
   dependencies:
     - All UT
     - Oracle UT
@@ -215,8 +222,10 @@ Launch Sonar:
   artifacts:
     paths:
       - awe-tests/awe-boot/target/coverage-reports/
-  except:
-    - /^release/.*$/
+  only:
+    - merge_requests
+    - master
+    - develop
 
 #include:
 #  - template: SAST.gitlab-ci.yml
