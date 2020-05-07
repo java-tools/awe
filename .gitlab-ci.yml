@@ -91,6 +91,10 @@ Build project:
   script:
     - mvn $MAVEN_CLI_OPTS verify $UT_OPTS -Dsurefire.suite=**/$UNIT_TEST_SUITE -P$TEST_NAME
     - cp awe-tests/awe-boot/target/jacoco.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
+  only:
+    - master
+    - develop
+    - merge_requests
   except:
     - /^release/.*$/
   artifacts:
@@ -174,6 +178,10 @@ Frontend UT:
     - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - echo "$errors errors and $failures failures found"
+  only:
+    - master
+    - develop
+    - merge_requests
   except:
     - /^release/.*$/
   artifacts:
