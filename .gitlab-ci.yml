@@ -61,12 +61,7 @@ stages:
       - awe-framework/awe-modules/awe-tools/node_modules/
   script:
     - mvn $MAVEN_CLI_OPTS clean install $SKIP_TESTS
-  only:
-    - merge_requests
-    - master
-    - develop
   retry: 2
-
 
 Compile project:
   extends: .build
@@ -81,6 +76,7 @@ Build project:
       - awe-tests/awe-boot/target/awe-boot.war
   only:
     - develop
+    - merge_requests
 
 ##############################
 # Unit testing stage
