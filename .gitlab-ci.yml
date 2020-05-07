@@ -24,7 +24,7 @@ variables:
   KUBERNETES_PROJECT_ID: wired-armor-229610
   KUBERNETES_CLUSTER_NAME: awe-boot-cluster
   CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
-  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task.
 
 
 cache:
@@ -67,6 +67,7 @@ Compile project:
   extends: .build
   except:
     - develop
+    - merge_requests
     - /^release/.*$/
 
 Build project:
@@ -76,6 +77,7 @@ Build project:
       - awe-tests/awe-boot/target/awe-boot.war
   only:
     - develop
+    - merge_requests
 
 ##############################
 # Unit testing stage
@@ -90,6 +92,10 @@ Build project:
   script:
     - mvn $MAVEN_CLI_OPTS verify $UT_OPTS -Dsurefire.suite=**/$UNIT_TEST_SUITE -P$TEST_NAME
     - cp awe-tests/awe-boot/target/jacoco.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
+  only:
+    - master
+    - develop
+    - merge_requests
   except:
     - /^release/.*$/
   artifacts:
@@ -152,6 +158,10 @@ Frontend UT:
     reports:
       junit:
         - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
+  only:
+    - develop
+    - merge_requests
+    - master
   except:
     - /^release/.*$/
 
@@ -173,6 +183,10 @@ Frontend UT:
     - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - echo "$errors errors and $failures failures found"
+  only:
+    - master
+    - develop
+    - merge_requests
   except:
     - /^release/.*$/
   artifacts:
