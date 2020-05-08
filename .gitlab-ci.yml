@@ -67,6 +67,7 @@ Compile project:
   extends: .build
   except:
     - develop
+    - merge_requests
     - /^release/.*$/
 
 Build project:
@@ -157,6 +158,10 @@ Frontend UT:
     reports:
       junit:
         - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
+  only:
+    - develop
+    - merge_requests
+    - master
   except:
     - /^release/.*$/
 
