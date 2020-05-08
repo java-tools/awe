@@ -26,7 +26,6 @@ variables:
   CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the sonar task.
 
-
 cache:
   key: $CACHE_KEY
   policy: pull
@@ -44,6 +43,22 @@ stages:
   - package
   - deploy
   - release
+
+##############################
+# Pipeline rules
+##############################
+
+.if-default: &if-default
+  if: '$CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_REF_NAME == "develop" || $CI_MERGE_REQUEST_IID'
+.if-master: &if-master
+  if: '$CI_COMMIT_REF_NAME == "master"'
+.if-develop: &if-develop
+  if: '$CI_COMMIT_REF_NAME == "develop"'
+.if-release: &if-release
+  if: '$CI_COMMIT_BRANCH =~ /^release\/.*$/'
+.if-tag: &if-tag
+  if: '$CI_COMMIT_TAG'
+
 
 ##############################
 # Build stage
@@ -65,19 +80,17 @@ stages:
 
 Compile project:
   extends: .build
-  except:
-    - develop
-    - merge_requests
-    - /^release/.*$/
+  rules:
+    - <<: *if-default
 
 Build project:
   extends: .build
   artifacts:
     paths:
       - awe-tests/awe-boot/target/awe-boot.war
-  only:
-    - develop
-    - merge_requests
+    expire_in: 1 day
+  rules:
+    - <<: *if-develop
 
 ##############################
 # Unit testing stage
@@ -92,16 +105,13 @@ Build project:
   script:
     - mvn $MAVEN_CLI_OPTS verify $UT_OPTS -Dsurefire.suite=**/$UNIT_TEST_SUITE -P$TEST_NAME
     - cp awe-tests/awe-boot/target/jacoco.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
-  only:
-    - master
-    - develop
-    - merge_requests
-  except:
-    - /^release/.*$/
+  rules:
+    - <<: *if-default
   artifacts:
     paths:
       - awe-tests/awe-boot/target/surefire-reports/
       - awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
+    expire_in: 1 day
     reports:
       junit:
         - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
@@ -155,15 +165,12 @@ Frontend UT:
   artifacts:
     paths:
       - awe-framework/awe-client-angular/target/reports/karma/
+    expire_in: 1 day
     reports:
       junit:
         - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
-  only:
-    - develop
-    - merge_requests
-    - master
-  except:
-    - /^release/.*$/
+  rules:
+    - <<: *if-default
 
 ##############################
 # Integration testing stage
@@ -183,21 +190,18 @@ Frontend UT:
     - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - echo "$errors errors and $failures failures found"
-  only:
-    - master
-    - develop
-    - merge_requests
-  except:
-    - /^release/.*$/
   artifacts:
     paths:
       - awe-tests/awe-boot/target/tests/
       - awe-tests/awe-boot/target/surefire-reports/
       - awe-tests/awe-boot/target/jacoco-${TEST_NAME}-it.exec
+    expire_in: 1 day
     reports:
       junit:
         - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
     when: always
+  rules:
+      - <<: *if-default
 
 Firefox IT:
   extends: .browser-testing
@@ -236,39 +240,9 @@ Launch Sonar:
   artifacts:
     paths:
       - awe-tests/awe-boot/target/coverage-reports/
-  only:
-    - merge_requests
-    - master
-    - develop
-
-#include:
-#  - template: SAST.gitlab-ci.yml
-#  - template: DAST.gitlab-ci.yml
-#  - template: Dependency-Scanning.gitlab-ci.yml
-# - template: License-Scanning.gitlab-ci.yml
-#
-# Analysis extension
-#.analyze:
-#  tags:
-#  - docker
-#  except:
-#  - /^release/.*$/
-#
-#sast:
-#  stage: analysis
-#  extends: .analyze
-#
-#dast:
-#  stage: analysis
-#  extends: .analyze
-#
-#dependency_scanning:
-#  stage: analysis
-#  extends: .analyze
-#
-#license_scanning:
-#  stage: analysis
-#  extends: .analyze
+    expire_in: 1 day
+  rules:
+    - <<: *if-default
 
 ##############################
 # Site stage
@@ -281,8 +255,8 @@ Publish docs:
   dependencies: []
   script:
     - curl -H "$DINAMIQ_HEADERS" $DINAMIQ_URL
-  only:
-    - develop
+  rules:
+    - <<: *if-develop
 
 Generate javadoc & schemas:
   image: maven:3.5-jdk-8
@@ -293,10 +267,11 @@ Generate javadoc & schemas:
     paths:
       - awe-framework/target/site/apidocs
       - awe-framework/awe-generic-screens/src/main/resources/schemas/
-  only:
-    - master
-    - develop
-    - /^release/.*$/
+    expire_in: 1 day
+  rules:
+    - <<: *if-master
+    - <<: *if-develop
+    - <<: *if-release
 
 ##############################
 # Package stage
@@ -315,8 +290,8 @@ Build package:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
     - docker build -t registry.gitlab.com/aweframework/awe/awe-boot:latest ./awe-tests/awe-boot
     - docker push registry.gitlab.com/aweframework/awe/awe-boot:latest
-  only:
-    - develop
+  rules:
+    - <<: *if-develop
 
 ##############################
 # Deploy stage
@@ -328,8 +303,8 @@ Deploy snapshot:
   dependencies: []
   script:
     - mvn $MAVEN_CLI_OPTS deploy $DEPLOY_OPTS
-  only:
-    - develop
+  rules:
+    - <<: *if-develop
 
 Deploy Maven Central:
   image: maven:3.5-jdk-8
@@ -340,8 +315,8 @@ Deploy Maven Central:
     - gpg --batch --import <(echo "$GPG_PRIVATE_KEY")
   script:
     - mvn $MAVEN_CLI_OPTS deploy $DEPLOY_OPTS -DperformRelease=true
-  only:
-    - tags
+  rules:
+    - <<: *if-tag
 
 # Kubernetes deployment
 .k8s_deploy:
@@ -399,9 +374,10 @@ pages:
   artifacts:
     paths:
       - public
-  only:
-    - master
-    - develop
+    expire_in: 1 day
+  rules:
+    - <<: *if-master
+    - <<: *if-develop
 
 ##############################
 # Release stage
@@ -437,9 +413,9 @@ Start a new release:
     - git commit -m "Generated CHANGELOG"
     ## Generate release
     - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true -DpushRemote=true -DversionProperty=revision
-  only:
-    - develop
-  when: manual
+  rules:
+    - <<: *if-develop
+      when: manual
 
 Finish the release:
   image: maven:3.5-jdk-8
@@ -452,5 +428,5 @@ Finish the release:
     ## Generate release
     - git checkout $CI_COMMIT_REF_NAME
     - mvn $MAVEN_CLI_OPTS gitflow:release-finish -DskipTestProject=true -DversionProperty=revision
-  only:
-    - /^release/.*$/
+  rules:
+    - <<: *if-release
