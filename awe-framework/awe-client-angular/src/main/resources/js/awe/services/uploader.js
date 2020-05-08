@@ -1,4 +1,4 @@
-import { aweApplication } from "./../awe";
+import { aweApplication } from "../awe";
 import { ClientActions } from "../data/actions";
 import ngFileUpload from "ng-file-upload";
 
@@ -44,7 +44,7 @@ aweApplication.factory('Uploader',
           var component = this.component;
           // Define type as text
           component.uploaderUID = 0;
-          var updatingStatus, updateTimer, destination;
+          var updateTimer, destination;
 
           if (!component.asCriterion()) {
             // If criterion is wrong, cancel initialization
@@ -108,7 +108,7 @@ aweApplication.factory('Uploader',
                 function() {
                 },
                 // On error
-                function(error) {
+                function() {
                   component.onReset();
                 },
                 // On progress
@@ -165,7 +165,7 @@ aweApplication.factory('Uploader',
 
           /**
            * On start upload event
-           * @param {object} parameters parameters sent
+           * @param {number} percent Percentage
            */
           component.onFileStatus = function (percent) {
             if (!updateTimer) {
@@ -187,7 +187,6 @@ aweApplication.factory('Uploader',
           component.onFileUploaded = function (parameters) {
             // Fill progress bar
             $utilities.timeout.cancel(updateTimer);
-            updatingStatus = true;
             component.uploadProgress = "100%";
 
             // Finish file upload
@@ -277,6 +276,9 @@ aweApplication.factory('Uploader',
 
           // Action listener definition
           $utilities.defineModelChangeListeners(component.listeners, {scope: component.scope, check: ["selected"], service: component, method: "onModelChanged"});
+
+          // Return initialized
+          return true;
         }
       };
       return Uploader;

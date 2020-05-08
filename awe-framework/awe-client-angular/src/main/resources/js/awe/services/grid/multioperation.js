@@ -133,24 +133,29 @@ aweApplication.factory('GridMultioperation',
           /**
            * Delete the current row
            */
-          component.deleteRow = function () {
+          component.deleteRow = function (rowId) {
             // Hide context menu if showing
             component.hideContextMenu();
 
             // Get selected row
-            let selectedRow = component.getSelectedRows();
+            let selectedRow = Utilities.asArray(rowId || component.getSelectedRows());
 
             // If selectedRow is not null, remove row
             _.each(selectedRow, function (row) {
               // Calculate rowIndex
-              let rowIndex = Control.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
+              let rowIndex = Utilities.getRowIndex(component.model.values, row, component.constants.ROW_IDENTIFIER);
+              if (rowIndex > -1) {
+                // If row has been added previously, delete row
+                if (component.model.values[rowIndex][component.constants.ROW_TYPE_NAME] === component.constants.ROW_ACTIONS.INSERT.value) {
+                  // Delete row cells
+                  component.deleteRowCells(row);
 
-              // If row has been added previously, delete row
-              if (component.model.values[rowIndex][component.constants.ROW_TYPE_NAME] === component.constants.ROW_ACTIONS.INSERT.value) {
-                component.deleteRowSpecific(row);
-                // Else mark row as deleted
-              } else {
-                changeRowOperation(row, component.constants.ROW_ACTIONS.DELETE);
+                  // Delete row
+                  component.deleteRowSpecific(row);
+                  // Else mark row as deleted
+                } else {
+                  changeRowOperation(row, component.constants.ROW_ACTIONS.DELETE);
+                }
               }
             });
           };
@@ -306,7 +311,7 @@ aweApplication.factory('GridMultioperation',
             var address = cell.address;
 
             // Get grid row index
-            var rowIndex = Control.getRowIndex(component.model.values, address.row, component.constants.ROW_IDENTIFIER);
+            var rowIndex = Utilities.getRowIndex(component.model.values, address.row, component.constants.ROW_IDENTIFIER);
 
             // If rowIndex is -1, the row is the footer row
             if (rowIndex !== -1 && component.checkChanges(address, cell.model.selected, rowIndex)) {
@@ -332,7 +337,7 @@ aweApplication.factory('GridMultioperation',
            */
           function changeRowOperation(rowId, action) {
             // Calculate rowIndex
-            var rowIndex = Control.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
+            var rowIndex = Utilities.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
 
             // Update RowTyp and RowIco column value
             updateModelOperation(action, component.model.values[rowIndex]);

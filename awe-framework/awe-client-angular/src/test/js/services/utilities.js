@@ -52,4 +52,25 @@ describe('awe-framework/awe-client-angular/src/test/js/services/utilities.js', f
     expect($utilities.getState("/screen/public/home/tutu", true).parameters.screenId).toEqual('home');
     expect($utilities.getState("/screen/public/home/tutu", true).parameters.subScreenId).toContain('tutu?');
   });
+
+  it('should get row index', function() {
+    // Generate model
+    let values = [
+      {id: 1, _ID: "1"},
+      {id: 2, _ID: "3"},
+      {id: 3, _ID: "5"},
+      {id: 4, _ID: "6"},
+      {id: 5, _ID: "7"}
+    ];
+
+    // Assert
+    expect($utilities.getRowIndex(values, 2,"_ID")).toEqual(-1);
+    expect($utilities.getRowIndex(values, 3,"_ID")).toEqual(1);
+    expect($utilities.getRowIndex(values, 7,"_ID")).toEqual(4);
+    expect($utilities.getRowIndex(values, "1","_ID")).toEqual(0);
+    expect($utilities.getRowIndex(values, 2,"id")).toEqual(1);
+    expect($utilities.getRowIndex(values, "a","id")).toEqual(-1);
+    expect($utilities.getRowIndex(values, "3","id")).toEqual(2);
+    expect($utilities.getRowIndex(values, 1,"id")).toEqual(0);
+  });
 });

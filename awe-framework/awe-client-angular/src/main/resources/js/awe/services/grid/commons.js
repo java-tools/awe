@@ -86,7 +86,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
     const sanitizeSelection = function (selection, data, component) {
       let sanitized = [];
       _.each(selection, function (row) {
-        var rowIndex = Control.getRowIndex(data, row, component.constants.ROW_IDENTIFIER);
+        var rowIndex = Utilities.getRowIndex(data, row, component.constants.ROW_IDENTIFIER);
         if (rowIndex > -1) {
           sanitized.push(data[rowIndex][component.constants.ROW_IDENTIFIER]);
         }
@@ -104,7 +104,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
     const getRowIdentifier = function (component, row, move) {
       let model = component.model.values, index, value = null;
       if (!Utilities.isEmpty(row)) {
-        index = Control.getRowIndex(model, row, component.constants.ROW_IDENTIFIER);
+        index = Utilities.getRowIndex(model, row, component.constants.ROW_IDENTIFIER);
         value = index >= Math.max(move * -1, 0) && index < Math.min(model.length - move, model.length) ? model[index + move][component.constants.ROW_IDENTIFIER] : null;
       }
       return value;
@@ -136,7 +136,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
          * @returns {mixed} Current row value
          */
         currentRowValue: function (comp, column, row) {
-          var index = Control.getRowIndex(comp.model.values, row, comp.constants.ROW_IDENTIFIER);
+          var index = Utilities.getRowIndex(comp.model.values, row, comp.constants.ROW_IDENTIFIER);
           return getRowValue(comp.model.values, index, column);
         },
         /**
@@ -152,7 +152,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           var model = comp.model.values, index, value = null;
           var prevRow = this.prevCurrentRow(comp, column, row);
           if (prevRow !== null) {
-            index = Control.getRowIndex(model, prevRow, comp.constants.ROW_IDENTIFIER);
+            index = Utilities.getRowIndex(model, prevRow, comp.constants.ROW_IDENTIFIER);
             value = getRowValue(model, index, column);
           }
           return value;
@@ -169,7 +169,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           var model = comp.model.values, index, value = null;
           var nextRow = this.nextCurrentRow(comp, column, row);
           if (nextRow !== null) {
-            index = Control.getRowIndex(model, nextRow, comp.constants.ROW_IDENTIFIER);
+            index = Utilities.getRowIndex(model, nextRow, comp.constants.ROW_IDENTIFIER);
             value = getRowValue(model, index, column);
           }
           return value;
@@ -184,7 +184,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         selectedRowValue: function (comp, column) {
           var model = comp.model.values;
           var selectedRow = this.selectedRow(comp);
-          var index = Control.getRowIndex(model, selectedRow, comp.constants.ROW_IDENTIFIER);
+          var index = Utilities.getRowIndex(model, selectedRow, comp.constants.ROW_IDENTIFIER);
           return getRowValue(model, index, column);
         },
         /**
@@ -199,7 +199,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           var model = comp.model.values, index, value = null;
           var prevRow = this.prevRow(comp);
           if (prevRow !== null) {
-            index = Control.getRowIndex(model, prevRow, comp.constants.ROW_IDENTIFIER);
+            index = Utilities.getRowIndex(model, prevRow, comp.constants.ROW_IDENTIFIER);
             value = getRowValue(model, index, column);
           }
           return value;
@@ -215,7 +215,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           var model = comp.model.values, index, value = null;
           var nextRow = this.nextRow(comp);
           if (nextRow !== null) {
-            index = Control.getRowIndex(model, nextRow, comp.constants.ROW_IDENTIFIER);
+            index = Utilities.getRowIndex(model, nextRow, comp.constants.ROW_IDENTIFIER);
             value = getRowValue(model, index, column);
           }
           return value;
@@ -791,7 +791,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
          */
         component.getRowValues = function (rowId) {
           // Calculate rowIndex
-          var rowIndex = Control.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
+          var rowIndex = Utilities.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
 
           // Retrieve selected row values
           return component.model.values[rowIndex];
@@ -858,7 +858,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           }
 
           // Calculate rowIndex
-          let rowIndex = Control.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
+          let rowIndex = Utilities.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
           if (rowIndex > -1) {
             // Update value data
             component.model.values[rowIndex][columnId] = data;
@@ -1006,7 +1006,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
 
             // Select rows
             _.each(sanitizedSelection, function (row) {
-              let rowIndex = Control.getRowIndex(data, row, component.constants.ROW_IDENTIFIER);
+              let rowIndex = Utilities.getRowIndex(data, row, component.constants.ROW_IDENTIFIER);
               if (rowIndex > -1) {
                 component.selectRow(data[rowIndex]);
               }
@@ -1068,14 +1068,6 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           if (!_.isEqual(selectedRows, component.currentSelection)) {
             component.selectRows(selectedRows);
           }
-        };
-        /**
-         * Delete the current row
-         */
-        component.deleteRow = function () {
-          // Restore row values
-          var selectedRow = component.getSelectedRow();
-          component.deleteRowSpecific(selectedRow);
         };
         /**
          * Add a new row
@@ -1399,7 +1391,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         component.editRowSpecific = function (rowId) {
           // Select the row
           var data = component.model.values;
-          var rowIndex = Control.getRowIndex(data, rowId, component.constants.ROW_IDENTIFIER);
+          var rowIndex = Utilities.getRowIndex(data, rowId, component.constants.ROW_IDENTIFIER);
           if (rowIndex !== -1) {
             component.selectRow(data[rowIndex]);
             // Reposition buttons
@@ -1415,7 +1407,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         component.addRowStyle = function (rowId, rowClass) {
           // Select the row
           var data = component.model.values;
-          var rowIndex = Control.getRowIndex(data, rowId, component.constants.ROW_IDENTIFIER);
+          var rowIndex = Utilities.getRowIndex(data, rowId, component.constants.ROW_IDENTIFIER);
           data[rowIndex][component.constants.ROW_CLASS_FIELD] = rowClass;
         };
         /**

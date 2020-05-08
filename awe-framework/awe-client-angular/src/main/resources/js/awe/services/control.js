@@ -317,21 +317,6 @@ aweApplication.factory('Control',
           return Control.setTarget(address, MODEL, value);
         },
         /**
-         * Retrieve row index
-         * @param {string} model Grid model
-         * @param {string} rowId Row identifier
-         * @param {string} identifier Row identifier field
-         * @returns {integer} Selected row index in values array
-         */
-        getRowIndex: function (model, rowId, identifier) {
-          for (var index = 0, total = model.length; index < total; index++) {
-            if (String(model[index][identifier]) === String(rowId)) {
-              return index;
-            }
-          }
-          return -1;
-        },
-        /**
          * Format an array of data into readable data for the server
          * @param {object} data Data array
          * @return {mixed} formatted data

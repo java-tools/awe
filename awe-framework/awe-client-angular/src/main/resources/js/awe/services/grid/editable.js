@@ -208,7 +208,7 @@ aweApplication.factory('GridEditable',
            */
           component.setRowValues = function (rowId, values) {
             // Calculate rowIndex
-            var rowIndex = Control.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
+            var rowIndex = Utilities.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
 
             // Retrieve selected row values
             component.model.values[rowIndex] = {...values};
@@ -222,7 +222,7 @@ aweApplication.factory('GridEditable',
            */
           component.saveRowValues = function (rowId) {
             // Get grid model
-            var rowIndex = Control.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
+            var rowIndex = Utilities.getRowIndex(component.model.values, rowId, component.constants.ROW_IDENTIFIER);
             var rowValues = component.getRowValues(rowId);
 
             // Store old values

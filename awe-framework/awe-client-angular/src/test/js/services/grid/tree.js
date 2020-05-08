@@ -1,78 +1,20 @@
 describe('awe-framework/awe-client-angular/src/test/js/services/grid/tree.js', function () {
-  let $injector, GridTree, GridEvents, $rootScope;
+  let $injector, GridTree, GridEvents, $rootScope, $utilities;
   let originalTimeout;
-  const currentModel = {};
+  const currentModel = {
+    records: 6,
+    total: 1,
+    page: 1,
+    values: [
+      {_ID: 1, value: "tutu", RowTyp: "INSERT", $$children: [], $$treeLevel: 0},
+      {_ID: 2, value: "lala", $$children: [], $$treeLevel: 0},
+      {_ID: 4, value: "lele", other: "asda", RowTyp: "UPDATE", $$parent: {$$children: [], $$isLeaf: false}, $$children: [], $$treeLevel: 2},
+      {_ID: 5, value: "lili", $$children: [], $$treeLevel: 0},
+      {_ID: 6, value: "lolo", RowTyp: "DELETE", $$children: [], $$treeLevel: 0},
+      {_ID: 7, value: "lulu", $$children: [], $$treeLevel: 0}],
+    selected: [4]
+  };
   const currentController = {columnModel: []};
-  const getDefaultComponent = () => ({
-    id: "id",
-    constants: {
-      ROW_IDENTIFIER: "id",
-      CELL_VALUE: "value",
-      CELL_LABEL: "label",
-      CELL_TITLE: "title",
-      CELL_STYLE: "cell-style",
-      CELL_ICON: "icon",
-      CELL_IMAGE: "image"
-    },
-    controller: {columnModel: []},
-    enableSorting: true,
-    scope: {$on: () => null, charSize: 7, gridOptions: {}},
-    listeners: {},
-    api: {},
-    model: {
-      records: 6,
-      total: 1,
-      page: 1,
-      values: [{id: 1, value: "tutu", RowTyp: "INSERT"}, {id: 2, value: "lala"}, {
-        id: 4,
-        value: "lele",
-        other: "asda",
-        RowTyp: "UPDATE"
-      }, {id: 5, value: "lili"}, {id: 6, value: "lolo", RowTyp: "DELETE"}, {id: 7, value: "lulu"}],
-      selected: [4]
-    },
-    address: {view: "viewId", component: "componentId"},
-    resetSelection: () => null,
-    selectRow: () => null,
-    storeEvent: () => null,
-    attributeMethods: {}
-  });
-
-  const getDefaultColumnModel = () => ([{
-    id: "id",
-    hidden: true,
-    component: "text",
-    enableFiltering: true,
-    charlength: "0",
-    sendable: true
-  }, {
-    id: "value",
-    label: "Value",
-    hidden: false,
-    component: "text",
-    summaryType: "SUM",
-    enableFiltering: true,
-    sortField: "lala",
-    charlength: 20,
-    sortable: true,
-    sendable: true
-  }, {
-    id: "other",
-    label: "Other thing",
-    hidden: false,
-    summaryType: "SUM",
-    sortable: false,
-    sortField: "lala",
-    charlength: 20,
-    sendable: true
-  },{
-    id: "other other",
-    hidden: true,
-    summaryType: "SUM",
-    sortable: false,
-    sortField: "lala",
-    charlength: 20
-  }]);
 
   // Mock module
   beforeEach(function () {
@@ -83,6 +25,7 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/tree.js', f
       GridTree = $injector.get('GridTree');
       GridEvents = $injector.get('GridEvents');
       $rootScope = $injector.get('$rootScope');
+      $utilities = $injector.get('AweUtilities');
     }]);
 
     originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
@@ -108,68 +51,171 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/tree.js', f
     expect(tree.asTree()).toBe(true);
   });
 
-  it('should expand a tree branch', function () {
-    // Mock
-    let $scope = $rootScope.$new();
-    $scope.gridOptions = {icons: {}};
-    let tree = new GridTree($scope, "id", {});
-    spyOn(tree, "asComponent").and.returnValue(true);
-    spyOn(GridEvents, "mapCommonActions").and.returnValue(true);
-    spyOn(GridEvents, "mapTreeActions").and.returnValue(true);
-    tree.api = {};
-    tree.model = currentModel;
-    tree.controller = currentController;
-    tree.asTree();
+  describe('once initialized', function () {
+    function initTree(model, controller) {
+      // Mock
+      let $scope = $rootScope.$new();
+      $scope.gridOptions = {icons: {}};
+      let tree = new GridTree($scope, "id", {});
+      spyOn(tree, "asComponent").and.returnValue(true);
+      spyOn(GridEvents, "mapCommonActions").and.returnValue(true);
+      spyOn(GridEvents, "mapTreeActions").and.returnValue(true);
+      tree.api = {};
+      tree.model = JSON.parse(JSON.stringify(model));
+      tree.controller = JSON.parse(JSON.stringify(controller));
+      tree.asTree();
+      tree.grid.api = {
+        core: {notifyDataChange: jasmine.createSpy("notifyDataChange")},
+        treeBase: {
+          expandRow: jasmine.createSpy("expandRow"),
+          collapseRow: jasmine.createSpy("collapseRow")
+        },
+        selection: {clearSelectedRows: jasmine.createSpy("clearSelectedRows")}
+      };
+      return tree;
+    }
 
-    let row = {};
-    tree.toggleTreeRow(row, true);
+    it('should expand a tree branch', function () {
+      let tree = initTree({...currentModel}, {...currentController});
+      let row = {};
+      tree.toggleTreeRow(row, true);
 
-    // Assert
-    expect(row.$$expanded).toBe(true);
-  });
+      // Assert
+      expect(row.$$expanded).toBe(true);
+    });
 
-  it('should expand a tree branch on load all', function () {
-    // Mock
-    let $scope = $rootScope.$new();
-    $scope.gridOptions = {icons: {}};
-    let tree = new GridTree($scope, "id", {});
-    spyOn(tree, "asComponent").and.returnValue(true);
-    spyOn(GridEvents, "mapCommonActions").and.returnValue(true);
-    spyOn(GridEvents, "mapTreeActions").and.returnValue(true);
-    tree.api = {};
-    tree.model = currentModel;
-    tree.controller = {...currentController, loadAll: true};
-    tree.asTree();
-    tree.grid.api = {treeBase:{expandRow: jasmine.createSpy("expandRow")}};
+    it('should expand a tree branch on load all', function () {
+      let tree = initTree({...currentModel}, {...currentController, loadAll: true});
+      let row = {};
+      tree.toggleTreeRow(row, true);
 
-    let row = {};
-    tree.grid.api.treeBase.expandRow = jasmine.createSpy("expandRow");
-    tree.toggleTreeRow(row, true);
+      // Assert
+      expect(row.$$expanded).toBe(true);
+      expect(tree.grid.api.treeBase.expandRow).toHaveBeenCalled();
+    });
 
-    // Assert
-    expect(row.$$expanded).toBe(true);
-    expect(tree.grid.api.treeBase.expandRow).toHaveBeenCalled();
-  });
+    it('should collapse a tree branch on load all', function () {
+      let tree = initTree({...currentModel}, {...currentController, loadAll: true});
+      let row = {};
+      tree.toggleTreeRow(row, false);
 
-  it('should collapse a tree branch on load all', function () {
-    // Mock
-    let $scope = $rootScope.$new();
-    $scope.gridOptions = {icons: {}};
-    let tree = new GridTree($scope, "id", {});
-    spyOn(tree, "asComponent").and.returnValue(true);
-    spyOn(GridEvents, "mapCommonActions").and.returnValue(true);
-    spyOn(GridEvents, "mapTreeActions").and.returnValue(true);
-    tree.api = {};
-    tree.model = currentModel;
-    tree.controller = {...currentController, loadAll: true};
-    tree.asTree();
-    tree.grid.api = {treeBase:{collapseRow: jasmine.createSpy("collapseRow")}};
+      // Assert
+      expect(row.$$expanded).toBe(false);
+      expect(tree.grid.api.treeBase.collapseRow).toHaveBeenCalled();
+    });
 
-    let row = {};
-    tree.toggleTreeRow(row, false);
+    it('should add a child row', function () {
+      spyOn($utilities, "getRowIndex").and.returnValue(2);
+      let tree = initTree({...currentModel}, {...currentController});
+      let row = {};
+      tree.addRowSpecific("4", "child", row);
 
-    // Assert
-    expect(row.$$expanded).toBe(false);
-    expect(tree.grid.api.treeBase.collapseRow).toHaveBeenCalled();
+      // Assert
+      expect(tree.grid.api.core.notifyDataChange).toHaveBeenCalled();
+      expect(tree.grid.api.selection.clearSelectedRows).toHaveBeenCalled();
+    });
+
+    it('should add a row after selected', function () {
+      spyOn($utilities, "getRowIndex").and.returnValue(2);
+      let tree = initTree({...currentModel}, {...currentController});
+      let row = {};
+      tree.addRowSpecific("4", "after", row);
+
+      // Assert
+      expect(tree.grid.api.core.notifyDataChange).toHaveBeenCalled();
+      expect(tree.grid.api.selection.clearSelectedRows).toHaveBeenCalled();
+    });
+
+    it('should add a row before selected', function () {
+      spyOn($utilities, "getRowIndex").and.returnValue(2);
+      let tree = initTree({...currentModel}, {...currentController});
+      let row = {};
+      tree.addRowSpecific("4", "before", row);
+
+      // Assert
+      expect(tree.grid.api.core.notifyDataChange).toHaveBeenCalled();
+      expect(tree.grid.api.selection.clearSelectedRows).toHaveBeenCalled();
+    });
+
+    it('should add a child row without parent', function () {
+      spyOn($utilities, "getRowIndex").and.returnValue(1);
+      let tree = initTree({...currentModel}, {...currentController});
+      let row = {};
+      tree.addRowSpecific("2", "child", row);
+
+      // Assert
+      expect(tree.grid.api.core.notifyDataChange).toHaveBeenCalled();
+      expect(tree.grid.api.selection.clearSelectedRows).toHaveBeenCalled();
+    });
+
+    it('should add a row after selected without parent', function () {
+      spyOn($utilities, "getRowIndex").and.returnValue(1);
+      let tree = initTree({...currentModel}, {...currentController});
+      let row = {};
+      tree.addRowSpecific("2", "after", row);
+
+      // Assert
+      expect(tree.grid.api.core.notifyDataChange).toHaveBeenCalled();
+      expect(tree.grid.api.selection.clearSelectedRows).toHaveBeenCalled();
+    });
+
+    it('should add a row before selected without parent', function () {
+      spyOn($utilities, "getRowIndex").and.returnValue(1);
+      let tree = initTree({...currentModel}, {...currentController});
+      let row = {};
+      tree.addRowSpecific("2", "before", row);
+
+      // Assert
+      expect(tree.grid.api.core.notifyDataChange).toHaveBeenCalled();
+      expect(tree.grid.api.selection.clearSelectedRows).toHaveBeenCalled();
+    });
+
+    it('should add a row on top', function () {
+      spyOn($utilities, "getRowIndex").and.returnValue(2);
+      let tree = initTree({...currentModel}, {...currentController});
+      let row = {};
+      tree.addRowSpecific("4", "first", row);
+
+      // Assert
+      expect(tree.grid.api.core.notifyDataChange).toHaveBeenCalled();
+      expect(tree.grid.api.selection.clearSelectedRows).toHaveBeenCalled();
+    });
+
+    it('should add a row at bottom', function () {
+      let tree = initTree({...currentModel}, {...currentController});
+      let row = {};
+      tree.addRowSpecific(null, "child", row);
+
+      // Assert
+      expect(tree.grid.api.core.notifyDataChange).toHaveBeenCalled();
+      expect(tree.grid.api.selection.clearSelectedRows).toHaveBeenCalled();
+    });
+
+    it('should delete a row without parent', function () {
+      spyOn($utilities, "getRowIndex").and.returnValue(1);
+      let tree = initTree({...currentModel}, {...currentController, loadAll: true});
+      tree.deleteRowSpecific("2");
+
+      // Assert
+      expect(tree.model.values.length).toBe(5);
+    });
+
+    it('should delete a row not existent', function () {
+      spyOn($utilities, "getRowIndex").and.returnValue(-1);
+      let tree = initTree({...currentModel}, {...currentController, loadAll: true});
+      tree.deleteRowSpecific("3");
+
+      // Assert
+      expect(tree.model.values.length).toBe(6);
+    });
+
+    it('should delete a row', function () {
+      spyOn($utilities, "getRowIndex").and.returnValue(2);
+      let tree = initTree({...currentModel}, {...currentController, loadAll: true});
+      tree.deleteRowSpecific("4");
+
+      // Assert
+      expect(tree.model.values.length).toBe(5);
+    });
   });
 });

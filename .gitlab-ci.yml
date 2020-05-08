@@ -10,7 +10,8 @@ variables:
   SAST_PULL_ANALYZER_IMAGES: "0"
   SAST_RUN_ANALYZER_TIMEOUT: 30m
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-  SONAR_OPTS: "-Dsonar.projectKey=AWE -Dsonar.organization=almis-open-source -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.qualitygate.wait=true"
+  SONAR_OPTS: "-Dsonar.projectKey=$SONAR_PROJECT_KEY -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN -Dsonar.qualitygate.wait=true"
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   SKIP_TESTS: "-DskipTests"
   IT_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.junit=true -Dskip.karma=true -Dskip.selenium=false -DgenerateIntegrationReport=true"
   UT_OPTS: "-f awe-tests/awe-boot/pom.xml -Dskip.frontend=true -DgenerateIntegrationReport=true"
@@ -23,6 +24,8 @@ variables:
   KUBERNETES_PROJECT_ID: wired-armor-229610
   KUBERNETES_CLUSTER_NAME: awe-boot-cluster
   CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task.
+
 
 cache:
   key: $CACHE_KEY
@@ -64,6 +67,7 @@ Compile project:
   extends: .build
   except:
     - develop
+    - merge_requests
     - /^release/.*$/
 
 Build project:
@@ -73,6 +77,7 @@ Build project:
       - awe-tests/awe-boot/target/awe-boot.war
   only:
     - develop
+    - merge_requests
 
 ##############################
 # Unit testing stage
@@ -87,6 +92,10 @@ Build project:
   script:
     - mvn $MAVEN_CLI_OPTS verify $UT_OPTS -Dsurefire.suite=**/$UNIT_TEST_SUITE -P$TEST_NAME
     - cp awe-tests/awe-boot/target/jacoco.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-ut.exec
+  only:
+    - master
+    - develop
+    - merge_requests
   except:
     - /^release/.*$/
   artifacts:
@@ -149,6 +158,10 @@ Frontend UT:
     reports:
       junit:
         - awe-framework/awe-client-angular/target/reports/karma/junit/*.xml
+  only:
+    - develop
+    - merge_requests
+    - master
   except:
     - /^release/.*$/
 
@@ -170,6 +183,10 @@ Frontend UT:
     - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - echo "$errors errors and $failures failures found"
+  only:
+    - master
+    - develop
+    - merge_requests
   except:
     - /^release/.*$/
   artifacts:
@@ -201,6 +218,10 @@ Chrome IT:
 Launch Sonar:
   stage: analysis
   image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  cache:
+    key: $CACHE_KEY
+    paths:
+      - .sonar/cache
   dependencies:
     - All UT
     - Oracle UT
@@ -215,8 +236,10 @@ Launch Sonar:
   artifacts:
     paths:
       - awe-tests/awe-boot/target/coverage-reports/
-  except:
-    - /^release/.*$/
+  only:
+    - merge_requests
+    - master
+    - develop
 
 #include:
 #  - template: SAST.gitlab-ci.yml

@@ -11,6 +11,8 @@ require('./selector.js');
 require('./dateTime.js');
 require('./serverData.js');
 require('./settings.js');
+require('./text.js');
+require('./uploader.js');
 require('./utilities.js');
 require('./validationRules.js');
 require('./validator.js');

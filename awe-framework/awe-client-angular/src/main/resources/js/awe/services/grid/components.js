@@ -58,7 +58,7 @@ aweApplication.factory('GridComponents',
             var address = cell.address;
 
             // Get grid row index
-            var rowIndex = Control.getRowIndex(component.model.values, address.row, component.constants.ROW_IDENTIFIER);
+            var rowIndex = Utilities.getRowIndex(component.model.values, address.row, component.constants.ROW_IDENTIFIER);
 
             // If rowIndex is -1, the row is the footer row
             if (rowIndex !== -1) {
@@ -86,7 +86,7 @@ aweApplication.factory('GridComponents',
 
             if (!(cellId in cellModel)) {
               // Calculate rowIndex and selected value
-              var rowIndex = Control.getRowIndex(component.model.values, address.row, component.constants.ROW_IDENTIFIER);
+              var rowIndex = Utilities.getRowIndex(component.model.values, address.row, component.constants.ROW_IDENTIFIER);
 
               // Retrieve value list if exists
               var valueList = component.getColumnValueList(address);
@@ -156,6 +156,33 @@ aweApplication.factory('GridComponents',
               Control.setAddressApi(address, cellApi[cellId]);
             }
             return cellApi[cellId];
+          };
+
+          /**
+           * Delete row for components with
+           */
+          component.deleteRow = function (rowId) {
+            // Restore row values
+            let selectedRow = rowId || component.getSelectedRow();
+
+            // Remove all cells
+            component.deleteRowCells(selectedRow);
+
+            // Delete physically the row
+            component.deleteRowSpecific(selectedRow);
+          };
+
+          /**
+           * Delete row cells
+           */
+          component.deleteRowCells = function (rowId) {
+            _.each(component.getColumns(), (column)  => {
+              let address = {component: component.id, row: rowId, column: column.name};
+              let cellId = Utilities.getCellId(address);
+              delete component.model.cells[cellId];
+              delete component.controller.cells[cellId];
+              delete component.api.cells[cellId];
+            });
           };
 
           return true;
