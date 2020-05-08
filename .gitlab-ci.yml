@@ -24,7 +24,7 @@ variables:
   KUBERNETES_PROJECT_ID: wired-armor-229610
   KUBERNETES_CLUSTER_NAME: awe-boot-cluster
   CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
-  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task.
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the sonar task.
 
 
 cache:
