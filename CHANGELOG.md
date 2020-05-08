@@ -1,4 +1,10 @@
 
+# Changelog for AWE 4.2.3
+*08/05/2020*
+
+- Removing a row without parent in a treegrid causes error. [MR #211](https://gitlab.com/aweframework/awe/merge_requests/211) (Pablo Javier García Mora)
+- Delete row doesn't allow a rowId even if it's defined. [MR #210](https://gitlab.com/aweframework/awe/merge_requests/210) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.2.2
 *01/04/2020*
 
