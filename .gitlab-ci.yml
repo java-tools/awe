@@ -410,7 +410,7 @@ Start a new release:
     - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true -DpushRemote=true -DversionProperty=revision
   rules:
     - <<: *if-develop
-    when: manual
+    - when: manual
 
 Finish the release:
   image: maven:3.5-jdk-8
