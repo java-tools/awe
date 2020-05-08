@@ -78,11 +78,6 @@ stages:
     - mvn $MAVEN_CLI_OPTS clean install $SKIP_TESTS
   retry: 2
 
-Compile project:
-  extends: .build
-  rules:
-    - <<: *if-default
-
 Build project:
   extends: .build
   artifacts:
@@ -90,7 +85,7 @@ Build project:
       - awe-tests/awe-boot/target/awe-boot.war
     expire_in: 1 day
   rules:
-    - <<: *if-develop
+    - <<: *if-default
 
 ##############################
 # Unit testing stage
@@ -240,7 +235,7 @@ Launch Sonar:
   artifacts:
     paths:
       - awe-tests/awe-boot/target/coverage-reports/
-    expire_in: 1 day
+    expire_in: 1 week
   rules:
     - <<: *if-default
 
