@@ -411,6 +411,7 @@ Start a new release:
   rules:
     - if: $CI_COMMIT_REF_NAME == "develop"
       when: manual
+      allow_failure: true
 
 Finish the release:
   image: maven:3.5-jdk-8
