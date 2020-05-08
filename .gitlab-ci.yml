@@ -409,7 +409,7 @@ Start a new release:
     ## Generate release
     - mvn $MAVEN_CLI_OPTS gitflow:release-start -DskipTestProject=true -DpushRemote=true -DversionProperty=revision
   rules:
-    - if: $CI_COMMIT_REF_NAME == "develop"
+    - <<: *if-develop
       when: manual
       allow_failure: true
 
