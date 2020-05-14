@@ -320,7 +320,8 @@ aweApplication.factory("Screen",
          */
         redirectScreen: function (action) {
           let screen = action.attr("parameters").screen;
-          if (screen === $storage.get("screen")[action.attr("view")].name) {
+          let view = "report" in $storage.get("screen") ? $storage.get("screen")["report"] : $storage.get("screen")["base"];
+          if (screen === view.name) {
             $screen.redirect(action);
           } else {
             // Close action
