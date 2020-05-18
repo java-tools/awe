@@ -559,6 +559,13 @@
     <variable id="screen" type="STRING" name="suggest" />
   </query>
 
+  <!-- ALL XML SCREEN SUGGEST (Service getAllScreenList) -->
+  <query id="getAllScreenList" service="getAllScreenList" cacheable="true">
+    <field id="value"/>
+    <field id="label"/>
+    <variable id="screen" type="STRING" name="suggest" />
+  </query>
+
   <!-- OPTION MENU SUGGEST (Service getNameOptionList) -->
   <query id="getOptionList" service="getOptionList" cacheable="true">
     <field id="value"/>

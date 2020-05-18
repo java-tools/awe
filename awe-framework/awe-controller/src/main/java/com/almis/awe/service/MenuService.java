@@ -52,19 +52,20 @@ public class MenuService extends ServiceConfig {
   private String defaultRestriction;
 
   // Autowired services
-  private QueryService queryService;
-  private ScreenRestrictionGenerator screenRestrictionGenerator;
-  private ScreenComponentGenerator screenComponentGenerator;
-  private InitialLoadDao initialLoadDao;
+  private final QueryService queryService;
+  private final ScreenRestrictionGenerator screenRestrictionGenerator;
+  private final ScreenComponentGenerator screenComponentGenerator;
+  private final InitialLoadDao initialLoadDao;
 
   private static final String ERROR_TITLE_SCREEN_NOT_DEFINED = "ERROR_TITLE_SCREEN_NOT_DEFINED";
 
   /**
    * Autowired constructor
-   * @param queryService Query service
+   *
+   * @param queryService               Query service
    * @param screenRestrictionGenerator Screen restriction generator
-   * @param screenComponentGenerator Screen component generator
-   * @param initialLoadDao Initial load service
+   * @param screenComponentGenerator   Screen component generator
+   * @param initialLoadDao             Initial load service
    */
   @Autowired
   public MenuService(QueryService queryService, ScreenRestrictionGenerator screenRestrictionGenerator,
@@ -130,6 +131,7 @@ public class MenuService extends ServiceConfig {
 
   /**
    * Retrieve the menu for the user
+   *
    * @param menu Menu
    * @return Retrieved menu
    * @throws AWException Menu has not been found
@@ -285,7 +287,6 @@ public class MenuService extends ServiceConfig {
    * Initialize an screen
    *
    * @param screen Screen
-   * @return Screen retrieved
    * @throws AWException Screen has not been found
    */
   private void initializeScreen(Screen screen) throws AWException {
@@ -317,8 +318,8 @@ public class MenuService extends ServiceConfig {
       if (panelable.getInitialLoad() != null) {
         // Launch
         Future<ServiceData> taskResult = initialLoadDao.launchInitialLoad(new AweThreadInitialization()
-                        .setInitialLoadType(LoadType.valueOf(panelable.getInitialLoad().toUpperCase()))
-                        .setTarget(panelable.getTargetAction()));
+          .setInitialLoadType(LoadType.valueOf(panelable.getInitialLoad().toUpperCase()))
+          .setTarget(panelable.getTargetAction()));
         resultMap.put(panelable, taskResult);
       }
     }
@@ -441,17 +442,44 @@ public class MenuService extends ServiceConfig {
   }
 
   /**
+   * Retrieve a list of all screens
+   *
+   * @param suggest Screen typed
+   * @return Screen list retrieved
+   */
+  public ServiceData getAllScreenList(String suggest) {
+    // Get screen from option
+    Set<String> addedScreens = new HashSet<>();
+    Set<String> screenList = getElements().getScreenList();
+    ServiceData serviceData = new ServiceData();
+    DataList dataList = new DataList();
+    for (String screen : screenList) {
+      // Add to list
+      addScreenToList(suggest, screen, screen, dataList, addedScreens);
+    }
+
+    // Set records
+    dataList.setRecords(dataList.getRows().size());
+
+    // Sort results
+    DataListUtil.sort(dataList, AweConstants.JSON_LABEL_PARAMETER, "asc");
+
+    // Set datalist to service
+    serviceData.setDataList(dataList);
+    return serviceData;
+  }
+
+  /**
    * Add an option to the datalist
-   * @param suggest Suggest to search
-   * @param id Option/screen identifier
-   * @param option Option
-   * @param dataList Datalist to add data
+   *
+   * @param suggest         Suggest to search
+   * @param id              Option/screen identifier
+   * @param option          Option
+   * @param dataList        Datalist to add data
    * @param previouslyAdded Previously added identifiers
-   * @throws AWException
+   * @throws AWException Error adding option to list
    */
   private void addOptionToList(String suggest, String id, Option option, DataList dataList, Set<String> previouslyAdded) throws AWException {
-    Map<String, CellData> row = new HashMap<>();
-
     // Get screen label
     String label = option.getLabel();
     String screenId = option.getScreen();
@@ -462,6 +490,22 @@ public class MenuService extends ServiceConfig {
 
     // Get option label locale
     label = label == null ? id : getLocale(label) + " (" + id + ")";
+
+    // Add screen to list
+    addScreenToList(suggest, id, label, dataList, previouslyAdded);
+  }
+
+  /**
+   * Add an option to the datalist
+   *
+   * @param suggest         Suggest to search
+   * @param id              Option/screen identifier
+   * @param label           Screen label
+   * @param dataList        Datalist to add data
+   * @param previouslyAdded Previously added identifiers
+   */
+  private void addScreenToList(String suggest, String id, String label, DataList dataList, Set<String> previouslyAdded) {
+    Map<String, CellData> row = new HashMap<>();
 
     // Add screen if matches with screen or locale
     if (StringUtil.containsIgnoreCase(label, suggest.trim())) {
@@ -489,7 +533,7 @@ public class MenuService extends ServiceConfig {
     String optionId = address.startsWith(AweConstants.JSON_SCREEN) ? address.substring(address.lastIndexOf('/') + 1) : null;
     if (address.startsWith(AweConstants.JSON_SCREEN + "/" + AweConstants.PRIVATE_MENU)) {
       return getSession().isAuthenticated() && isAvailableOption(optionId, AweConstants.PRIVATE_MENU);
-    } else if (address.startsWith(AweConstants.JSON_SCREEN + "/"))  {
+    } else if (address.startsWith(AweConstants.JSON_SCREEN + "/")) {
       return isAvailableOption(optionId, AweConstants.PUBLIC_MENU);
     } else {
       return false;
@@ -505,16 +549,15 @@ public class MenuService extends ServiceConfig {
    * @throws AWException Option has not been found
    */
   public boolean isAvailableOption(String optionId, String menuType) throws AWException {
-    boolean isAvailable = false;
     // Get screen from option
     Menu menu = getMenuWithRestrictions(menuType);
     List<Option> optionList = menu.getElementsByType(Option.class);
     for (Option option : optionList) {
       if (!option.isRestricted() && optionId.equalsIgnoreCase(option.getName())) {
-        isAvailable = true;
+        return true;
       }
     }
-    return isAvailable;
+    return false;
   }
 
   /**
@@ -706,7 +749,7 @@ public class MenuService extends ServiceConfig {
     List<Option> optionList = getAllAvailableOptions();
 
     // Add public menu options if authenticated
-    for (Option option: optionList) {
+    for (Option option : optionList) {
       if (optionName.equalsIgnoreCase(option.getName())) {
         optionFound = option;
       }
@@ -717,13 +760,14 @@ public class MenuService extends ServiceConfig {
 
   /**
    * Retrieve a list of available options
+   *
    * @param optionList Option list
    * @return Option list filtered
    */
   private List<Option> filterRestrictedOptions(List<Option> optionList) {
     // Get options
     List<Option> availableOptionList = new ArrayList<>();
-    for (Option option: optionList) {
+    for (Option option : optionList) {
       if (!option.isRestricted()) {
         availableOptionList.add(option);
       }

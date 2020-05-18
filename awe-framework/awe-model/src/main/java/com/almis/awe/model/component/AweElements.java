@@ -53,10 +53,10 @@ import static com.almis.awe.model.constant.AweConstants.*;
 public class AweElements {
 
   // Autowired services
-  private WebApplicationContext context;
-  private LogUtil logger;
-  private AweElementsDao elementsDao;
-  private Environment environment;
+  private final WebApplicationContext context;
+  private final LogUtil logger;
+  private final AweElementsDao elementsDao;
+  private final Environment environment;
 
   // Elements
   private Map<String, EnumeratedGroup> enumeratedList;
@@ -146,6 +146,10 @@ public class AweElements {
   @Value("${application.files.locale:Locale-}")
   private String localeFileName;
 
+  // Preload screens on startup
+  @Value("${application.parameter.preload.screens:true}")
+  private boolean preloadScreens;
+
   // Locale list
   private Map<String, Map<String, String>> localeList;
 
@@ -180,9 +184,9 @@ public class AweElements {
     logger.log(AweElements.class, Level.INFO, "=============================");
 
     // Initialize global files
-    logger.log(AweElements.class, Level.INFO, " ===== Initializing global files ===== ");
+    logger.log(AweElements.class, Level.INFO, " ===== Initializing global and screen files ===== ");
     waitForTermination(initGlobalFiles(), "global");
-    logger.log(AweElements.class, Level.INFO, " ===== Finished loading global files  ===== ");
+    logger.log(AweElements.class, Level.INFO, " ===== Finished loading global and screen files  ===== ");
 
     // Initialize menu files
     logger.log(AweElements.class, Level.INFO, " ===== Initializing menu files ===== ");
@@ -256,8 +260,11 @@ public class AweElements {
     profileList = new ConcurrentHashMap<>();
     results.add(elementsDao.readFolderXmlFilesAsync(Profile.class, profilePath, profileList));
 
-    // Init screen map
+    // Init screens
     screenMap = new ConcurrentHashMap<>();
+    if (preloadScreens) {
+      results.add(elementsDao.readFolderXmlFilesAsync(Screen.class, screenPath, screenMap));
+    }
 
     return results;
   }
@@ -437,7 +444,7 @@ public class AweElements {
   @Cacheable(value = "screen", key = "#p0")
   public Screen getScreen(String screenId) throws AWException {
     Screen screen;
-    if (screenMap.containsKey(screenId)) {
+    if (screenMap.containsKey(screenId) && screenMap.get(screenId).getId() != null) {
       screen = screenMap.get(screenId);
     } else {
       // Get Action
@@ -478,7 +485,7 @@ public class AweElements {
    * @throws AWException Clone not supported
    */
   private Screen readScreen(String screenId, Set<String> includedScreens) throws AWException {
-    Screen screen = null;
+    Screen screen;
     int identifier = 1;
     String path = screenPath + screenId + xmlExtension;
 
@@ -558,7 +565,7 @@ public class AweElements {
    * @param screen Screen
    * @param source Source
    * @return Tag
-   * @throws AWException
+   * @throws AWException Error retrieving screen sourcce
    */
   private Tag getScreenSource(Screen screen, String source) throws AWException {
     for (Tag child : screen.getChildrenByType(Tag.class)) {
@@ -651,6 +658,15 @@ public class AweElements {
    */
   public Set<String> getProfileList() {
     return profileList.keySet();
+  }
+
+  /**
+   * Get available screen list
+   *
+   * @return Screen list
+   */
+  public Set<String> getScreenList() {
+    return screenMap.keySet();
   }
 
   /**
