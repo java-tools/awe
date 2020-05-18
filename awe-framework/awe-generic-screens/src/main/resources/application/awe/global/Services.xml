@@ -96,6 +96,11 @@
       <service-parameter type="STRING" name="screen" />
     </java>
   </service>
+  <service id="getAllScreenList">
+    <java classname="com.almis.awe.service.MenuService" method="getAllScreenList">
+      <service-parameter type="STRING" name="screen" />
+    </java>
+  </service>
   <service id="getModuleList">
     <java classname="com.almis.awe.service.MenuService" method="getModuleList" />
   </service>

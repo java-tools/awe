@@ -142,6 +142,8 @@ application.parameter.address=address
 application.parameter.view=view
 # Default component parameter name
 application.parameter.component=component
+# Preload screens on startup
+application.parameter.preload.screens=true
 
 ################################################
 # Screen configuration
