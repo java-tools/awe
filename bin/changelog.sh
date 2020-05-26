@@ -6,8 +6,8 @@ echo "Generating changelog for version $NEW_VERSION"
 
 # Get merge requests and transforms into changelog
 currentDate=`date +%d/%m/%Y`
-changelog=`curl -s "https://gitlab.com/api/v4/projects/9781451/merge_requests?milestone=$NEW_VERSION&state=merged&per_page=100" | jq --raw-output 'map("- " + (if (.labels | map(select(. == "has impacts")) | length == 1) then "**[HAS IMPACTS]** " else "" end) + (.title | gsub("Resolve ";"") | gsub("\"";"")) + ". [MR #" + (.iid | tostring) + "](https://gitlab.com/aweframework/awe/merge_requests/" + (.iid | tostring) + ") (" + .merged_by.name + ")") | join("\n")'`
-changelogText=`printf "\n# Changelog for AWE $NEW_VERSION\n*$currentDate*\n\n$changelog\n\n"`
+changelog=`curl --header "Authorization: Bearer ${2}" -s "${1}/merge_requests?milestone=$NEW_VERSION&state=merged&per_page=100" | jq --raw-output 'map("- " + (if (.labels | map(select(. == "has impacts")) | length == 1) then "**[HAS IMPACTS]** " else "" end) + (.title | gsub("Resolve ";"") | gsub("\"";"")) + ". [MR #" + (.iid | tostring) + "](https://gitlab.com/aweframework/awe/merge_requests/" + (.iid | tostring) + ") (" + .merged_by.name + ")") | join("\n")'`
+changelogText=`printf "\n# Changelog for ${3} $NEW_VERSION\n*$currentDate*\n\n$changelog\n\n"`
 echo "$changelogText"
 
 # Generate changelog
