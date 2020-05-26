@@ -414,7 +414,9 @@ Generate a new milestone:
   stage: release
   <<: *git_credentials
   script:
-    ## Generate changelog
+    ## Generate milestone
+    - git checkout -f develop
+    - git pull --rebase
     - chmod +x ./bin/milestone.sh
     - ./bin/milestone.sh $API_URL $API_TOKEN
     - git push origin --delete milestone
