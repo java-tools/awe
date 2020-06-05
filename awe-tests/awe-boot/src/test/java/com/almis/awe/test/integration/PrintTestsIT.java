@@ -125,7 +125,7 @@ public class PrintTestsIT extends SeleniumUtilities {
     setTestTitle("Print chart and grid");
 
     // Print screen
-    verifyPrintScreen(false,"test", "chart", "grid-and-chart");
+    verifyPrintScreen(false, "test", "chart", "grid-and-chart");
 
     // Check for pager values selector
     Select select = new Select(getDriver().findElement(By.cssSelector(".grid-pager")));
@@ -134,8 +134,23 @@ public class PrintTestsIT extends SeleniumUtilities {
   }
 
   /**
+   * Print chart and grid screen
+   *
+   * @throws Exception Error on test
+   */
+  @Test
+  public void t070_printLayout2() throws Exception {
+    // Title
+    setTestTitle("Print layout 2");
+
+    // Print screen
+    verifyPrintScreen(false, "test", "layout", "layout2-test");
+  }
+
+  /**
    * Go to a screen and print the options
-   * @param allTabs print all tabs
+   *
+   * @param allTabs     print all tabs
    * @param menuOptions Menu options
    */
   private void verifyPrintScreen(boolean allTabs, String... menuOptions) {

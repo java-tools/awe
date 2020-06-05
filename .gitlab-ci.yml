@@ -2,10 +2,10 @@
 # Pipeline definition
 ##############################
 
-image: docker:latest
+image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
 
 variables:
-  MAVEN_CLI_OPTS: "-s .m2/settings.xml -Dsettings.security=.m2/settings-security.xml --batch-mode -P!devtools"
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml -Dsettings.security=.m2/settings-security.xml -P!devtools"
   MAVEN_REPO_PATH: ".m2/repository"
   SAST_PULL_ANALYZER_IMAGES: "0"
   SAST_RUN_ANALYZER_TIMEOUT: 30m
@@ -18,7 +18,7 @@ variables:
   DEPLOY_OPTS: "-f awe-framework/pom.xml -DskipTests -Darchetype.test.skip=true -Dskip.javadoc=false -Dbuild.environment=production"
   CHROME_OPTS: "-Dbrowser=headless-chrome"
   FIREFOX_OPTS: "-Dbrowser=headless-firefox"
-  CI_PROJECT_URL_SSH: "origin git@gitlab.com:awe-team/awe.git"
+  CI_PROJECT_URL_SSH: "origin git@gitlab.com:aweframework/awe.git"
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
   KUBERNETES_PROJECT_ID: wired-armor-229610
@@ -67,7 +67,6 @@ stages:
 ##############################
 
 .build:
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   stage: build
   cache:
     key: $CACHE_KEY
@@ -96,7 +95,6 @@ Build project:
 # Unit testing extension
 .unit-testing:
   stage: unit test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   allow_failure: false
   dependencies: []
   script:
@@ -156,7 +154,6 @@ SQL Server UT:
 
 Frontend UT:
   stage: unit test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   script:
     - mvn -f awe-framework/awe-client-angular/pom.xml $MAVEN_CLI_OPTS test
   artifacts:
@@ -171,8 +168,13 @@ Frontend UT:
 
 Javadoc test:
   stage: unit test
+  image: maven:3.5-jdk-8
   script:
-    - mvn -B javadoc:aggregate
+    - mvn -f awe-framework/pom.xml $MAVEN_CLI_OPTS javadoc:aggregate-no-fork -Dskip.javadoc=false -Ptest-javadoc
+  artifacts:
+    paths:
+      - awe-framework/target/site/apidocs
+    expire_in: 1 day
   rules:
     - <<: *if-merge-request
 
@@ -183,7 +185,6 @@ Javadoc test:
 # Browser testing extension
 .browser-testing:
   stage: integration test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   allow_failure: true
   dependencies: []
   script:
@@ -225,7 +226,6 @@ Chrome IT:
 
 Launch Sonar:
   stage: analysis
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   cache:
     key: $CACHE_KEY
     paths:
@@ -253,8 +253,8 @@ Launch Sonar:
 ##############################
 
 Publish docs:
-  stage: site
   image: cfmanteiga/alpine-bash-curl-jq:latest
+  stage: site
   cache: {}
   dependencies: []
   script:
@@ -281,6 +281,7 @@ Generate javadoc & schemas:
 ##############################
 
 Build package:
+  image: docker:latest
   stage: package
   cache: {}
   dependencies:
@@ -365,6 +366,7 @@ Deploy production:
     kubernetes: active
 
 pages:
+  image: docker:latest
   stage: deploy
   cache: {}
   dependencies:
@@ -401,16 +403,18 @@ pages:
     - git remote set-url $CI_PROJECT_URL_SSH
 
 Generate a new milestone branch:
+  image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
   <<: *git_credentials
   script:
     ## Generate changelog
-    - git checkout -B milestone develop
+    - git checkout -B milestone
     - git push origin milestone
   rules:
     - <<: *if-tag
 
 Generate a new milestone:
+  image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
   <<: *git_credentials
   script:

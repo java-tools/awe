@@ -1548,6 +1548,10 @@
     <field id="IdeThm" alias="IdeThm" transform="NUMBER"/>
     <field id="IdeThm" alias="IdeThm1" transform="NUMBER"/>
     <field id="IdeThm" alias="IdeThmNum"/>
+    <compound alias="NumTxt">
+      <computed alias="label" format="[Num]" transform="NUMBER" pattern="###,###.00"/>
+      <computed alias="value" format="[Num]" eval="true"/>
+    </compound>
     <compound alias="Sug">
       <computed alias="label" format="Prueba - [Txt]"/>
       <computed alias="value" format="[IdeThmNum]" transform="NUMBER"/>

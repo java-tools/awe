@@ -7098,6 +7098,10 @@
             <td translate-multiple=""></td>
             <td></td>
           </tr><tr>
+            <td><strong translate-multiple="COLUMN_NUMERIC"></strong></td>
+            <td translate-multiple=""></td>
+            <td></td>
+          </tr><tr>
             <td><strong translate-multiple="PARAMETER_DATE"></strong></td>
             <td translate-multiple=""></td>
             <td></td>
