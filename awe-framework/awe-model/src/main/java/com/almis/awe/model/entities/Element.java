@@ -208,11 +208,12 @@ public abstract class Element implements XMLNode, Copyable {
   /**
    * Returns the children element list of a desired TYPE
    *
-   * @param <T> element class type
+   * @param <T>              element class type
    * @param elementClassList Element class
    * @return Children List
    */
-  public <T> List<T> getElementsByType(Class<T>... elementClassList) {
+  @SafeVarargs
+  public final <T> List<T> getElementsByType(Class<T>... elementClassList) {
     return getElementsByType(true, elementClassList);
   }
 
@@ -251,11 +252,13 @@ public abstract class Element implements XMLNode, Copyable {
   /**
    * Returns the children element list of a desired TYPE
    *
-   * @param <T> element class type
+   * @param <T>              element class type
    * @param elementClassList element class
    * @return Children List
    */
-  public <T> List<T> getChildrenByType(Class<T>... elementClassList) {
+  @SafeVarargs
+  @SuppressWarnings("unchecked")
+  public final <T> List<T> getChildrenByType(Class<T>... elementClassList) {
 
     // Variable definition
     List<T> outLst = new ArrayList<>();

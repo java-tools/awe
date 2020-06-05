@@ -705,7 +705,10 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
             var rowId = row[component.constants.ROW_IDENTIFIER];
             address.row = rowId;
             var isSelected = selected.indexOf(rowId) > -1;
-            var cellValue = component.getVisibleData(address, row, column);
+            let cellValue = {
+              value: component.getCellData(row[address.column], component.constants.CELL_VALUE),
+              label: component.getVisibleData(address, row, column)
+            };
             columnData.push(cellValue);
 
             // Get selected rows if there is only one row selected

@@ -37,8 +37,8 @@ import java.util.Optional;
 public class ReportGenerator extends ServiceConfig {
 
   // Autowired services
-  private ReportDesigner designer;
-  private ADE adeAPI;
+  private final ReportDesigner designer;
+  private final ADE adeAPI;
 
   @Value("${settings.dataSuffix:.data}")
   private String dataSuffix;
@@ -105,7 +105,7 @@ public class ReportGenerator extends ServiceConfig {
    */
   private PrintBean designReport(Screen screen, ObjectNode parameters) throws AWException {
     // Generate report structure
-    List<Element> reportStructure = screen.getReportStructure(new ArrayList<Element>(), null, parameters, dataSuffix);
+    List<Element> reportStructure = screen.getReportStructure(new ArrayList<>(), null, parameters, dataSuffix);
 
     // Generate print bean
     return designer.getPrintDesign(reportStructure, parameters);

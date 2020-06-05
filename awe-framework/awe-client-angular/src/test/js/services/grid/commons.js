@@ -799,27 +799,33 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
 
     // Assert
     expect(data).toEqual({
-      id: [1, 2, 4, 5, 6, 7],
-      value: ["tutu", "lala", "lele", "lili", "lolo", "lulu"],
-      other: ["", "", "asda", "", "", ""],
-      "id.selected": 4,
-      "value.selected": "lele",
-      "other.selected": "asda",
+      id: [{"value": 1, "label": 1}, {"value": 2, "label": 2}, {"value": 4, "label": 4}, {"value": 5, "label": 5}, {"value": 6, "label": 6}, {"value": 7, "label": 7}],
+      value: [{"value": "tutu", "label": "tutu"}, {"value": "lala", "label": "lala"}, {"value": "lele", "label": "lele"}, {"value": "lili", "label": "lili"}, {
+        "value": "lolo",
+        "label": "lolo"
+      }, {"value": "lulu", "label": "lulu"}],
+      other: [{"value": null, "label": ""}, {"value": null, "label": ""}, {"value": "asda", "label": "asda"}, {"value": null, "label": ""}, {"value": null, "label": ""}, {"value": null, "label": ""}],
+      "id.selected": {"value": 4, "label": 4},
+      "value.selected": {"value": "lele", "label": "lele"},
+      "other.selected": {"value": "asda", "label": "asda"},
       "componentId-id": [4],
       "componentId.data": {visibleColumns: {value: "Value", other: "Other thing"}},
-      "selectedRowAddress": { view: 'viewId', component: 'componentId', row: 4 }
+      "selectedRowAddress": {view: 'viewId', component: 'componentId', row: 4}
     });
 
     expect(data2).toEqual({
-      id: [1, 2, 4, 5, 6, 7],
-      value: ["tutu", "lala", "lele", "lili", "lolo", "lulu"],
-      other: ["", "", "asda", "", "", ""],
-      "id.selected": 4,
-      "value.selected": "lele",
-      "other.selected": "asda",
+      id: [{"value": 1, "label": 1}, {"value": 2, "label": 2}, {"value": 4, "label": 4}, {"value": 5, "label": 5}, {"value": 6, "label": 6}, {"value": 7, "label": 7}],
+      value: [{"value": "tutu", "label": "tutu"}, {"value": "lala", "label": "lala"}, {"value": "lele", "label": "lele"}, {"value": "lili", "label": "lili"}, {
+        "value": "lolo",
+        "label": "lolo"
+      }, {"value": "lulu", "label": "lulu"}],
+      other: [{"value": null, "label": ""}, {"value": null, "label": ""}, {"value": "asda", "label": "asda"}, {"value": null, "label": ""}, {"value": null, "label": ""}, {"value": null, "label": ""}],
+      "id.selected": {"value": 4, "label": 4},
+      "value.selected": {"value": "lele", "label": "lele"},
+      "other.selected": {"value": "asda", "label": "asda"},
       "componentId-id": [4],
       "componentId.data": {visibleColumns: {value: "Value", other: "Other thing"}},
-      "selectedRowAddress": { view: 'viewId', component: 'componentId', row: 4 },
+      "selectedRowAddress": {view: 'viewId', component: 'componentId', row: 4},
       ...extraData
     });
   });
