@@ -1,4 +1,11 @@
 
+# Changelog for AWE 4.2.4
+*08/06/2020*
+
+- Another cast exception in generic print for grids with numeric values. [MR #217](https://gitlab.com/api/v4/projects/9781451/merge_requests/217) (Pablo Javier García Mora)
+- **[HAS IMPACTS]** Load all screens on startup. [MR #216](https://gitlab.com/api/v4/projects/9781451/merge_requests/216) (Pablo Javier García Mora)
+- Fix redirect issue when user is logged. [MR #215](https://gitlab.com/api/v4/projects/9781451/merge_requests/215) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.2.3
 *08/05/2020*
 
