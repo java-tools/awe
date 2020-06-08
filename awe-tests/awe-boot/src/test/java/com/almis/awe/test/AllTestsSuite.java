@@ -1,11 +1,12 @@
 package com.almis.awe.test;
 
-import com.almis.awe.test.unit.builder.BuildersTestsSuite;
 import com.almis.awe.test.categories.CIDatabaseTest;
 import com.almis.awe.test.categories.NotHSQLDatabaseTest;
+import com.almis.awe.test.unit.builder.BuildersTestsSuite;
 import com.almis.awe.test.unit.hsql.SpringHsqlTestsSuite;
 import com.almis.awe.test.unit.notifier.NotifierTestsSuite;
 import com.almis.awe.test.unit.pojo.PojoTestsSuite;
+import com.almis.awe.test.unit.print.PrintTestSuite;
 import com.almis.awe.test.unit.rest.SpringRestTestsSuite;
 import com.almis.awe.test.unit.scheduler.SchedulerTestSuite;
 import com.almis.awe.test.unit.services.ServicesTestSuite;
@@ -27,7 +28,8 @@ import org.junit.runners.Suite.SuiteClasses;
   PojoTestsSuite.class,
   BuildersTestsSuite.class,
   SchedulerTestSuite.class,
-  NotifierTestsSuite.class
+  NotifierTestsSuite.class,
+  PrintTestSuite.class
 })
 public class AllTestsSuite {
 }

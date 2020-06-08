@@ -26,7 +26,6 @@ public class MenuServiceTest extends AweSpringBootTests {
 
   /**
    * Test context loaded
-   * @throws NamingException Test error
    */
   @Test
   public void contextLoads() {
@@ -62,7 +61,7 @@ public class MenuServiceTest extends AweSpringBootTests {
 
   /**
    * Check available public screen list
-   * @throws Exception
+   * @throws Exception Test failed
    */
   @Test
   public void getAvailablePublicScreenList() throws Exception {
@@ -73,11 +72,20 @@ public class MenuServiceTest extends AweSpringBootTests {
 
   /**
    * Check available private screen list
-   * @throws Exception
+   * @throws Exception Test failed
    */
   @Test
   public void getAvailablePrivateScreenList() throws Exception {
     given(aweSession.isAuthenticated()).willReturn(true);
     assertEquals(26, menuService.getAvailableScreenList("").getDataList().getRecords());
+  }
+
+  /**
+   * Check all screen list
+   */
+  @Test
+  public void getAllScreenList() {
+    given(aweSession.isAuthenticated()).willReturn(true);
+    assertEquals(116, menuService.getAllScreenList("").getDataList().getRecords());
   }
 }

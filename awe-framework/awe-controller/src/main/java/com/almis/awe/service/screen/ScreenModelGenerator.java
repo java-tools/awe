@@ -39,8 +39,8 @@ import java.util.concurrent.Future;
 public class ScreenModelGenerator extends ServiceConfig {
 
   // Autowired services
-  private ScreenRestrictionGenerator screenRestrictionGenerator;
-  private InitialLoadDao initialLoadDao;
+  private final ScreenRestrictionGenerator screenRestrictionGenerator;
+  private final InitialLoadDao initialLoadDao;
 
   @Value("${settings.dataSuffix:.data}")
   private String dataSuffix;
@@ -402,7 +402,7 @@ public class ScreenModelGenerator extends ServiceConfig {
    *
    * @param criterion        Criterion object
    * @param screenComponent  Screen component
-   * @param screenParameters Screen paremeters (stored from keep-criteria)
+   * @param screenParameters Screen parameters (stored from keep-criteria)
    */
   void generateScreenCriterionModel(AbstractCriteria criterion, ScreenComponent screenComponent, ObjectNode screenParameters) {
     ComponentModel model = screenComponent.getModel();

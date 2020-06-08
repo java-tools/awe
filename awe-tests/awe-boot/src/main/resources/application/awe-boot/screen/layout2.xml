@@ -23,7 +23,6 @@
       </dependency>
     </button>
     <button label="BUTTON_UPDATE" icon="edit" id="ButUpd" help="HELP_UPDATE_BUTTON">
-      <!--<button-action type="check-one-selected" target="GrdEdi"/>-->
       <button-action type="screen" target="update_user" />
       <dependency target-type="disable" initial="true">
         <dependency-element id="GrdEdi" condition="ne" value="1" />
@@ -54,19 +53,19 @@
   <tag source="center">
     <window label="SCREEN_TEXT_USER" maximize="true" icon="camera-retro">
       <tag type="div" style="panel-body expand-maximize">
-        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="cod_usr" validation="required" readonly="true" style="col-xs-6 col-sm-4 col-md-2" value="Hola, Adios" />
-        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="epa" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
-        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="tutu" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
-        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="lala" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
-        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="prueba" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
-        <criteria placeholder="SCREEN_TEXT_PASS" component="password" icon="key" id="pwd_usr" validation="required" style="col-xs-6 col-sm-4 col-md-2">
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="cod_usr" readonly="true" style="col-xs-6 col-sm-4 col-md-2" value="Hola, Adios"/>
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="epa" style="col-xs-6 col-sm-4 col-md-2"/>
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="tutu" style="col-xs-6 col-sm-4 col-md-2"/>
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="lala" style="col-xs-6 col-sm-4 col-md-2"/>
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="prueba" style="col-xs-6 col-sm-4 col-md-2"/>
+        <criteria placeholder="SCREEN_TEXT_PASS" component="password" icon="key" id="pwd_usr" style="col-xs-6 col-sm-4 col-md-2">
           <dependency initial="true">
-            <dependency-element id="pwd_usr" />
-            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="cod_usr" />
-            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="epa" />
-            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="tutu" />
-            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="lala" />
-            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="prueba" />
+            <dependency-element id="pwd_usr"/>
+            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="cod_usr"/>
+            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="epa"/>
+            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="tutu"/>
+            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="lala"/>
+            <dependency-action type="server" server-action="value" target-action="ProAllLst" target="prueba"/>
           </dependency>
         </criteria>
       </tag>
@@ -81,39 +80,41 @@
     </window>
     <window label="SCREEN_TEXT_USER" style="expand" maximize="true" expandible="vertical">
       <grid id="GrdEdi" style="expand grid-bordered" editable="true" initial-load="query" server-action="data" target-action="QryEdiTstChk" max="10" show-totals="true">
-        <column label="PARAMETER_TEXT" name="Txt" sort-field="Txt" align="left" component="text" charlength="14" />
+        <column label="PARAMETER_TEXT" name="Txt" sort-field="Txt" align="left" component="text" charlength="14"/>
         <column label="COLUMN_NUMERIC" name="Num" sort-field="Num" align="right" component="numeric" number-format="{vMin: '0.01', mDec: 2, aSign:' EUR', pSign:'s', aPad:true}"
-                value="-123456.1" validation="number" charlength="30" formatter="number" summary-type="sum" />
-        <column label="PARAMETER_DATE" name="Dat" sort-field="Dat" align="center" component="date" charlength="16" printable="false">
+                value="-123456.1" validation="number" charlength="30" formatter="number" summary-type="sum"/>
+        <column label="COLUMN_NUMERIC" name="NumTxt" sort-field="NumTxt" align="right" charlength="30" type="float"/>
+        <column label="PARAMETER_DATE" name="Dat" sort-field="Dat" align="center" component="date" charlength="16">
           <dependency source-type="criteria-value" target-type="input" target-action="Date" initial="true">
-            <dependency-element id="GrdEdi" attribute="selectedRowValue" column="FilDat" alias="Date" />
-            <dependency-element id="GrdEdi" column="Dat" attribute="currentRow" condition="eq" id2="GrdEdi" column2="Dat" attribute2="nextRow" />
-            <dependency-element id="GrdEdi" event="save-row" />
+            <dependency-element id="GrdEdi" attribute="selectedRowValue" column="FilDat" alias="Date"/>
+            <dependency-element id="GrdEdi" column="Dat" attribute="currentRow" condition="eq" id2="GrdEdi" column2="Dat" attribute2="nextRow"/>
+            <dependency-element id="GrdEdi" event="save-row"/>
           </dependency>
           <dependency target-type="show-column" initial="true">
             <dependency-element id="GrdEdi" column="FilDat" attribute="hasDataColumn" condition="eq" value="true"/>
           </dependency>
         </column>
-        <column label="PARAMETER_FILTERED_DATE" name="FilDat" sort-field="FilDat" align="center" component="filtered-calendar" initial-load="query" target-action="FilCalDat" charlength="16">
+        <column label="PARAMETER_FILTERED_DATE" name="FilDat" sort-field="FilDat" align="center" component="filtered-calendar" initial-load="query" target-action="FilCalDat" charlength="16"
+                type="date">
           <dependency source-type="criteria-value" target-type="input" target-action="Date" initial="true">
-            <dependency-element id="GrdEdi" attribute="selectedRowValue" column="Dat" alias="Date" />
-            <dependency-element id="GrdEdi" column="FilDat" attribute="currentRow" condition="eq" id2="GrdEdi" column2="FilDat" attribute2="prevRow" />
-            <dependency-element id="GrdEdi" event="save-row" />
+            <dependency-element id="GrdEdi" attribute="selectedRowValue" column="Dat" alias="Date"/>
+            <dependency-element id="GrdEdi" column="FilDat" attribute="currentRow" condition="eq" id2="GrdEdi" column2="FilDat" attribute2="prevRow"/>
+            <dependency-element id="GrdEdi" event="save-row"/>
           </dependency>
         </column>
         <column label="PARAMETER_TIME" name="Tim" sort-field="Tim" align="center" component="time" charlength="14" />
         <group-header name="GrpHea1" label="PARAMETER_TEXT">
           <column label="PARAMETER_SUGGEST" name="Sug" sort-field="Sug" align="left" component="suggest" server-action="data" target-action="QryEdiSug" charlength="20" />
-          <column label="PARAMETER_SELECT" name="Sel" sort-field="Sel" align="left" component="select" initial-load="enum" target-action="Es1Es0" optional="true" charlength="20">
+          <column label="PARAMETER_SELECT" name="Sel" sort-field="Sel" align="left" component="select" initial-load="enum" target-action="Es1Es0" optional="true" charlength="20" type="string">
             <dependency source-type="criteria-value" target-type="label" target-action="Date">
-              <dependency-element id="GrdEdi" column="Dat" attribute="selectedRowValue" alias="Date" />
+              <dependency-element id="GrdEdi" column="Dat" attribute="selectedRowValue" alias="Date"/>
             </dependency>
           </column>
-          <column label="PARAMETER_TEXTAREA" name="Tar" sort-field="Tar" align="left" component="textarea" width="*" />
+          <column label="PARAMETER_TEXTAREA" name="Tar" sort-field="Tar" align="left" component="textarea" width="*" type="string"/>
           <column label="PARAMETER_UPLOADER" name="Upl" sort-field="Upl" align="left" component="uploader" width="*" />
-          <column label="" name="Ico" sort-field="Ico" align="center" component="icon" charlength="6" />
+          <column label="" name="Ico" sort-field="Ico" align="center" component="icon" charlength="6" printable="false"/>
         </group-header>
-        <column label="PARAMETER_CHECKBOX" name="ChkBox" sort-field="ChkBox" align="center" component="checkbox" charlength="12" />
+        <column label="PARAMETER_CHECKBOX" name="ChkBox" sort-field="ChkBox" align="center" component="checkbox" charlength="12" type="boolean"/>
         <button label="BUTTON_NEW" icon="plus-circle" id="ButGrdEdiAdd">
           <button-action type="add-row" target="GrdEdi" silent="true" />
         </button>
@@ -154,12 +155,12 @@
         </context-button>
       </grid>
       <tag type="div" style="panel-body">
-        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="cod_usr2" validation="required" readonly="true" style="col-xs-6 col-sm-4 col-md-2" value="Hola, Adios" />
-        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="epa2" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
-        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="tutu2" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
-        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="lala2" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
-        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="prueba2" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
-        <criteria placeholder="SCREEN_TEXT_PASS" component="password" icon="key" id="pwd_usr2" validation="required" style="col-xs-6 col-sm-4 col-md-2" />
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="cod_usr2" readonly="true" style="col-xs-6 col-sm-4 col-md-2" value="Hola, Adios"/>
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="epa2" style="col-xs-6 col-sm-4 col-md-2"/>
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="tutu2" style="col-xs-6 col-sm-4 col-md-2"/>
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="lala2" style="col-xs-6 col-sm-4 col-md-2"/>
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" icon="user" id="prueba2" style="col-xs-6 col-sm-4 col-md-2"/>
+        <criteria placeholder="SCREEN_TEXT_PASS" component="password" icon="key" id="pwd_usr2" style="col-xs-6 col-sm-4 col-md-2"/>
       </tag>
       <tag type="div" style="panel-footer">
         <tag type="div" style="pull-right">

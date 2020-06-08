@@ -1,8 +1,8 @@
 package com.almis.awe.service.report;
 
 
-import com.almis.ade.api.bean.component.*;
 import com.almis.ade.api.bean.component.Image;
+import com.almis.ade.api.bean.component.*;
 import com.almis.ade.api.bean.component.grid.GridHeader;
 import com.almis.ade.api.bean.component.grid.ReportColumn;
 import com.almis.ade.api.bean.component.grid.ReportGrid;
@@ -42,6 +42,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
 
@@ -51,7 +52,7 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
 public class ReportDesigner extends ServiceConfig {
 
   // Autowired services
-  private QueryService queryService;
+  private final QueryService queryService;
 
   @Value("${settings.dataSuffix:.data}")
   private String dataSuffix;
@@ -61,8 +62,8 @@ public class ReportDesigner extends ServiceConfig {
 
   // Report colors
   // TODO: Make them customizable
-  private static final Color REPORT_HEADER_TEXT_COLOR = new Color(100,100,100);
-  private static final Color REPORT_HEADER_LINE_COLOR = new Color(200,200,200);
+  private static final Color REPORT_HEADER_TEXT_COLOR = new Color(100, 100, 100);
+  private static final Color REPORT_HEADER_LINE_COLOR = new Color(200, 200, 200);
   private static final Integer REPORT_HEADER_TEXT_SIZE = 12;
   private static final Integer REPORT_FOOTER_TEXT_SIZE = 10;
   private static final Integer CRITERIA_GAP = 4;
@@ -70,10 +71,11 @@ public class ReportDesigner extends ServiceConfig {
   private static final Integer TOP_PADDING_SMALL = 5;
   private static final Integer MAX_GRID_FONT_SIZE = 10;
   private static final Integer MIN_GRID_FONT_SIZE = 5;
-  private static final Float GRID_FONT_CORRECION_RATIO = 1.7f;
+  private static final Float GRID_FONT_CORRECTION_RATIO = 1.7f;
 
   /**
    * Autowired constructor
+   *
    * @param queryService Query service
    */
   @Autowired
@@ -145,9 +147,8 @@ public class ReportDesigner extends ServiceConfig {
    *
    * @param printBean Print bean
    * @param element   Element
-   * @return Print bean
    */
-  private PrintBean getElementDesign(PrintBean printBean, Screen element) {
+  private void getElementDesign(PrintBean printBean, Screen element) {
     String title = getLocale(element.getLabel());
     // Generate layouts
     PageHeader header = new PageHeader("page-header");
@@ -179,7 +180,6 @@ public class ReportDesigner extends ServiceConfig {
     printBean
       .setPageHeader(header)
       .setPageFooter(footer);
-    return printBean;
   }
 
   /**
@@ -188,9 +188,8 @@ public class ReportDesigner extends ServiceConfig {
    * @param printBean  Print bean
    * @param element    Element
    * @param parameters Parameters
-   * @return Print bean
    */
-  private PrintBean getElementDesign(PrintBean printBean, Criteria element, ObjectNode parameters) {
+  private void getElementDesign(PrintBean printBean, Criteria element, ObjectNode parameters) {
     Layout layout = (Layout) ((Layout) printBean.getDetail()).getElements().get(((Layout) printBean.getDetail()).getElements().size() - 1);
 
     // Add criterion element to layout as text
@@ -220,9 +219,6 @@ public class ReportDesigner extends ServiceConfig {
         }
       }
     }
-
-    // Return print bean
-    return printBean;
   }
 
   /**
@@ -231,9 +227,8 @@ public class ReportDesigner extends ServiceConfig {
    * @param printBean  Print bean
    * @param element    Element
    * @param parameters Parameters
-   * @return Print bean
    */
-  private PrintBean getElementDesign(PrintBean printBean, Grid element, ObjectNode parameters) throws AWException {
+  private void getElementDesign(PrintBean printBean, Grid element, ObjectNode parameters) throws AWException {
     Layout layout = (Layout) printBean.getDetail();
     Layout gridLayout = new Layout("grid-layout", LayoutType.VERTICAL);
     layout.addElement(gridLayout);
@@ -265,9 +260,6 @@ public class ReportDesigner extends ServiceConfig {
     gridLayout.addElement(gridElement)
       .getStyle()
       .setTopPadding(TOP_PADDING);
-
-    // Return print bean
-    return printBean;
   }
 
   /**
@@ -276,7 +268,7 @@ public class ReportDesigner extends ServiceConfig {
    * @param reportGrid Report grid
    */
   private Integer getGridWidth(ReportGrid reportGrid) {
-    Integer gridWidth = 0;
+    int gridWidth = 0;
     for (GridHeader header : reportGrid.getGridHeaders()) {
       if (header instanceof ReportColumn) {
         ReportColumn reportColumn = (ReportColumn) header;
@@ -299,14 +291,14 @@ public class ReportDesigner extends ServiceConfig {
    */
   private void calculateGridOrientationAndFont(ReportGrid reportGrid, PrintBean printBean) {
     Integer gridWidth = getGridWidth(reportGrid);
-    Integer gridPageSize = PageOrientation.LANDSCAPE.equals(printBean.getOrientation()) ?
-      Image.Size.FULL_SIZE_LANDSCAPE.getSize() :Image.Size.FULL_SIZE.getSize();
+    int gridPageSize = PageOrientation.LANDSCAPE.equals(printBean.getOrientation()) ?
+      Image.Size.FULL_SIZE_LANDSCAPE.getSize() : Image.Size.FULL_SIZE.getSize();
     if (gridWidth > Image.Size.FULL_SIZE.getSize()) {
       if (printBean.getOrientation() == null) {
         printBean.setOrientation(PageOrientation.LANDSCAPE);
         gridPageSize = Image.Size.FULL_SIZE_LANDSCAPE.getSize();
       }
-      Float fontSize = MAX_GRID_FONT_SIZE - (gridWidth * GRID_FONT_CORRECION_RATIO / gridPageSize);
+      float fontSize = MAX_GRID_FONT_SIZE - (gridWidth * GRID_FONT_CORRECTION_RATIO / gridPageSize);
       reportGrid.setFontSize(Math.max(Math.round(fontSize), MIN_GRID_FONT_SIZE));
     } else {
       reportGrid.setFontSize(MAX_GRID_FONT_SIZE);
@@ -566,39 +558,44 @@ public class ReportDesigner extends ServiceConfig {
    */
   private ColumnType addRowData(CellData cell, List<Object> rowData) {
     ColumnType type;
-    if (cell != null && cell.isSendStringValue()) {
-      rowData.add(cell.getStringValue());
-      type = ColumnType.STRING;
-    } else if (cell != null) {
-      switch (cell.getType()) {
-        case OBJECT:
-        case JSON:
-          rowData.add(new DataBean((ObjectNode) cell.getObjectValue()));
-          type = ColumnType.OBJECT;
-          break;
-        case NULL:
-          rowData.add("");
-          type = ColumnType.STRING;
-          break;
-        case FLOAT:
-        case DOUBLE:
-        case DECIMAL:
-          rowData.add(cell.getDoubleValue());
-          type = ColumnType.DOUBLE;
-          break;
-        case INTEGER:
-        case LONG:
-          rowData.add(cell.getIntegerValue());
-          type = ColumnType.INTEGER;
-          break;
-        default:
-          rowData.add(cell.getObjectValue());
-          type = ColumnType.valueOf(cell.getType().toString());
-          break;
-      }
-    } else {
-      rowData.add("");
-      type = ColumnType.STRING;
+    CellData safeCell = Optional.ofNullable(cell).orElse(new CellData());
+    switch (safeCell.getType()) {
+      case OBJECT:
+      case JSON:
+        rowData.add(new DataBean((ObjectNode) safeCell.getObjectValue()));
+        type = ColumnType.OBJECT;
+        break;
+      case NULL:
+        rowData.add(new DataBean(JsonNodeFactory.instance.objectNode()
+          .put(AweConstants.JSON_VALUE_PARAMETER, "")
+          .put(AweConstants.JSON_LABEL_PARAMETER, "")
+        ));
+        type = ColumnType.STRING;
+        break;
+      case FLOAT:
+      case DOUBLE:
+      case DECIMAL:
+        rowData.add(new DataBean(JsonNodeFactory.instance.objectNode()
+          .put(AweConstants.JSON_VALUE_PARAMETER, safeCell.getDoubleValue())
+          .put(AweConstants.JSON_LABEL_PARAMETER, safeCell.getStringValue())
+        ));
+        type = ColumnType.DOUBLE;
+        break;
+      case INTEGER:
+      case LONG:
+        rowData.add(new DataBean(JsonNodeFactory.instance.objectNode()
+          .put(AweConstants.JSON_VALUE_PARAMETER, safeCell.getIntegerValue())
+          .put(AweConstants.JSON_LABEL_PARAMETER, safeCell.getStringValue())
+        ));
+        type = ColumnType.INTEGER;
+        break;
+      default:
+        rowData.add(new DataBean(JsonNodeFactory.instance.objectNode()
+          .put(AweConstants.JSON_VALUE_PARAMETER, safeCell.getStringValue())
+          .put(AweConstants.JSON_LABEL_PARAMETER, safeCell.getStringValue())
+        ));
+        type = ColumnType.valueOf(safeCell.getType().toString());
+        break;
     }
 
     return type;
@@ -644,33 +641,26 @@ public class ReportDesigner extends ServiceConfig {
    * @param row  Row
    */
   private ColumnType storeParameterRowData(JsonNode data, List<Object> row) {
-    ColumnType type = ColumnType.STRING;
-    if (data.isDouble()) {
-      row.add(data.asDouble());
+    ColumnType type;
+    JsonNode value = data.get(AweConstants.JSON_VALUE_PARAMETER);
+    if (value.isDouble()) {
       type = ColumnType.DOUBLE;
-    } else if (data.isFloat()) {
-      row.add(data.floatValue());
+    } else if (value.isFloat()) {
       type = ColumnType.FLOAT;
-    } else if (data.isLong()) {
-      row.add(data.asLong());
+    } else if (value.isLong()) {
       type = ColumnType.LONG;
-    } else if (data.isInt()) {
-      row.add(data.asInt());
+    } else if (value.isInt()) {
       type = ColumnType.INTEGER;
-    } else if (data.isBoolean()) {
-      row.add(data.asBoolean());
+    } else if (value.isBoolean()) {
       type = ColumnType.BOOLEAN;
-    } else if (data.isBigDecimal()) {
-      row.add(data.decimalValue());
+    } else if (value.isBigDecimal()) {
       type = ColumnType.BIGDECIMAL;
-    } else if (data.isBigInteger()) {
-      row.add(data.bigIntegerValue());
+    } else if (value.isBigInteger()) {
       type = ColumnType.BIGINTEGER;
-    } else if (data.isTextual()) {
-      row.add(data.asText());
     } else {
-      row.add(data.toString());
+      type = ColumnType.STRING;
     }
+    row.add(new DataBean((ObjectNode) data));
     return type;
   }
 
@@ -680,9 +670,8 @@ public class ReportDesigner extends ServiceConfig {
    * @param printBean  Print bean
    * @param element    Element
    * @param parameters Parameters
-   * @return Print bean
    */
-  private PrintBean getElementDesign(PrintBean printBean, Chart element, ObjectNode parameters) {
+  private void getElementDesign(PrintBean printBean, Chart element, ObjectNode parameters) {
     Layout layout = (Layout) printBean.getDetail();
 
     // Add chart element to layout
@@ -710,9 +699,6 @@ public class ReportDesigner extends ServiceConfig {
         .setSize(Image.Size.FULL_SIZE_LANDSCAPE.getSize())
         .setScale(AweConstants.SVG_SCALE_LANDSCAPE);
     }
-
-    // Return print bean
-    return printBean;
   }
 
   /**

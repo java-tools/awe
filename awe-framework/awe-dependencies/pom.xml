@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-framework</artifactId>
-    <version>4.2.3</version>
+    <version>4.2.4</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -18,7 +18,7 @@
   <properties>
     <!-- dependency versions -->
     <awe.version>${revision}</awe.version>
-    <ade.version>2.0.8</ade.version>
+    <ade.version>2.0.10</ade.version>
     <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
     <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
     <ehcache.version>3.6.1</ehcache.version>
@@ -647,6 +647,51 @@
                 </configuration>
               </execution>
             </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>test-javadoc</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>xml-maven-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>default-compile</id>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-maven-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
           </plugin>
         </plugins>
       </build>

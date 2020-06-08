@@ -116,7 +116,7 @@ public class FileManagerService implements InitializingBean {
    * @return File
    */
   public File downloadFile(String path, String preview) {
-    log.debug("doGet: download file: {} preview: {}", path, BooleanUtils.toBoolean(preview));
+    log.debug("doGet: download file: {} preview: {}", path, BooleanUtils.toBoolean(preview));
     return resolvePath(basePath, path).toFile();
   }
 
@@ -158,7 +158,7 @@ public class FileManagerService implements InitializingBean {
     // etc.
     // [$config.uploadUrl]?destination=/public_html/image.jpg&file-1=...&file-2=...
     log.debug("Uploading");
-    JsonNode responseJsonObject = null;
+    JsonNode responseJsonObject;
 
     try {
       if (files.isEmpty()) {
@@ -186,10 +186,9 @@ public class FileManagerService implements InitializingBean {
    * Manage file manager operation
    * @param params Parameters
    * @return Response
-   * @throws ServletException Error in http
    */
-  public JsonNode fileOperation(ObjectNode params) throws ServletException {
-    JsonNode responseJsonObject = null;
+  public JsonNode fileOperation(ObjectNode params) {
+    JsonNode responseJsonObject;
     try {
       FileModeEnum mode = FileModeEnum.valueOf(params.get("action").asText().toUpperCase());
       switch (mode) {
@@ -252,7 +251,7 @@ public class FileManagerService implements InitializingBean {
 
     try (InputStream inputStream = input.getInputStream();
          OutputStream outputStream = new FileOutputStream(file)) {
-      int read = 0;
+      int read;
       byte[] bytes = new byte[1024];
 
       while ((read = inputStream.read(bytes)) != -1) {
@@ -271,14 +270,11 @@ public class FileManagerService implements InitializingBean {
    *
    * @param params Parameters
    * @return Response
-   * @throws IOException Error getting file
    */
-  private JsonNode getContent(ObjectNode params) throws IOException {
+  private JsonNode getContent(ObjectNode params) {
 
-    FileInputStream stream = new FileInputStream(new File(repositoryBasePath, params.get("item").asText()));
-    ObjectNode contentObject = JsonNodeFactory.instance.objectNode();
-
-    try {
+    try (FileInputStream stream = new FileInputStream(new File(repositoryBasePath, params.get("item").asText()))) {
+      ObjectNode contentObject = JsonNodeFactory.instance.objectNode();
       Path filePath = Paths.get(repositoryBasePath + params.get("item").asText());
       log.debug("getContent of file path: {}", filePath);
 
@@ -295,10 +291,8 @@ public class FileManagerService implements InitializingBean {
     } catch (Exception ex) {
       log.error("getContent", ex);
       return error(ex);
-    } finally {
-      // Close stream
-      stream.close();
     }
+    // Close stream
   }
 
   /**
@@ -349,7 +343,7 @@ public class FileManagerService implements InitializingBean {
     try {
       String path = params.get("item").asText();
       String newpath = params.get("newItemPath").asText();
-      log.debug("Rename from: {} to: {}", path, newpath);
+      log.debug("Rename from: {} to: {}", path, newpath);
 
       Path fromPath = Paths.get(repositoryBasePath, path);
       Path toPath = Paths.get(repositoryBasePath, newpath);
@@ -390,7 +384,7 @@ public class FileManagerService implements InitializingBean {
         // Destination path
         Path toPath = Paths.get(repositoryBasePath, params.get(NEW_PATH).asText(), filePath.getFileName().toString());
 
-        log.debug("Move file: {} to: {}", filePath, toPath);
+        log.debug("Move file: {} to: {}", filePath, toPath);
 
         // Move file or folder
         Files.move(filePath, toPath, options);
@@ -429,7 +423,7 @@ public class FileManagerService implements InitializingBean {
         // Target path
         Path targetPath = Paths.get(repositoryBasePath, params.get(NEW_PATH).asText(), singleFileName.textValue());
 
-        log.debug("copy from: {} to: {}", sourcePath, targetPath);
+        log.debug("copy from: {} to: {}", sourcePath, targetPath);
 
         Files.copy(sourcePath, targetPath, options);
 
@@ -441,7 +435,7 @@ public class FileManagerService implements InitializingBean {
           // Target path
           Path targetPath = Paths.get(repositoryBasePath, params.get(NEW_PATH).asText());
 
-          log.debug("copy from: {} to: {}", sourcePath, targetPath);
+          log.debug("copy from: {} to: {}", sourcePath, targetPath);
 
           Files.copy(sourcePath, targetPath.resolve(sourcePath.getFileName()), options);
         }
@@ -547,8 +541,8 @@ public class FileManagerService implements InitializingBean {
 
   /**
    * Create a folder
-   * @param path
-   * @return
+   * @param path Folder path
+   * @return Success function
    */
   private JsonNode createFolder(Path path) {
     log.debug("createFolder path: {}", path);
@@ -727,7 +721,6 @@ public class FileManagerService implements InitializingBean {
    *
    * @param msg Message
    * @return Error message
-   * @throws ServletException Error in transmission
    */
   private JsonNode error(String msg) {
     // Json error format --> RESULT: "success": false, "error": "msg"
@@ -742,7 +735,6 @@ public class FileManagerService implements InitializingBean {
    * Build json success response
    *
    * @return Response
-   * @throws ServletException Error in transmission
    */
   private JsonNode success() {
     // Json success format --> RESULT: "success": true, "error": null
