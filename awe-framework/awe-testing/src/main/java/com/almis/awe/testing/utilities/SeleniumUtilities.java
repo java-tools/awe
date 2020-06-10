@@ -51,6 +51,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 @TestPropertySource("classpath:test.properties")
 public class SeleniumUtilities {
   private static WebDriver driver;
+  private static String currentOption;
   private static final Integer RETRY_COUNT = 10;
 
   // Constants
@@ -164,8 +165,9 @@ public class SeleniumUtilities {
   }
 
   /**
-   * Get browser web driver   *
-   * @return
+   * Get browser web driver
+   *
+   * @return Docker webdriver
    */
   private WebDriver getDockerWebDriver(MutableCapabilities capabilities) {
     try (BrowserWebDriverContainer webDriverContainer = (BrowserWebDriverContainer) new BrowserWebDriverContainer()
@@ -216,6 +218,24 @@ public class SeleniumUtilities {
    */
   public static void setDriver(WebDriver newDriver) {
     driver = newDriver;
+  }
+
+  /**
+   * Get current option
+   *
+   * @return Current option
+   */
+  public static String getCurrentOption() {
+    return currentOption;
+  }
+
+  /**
+   * Set current option
+   *
+   * @param option new option
+   */
+  public static void setCurrentOption(String option) {
+    currentOption = option;
   }
 
   /**
@@ -288,7 +308,7 @@ public class SeleniumUtilities {
         .replaceAll("_+", "_");
       messageSanitized = messageSanitized.length() > 180 ? messageSanitized.substring(0, 180) : messageSanitized;
       String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
-      Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
+      Path path = Paths.get(screenshotPath, "screenshot-" + getCurrentOption() + "-" + timestamp + "-" + messageSanitized + ".png");
       log.error(message, (Object) throwable);
       log.error("Storing screenshot at: " + path);
 
@@ -972,6 +992,7 @@ public class SeleniumUtilities {
         // Click on screen
         click(By.name(option));
       }
+      setCurrentOption(option);
       optionNumber++;
     }
 

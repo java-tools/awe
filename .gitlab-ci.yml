@@ -24,6 +24,7 @@ variables:
   KUBERNETES_PROJECT_ID: wired-armor-229610
   KUBERNETES_CLUSTER_NAME: awe-boot-cluster
   CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
+  API_URL: "$CI_API_V4_URL/projects/$CI_PROJECT_ID"
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the sonar task.
 
 cache:
@@ -196,6 +197,7 @@ Javadoc test:
     - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - echo "$errors errors and $failures failures found"
   artifacts:
+    expose_as: 'Selenium reports'
     paths:
       - awe-tests/awe-boot/target/tests/
       - awe-tests/awe-boot/target/surefire-reports/
@@ -437,7 +439,7 @@ Start a new release:
     ## Generate changelog
     - git checkout $CI_COMMIT_REF_NAME
     - chmod +x ./bin/changelog.sh
-    - ./bin/changelog.sh $API_URL $API_TOKEN "AWE"
+    - ./bin/changelog.sh $API_URL $API_TOKEN "$CI_PROJECT_TITLE"
     - git checkout ./bin/changelog.sh
     - git add ./CHANGELOG.md
     - git commit -m "Generated CHANGELOG"

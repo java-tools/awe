@@ -160,6 +160,12 @@ public class PrintTestsIT extends SeleniumUtilities {
     // Wait for button
     waitForButton("ButPrn");
 
+    // Wait for button (again)
+    waitForButton("ButPrn");
+
+    // Wait 1 second
+    pause(1000);
+
     // Click print button
     clickButton("ButPrn");
 
