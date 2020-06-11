@@ -1,4 +1,12 @@
 
+# Changelog for awe 4.2.5
+*11/06/2020*
+
+- `gotoScreen` doesn't wait for not disabled option, causing misclick on option. [MR #221](https://gitlab.com/aweframework/awe/-/merge_requests/221) (Pablo Javier García Mora)
+- Error filling a radio criteria using the target attribute of the screen. [MR #220](https://gitlab.com/aweframework/awe/-/merge_requests/220) (Pablo Javier García Mora)
+- Access to changelog MR is not being generated right. [MR #219](https://gitlab.com/aweframework/awe/-/merge_requests/219) (Pablo Javier García Mora)
+- Show currentOption on screenshot name when failing in selenium tests. [MR #218](https://gitlab.com/aweframework/awe/-/merge_requests/218) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.2.4
 *08/06/2020*
 
