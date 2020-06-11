@@ -450,9 +450,9 @@ public class SeleniumUtilities {
    */
   private String getParentSelectorXpath(String gridId, String rowId, String columnId) {
     if (rowId == null) {
-      return containsGridOrTreeGrid(gridId) + "//*[contains(@class, 'ui-grid-row-selected')]//*[contains(@column-id, '" + columnId + "')]";
+      return containsGridOrTreeGrid(gridId) + "//*[contains(@class, 'ui-grid-row-selected')]//*[@column-id='" + columnId + "']";
     } else {
-      return containsGridOrTreeGrid(gridId) + "//*[contains(@row-id, '" + rowId + "')]//*[contains(@column-id, '" + columnId + "')]";
+      return containsGridOrTreeGrid(gridId) + "//*[@row-id='" + rowId + "']//*[@column-id='" + columnId + "']";
     }
   }
 
@@ -464,7 +464,7 @@ public class SeleniumUtilities {
    * @return Css parent selector
    */
   private String getHeaderSelectorXpath(String gridId, String columnId) {
-    return containsGridOrTreeGrid(gridId) + "//*[contains(@class, 'ui-grid-header-cell-row')]//*[contains(@column-id, '" + columnId + "')]";
+    return containsGridOrTreeGrid(gridId) + "//*[contains(@class, 'ui-grid-header-cell-row')]//*[@column-id='" + columnId + "']";
   }
 
   /**
@@ -509,7 +509,7 @@ public class SeleniumUtilities {
    * @return Xpath string
    */
   private String containsGridOrTreeGrid(String gridId) {
-    return "//*[contains(@grid-id, '" + gridId + "') or contains(@tree-grid-id, '" + gridId + "')]";
+    return "//*[@grid-id='" + gridId + "' or @tree-grid-id='" + gridId + "']";
   }
 
   /**
@@ -987,7 +987,7 @@ public class SeleniumUtilities {
       waitUntil(visibilityOfElementLocated(By.name(option)));
 
       // If it is not the last option, check if it is already opened
-      List<WebElement> openedChildren = getElements(By.xpath("//*[contains(@name,'" + option + "')]/following-sibling::ul[contains(@class,'opened')]"));
+      List<WebElement> openedChildren = getElements(By.xpath("//*[@name='" + option + "']/following-sibling::ul[contains(@class,'opened')]"));
       if (optionNumber == menuOptions.length || openedChildren.isEmpty()) {
         // Click on screen
         click(By.name(option));
