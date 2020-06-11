@@ -16,7 +16,7 @@ fi
 # Get merge requests and transforms into changelog
 echo "Generating changelog for version $NEW_VERSION"
 currentDate=$(date +%d/%m/%Y)
-changelog=$(curl --header "Authorization: Bearer ${2}" -s "${1}/merge_requests?milestone=${NEW_VERSION}&state=merged&per_page=200" | jq --raw-output 'map("- " + (if (.labels | map(select(. == "has impacts")) | length == 1) then "**[HAS IMPACTS]** " else "" end) + (.title | gsub("Resolve ";"") | gsub("\"";"")) + ". [MR #" + (.iid | tostring) + "]('${1}'/merge_requests/" + (.iid | tostring) + ") (" + .merged_by.name + ")") | join("\n")')
+changelog=$(curl --header "Authorization: Bearer ${2}" -s "${1}/merge_requests?milestone=${NEW_VERSION}&state=merged&per_page=200" | jq --raw-output 'map("- " + (if (.labels | map(select(. == "has impacts")) | length == 1) then "**[HAS IMPACTS]** " else "" end) + (.title | gsub("Resolve ";"") | gsub("\"";"")) + ". [MR #" + (.iid | tostring) + "](" + .web_url + ") (" + .merged_by.name + ")") | join("\n")')
 changelogText=$(printf "\n# Changelog for ${3} ${NEW_VERSION}\n*${currentDate}*\n\n${changelog}\n\n")
 echo "$changelogText"
 

@@ -51,6 +51,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 @TestPropertySource("classpath:test.properties")
 public class SeleniumUtilities {
   private static WebDriver driver;
+  private static String currentOption;
   private static final Integer RETRY_COUNT = 10;
 
   // Constants
@@ -164,8 +165,9 @@ public class SeleniumUtilities {
   }
 
   /**
-   * Get browser web driver   *
-   * @return
+   * Get browser web driver
+   *
+   * @return Docker webdriver
    */
   private WebDriver getDockerWebDriver(MutableCapabilities capabilities) {
     try (BrowserWebDriverContainer webDriverContainer = (BrowserWebDriverContainer) new BrowserWebDriverContainer()
@@ -216,6 +218,24 @@ public class SeleniumUtilities {
    */
   public static void setDriver(WebDriver newDriver) {
     driver = newDriver;
+  }
+
+  /**
+   * Get current option
+   *
+   * @return Current option
+   */
+  public static String getCurrentOption() {
+    return currentOption;
+  }
+
+  /**
+   * Set current option
+   *
+   * @param option new option
+   */
+  public static void setCurrentOption(String option) {
+    currentOption = option;
   }
 
   /**
@@ -288,7 +308,7 @@ public class SeleniumUtilities {
         .replaceAll("_+", "_");
       messageSanitized = messageSanitized.length() > 180 ? messageSanitized.substring(0, 180) : messageSanitized;
       String timestamp = new SimpleDateFormat("HHmmssSSS").format(new Date());
-      Path path = Paths.get(screenshotPath, "screenshot-" + timestamp + "-" + messageSanitized + ".png");
+      Path path = Paths.get(screenshotPath, "screenshot-" + getCurrentOption() + "-" + timestamp + "-" + messageSanitized + ".png");
       log.error(message, (Object) throwable);
       log.error("Storing screenshot at: " + path);
 
@@ -430,9 +450,9 @@ public class SeleniumUtilities {
    */
   private String getParentSelectorXpath(String gridId, String rowId, String columnId) {
     if (rowId == null) {
-      return containsGridOrTreeGrid(gridId) + "//*[contains(@class, 'ui-grid-row-selected')]//*[contains(@column-id, '" + columnId + "')]";
+      return containsGridOrTreeGrid(gridId) + "//*[contains(@class, 'ui-grid-row-selected')]//*[@column-id='" + columnId + "']";
     } else {
-      return containsGridOrTreeGrid(gridId) + "//*[contains(@row-id, '" + rowId + "')]//*[contains(@column-id, '" + columnId + "')]";
+      return containsGridOrTreeGrid(gridId) + "//*[@row-id='" + rowId + "']//*[@column-id='" + columnId + "']";
     }
   }
 
@@ -444,7 +464,7 @@ public class SeleniumUtilities {
    * @return Css parent selector
    */
   private String getHeaderSelectorXpath(String gridId, String columnId) {
-    return containsGridOrTreeGrid(gridId) + "//*[contains(@class, 'ui-grid-header-cell-row')]//*[contains(@column-id, '" + columnId + "')]";
+    return containsGridOrTreeGrid(gridId) + "//*[contains(@class, 'ui-grid-header-cell-row')]//*[@column-id='" + columnId + "']";
   }
 
   /**
@@ -489,7 +509,7 @@ public class SeleniumUtilities {
    * @return Xpath string
    */
   private String containsGridOrTreeGrid(String gridId) {
-    return "//*[contains(@grid-id, '" + gridId + "') or contains(@tree-grid-id, '" + gridId + "')]";
+    return "//*[@grid-id='" + gridId + "' or @tree-grid-id='" + gridId + "']";
   }
 
   /**
@@ -967,11 +987,12 @@ public class SeleniumUtilities {
       waitUntil(visibilityOfElementLocated(By.name(option)));
 
       // If it is not the last option, check if it is already opened
-      List<WebElement> openedChildren = getElements(By.xpath("//*[contains(@name,'" + option + "')]/following-sibling::ul[contains(@class,'opened')]"));
+      List<WebElement> openedChildren = getElements(By.xpath("//*[@name='" + option + "']/following-sibling::ul[contains(@class,'opened')]"));
       if (optionNumber == menuOptions.length || openedChildren.isEmpty()) {
         // Click on screen
         click(By.name(option));
       }
+      setCurrentOption(option);
       optionNumber++;
     }
 

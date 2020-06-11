@@ -1,10 +1,18 @@
 
+# Changelog for awe 4.2.5
+*11/06/2020*
+
+- `gotoScreen` doesn't wait for not disabled option, causing misclick on option. [MR #221](https://gitlab.com/aweframework/awe/-/merge_requests/221) (Pablo Javier García Mora)
+- Error filling a radio criteria using the target attribute of the screen. [MR #220](https://gitlab.com/aweframework/awe/-/merge_requests/220) (Pablo Javier García Mora)
+- Access to changelog MR is not being generated right. [MR #219](https://gitlab.com/aweframework/awe/-/merge_requests/219) (Pablo Javier García Mora)
+- Show currentOption on screenshot name when failing in selenium tests. [MR #218](https://gitlab.com/aweframework/awe/-/merge_requests/218) (Pablo Javier García Mora)
+
 # Changelog for AWE 4.2.4
 *08/06/2020*
 
-- Another cast exception in generic print for grids with numeric values. [MR #217](https://gitlab.com/api/v4/projects/9781451/merge_requests/217) (Pablo Javier García Mora)
-- **[HAS IMPACTS]** Load all screens on startup. [MR #216](https://gitlab.com/api/v4/projects/9781451/merge_requests/216) (Pablo Javier García Mora)
-- Fix redirect issue when user is logged. [MR #215](https://gitlab.com/api/v4/projects/9781451/merge_requests/215) (Pablo Javier García Mora)
+- Another cast exception in generic print for grids with numeric values. [MR #217](https://gitlab.com/aweframework/awe/merge_requests/217) (Pablo Javier García Mora)
+- **[HAS IMPACTS]** Load all screens on startup. [MR #216](https://gitlab.com/aweframework/awe/merge_requests/216) (Pablo Javier García Mora)
+- Fix redirect issue when user is logged. [MR #215](https://gitlab.com/aweframework/awe/merge_requests/215) (Pablo Javier García Mora)
 
 # Changelog for AWE 4.2.3
 *08/05/2020*

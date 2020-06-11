@@ -2896,8 +2896,13 @@
     </operation>
   </query>
 
-  <query id="testQueryWithOutPostProcess" service="getDataListWithOutPostProcessed" post-process="false" >
+  <query id="testQueryWithOutPostProcess" service="getDataListWithOutPostProcessed" post-process="false">
     <field id="value"/>
+  </query>
+
+  <query id="RadioButtonInitialValue">
+    <constant value="Radio1" alias="RadBoxGrp1"/>
+    <constant value="Radio2" alias="RadBoxGrp2"/>
   </query>
 
 </queries>

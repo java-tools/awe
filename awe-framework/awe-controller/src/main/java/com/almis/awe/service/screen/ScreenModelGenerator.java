@@ -12,6 +12,7 @@ import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.screen.component.Component;
 import com.almis.awe.model.entities.screen.component.MenuContainer;
 import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
+import com.almis.awe.model.entities.screen.component.criteria.Criteria;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.entities.screen.component.grid.Grid;
 import com.almis.awe.model.entities.screen.data.AweThreadInitialization;
@@ -26,10 +27,7 @@ import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.Future;
 
@@ -353,15 +351,30 @@ public class ScreenModelGenerator extends ServiceConfig {
    */
   private void addScreenTargetDataToComponent(DataList data, Map<String, ScreenComponent> componentMap) {
     // For each column, store value in components
-    if (!data.getRows().isEmpty()) {
-      Map<String, CellData> firstRow = data.getRows().get(0);
-      for (String componentId : firstRow.keySet()) {
-        if (componentMap.containsKey(componentId)) {
-          ScreenComponent component = componentMap.get(componentId);
-          component.getModel().setSelected(getSelectedData(data, componentId));
-        }
+    Map<String, CellData> firstRow = Optional.ofNullable(data.getRows().get(0)).orElse(Collections.emptyMap());
+    firstRow.keySet().forEach(componentId -> {
+      // Get value
+      List<CellData> values = getSelectedData(data, componentId);
+
+      // For component individuals
+      if (componentMap.containsKey(componentId)) {
+        ScreenComponent component = componentMap.get(componentId);
+        component.getModel().setSelected(values);
       }
-    }
+
+      // For component groups (radio and radio buttons)
+      componentMap
+        .values()
+        .stream()
+        .filter(screenComponent -> Optional.ofNullable(screenComponent.getController().getComponentType()).orElse("").toUpperCase().contains("RADIO"))
+        .filter(screenComponent -> ((Criteria) screenComponent.getController()).getGroup().equalsIgnoreCase(componentId))
+        .forEach(screenComponent -> {
+          // Set checked
+          ((Criteria) screenComponent.getController()).setChecked(((Criteria) screenComponent.getController()).getValue().equalsIgnoreCase(values.get(0).getStringValue()));
+          // Set selected
+          screenComponent.getModel().setSelected(values);
+        });
+    });
   }
 
   /**
@@ -455,11 +468,9 @@ public class ScreenModelGenerator extends ServiceConfig {
           radioValues.put(AweConstants.JSON_LABEL_PARAMETER, new CellData(criterion.getId()));
           radioValues.put(AweConstants.JSON_VALUE_PARAMETER, radioValue);
           model.getValues().add(radioValues);
-
           model.getSelected().clear();
-
           // Radio VARIABLE VALUE
-          if (model.getSelected().isEmpty() && criterion.isChecked()) {
+          if (criterion.isChecked()) {
             // Check attribute CHECKED to add selected VALUE
             model.getSelected().add(radioValue);
           }
