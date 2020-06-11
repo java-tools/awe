@@ -12,28 +12,25 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Log into the application
-   * @throws Exception
    */
   @Test
-  public void t000_loginTest() throws Exception {
+  public void t000_loginTest() {
     checkLogin("test", "test", "#ButUsrAct span.info-text", "Manager (test)");
   }
 
   /**
    * Log out from the application
-   * @throws Exception
    */
   @Test
-  public void t999_logoutTest() throws Exception {
+  public void t999_logoutTest() {
     checkLogout(".slogan", "Almis Web Engine");
   }
 
   /**
    * Test screen configuration usage (hide ButPrn button on databases screen)
-   * @throws Exception Error on test
    */
   @Test
-  public void t001_screenConfigurationUsage() throws Exception {
+  public void t001_screenConfigurationUsage() {
     // Title
     setTestTitle("Test screen configuration usage");
 
@@ -118,10 +115,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Select test module on select criterion
-   * @throws Exception Error on test
    */
   @Test
-  public void t002_selectTestModule() throws Exception {
+  public void t002_selectTestModule() {
     // Title
     setTestTitle("Select test module: Test to select test module");
 
@@ -137,10 +133,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test screen modules usage (edit module to change order and check modules selector gets the proper order)
-   * @throws Exception Error on test
    */
   @Test
-  public void t003_screenModulesUsage() throws Exception {
+  public void t003_screenModulesUsage() {
     // Title
     setTestTitle("Test screen modules usage");
 
@@ -176,10 +171,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test criteria: initialization
-   * @throws Exception Error on test
    */
   @Test
-  public void t010_criteriaTest() throws Exception {
+  public void t010_criteriaTest() {
     // Title
     setTestTitle("Test criteria: Initialization");
 
@@ -204,10 +198,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test criteria: text criteria
-   * @throws Exception Error on test
    */
   @Test
-  public void t011_criteriaTestText() throws Exception {
+  public void t011_criteriaTestText() {
     // Title
     setTestTitle("Test criteria: Text criteria");
 
@@ -224,10 +217,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test criteria: numeric criteria
-   * @throws Exception Error on test
    */
   @Test
-  public void t012_criteriaTestNumeric() throws Exception {
+  public void t012_criteriaTestNumeric() {
     // Title
     setTestTitle("Test criteria: Numeric criteria");
 
@@ -244,10 +236,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test criteria: date and time criteria
-   * @throws Exception Error on test
    */
   @Test
-  public void t013_criteriaTestDate() throws Exception {
+  public void t013_criteriaTestDate() {
     // Title
     setTestTitle("Test criteria: Date and time criteria");
 
@@ -284,10 +275,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test criteria: Suggest and select criteria
-   * @throws Exception Error on test
    */
   @Test
-  public void t014_criteriaTestSuggestSelect() throws Exception {
+  public void t014_criteriaTestSuggestSelect() {
     // Title
     setTestTitle("Test criteria: Suggest and select criteria");
 
@@ -330,10 +320,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test criteria: textarea criteria
-   * @throws Exception Error on test
    */
   @Test
-  public void t015_criteriaTestTextarea() throws Exception {
+  public void t015_criteriaTestTextarea() {
     // Title
     setTestTitle("Test criteria: Textarea criteria");
 
@@ -352,10 +341,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test criteria: suggest multiple criteria
-   * @throws Exception Error on test
    */
   @Test
-  public void t016_criteriaTestSelectSuggestMultiple() throws Exception {
+  public void t016_criteriaTestSelectSuggestMultiple() {
 
     // Title
     setTestTitle("Test criteria: Select and suggest multiple");
@@ -387,10 +375,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test criteria: Checkbox and radio
-   * @throws Exception Error on test
    */
   @Test
-  public void t017_criteriaTestCheckboxRadio() throws Exception {
+  public void t017_criteriaTestCheckboxRadio() {
 
     // Title
     setTestTitle("Test criteria: Checkbox and radio");
@@ -409,6 +396,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
     // Click checkbox
     clickCheckbox("ChkBoxVa5");
+
+    // Click checkbox
+    clickCheckbox("RadBox4");
 
     // Click checkbox
     clickCheckbox("RadBox1");
@@ -431,10 +421,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test criteria: Dependencies
-   * @throws Exception Error on test
    */
   @Test
-  public void t018_criteriaTestDependencies() throws Exception {
+  public void t018_criteriaTestDependencies() {
 
     // Title
     setTestTitle("Test criteria: Dependencies");
@@ -473,7 +462,7 @@ public class IntegrationTestsIT extends SeleniumUtilities {
     checkCriterionContents("NumReq", "-123.456,10 EUR");
 
     // Check checked
-    checkCheckboxRadio(true, "ChkBoxVa5", "RadBox5", "ChkBoxVa22", "ChkBoxVa24", "RadBox24");
+    checkCheckboxRadio(true, "ChkBoxVa5", "RadBox1", "ChkBoxVa22", "ChkBoxVa24", "RadBox22");
 
     // Check not checked
     checkCheckboxRadio(false, "ChkBoxVa1", "ChkBoxVa2", "RadBox4", "RadBox25");
@@ -481,10 +470,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Criteria reset test
-   * @throws Exception Error on test
    */
   @Test
-  public void t020_criteriaReset() throws Exception {
+  public void t020_criteriaReset() {
     // Title
     setTestTitle("Criteria reset");
 
@@ -587,10 +575,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test buttons: dependencies
-   * @throws Exception Error on test
    */
   @Test
-  public void t030_buttonTest() throws Exception {
+  public void t030_buttonTest() {
     // Title
     setTestTitle("Button test: dependencies");
 
@@ -642,10 +629,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Test buttons: actions
-   * @throws Exception Error on test
    */
   @Test
-  public void t031_buttonTestActions() throws Exception {
+  public void t031_buttonTestActions() {
     // Title
     setTestTitle("Button test: actions");
 
@@ -673,10 +659,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Grid test: base grid
-   * @throws Exception Error on test
    */
   @Test
-  public void t041_gridTestBase() throws Exception {
+  public void t041_gridTestBase() {
     // Title
     setTestTitle("Grid test: base");
 
@@ -704,10 +689,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Grid test: base grid context menu
-   * @throws Exception Error on test
    */
   @Test
-  public void t042_gridTestBaseContextMenu() throws Exception {
+  public void t042_gridTestBaseContextMenu() {
     // Title
     setTestTitle("Grid test: base grid with context menu");
 
@@ -750,10 +734,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Grid test: multiselect grid
-   * @throws Exception Error on test
    */
   @Test
-  public void t051_gridTestMultiselect() throws Exception {
+  public void t051_gridTestMultiselect() {
     // Title
     setTestTitle("Grid test: Multiselect");
 
@@ -778,10 +761,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Grid test: Editable grid
-   * @throws Exception Error on test
    */
   @Test
-  public void t061_gridTestEditable() throws Exception {
+  public void t061_gridTestEditable() {
     // Title
     setTestTitle("Grid test: Editable");
 
@@ -848,10 +830,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Grid test: Multioperation grid
-   * @throws Exception Error on test
    */
   @Test
-  public void t071_gridTestMultiOperation() throws Exception {
+  public void t071_gridTestMultiOperation() {
     // Title
     setTestTitle("Grid test: Multioperation");
 
@@ -897,10 +878,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Grid test: Tree grid
-   * @throws Exception Error on test
    */
   @Test
-  public void t081_gridTestTree() throws Exception {
+  public void t081_gridTestTree() {
     // Title
     setTestTitle("Grid test: Tree grid");
 
@@ -910,10 +890,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Grid test: Editable tree grid
-   * @throws Exception Error on test
    */
   @Test
-  public void t082_gridTestTreeEditable() throws Exception {
+  public void t082_gridTestTreeEditable() {
     // Title
     setTestTitle("Grid test: Editable tree grid");
 
@@ -959,10 +938,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Grid test: Loading tree grid
-   * @throws Exception Error on test
    */
   @Test
-  public void t083_gridTestLoadingTree() throws Exception {
+  public void t083_gridTestLoadingTree() {
     // Title
     setTestTitle("Grid test: Loading tree grid");
 
@@ -972,10 +950,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Grid test: Loading tree grid
-   * @throws Exception Error on test
    */
   @Test
-  public void t084_gridTestEditableLoadingTree() throws Exception {
+  public void t084_gridTestEditableLoadingTree() {
     // Title
     setTestTitle("Grid test: Loading editable tree grid");
 
@@ -1012,10 +989,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Grid test: Having query
-   * @throws Exception Error on test
    */
   @Test
-  public void t090_gridTestHaving() throws Exception {
+  public void t090_gridTestHaving() {
     // Title
     setTestTitle("Grid test: Having query");
 
@@ -1031,10 +1007,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Chart test
-   * @throws Exception Error on test
    */
   @Test
-  public void t100_chartTest() throws Exception {
+  public void t100_chartTest() {
     // Title
     setTestTitle("Chart test");
 
@@ -1068,10 +1043,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * Wizard test
-   * @throws Exception Error on test
    */
   @Test
-  public void t110_wizardTest() throws Exception {
+  public void t110_wizardTest() {
     // Title
     setTestTitle("Wizard test");
 
@@ -1138,10 +1112,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * SQL extractor engine test
-   * @throws Exception Error on test
    */
   @Test
-  public void t120_sqlExtractorEngine() throws Exception {
+  public void t120_sqlExtractorEngine() {
     // Title
     setTestTitle("SQL extractor engine test");
 
@@ -1160,10 +1133,9 @@ public class IntegrationTestsIT extends SeleniumUtilities {
 
   /**
    * File Manager test
-   * @throws Exception Error on test
    */
   @Test
-  public void t130_fileManager() throws Exception {
+  public void t130_fileManager() {
     // Title
     setTestTitle("File Manager test");
 
