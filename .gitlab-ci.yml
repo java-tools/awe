@@ -55,8 +55,6 @@ stages:
   if: '$CI_COMMIT_REF_NAME == "master"'
 .if-develop: &if-develop
   if: '$CI_COMMIT_REF_NAME == "develop"'
-.if-milestone: &if-milestone
-  if: '$CI_COMMIT_REF_NAME == "milestone"'
 .if-merge-request: &if-merge-request
   if: '$CI_MERGE_REQUEST_IID'
 .if-tag: &if-tag
@@ -404,17 +402,6 @@ pages:
     - git config --global user.name "Gitlab CI"
     - git remote set-url $CI_PROJECT_URL_SSH
 
-Generate a new milestone branch:
-  image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
-  stage: release
-  <<: *git_credentials
-  script:
-    ## Generate changelog
-    - git checkout -B milestone
-    - git push origin milestone
-  rules:
-    - <<: *if-tag
-
 Generate a new milestone:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
   stage: release
@@ -425,9 +412,8 @@ Generate a new milestone:
     - git pull --rebase
     - chmod +x ./bin/milestone.sh
     - ./bin/milestone.sh $API_URL $API_TOKEN
-    - git push origin --delete milestone
   rules:
-    - <<: *if-milestone
+    - <<: *if-tag
 
 Start a new release:
   image: registry.gitlab.com/aweframework/docker-tools/maven-jdk8-jq-git:latest
