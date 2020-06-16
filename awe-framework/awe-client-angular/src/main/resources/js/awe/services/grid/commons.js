@@ -1,4 +1,4 @@
-import {aweApplication} from "./../../awe";
+import {aweApplication} from "../../awe";
 import "angular-ui-grid";
 import "./components";
 import "./editable";
@@ -683,6 +683,21 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
           // Add visible columns information
           data[component.address.component + $settings.get("dataSuffix")].visibleColumns = component.getVisibleColumns();
 
+          // Add footer information
+          let footerData = {};
+
+          // Footer data
+          _.each(component.controller.columnModel, function (column) {
+            if (column.sendable && "id" in column) {
+              let address = angular.extend({column: column.id, row: "footer"}, component.address);
+              footerData[column.id] = {
+                value: (component.model.footer || {})[column.id] || null,
+                label: component.getVisibleData(address, "footer", column)
+              }
+            }
+          });
+          data[component.address.component + $settings.get("dataSuffix")].footer = footerData;
+
           return data;
         };
 
@@ -754,7 +769,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
                   break;
                 case "checkbox":
                   data = component.getCellData(row[address.column], component.constants.CELL_VALUE);
-                  data = String(data) !== "0";
+                  data = !Utilities.isEmpty(data) && String(data) !== "0";
                   break;
                 case "image":
                   data = component.getCellData(row[address.column], component.constants.CELL_IMAGE);
@@ -1086,7 +1101,9 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         /**
          * Update the selected row
          *
-         * @param {object} data
+         * @param {string} rowId Row identifier
+         * @param {object} data  Row data
+         * @param {string} style Row style
          */
         component.updateRow = function (rowId, data, style) {
           _.each(data, function (value, columnId) {
@@ -1106,6 +1123,7 @@ aweApplication.factory('GridCommons', ['GridComponents', 'GridEditable', 'GridMu
         /**
          * Update the selected row
          * @param {object} data
+         * @param {string} New row style
          */
         component.updateSelectedRow = function (data, style) {
           // Update selected row

@@ -27,6 +27,7 @@ import com.almis.awe.model.entities.screen.component.criteria.Criteria;
 import com.almis.awe.model.entities.screen.component.grid.Column;
 import com.almis.awe.model.entities.screen.component.grid.Grid;
 import com.almis.awe.model.entities.screen.component.grid.GroupHeader;
+import com.almis.awe.model.type.TotalizeStyleType;
 import com.almis.awe.service.QueryService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -440,7 +441,7 @@ public class ReportDesigner extends ServiceConfig {
 
     if (grid.isLoadAll() || grid.isEditable() || grid.isMultioperation()) {
       // Get data from parameters
-      reportGrid.setData(getGridDataParameters(reportGrid, fields, parameters));
+      reportGrid.setData(getGridDataParameters(grid, reportGrid, fields, parameters));
     } else {
       // Get data from query
       reportGrid.setData(getGridDataQuery(grid, reportGrid, fields, parameters));
@@ -455,7 +456,7 @@ public class ReportDesigner extends ServiceConfig {
    * @param parameters Parameters
    * @return report data
    */
-  private List<List<Object>> getGridDataParameters(ReportGrid reportGrid, List<String> fields, ObjectNode parameters) {
+  private List<List<Object>> getGridDataParameters(Grid grid, ReportGrid reportGrid, List<String> fields, ObjectNode parameters) {
     List<List<Object>> data = new ArrayList<>();
     boolean firstRow = true;
     ArrayNode firstFieldData = JsonNodeFactory.instance.arrayNode();
@@ -467,7 +468,7 @@ public class ReportDesigner extends ServiceConfig {
     }
 
     // Add _style_ to fields if it exists
-    if (parameters.has(AweConstants.DATALIST_STYLE_FIELD)) {
+    if (parameters.has(AweConstants.DATALIST_STYLE_FIELD) || grid.isShowTotals()) {
       addStyleField(reportGrid, fields);
     }
 
@@ -476,7 +477,7 @@ public class ReportDesigner extends ServiceConfig {
       List<Object> rowData = new ArrayList<>();
       data.add(rowData);
       for (String field : fields) {
-        ArrayNode fieldData = (ArrayNode) parameters.get(field);
+        ArrayNode fieldData = (ArrayNode) Optional.ofNullable(parameters.get(field)).orElse(JsonNodeFactory.instance.arrayNode());
         ColumnType type = storeParameterRowData(fieldData.get(rowIndex), rowData);
 
         // Update column type on first row
@@ -485,6 +486,15 @@ public class ReportDesigner extends ServiceConfig {
         }
       }
       firstRow = false;
+    }
+
+    // Retrieve footer row if exists
+    if (grid.isShowTotals()) {
+      ObjectNode totalRows = (ObjectNode) parameters.get(grid.getId() + dataSuffix).get("footer");
+      totalRows.set(AweConstants.DATALIST_STYLE_FIELD, JsonNodeFactory.instance.objectNode().put(AweConstants.JSON_VALUE_PARAMETER, TotalizeStyleType.TOTAL.toString()));
+      List<Object> footerData = new ArrayList<>();
+      data.add(footerData);
+      fields.forEach(field -> storeParameterRowData(totalRows.get(field), footerData));
     }
 
     return data;
@@ -642,7 +652,9 @@ public class ReportDesigner extends ServiceConfig {
    */
   private ColumnType storeParameterRowData(JsonNode data, List<Object> row) {
     ColumnType type;
-    JsonNode value = data.get(AweConstants.JSON_VALUE_PARAMETER);
+    JsonNode emptyData = JsonNodeFactory.instance.objectNode().put(AweConstants.JSON_VALUE_PARAMETER, "");
+    JsonNode safeData = Optional.ofNullable(data).orElse(emptyData);
+    JsonNode value = safeData.get(AweConstants.JSON_VALUE_PARAMETER);
     if (value.isDouble()) {
       type = ColumnType.DOUBLE;
     } else if (value.isFloat()) {
@@ -660,7 +672,7 @@ public class ReportDesigner extends ServiceConfig {
     } else {
       type = ColumnType.STRING;
     }
-    row.add(new DataBean((ObjectNode) data));
+    row.add(new DataBean((ObjectNode) safeData));
     return type;
   }
 
