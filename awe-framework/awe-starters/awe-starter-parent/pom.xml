@@ -7,7 +7,7 @@
   <parent>
     <artifactId>awe-starters</artifactId>
     <groupId>com.almis.awe</groupId>
-    <version>4.2.6-SNAPSHOT</version>
+    <version>4.2.6</version>
     <relativePath>..</relativePath>
   </parent>
 
