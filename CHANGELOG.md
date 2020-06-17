@@ -1,4 +1,11 @@
 
+# Changelog for awe 4.2.6
+*17/06/2020*
+
+- Add a null check in the parameter name of getRequest().setParameter(....). [MR #224](https://gitlab.com/aweframework/awe/-/merge_requests/224) (Pablo Javier García Mora)
+- Add PARAMETER_SELECT locale to awe-tools module. [MR #223](https://gitlab.com/aweframework/awe/-/merge_requests/223) (Pablo Javier García Mora)
+- Print grid total row. [MR #222](https://gitlab.com/aweframework/awe/-/merge_requests/222) (Pablo Javier García Mora)
+
 # Changelog for awe 4.2.5
 *11/06/2020*
 
