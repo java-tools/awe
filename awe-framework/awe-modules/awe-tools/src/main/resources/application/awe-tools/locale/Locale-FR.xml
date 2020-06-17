@@ -26,6 +26,7 @@
   <locale name="PARAMETER_DATABASE" value="La base de données"/>
   <locale name="PARAMETER_FILE" value="Fichier"/>
   <locale name="PARAMETER_SAVE_FILE" value="Nom de fichier"/>
+  <locale name="PARAMETER_SELECT" value="Requete"/>
   <locale name="SCREEN_TITLE_LOAD_SELECT" value="Charge de sélectionner"/>
   <locale name="SCREEN_TITLE_SAVE_SELECT" value="Sélectionnez enregistrer"/>
   <locale name="SCREEN_TITLE_SQL_EXTRACTOR" value="SQL Extracteur"/>
