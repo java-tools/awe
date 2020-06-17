@@ -809,7 +809,10 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
       "value.selected": {"value": "lele", "label": "lele"},
       "other.selected": {"value": "asda", "label": "asda"},
       "componentId-id": [4],
-      "componentId.data": {visibleColumns: {value: "Value", other: "Other thing"}},
+      "componentId.data": {
+        visibleColumns: {value: "Value", other: "Other thing"},
+        footer: {"id": {"value": null, "label": ""}, "value": {"value": null, "label": ""}, "other": {"value": null, "label": ""}}
+      },
       "selectedRowAddress": {view: 'viewId', component: 'componentId', row: 4}
     });
 
@@ -824,7 +827,10 @@ describe('awe-framework/awe-client-angular/src/test/js/services/grid/commons.js'
       "value.selected": {"value": "lele", "label": "lele"},
       "other.selected": {"value": "asda", "label": "asda"},
       "componentId-id": [4],
-      "componentId.data": {visibleColumns: {value: "Value", other: "Other thing"}},
+      "componentId.data": {
+        visibleColumns: {value: "Value", other: "Other thing"},
+        footer: {"id": {"value": null, "label": ""}, "value": {"value": null, "label": ""}, "other": {"value": null, "label": ""}}
+      },
       "selectedRowAddress": {view: 'viewId', component: 'componentId', row: 4},
       ...extraData
     });

@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-framework</artifactId>
-    <version>4.2.5</version>
+    <version>4.2.6</version>
     <relativePath>..</relativePath>
   </parent>
 
@@ -18,7 +18,7 @@
   <properties>
     <!-- dependency versions -->
     <awe.version>${revision}</awe.version>
-    <ade.version>2.0.10</ade.version>
+    <ade.version>2.0.14</ade.version>
     <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
     <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
     <ehcache.version>3.6.1</ehcache.version>
