@@ -652,7 +652,9 @@ public class ReportDesigner extends ServiceConfig {
    */
   private ColumnType storeParameterRowData(JsonNode data, List<Object> row) {
     ColumnType type;
-    JsonNode emptyData = JsonNodeFactory.instance.objectNode().put(AweConstants.JSON_VALUE_PARAMETER, "");
+    JsonNode emptyData = JsonNodeFactory.instance.objectNode()
+      .put(AweConstants.JSON_LABEL_PARAMETER, "")
+      .putNull(AweConstants.JSON_VALUE_PARAMETER);
     JsonNode safeData = Optional.ofNullable(data).orElse(emptyData);
     JsonNode value = safeData.get(AweConstants.JSON_VALUE_PARAMETER);
     if (value.isDouble()) {
