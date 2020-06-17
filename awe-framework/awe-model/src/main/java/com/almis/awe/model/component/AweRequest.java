@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,15 +83,15 @@ public class AweRequest {
    * @param name      Parameter name
    * @param valueList Parameter value
    */
-  public void setParameter(String name, Object... valueList) {
+  public void setParameter(@NotNull String name, Object... valueList) {
     getParameterList().set(name, getParameterValueFromList(valueList));
   }
 
   /**
    * Retrieve parameter value from list
    *
-   * @param valueList
-   * @return
+   * @param valueList Value list
+   * @return Parameter value
    */
   private JsonNode getParameterValueFromList(Object... valueList) {
     if (valueList == null) {
