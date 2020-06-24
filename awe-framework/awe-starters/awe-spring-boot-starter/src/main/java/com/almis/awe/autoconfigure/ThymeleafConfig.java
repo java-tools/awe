@@ -3,9 +3,9 @@ package com.almis.awe.autoconfigure;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ViewResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
@@ -20,7 +20,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 public class ThymeleafConfig {
 
   private static final String UTF8 = "UTF-8";
-  private ApplicationContext applicationContext;
+  private final WebApplicationContext applicationContext;
 
   @Value("${spring.thymeleaf.html.prefix:classpath:templates/}")
   private String htmlPrefix;
@@ -38,7 +38,7 @@ public class ThymeleafConfig {
   private Boolean cssCache;
 
   @Autowired
-  public ThymeleafConfig(ApplicationContext applicationContext) {
+  public ThymeleafConfig(WebApplicationContext applicationContext) {
     this.applicationContext = applicationContext;
   }
 
