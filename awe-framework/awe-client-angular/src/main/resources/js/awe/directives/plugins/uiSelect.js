@@ -1,4 +1,4 @@
-import { aweApplication } from "./../../awe";
+import {aweApplication} from "../../awe";
 import "Select2";
 
 // Selector plugin
@@ -66,6 +66,21 @@ aweApplication.directive('uiSelect2',
             }
 
             /**
+             * Plugin update
+             */
+            function updatePlugin() {
+              // Get options
+              let opts = _.merge({}, options, scope[attrs.uiSelect2]);
+
+              // Update plugin
+              let select2 = elem.data("select2");
+              if ("placeholder" in opts) {
+                select2.opts.placeholder = $translate.instant(opts.placeholder);
+                select2.setPlaceholder && select2.setPlaceholder();
+              }
+            }
+
+            /**
              * Event listeners
              */
             let listeners = {};
@@ -90,6 +105,11 @@ aweApplication.directive('uiSelect2',
 
             // Observe destroy event
             elem.on("$destroy", destroy);
+
+            // Watch for language change
+            listeners["languageChanged"] = scope.$on('languageChanged', function () {
+              updatePlugin();
+            });
 
             /**
              * Kill plugin
