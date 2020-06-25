@@ -228,6 +228,7 @@ Chrome IT:
 
 Launch Sonar:
   stage: analysis
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   cache:
     key: $CACHE_KEY
     paths:
