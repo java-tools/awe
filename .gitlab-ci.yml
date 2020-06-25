@@ -67,6 +67,7 @@ stages:
 
 .build:
   stage: build
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   cache:
     key: $CACHE_KEY
     policy: push
