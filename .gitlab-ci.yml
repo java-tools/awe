@@ -2,7 +2,7 @@
 # Pipeline definition
 ##############################
 
-image: maven:3.5-jdk-8
+image: maven:3.6-jdk-8
 
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml -Dsettings.security=.m2/settings-security.xml -P!devtools"
@@ -67,7 +67,6 @@ stages:
 
 .build:
   stage: build
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   cache:
     key: $CACHE_KEY
     policy: push
