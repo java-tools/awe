@@ -35,7 +35,7 @@
     <selenium.version>3.141.59</selenium.version>
     <lombok.version>1.18.6</lombok.version>
     <querydsl.version>4.2.1</querydsl.version>
-    <jacoco.version>0.8.4</jacoco.version>
+    <jacoco.version>0.8.5</jacoco.version>
 
     <!-- Compilation -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
