@@ -458,6 +458,17 @@ Microservices are connectors to REST-defined services. It's xml structure is:
 </service>
 ```
 
+> **Note:** `microservice.name` attributes are optional. `name` attribute is used to allow overwrite microservice name and set auth configuration. 
+> Microservice configuration example:
+>
+>```properties
+># microservice.[name]=
+> microservice.myservice=overwrite-service-name
+> microservice.myservice.authentication=basic
+> microservice.myservice.authentication.username=rest_username
+> microservice.myservice.authentication.password=ENC(rest_password_encoded)
+>```
+
 ## **REST services**
 
 REST services are very useful to connect to REST API's. Their xml structure is:
