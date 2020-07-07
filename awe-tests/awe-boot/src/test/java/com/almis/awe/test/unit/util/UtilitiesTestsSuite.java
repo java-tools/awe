@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
   ZipFileUtilTest.class,
   FileUtilTest.class,
   TimeUtilTest.class,
-  QueryUtilTest.class
+  QueryUtilTest.class,
+  EncodeUtilTest.class
 })
 @RunWith(Suite.class)
 public class UtilitiesTestsSuite {
