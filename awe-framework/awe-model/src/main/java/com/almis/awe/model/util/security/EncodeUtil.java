@@ -42,7 +42,8 @@ public final class EncodeUtil {
     /**
      * Private constructor to enclose the default one
      */
-    private HashingAlgorithms() {}
+    private HashingAlgorithms() {
+    }
 
     // HASHING ALGORITHMS
     public static final String MD5 = "MD5";
@@ -57,19 +58,32 @@ public final class EncodeUtil {
 
   /**
    * Initialize Utility class
+   *
    * @param springEnvironment Spring environment
    */
-  public static void init(Environment springEnvironment)  {
-    Environment environment = springEnvironment;
-    encoding = environment.getProperty(AweConstants.PROPERTY_APPLICATION_ENCODING, AweConstants.APPLICATION_ENCODING);
-    masterKey = environment.getProperty(AweConstants.PROPERTY_SECURITY_MASTER_KEY, "4W3M42T3RK3Y%$ED");
+  public static void init(Environment springEnvironment) {
+    encoding = getSafeProperty(springEnvironment, AweConstants.PROPERTY_APPLICATION_ENCODING, AweConstants.APPLICATION_ENCODING);
+    masterKey = getSafeProperty(springEnvironment, AweConstants.PROPERTY_SECURITY_MASTER_KEY, "4W3M42T3RK3Y%$ED");
     keyGenerator = KeyGenerators.string();
+  }
+
+  /**
+   * Check environment and retrieve default value if not defined
+   *
+   * @param environment  Environment
+   * @param property     Property
+   * @param defaultValue Default value
+   * @return Property value or default value
+   */
+  private static String getSafeProperty(Environment environment, String property, String defaultValue) {
+    return environment == null ? defaultValue : environment.getProperty(property, defaultValue);
   }
 
   /**
    * Hide the constructor
    */
-  private EncodeUtil() {}
+  private EncodeUtil() {
+  }
 
   /**
    * Encodes a text in RIPEMD-160
@@ -288,19 +302,12 @@ public final class EncodeUtil {
    * @throws AWException Error encoding
    */
   public static String encodeHex(String text) throws AWException {
-
-    /* Variable definition */
-    String outStr = text;
-
     try {
       /* Encode */
-      outStr = new String(new Hex().encode(text.getBytes()), encoding);
+      return new String(new Hex().encode(text.getBytes()), encoding);
     } catch (Exception exc) {
       throw new AWException(exc.getClass().getSimpleName(), exc.toString(), exc);
     }
-
-    /* Transform encoded bytemap to string and return it */
-    return outStr;
   }
 
   /**
@@ -448,7 +455,6 @@ public final class EncodeUtil {
    */
 
   public static String encodePBKDF2WithHmacSHA1(String text, String salt, int iterations, int keyLength) throws AWException {
-    String hashVal = null;
     try {
       // Get instance of the hashing algorithm
       SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
@@ -463,7 +469,7 @@ public final class EncodeUtil {
       byte[] res = key.getEncoded();
 
       // Get the hashed value as hexadecimal string
-      hashVal = Crypto.Utils.encodeHex(res);
+      return Crypto.Utils.encodeHex(res);
     } catch (NoSuchAlgorithmException exc) {
       throw new AWException(STRING_ENCODE_ERROR, "The algorithm does not exist.", exc);
     } catch (InvalidKeySpecException exc) {
@@ -471,12 +477,12 @@ public final class EncodeUtil {
     } catch (UnsupportedEncodingException exc) {
       throw new AWException(STRING_ENCODE_ERROR, "The specified encoding is not valid.", exc);
     }
-    return hashVal;
   }
 
-  /*****************************************************/
-  /************ Secure Random Methods ******************/
-  /*****************************************************/
+  /* *************************************************** */
+  /* *********** Secure Random Methods ***************** */
+  /* *************************************************** */
+
   /**
    * generate secure random object
    *
@@ -486,13 +492,14 @@ public final class EncodeUtil {
     try {
       return SecureRandom.getInstance(AweConstants.RANDOM_ALGORITHM);
     } catch (NoSuchAlgorithmException exc) {
-      logger.error("Selected algorithm does not exist: {0}", AweConstants.RANDOM_ALGORITHM, exc);
+      logger.error("Selected algorithm does not exist: {}", AweConstants.RANDOM_ALGORITHM, exc);
       return new SecureRandom();
     }
   }
 
   /**
    * Create a secure random string of the given length with the alphabet
+   *
    * @return Random string
    */
   public static String getSecureRandomString() {
@@ -502,7 +509,7 @@ public final class EncodeUtil {
   /**
    * Encode given text to the given encoding
    *
-   * @param text Text to encode
+   * @param text     Text to encode
    * @param encoding Encoding
    * @return Text encoded
    * @throws UnsupportedEncodingException Error encoding
@@ -579,7 +586,7 @@ public final class EncodeUtil {
    * @param secKey    Secret key
    * @return Secret key
    * @throws NoSuchAlgorithmException Invalid algorithm
-   * @throws InvalidKeySpecException Error retrieving key
+   * @throws InvalidKeySpecException  Error retrieving key
    */
   private static SecretKey generateKeyFromString(String algorithm, final String secKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
     SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
