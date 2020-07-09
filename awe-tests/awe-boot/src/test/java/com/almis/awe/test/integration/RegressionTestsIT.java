@@ -11,28 +11,25 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Log into the application
-   * @throws Exception
    */
   @Test
-  public void t000_loginTest() throws Exception {
+  public void t000_loginTest() {
     checkLogin("test", "test", "#ButUsrAct span.info-text", "Manager (test)");
   }
 
   /**
    * Log out from the application
-   * @throws Exception
    */
   @Test
-  public void t999_logoutTest() throws Exception {
+  public void t999_logoutTest() {
     checkLogout(".slogan", "Almis Web Engine");
   }
 
   /**
    * Select test module on select criterion
-   * @throws Exception Error on test
    */
   @Test
-  public void t001_selectTestModule() throws Exception {
+  public void t001_selectTestModule() {
     // Title
     setTestTitle("Select test module: Test to select test module");
 
@@ -48,10 +45,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Load suggest on grid: Test to check suggest initial load on grid (#30648)
-   * @throws Exception Error on test
    */
   @Test
-  public void t002_loadSuggestOnGrid() throws Exception {
+  public void t002_loadSuggestOnGrid() {
     // Title
     setTestTitle("Load suggest on grid: Test to check suggest initial load on grid (#30648)");
 
@@ -70,10 +66,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Test to check suggest criteria with 'strict' attribute set to false
-   * @throws Exception Error on test
    */
   @Test
-  public void t003_suggestStrict() throws Exception {
+  public void t003_suggestStrict() {
     // Title
     setTestTitle("Suggest Strict: Test to check suggest criteria with 'strict' attribute set to false");
 
@@ -98,10 +93,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Test for read dependency
-   * @throws Exception Error on test
    */
   @Test
-  public void t004_readDependency() throws Exception {
+  public void t004_readDependency() {
     // Title
     setTestTitle("Test for read dependency");
 
@@ -123,10 +117,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Quote check on unit label
-   * @throws Exception Error on test
    */
   @Test
-  public void t005_quoteCheckUnitLabel() throws Exception {
+  public void t005_quoteCheckUnitLabel() {
     // Title
     setTestTitle("Quote check on unit label");
 
@@ -142,10 +135,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Check filtered date dependency (#31141)
-   * @throws Exception Error on test
    */
   @Test
-  public void t006_checkFilteredDateDependency() throws Exception {
+  public void t006_checkFilteredDateDependency() {
     // Title
     setTestTitle("Check filtered date dependency (#31141)");
 
@@ -164,10 +156,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Keep criteria test
-   * @throws Exception Error on test
    */
   @Test
-  public void t007_keepCriteria() throws Exception {
+  public void t007_keepCriteria() {
     // Title
     setTestTitle("Keep criteria test");
 
@@ -201,10 +192,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Delayed suggest
-   * @throws Exception Error on test
    */
   @Test
-  public void t008_delayedSuggest() throws Exception {
+  public void t008_delayedSuggest() {
     // Title
     setTestTitle("Delayed suggest");
 
@@ -227,10 +217,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Wrong login
-   * @throws Exception Error on test
    */
   @Test
-  public void t009_wrongLogin() throws Exception {
+  public void t009_wrongLogin() {
     // Title
     setTestTitle("Wrong login");
 
@@ -249,10 +238,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Sort a grid using a component column
-   * @throws Exception Error on test
    */
   @Test
-  public void t010_sortComponentColumn() throws Exception {
+  public void t010_sortComponentColumn() {
     // Title
     setTestTitle("Sort a grid using a component column");
 
@@ -298,10 +286,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Sort a grid using a component column
-   * @throws Exception Error on test
    */
   @Test
-  public void t011_suggestRepeatsValues() throws Exception {
+  public void t011_suggestRepeatsValues() {
     // Title
     setTestTitle("Check that suggested values are not repeated");
 
@@ -347,10 +334,9 @@ public class RegressionTestsIT extends SeleniumUtilities {
 
   /**
    * Test for fill over select
-   * @throws Exception Error on test
    */
   @Test
-  public void t012_fillOverSelect() throws Exception {
+  public void t012_fillOverSelect() {
     t001_selectTestModule();
 
     // Title
@@ -400,13 +386,36 @@ public class RegressionTestsIT extends SeleniumUtilities {
   }
 
   /**
-   * Suggest delayed
-   * @param selector Selector
-   * @param search1 Search on first case
-   * @param search2 Search on second case
-   * @param match Match result
-   * @param pause Pause
+   * Test for select all rows of grid
    */
+  @Test
+  public void t013_selectAllRowsOfGrid() {
+
+    // Title
+    setTestTitle("Test select all rows of multi select grid");
+
+    // Go to screen
+    gotoScreen("tools", "users");
+
+    // Wait for button
+    waitForButton("ButPrn");
+
+    // Click to select all rows of grid
+    selectAllRowsOfGrid("GrdUsrLst");
+
+    // Wait for button
+    checkPresence(".grid [id='scope-GrdUsrLst'] .ui-grid-header-checkbox label.checkbox input:checked");
+  }
+
+
+    /**
+     * Suggest delayed
+     * @param selector Selector
+     * @param search1 Search on first case
+     * @param search2 Search on second case
+     * @param match Match result
+     * @param pause Pause
+     */
   private void suggestDelayed(String selector, String search1, String search2, String match, Integer pause) {
     // Write text
     writeText(By.cssSelector(selector + " input.select2-input"), search1);

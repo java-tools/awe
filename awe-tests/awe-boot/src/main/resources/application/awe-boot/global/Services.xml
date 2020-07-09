@@ -182,6 +182,10 @@
     <microservice name="alu-microservice3" method="POST" endpoint="/invoke"/>
   </service>
 
+  <service id="simpleMicroservice4">
+    <microservice name="alu-service4" method="GET" endpoint="/invoke"/>
+  </service>
+
   <service id="simpleGETMicroserviceWithWrapper">
     <microservice name="alu-microservice" method="GET" endpoint="/invoke" wrapper="com.almis.awe.test.service.dto.ServiceDataWrapper" />
   </service>

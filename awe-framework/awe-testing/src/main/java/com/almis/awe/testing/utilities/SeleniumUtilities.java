@@ -423,13 +423,14 @@ public class SeleniumUtilities {
    * @return Css parent selector
    */
   private String getParentSelectorCss(String gridId, String rowId, String columnId) {
-    if (rowId == null) {
+    if (rowId == null && columnId == null) {
+      return getGridScopeCss(gridId) + " .ui-grid-header-checkbox label.checkbox";
+    } else if (rowId == null) {
       return getGridScopeCss(gridId) + " .ui-grid-row-selected [column-id='" + columnId + "'] ";
     } else {
       return getGridScopeCss(gridId) + " [row-id='" + rowId + "'] [column-id='" + columnId + "'] ";
     }
   }
-
   /**
    * Get grid scope in css
    *
@@ -1708,6 +1709,24 @@ public class SeleniumUtilities {
    */
   protected void selectContain(String gridId, String rowId, String columnId, String label) {
     selectContainFromSelector(getParentSelectorCss(gridId, rowId, columnId), label);
+  }
+
+  /**
+   * Select all rows of grid
+   *
+   * @param gridId   Grid id
+   */
+  protected void selectAllRowsOfGrid(String gridId) {
+    String parentSelector = getParentSelectorCss(gridId, null, null);
+
+    By selector = By.cssSelector(parentSelector);
+
+    // Wait for element present
+    waitUntil(presenceOfElementLocated(selector));
+
+    // Click on checkbox
+    click(selector);
+
   }
 
   /**

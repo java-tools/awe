@@ -5,7 +5,6 @@ import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
-import com.almis.awe.service.data.builder.DataListBuilder;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -71,6 +70,17 @@ public class TestMicroserviceController {
   @PostMapping(value = "/alu-microservice3/invoke")
   @ResponseBody
   public ServiceData testPostMicroservice(HttpServletRequest request) throws AWException {
+    // Initialize parameters
+    return new ServiceData();
+  }
+
+  /**
+   * Test get overwrite microservice name
+   * @return Empty service data
+   */
+  @GetMapping(value = "/alu-service-bis/invoke")
+  @ResponseBody
+  public ServiceData testGetOverwriteMicroservice(HttpServletRequest request) throws AWException {
     // Initialize parameters
     return new ServiceData();
   }

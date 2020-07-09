@@ -2,7 +2,7 @@
 # Pipeline definition
 ##############################
 
-image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+image: maven:3.6-jdk-8
 
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml -Dsettings.security=.m2/settings-security.xml -P!devtools"
@@ -67,6 +67,7 @@ stages:
 
 .build:
   stage: build
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   cache:
     key: $CACHE_KEY
     policy: push
@@ -94,6 +95,7 @@ Build project:
 # Unit testing extension
 .unit-testing:
   stage: unit test
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   allow_failure: false
   dependencies: []
   script:
@@ -153,6 +155,7 @@ SQL Server UT:
 
 Frontend UT:
   stage: unit test
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   script:
     - mvn -f awe-framework/awe-client-angular/pom.xml $MAVEN_CLI_OPTS test
   artifacts:
@@ -167,7 +170,6 @@ Frontend UT:
 
 Javadoc test:
   stage: unit test
-  image: maven:3.5-jdk-8
   script:
     - mvn -f awe-framework/pom.xml $MAVEN_CLI_OPTS javadoc:aggregate-no-fork -Dskip.javadoc=false -Ptest-javadoc
   artifacts:
@@ -184,6 +186,7 @@ Javadoc test:
 # Browser testing extension
 .browser-testing:
   stage: integration test
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   allow_failure: true
   dependencies: []
   script:
@@ -226,6 +229,7 @@ Chrome IT:
 
 Launch Sonar:
   stage: analysis
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
   cache:
     key: $CACHE_KEY
     paths:
@@ -263,7 +267,6 @@ Publish docs:
     - <<: *if-develop
 
 Generate javadoc & schemas:
-  image: maven:3.5-jdk-8
   stage: site
   script:
     - mvn $MAVEN_CLI_OPTS install site javadoc:aggregate $SKIP_TESTS -Darchetype.test.skip=true -Dskip.javadoc=false -Dskip.main=true -Dskip.frontend=true -Dbuild.environment=production -f awe-framework/pom.xml
@@ -302,7 +305,6 @@ Build package:
 ##############################
 
 Deploy snapshot:
-  image: maven:3.5-jdk-8
   stage: deploy
   dependencies: []
   script:
@@ -311,7 +313,6 @@ Deploy snapshot:
     - <<: *if-develop
 
 Deploy Maven Central:
-  image: maven:3.5-jdk-8
   stage: deploy
   dependencies: []
   before_script:

@@ -56,7 +56,7 @@ public class MicroserviceTest extends AweSpringRestTests {
    * @param action     Server action
    * @param parameters Extra parameters
    * @param expected   Expected result
-   * @throws Exception
+   * @throws Exception Exception
    */
   private void doRestTest(String name, String action, String parameters, String expected) throws Exception {
 
@@ -129,5 +129,15 @@ public class MicroserviceTest extends AweSpringRestTests {
   @Test
   public void testAnotherMoreMicroservice() throws Exception {
     doRestTest("CallAnotherMoreMicroservice", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\"}]");
+  }
+
+  /**
+   * Simple call with overwrite microservice name
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void overwriteMicroserviceNameTest() throws Exception {
+    doRestTest("CallOverWriteMicroserviceName", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\"}]");
   }
 }
