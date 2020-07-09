@@ -446,7 +446,7 @@ Notify new release:
     ## Generate milestone
     - chmod +x ./bin/sendmail.sh
     - ./bin/sendmail.sh $SENDGRID_API_KEY $RELEASE_MAIL_FROM $RELEASE_MAIL_TO $RELEASE_MAIL_ID
-  when: delayed
-  start_in: 1 hour
   rules:
     - <<: *if-tag
+      when: delayed
+      start_in: 1 hour
