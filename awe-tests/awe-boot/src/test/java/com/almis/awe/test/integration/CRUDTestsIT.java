@@ -1,34 +1,34 @@
 package com.almis.awe.test.integration;
 
 import com.almis.awe.testing.utilities.SeleniumUtilities;
+import lombok.extern.log4j.Log4j2;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+@Log4j2
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Log into the application
-   * @throws Exception
    */
   @Test
-  public void t000_loginTest() throws Exception {
+  public void t000_loginTest() {
     checkLogin("test", "test", "#ButUsrAct span.info-text", "Manager (test)");
   }
 
   /**
    * Log out from the application
-   * @throws Exception
    */
   @Test
-  public void t999_logoutTest() throws Exception {
+  public void t999_logoutTest() {
     checkLogout(".slogan", "Almis Web Engine");
   }
 
   /**
    * Go to a screen to add a new option
-   * @param options
+   * @param options Menu options
    */
   private void addNew(String... options) {
     // Go to screen
@@ -43,7 +43,7 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Go to a screen to add a new option
-   * @param options
+   * @param options Menu options
    */
   private void update(String suggest, String search, String... options) {
     // Go to screen
@@ -169,10 +169,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Add a new site
-   * @throws Exception
    */
   @Test
-  public void t001_newSite() throws Exception {
+  public void t001_newSite() {
     // Title
     setTestTitle("Add a new site");
 
@@ -218,10 +217,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Update a site
-   * @throws Exception
    */
   @Test
-  public void t003_updateSite() throws Exception {
+  public void t003_updateSite() {
     // Title
     setTestTitle("Update a site");
 
@@ -255,10 +253,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Add a new module
-   * @throws Exception
    */
   @Test
-  public void t011_newModule() throws Exception {
+  public void t011_newModule() {
     // Title
     setTestTitle("Add a new module");
 
@@ -343,10 +340,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Update the module
-   * @throws Exception
    */
   @Test
-  public void t013_updateModule() throws Exception {
+  public void t013_updateModule() {
     // Title
     setTestTitle("Update the module");
 
@@ -416,10 +412,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Add a new profile
-   * @throws Exception
    */
   @Test
-  public void t021_newProfile() throws Exception {
+  public void t021_newProfile() {
     // Title
     setTestTitle("Add a new profile");
 
@@ -462,10 +457,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Update a profile
-   * @throws Exception
    */
   @Test
-  public void t023_updateProfile() throws Exception {
+  public void t023_updateProfile() {
     // Title
     setTestTitle("Update a profile");
 
@@ -496,10 +490,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Add a new database connection
-   * @throws Exception
    */
   @Test
-  public void t031_newDatabase() throws Exception {
+  public void t031_newDatabase() {
     // Title
     setTestTitle("Add a new database connection");
 
@@ -557,10 +550,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Update a database connection
-   * @throws Exception
    */
   @Test
-  public void t033_updateDatabase() throws Exception {
+  public void t033_updateDatabase() {
     // Title
     setTestTitle("Update a database connection");
 
@@ -606,10 +598,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Add a new user
-   * @throws Exception
    */
   @Test
-  public void t041_newUser() throws Exception {
+  public void t041_newUser() {
     // Title
     setTestTitle("Add a new user");
 
@@ -646,10 +637,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Update a user
-   * @throws Exception
    */
   @Test
-  public void t043_updateUser() throws Exception {
+  public void t043_updateUser() {
     // Title
     setTestTitle("Update a user");
 
@@ -671,10 +661,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Try to add a duplicated user
-   * @throws Exception
    */
   @Test
-  public void t045_newDuplicatedUser() throws Exception {
+  public void t045_newDuplicatedUser() {
     // Title
     setTestTitle("Try to add a duplicated user");
 
@@ -690,10 +679,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Delete a user
-   * @throws Exception
    */
   @Test
-  public void t050_deleteUser() throws Exception {
+  public void t050_deleteUser() {
     // Title
     setTestTitle("Delete a user");
 
@@ -706,10 +694,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Delete a database connection
-   * @throws Exception
    */
   @Test
-  public void t052_deleteDatabase() throws Exception {
+  public void t052_deleteDatabase() {
     // Title
     setTestTitle("Delete a database connection");
 
@@ -722,10 +709,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Delete a profile
-   * @throws Exception
    */
   @Test
-  public void t054_deleteProfile() throws Exception {
+  public void t054_deleteProfile() {
     // Title
     setTestTitle("Delete a profile");
 
@@ -738,10 +724,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Delete a module
-   * @throws Exception
    */
   @Test
-  public void t056_deleteModule() throws Exception {
+  public void t056_deleteModule() {
     // Title
     setTestTitle("Delete a module");
 
@@ -754,10 +739,9 @@ public class CRUDTestsIT extends SeleniumUtilities {
 
   /**
    * Delete a site
-   * @throws Exception
    */
   @Test
-  public void t058_deleteSite() throws Exception {
+  public void t058_deleteSite() {
     // Title
     setTestTitle("Delete a site");
 

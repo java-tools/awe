@@ -1,4 +1,14 @@
 
+# Changelog for awe 4.2.7
+*09/07/2020*
+
+- Add a method to select all rows from a Grid in SeleniumUtilities. [MR #230](https://gitlab.com/aweframework/awe/-/merge_requests/230) (Pablo Vidal Otero)
+- Add server attribute to microservices copying the functionality of rest connector. [MR #229](https://gitlab.com/aweframework/awe/-/merge_requests/229) (Pablo Vidal Otero)
+- EncodeUtil is not mockeable. [MR #228](https://gitlab.com/aweframework/awe/-/merge_requests/228) (Pablo Javier García Mora)
+- Exclude spring-boot-starter-logging. [MR #227](https://gitlab.com/aweframework/awe/-/merge_requests/227) (Pablo Vidal Otero)
+- Placeholder into select doesn´t change language. [MR #226](https://gitlab.com/aweframework/awe/-/merge_requests/226) (Pablo Javier García Mora)
+- Logo and background image paths doesn't work right when a context path is defined. [MR #225](https://gitlab.com/aweframework/awe/-/merge_requests/225) (Pablo Javier García Mora)
+
 # Changelog for awe 4.2.6
 *17/06/2020*
 
