@@ -22,6 +22,8 @@
     <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
     <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
     <ehcache.version>3.6.1</ehcache.version>
+    <javax.activation.version>1.2.0</javax.activation.version>
+    <jaxb.api.version>2.3.1</jaxb.api.version>
     <node.version>v12.1.0</node.version>
     <yarn.version>v1.15.2</yarn.version>
     <npm.version>v6.9.0</npm.version>
@@ -253,6 +255,27 @@
         <groupId>javax.annotation</groupId>
         <artifactId>javax.annotation-api</artifactId>
         <version>${annotation-api.version}</version>
+      </dependency>
+      <!-- Jaxb-api for ehcache > Jdk11 -->
+      <dependency>
+        <groupId>com.sun.activation</groupId>
+        <artifactId>javax.activation</artifactId>
+        <version>${javax.activation.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>${jaxb.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-core</artifactId>
+        <version>${jaxb.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>${jaxb.api.version}</version>
       </dependency>
 
       <!-- Lombok -->
