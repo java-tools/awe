@@ -23,7 +23,7 @@
     <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
     <ehcache.version>3.6.1</ehcache.version>
     <javax.activation.version>1.2.0</javax.activation.version>
-    <jaxb.api.version>2.3.1</jaxb.api.version>
+    <jaxb.api.version>2.3.0</jaxb.api.version>
     <node.version>v12.1.0</node.version>
     <yarn.version>v1.15.2</yarn.version>
     <npm.version>v6.9.0</npm.version>
@@ -49,6 +49,7 @@
     <plugin-spring-boot.version>2.1.5.RELEASE</plugin-spring-boot.version>
     <plugin-frontend.version>1.9.1</plugin-frontend.version>
     <plugin-compiler.version>3.5.1</plugin-compiler.version>
+    <plugin-war.version>3.3.1</plugin-war.version>
     <plugin-sonar.version>3.5.0.1254</plugin-sonar.version>
     <plugin-surefire.version>2.22.0</plugin-surefire.version>
     <plugin-failsafe.version>2.22.0</plugin-failsafe.version>
