@@ -22,6 +22,8 @@
     <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
     <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
     <ehcache.version>3.6.1</ehcache.version>
+    <javax.activation.version>1.2.0</javax.activation.version>
+    <jaxb.api.version>2.3.0</jaxb.api.version>
     <node.version>v12.1.0</node.version>
     <yarn.version>v1.15.2</yarn.version>
     <npm.version>v6.9.0</npm.version>
@@ -31,6 +33,7 @@
     <mail.version>1.4.7</mail.version>
     <commons-io.version>2.6</commons-io.version>
     <commons-text.version>1.8</commons-text.version>
+    <annotation-api.version>1.3.2</annotation-api.version>
     <aspectjweaver.version>1.9.2</aspectjweaver.version>
     <selenium.version>3.141.59</selenium.version>
     <lombok.version>1.18.6</lombok.version>
@@ -46,6 +49,7 @@
     <plugin-spring-boot.version>2.1.5.RELEASE</plugin-spring-boot.version>
     <plugin-frontend.version>1.9.1</plugin-frontend.version>
     <plugin-compiler.version>3.5.1</plugin-compiler.version>
+    <plugin-war.version>3.3.1</plugin-war.version>
     <plugin-sonar.version>3.5.0.1254</plugin-sonar.version>
     <plugin-surefire.version>2.22.0</plugin-surefire.version>
     <plugin-failsafe.version>2.22.0</plugin-failsafe.version>
@@ -247,6 +251,32 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-text</artifactId>
         <version>${commons-text.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+        <version>${annotation-api.version}</version>
+      </dependency>
+      <!-- Jaxb-api for ehcache > Jdk11 -->
+      <dependency>
+        <groupId>com.sun.activation</groupId>
+        <artifactId>javax.activation</artifactId>
+        <version>${javax.activation.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>${jaxb.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-core</artifactId>
+        <version>${jaxb.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>${jaxb.api.version}</version>
       </dependency>
 
       <!-- Lombok -->
