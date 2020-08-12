@@ -22,7 +22,7 @@
     <application.acronym>awe-boot</application.acronym>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <plugin-war.version>2.6</plugin-war.version>
+    <plugin-war.version>3.3.1</plugin-war.version>
     <selenium.version>3.141.59</selenium.version>
     <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
     <webdrivermanager.version>3.2.0</webdrivermanager.version>

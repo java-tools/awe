@@ -67,7 +67,7 @@ stages:
 
 .build:
   stage: build
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-jdk11-node-maven:latest
   cache:
     key: $CACHE_KEY
     policy: push
@@ -95,7 +95,7 @@ Build project:
 # Unit testing extension
 .unit-testing:
   stage: unit test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-jdk11-node-maven:latest
   allow_failure: false
   dependencies: []
   script:
@@ -155,7 +155,7 @@ SQL Server UT:
 
 Frontend UT:
   stage: unit test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-jdk11-node-maven:latest
   script:
     - mvn -f awe-framework/awe-client-angular/pom.xml $MAVEN_CLI_OPTS test
   artifacts:
@@ -186,7 +186,7 @@ Javadoc test:
 # Browser testing extension
 .browser-testing:
   stage: integration test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-jdk11-node-maven:latest
   allow_failure: true
   dependencies: []
   script:
@@ -229,7 +229,7 @@ Chrome IT:
 
 Launch Sonar:
   stage: analysis
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-jdk11-node-maven:latest
   cache:
     key: $CACHE_KEY
     paths:
