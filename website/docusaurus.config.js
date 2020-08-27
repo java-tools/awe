@@ -1,3 +1,5 @@
+const versions = require('./versions.json');
+
 module.exports = {
 	title: 'Awe framework',
 	tagline: 'Low coding complete functional web applications',
@@ -87,7 +89,9 @@ module.exports = {
 		algolia: {
 			apiKey: 'bbb756b741640f975ac0158bcedcefcb',
 			indexName: 'aweframework_awe',
-			searchParameters: {}, // Optional (if provided by Algolia)
+			searchParameters: {
+				facetFilters: [`version:${versions[0]}`],
+			},
 		},
 	},
 	presets: [
