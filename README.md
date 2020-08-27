@@ -1,4 +1,4 @@
-![logo_almis](wiki/images/logo_almis.png)
+![logo_almis](website/static/img/logo_almis.png)
 
 # **Almis Web Engine**
 
@@ -15,6 +15,10 @@ AWE is a light-weight Java web framework. Allows you build web applications in t
 ## AWE Project main page
 
 Please visit us at [https://www.aweframework.com](https://www.aweframework.com)
+
+## Documentation main page
+
+Please visit us at [https://docs.aweframework.com](https://docs.aweframework.com)
 
 ## Getting Started
 
@@ -40,25 +44,22 @@ You must have Maven 3.x installed on your computer as well as a JDK 8 or higher
 * [Bootstrap](https://getbootstrap.com/) - Bootstrap web toolkit
 * [Highcharts](https://www.highcharts.com/) - Interactive charts library
 
-[![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/almis-informatica-financiera/aweframework)
+[![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/almis-informatica-financiera/aweframework)
 
 ## Main guides
 
-* **[Introduction](wiki/introduction.md)**
-* **[Installation](wiki/installation.md)**
-* **[Guides](wiki/guides.md)**
-  * [Configuration guide](wiki/configuration-guide.md)
-  * [Basic application developer guide](wiki/basic-developer-guide.md)
-  * [Advanced application developer guide](wiki/advanced-developer-guide.md)
-  * [Developer tools](wiki/developer-tools.md)
-  * [Scheduler guide](wiki/scheduler-guide.md)
-  * [Notifier guide](wiki/notifier-guide.md)
-  * [Selenium tests guide](wiki/selenium-tests-guide.md)
-  * [Printing engine guide](wiki/print-guide.md)
-  * [Debugging guide](wiki/debugging-guide.md)
+* **[Introduction](website/docs/intro.md)**
+* **[Installation](website/docs/installation.md)**
+* **Guides**
+  * [Developer tools](website/docs/devtools-module.md)
+  * [Scheduler guide](website/docs/guides/scheduler-guide.md)
+  * [Notifier guide](website/docs/guides/notifier-guide.md)
+  * [Selenium tests guide](website/docs/guides/selenium-test-guide.md)
+  * [Printing engine guide](website/docs/guides/print-guide.md)
+  * [Debugging guide](website/docs/guides/debugging-guide.md)
 
 * **Migration guides**
-  * [AWE 4.0.0](wiki/awe-4.0-migration-guide.md)
+  * [AWE 4.0.0](website/docs/guides/awe-4.0-migration-guide.md)
   
 ## Changelogs
 

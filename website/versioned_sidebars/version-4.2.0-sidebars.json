@@ -1,0 +1,292 @@
+{
+  "version-4.2.0/docs": [
+    {
+      "collapsed": false,
+      "type": "category",
+      "label": "AWE framework",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-4.2.0/intro"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/purpose"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/architecture"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Getting Started",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-4.2.0/installation"
+        },
+        {
+          "collapsed": true,
+          "type": "category",
+          "label": "Configuration",
+          "items": [
+            {
+              "type": "doc",
+              "id": "version-4.2.0/maven"
+            },
+            {
+              "collapsed": true,
+              "type": "category",
+              "label": "Modules",
+              "items": [
+                {
+                  "type": "doc",
+                  "id": "version-4.2.0/annotations"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-4.2.0/developer-tools"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-4.2.0/builder"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-4.2.0/rest"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-4.2.0/scheduler"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-4.2.0/notifier"
+                },
+                {
+                  "type": "doc",
+                  "id": "version-4.2.0/database-migration"
+                }
+              ]
+            },
+            {
+              "type": "doc",
+              "id": "version-4.2.0/properties"
+            },
+            {
+              "type": "doc",
+              "id": "version-4.2.0/application-options"
+            },
+            {
+              "type": "doc",
+              "id": "version-4.2.0/session"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/project-structure"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/scheduler"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/notifier"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/selenium-testing"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/print-engine"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/debugging"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/validation"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/v4-migration"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/default-screens"
+        }
+      ]
+    },
+    {
+      "collapsed": true,
+      "type": "category",
+      "label": "API Reference",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/screens"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/menu"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/query"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/maintain"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/service"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/queues"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/email"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/i18n-internationalization"
+        }
+      ]
+    }
+  ],
+  "version-4.2.0/screens": [
+    {
+      "type": "ref",
+      "id": "version-4.2.0/api/screens"
+    },
+    {
+      "collapsed": false,
+      "type": "category",
+      "label": "API Reference",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/screen"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/template"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/layout"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/tags"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/window"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/resizable"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/button"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/criteria"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/tab-and-tabcontainer"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/wizard-and-wizard-panel"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/accordion"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/grids"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/pivot-table"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/context-menu"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/messages"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/info"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/include"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/dialog"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/chart"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/actions"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/api/dependencies"
+        }
+      ]
+    }
+  ],
+  "version-4.2.0/schedule": [
+    {
+      "type": "ref",
+      "id": "version-4.2.0/guides/scheduler"
+    },
+    {
+      "collapsed": false,
+      "type": "category",
+      "label": "Schedule Task",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/schedule-configuration"
+        },
+        {
+          "type": "doc",
+          "id": "version-4.2.0/guides/dependency-task"
+        }
+      ]
+    }
+  ]
+}
