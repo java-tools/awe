@@ -49,7 +49,7 @@ Actual modules are:
 
 ## Technology stack
 
-Check our latest technology stack on [![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/almis-informatica-financiera/aweframework)
+Check our latest technology stack on [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/almis-informatica-financiera/aweframework)
 
 ### Languages
 
