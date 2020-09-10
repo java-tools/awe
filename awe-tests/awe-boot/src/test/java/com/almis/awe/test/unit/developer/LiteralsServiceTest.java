@@ -16,8 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -84,5 +83,14 @@ public class LiteralsServiceTest extends TestUtil {
     // Asserts and verifications
     assertNotNull(serviceData.getData());
     assertArrayEquals(new String[]{"Esto es una prueba"}, (Object[]) serviceData.getData());
+  }
+
+  /**
+   * Test switch Languages
+   */
+  @Test
+  public void switchLanguages() {
+    ServiceData serviceData = literalsService.switchLanguages(anyString(), anyString(), anyString(), anyString());
+    assertEquals(2, serviceData.getClientActionList().size());
   }
 }
