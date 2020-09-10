@@ -47,7 +47,6 @@ public class LiteralsServiceTest extends TestUtil {
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
     doReturn(aweElements).when(context).getBean(any(Class.class));
-    when(aweElements.getLocale(anyString())).thenReturn(anyString());
     ReflectionTestUtils.setField(literalsService, "translationApiUrl", "http://api.mymemory.translated.net/get");
     ReflectionTestUtils.setField(literalsService, "keyParameter", "key");
     ReflectionTestUtils.setField(literalsService, "translationApiKey", "7fddcdd2be4f4fe4f632");
@@ -65,6 +64,10 @@ public class LiteralsServiceTest extends TestUtil {
    */
   @Test
   public void translateSameLanOriginDestination() throws AWException {
+    // Mockito actions
+    when(aweElements.getLocale(anyString())).thenReturn(anyString());
+
+    // Launch
     ServiceData serviceData = literalsService.translate("This is a test", "en", "en");
 
     // Asserts and verifications
@@ -78,6 +81,10 @@ public class LiteralsServiceTest extends TestUtil {
    */
   @Test
   public void translate() throws AWException {
+    // Mockito actions
+    when(aweElements.getLocale(anyString())).thenReturn("LOCALE");
+
+    // Launch
     ServiceData serviceData = literalsService.translate("This is a test", "en", "es");
 
     // Asserts and verifications
@@ -90,7 +97,7 @@ public class LiteralsServiceTest extends TestUtil {
    */
   @Test
   public void switchLanguages() {
-    ServiceData serviceData = literalsService.switchLanguages(anyString(), anyString(), anyString(), anyString());
+    ServiceData serviceData = literalsService.switchLanguages("EN", "ES", "en", "es");
     assertEquals(2, serviceData.getClientActionList().size());
   }
 }
