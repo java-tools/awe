@@ -65,7 +65,7 @@ public class LiteralsServiceTest extends TestUtil {
   @Test
   public void translateSameLanOriginDestination() throws AWException {
     // Mockito actions
-    when(aweElements.getLocale(anyString())).thenReturn(anyString());
+    when(aweElements.getLocale(anyString())).thenReturn("LOCALE");
 
     // Launch
     ServiceData serviceData = literalsService.translate("This is a test", "en", "en");
