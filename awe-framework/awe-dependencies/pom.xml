@@ -7,7 +7,7 @@
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-framework</artifactId>
     <version>4.2.8-SNAPSHOT</version>
-    <relativePath>..</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>awe-dependencies</artifactId>
@@ -352,6 +352,11 @@
     <!-- Plugins -->
     <pluginManagement>
       <plugins>
+        <!-- war plugin -->
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>${plugin-war.version}</version>
+        </plugin>
         <!-- Spring boot -->
         <plugin>
           <groupId>org.springframework.boot</groupId>
