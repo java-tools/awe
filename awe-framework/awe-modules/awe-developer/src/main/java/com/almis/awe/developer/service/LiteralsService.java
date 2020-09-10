@@ -91,7 +91,15 @@ public class LiteralsService extends ServiceConfig {
    */
   public ServiceData translate(String text, String fromLanguage, String toLanguage) throws AWException {
     ServiceData serDat = new ServiceData();
-    String result = getTranslation(text, fromLanguage, toLanguage);
+    String result;
+
+    if (Objects.equals(fromLanguage, toLanguage)) {
+      // Skip translation
+      result = text;
+    } else {
+      // Call translation API
+      result = getTranslation(text, fromLanguage, toLanguage);
+    }
 
     String[] arr = {result};
     serDat.setData(arr);
@@ -346,10 +354,6 @@ public class LiteralsService extends ServiceConfig {
     String translation;
 
     try {
-      // Skip translation
-      if (Objects.equals(fromLang, toLang)) {
-        return literal;
-      }
 
       // Get translation from cloud
       String result = getUrlString(literal, fromLang, toLang);
