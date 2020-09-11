@@ -152,6 +152,7 @@ public class EmailReportJob extends ReportJob {
       case JOB_WARNING:
       case JOB_INFO:
         builder.append(LIST_START).append(queryService.findLabel("StaTit", getExecution().getStatus().toString())).append(BOLD_END).append(getExecution().getDescription()).append(LIST_END);
+        break;
       default:
     }
 
@@ -226,7 +227,9 @@ public class EmailReportJob extends ReportJob {
       case JOB_WARNING:
       case JOB_INFO:
         builder.append(queryService.findLabel("StaTit", getExecution().getStatus().toString())).append(COLON_SPACE).append(getExecution().getDescription()).append(NEW_LINE);
+        break;
       default:
+        break;
     }
 
     builder.append(getLocale(PARAMETER_EXECUTED_COMMAND)).append(COLON_SPACE).append(getTask().getAction()).append(NEW_LINE);
