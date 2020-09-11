@@ -60,6 +60,7 @@ public class DownloadAnnotation {
 
     // Get file dynamically with Spring Expression Language
     try {
+      assert downloadAnnotation != null;
       file = new SpringExpressionLanguageParser(
         methodSignature.getParameterNames(),
         proceedingJoinPoint.getArgs())

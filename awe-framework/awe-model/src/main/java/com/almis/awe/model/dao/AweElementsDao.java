@@ -25,6 +25,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 
@@ -33,8 +34,8 @@ import java.util.concurrent.Future;
 public class AweElementsDao {
 
   // Autowired services
-  private XStreamSerializer serializer;
-  private Environment environment;
+  private final XStreamSerializer serializer;
+  private final Environment environment;
 
   /**
    * Autowired constructor
@@ -279,7 +280,7 @@ public class AweElementsDao {
    */
   private <T> String readXmlResourceFile(Resource resource, Class<T> clazz, String basePath, Map<String, T> storage) throws IOException {
     if (resource.exists()) {
-      String fileName = resource.getFilename().replace(xmlExtension, "");
+      String fileName = Objects.requireNonNull(resource.getFilename()).replace(xmlExtension, "");
       if (!storage.containsKey(fileName)) {
         storage.put(fileName, fromXML(clazz, resource.getInputStream()));
         return MessageFormat.format(READING, basePath + fileName + xmlExtension, OK);
@@ -290,9 +291,10 @@ public class AweElementsDao {
 
   /**
    * Read a locale file asynchronously
-   * @param basePath
-   * @param language
-   * @param localeList
+   *
+   * @param basePath   base path
+   * @param language   language
+   * @param localeList locale list
    */
   @Async("contextlessTaskExecutor")
   public Future<String> readLocaleAsync(String basePath, String language, Map<String, Map<String, String>> localeList) {
@@ -336,7 +338,6 @@ public class AweElementsDao {
    * Deserialize string template
    * @param clazz Object class
    * @param template String template
-   * @param <T>
    * @return Object deserialized
    */
   public synchronized <T> String toXMLString(Class<T> clazz, T template) {
@@ -347,7 +348,6 @@ public class AweElementsDao {
    * Deserialize string template
    * @param clazz Object class
    * @param template String template
-   * @param <T>
    * @return Object deserialized
    */
   public synchronized <T> T parseTemplate(Class<T> clazz, String template) {
@@ -358,7 +358,6 @@ public class AweElementsDao {
    * Deserialize XML
    * @param clazz Object class
    * @param stream XML Stream
-   * @param <T>
    * @return Object deserialized
    */
   private synchronized <T> T fromXML(Class<T> clazz, InputStream stream) {

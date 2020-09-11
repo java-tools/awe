@@ -47,13 +47,12 @@ public class LiteralsServiceTest extends TestUtil {
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
     doReturn(aweElements).when(context).getBean(any(Class.class));
-    ReflectionTestUtils.setField(literalsService, "translationApiUrl", "http://api.mymemory.translated.net/get");
+    ReflectionTestUtils.setField(literalsService, "translationApiUrl", "https://api.mymemory.translated.net/get");
     ReflectionTestUtils.setField(literalsService, "keyParameter", "key");
     ReflectionTestUtils.setField(literalsService, "translationApiKey", "7fddcdd2be4f4fe4f632");
     ReflectionTestUtils.setField(literalsService, "languageParameter", "langpair");
     ReflectionTestUtils.setField(literalsService, "textParameter", "q");
     ReflectionTestUtils.setField(literalsService, "localeFile", "Locale-");
-
   }
 
   /**
