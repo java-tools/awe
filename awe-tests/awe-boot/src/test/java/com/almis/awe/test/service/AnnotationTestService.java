@@ -12,37 +12,40 @@ import com.almis.awe.annotation.entities.util.GoTo;
 import com.almis.awe.builder.client.ScreenActionBuilder;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ClientAction;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.*;
 
 import static com.almis.awe.annotation.entities.security.Crypto.ActionType.DECRYPT;
 import static com.almis.awe.annotation.entities.security.Crypto.ActionType.ENCRYPT;
 
+/**
+ * The type Annotation test service.
+ */
 @Service
 @Audit (value = @AuditParams (
-  privateMethods = true,
-  returnValues = true)
+        privateMethods = true,
+        returnValues = true)
 )
 public class AnnotationTestService {
 
   /**
    * Check local annotations on the input parameters
    *
-   * @param test
-   *
-   * @return
+   * @param test the test
+   * @return string
    */
   public String localeFromParameters(
-    @Locale (language = "es") String test) {
-    String testValue = test;
-    return testValue;
+          @Locale (language = "es") String test) {
+    return test;
   }
 
   /**
    * Check locale annotation on the method, applies to the returned value
    *
-   * @return
+   * @return string
    */
   @Locale (language = "ES")
   public String localeFromReturnedValue() {
@@ -51,6 +54,9 @@ public class AnnotationTestService {
 
   /**
    * Check locale annotaiton value from value method on annotaiton
+   *
+   * @param param the param
+   * @return the string
    */
   public String localeFromAnnotationValue(@Locale (value = "ENUM_LAN_ES", language = "ES") String param) {
     return param;
@@ -59,9 +65,8 @@ public class AnnotationTestService {
   /**
    * Check hash annotation on input parameters
    *
-   * @param text
-   *
-   * @return
+   * @param text the text
+   * @return string
    */
   public String hashParameter(@Hash (algorithm = Hash.HashingAlgorithm.SHA_256, salt = "1234") String text) {
     return text;
@@ -70,9 +75,8 @@ public class AnnotationTestService {
   /**
    * Check hash annotations on returned values
    *
-   * @param text
-   *
-   * @return
+   * @param text the text
+   * @return string
    */
   @Hash (algorithm = Hash.HashingAlgorithm.SHA_256, salt = "1234")
   public String hashReturnedValue(String text) {
@@ -82,9 +86,8 @@ public class AnnotationTestService {
   /**
    * ENCRYPT input value
    *
-   * @param text
-   *
-   * @return
+   * @param text the text
+   * @return string
    */
   public String encryptText(@Crypto (action = ENCRYPT, password = "1234") String text) {
     return text;
@@ -93,9 +96,8 @@ public class AnnotationTestService {
   /**
    * DECRYPT input value
    *
-   * @param text
-   *
-   * @return
+   * @param text the text
+   * @return string
    */
   public String decryptText(@Crypto (action = DECRYPT, password = "1234") String text) {
     return text;
@@ -104,9 +106,8 @@ public class AnnotationTestService {
   /**
    * ENCRYPT returned value
    *
-   * @param text
-   *
-   * @return
+   * @param text the text
+   * @return string
    */
   @Crypto (action = ENCRYPT, password = "1234")
   public String encryptReturnedText(String text) {
@@ -116,9 +117,8 @@ public class AnnotationTestService {
   /**
    * DECRYPT returned value
    *
-   * @param text
-   *
-   * @return
+   * @param text the text
+   * @return string
    */
   @Crypto (action = DECRYPT, password = "1234")
   public String decryptReturnedText(String text) {
@@ -128,35 +128,114 @@ public class AnnotationTestService {
   /**
    * Test audit annotation to console
    *
-   * @param test
-   *
-   * @return
+   * @param test the test
+   * @return string
    */
-  @Audit (value = @AuditParams (
-    privateMethods = true,
-    returnValues = false)
+  @Audit(value = @AuditParams(
+          privateMethods = true,
+          returnValues = false)
   )
   public String testAuditParamToConsole(String test) {
     return test + " returned!";
   }
 
   /**
+   * Test audit annotations private method
+   *
+   * @param test input text
+   * @return text to show in console
+   */
+  @Audit(value = @AuditParams(
+          privateMethods = true,
+          returnValues = false)
+  )
+  public String testAuditPrivateMethodToConsole(String test) {
+    return callPrivateMethod(test);
+  }
+
+  /**
+   * Test audit annotations private method
+   *
+   * @param test input text
+   * @return text to show in console
+   */
+  @Audit(value = @AuditParams(
+          privateMethods = false,
+          returnValues = false)
+  )
+  public String testAuditPrivateMethodAsFalseToConsole(String test) {
+    return callPrivateMethod(test);
+  }
+
+  /**
+   * Test audit annotation return values
+   *
+   * @param test input text
+   * @return text to show in console
+   */
+  @Audit(value = @AuditParams(
+          privateMethods = true,
+          returnValues = true)
+  )
+  public String testAuditMethodReturnValuesToConsole(String test) {
+    return callPrivateMethod(test);
+  }
+
+
+  /**
+   * Test audit annotation return value list
+   *
+   * @return list to show in console
+   */
+  @Audit(value = @AuditParams(privateMethods = true, returnValues = true))
+  public Collection<String> testAuditMethodReturnList() {
+    return getDummyList();
+  }
+
+  /**
+   * Test audit annotation return values of map
+   *
+   * @return list to show in console
+   */
+  @Audit(value = @AuditParams(privateMethods = true, returnValues = true))
+  public Map<String, String> testAuditMethodReturnMap() {
+    return getHashMap();
+  }
+
+  @NotNull
+  private HashMap<String, String> getHashMap() {
+    return new HashMap<String, String>() {{
+      put("key1", "value1");
+      put("key2", "value2");
+      put("key3", "value3");
+    }};
+  }
+
+  @NotNull
+  private List<String> getDummyList() {
+    return Arrays.asList("Elem1", "Elem2", "Elem3");
+  }
+
+  @NotNull
+  private String callPrivateMethod(String test) {
+    return test + " returned!";
+  }
+
+  /**
    * Add parameter value to session from input variable
    *
-   * @param sample
-   *
-   * @return
+   * @param sample the sample
+   * @return string
    */
-  public String addParameterToSessionFromInputVariable(@ToSession (name = "sample-variable") String sample) {
+  public String addParameterToSessionFromInputVariable(@ToSession(name = "sample-variable") String sample) {
     return sample;
   }
 
   /**
    * Add parameter value to session from input variable
    *
-   * @param sample
-   *
-   * @return
+   * @param sample the sample
+   * @return string
    */
   @ToSession (name = "sample-return")
   public String addParameterToSessionFromReturnValue(String sample) {
@@ -166,9 +245,8 @@ public class AnnotationTestService {
   /**
    * Get variable value on input variable
    *
-   * @param sample
-   *
-   * @return
+   * @param sample the sample
+   * @return value from session on input variable
    */
   public String getValueFromSessionOnInputVariable(@FromSession (name = "sample-variable") String sample) {
     return sample;
@@ -177,7 +255,7 @@ public class AnnotationTestService {
   /**
    * Get variable value on return
    *
-   * @return
+   * @return value from session on return value
    */
   @FromSession (name = "sample-return")
   public String getValueFromSessionOnReturnValue() {
@@ -188,7 +266,7 @@ public class AnnotationTestService {
   /**
    * Test GoTo annotation
    *
-   * @return
+   * @return service data
    */
   @GoTo (screenName = "index")
   public ServiceData testGoToAnnotation() {
@@ -198,7 +276,7 @@ public class AnnotationTestService {
   /**
    * Test GoTo annotation
    *
-   * @return
+   * @return client action
    */
   @GoTo (screenName = "index")
   public ClientAction testGoToAnnotationClientAction() {
@@ -208,7 +286,7 @@ public class AnnotationTestService {
   /**
    * Test GoTo annotation
    *
-   * @return
+   * @return client action
    */
   @GoTo
   public ClientAction testGoToAnnotationWithoutScreen() {
@@ -218,7 +296,7 @@ public class AnnotationTestService {
   /**
    * Test GoTo annotation
    *
-   * @return
+   * @return string
    */
   @GoTo (screenName = "index")
   public String testGoToAnnotationReturningString() {
@@ -228,7 +306,7 @@ public class AnnotationTestService {
   /**
    * Test Download annotation
    *
-   * @return
+   * @return client action
    */
   @Download (value = "new java.io.File(new org.springframework.core.io.ClassPathResource(\"application.properties\").getFile())", name = "customName")
   public ClientAction downloadFile() {
@@ -238,7 +316,7 @@ public class AnnotationTestService {
   /**
    * Test Download annotation
    *
-   * @return
+   * @return client action
    */
   @Download (value = "new java.io.File(new org.springframework.core.io.ClassPathResource(\"application.properties\").getFile())", name = "customName")
   public ClientAction downloadFileNoParam() {
@@ -248,7 +326,8 @@ public class AnnotationTestService {
   /**
    * Test Download annotation
    *
-   * @return
+   * @param downloadFile the download file
+   * @return client action
    */
   @Download (value = "#downloadFile", name = "customName")
   public ClientAction downloadFileFromVar(File downloadFile) {
@@ -258,7 +337,8 @@ public class AnnotationTestService {
   /**
    * Test Download annotation
    *
-   * @return
+   * @param downloadFile the download file
+   * @return client action
    */
   @Download (value = "new java.io.File(#downloadFile)", name = "customName")
   public ClientAction downloadFileFromVarMixed(String downloadFile) {

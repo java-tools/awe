@@ -67,7 +67,7 @@ public class AuditAnnotation {
     if (audit != null) {
       AuditParams params = audit.value();
 
-      if (methodSignature.getMethod() != null || params.privateMethods()) {
+      if (methodSignature.getMethod() != null && params.privateMethods()) {
         methodOutput(methodSignature.getMethod(), proceedingJoinPoint.getArgs(), methodSignature.getParameterNames(), methodSignature.getParameterTypes(), currentExecutionId);
 
         // Process join point
