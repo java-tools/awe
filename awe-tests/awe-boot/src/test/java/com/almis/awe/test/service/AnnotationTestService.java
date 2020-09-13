@@ -188,32 +188,23 @@ public class AnnotationTestService {
    * @return list to show in console
    */
   @Audit(value = @AuditParams(privateMethods = true, returnValues = true))
-  public Collection<String> testAuditMethodReturnList() {
-    return getDummyList();
+  public Collection<String> testAuditMethodReturnList(List<String> dummyList) {
+    List<String> outputList = new ArrayList<>();
+    outputList.addAll(dummyList);
+    return outputList;
   }
 
   /**
    * Test audit annotation return values of map
    *
    * @return list to show in console
+   * @param dummyMap dummy map
    */
   @Audit(value = @AuditParams(privateMethods = true, returnValues = true))
-  public Map<String, String> testAuditMethodReturnMap() {
-    return getHashMap();
-  }
-
-  @NotNull
-  private HashMap<String, String> getHashMap() {
-    return new HashMap<String, String>() {{
-      put("key1", "value1");
-      put("key2", "value2");
-      put("key3", "value3");
-    }};
-  }
-
-  @NotNull
-  private List<String> getDummyList() {
-    return Arrays.asList("Elem1", "Elem2", "Elem3");
+  public Map<String, String> testAuditMethodReturnMap(Map dummyMap) {
+    Map<String, String> outputMap = new HashMap<>();
+    outputMap.putAll(dummyMap);
+    return outputMap;
   }
 
   @NotNull

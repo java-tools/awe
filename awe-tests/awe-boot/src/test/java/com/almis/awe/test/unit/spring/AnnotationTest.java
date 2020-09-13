@@ -1,22 +1,33 @@
 package com.almis.awe.test.unit.spring;
 
+import com.almis.awe.annotation.aspect.AuditAnnotation;
+import com.almis.awe.annotation.aspect.DownloadAnnotation;
 import com.almis.awe.annotation.entities.security.Hash;
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.FileData;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.util.file.FileUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.test.service.AnnotationTestService;
 import lombok.extern.log4j.Log4j2;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Class used for testing rest services through ActionController
@@ -101,13 +112,34 @@ public class AnnotationTest extends AweSpringBootTests {
   @Test
   public void checkAuditAnnotationReturnValueList() {
     // Test message audit | Symbolic, some Audit messages should appear on the log files
-    annotationTestService.testAuditMethodReturnList();
+    annotationTestService.testAuditMethodReturnList(Arrays.asList("Elem1", "Elem2", "Elem3"));
   }
 
   @Test
   public void checkAuditAnnotationReturnValueMap() {
     // Test message audit | Symbolic, some Audit messages should appear on the log files
-    annotationTestService.testAuditMethodReturnMap();
+    Map dummyMap = new HashMap<String, String>() {{
+      put("key1", "value1");
+      put("key2", "value2");
+      put("key3", "value3");
+    }};
+
+    annotationTestService.testAuditMethodReturnMap(dummyMap);
+  }
+
+  @Test
+  public void checkAuditGetAuditAnnotationIsNull() throws AWException, NoSuchMethodException {
+    // Test audit annotation is null
+    AuditAnnotation auditAnnotation = new AuditAnnotation();
+
+    //Mocks
+    ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
+    MethodSignature signature = mock(MethodSignature.class);
+    when(joinPoint.getSignature()).thenReturn(signature);
+    when(signature.getMethod()).thenReturn(getDummyMethod());
+
+    // Assert
+    assertNull(auditAnnotation.auditClassProcessor(joinPoint));
   }
 
   @Test
@@ -161,5 +193,28 @@ public class AnnotationTest extends AweSpringBootTests {
 
     ClientAction clientAction4 = annotationTestService.downloadFileFromVarMixed(file);
     assertEquals(fileDataString, clientAction4.getParameterMap().get("filename"));
+  }
+
+  @Test
+  public void checkDownloadAnnotationNull() throws Throwable {
+    // Test audit annotation is null
+    DownloadAnnotation downloadAnnotation = new DownloadAnnotation();
+
+    //Mocks
+    ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
+    MethodSignature signature = mock(MethodSignature.class);
+    when(joinPoint.getSignature()).thenReturn(signature);
+    when(signature.getMethod()).thenReturn(getDummyMethod());
+
+    // Assert
+    assertNull(downloadAnnotation.goToMethodProcessor(joinPoint));
+
+  }
+
+  private Method getDummyMethod() throws NoSuchMethodException {
+    return getClass().getDeclaredMethod("dummyMethod");
+  }
+
+  private void dummyMethod() {
   }
 }
