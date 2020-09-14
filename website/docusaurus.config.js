@@ -99,12 +99,13 @@ module.exports = {
 			'@docusaurus/preset-classic',
 			{
 				docs: {
-					homePageId: 'intro',
 					sidebarPath: require.resolve('./sidebars.js'),
-					showLastUpdateAuthor: true,
-					showLastUpdateTime: true,
+					// Please change this to your repo.
 					editUrl:
-						'https://gitlab.com/aweframework/awe/edit/develop/website/',
+						'https://github.com/facebook/docusaurus/edit/master/website/',
+					includeCurrentVersion: true,
+					showLastUpdateTime: true,
+					showLastUpdateAuthor: true,
 				},
 				blog: {
 					showReadingTime: true,

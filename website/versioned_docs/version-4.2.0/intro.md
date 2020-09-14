@@ -2,6 +2,7 @@
 id: intro
 title: Almis Web Engine
 sidebar_label: Introduction
+slug: /
 ---
 
 <img alt="Almis" src={require('@docusaurus/useBaseUrl').default('img/awe_logo.png')} />
