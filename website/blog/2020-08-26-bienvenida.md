@@ -1,5 +1,4 @@
 ---
-id: welcome
 title: Bienvenido al Blog de AWE
 author: Pablo Vidal
 author_title: Software Engineer @ Almis
