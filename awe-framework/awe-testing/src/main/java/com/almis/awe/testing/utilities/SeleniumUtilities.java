@@ -62,6 +62,7 @@ public class SeleniumUtilities {
   private static final String DAY = "day";
   private static final String MONTH = "month";
   private static final String YEAR = "year";
+  private static final By DATEPICKER = By.cssSelector(".datepicker");
   private static final By GRID_LOADER_SELECTOR = By.cssSelector(".grid-loader");
   private static final By SELECT_DROP_INPUT = By.cssSelector("#select2-drop input.select2-input");
   private static final By SELECT_DROP_INPUT_NOT_HIDDEN = By.cssSelector("#select2-drop :not(.select2-search-hidden) input.select2-input");
@@ -519,23 +520,21 @@ public class SeleniumUtilities {
    * @param parentSelector Parent selector
    * @param dateValue      Date value
    */
-  private void selectDateFromSelector(String parentSelector, CharSequence dateValue, boolean isGrid) {
+  private void selectDateFromSelector(String parentSelector, CharSequence dateValue) {
     // Click on date
     clickDateFromSelector(parentSelector);
 
-    // Write text on date
-    writeTextFromSelector(parentSelector, dateValue, true, isGrid);
+    // Wait until datepicker is visible
+    waitUntil(visibilityOfElementLocated(DATEPICKER));
 
-    if (isGrid) {
-      // Click on body
-      click(By.cssSelector("body"));
-    }
+    // Write text on date
+    writeTextFromSelector(parentSelector, dateValue, true, "body");
 
     // Wait for loading bar
     waitForLoadingBar();
 
     // Wait for not visible
-    checkNotVisible(".datepicker");
+    checkNotVisible(DATEPICKER);
   }
 
   /**
@@ -549,11 +548,14 @@ public class SeleniumUtilities {
     // Click on date
     clickDateFromSelector(parentSelector);
 
+    // Wait until datepicker is visible
+    waitUntil(visibilityOfElementLocated(DATEPICKER));
+
     // Click on selector
     click(By.xpath("//*[contains(@class,'datepicker')]//*[contains(@class,'datepicker-" + type + "s')]//*[contains(@class,'" + type + "') and not(contains(@class, 'old')) and not(contains(@class, 'new'))]//text()[.='" + search + "']/.."));
 
     // Wait for not visible
-    checkNotVisible(".datepicker");
+    checkNotVisible(DATEPICKER);
   }
 
   /**
@@ -669,9 +671,11 @@ public class SeleniumUtilities {
    * @param parentSelector Parent selector
    * @param text           Text
    * @param clearText      Clear text
+   * @param clickSelector  Selector for click element
    */
-  private void writeTextFromSelector(String parentSelector, CharSequence text, boolean clearText, boolean isGrid) {
+  private void writeTextFromSelector(String parentSelector, CharSequence text, boolean clearText, String clickSelector) {
     By selector = getCriterionInputSelector(parentSelector);
+    By clickSelectorBy = By.cssSelector(clickSelector);
 
     // Wait for element present
     waitUntil(presenceOfElementLocated(selector));
@@ -684,13 +688,8 @@ public class SeleniumUtilities {
     // Write text
     sendKeys(selector, text);
 
-    if (isGrid) {
-      // Click on body
-      click(By.cssSelector(parentSelector));
-    } else {
-      // Click on body
-      click(By.cssSelector("body"));
-    }
+    // Click on click selector
+    click(clickSelectorBy);
 
     // Pause 100 ms
     pause(100);
@@ -1233,7 +1232,7 @@ public class SeleniumUtilities {
    * @param dateValue Date to select
    */
   protected void selectDate(String dateName, CharSequence dateValue) {
-    selectDateFromSelector(getCriterionSelectorCss(dateName), dateValue, false);
+    selectDateFromSelector(getCriterionSelectorCss(dateName), dateValue);
   }
 
   /**
@@ -1245,7 +1244,7 @@ public class SeleniumUtilities {
    */
   protected void selectDate(String gridId, String columnId, CharSequence dateValue) {
     // Select date with parent selector
-    selectDateFromSelector(getParentSelectorCss(gridId, null, columnId), dateValue, true);
+    selectDateFromSelector(getParentSelectorCss(gridId, null, columnId), dateValue);
   }
 
   /**
@@ -1258,7 +1257,7 @@ public class SeleniumUtilities {
    */
   protected void selectDate(String gridId, String rowId, String columnId, CharSequence dateValue) {
     // Select date with parent selector
-    selectDateFromSelector(getParentSelectorCss(gridId, rowId, columnId), dateValue, true);
+    selectDateFromSelector(getParentSelectorCss(gridId, rowId, columnId), dateValue);
   }
 
   /**
@@ -1533,7 +1532,7 @@ public class SeleniumUtilities {
    * @param clearText     Clear text
    */
   protected void writeText(String criterionName, CharSequence text, boolean clearText) {
-    writeTextFromSelector(getCriterionSelectorCss(criterionName), text, clearText, false);
+    writeTextFromSelector(getCriterionSelectorCss(criterionName), text, clearText, "body");
   }
 
   /**
@@ -1545,7 +1544,8 @@ public class SeleniumUtilities {
    */
   protected void writeText(String gridId, String columnId, CharSequence text) {
     // Write text on grid
-    writeTextFromSelector(getParentSelectorCss(gridId, null, columnId), text, true, true);
+    String parentSelector = getParentSelectorCss(gridId, null, columnId);
+    writeTextFromSelector(parentSelector, text, true, parentSelector);
   }
 
 
@@ -1559,7 +1559,8 @@ public class SeleniumUtilities {
    */
   protected void writeText(String gridId, String rowId, String columnId, CharSequence text) {
     // Write text on grid
-    writeTextFromSelector(getParentSelectorCss(gridId, rowId, columnId), text, true, true);
+    String parentSelector = getParentSelectorCss(gridId, rowId, columnId);
+    writeTextFromSelector(parentSelector, text, true, parentSelector);
   }
 
   /**
@@ -1573,7 +1574,8 @@ public class SeleniumUtilities {
    */
   protected void writeText(String gridId, String rowId, String columnId, CharSequence text, boolean clearText) {
     // Write text on grid
-    writeTextFromSelector(getParentSelectorCss(gridId, rowId, columnId), text, clearText, true);
+    String parentSelector = getParentSelectorCss(gridId, rowId, columnId);
+    writeTextFromSelector(parentSelector, text, clearText, parentSelector);
   }
 
   /**
@@ -2261,8 +2263,15 @@ public class SeleniumUtilities {
    * @param cssSelector CSS selector
    */
   protected void checkNotVisible(String cssSelector) {
-    By selector = By.cssSelector(cssSelector);
+    checkNotVisible(By.cssSelector(cssSelector));
+  }
 
+  /**
+   * Check element is not visible
+   *
+   * @param selector selector
+   */
+  protected void checkNotVisible(By selector) {
     // Wait until visible
     waitUntil(invisibilityOfElementLocated(selector));
   }

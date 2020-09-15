@@ -1,4 +1,4 @@
-import { aweApplication } from "./../awe";
+import {aweApplication} from "../awe";
 import SockJS from "sockjs-client";
 import Stomp from "@stomp/stompjs";
 
