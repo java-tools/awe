@@ -3,7 +3,7 @@ id: menu
 title: Menu definition
 ---
 
-The navigation menu of an AWE application is defined in XML files. The two menu XML files are:
+Navigation menu for an AWE application is defined in XML files. The two menu XML files are:
 * **public.xml:** Contains the public screens (those who can be accessed without log into the system).
 * **private.xml:** Screens inside the log protection
 
@@ -76,7 +76,7 @@ Inside the tools option there are a set of options, some of them are 'invisible'
 | label | Optional | String | Is a literal which contains the option name | **Note:** You can use [i18n](i18n-internationalization.md) files (locales) |
 | module | Optional | String | Defines the module name. Now you can set different menu options for each module | These module names must be configured in table AweMod and it must be the session variable module |
 | separator| Optional | Boolean | If set to true, the option is converted into a separator line | Default value is `false`|
-| icon | Optional | String | It define an icon which will be shown before the option label | You can view a complete icon list [here](http://fortawesome.github.io/Font-Awesome/icons/) |
+| icon | Optional | String | Defines an icon which will be shown before the option label | You can view the whole icon list [here](http://fortawesome.github.io/Font-Awesome/icons/) |
 
 ## Examples
 

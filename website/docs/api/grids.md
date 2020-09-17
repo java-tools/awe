@@ -3,10 +3,10 @@ id: grids
 title: Grids
 ---
 
-The grid is the main component in AWE to show data lists. It is defined by *grid* and *columns*:
+Grids are the main component in AWE to show data lists. It is defined by *grid* and *columns*:
 
-* The **grid** is the container of the data list. It has the query definition and a set of attributes to define the behaviour of the grid.
-* Each **column** contains the source of the data from the datalist, the label of the column and other attributes to manage each column cell.
+* The **grid** is the container of the data list. It has the query to load and a set of attributes to define the behaviour of the grid.
+* Each **column** contains the source of the data from the data list, the label of the column and other attributes to manage each column cell.
 
 There is also a **group-header** tag which is used to show a second level header over a group of column headers.
 
@@ -58,7 +58,7 @@ To define a **grid** or a **treegrid** in AWE you must follow the next structure
 | help        | Optional     | String    | Help text for the grid | **Note:** You can use [i18n](i18n-internationalization.md) files (locales) |
 | help-image  | Optional     | String    | Help image for the grid | This **must** be a image path |
 | icon-loading | Optional    | String    | Set the loading icon | `spinner` (default), `square`, `circles`, `carpet`, `dots`, `folding`, `squarebar`, `circlebar`, `cubes`, `icon`, `custom`, `none` |
-| report-title | Optional | String    | Is the title of the report that is generated when printing the screen. If we do not define a value for this attribute report title will be taken from label attribute | **Note:** You can use [i18n](i18n-internationalization.md) files (locales)          |
+| report-title | Optional | String    | Title of the report generated when printing the screen. If not defined, report title will be taken from label attribute | **Note:** You can use [i18n](i18n-internationalization.md) files (locales)          |
 
 ## Column structure
 
@@ -81,13 +81,13 @@ To define a **grid** or a **treegrid** in AWE you must follow the next structure
 | align       | Optional     | String    | Column is **not** visible   |  `left`, `center` or `right` |
 | width       | Optional     | Integer   | Column width in pixels      |  |
 | sortable    | Optional     | Boolean   | Field is sortable (if not treegrid) | Default value is `true` |
-| movable   | Optional     | Boolean   | Allow move column position in the grid | Default value is `true` |
+| movable   | Optional     | Boolean   | Allows to move column position in the grid | Default value is `true` |
 | sendable    | Optional     | Boolean   | Column data must be sent to the server | Default value is `true` |
 | charlength  | Optional     | Integer   | Column width in chars       |  |
 | label       | Optional     | String    | Column label | **Note:** You can use [i18n](i18n-internationalization.md) files (locales) |
 | style       | Optional     | String    | Column css class            | Css class to apply to the column |
 | component   | Optional     | String    | Column type (if editable)   | See [components](criteria.md#components) |
-| max         | Optional     | Integer   | Max number of records to get when the column is initialized with target-action   | Default value is `30` |
+| max         | Optional     | Integer   | Max number of records to retrieve when the column is initialized with target-action   | Default value is `30` |
 | visibility  | Optional     | Boolean   | Initial visibility of the column component | Default value is `true` |
 | frozen      | Optional     | Boolean   | Keep the column fixed out of the horizontal scroll. **WARNING**: Don't use this attribute if header has more than one line height |  Default value is `false` |
 | excel-print-format| Optional     | String| When printing to excel, if we want to print the cells as number, we need to use this attribute and set its value as "numeric". **NOTE:** If the column has a "numeric" component, it is not needed to define this attribute to print the cells as numbers | |
@@ -174,7 +174,7 @@ This component is very useful to show an icon inside a grid. The **compound attr
 
 #### Formatted text column component
 
-This component is very useful to show HTML code inside a grid. There are two type of HTML tags allowed:
+This component is used to show HTML code inside a grid. There are two type of HTML tags allowed:
 
 * `<format style="[text class]">`: Formatted text. 
 * `<br>`: New line
@@ -183,7 +183,7 @@ This component is very useful to show HTML code inside a grid. There are two typ
 
 <img alt="ImageColumn" src={require('@docusaurus/useBaseUrl').default('img/ImageColumn.png')} />
 
-This component is very useful to show an image inside a grid. The **compound attributes** to fill this component are the following:
+This component is used to show an image inside a grid. The **compound attributes** to fill this component are the following:
 
 | Attribute   |  Description                                                                                                |
 | ----------- | ------------------------------------------------------------------------------------------------------------|

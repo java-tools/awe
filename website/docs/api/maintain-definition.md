@@ -49,7 +49,7 @@ The simple maintain structure is the next one:
 
 ### Maintain element
 
-For even more simplify the development of maintain, not all elements are required.
+For easier development of maintain, not all elements are required.
 
 | Element     | Use      | Multiples instances    | Description                                        |
 | ----------- | ---------|------------------------|----------------------------------------------------|

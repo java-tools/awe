@@ -3,16 +3,16 @@ id: layout
 title: Layout
 ---
 
-In AWE screens there is a layout service which helps the developer to position the screen layers taking advantage of all the screen size. There are two ways of 'expanding' the layout:
+AWE layout service helps the developer to position the screen layers taking advantage of all the screen size. There are two ways of 'expanding' the layout:
 * **[Vertically](#vertical-layout):** With the `expandible="vertical"` attribute the **direct children** with a `expand` style will increase in height to fit the container size. All children without the `expand` class will keep their height.
 * **[Horizontally](#horizontal-layout):** With the `expandible="horizontal"` attribute the **direct children** with a `expand` style will increase in width to fit the container size. All children without the `expand` class will keep their width.
 
 ### Special expansion
 
-There are some special styles which can be used to expand the layout sligthly different than with the standard `expand` style:
-* `expand-2x`: Expand the tag with double size compared to a single `expand`.
-* `expand-3x`: Expand the tag with triple size compared to a single `expand`.
-* `expand-maximize`: Expand the layout of the tag **only** when the *parent* [window](window.md) is maximized.
+There are some special styles which can be used to expand the layout slightly different than with the standard `expand` style:
+* `expand-2x`: Expands the tag with double size compared to a single `expand`.
+* `expand-3x`: Expands the tag with triple size compared to a single `expand`.
+* `expand-maximize`: Expands the layout of the tag **only** when the *parent* [window](window.md) is maximized.
 
 ## Vertical layout
 

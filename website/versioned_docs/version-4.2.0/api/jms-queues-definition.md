@@ -52,7 +52,7 @@ xsi:noNamespaceSchemaLocation="../../sch/queues.xsd">
 </queues>
 ```
 
-For even more simplify the development of queues, not all elements are required.
+For easier development of queues, not all elements are required.
 
 
 | Element     | Use      | Multiples instances    | Description                                        |

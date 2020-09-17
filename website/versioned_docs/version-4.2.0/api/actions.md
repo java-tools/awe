@@ -43,12 +43,12 @@ Actions retrieved by the application to execute a generic action. These actions 
 | `reset`                  | Empty all criteria on the screen                                                             |
 | `restore`                | Restore to initial values all criteria on the screen                                         |
 | `restore-target`         | Restore to target values all criteria on the screen                                          |
-| `validate`               | Launches a validation on all criteria on the screen                                          |
-| `print`                  | Launches a screen print. Same as navigator print option                                      |
-| `confirm-updated-data`   | Launches a confirm dialog to warn the user that there are criteria with data in the screen, and may lost them when navigating to another screen |
-| `confirm-not-updated-data`| Launches a confirm dialog to warn the user that the criteria in the screen have not been updated|
-| `confirm-empty-data`     | Launches a confirm dialog to warn the user that all the criteria in the screen are empty     |
-| `resize`                 | Launches a screen resize (useful for screen size changes)                                    |
+| `validate`               | Launch a validation on all criteria on the screen                                          |
+| `print`                  | Launch a screen print. Same as navigator print option                                      |
+| `confirm-updated-data`   | Launch a confirm dialog to warn the user that there are criteria with data in the screen, and may lost them when navigating to another screen |
+| `confirm-not-updated-data`| Launch a confirm dialog to warn the user that the criteria in the screen have not been updated|
+| `confirm-empty-data`     | Launch a confirm dialog to warn the user that all the criteria in the screen are empty     |
+| `resize`                 | Launch a screen resize (useful for screen size changes)                                    |
 | `toggle-menu`            | Show/Hide the menu                                                                           |
 | `toggle-navbar`          | Show/Hide the navigation bar                                                                 |
 | `disable-dependencies`   | Disable the [dependency](dependencies.md) system                                             |
@@ -66,7 +66,7 @@ Actions that eventually can show a message to the user.
 
 | Action               | Description                                                                                      |
 | -------------------- | ------------------------------------------------------------------------------------------------ |
-| `confirm`            | Launches a confirm dialog with the message defined on `target` attribute                         |
+| `confirm`            | Launch a confirm dialog with the message defined on `target` attribute                         |
 
 
 #### Message attributes
@@ -109,7 +109,7 @@ Actions which works over components in the screen.
 | `reset`                 | Empty a criterion value                                                    | `criteria`, `grid`, `chart`  |
 | `restore`               | Restore to initial values a criterion                                      | `criteria`, `grid`, `chart`  |
 | `start-load`            | Sets a component as *loading*                                              | `criteria`, `grid`, `chart`  |
-| `validate`              | Launches a validation on the criterion or criteria inside the `target` tag | `tag`, `criteria`   |
+| `validate`              | Launch a validation on the criterion or criteria inside the `target` tag | `tag`, `criteria`   |
 | `dialog`                | Opens a modal dialog                                                       | `dialog`            |
 | `close`                 | Closes a dialog                                                            | `dialog`            |
 | `filter`                | Reload a grid                                                              | `grid`              |
@@ -131,7 +131,7 @@ Actions which works over components in the screen.
 | `select-last-row`      | Selects the last row of the grid                                           | `grid`              |
 | `select-all-rows`     | Select all rows of the grid                                          | `grid`              |
 | `unselect-all-rows`      | Unselect all rows of the grid                                           | `grid`              |
-| `validate-selected-row`| Launches a validation on the selected row of the grid                      | `grid`              |
+| `validate-selected-row`| Launch a validation on the selected row of the grid                      | `grid`              |
 | `change-theme`         | Changes the theme to the value defined on the `target` criterion           | `criteria`          |
 | `change-language`      | Changes the language to the value defined on the `target` criterion        | `criteria`          |
 | `reload-language`      | Reload the language searching for changes                                  | `criteria`          |
@@ -174,30 +174,30 @@ Actions which works over components in the screen.
 | `login`         | Log in into the application      | User and password                            |
 | `logout`        |                                  |                                              |
 | `screen`        | Navigate to a screen             | `target`: Menu option identifier             |
-| `data`          | Retrieve data from the server. Fills the `values` list of the criterion | `targetAction`: Query identifier|
-| `value`         | Retrieve a value from the server. Fills the `selected` list of the criterion. *In suggests, this action also fills the `values` list* | `targetAction`: Query identifier |
-| `update-model`  | Retrieve values for some criteria. The query field alias **must** be the criterion id to match. Fills the `selected` list of the criteria | `targetAction`: Query identifier |
+| `data`          | Get data from the server. Fills the `values` list of the criterion | `targetAction`: Query identifier|
+| `value`         | Get a value from the server. Fills the `selected` list of the criterion. *In suggests, this action also fills the `values` list* | `targetAction`: Query identifier |
+| `update-model`  | Get values for some criteria. The query field alias **must** be the criterion id to match. Fills the `selected` list of the criteria | `targetAction`: Query identifier |
 | `update-model-no-cancel`  | It does exactly the same **update-model** action does, but without cancelling the action stack when the query returns a warning/error | `targetAction`: Query identifier |
 | `subscribe`     | Subscribe to a query data retrieval. The subscription stores the component request and broadcasts  data to the component address | `targetAction`: Query identifier |
-| `maintain`      | Launches a maintain process      | `targetAction`: Maintain target identifier  |
-| `maintain-silent` | Launches a maintain process without response message | `targetAction`: Maintain target identifier |
-| `maintain-async` | Launches a maintain process without any response | `targetAction`: Maintain target identifier |
-| `validate` | Launches a query, and if it returns a warning or an error, invalidates the launcher with a message | `targetAction`: Query identifier |
-| `unique` |  Launches a query, and if it returns data, invalidates the launcher | `targetAction`: Query identifier |
-| `control` | Launches a query, and if it doesn't finish OK, returns a message | `targetAction`: Query identifier |
-| `control-cancel`  |  Launches a query, and if it doesn't finish OK, returns a message and cancels the action queue | `targetAction`: Query identifier |
-| `control-confirm` |  Launches a query, and if it doesn't finish OK, returns a confirm message| `targetAction`: Query identifier, `target`: Confirm message identifier |
-| `control-confirm-cancel` |   Launches a query, and if it finish OK, cancels the queue and if it finishes with an error, returns a confirm message | `targetAction`: Query identifier, `target`: Confirm message identifier |
-| `control-confirm-message` |  Launches a query, and if it doesn't finish OK, returns a confirm message with the query message output | `targetAction`: Query identifier |
-| `control-empty-cancel` |  Launches a query, and if it does not return data, it shows a message and cancels the queue | `targetAction`: Query identifier, `target`: Message identifier |
-| `control-unique-cancel` |  Launches a query, and if it returns data, it shows a message and cancels the queue | `targetAction`: Query identifier, `target`: Message identifier |
+| `maintain`      | Launch a maintain process      | `targetAction`: Maintain target identifier  |
+| `maintain-silent` | Launch a maintain process without response message | `targetAction`: Maintain target identifier |
+| `maintain-async` | Launch a maintain process without any response | `targetAction`: Maintain target identifier |
+| `validate` | Launch a query, and if it returns a warning or an error, invalidates the launcher with a message | `targetAction`: Query identifier |
+| `unique` |  Launch a query, and if it returns data, invalidates the launcher | `targetAction`: Query identifier |
+| `control` | Launch a query, and if it doesn't finish OK, returns a message | `targetAction`: Query identifier |
+| `control-cancel`  |  Launch a query, and if it doesn't finish OK, returns a message and cancels the action queue | `targetAction`: Query identifier |
+| `control-confirm` |  Launch a query, and if it doesn't finish OK, returns a confirm message| `targetAction`: Query identifier, `target`: Confirm message identifier |
+| `control-confirm-cancel` |   Launch a query, and if it finish OK, cancels the queue and if it finishes with an error, returns a confirm message | `targetAction`: Query identifier, `target`: Confirm message identifier |
+| `control-confirm-message` |  Launch a query, and if it doesn't finish OK, returns a confirm message with the query message output | `targetAction`: Query identifier |
+| `control-empty-cancel` |  Launch a query, and if it does not return data, it shows a message and cancels the queue | `targetAction`: Query identifier, `target`: Message identifier |
+| `control-unique-cancel` |  Launch a query, and if it returns data, it shows a message and cancels the queue | `targetAction`: Query identifier, `target`: Message identifier |
 | `app-help` |  Shows the automatically generated screen help based on screen attributes | `target`: Screen identifier (optional) |
-| `help` |  Retrieve the application help book in the current language |                            |
-| `get-file-maintain` |  Launches a maintain process and retrieve a file to download |                            |
+| `help` |  Get the application help book in the current language |                            |
+| `get-file-maintain` |  Launch a maintain process and retrieve a file to download |                            |
 
 ## Client actions from Java services
 
-These kind actions are used to doing some client actions from java services in the server. They are useful to perform many actions on window's element with a single service. For example, fill a list criteria and grids of one-time, dynamically add columns to a grid, add or replace a graphic series, ...
+These kind of actions are used to execute client actions from java services in the server. They are useful to perform many actions on window's element with a single service. For example, fill criteria and grids at once, dynamically add columns to a grid, add or replace graphic series, etc.
 
 ### General actions from java services
 

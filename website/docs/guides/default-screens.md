@@ -23,11 +23,11 @@ title: Default screens
 
 ## Screen Configuration
 
-This screen is used to change the functionality of the screen defined in XML file. The new functionality is saved in the data base and it can be restricted by user or profile. We only have to define the screen that we have select to modify, the element that will work like we wont and the new attribute with his value.
+This screen is used to change the functionality of the screen defined in XML file. The new functionality is saved in the database and it can be restricted by user or profile. We only have to define the screen, the element and its new attributes with its new values.
 
 ### Example:
 
-If we have a criteria that is required `validation="required"`. 
+If we have a criteria that will be required `validation="required"`. 
 
 ``` xml
  <criteria id="CrtSit" label="PARAMETER_NAME" component="suggest" server-action="data" target-action="SitSug" style="col-xs-7 col-sm-6 col-lg-3" validation="required"/>

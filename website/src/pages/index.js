@@ -12,7 +12,7 @@ const features = [
     imageUrl: 'img/undraw_just_browsing.svg',
     description: (
       <>
-        AWE framework was designed from the ground up to be easily installed and
+        AWE framework is designed from the ground up to be easily installed and
         used to build your website up and running quickly.
       </>
     ),
@@ -22,8 +22,8 @@ const features = [
     imageUrl: 'img/undraw_responsive.svg',
     description: (
       <>
-        All AWE web components lets you design modern and responsive user interface using a declarative API.
-        Work with <code>AngularJS</code> and <code>ReactJS</code>.
+        All AWE web components let you design modern and responsive user interfaces using a declarative API.
+        Works with <code>AngularJS</code> and <code>ReactJS</code>.
       </>
     ),
   },
@@ -32,8 +32,8 @@ const features = [
     imageUrl: 'img/undraw_switches.svg',
     description: (
       <>
-        Extend or customize all AWE features. The Spring boot <code>starters</code> design lets enable the modules
-        and features as you need.
+        Extend or customize all AWE features. The Spring Boot <code>starters</code> design lets you to enable the modules
+        and features that you need.
       </>
     ),
   },
@@ -42,8 +42,8 @@ const features = [
     imageUrl: 'img/undraw_online_connection.svg',
     description: (
       <>
-        Bind your data to web forms easily. AWE allow connecting to different data sources
-        like SQL and NoSQL databases, Rest API, JavaBean, ...
+        Bind your data to web forms easily. AWE allows to connect to different data sources
+        like SQL and NoSQL databases, Rest APIs, JavaBeans, etc.
       </>
     ),
   },
@@ -52,7 +52,7 @@ const features = [
     imageUrl: 'img/undraw_add_color.svg',
     description: (
       <>
-        AWE has multiple preconfigured themes and Multi-language support.
+        AWE has multiple preconfigured themes and multi-language support.
         You can add custom CSS according to your needs.
       </>
     ),
@@ -62,8 +62,7 @@ const features = [
     imageUrl: 'img/undraw_code_review.svg',
     description: (
       <>
-        Uses Spring 5 and Spring Boot 2
-        and <code>@Autowired</code> available for AWE components and layout.
+        Uses Spring 5 and Spring Boot 2. <code>@Autowired</code> is available for AWE components and layouts.
       </>
     ),
   },
@@ -102,9 +101,9 @@ function Home() {
             Build{' '}
             <span className={styles.heroProjectKeywords}>light-weight</span>{' '} and{' '}
             <span className={styles.heroProjectKeywords}>functional</span> websites{' '}
-            <span className={styles.heroProjectKeywords}>quickly</span>, focus
+            <span className={styles.heroProjectKeywords}>quickly</span>. Focus
             on your{' '}
-            <span className={styles.heroProjectKeywords}>content</span>
+            <span className={styles.heroProjectKeywords}>content.</span>
           </h1>
           <div className={styles.indexCtas}>
             <Link

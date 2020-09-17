@@ -1,15 +1,28 @@
 ---
 id: enumerate
 title: Enumerate definition
+
 ---
 
-Enumerated components are simple structures to define `label` - `value` lists. They serve useful for translations.
+# **Enumerated definition**
 
-> **Note:** All enumerated are defined in the `Enumerated.xml` file at **global folder**. View [project structure](../guides/project-structure.md#global-folder)  for more info.
+## Table of Contents
+
+* **[Introduction](#introduction)**
+* **[Enumerated XML structure](#enumerated-xml-query)**
+  * [Group element](#group-element)
+  * [Option element](#option-element)
+* **[Examples](#examples)**
+
+## Introduction
+
+Enumerated components are structures to define `label` - `value` lists. They are useful i.e. for translations.
+
+> **Note:** All enumerateds are defined in the `Enumerated.xml` file at **global folder**. View [project structure](../guides/project-structure.md#global-folder)  for more info.
 
 ## Enumerated XML structure
 
-The full enumerated structure is the next one:
+Its structure is the next one:
 
 ```xml
 <enumerated
@@ -31,8 +44,8 @@ xsi:noNamespaceSchemaLocation = "../../sch/enumerated.xsd">
 
 | Element     | Use      | Multiples instances    | Description                                        |
 | ----------- | ---------|------------------------|----------------------------------------------------|
-| enumerated  | **Required** | No| Root node of enumerated structure |
-| [group](#group-element) | **Required** | Yes | Used to group the options of enumerated |
+| enumerated  | **Required** | No| Root node of the enumerated structure |
+| [group](#group-element) | **Required** | Yes | Used to group the options of the enumerated |
 | [option](#option-element) | **Required** | Yes | Define each of the `key` - `values` of a group of options |
 
 ### Group element
@@ -49,13 +62,13 @@ Option element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| label | **Required** | String | The label of option              | **Note:** You can use [i18n](i18n-internationalization.md) files (locales)              |
-| value | **Required** | String | The value of option| **Note:**  The id name must be unique              |
+| label | **Required** | String | The label of the option              | **Note:** You can use [i18n](i18n-internationalization.md) files (locales)              |
+| value | **Required** | String | The value of the option| **Note:**  The id name must be unique              |
 
 
 ## Examples
 
-Here, you can see some examples of enumerated groups:
+Several examples of enumerated groups:
 
 ```xml
 <!-- Enumerated YES (0) | NO (1) -->

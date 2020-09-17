@@ -3,12 +3,12 @@ id: developer-tools
 title: DevTools Module
 ---
 
-This module has some management tools very useful to manage server resources: 
+This module has some very useful management tools to manage server resources: 
 - [Literals manager](#literals-manager)
 - [File manager](#file-manager)
 - [SQL extractor](#sql-extractor)
 
-To use this module, the following steps are necessary:
+To use this module, follow these steps:
 
 - Add **awe tools dependencies** to pom.xml descriptor.
 
@@ -35,11 +35,11 @@ module.tools=awe-tools
 ```
 
 ## `Literals manager`
-The *Literal Manager* is a tool that helps managing existing literals of an application. All the available actions and modifications are stored both in memory and in the multiple XML-s. This way, it is not necessary to restart the *Tomcat* server everytime a change is made, it is enough to refresh the page to display all the changes.
+The *Literal Manager* is a tool that helps managing existing literals in an application. All the available actions and modifications are stored both in memory and in the multiple XML-s. This way, it is not necessary to restart the *Tomcat* server whenever a change is made. Developer will just have to refresh the page in order to display all the changes.
 
 <img alt="lit-man" src={require('@docusaurus/useBaseUrl').default('img/lit-man.png')} />
 
-### What can it do
+### Features
 
 1. Search for existing literals.
 2. Create new literals.
@@ -51,7 +51,7 @@ The *Literal Manager* is a tool that helps managing existing literals of an appl
 
 <img alt="search-lite" src={require('@docusaurus/useBaseUrl').default('img/search-lite.png')} />
 
-Searches can be done by code or literal. The default search language is the same as the application default language, but it can be configured to search by any other *installed* language. By clicking on the search button next to the textfield, all the results appear in the left grid. In order to manage these literals, it is enough to click on any of them to display the details and translations of the chosen word.
+You can search by code or literal. The default search language is the same as the application default language, but it can be configured to search by any other *installed* language. By clicking on the search button next to the textfield, all the results appear in the left grid. In order to manage these literals, it is enough to click on any of them to display the details and translations of the chosen word.
 
 ### Deleting literals
 
@@ -63,7 +63,7 @@ This process is completed by selecting the literal that has to be deleted and cl
 
 <img alt="new-lit" src={require('@docusaurus/useBaseUrl').default('img/new-lit.png')} />
 
-New literals can be created by clicking on the *New* button. A modal view will appear with two inputs, the first one for the literal *code* and the second one to the literal contend in the default or chosen language. The tool generates the translatios for the other existing languages automatically.
+New literals can be created by clicking on the *New* button. A modal view will appear with two inputs, the first one for the literal *code* and the second one to the literal contend in the default or chosen language. The tool generates the translations for all the other existing languages automatically.
 
 ### Modifying literals
 
@@ -81,11 +81,11 @@ In order to modify existing literals, a literal must be chosen from the list dis
 
 <img alt="markdown-trans" src={require('@docusaurus/useBaseUrl').default('img/markdown-trans.png')} />
 
-Select the language that you are writting in the markdown editor, then select the laguage in wich you want translate and click translate button. Voilà!
+Select the origin language in the markdown editor, then select the destination language and click on the translate button. Voilà!
 
 ### Launch
 
-To use it, put a link to these windows some where in your project menu `public.xml` or `private.xml`.
+To use it, put a link to these windows somewhere in your project menu `public.xml` or `private.xml`.
 
 Example:
 
@@ -96,7 +96,7 @@ Example:
   </option>
 ```
 
-- Add  the directory of your XML files using path window inside developer menu.
+- Add the directory of your XML files using path window inside developer menu.
 
 <img alt="path" src={require('@docusaurus/useBaseUrl').default('img/path.png')} />
 
@@ -108,10 +108,10 @@ Example:
 
 <img alt="path" src={require('@docusaurus/useBaseUrl').default('img/path.png')} />
 
-* This tool does not make sense to work in the reference, only in local machines.
+* This tool is only intended to be used in local machines.
 
 ## `SQL Extractor`
-This is a tool to make queries in the database that your application is working.
+SQL Extractor is a tool to execute SQL queries directly over the application database
 
 <img alt="SQL Extractor" src={require('@docusaurus/useBaseUrl').default('img/SQL_Extractor.png')} />
 
@@ -124,12 +124,12 @@ This is a tool to make queries in the database that your application is working.
 
 ### Run SQL queries with the database in use.
 
-"We can only execute queries, you want to execute insert, update or deletes call to AWE team"
+"SQL Extractor can only execute queries. If you want to insert, update or delete call AWE team"
 
 
 ### Save query strings in files.
 
-Put file name without extension, the application will put .txt extension for you. We can save only a query per file. This file will save automatically in your home directory. "c:/users/{user}/aweFiles/"
+Choose file name without extension. SQL Extractor will save it in .txt for you. We can only save a query per file. This file will be automatically created in your home directory. "c:/users/{user}/aweFiles/"
 
 <img alt="save_query" src={require('@docusaurus/useBaseUrl').default('img/save_query.png')} />
 
@@ -141,12 +141,12 @@ Load files from your home directory "c:/users/{user}/aweFiles/"
 
 ### READ MODE AND WRITE MODE
 
-By default sqlExtractor screen is in "Read" mode so you can only execute "select" statements. There is a hidden parameter in the screen called "sqlType" that has the "R" value to allow change the statements a user can execute.
+By default sqlExtractor screen is in "Read" mode so you can only execute "select" statements. There is a hidden parameter in the screen called "sqlType" that has by default "R", for "Read Mode".
 
 &lt;criteria id="sqlType" component="hidden" value="R" /&gt;
 
 
-In order to allow users or profiles to execute statements that modifies the database (insert, delete, drop, update) you must change the "sqlType" hidden parameter value to "W" (Write mode) for the sqlExtractor screen in the Screen configuration option.
+In order to allow some users or profiles to execute statements to modify the database (insert, delete, drop, update) you must change the "sqlType" hidden parameter value to "W" (Write mode) for the sqlExtractor screen in the Screen configuration option.
 
 :::tip
 
@@ -173,11 +173,11 @@ select(1) INSERT INTO x (columns,...) VALUES (y,...)
 
 ## `File Manager`
 
-With the file manager you can do move, copy, rename, remove, zip, unzip, download and upload files... 
+With the file manager you can move, copy, rename, remove, zip, unzip, download and upload files... 
 
 <img alt="filemanager" src={require('@docusaurus/useBaseUrl').default('img/filemanager.gif')} />
 
-To use this tool, the following steps are necessary (after adding the dependency):
+To use this tool, follow these steps (after adding the dependency):
 
 
 - Add the tools module screens into your `private.xml` file:

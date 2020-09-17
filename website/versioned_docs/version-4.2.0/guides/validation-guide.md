@@ -44,7 +44,7 @@ There are some kind of validation:
  
 ### Validation values
 
-You can put a simple static value to the validation comparator:
+You can assign a simple static value to the validation comparator:
 
 ```javascript 
 {eq:3}

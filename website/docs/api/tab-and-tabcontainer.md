@@ -3,7 +3,7 @@ id: tab-and-tabcontainer
 title: Tab and tabcontainer
 ---
 
-A **tab** is a screen component very useful to separate the screen components in *tabs*:
+A **tab** is a very useful screen component to separate the screen components in *tabs*:
 
 <img alt="Tab" src={require('@docusaurus/useBaseUrl').default('img/Tab.png')} />
 

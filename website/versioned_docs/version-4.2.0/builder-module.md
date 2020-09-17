@@ -23,7 +23,7 @@ And there you go!
 
 ##  **Client action builders**
 
-Client action builders helps the developer in the task of sending specific client actions to the frontend. 
+Client action builders help the developer in the task of sending specific client actions to the frontend. 
 
 ####  **`screen` action builder**
 

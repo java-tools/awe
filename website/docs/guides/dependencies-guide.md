@@ -14,7 +14,7 @@ The synchronous dependencies are, as their name suggest, executed in a synchrono
 
 The synchronous dependencies are created by setting the Blocking=Yes option.
 
-By setting blocking to `yes` mean that, in case that any of the dependencies ends with an error, it will cancel the entire synchronous execution stack.
+Setting blocking to `yes` means that, in case that any of the dependencies ends with an error, it will cancel the entire synchronous execution stack.
 
 To manage the stack, there is the Order criterion, which is used to set the order in which the synchronous dependencies are going to be executed. 
 
@@ -22,11 +22,11 @@ To manage the stack, there is the Order criterion, which is used to set the orde
 
 The asynchronous dependencies are executed in bulk and their execution order can't be configured.
 
-As the dependencies are executed in bulk, they are not blocking between them.
+As the dependencies are executed in bulk, they are not going to block each other
 
 ## Dependencies configuration
 
-The dependency configuration scree allows to create two type of dependencies, synchronous and asynchronous.
+The dependency configuration screen allows to create two type of dependencies, synchronous and asynchronous.
 
 The difference between them is just that one is blocking whereas the other is not.
 
@@ -34,7 +34,7 @@ The difference between them is just that one is blocking whereas the other is no
 
 | Element       | Definition    | Use   |
 | ------------- |:-------------:| -----:|
-| Task          | The task that the dependency is going to execute    | **Required** |
+| Task          | The task the dependency is going to execute    | **Required** |
 | Blocking      | Used to define if the dependency is going to be synchronous or asynchronous, and if it can cancel the synchronous dependencies execution stack | **Required** |
 | Order         | Synchronous dependency execution order, only needed if the `Blocking` option is set to `Yes`, otherwise it will be disabled |  **Required** |
 
@@ -42,4 +42,4 @@ The difference between them is just that one is blocking whereas the other is no
 
 <img alt="Workflow example" src={require('@docusaurus/useBaseUrl').default('img/Dependency-tasks.png')} />
 
-The next image shows an example on how to create a workflow using the scheduler dependencies concatenation.
+This image shows an example on how to create a workflow using the scheduler dependencies concatenation.

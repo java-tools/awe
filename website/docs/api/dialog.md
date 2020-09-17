@@ -3,7 +3,7 @@ id: dialog
 title: Dialog
 ---
 
-A dialog is a graphical item that provides the functionality of showing a modal window with a selected message and title (with an icon if you want). A dialog should be associated to a button-action with type "dialog" (See [button actions](button.md#button-actions)).
+A dialog is a graphical item that provides the functionality of showing a modal window with a selected message and title (and an icon, if you want). A dialog should be associated to a button-action with type "dialog" (See [button actions](button.md#button-actions)).
 
 ---
 

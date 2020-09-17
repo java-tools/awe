@@ -29,8 +29,8 @@ An accordion is a layout component that allows to organize the content in differ
 | Attribute   | Use          | Type      |  Description                |   Values                                           |
 | ----------- | ------------ |-----------|-----------------------------|----------------------------------------------------|
 | id | **Required** | String | Accordion identifier. For reference purposes |  |
-| autocollapse | Optional | String | If set to "true" only accordion item can be opened at a time | `true` or `false` (default is `true`) |
-| selected | Optional | String | If we want an accordion item to be opened at the beginning, we can via setting it's ID here |  |
+| autocollapse | Optional | String | If set to "true" only one accordion item can stay opened at a time | `true` or `false` (default is `true`) |
+| selected | Optional | String | If we want an accordion item to be opened at the beginning, set its ID here |  |
 | style | Optional | String | Grid CSS classes | We can use `panel-group-[type]` and `panel-group-dark` classes to style (type can be the usual `danger`, `success`, etc. values) |
 
 ## Accordion Item structure
@@ -52,7 +52,7 @@ style="[accordion-item-style]">
 
 ## Dependencies
 
-If we want to collapse or expand an accordion item using a dependency, we must use one that modifies the attribute `selected` giving as the new value the ID of the item we want to modify (if it's expanded it will collapse and viceversa)
+If we want to collapse or expand an accordion item using a dependency, we must use one that modifies the attribute `selected` setting the ID of the item (if it's expanded it will collapse and viceversa)
 
 ```xml
 <dependency target-type="attribute" target-action="selected" value="[child-id]">

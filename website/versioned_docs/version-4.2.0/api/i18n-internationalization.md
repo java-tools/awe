@@ -3,9 +3,9 @@ id: i18n-internationalization
 Title: I18N (Internationalization)
 ---
 
-AWE implement a i18n system for internationalization of web applications. For this, it exist the local files where containing the literals in different languages.
+AWE implements a i18n system for internationalization of web applications. For this reason, AWE uses locale files containing literals in different languages.
 
-Also you can add `CDATA` tag inside local in **markdown** language for show rich text. Very useful when you want to show a lot of formatting information. For example in the help screen application. You can view all markdown syntax in [this](https://wiki.almis.com/help/markdown/markdown) page.
+Also you can add `CDATA` tag inside local in **markdown** language to show rich text. Very useful when you want to show a lot of formatting information. For example in the help screen application. You can view all markdown syntax in [this](https://wiki.almis.com/help/markdown/markdown) page.
 
 > **Note:** All locals are defined in the `Local-[Country code].xml` files at **local folder**. The country codes must be two capital letters.  View [project structure](../guides/project-structure.md#global-folder)  for more info.
 
@@ -39,13 +39,13 @@ Local element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| name | **Required** | String | The name of local           |   |
-| value | Optional | String | The value of local. It has the text translation          | **Note:** You can set values as variables with syntax {0} {1} ...  |
-| markdown | Optional  | String | The value of local. It will be translated as markdown | |
+| name | **Required** | String | The name of the local           |   |
+| value | Optional | String | The value of the local, the language translation of the text          | **Note:** You can set values as variables with syntax {0} {1} ...  |
+| markdown | Optional  | String | The value of the local. It will be translated as markdown | |
 
 ## Examples
 
-Here, you can see some examples of locals in differents languages:
+Some examples of locals in differents languages:
 
 
 

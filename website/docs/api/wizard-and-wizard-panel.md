@@ -5,7 +5,7 @@ title: Wizard and Wizard panel
 
 ## Introduction
 
-A **wizard** or **assistant** is a screen component very useful to guide the user through an orderer group of screens called *steps*:
+A **wizard** or **assistant** is a very useful screen component to guide the user through an ordered group of screens called *steps*:
 
 <img alt="Wizard" src={require('@docusaurus/useBaseUrl').default('img/Wizard.png')} />
 

@@ -5,11 +5,11 @@ title: Debugging
 
 ## Debugging tools
 
-There are some useful tools 
+Devs with AWE have some interesting tools to make their job easy
 
 ### Server debug
 
-To debug the server-side of a web application project, we usually work with the IDE (*Netbeans*, *Eclipse*, *IntelliJ*) embedded debugger.
+To debug the server-side of a web application project, we usually work with the IDE (*Netbeans*, *Eclipse*, *IntelliJ*, *Visual Studio Code*) embedded debugger. This guide will show you how to debug in *Eclipse*
 
 To start the server in debug mode we can right click on the server, and pick the debug option.
 
@@ -28,10 +28,12 @@ import TabItem from '@theme/TabItem';
     {label: 'IntelliJ', value: 'IntelliJ'},
     {label: 'Eclipse',  value: 'Eclipse'},
     {label: 'Netbeans', value: 'Netbeans'},
+    {label: 'Visual Studio Code', value: 'Visual Studio Code'},
   ]}>
   <TabItem value="IntelliJ"><a target="_blank" rel="noopener noreferrer" href="https://www.jetbrains.com/help/idea/debugging-code.html">IntelliJ debugging</a></TabItem>
   <TabItem value="Eclipse"><a target="_blank" rel="noopener noreferrer" href="https://www.eclipse.org/community/eclipse_newsletter/2017/june/article1.php">Eclipse debugging</a></TabItem>
   <TabItem value="Netbeans"><a target="_blank" rel="noopener noreferrer" href="https://netbeans.org/features/java/debugger.html">Netbeans debugging</a></TabItem>
+  <TabItem value="Visual Studio Code"><a target="_blank" rel="noopener noreferrer" href="https://code.visualstudio.com/docs/editor/debugging">Visual Studio Code debugging</a></TabItem>
 </Tabs>
 
 ### Browser debug
@@ -59,7 +61,7 @@ In chrome the option is the following:
 
 <img alt="Inspect Chrome" src={require('@docusaurus/useBaseUrl').default('img/inspect_chrome.png')} />
 
-In this expample, we select a grid containing users information. Between all the options we can see the `controller` info, like the grid attributes, variable types...
+In this example, we select a grid containing users information. Between all the options we can see the `controller` info, like the grid attributes, variable types...
 
 <img alt="Scope controller" src={require('@docusaurus/useBaseUrl').default('img/scope_controller.png')} />
 
@@ -70,8 +72,8 @@ It is also interesting to see the `model` option, as it contains the data itself
 ## Logs
 
 ### Server logs
-To search through the server logs we can use the tools that Eclipse provides. 
-Once the server is running, the logs will appear in the Console tab at the bottom of the screen.
+To search through the server logs we can use the tools Eclipse provides. 
+Once the server is running, the logs will appear in the Console tab.
 Every action that the server executes will be displayed here, such as the SQL queries.
 
 In the following example we have a grid that displays information from the users table, and a criteria that filters that grid by executing a SQL query attached to it:
@@ -86,18 +88,18 @@ In this case we can see the date and time that the action was executed as well a
 
 ### Browser console
 
-To search through the browser console, we press the F12 key, and we look in the console tab.
+To search through the browser console, press the F12 key, and click on the Console tab.
 
 #### Actions
 
-We can see there all the actions that take place at the client side, along with the time it takes and the parameters that are sent to the server.
-In this case there is a type fill action that is used to fill a grid with query data.
+In this tab we can look at actions taking place at the client side, along with the elapsed times they take and the parameters sent to the server.
+In this example there is a fill action, used to fill a grid with query data.
 
 <img alt="Browser log example" src={require('@docusaurus/useBaseUrl').default('img/browser_log.png')} />
 
 #### Dependencies
 
-In the following example we have a grid, and a view button with a dependendy attached to it. The dependency checks if the number of selected rows is not equal to 1. If the condition is true (that is that 0 or more than 1 row are selected), the view button is hidden; otherwise the button is activated.
+In the following example we have a grid, and a view button with a dependency attached to it. The dependency checks if the number of selected rows is not equal to 1. If the condition is true, the view button is hidden. Otherwise the button is activated.
 
 <img alt="Depencency log example" src={require('@docusaurus/useBaseUrl').default('img/dependency_log.png')} />
 

@@ -5,7 +5,7 @@ title: Properties
 
 ## Introduction
 
-Various properties can be specified inside your `application.properties` file, inside your `application.yml` file, or as command line switches. 
+Several properties can be specified inside your `application.properties` file, inside your `application.yml` file, or as command line switches. 
 This document provides a list of common **AWE** properties and references to the underlying classes that consume them.
 
 ---
@@ -20,13 +20,13 @@ This document provides a list of common **AWE** properties and references to the
 
 ## Encoding property value
 
-There's a way to store encoded properties (such as passwords) in the properties files. To achieve that, you need to deploy 
-the application, and enter into `Settings -> Security access -> Encrypt util`, fill the Text criterion with the password 
+There's a way to store encoded properties (such as passwords) in a properties file. You need to deploy 
+the application, and enter into `Settings -> Security access -> Encrypt util`, fill the text criterion with the password 
 and push the `Encrypt` button. The `Encrypted property` field is the value of the encoded password.
 
 <img alt="Almis" src={require('@docusaurus/useBaseUrl').default('img/EncryptTool.png')} />
 
-Once encoded, you only need to put it on any of your properties files and use it:
+Once encoded, you just need to put it on any of your properties files and use it:
 
 ```properties
 my.encoded.password=ENC(Pit1Q1bNt3uNQpZbldKbLg==)

@@ -3,10 +3,10 @@ id: dependencies
 title: Dependencies
 ---
 
-Each component (criterion, grid, chart, etc) can have some dependencies inside which affects to its behaviour and contents. A dependency can be launched depending on component conditions or events.
+Each component (criterion, grid, chart, etc) can have some dependencies inside affecting its behaviour and contents. A dependency can be launched depending on component conditions or events.
 
 :::caution
-The element must have component attribute to dependencies works fine. If the element does not have component attribute, the dependencies does not work properly.
+The element must have the component attribute to make it work. If the element does not have the component attribute, the dependency system won´t work properly.
 :::
 
 ## XML skeleton
@@ -27,7 +27,7 @@ The element must have component attribute to dependencies works fine. If the ele
 
 | Element     | Use      | Multiples instances    | Description                                        |
 | ----------- | ---------|------------------------|----------------------------------------------------|
-| [dependency](#dependency-attributes) | **Required** | No | Global node of dependency. Defines the dependency attributes |
+| [dependency](#dependency-attributes) | **Required** | No | Global node of the dependency. Defines the dependency attributes |
 | [dependency-element](#dependency-element) | **Required** | Yes | Condition to launch the dependency |
 | [dependency-action](#dependency-action) | **Optional** | Yes | [Action](actions.md) which will be launched if dependency conditions are valid |
 
@@ -35,14 +35,14 @@ The element must have component attribute to dependencies works fine. If the ele
 
 | Attribute   | Use      | Type      |  Description                |   Values                                           |
 | ----------- | -------- |-----------|-----------------------------|----------------------------------------------------|
-| initial     | Optional | Boolean   | Dependency is launched on page load | Default value is `false`                   |
-| [source-type](#source-type) | Optional | String    | Dependency source (Retrieval of data source) | See [source types](#source-type). Default value is `none` |
-| [target-type](#target-type) | Optional | String    | Dependency target (where to apply the dependency) | See [target types](#target-type). Default value is `none` |
+| initial     | Optional | Boolean   | Dependency will be launched on page load | Default value is `false`                   |
+| [source-type](#source-type) | Optional | String    | Dependency source (Where the data will be taken) | See [source types](#source-type). Default value is `none` |
+| [target-type](#target-type) | Optional | String    | Dependency target (Where the dependency will be applied) | See [target types](#target-type). Default value is `none` |
 | server-action | Optional   | String    | Server action call (when source-type is `query`) | See [server action list](actions.md#server-actions)   |
-| target-action | Optional   | String    | Target to call on the server / Name of the criterion to retrieve the value from when source-type is `launcher` | |
+| target-action | Optional   | String    | Target to call on the server / Name of the criterion, to get its value, when source-type is `launcher` | |
 | label       | Optional     | String    | Label to apply to the target | **Note:** You can use [i18n](i18n-internationalization.md) files (locales) |
 | value       | Optional     | String    | Value to apply to the target     |                                               |
-| formule     | Optional     | String    | Formule to retrieve the value that will be applied to the target |               |
+| formule     | Optional     | String    | Formule to get the value that will be applied to the target |               |
 | type        | Optional     | String    | How to evaluate the [conditions](#dependency-element) | Possible values are `and` (default) and `or`. |
 | invert      | Optional     | Boolean   | Invert the [condition](#dependency-element) evaluation | Default value is `false` |
 | async      | Optional     | Boolean   | Run the server action asynchronously | Default value is `false` |
@@ -56,10 +56,10 @@ The `source-type` attribute refers to the *place* from we are retrieving the dat
 | -------------- | ---------------------------------------- |
 | none           | Do nothing (nowhere to retrieve values from)   |
 | query          | Launch a query to retrieve values        |
-| launcher       | Retrieve the values from the stored alias defined in `target-action` |
-| value          | Retrieve the values from the `value` attribute defined on the dependency |
-| label          | Retrieve the values from the `label` attribute defined on the dependency (can be a [i18n](i18n-internationalization.md) local) |
-| formule        | Retrieve the values from a evaluated formule on the `formule` attribute defined on the dependency |
+| launcher       | Get the values from the stored alias defined in `target-action` |
+| value          | Get the values from the `value` attribute defined on the dependency |
+| label          | Get the values from the `label` attribute defined on the dependency (can be a [i18n](i18n-internationalization.md) local) |
+| formule        | Get the values from a evaluated formule on the `formule` attribute defined on the dependency |
 | reset          | Clear the target value |
 
 > **Note:** `source-type="action"` is no more needed. Simply add some dependency-actions to your dependency and they will be launched when conditions are valid. 
@@ -80,8 +80,8 @@ The `target-type` attribute refers to the *place* where we are applying the data
 | attribute     | **Yes**    | none           | Set an attribute defined on `target-action` with the `source-type` retrieved value |
 | show          | No         | **hide**       | Show the component                                             |
 | hide          | No         | **show**       | Hide the component                                             |
-| show-column   | No         | **hide-column**| Show the column (appliable only on columns)                    |
-| hide-column   | No         | **show-column**| Hide the column (appliable only on columns)                    |
+| show-column   | No         | **hide-column**| Show the column (applicable only on columns)                    |
+| hide-column   | No         | **show-column**| Hide the column (applicable only on columns)                    |
 | enable        | No         | **disable**    | Enable the component                                           |
 | disable       | No         | **enable**     | Disable the component                                          |
 | set-required  | No         | **set-optional**| Set the criterion as required                                  |
@@ -112,7 +112,7 @@ The dependency elements are the definition of the *conditions* required to launc
 | Attribute   | Use      | Type      |  Description                |   Values                                           |
 | ----------- | -------- |-----------|-----------------------------|----------------------------------------------------|
 | id          | **Required** | String   | Component identifier     |  |
-| column      | Optional | String   | Column identifier of the component (appliable on grids) |  |
+| column      | Optional | String   | Column identifier of the component (applicable on grids) |  |
 | attribute   | Optional | String   | Attribute to check.          | See [attributes](#attributes) below. Default value is `selected` |
 | condition   | Optional | String   | Compare condition  | See [dependency element conditions](#dependency-element-conditions). Default value is `is not empty`|
 | row         | Optional | String   | Row number from the grid to check the attribute | |
@@ -148,26 +148,26 @@ The attributes are all the data you can retrieve from an AWE component. Dependin
 | Action        | Apply to       | Description                                                                     |
 | ------------- | -------------- | ------------------------------------------------------------------------------- |
 | visible       | All components | `true` if component is visible                                                  |
-| value         | [Criteria](criteria.md) | Retrieves criterion value. This is the **default attribute** |
-| text          | [Criteria](criteria.md) | Retrieves component *visible* value |
-| label         | [Criteria](criteria.md) | Retrieves component label |
-| unit          | [Criteria](criteria.md) | Retrieves component edit label |
+| value         | [Criteria](criteria.md) | Gets criterion value. This is the **default attribute** |
+| text          | [Criteria](criteria.md) | Gets component *visible* value |
+| label         | [Criteria](criteria.md) | Gets component label |
+| unit          | [Criteria](criteria.md) | Gets component edit label |
 | editable      | [Criteria](criteria.md) | `true` if component is editable |
 | required      | [Criteria](criteria.md) | `true` if component is required |
-| selectedValues | [Select and Suggest Multiple](criteria.md#multiple-select-criterion) | Retrieves select criterion selected values number |
-| totalValues   | [Select](criteria.md#select-criterion) | Retrieves select criterion total values number |
-| currentRow    | [Grid](grids.md) | Retrieve current row identifier |
-| currentRowValue   | [Grid](grids.md) | Retrieve `column` value of the current row (not the selected one). This is useful to update row values without a selection |
-| prevCurrentRow       | [Grid](grids.md) | Retrieve previous row to the current row |
-| prevCurrentRowValue  | [Grid](grids.md) | Retrieve `column` value of the previous row to the current row |
-| nextCurrentRow       | [Grid](grids.md) | Retrieve next row to the current row |
-| nextCurrentRowValue  | [Grid](grids.md) | Retrieve `column` value of the next row to the current row |
-| selectedRow   | [Grid](grids.md) | Retrieve selected row identifier |
-| selectedRowValue  | [Grid](grids.md) | Retrieve `column` value of the selected row. |
-| prevRow       | [Grid](grids.md) | Retrieve previous row to the selected one identifier |
-| prevRowValue  | [Grid](grids.md) | Retrieve `column` value of the previous row to the selected one |
-| nextRow       | [Grid](grids.md) | Retrieve next row to the selected one identifier |
-| nextRowValue  | [Grid](grids.md) | Retrieve `column` value of the next row to the selected one |
+| selectedValues | [Select and Suggest Multiple](criteria.md#multiple-select-criterion) | Gets select criterion selected values number |
+| totalValues   | [Select](criteria.md#select-criterion) | Gets select criterion total values number |
+| currentRow    | [Grid](grids.md) | Gets current row identifier |
+| currentRowValue   | [Grid](grids.md) | Gets `column` value of the current row (not the selected one). This is useful to update row values without a selection |
+| prevCurrentRow       | [Grid](grids.md) | Gets previous row to the current row |
+| prevCurrentRowValue  | [Grid](grids.md) | Gets `column` value of the previous row to the current row |
+| nextCurrentRow       | [Grid](grids.md) | Gets next row to the current row |
+| nextCurrentRowValue  | [Grid](grids.md) | Gets `column` value of the next row to the current row |
+| selectedRow   | [Grid](grids.md) | Gets selected row identifier |
+| selectedRowValue  | [Grid](grids.md) | Gets `column` value of the selected row. |
+| prevRow       | [Grid](grids.md) | Gets previous row to the selected one identifier |
+| prevRowValue  | [Grid](grids.md) | Gets `column` value of the previous row to the selected one |
+| nextRow       | [Grid](grids.md) | Gets next row to the selected one identifier |
+| nextRowValue  | [Grid](grids.md) | Gets `column` value of the next row to the selected one |
 | selected      | [Grid](grids.md) | Number of selected rows of the grid |
 | selectedRows  | [Grid](grids.md) | Number of selected rows of the grid |
 | modifiedRows  | [Grid](grids.md) | Number of modified rows of the grid (on multioperation grids) |
@@ -364,7 +364,7 @@ Sometimes we need to show an advice in the screen to notice users that something
 
 **Definition of the screen elements**
 
-First we must define de HTML element in the screen xml, in this case an "info-button" element with an attribute "icon" with a "bell" value and a "unit" attribute. This last attribute will represent the number of errors in the application.
+First we must define the HTML element in the screen xml, in this case an "info-button" element with an attribute "icon" with a "bell" value and a "unit" attribute. This last attribute will represent the number of errors in the application.
 
 ```xml
   <info-button style="nav-icon-btn-danger" title="BUTTON_NOTIFICATIONS" icon="bell" id="Warnings" unit="">
@@ -373,7 +373,7 @@ First we must define de HTML element in the screen xml, in this case an "info-bu
 ```
 
 
-The following step is to add the actions to stop the bell animation (removing the class name) and show the dialog. 
+The following step is to add the action to stop the bell animation (removing the class name) and show the dialog. 
 
 
 ```xml

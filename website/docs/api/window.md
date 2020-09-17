@@ -3,7 +3,7 @@ id: window
 title: Window
 ---
 
-A window is a container with a title bar. It also can be maximized or restored, and is very useful to sort groups of components in the screen.
+A window is a container with a title bar. It also can be maximized or restored, and it's very useful to sort groups of components in the screen.
 
 <img alt="Window" src={require('@docusaurus/useBaseUrl').default('img/Window.png')} />
 
@@ -46,7 +46,7 @@ A window is a container with a title bar. It also can be maximized or restored, 
 | icon        | Optional | String    | Icon identifier                 | **Note:** You can check all iconset at [FontAwesome](http://fontawesome.io/icons/) |
 | expandible  | Optional | String    | How to [expand](layout.md) the window children | `vertical`, `horizontal` |
 | maximize    | Optional | Boolean   | Whether to show the maximize icon or not |                                  |
-| report-title | Optional | String    | Is the title of the report that is generated when printing the screen. If we do not define a value for this attribute report title will be taken from label attribute | **Note:** You can use [i18n](i18n-internationalization.md) files (locales)          |
+| report-title  | Optional     | String  | Title of the report generated when printing the screen. If the report-title is not defined, it will be taken from <code>label</code> attribute | **Note:** You can use [i18n](i18n-internationalization.md) files (locales)   |
 
 ## Examples
 
