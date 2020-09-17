@@ -62,6 +62,7 @@ public class SeleniumUtilities {
   private static final String DAY = "day";
   private static final String MONTH = "month";
   private static final String YEAR = "year";
+  private static final By BODY = By.cssSelector("body");
   private static final By DATEPICKER = By.cssSelector(".datepicker");
   private static final By GRID_LOADER_SELECTOR = By.cssSelector(".grid-loader");
   private static final By SELECT_DROP_INPUT = By.cssSelector("#select2-drop input.select2-input");
@@ -93,6 +94,9 @@ public class SeleniumUtilities {
 
   @Value("${failsafe.browser:headless-chrome}")
   private String browser;
+
+  @Value("${show.mouse:true}")
+  private Boolean showMouseCursor;
 
   /**
    * Set up test
@@ -347,6 +351,7 @@ public class SeleniumUtilities {
       WebElement element = getElement(selector);
       new Actions(driver)
         .sendKeys(element, text)
+        .pause(200)
         .perform();
 
       // Assert true on condition
@@ -525,16 +530,22 @@ public class SeleniumUtilities {
     clickDateFromSelector(parentSelector);
 
     // Wait until datepicker is visible
-    waitUntil(visibilityOfElementLocated(DATEPICKER));
+    checkVisible(DATEPICKER);
 
     // Write text on date
-    writeTextFromSelector(parentSelector, dateValue, true, "body");
+    By activeSelector = By.xpath("//*[contains(@class,'datepicker')]//*[contains(@class,'active')]");
+    writeTextFromSelector(getCriterionInputSelector(parentSelector), dateValue, true, activeSelector);
 
-    // Wait for loading bar
-    waitForLoadingBar();
+    // Make click twice if datepicker is still visible
+    if (!driver.findElements(activeSelector).isEmpty()) {
+      clickSelector(activeSelector);
+    }
 
     // Wait for not visible
     checkNotVisible(DATEPICKER);
+
+    // Wait for loading bar
+    waitForLoadingBar();
   }
 
   /**
@@ -651,7 +662,7 @@ public class SeleniumUtilities {
         new Actions(driver)
           .pause(100)
           .moveToElement(popovers.get(0))
-          .click(getElements(By.cssSelector("body")).get(0))
+          .click(getElements(BODY).get(0))
           .pause(100)
           .build()
           .perform();
@@ -668,15 +679,12 @@ public class SeleniumUtilities {
   /**
    * Write text check clear text
    *
-   * @param parentSelector Parent selector
-   * @param text           Text
-   * @param clearText      Clear text
-   * @param clickSelector  Selector for click element
+   * @param selector      Element selector
+   * @param text          Text
+   * @param clearText     Clear text
+   * @param clickSelector Selector for click element
    */
-  private void writeTextFromSelector(String parentSelector, CharSequence text, boolean clearText, String clickSelector) {
-    By selector = getCriterionInputSelector(parentSelector);
-    By clickSelectorBy = By.cssSelector(clickSelector);
-
+  private void writeTextFromSelector(By selector, CharSequence text, boolean clearText, By clickSelector) {
     // Wait for element present
     waitUntil(presenceOfElementLocated(selector));
 
@@ -689,10 +697,8 @@ public class SeleniumUtilities {
     sendKeys(selector, text);
 
     // Click on click selector
-    click(clickSelectorBy);
-
-    // Pause 100 ms
-    pause(100);
+    waitUntil(elementToBeClickable(clickSelector));
+    clickSelector(clickSelector);
   }
 
   /**
@@ -981,6 +987,7 @@ public class SeleniumUtilities {
    * @param menuOptions Menu options to navigate to
    */
   protected void gotoScreen(String... menuOptions) {
+
     int optionNumber = 1;
     for (String option : menuOptions) {
       // Wait for text in selector
@@ -1070,6 +1077,28 @@ public class SeleniumUtilities {
 
     // Wait for element visible
     waitUntil(visibilityOfElementLocated(selector));
+  }
+
+  /**
+   * Wait for text inside a tag with a CSS class
+   *
+   * @param selector Selector
+   * @param contains Text to check
+   */
+  protected void waitForText(By selector, String contains) {
+    // Wait for element visible
+    waitUntil(textToBePresentInElementLocated(selector, contains));
+  }
+
+  /**
+   * Wait for text inside a tag with a CSS class
+   *
+   * @param selector Selector
+   * @param contains Text to check
+   */
+  protected void waitForValue(By selector, String contains) {
+    // Wait for element visible
+    waitUntil(textToBePresentInElementValue(selector, contains));
   }
 
   /**
@@ -1532,7 +1561,7 @@ public class SeleniumUtilities {
    * @param clearText     Clear text
    */
   protected void writeText(String criterionName, CharSequence text, boolean clearText) {
-    writeTextFromSelector(getCriterionSelectorCss(criterionName), text, clearText, "body");
+    writeTextFromSelector(getCriterionInputSelector(getCriterionSelectorCss(criterionName)), text, clearText, BODY);
   }
 
   /**
@@ -1544,8 +1573,7 @@ public class SeleniumUtilities {
    */
   protected void writeText(String gridId, String columnId, CharSequence text) {
     // Write text on grid
-    String parentSelector = getParentSelectorCss(gridId, null, columnId);
-    writeTextFromSelector(parentSelector, text, true, parentSelector);
+    writeText(gridId, null, columnId, text, true);
   }
 
 
@@ -1559,8 +1587,7 @@ public class SeleniumUtilities {
    */
   protected void writeText(String gridId, String rowId, String columnId, CharSequence text) {
     // Write text on grid
-    String parentSelector = getParentSelectorCss(gridId, rowId, columnId);
-    writeTextFromSelector(parentSelector, text, true, parentSelector);
+    writeText(gridId, rowId, columnId, text, true);
   }
 
   /**
@@ -1574,8 +1601,8 @@ public class SeleniumUtilities {
    */
   protected void writeText(String gridId, String rowId, String columnId, CharSequence text, boolean clearText) {
     // Write text on grid
-    String parentSelector = getParentSelectorCss(gridId, rowId, columnId);
-    writeTextFromSelector(parentSelector, text, clearText, parentSelector);
+    By selector = getCriterionInputSelector(getParentSelectorCss(gridId, rowId, columnId));
+    writeTextFromSelector(selector, text, clearText, selector);
   }
 
   /**
@@ -1954,6 +1981,31 @@ public class SeleniumUtilities {
   }
 
   /**
+   * Show mouse
+   */
+  protected void showMouse() {
+    JavascriptExecutor js = ((JavascriptExecutor) driver);
+    js.executeScript("var seleniumFollowerImg=document.createElement(\"img\");" +
+      "seleniumFollowerImg.setAttribute('src', 'data:image/png;base64,'" +
+      "+ 'iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAQAAACGG/bgAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAA'" +
+      "+ 'HsYAAB7GAZEt8iwAAAAHdElNRQfgAwgMIwdxU/i7AAABZklEQVQ4y43TsU4UURSH8W+XmYwkS2I0'" +
+      "+ '9CRKpKGhsvIJjG9giQmliHFZlkUIGnEF7KTiCagpsYHWhoTQaiUUxLixYZb5KAAZZhbunu7O/PKf'" +
+      "+ 'e+fcA+/pqwb4DuximEqXhT4iI8dMpBWEsWsuGYdpZFttiLSSgTvhZ1W/SvfO1CvYdV1kPghV68a3'" +
+      "+ '0zzUWZH5pBqEui7dnqlFmLoq0gxC1XfGZdoLal2kea8ahLoqKXNAJQBT2yJzwUTVt0bS6ANqy1ga'" +
+      "+ 'VCEq/oVTtjji4hQVhhnlYBH4WIJV9vlkXLm+10R8oJb79Jl1j9UdazJRGpkrmNkSF9SOz2T71s7M'" +
+      "+ 'SIfD2lmmfjGSRz3hK8l4w1P+bah/HJLN0sys2JSMZQB+jKo6KSc8vLlLn5ikzF4268Wg2+pPOWW6'" +
+      "+ 'ONcpr3PrXy9VfS473M/D7H+TLmrqsXtOGctvxvMv2oVNP+Av0uHbzbxyJaywyUjx8TlnPY2YxqkD'" +
+      "+ 'dAAAAABJRU5ErkJggg=='); " +
+      "seleniumFollowerImg.setAttribute('id', 'selenium_mouse');" +
+      "seleniumFollowerImg.setAttribute('style', 'position: absolute; z-index: 99999999999; pointer-events: none;');" +
+      "document.body.appendChild(seleniumFollowerImg);" +
+      "$(document).mousemove(function(e) {" +
+      "$('#selenium_mouse').css('left', e.pageX);" +
+      "$('#selenium_mouse').css('top', e.pageY);" +
+      "});");
+  }
+
+  /**
    * Click on column header
    *
    * @param gridId   Grid identifier
@@ -2237,8 +2289,15 @@ public class SeleniumUtilities {
    * @param cssSelector CSS selector
    */
   protected void checkVisible(String cssSelector) {
-    By selector = By.cssSelector(cssSelector);
+    checkVisible(By.cssSelector(cssSelector));
+  }
 
+  /**
+   * Check element is visible
+   *
+   * @param selector Selector
+   */
+  protected void checkVisible(By selector) {
     // Wait until visible
     waitUntil(visibilityOfElementLocated(selector));
   }
@@ -2294,6 +2353,11 @@ public class SeleniumUtilities {
 
     // Open page in different browsers
     driver.get(startURL);
+
+    // Show mouse if defined
+    if (showMouseCursor) {
+      showMouse();
+    }
 
     // Wait for load
     waitForLoad();
