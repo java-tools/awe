@@ -10,6 +10,7 @@ import org.junit.runners.Suite;
   ApplicationTestsIT.class,
   RegressionTestsIT.class,
   WebsocketTestsIT.class,
+  CriteriaAndMatrixTestsIT.class,
   IntegrationTestsIT.class,
   SchedulerTestsIT.class,
   PrintTestsIT.class,
