@@ -3,7 +3,7 @@ id: selenium-testing
 title: Selenium Tests
 ---
 
-This document gives a basic insight on how to start developing *Selenium* tests for applications developed with AWE. Before starting test development, make sure to read the *Selenium Test Development Guide*, specially the *Optimization/Help tips* section. Basic aspects that you should know before starting to develop *Selenium* tests, such as general configurations and integration with *Jenkins*, are not treated in this document.
+This document gives a basic insight on how to start developing *Selenium* tests for applications developed with AWE. Before starting test development, make sure to read the *Selenium Test Development Guide*, specially the *Optimization/Help tips* section. Basic aspects you should know before starting to develop *Selenium* tests, such as general configurations and integration with *Jenkins*, are not treated in this document.
 
 All the contents of this document are explained in a way that it is assumed the reader already knows how to use the tools and commands concerning *Selenium*.
 
@@ -14,7 +14,7 @@ It is very important to comment all the tests. **Each block of commands** that i
 ## Basic instructions
 
 Currently our selenium tests definition are based on **Java WebDrivers**. 
-These drivers allows the developer to launch a defined browser and actions 
+These drivers allow the developer to launch a defined browser and actions 
 over it to test the user interface.
 
 To develop integration tests with WebDrivers on AWE, just follow the next steps:

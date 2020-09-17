@@ -78,7 +78,7 @@ The basic chart structure is the next one:
 
 ## Global chart structure
 
-For even more simplify the development of graphics, not all labels are required.
+For easier development of graphics, not all labels are required.
 
 
 | Element     | Use      | Multiples instances    | Description                                        |

@@ -37,8 +37,8 @@ The xml structure of context menus is the following:
 
 | Element     | Use      | Multiples instances    | Description                                        |
 | ----------- | ---------|------------------------|----------------------------------------------------|
-| [context-button](#context-button-attributes) | **Required** | Yes | Context button element of menu. Defines one element of context menu |
-| [button-action](#button-action-attributes) | **Required** | Yes | Action of context button. You can define a list of button actions |
+| [context-button](#context-button-attributes) | **Required** | Yes | Context button element of the menu. Defines one element of the context menu |
+| [button-action](#button-action-attributes) | **Required** | Yes | Action of the context button. You can define a list of button actions |
 | [context-separator](#context-separator-attributes) | Optional | Yes | Separator line of context button list |
 | [dependency](dependencies.md) | Optional | Yes | List of dependencies attached to the button |
 
@@ -47,8 +47,8 @@ The xml structure of context menus is the following:
 | Name |  Type | Use | Description     | Values |
 | ------ | -------| ---------------------- | ----------------------------------|---------------------------------------- |
 |`id`| String | **Required** | Context button identifier ||
-|`label`| String | **Required** | Label of context button. | **Note:** You can use [i18n](i18n-internationalization.md) files (locales) |
-|`icon` | String | Optional | Icon name of context button | **Note:** You can check all iconset at [FontAwesome](http://fontawesome.io/icons/)  |
+|`label`| String | **Required** | Label of the context button. | **Note:** You can use [i18n](i18n-internationalization.md) files (locales) |
+|`icon` | String | Optional | Icon name of the context button | **Note:** You can check all iconset at [FontAwesome](http://fontawesome.io/icons/)  |
 
 > **Note:** The context button has the same attributes as button element. You can see more info [here](button.md#button-attributes)
 
@@ -64,7 +64,7 @@ The xml structure of context menus is the following:
 
 ## Examples
 
-- Context menu inside grid
+- Context menu inside a grid
 
 ```xml
 <grid id="GrdSta" style="expand" initial-load="query" server-action="data" target-action="QryUniTst" max="30">

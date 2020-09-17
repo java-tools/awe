@@ -4,7 +4,7 @@ title: Rest API Module
 ---
 
 :::caution
-This documentation is old. Currently AWE uses `Spring Boot` and natively uses Spring management when dealing with `REST APIs`
+This document is deprecated and not corrected. Currently AWE uses `Spring Boot` and natively uses Spring management when dealing with `REST APIs`
 :::
 
 What's a REST api? REST stands for **Re**presentational **S**tate **T**ransfer. (It is sometimes spelled "REST".) It relies on a stateless, client-server, cacheable communications protocol -- and in virtually all cases, the HTTP protocol is used.

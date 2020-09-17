@@ -16,7 +16,7 @@ Internally, a criterion has 2 basic attributes to manage the information to send
 
 ### Priorities
 
-The **selected** values can be fullfilled in several ways. Here is a priority list with those ways:
+The **selected** values can be fulfilled in several ways. Here is a priority list with those ways:
 
 1. **variable** - These are the values sent from another screen
 2. **screen target** - The values returned by the screen target are the most priority of the list
@@ -131,12 +131,12 @@ Numeric criterion with slider enabled
 
 #### Number format attribute
 
-This attribute used to format the numeric criterion and the slider. It specified in json object format.
+This attribute is used to format the numeric criterion and the slider. It is specified in json object format.
 
 | Attribute   | Use          | Type      |  Description                |   Values                                           |
 | ----------- | ------------ |-----------|-----------------------------|----------------------------------------------------|
 | min         | Optional | Number    | The minimum possible value | Ex: `{min: 5}`                                          |
-| max         | Optional | Number    | The max possible value     | Ex: `{max: 5}`                                          |
+| max         | Optional | Number    | The maximum possible value     | Ex: `{max: 5}`                                          |
 | aSign       | Optional | String    | Desired currency symbol  | Ex: `{aSign: ' €'}`                                       |
 | pSign       | Optional | String    | Controls the placement of the currency symbol | pSign: 'p' to prefix (**default**) or pSign: 's' to suffix |
 | aPad        | Optional | Boolean    | Controls padding of the decimal places | **true** always pads the decimal with zeros or **false**  (**default**) to no padding |
@@ -194,8 +194,8 @@ Allows the user to search a value by typing some characters of the seek value.
 | ----------- | ------------ |
 | The list of values is "fixed"         | The list can change every time you interact with the component 		 | 
 | The list is loaded when you enter into the window        | The list is loaded when you interact with the component	 |
-| It is filtered in the client       | Can be filtered in client and server		 |
-| You have to use when the list of values is small and not to much variable.       | It can be used with both small and large lists		 |
+| Filtered in the client       | Can be filtered in client and server		 |
+| You have to use it when the list of values is small and with fixed number of values.       | It can be used with both small and large lists		 |
 | Use attribute "max"=0        | Use attribute "max" to limit the data returned by the server.		 |
 |    | You must use the variable "suggest" to filter.		 |
 | Not used when there are interrelationships between criteria        | Mandatory use when there are interrelationships with other criteria.		 |

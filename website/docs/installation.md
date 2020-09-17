@@ -7,7 +7,7 @@ To install an AWE-based application just deploy it on an application server, lik
 
 ## Optimization
 
-There are some settings which can be defined on the application server to optimize the access time between client browser and server and between server and databases:
+There are several settings which can be defined onto the application server to optimize the access time between client browser and server and between server and databases:
 
 ### Server compression
 
@@ -26,7 +26,7 @@ To activate this setting (in Tomcat) use the following attributes on **server.xm
 
 ### Datasources
 
-A datasource is a server-managed connection pool which speeds the database access. Connection in Apache Tomcat has two steps:
+A datasource is a server-managed connection pool which speeds up the database access. Connection in Apache Tomcat has two steps:
 
 **server.xml**: Define the database connection
 
@@ -50,7 +50,7 @@ A datasource is a server-managed connection pool which speeds the database acces
 
 #### Apache Tomcat
 
-We recommend to perform the following steps to enhance application server security.
+We recommend to follow these steps to improve application server security.
 *  Follow OWASP security recommendations for Apache Tomcat https://www.owasp.org/index.php/Securing_tomcat
 *  Configure HTTPS connection in Tomcat https://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html. You may need paid SSL certificates (or certificates issued by your CA).
 *  Enable extended access logs. Edit server.xml file and add check if the following code is enabled inside host tag:
@@ -81,7 +81,7 @@ We recommend to perform the following steps to enhance application server securi
 </filter-mapping>
 ```
 
-*  If HTTPS is enable, add a rule to redirect HTTP requests to HTTPS. On web.xml file add the following code at the end of web-app tag (add it inside web-app tag):
+*  If HTTPS is enabled, add a rule to redirect HTTP requests to HTTPS. On web.xml file add the following code at the end of web-app tag (add it inside web-app tag):
 
 ```xml
 <security-constraint>

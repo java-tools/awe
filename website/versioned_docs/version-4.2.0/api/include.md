@@ -2,7 +2,7 @@
 id: include
 title: Include
 ---
-An `include` is a component which allows you to pick a screen piece and put it inside another screen. It's very useful to reuse a piece of code between screens.
+An `include` is a component which allows you to pick a screen piece and place it inside another screen. It's very useful to reuse a piece of code between screens.
 
 ## XML skeleton
 

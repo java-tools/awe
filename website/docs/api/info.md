@@ -3,9 +3,9 @@ id: info
 title: Navigation Bar
 ---
 
-The navigation bar is used to add visual elements with logic functions in top zone of application. This part is displayed in all application screens.
+The navigation bar is used to add visual elements with logic functions in the top zone of application. This part is displayed in all application screens.
 
-You can add `info` elements to show more info, `info-button` elements as buttons with actions. Also, you can put `info-criteria` elements inside info elements as criteria for show more info. 
+You can add `info` elements to show more info and `info-button` elements as buttons with actions. Also, you can put `info-criteria` elements inside info elements as criteria for show more info. 
 
 <img alt="NavBar" src={require('@docusaurus/useBaseUrl').default('img/NavBar.png')} />
 
@@ -49,7 +49,7 @@ The xml structure of navigation bar component is the following:
 | Attribute   | Use          | Type      |  Description                |   Values                                           |
 | ----------- | ------------ |-----------|-----------------------------|----------------------------------------------------|
 | `id`          | **Required** | String    | Info element identifier. For reference purposes |  |
-| `field`       | Optional     | String    | Name of model attribute to get value of targe-action | Ex.: `field="label"` Get label attribute of target-action data result |
+| `field`       | Optional     | String    | Name of model attribute to get value of target-action | Ex.: `field="label"` Get label attribute of target-action data result |
 | `title`       | Optional     | String    | Info static text show when over | **Note:** You can use [i18n](i18n-internationalization.md) files (locales) |
 | `label`       | Optional     | String    | Info text (outside the criterion) |**Note:** You can use [i18n](i18n-internationalization.md) files (locales)  | 
 | `style`       | Optional     | String    | Info CSS classes |   | 

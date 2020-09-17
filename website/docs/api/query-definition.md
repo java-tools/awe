@@ -3,7 +3,7 @@ id: query
 title: Query definition
 ---
 
-The AWE query engine is used in the query data on external systems. It works as an interface for querying data.
+The AWE query engine is used for querying data on external systems. It works as an interface.
 
 <img alt="engine" src={require('@docusaurus/useBaseUrl').default('img/Data_engine.png')}/>
 
@@ -12,11 +12,11 @@ The AWE query engine is used in the query data on external systems. It works as 
 
 ## SQL query
 
-This section describes how the database queries are handled with the AWE query engine.
+This section describes how database queries are handled with the AWE query engine.
 
 ### XML sql structure
 
-The full sql query structure is the following:
+The complete sql query structure is the following:
 
 ```xml
 <!-- Example sql query -->
@@ -79,23 +79,23 @@ The full sql query structure is the following:
 
 ### Global Sql query structure
 
-To simplify the development of queries even more, not all elements are required.
+To simplify the development of queries, not all elements are required.
 
 | Element     | Use      | Multiples instances    | Description                                        |
 | ----------- | ---------|------------------------|----------------------------------------------------|
-| [query](#query-element) | **Required**| No |It outlines the query. Also describes the **kind of query** (service, queue, ...)  |
-| [table](#table-element) | **Required**| Yes | The table or table list over the query is done |
-| [field](#field-element) | **Required**| Yes | It describes the **column** of table |
-| [computed](#computed-element) | Optional | Yes | Computed elements used to get query fields from other columns (field) |
-| [compound](#compound-element) | Optional | Yes | Compound elements are a computed list. Used for get complex structures |
-| [join](#join-element) | Optional | Yes | Used to do `joins` between tables |
-| [union](#union-element) | Optional | Yes | Used to do `unions` between tables |
-| [where](#where-element) | Optional | No | Is the `where` clause in sql query. It has the condition list of fields |
-| [having](#having-element) | Optional | No| Is the `having` clause in sql query. It has the condition list of fields for functions |
-| [group-by](#group-by-element) | Optional | Yes | Is the `group by` clause in sql query |
-| [order-by](#order-by-element) | Optional | Yes | Is the `order by` clause in sql query |
-| [totalize](#totalize-element) | Optional | Yes | Totalize element is used to totalize the query result |
-| [variable](#variable-element) | Optional | Yes | It's parameters passed from screens to query |
+| [query](#query-element) | **Required**| No | Outlines the query. Also describes the **kind of query** (service, queue, etc)  |
+| [table](#table-element) | **Required**| Yes | The table or table list over which the query is performed |
+| [field](#field-element) | **Required**| Yes | Describes the **column** of the table |
+| [computed](#computed-element) | Optional | Yes | Computed elements are used for retrieving query fields from other columns (field) |
+| [compound](#compound-element) | Optional | Yes | Compound elements are a computed list. Used for retrieving complex structures |
+| [join](#join-element) | Optional | Yes | Used to make `joins` between tables |
+| [union](#union-element) | Optional | Yes | Used to make `unions` between tables |
+| [where](#where-element) | Optional | No | `Where` clause in sql query. It has the condition list of fields |
+| [having](#having-element) | Optional | No| `Having` clause in sql query. It has the condition list of fields for functions |
+| [group-by](#group-by-element) | Optional | Yes | `Group by` clause in sql query |
+| [order-by](#order-by-element) | Optional | Yes | `Order by` clause in sql query |
+| [totalize](#totalize-element) | Optional | Yes | Used to totalize the query result |
+| [variable](#variable-element) | Optional | Yes | Parameters passed from screens to query |
 
 ### Query element
 
@@ -104,14 +104,14 @@ The *query* element has the following attributes:
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
 | id | **Required** | String | Query identifier                        | **Note:**  The id name must be unique              |
-| distinct| Optional | Boolean | Is used to return only distinct (different) values | By default is `false`                 |
-| cacheable| Optional | Boolean | Is used to set a query as cacheable (save data in memory and not execute again)  | By default is `false`. **Note:** If you set a **query as cacheable** and if there are subqueries, you must define on it the same variables that all subqueries have. |
-| manage-pagination| Optional | Boolean | To set a query as pagination (only load data of page in memory and not all).  High performance in queries with a very high number of records. | By default is `false`. **Note:** Only use this parameter in queries without totalize. |
-| post-process| Optional | Boolean | To allow skipping the processing of the datalist that AWE performs. | By default is `true`. **Note:** Only apply in service queries. For more info. see [service query](#service-query)|
-| public | Optional | Boolean | To set a query as launchable out of session (without being logged). | By default is `false`|
-| enumerated | Optional | String | The name of enumerate to load the query  | **Note:** Only apply in enumerated queries. For more info. see [enumerated query](#enumerated-query)|
-| service | Optional | String | The name of service to load the query  | **Note:** Only apply in service queries. For more info. see [service query](#service-query)|
-| queue | Optional | String | The name of queue to load the query  | **Note:** Only apply in queue queries. For more info. see [queue query](#queue-query)|
+| distinct| Optional | Boolean | Used to return only distinct (different) values | By default is `false`                 |
+| cacheable| Optional | Boolean | Used to set a query as cacheable (in order to save data in memory and avoid executing the query again)  | By default is `false`. **Note:** If you set a **query as cacheable** and there are subqueries, you must define on it the same variables that all subqueries have. |
+| manage-pagination| Optional | Boolean | To set a query as paginated (to load just the data in that specific page, not all query registries).  Used to achieve high performance in queries with a very high number of records. | By default is `false`. **Note:** Use this parameter only in queries without totalize. |
+| post-process| Optional | Boolean | Skips the processing of the datalist that AWE performs, in order to let the developers process it by their own | By default is `true`. **Note:** Only apply in service queries. For more info. see [service query](#service-query)|
+| public | Optional | Boolean | Allows the query to run without the need to be logged | By default is `false`|
+| enumerated | Optional | String | The name of enumerate to fill the query  | **Note:** Only applies in enumerated queries. For more info. see [enumerated query](#enumerated-query)|
+| service | Optional | String | The name of service to fill the query  | **Note:** Only applies in service queries. For more info. see [service query](#service-query)|
+| queue | Optional | String | The name of queue to fill the query  | **Note:** Only applies in queue queries. For more info. see [queue query](#queue-query)|
 
 ### Table element
 
@@ -119,10 +119,10 @@ The *table* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| id | **Required** | String | Name of table |  **Note:** Is the real table name in data base            |
-| schema| Optional  | String | Schema of table. It used to set the user owner of table| **Note:** Is the real schema (user) name in data base |
-| alias | Optional  | String | Alias of table. It used to temporarily rename a table or a column heading |                  |
-| query | Optional  | String | Is the Id of a subquery to be used as data source |                                          |
+| id | **Required** | String | Name of the table |  **Note:** Actual table name in data base            |
+| schema| Optional  | String | Schema of the table. It is used to set the user owner of table| **Note:** It is the actuala schema (user) name in data base |
+| alias | Optional  | String | Alias of the table. It is used to temporarily rename a table or a column heading |                  |
+| query | Optional  | String | Id of a subquery to be used as data source |                                          |
 
 #### Subquery example
 
@@ -168,17 +168,17 @@ The *field* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| id | Optional | String | Name of field | **Note:** Is the real column name of table in data base            |
-| table | Optional | String | Table name of field |  |
-| alias | Optional | String | Alias of field. It used to describe the field |  |
-| noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
-| transform | Optional | String | Used to format the field value | See [this](#transform-attribute) for more info about transform attribute. |
-| pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
-| translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
-| cast  | Optional | String | Change the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
-| query | Optional | String | Is the query identifier to do a subquery  | **Note:** The query id must exist, and `table` and `id` attributes will be ignored |
-| variable | Optional | String | A variable identified to be used as field value | **Note:** If `variable` attribute is defined, `table` and `id` attributes will be ignored |
+| id | Optional | String | Name of field | **Note:** Actual column name of table in data base            |
+| table | Optional | String | Table of the field |  |
+| alias | Optional | String | Alias of the field. Used to describe the field |  |
+| noprint| Optional | Boolean | Used to set a field as no printable. (Field value won't be loaded in the resultSet)  | |
+| transform | Optional | String | Used to format the field value | Check out [this](#transform-attribute) for more info about transform attribute. |
+| pattern | Optional | String| Used in a number type field, defines the pattern to format the number  | Check out [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, outputs the enumerated label |
+| function | Optional | String | To apply an sql function to field| The possible values are defined in [field functions](#field-functions) |
+| cast  | Optional | String | Changes the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
+| query | Optional | String | Query identifier to do a subquery  | **Note:** The query id must exist, and `table` and `id` attributes will be ignored |
+| variable | Optional | String | A variable identifier to be used as field value | **Note:** If `variable` attribute is defined, `table` and `id` attributes will be ignored |
 
 > **Note:** The order in attribute reading for fields is the following:
 > 1. `query`
@@ -190,7 +190,7 @@ The *field* element has the following attributes:
 #### Field functions
 
 - `ABS`: Absolute value
-- `AVG`: Average of values 
+- `AVG`: Values average 
 - `CNT`: Count values
 - `CNT_DISTINCT`: Count distinct values
 - `MAX`: Max value
@@ -210,32 +210,32 @@ The *field* element has the following attributes:
 
 These are the possible values for the `transform` attribute:
 
-* **DATE**: Transform the output field **(Date/String)** into a web date field (`dd/MM/yyyy`)
-* **DATE_MS**: Transform the output field **(Date/String)** into a java date in milliseconds (for chart datetime axes)
-* **TIME**: Transform the output field **(Date/String)** into a web time field (`HH:mm:ss`)
-* **TIMESTAMP**: Transform the output field **(Date/String)** into a web timestamp field (`dd/MM/yyyy HH:mm:ss`)
-* **TIMESTAMP_MS**: Transform the output field **(Date/String)** into a web timestamp field with milliseconds (`dd/MM/yyyy HH:mm:ss.SSS`)
-* **JS_DATE**: Transform the output field **(Date/String)** into a javascript date field (for chart axes) (`MM/dd/yyyy`)
-* **JS_TIMESTAMP**: Transform the output field **(Date/String)** into a javascript timestamp field (`MM/dd/yyyy HH:mm:ss`)
-* **GENERIC_DATE**: Transform the output field **(String)** from a date format defined on `format-from` to a date format defined on `format-to`
-* **DATE_RDB**: Transform the output field **(String)** from an English RDF format (`dd-MMM-yyyy`) to a web date field (`dd/MM/yyyy`)
-* **ELAPSED_TIME**: Transform the output field **(Long)** from a long millisecond value to a localized string indicating the elapsed time (`12h`)
-* **DATE_SINCE**: Transform the output field **(Date)** into a localized string with the difference of time from now (`5 min ago`)
-* **NUMBER**: Transform the output field as a number with a pattern. **IMPORTANT**:
- *  When using this transform, the associated pattern has to have thousand separator. For instance: ###,###.00
+* **DATE**: Transforms the output field **(Date/String)** into a web date field (`dd/MM/yyyy`)
+* **DATE_MS**: Transforms the output field **(Date/String)** into a java date in milliseconds (for chart datetime axes)
+* **TIME**: Transforms the output field **(Date/String)** into a web time field (`HH:mm:ss`)
+* **TIMESTAMP**: Transforms the output field **(Date/String)** into a web timestamp field (`dd/MM/yyyy HH:mm:ss`)
+* **TIMESTAMP_MS**: Transforms the output field **(Date/String)** into a web timestamp field with milliseconds (`dd/MM/yyyy HH:mm:ss.SSS`)
+* **JS_DATE**: Transforms the output field **(Date/String)** into a javascript date field (for chart axes) (`MM/dd/yyyy`)
+* **JS_TIMESTAMP**: Transforms the output field **(Date/String)** into a javascript timestamp field (`MM/dd/yyyy HH:mm:ss`)
+* **GENERIC_DATE**: Transforms the output field **(String)** from a date format defined on `format-from` to a date format defined on `format-to`
+* **DATE_RDB**: Transforms the output field **(String)** from an English RDF format (`dd-MMM-yyyy`) to a web date field (`dd/MM/yyyy`)
+* **ELAPSED_TIME**: Transforms the output field **(Long)** from a long millisecond value to a localized string indicating the elapsed time (`12h`)
+* **DATE_SINCE**: Transforms the output field **(Date)** into a localized string with the time difference from now (`5 min ago`)
+* **NUMBER**: Transforms the output field as a number with a pattern. **IMPORTANT**:
+ *  When using this transform, the associated pattern has to have thousands separator. For instance: ###,###.00
  * **NEVER** use this transform if the retrieved data is for a numeric component
  * This transform is normally used when we want to show a numeric value in a visualization grid (columns without component)
-* **NUMBER_PLAIN**: Transform the output field as a number with a raw pattern (without thousand separator). **IMPORTANT**:
- * When using this transform, the associated pattern must not have a thousand separator (e.g: ###.00)
- * It can be used for numeric components as well as for elements that have no component.
- * This transform is normally used when we want to print numeric components for specifying the numer of decimals we want to see in the pdf file. Usually, the number of decimals of the pattern will match the "precision" defined in the number-format attribute of the numeric component.
-* **BOOLEAN**: Transform the output field as a boolean value (`true`/`false`):
+* **NUMBER_PLAIN**: Transforms the output field as a number with a raw pattern (without thousand separator). **IMPORTANT**:
+ * When using this transform, the associated pattern must not have a thousands separator (e.g: ###.00)
+ * It can be used for numeric components and elements that have no component.
+ * This transform is normally used when we want to print numeric components and specify the number of decimals we want to see in the pdf file. Usually, the number of decimals of the pattern will match the "precision" defined in the number-format attribute of the numeric component.
+* **BOOLEAN**: Transforms the output field as a boolean value (`true`/`false`):
 * **TEXT_HTML**: Transforms the output field into HTML text (to be showed in a HTML page)
 * **TEXT_PLAIN**: Transforms the output field into plain text (to be showed inside a document)
 * **TEXT_UNILINE**: Transforms the output field into a plain text without line breaks
 * **MARKDOWN_HTML**: Transforms the output field from Markdown into HTML text (to be showed in a HTML page)
-* **DECRYPT**: Decrypt a column value which is encrypted in the database
-* **ARRAY**: Split a string value with the string in `pattern` attribute
+* **DECRYPT**: Decrypts a column value which is encrypted in the database
+* **ARRAY**: Splits a string value with the string in `pattern` attribute
 
 ### Constant element
 
@@ -243,19 +243,19 @@ The *constant* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| alias | Optional | String | Alias of field. It used to describe the field |  |
-| noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
-| transform | Optional | String | Used to format the field value | See [this](#transform-attribute) for more info about transform attribute. |
-| pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| alias | Optional | String | Alias of the field. It used to describe the field |  |
+| noprint| Optional | Boolean | Used to set a field as no printable. (Field value won't be loaded in resultSet)  | |
+| transform | Optional | String | Used to format the field value | Read [this](#transform-attribute) for more info about transform attribute. |
+| pattern | Optional | String| Used in a number type field, defines the pattern to format the number  | Read [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
-| cast  | Optional | String | Change the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
+| function | Optional | String | To apply an sql function to field|The possible values are defined in [field functions](#field-functions) |
+| cast  | Optional | String | Changes the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 | value | Required | String | A static value to be used as field value |  |
 | type | Optional | String | Type of the value | The possible values are available [here](#variable-types) |
 
 ### Operation element
 
-The *operation* element allows to define operation between fields and will be resolved as SQL clauses:
+The *operation* element allows to define operations between fields and will be resolved as SQL clauses:
 
 ```xml
 <operation operator="[operator]" alias="[alias]">
@@ -271,7 +271,7 @@ The *operation* element allows to define operation between fields and will be re
 | alias | Optional | String | Alias of field. It used to describe the field |  |
 | noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
 | transform | Optional | String | Used to format the field value | See [this](#transform-attribute) for more info about transform attribute. |
-| pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| pattern | Optional | String| Used in a number type value, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
 | cast  | Optional | String | Change the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
@@ -280,36 +280,36 @@ The *operation* element allows to define operation between fields and will be re
 
 These are the possible values for the `operator` attribute:
 
-* **CONCAT**: Concat some string fields
-* **NULLIF**: Set null if equals to second operand
+* **CONCAT**: Concats some string fields
+* **NULLIF**: Sets null if equals to second operand
 * **COALESCE**: Given a set of fields, returns the first one which is **NOT NULL**
-* **ADD**: Sum two fields
-* **SUB**: Substract two fields
-* **MULT**: Multiply two fields
-* **DIV**: Divide two fields
+* **ADD**: Sums two fields
+* **SUB**: Substracts two fields
+* **MULT**: Multiplies two fields
+* **DIV**: Divides two fields
 * **MOD**: Operator `MOD`
 * **POWER**: Power of two fields
-* **ADD_SECONDS**: Add seconds to a date field
-* **ADD_MINUTES**: Add minutes to a date field
-* **ADD_HOURS**: Add hours to a date field
-* **ADD_DAYS**: Add days to a date field
-* **ADD_WEEKS**: Add weeks to a date field
-* **ADD_MONTHS**: Add months to a date field
-* **ADD_YEARS**: Add years to a date field
-* **DIFF_SECONDS**: Calculate the difference in seconds between two dates
-* **DIFF_MINUTES**: Calculate the difference in minutes between two dates
-* **DIFF_HOURS**: Calculate the difference in hours between two dates
-* **DIFF_DAYS**: Calculate the difference in days between two dates
-* **DIFF_WEEKS**: Calculate the difference in weeks between two dates
-* **DIFF_MONTHS**: Calculate the difference in months between two dates
-* **DIFF_YEARS**: Calculate the difference in years between two dates
-* **SUB_SECONDS**: Substract seconds from a date field
-* **SUB_MINUTES**: Substract minutes from a date field
-* **SUB_HOURS**: Substract hours from a date field
-* **SUB_DAYS**: Substract days from a date field
-* **SUB_WEEKS**: Substract weeks from a date field
-* **SUB_MONTHS**: Substract months from a date field
-* **SUB_YEARS**: Substract years from a date field
+* **ADD_SECONDS**: Adds seconds to a date field
+* **ADD_MINUTES**: Adds minutes to a date field
+* **ADD_HOURS**: Adds hours to a date field
+* **ADD_DAYS**: Adds days to a date field
+* **ADD_WEEKS**: Adds weeks to a date field
+* **ADD_MONTHS**: Adds months to a date field
+* **ADD_YEARS**: Adds years to a date field
+* **DIFF_SECONDS**: Calculates the difference in seconds between two dates
+* **DIFF_MINUTES**: Calculates the difference in minutes between two dates
+* **DIFF_HOURS**: Calculates the difference in hours between two dates
+* **DIFF_DAYS**: Calculates the difference in days between two dates
+* **DIFF_WEEKS**: Calculates the difference in weeks between two dates
+* **DIFF_MONTHS**: Calculates the difference in months between two dates
+* **DIFF_YEARS**: Calculates the difference in years between two dates
+* **SUB_SECONDS**: Substracts seconds from a date field
+* **SUB_MINUTES**: Substracts minutes from a date field
+* **SUB_HOURS**: Substracts hours from a date field
+* **SUB_DAYS**: Substracts days from a date field
+* **SUB_WEEKS**: Substracts weeks from a date field
+* **SUB_MONTHS**: Substracts months from a date field
+* **SUB_YEARS**: Substracts years from a date field
 
 #### Operation examples
 
@@ -335,18 +335,18 @@ Add 1 to a field: `(pro.Nam + 1) as parent`
 
 ### Case element
 
-The *case* element allows to generate a list of `when` clauses inside a `field` element. A `else` clause must be defined at the end of the `case` clause. 
-It has the same attributes as a [filter element](#filter-element) **plus** some extra attributes:
+The *case* element allows to generate a list of `when` clauses inside a `field` element. An `else` clause must be defined at the end of the `case` clause. 
+It has the same attributes than a [filter element](#filter-element) **plus** some extra features:
 
 | Attribute     | Use      | Type      |  Description                    |   Values                                           |
 | ------------- | ---------|-----------|---------------------------------|----------------------------------------------------|
 | alias | Optional | String | Alias of field. It used to describe the field |  |
-| noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
+| noprint| Optional | Boolean | Used to set a field as no printable. (Field value isn't loaded in resultset)  | |
 | transform | Optional | String | Used to format the field value | See [this](#transform-attribute) for more info about transform attribute. |
-| pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| pattern | Optional | String| Used in a number type field, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
 | function | Optional | String | To apply sql function to field|The possible values are defined in [field functions](#field-functions) |
-| cast  | Optional | String | Change the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
+| cast  | Optional | String | Changes the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 
 > **NEW!**: As described on [filter element](#filter-element), `left-operand` and `right-operand` must contain
 > a node of `field`, `constant`, `operation` or `case` as well. Same case for the `then` and `else` elements.
@@ -403,19 +403,19 @@ The *over* element allows to modelate **SQL window functions**. This element con
 
 | Attribute     | Use      | Type      |  Description                    |   Values                                           |
 | ------------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| alias | Optional | String | Alias of field. It used to describe the field |  |
-| noprint| Optional | Boolean | Used to set a field as no print. (Field value isn't loaded in resultset)  | |
+| alias | Optional | String | Alias of the field. Used to describe the field |  |
+| noprint| Optional | Boolean | Used to set a field as no printable. (Field value won't be loaded in resultSet)  | |
 | transform | Optional | String | Used to format the field value | See [this](#transform-attribute) for more info about transform attribute. |
-| pattern | Optional | String| Used in a field with number type, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| pattern | Optional | String| Used in a number type value, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| function | Optional | String | To apply sql function to field|The possible values are defined in [over functions](#over-functions) |
-| cast  | Optional | String | Change the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
+| function | Optional | String | To apply an sql function to field|The possible values are defined in [over functions](#over-functions) |
+| cast  | Optional | String | Changes the field format | The possible values are `STRING`, `INTEGER`, `LONG`, `FLOAT` and `DOUBLE` |
 
 #### Over functions
 
-- `AVG`: Average of values 
-- `CNT`: Count values
-- `CNT_DISTINCT`: Count distinct values
+- `AVG`: Values average 
+- `CNT`: Counts values
+- `CNT_DISTINCT`: Counts distinct values
 - `MAX`: Max value
 - `MIN`: Min value
 - `SUM`: Sum values
@@ -423,7 +423,7 @@ The *over* element allows to modelate **SQL window functions**. This element con
 - `LAST_VALUE`: Last value
 - `LAG`: Lag
 - `ROW_NUMBER`: Row number
-- `TRUNCDATE` (not standard): Truncate date
+- `TRUNCDATE` (not standard): Truncates date
 
 #### Over examples
 
@@ -452,14 +452,14 @@ The *computed* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| alias | **Required** | String |Is the computed field output name | |
-| format | **Required** | String | It used to insert another field alias as variables. It has the same **syntax** as the **javascript** eval element | (Ex. [code] - [description] will take the code field and concatenate it with the description field with a " - " string |
-| eval | Optional | Boolean | For evaluate computed format as expression | By defaul is `false` |
-| nullValue | Optional  | String |  Set this value to null values in computed fields | Ex: `nullValue="ZERO"` set "ZERO" to null values|
+| alias | **Required** | String |Computed field output name | |
+| format | **Required** | String | Used to insert another field alias as variables. It has the same **syntax** as the **javascript** eval element | (Ex. [code] - [description] will take the code field and concatenate it with the description field with a " - " string |
+| eval | Optional | Boolean | Evaluates computed format as expression | By defaul is `false` |
+| nullValue | Optional  | String |  Sets a value to null values in computed fields | Ex: `nullValue="ZERO"` set "ZERO" to null values|
 | transform | Optional | String | Used to format the computed value | See [this](#transform-attribute) for more info about transform attribute. |
-| pattern | Optional | String| Used in a computed with number value, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
+| pattern | Optional | String| Used in a computed with numeric value, defines the pattern to format the number  | See [this page](http://docs.oracle.com/javase/tutorial/i18n/format/decimalFormat.html) for more info |
 | translate | Optional | String| Translates the output with an enumerated group identifier | **Note:** If the field value is equal to an enumerated value, output the enumerated label |
-| label | Optional  | String | For use international i18n label in computed | **Note:** You can use [i18n](i18n-internationalization.md) files (locales) |
+| label | Optional  | String | To use an international i18n label in the computed | **Note:** You can use [i18n](i18n-internationalization.md) files (locales) |
 
 #### Computed examples
 
@@ -577,7 +577,7 @@ The *join* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| type | Optional | String |Is the type of sql join |  The possible values are: `FULL`, `LEFT`, `INNER` or `RIGHT` **Note:**  By default is `INNER`. To see more info about joins read [this page](http://www.w3schools.com/sql/sql_join.asp)      |
+| type | Optional | String | SQL join type |  The possible values are: `FULL`, `LEFT`, `INNER` or `RIGHT` **Note:**  Default value is `INNER`. To see more info about joins read [this page](http://www.w3schools.com/sql/sql_join.asp)      |
 
 
 ### Union element
@@ -597,7 +597,7 @@ The *union* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| query | **Required** | String | Is the query id to combine the result |  **Note:**  The alias quert must be exist         |
+| query | **Required** | String | Query id to combine the result |  **Note:**  The alias query must be exist         |
 | type | Optional | String | Combines the result of two or more SELECT statements |  Use `ALL` to allow duplicate values    |
 
 ### Where element
@@ -715,7 +715,7 @@ The *order by* element has the following attributes:
 | field       | **Required** | String | Field alias to order the results     |                                                    |
 | table       | Optional | String | Table alias to order the result    |                                                    |
 | function    | Optional | String | Function to apply to the field        |The possible values are defined in [field functions](#field-functions)|
-| type        | Optional | String | Is the order type                  | The possible values are `DESC` or `ASC`. By default is `ASC` |
+| type        | Optional | String | Order direction                  | The possible values are `DESC` or `ASC`. By default is `ASC` |
 | nulls       | Optional | String | Whether to sort the null fields    | The possible values are `FIRST` or `LAST`. By default depends on database type |
 
 ### Totalize element
@@ -782,25 +782,25 @@ The *variable* element has the following attributes:
 
 | Attribute   | Use      | Type      |  Description                    |   Values                                           |
 | ----------- | ---------|-----------|---------------------------------|----------------------------------------------------|
-| id | **Required** | String | Is the identifier name of variable |  **Note:**  The id must be unique |
-| type | **Required** | String | Describe the type of variable | The possible values are available [here](#variable-types) |
-| name | Optional | String | Name of variable. It's the same name that the parameter is sent from the screen  |**Note:** In some cases it might be usefull to know the name of the criterion we are interacting with. If we define the variable as name="component", it will send the id of the criterion |
-| value | Optional  | String | Variable is set by static value | |
-| session| Optional  | String | Variable is set by session value | |
-| property | Optional  | String | Variable is set by property value | |
-| optional | Optional  | Boolean | Flag to indicate if variable is optional. If the criterion configured in the variable could exist or not. If it is optional and does not exist, the query won't be executed. If it is not optional and the variable does not exist an error will be shown. | **Note:** It's not recommended to configure suggest type criteria as optional, because the running could not be the correct one |
+| id | **Required** | String | Identifier of variable |  **Note:**  The id must be unique |
+| type | **Required** | String | Variable type | The possible values are available [here](#variable-types) |
+| name | Optional | String | Variable name. It's the name of the component we are interacting with in the screen  |**Note:** In some cases it might be useful to know the name of the criterion we are interacting with. If we define the variable as name="component", it will send the id of the criterion |
+| value | Optional  | String | To define a static value of the variable | |
+| session| Optional  | String | Variable is set by a session value | |
+| property | Optional  | String | Variable is set by a property value | |
+| optional | Optional  | Boolean | Flag to indicate if variable is optional. If the criterion configured in the variable could exist or not. If it is optional and does not exist, the query won't be executed. If it is not optional and the variable does not exist an error will be shown. | **Note:** It's not recommended to configure suggest type criteria as optional, because it might lead to misbehaviour |
 
 #### Variable types
 
-These are the possible kind of variable types:
+These are the possible variable types:
 
-* **STRINGL**: is a string with % at left side (for `LIKE` operator)
-* **STRINGR**: is a string with % at right side (for `LIKE` operator)
-* **STRINGB**: is a string with % at both sides (for `LIKE` operator)
-* **STRINGN**: is a string that has `NULL` when it's empty
-* **STRING**: is a string that has "" when it's empty
-* **STRING_HASH**: apply Sha 256 function to string variable
-* **STRING_ENCRYPT**: apply encryptRipEmd160 function to string variable
+* **STRINGL**: a string with % at left side (for `LIKE` operator)
+* **STRINGR**: a string with % at right side (for `LIKE` operator)
+* **STRINGB**: a string with % at both sides (for `LIKE` operator)
+* **STRINGN**: a string that has `NULL` when it's empty
+* **STRING**: a string that has "" when it's empty
+* **STRING_HASH**: applies Sha 256 function to string variable
+* **STRING_ENCRYPT**: applies encryptRipEmd160 function to string variable
 * **INTEGER**: integer number
 * **FLOAT**: float number (32 bits)
 * **DOUBLE**: double number (64 bits)
@@ -811,7 +811,7 @@ These are the possible kind of variable types:
 * **SYSTEM_TIME**: Server time (Stored as string) (`HH:mm:ss`)
 * **SYSTEM_TIMESTAMP**: Server Date (stored as timestamp with milliseconds) (`dd/MM/aaaa HH:mm:ss.SSS`)
 * **NULL**: To pass a `null` value
-* **OBJECT**: To define a variable like java object
+* **OBJECT**: To define a variable as a java object
 * **LIST_TO_STRING**: Retrieve a list of values and manage them as a comma separated values in a string
 	
      
@@ -821,7 +821,7 @@ An enumerated query is a call to an enumerated group in the **Enumerated.xml** f
 
 It will not receive any input variables, and will return a list with two fields: **value** and **label**.
 
-You can view enumerate xml structure in [this page](enumerate-definition.md)
+You can check out enumerate xml structure in [this page](enumerate-definition.md)
 
 ### Xml enumerated structure
 
@@ -855,7 +855,7 @@ You can view enumerate xml structure in [this page](enumerate-definition.md)
 
 ## Service query
 
-Are a kind of queries used to call service **java** or **web services**. A service query is composed by input variables and output fields.
+Special type of queries used to call services, either if they are **java** or **web services**. A service query is composed by input variables and output fields.
 
 You can view services xml structure in [this page](service-definition.md)
 
@@ -936,7 +936,7 @@ You can view services xml structure in [this page](service-definition.md)
 
 ## Queue query
 
-Are a kind of queries used to comunicate with **message queues**. A queue query is composed by input variables and output fields.
+Special type of queries used to communicate with **message queues**. A queue query is composed by input variables and output fields.
 
 You can view queues xml structure in [this page](jms-queues-definition.md)
 

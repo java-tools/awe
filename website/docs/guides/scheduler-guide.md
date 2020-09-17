@@ -198,17 +198,17 @@ When selecting one task, some options will be activated:
 
 ## `Servers`
 
-The servers created for the Scheduler module are mainly used to execute tasks, and in tasks that needs to check if a file has changed.
+The servers created for the Scheduler module are mainly used to execute tasks, and in tasks that need to check if a file has changed.
 
 The servers can be instantiated multiple times, and each instantiation can use its own user and password to connect to the server with the selected protocol.
 
-The servers created for the scheduler are mainly used with two purposes, to launch a batch on a remote server, and to check for file modifications in an FTP server.
+The scheduler servers are used with two purposes, to launch a batch on a remote server, and to check for file modifications in an FTP server.
 
 Regarding to the FTP servers, the same server can be used as many times as needed, in different tasks, with different credentials.
 
 ### Configuration
 
-When creating a new server, the next fields have to be filled.
+When creating a new server, the next fields have to be filled:
 
 | Element       | Definition    | Use   |
 | ------------- |:-------------:| -----:|
@@ -222,7 +222,7 @@ When creating a new server, the next fields have to be filled.
 
 ### Management
 
-The scheduler server list will show a list of server with their basic information: name, server ip, connection protocol and status.
+The scheduler server list will show a list of servers with their basic information: name, server ip, connection protocol and status.
 
 When selecting one of the servers from the list, some options will be enabled:
 
@@ -237,7 +237,7 @@ When selecting one of the servers from the list, some options will be enabled:
 
 The task inside the scheduler can be modified to ignore some dates by using holiday calendars.
 
-Those calendars contains the dates that have to be ignored by the scheduler in the task schedule.
+Those calendars contain the dates that have to be ignored by the scheduler in the task schedule.
 
 Each of the tasks can only be associated with one calendar.
 

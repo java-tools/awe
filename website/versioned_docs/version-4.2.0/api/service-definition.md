@@ -3,7 +3,7 @@ id: service
 title: Services Definition
 ---
 
-Service operations are valid to do specific treatments and calculations out of the AWE utilities.
+Service operations are designed to perform specific treatments and calculations out of the AWE utilities.
 
 Currently there are two types of services declared in the AWE Engine: **Java Services** and **Web Services**
 
@@ -38,13 +38,13 @@ The xml structure of services is:
 </services>
 ```
 
-For even more simplify the development of services, not all elements are required.
+For easier development of services, not all elements are required.
 
 
 | Element     | Use      | Multiples instances    | Description                                        |
 | ----------- | ---------|------------------------|----------------------------------------------------|
 | services | **Required**| No | Root element of services xml file|
-| [service](#service-element) | **Required**| Yes |It outlines the service. Also describes the **kind of service** (java service or web service)  |
+| [service](#service-element) | **Required**| Yes |Outlines the service. Also describes the **kind of service** (java service or web service)  |
 | [java](#java-element) | **Optional**| No | Used to define java services  |
 | [microservice](#microservice-element) | **Optional**| No | Used to define microservices  |
 | [rest](#rest-service-element) | **Optional**| No | Used to define rest services  |

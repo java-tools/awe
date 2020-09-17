@@ -3,7 +3,7 @@ id: messages
 title: Messages
 ---
 
-Message element are messages to show after execute one action. Usually these message are described in the hidden section of the window.
+Message elements are messages to show after execute one action. Usually these message are described in the hidden section of the window.
 
 This message element is referenced from target attribute in a button action.
 

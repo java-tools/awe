@@ -5,7 +5,7 @@ title: v4.0 Migration Guide
 
 ##  **Application Structure**
 
-* Change project structure to a Spring Architecture:
+* Change project structure to a Spring project structure:
 
 > * **[application-name]** -> Project files (pom.xml, package.json...)
 >   * src

@@ -23,7 +23,7 @@ Please visit us at [https://www.aweframework.com](https://www.aweframework.com)
 
 
 ## Prerequisites
-You must have Maven 3.x installed on your computer as well as a JDK 8 or higher
+You must have Maven 3.x installed on your computer and JDK 8 or higher
 
 ## Getting Started
 

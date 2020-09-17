@@ -32,7 +32,7 @@ When the screen size is too small (mobile devices) the buttons defined on the `b
 
 | Element     | Use      | Multiples instances    | Description                                        |
 | ----------- | ---------|------------------------|----------------------------------------------------|
-| [button](#button-attributes) | **Required** | No | Global node of button. Defines the button attributes |
+| [button](#button-attributes) | **Required** | No | Global node of the button. Defines the button attributes |
 | [button-action](#button-actions) | Optional | Yes | List of actions to be launched on button click |
 | [dependency](dependencies.md) | Optional | Yes | List of dependencies attached to the button |
 
@@ -62,7 +62,7 @@ When the screen size is too small (mobile devices) the buttons defined on the `b
 
 | Event   | Description                                                                  |
 | ------- | ---------------------------------------------------------------------------- |
-| `click` | Launched when a user clicks the button                                       |
+| `click` | Launched when an user clicks the button                                       |
 
 ## Button actions
 

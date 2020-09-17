@@ -3,9 +3,9 @@ id: scheduler
 title: Scheduler Module
 ---
 
-The scheduler module adds a powerful scheduling tool to your application
+Scheduler module adds a powerful scheduling tool to your application
 
-To use this module, the following steps are necessary:
+To activate this module, follow this steps:
 
 - Add **awe scheduler dependencies** to pom.xml descriptor.
 

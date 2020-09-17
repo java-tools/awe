@@ -21,8 +21,8 @@ There is a special tag which only contains text defined like the next one:
 
 | Attribute     | Use          | Type    | Description                   |   Values                                    |
 | ------------- | ------------ | ------- | ----------------------------- |---------------------------------------------|
-| source        | Optional     | String  | Template source to link to    | `buttons`, `center`, ...                    |
-| type          | Optional     | String  | HTML tag type                 | `div`, `span`, `p`, ...                     |
+| source        | Optional     | String  | Template source to link to    | `buttons`, `center`, etc                    |
+| type          | Optional     | String  | HTML tag type                 | `div`, `span`, `p`, etc                   |
 | label         | Optional     | String  | Text inside the tag           | **Note:** You can use [i18n](i18n-internationalization.md) files (locales)   |
 | style         | Optional     | String | Css class or classes to apply to the element |  |
 | id            | Optional     | String | Tag identifier. Useful for external references |                                      |

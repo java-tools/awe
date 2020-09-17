@@ -5,7 +5,7 @@ title: Project Structure
 
 AWE (Almis Web Engine) is a web application development tool which allows the developer to create web application screens by describing the screen behaviour on a XML file.
 
-AWE also allows the developer to design application resources, such as database queries and actions (insert, update and delete), JMS queues call and launches, email sending, report generation, batch launching and any other action by calling external services developed in Java and C.
+AWE also allows the developer to design application resources, such as database queries and actions (insert, update and delete), JMS queues calling and launching, email sending, report generation, batch launching and any other action by calling external services developed in Java and C.
 
 ## Project structure
 
