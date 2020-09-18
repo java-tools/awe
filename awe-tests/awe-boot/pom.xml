@@ -59,6 +59,11 @@
     </dependency>
 
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>com.almis.awe</groupId>
       <artifactId>awe-client-angular</artifactId>
     </dependency>
@@ -537,7 +542,6 @@
                   <wait>1000</wait>
                   <maxAttempts>180</maxAttempts>
                   <fork>true</fork>
-                  <jvmArguments>${failsafe.argLine}</jvmArguments>
                 </configuration>
                 <goals>
                   <goal>start</goal>

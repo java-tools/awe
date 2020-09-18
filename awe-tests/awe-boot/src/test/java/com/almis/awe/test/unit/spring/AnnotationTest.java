@@ -118,7 +118,7 @@ public class AnnotationTest extends AweSpringBootTests {
   @Test
   public void checkAuditAnnotationReturnValueMap() {
     // Test message audit | Symbolic, some Audit messages should appear on the log files
-    Map dummyMap = new HashMap<String, String>() {{
+    Map<String, String> dummyMap = new HashMap<String, String>() {{
       put("key1", "value1");
       put("key2", "value2");
       put("key3", "value3");
@@ -136,6 +136,7 @@ public class AnnotationTest extends AweSpringBootTests {
     ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
     MethodSignature signature = mock(MethodSignature.class);
     when(joinPoint.getSignature()).thenReturn(signature);
+    when(signature.getDeclaringType()).thenReturn(String.class);
     when(signature.getMethod()).thenReturn(getDummyMethod());
 
     // Assert

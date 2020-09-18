@@ -72,6 +72,7 @@ public class EmailReportJobTest extends TestUtil {
   @Before
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
+    emailReportJob.setApplicationContext(context);
     doReturn(aweElements).when(context).getBean(any(Class.class));
     given(aweElements.getLanguage()).willReturn("ES");
     given(aweElements.getLocaleWithLanguage(anyString(), anyString())).willReturn("LOCALE");
@@ -81,8 +82,6 @@ public class EmailReportJobTest extends TestUtil {
 
   /**
    * Test context loaded
-   *
-   * @throws NamingException Test error
    */
   @Test
   public void contextLoads() {
@@ -133,8 +132,7 @@ public class EmailReportJobTest extends TestUtil {
   /**
    * Execute email report job
    *
-   * @param status
-   * @throws Exception
+   * @throws Exception see {@link Exception}
    */
   private void executeEmailJob(TaskStatus status) throws Exception {
     JobExecutionContext executionContext = Mockito.mock(JobExecutionContext.class);
