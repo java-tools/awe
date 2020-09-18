@@ -1985,23 +1985,17 @@ public class SeleniumUtilities {
    */
   protected void showMouse() {
     JavascriptExecutor js = ((JavascriptExecutor) driver);
-    js.executeScript("var seleniumFollowerImg=document.createElement(\"img\");" +
-      "seleniumFollowerImg.setAttribute('src', 'data:image/png;base64,'" +
-      "+ 'iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAQAAACGG/bgAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAA'" +
-      "+ 'HsYAAB7GAZEt8iwAAAAHdElNRQfgAwgMIwdxU/i7AAABZklEQVQ4y43TsU4UURSH8W+XmYwkS2I0'" +
-      "+ '9CRKpKGhsvIJjG9giQmliHFZlkUIGnEF7KTiCagpsYHWhoTQaiUUxLixYZb5KAAZZhbunu7O/PKf'" +
-      "+ 'e+fcA+/pqwb4DuximEqXhT4iI8dMpBWEsWsuGYdpZFttiLSSgTvhZ1W/SvfO1CvYdV1kPghV68a3'" +
-      "+ '0zzUWZH5pBqEui7dnqlFmLoq0gxC1XfGZdoLal2kea8ahLoqKXNAJQBT2yJzwUTVt0bS6ANqy1ga'" +
-      "+ 'VCEq/oVTtjji4hQVhhnlYBH4WIJV9vlkXLm+10R8oJb79Jl1j9UdazJRGpkrmNkSF9SOz2T71s7M'" +
-      "+ 'SIfD2lmmfjGSRz3hK8l4w1P+bah/HJLN0sys2JSMZQB+jKo6KSc8vLlLn5ikzF4268Wg2+pPOWW6'" +
-      "+ 'ONcpr3PrXy9VfS473M/D7H+TLmrqsXtOGctvxvMv2oVNP+Av0uHbzbxyJaywyUjx8TlnPY2YxqkD'" +
-      "+ 'dAAAAABJRU5ErkJggg=='); " +
+    js.executeScript("var seleniumFollowerImg=document.createElement(\"span\");" +
       "seleniumFollowerImg.setAttribute('id', 'selenium_mouse');" +
-      "seleniumFollowerImg.setAttribute('style', 'position: absolute; z-index: 99999999999; pointer-events: none;');" +
+      "seleniumFollowerImg.setAttribute('style', 'position: absolute; z-index: 99999999999; pointer-events: none; transition: text-shadow 0.1s linear; color: white;-webkit-text-stroke-width: 2px;-webkit-text-stroke-color: #000;');" +
+      "$(seleniumFollowerImg).addClass('fa fa-mouse-pointer fa-2x');" +
       "document.body.appendChild(seleniumFollowerImg);" +
       "$(document).mousemove(function(e) {" +
-      "$('#selenium_mouse').css('left', e.pageX);" +
-      "$('#selenium_mouse').css('top', e.pageY);" +
+      "$('#selenium_mouse').animate({'left': e.pageX + 'px', 'top': e.pageY + 'px'}, 100);" +
+      "});" +
+      "$(document).click(function(e) {" +
+      "$('#selenium_mouse').css({'text-shadow': '0 0 20px blue'});" +
+      "setTimeout(function() {$('#selenium_mouse').css({'text-shadow': '0 0 0px blue'});}, 100);" +
       "});");
   }
 
