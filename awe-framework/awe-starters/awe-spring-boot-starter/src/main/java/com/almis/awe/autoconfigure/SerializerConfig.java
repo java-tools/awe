@@ -33,7 +33,7 @@ public class SerializerConfig {
    */
   @PostConstruct
   public void onConstruct() {
-    engineThread = ThreadLocal.withInitial(() -> new ScriptEngineManager().getEngineByName("JavaScript"));
+    engineThread = ThreadLocal.withInitial(() -> new ScriptEngineManager().getEngineByName("graal.js"));
   }
 
   /**
