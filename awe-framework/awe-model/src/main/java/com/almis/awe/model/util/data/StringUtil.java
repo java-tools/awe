@@ -8,8 +8,9 @@ import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 import org.apache.commons.text.StringEscapeUtils;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Value;
 
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -406,13 +407,13 @@ public final class StringUtil {
   /**
    * Evaluates an expression as a javascript engine
    *
-   * @param expression       Expression to evaluate
-   * @param javascriptEngine Javascript engine
+   * @param expression Expression to evaluate
+   * @param context    Javascript engine context
    * @return Evaluated expression
    * @throws javax.script.ScriptException Script exception
    */
-  public static Object eval(String expression, ScriptEngine javascriptEngine) throws ScriptException {
-    return javascriptEngine.eval(expression);
+  public static Value eval(String expression, Context context) throws ScriptException {
+    return context.eval("js", expression);
   }
 
   /**

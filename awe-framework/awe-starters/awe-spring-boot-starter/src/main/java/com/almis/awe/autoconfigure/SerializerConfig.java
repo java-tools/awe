@@ -4,6 +4,7 @@ import com.almis.awe.model.component.XStreamSerializer;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.naming.NoNameCoder;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import org.graalvm.polyglot.Context;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +14,6 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 
 /**
  * Initialize serializer beans
@@ -26,14 +25,14 @@ public class SerializerConfig {
 
   @Value("${xml.parser.allowed.paths}")
   private String[] allowedPaths;
-  private ThreadLocal<ScriptEngine> engineThread;
+  private ThreadLocal<Context> engineThread;
 
   /**
    * On construct initialize threadlocal
    */
   @PostConstruct
   public void onConstruct() {
-    engineThread = ThreadLocal.withInitial(() -> new ScriptEngineManager().getEngineByName("graal.js"));
+    engineThread = ThreadLocal.withInitial(() -> Context.create("js"));
   }
 
   /**
@@ -82,7 +81,7 @@ public class SerializerConfig {
    */
   @Bean
   @Scope("prototype")
-  public ScriptEngine javascriptEngine() {
+  public Context javascriptEngine() {
     return engineThread.get();
   }
 }
