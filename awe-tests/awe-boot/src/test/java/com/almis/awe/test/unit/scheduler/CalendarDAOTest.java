@@ -67,6 +67,7 @@ public class CalendarDAOTest extends TestUtil {
   @Before
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
+    calendarDAO.setApplicationContext(context);
     doReturn(aweElements).when(context).getBean(any(Class.class));
     given(aweElements.getLanguage()).willReturn("ES");
     given(aweElements.getLocaleWithLanguage(anyString(), anyString())).willReturn("LOCALE");
@@ -76,8 +77,6 @@ public class CalendarDAOTest extends TestUtil {
 
   /**
    * Test context loaded
-   *
-   * @throws NamingException Test error
    */
   @Test
   public void contextLoads() {
@@ -161,8 +160,6 @@ public class CalendarDAOTest extends TestUtil {
 
   /**
    * Prepare calendar mocks
-   *
-   * @throws Exception
    */
   private void prepareCalendarForTests(Integer calendarId) throws Exception {
     // Mock

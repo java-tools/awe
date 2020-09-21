@@ -1278,7 +1278,7 @@
     <computed alias="PrgVal" format="Math.round(Math.random()*100)" eval="true"/>
     <compound alias="Prg">
       <computed alias="value" format="[PrgVal]"/>
-      <computed alias="label" format="'[PrgVal]'.substr(0,'[PrgVal]'.length - 2) + '%'" eval="true"/>
+      <computed alias="label" format="[PrgVal]%"/>
     </compound>
     <computed alias="Prg1" format="parseInt(Math.random()*100,10)" eval="true"/>
     <computed alias="Prg2" format="parseInt(Math.random()*100,10) - 50" eval="true"/>
@@ -1299,7 +1299,7 @@
     <table id="AweDbs" alias="dbs"/>
     <field id="IdeDbs" table="dbs" alias="MaxId" function="MAX"/>
     <computed alias="value" format="Math.round(Math.random()*100)" eval="true"/>
-    <computed alias="label" format="'[value]'.substr(0,'[value]'.length - 2) + '%'" eval="true"/>
+    <computed alias="label" format="[value]%"/>
   </query>
 
   <!-- TreeGrid example -->

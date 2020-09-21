@@ -19,7 +19,7 @@
     <!-- dependency versions -->
     <awe.version>${revision}</awe.version>
     <ade.version>2.0.14</ade.version>
-    <spring-boot.version>2.1.8.RELEASE</spring-boot.version>
+    <spring-boot.version>2.2.10.RELEASE</spring-boot.version>
     <spring-cloud.version>Greenwich.SR2</spring-cloud.version>
     <ehcache.version>3.6.1</ehcache.version>
     <javax.activation.version>1.2.0</javax.activation.version>
@@ -35,6 +35,7 @@
     <commons-text.version>1.8</commons-text.version>
     <annotation-api.version>1.3.2</annotation-api.version>
     <aspectjweaver.version>1.9.2</aspectjweaver.version>
+    <graalvm.version>20.2.0</graalvm.version>
     <selenium.version>3.141.59</selenium.version>
     <lombok.version>1.18.6</lombok.version>
     <querydsl.version>4.2.1</querydsl.version>
@@ -51,8 +52,8 @@
     <plugin-compiler.version>3.5.1</plugin-compiler.version>
     <plugin-war.version>3.3.1</plugin-war.version>
     <plugin-sonar.version>3.5.0.1254</plugin-sonar.version>
-    <plugin-surefire.version>2.22.0</plugin-surefire.version>
-    <plugin-failsafe.version>2.22.0</plugin-failsafe.version>
+    <plugin-surefire.version>3.0.0-M5</plugin-surefire.version>
+    <plugin-failsafe.version>3.0.0-M5</plugin-failsafe.version>
     <plugin-xml-maven.version>1.0.1</plugin-xml-maven.version>
     <plugin-jar.version>3.1.0</plugin-jar.version>
     <plugin-ant.version>1.8</plugin-ant.version>
@@ -277,6 +278,16 @@
         <groupId>com.sun.xml.bind</groupId>
         <artifactId>jaxb-impl</artifactId>
         <version>${jaxb.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.graalvm.js</groupId>
+        <artifactId>js</artifactId>
+        <version>${graalvm.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.graalvm.js</groupId>
+        <artifactId>js-scriptengine</artifactId>
+        <version>${graalvm.version}</version>
       </dependency>
 
       <!-- Lombok -->

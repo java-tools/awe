@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.util.StringValueResolver;
 
 import javax.sql.DataSource;
+import java.sql.DatabaseMetaData;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -199,7 +200,7 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
    */
   public String getDatabaseType(DataSource dataSource) throws AWException {
     try {
-      String url = JdbcUtils.extractDatabaseMetaData(dataSource, "getURL");
+      String url = JdbcUtils.extractDatabaseMetaData(dataSource, DatabaseMetaData::getURL);
       return DatabaseDriver.fromJdbcUrl(url).getId();
     } catch (Exception exc) {
       throw new AWException("Error retrieving database type from datasource", dataSource.toString(), exc);

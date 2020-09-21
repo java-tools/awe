@@ -24,7 +24,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.naming.NamingException;
 import java.io.File;
 import java.util.Arrays;
 
@@ -32,8 +31,7 @@ import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * @author pgarcia
@@ -70,12 +68,14 @@ public class EmailServiceTest extends TestUtil {
   @Before
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
+    doReturn(aweElements).when(context).getBean(any(Class.class));
+    emailService.setApplicationContext(context);
+    emailBuilder.setApplicationContext(context);
+    when(aweElements.getLocaleWithLanguage(anyString(), any())).thenReturn("");
   }
 
   /**
    * Test context loaded
-   *
-   * @throws NamingException Test error
    */
   @Test
   public void contextLoads() {
@@ -140,8 +140,6 @@ public class EmailServiceTest extends TestUtil {
     parameters.set("value", values);
     parameters.set("label", values);
 
-    emailService.setApplicationContext(context);
-    doReturn(aweElements).when(context).getBean(any(Class.class));
     given(aweElements.getEmail(anyString())).willReturn(email);
     given(queryUtil.getParameter(eq(valueVariable), any(ObjectNode.class))).willReturn(JsonNodeFactory.instance.textNode("tutu@test.com"));
     given(queryUtil.getParameter(eq(valuesVariable), any(ObjectNode.class))).willReturn(values);
