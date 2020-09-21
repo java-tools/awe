@@ -97,11 +97,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
-    <!-- ehcache and JSR dependencies-->
-    <dependency>
-      <groupId>org.ehcache</groupId>
-      <artifactId>ehcache</artifactId>
-    </dependency>
     <dependency>
       <groupId>javax.cache</groupId>
       <artifactId>cache-api</artifactId>

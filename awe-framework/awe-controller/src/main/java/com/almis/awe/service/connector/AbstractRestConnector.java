@@ -141,14 +141,14 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
    * @param urlParameters        Url parameters
    * @param paramsMapFromRequest Request parameters
    * @return Request
-   * @throws com.fasterxml.jackson.core.JsonProcessingException
+   * @throws com.fasterxml.jackson.core.JsonProcessingException {@link JsonProcessingException}
    */
   protected HttpEntity generateRequest(AbstractServiceRest rest, UriComponentsBuilder uriBuilder, Map<String, Object> urlParameters, Map<String, Object> paramsMapFromRequest) throws JsonProcessingException {
     // Define request headers
     HttpHeaders headers = new HttpHeaders();
 
     RestContentType restContentType = rest.getContentType() != null ? RestContentType.valueOf(rest.getContentType()) : RestContentType.URLENCODED;
-    MediaType contentType = restContentType.equals(RestContentType.JSON) ? MediaType.APPLICATION_JSON_UTF8 : MediaType.APPLICATION_FORM_URLENCODED;
+    MediaType contentType = restContentType.equals(RestContentType.JSON) ? MediaType.APPLICATION_JSON : MediaType.APPLICATION_FORM_URLENCODED;
 
     // Set content type
     if (!rest.getMethod().equalsIgnoreCase("GET")) {
@@ -305,10 +305,9 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
    *
    * @param query Subscribed query
    * @return Service data
-   * @throws AWException Error in subscription
    */
   @Override
-  public ServiceData subscribe(Query query) throws AWException {
+  public ServiceData subscribe(Query query) {
     // Return service output
     return new ServiceData();
   }
