@@ -25,8 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Log4j2
 @TestPropertySource({
-  "classpath:hsql.properties",
-  "classpath:cache.properties"
+  "classpath:hsql.properties"
 })
 public class SchedulerQueriesTest extends AweSpringDatabaseTests {
 

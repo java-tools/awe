@@ -24,8 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @WithMockUser(username = "test", password = "test")
 @TestPropertySource({
-  "classpath:hsql.properties",
-  "classpath:cache.properties"
+  "classpath:hsql.properties"
 })
 public abstract class AweSpringBootTests extends TestUtil {
 
