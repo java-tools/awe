@@ -220,6 +220,8 @@ public class ComputedColumnProcessor implements ColumnProcessor {
         evaluatedExpression.setValue(evaluated.asLong());
       } else if (evaluated.fitsInDouble()) {
         evaluatedExpression.setValue(evaluated.asDouble());
+      } else if (evaluated.isBoolean()) {
+        evaluatedExpression.setValue(evaluated.asBoolean());
       } else if (evaluated.isNull()) {
         evaluatedExpression.setValue(null);
       } else {
