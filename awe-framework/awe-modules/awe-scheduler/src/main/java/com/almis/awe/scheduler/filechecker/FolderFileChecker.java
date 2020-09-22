@@ -5,8 +5,6 @@ import com.almis.awe.scheduler.bean.file.File;
 import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.dao.FileDAO;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -17,19 +15,18 @@ import java.util.List;
 /**
  * @author dfuentes
  */
-@Component
 @Log4j2
 public class FolderFileChecker extends Connector {
 
   // Autowired services
-  private FileClient fileClient;
+  private final FileClient fileClient;
 
   /**
    * Autowired constructor
    *
-   * @param fileDAO
+   * @param fileDAO    File DAO
+   * @param fileClient File client
    */
-  @Autowired
   public FolderFileChecker(FileDAO fileDAO, FileClient fileClient) {
     super(fileDAO);
     this.fileClient = fileClient;

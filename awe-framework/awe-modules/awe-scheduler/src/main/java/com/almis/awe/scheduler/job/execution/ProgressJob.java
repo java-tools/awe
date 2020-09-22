@@ -7,26 +7,22 @@ import org.quartz.InterruptableJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.UnableToInterruptJobException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 
 import static com.almis.awe.scheduler.constant.JobConstants.TASK_JOB_AVERAGE_TIME;
 import static com.almis.awe.scheduler.constant.JobConstants.TASK_JOB_EXECUTION;
 
 @Log4j2
-@Component
 public class ProgressJob implements InterruptableJob {
 
   // Autowired services
-  private ApplicationEventPublisher eventPublisher;
+  private final ApplicationEventPublisher eventPublisher;
 
   /**
    * Autowired constructor
    *
    * @param eventPublisher Event publisher
    */
-  @Autowired
   public ProgressJob(ApplicationEventPublisher eventPublisher) {
     this.eventPublisher = eventPublisher;
   }

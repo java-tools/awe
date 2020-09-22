@@ -8,15 +8,14 @@ import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.tracker.AweConnectionTracker;
+import com.almis.awe.model.util.data.TimeUtil;
 import com.almis.awe.scheduler.bean.event.SchedulerTaskFinishedEvent;
 import com.almis.awe.scheduler.bean.event.SchedulerTaskProgressEvent;
 import com.almis.awe.scheduler.bean.event.SchedulerTaskStartedEvent;
 import com.almis.awe.scheduler.bean.task.TaskExecution;
 import com.almis.awe.scheduler.dao.TaskDAO;
-import com.almis.awe.model.util.data.TimeUtil;
 import com.almis.awe.service.BroadcastService;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 
 import java.util.Map;
@@ -28,19 +27,18 @@ import static com.almis.awe.scheduler.constant.TaskConstants.*;
 @Log4j2
 public class SchedulerEventListener {
 
-  private BroadcastService broadcastService;
-  private AweConnectionTracker connectionTracker;
-  private TaskDAO taskDAO;
+  private final BroadcastService broadcastService;
+  private final AweConnectionTracker connectionTracker;
+  private final TaskDAO taskDAO;
   private static final String TASK_SCREEN = "scheduler-tasks";
 
   /**
    * Autowired constructor
    *
-   * @param broadcastService
-   * @param connectionTracker
-   * @param taskDAO
+   * @param broadcastService  Broadcast service
+   * @param connectionTracker Connection tracker
+   * @param taskDAO           Task DAO
    */
-  @Autowired
   public SchedulerEventListener(BroadcastService broadcastService, AweConnectionTracker connectionTracker, TaskDAO taskDAO) {
     this.broadcastService = broadcastService;
     this.connectionTracker = connectionTracker;

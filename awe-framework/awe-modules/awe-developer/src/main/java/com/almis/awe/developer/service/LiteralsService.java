@@ -26,7 +26,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.*;
@@ -74,7 +73,6 @@ public class LiteralsService extends ServiceConfig {
    * @param pathService Path service
    * @param serializer  Serializer
    */
-  @Autowired
   public LiteralsService(PathService pathService, XStreamSerializer serializer) {
     this.pathService = pathService;
     this.serializer = serializer;
@@ -601,7 +599,7 @@ public class LiteralsService extends ServiceConfig {
   /**
    * Read all XML files and return them
    *
-   * @param path      File path
+   * @param path File path
    * @return Xml file object
    */
   private XMLFile readXmlFile(String path) {
@@ -679,9 +677,9 @@ public class LiteralsService extends ServiceConfig {
     /* GLOSBE */
     String encodedText = URLEncoder.encode(literal, StandardCharsets.UTF_8.toString());
     String url = translationApiUrl +
-            "?" + keyParameter + "=" + translationApiKey +
-            "&" + languageParameter + "=" + fromLang.toLowerCase() + "|" + toLang.toLowerCase() +
-            "&" + textParameter + "=" + encodedText;
+      "?" + keyParameter + "=" + translationApiKey +
+      "&" + languageParameter + "=" + fromLang.toLowerCase() + "|" + toLang.toLowerCase() +
+      "&" + textParameter + "=" + encodedText;
 
     URLConnection connection = new URL(url).openConnection();
 

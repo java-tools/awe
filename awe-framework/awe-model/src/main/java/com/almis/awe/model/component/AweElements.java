@@ -30,7 +30,6 @@ import com.almis.awe.model.util.log.LogUtil;
 import lombok.NonNull;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -161,7 +160,6 @@ public class AweElements {
    * @param context Context
    * @param logger  Logger
    */
-  @Autowired
   public AweElements(WebApplicationContext context, LogUtil logger, AweElementsDao elementsDao) {
     this.context = context;
     this.logger = logger;

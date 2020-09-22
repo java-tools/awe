@@ -16,7 +16,6 @@ import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.service.QueryService;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jms.Destination;
 import javax.naming.Context;
@@ -29,26 +28,27 @@ import java.util.Map.Entry;
 
 /**
  * JMS Destination list
+ *
  * @author pgarcia
  */
 public class AweJmsDestination {
 
   // Autowired services
-  private AweElements elements;
-  private LogUtil logger;
-  private QueryService queryService;
+  private final AweElements elements;
+  private final LogUtil logger;
+  private final QueryService queryService;
   private Map<String, JmsDestination> destinationMap;
 
   /**
    * Autowired constructor
-   * @param elements Awe Elements
-   * @param logger Logger
+   *
+   * @param elements     Awe Elements
+   * @param logger       Logger
    * @param queryService Query service
    */
-  @Autowired
   public AweJmsDestination(AweElements elements, LogUtil logger, QueryService queryService) {
     this.elements = elements;
-    this.logger  = logger;
+    this.logger = logger;
     this.queryService = queryService;
 
     // Load sources
@@ -72,13 +72,13 @@ public class AweJmsDestination {
           boolean isTopic = connection.get("QueTyp").getStringValue().equalsIgnoreCase("TOPIC");
 
           JmsDestination destination = new JmsDestination()
-                  .setAlias(alias)
-                  .setConnectionType(connectionType)
-                  .setBroker(connection.get("JmsBrk").getStringValue())
-                  .setUsername(connection.get("JmsUsr").getStringValue())
-                  .setPassword(EncodeUtil.decryptRipEmd160(connection.get("JmsPwd").getStringValue()))
-                  .setTopic(isTopic)
-                  .setDestination(connection.get("DstNam").getStringValue());
+            .setAlias(alias)
+            .setConnectionType(connectionType)
+            .setBroker(connection.get("JmsBrk").getStringValue())
+            .setUsername(connection.get("JmsUsr").getStringValue())
+            .setPassword(EncodeUtil.decryptRipEmd160(connection.get("JmsPwd").getStringValue()))
+            .setTopic(isTopic)
+            .setDestination(connection.get("DstNam").getStringValue());
 
           destinationMap.put(alias, destination);
         }
@@ -90,6 +90,7 @@ public class AweJmsDestination {
 
   /**
    * Retrieve topic list
+   *
    * @return Topic list
    */
   public List<String> getTopicList() {
@@ -104,6 +105,7 @@ public class AweJmsDestination {
 
   /**
    * Retrieve JMS destination for a queue or a topic
+   *
    * @param alias JMS destination alias
    * @return Destination
    * @throws AWException Error retrieving destination
@@ -114,6 +116,7 @@ public class AweJmsDestination {
 
   /**
    * Retrieve JMS destination for a queue or a topic
+   *
    * @param destinationInfo JMS Destination information
    * @return Destination
    */
@@ -132,7 +135,7 @@ public class AweJmsDestination {
       throw exc;
     } catch (Exception exc) {
       throw new AWException(elements.getLocaleWithLanguage("ERROR_TITLE_DESTINATION_FAILED", elements.getLanguage()),
-              elements.getLocaleWithLanguage("ERROR_MESSAGE_DESTINATION_FAILED", elements.getLanguage(), destinationInfo.getDestination()), exc);
+        elements.getLocaleWithLanguage("ERROR_MESSAGE_DESTINATION_FAILED", elements.getLanguage(), destinationInfo.getDestination()), exc);
     }
 
     return destination;
@@ -158,7 +161,7 @@ public class AweJmsDestination {
       destination = (Destination) envContext.lookup(destinationInfo.getDestination());
     } catch (Exception exc) {
       throw new AWException(elements.getLocaleWithLanguage("ERROR_TITLE_QUEUE_DESTINATION_NOT_FOUND", elements.getLanguage()),
-              elements.getLocaleWithLanguage("ERROR_MESSAGE_QUEUE_DESTINATION_NOT_FOUND", elements.getLanguage(), destinationInfo.getDestination()), exc);
+        elements.getLocaleWithLanguage("ERROR_MESSAGE_QUEUE_DESTINATION_NOT_FOUND", elements.getLanguage(), destinationInfo.getDestination()), exc);
     }
 
     return destination;

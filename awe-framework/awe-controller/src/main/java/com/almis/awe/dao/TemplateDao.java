@@ -7,7 +7,6 @@ import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.menu.Option;
 import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.service.MenuService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -32,9 +31,9 @@ import java.util.stream.Collectors;
 public class TemplateDao {
 
   // Autowired services
-  private MenuService menuService;
-  private AweElementsDao aweElementsDao;
-  private STGroup helpTemplateGroup;
+  private final MenuService menuService;
+  private final AweElementsDao aweElementsDao;
+  private final STGroup helpTemplateGroup;
 
   /**
    * Autowired constructor
@@ -43,7 +42,6 @@ public class TemplateDao {
    * @param aweElementsDao    AWE Elements DAO
    * @param helpTemplateGroup Help templates
    */
-  @Autowired
   public TemplateDao(MenuService menuService,
                      AweElementsDao aweElementsDao,
                      @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup) {

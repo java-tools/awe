@@ -4,21 +4,19 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.util.data.QueryUtil;
+import com.almis.awe.model.util.data.TimeUtil;
 import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.bean.task.TaskExecution;
 import com.almis.awe.scheduler.dao.TaskDAO;
 import com.almis.awe.scheduler.enums.TaskStatus;
 import com.almis.awe.scheduler.job.scheduled.SchedulerJob;
-import com.almis.awe.model.util.data.TimeUtil;
 import com.almis.awe.service.MaintainService;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.ThreadContext;
 import org.quartz.JobDataMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
@@ -31,17 +29,16 @@ import java.util.concurrent.Future;
  *
  * @author pvidal
  */
-@Service
 @Log4j2
 @Getter
 public abstract class JobService extends ServiceConfig {
 
   // Autowired services
-  private ExecutionService executionService;
-  private MaintainService maintainService;
-  private QueryUtil queryUtil;
-  private TaskDAO taskDAO;
-  private ApplicationEventPublisher eventPublisher;
+  private final ExecutionService executionService;
+  private final MaintainService maintainService;
+  private final QueryUtil queryUtil;
+  private final TaskDAO taskDAO;
+  private final ApplicationEventPublisher eventPublisher;
 
   @Value("${scheduler.task.timeout:1800}")
   private int defaultTimeout;
@@ -52,7 +49,6 @@ public abstract class JobService extends ServiceConfig {
   /**
    * Constructor
    */
-  @Autowired
   public JobService(ExecutionService executionService, MaintainService maintainService, QueryUtil queryUtil, TaskDAO taskDAO,
                     ApplicationEventPublisher eventPublisher) {
     this.executionService = executionService;

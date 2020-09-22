@@ -4,7 +4,6 @@ import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.bean.task.TaskParameter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.SystemUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,9 +23,9 @@ public class CommandDAO {
 
   /**
    * Autowired constructor
-   * @param runtime
+   *
+   * @param runtime Runtime service
    */
-  @Autowired
   public CommandDAO(Runtime runtime) {
     this.runtime = runtime;
   }
@@ -113,10 +112,11 @@ public class CommandDAO {
 
   /**
    * Log a handler
-   * @param task Task
+   *
+   * @param task        Task
    * @param inputStream Input stream
-   * @param type Handler
-   * Private class to handler and trace output command
+   * @param type        Handler
+   *                    Private class to handler and trace output command
    */
   private void logHandler(Task task, InputStream inputStream, String type) {
     String line;

@@ -11,27 +11,20 @@ import com.almis.awe.scheduler.dao.TaskDAO;
 import com.almis.awe.service.MaintainService;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.JobDataMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Service;
 
 import java.util.concurrent.Future;
 
 /**
  * @author dfuentes
  */
-@Service
 @Log4j2
 public class CommandJobService extends JobService {
 
   // Autowired services
-  private CommandDAO commandDAO;
-
-  @Value("${scheduler.task.timeout:1800}")
-  private int defaultTimeout;
+  private final CommandDAO commandDAO;
 
   // Locales
   private static final String SCHEDULER_BATCH_LAUNCH_TITLE = "SCHEDULER_BATCH_LAUNCH_TITLE";
@@ -44,7 +37,6 @@ public class CommandJobService extends JobService {
    *
    * @param executionService Timeout service
    */
-  @Autowired
   public CommandJobService(ExecutionService executionService, MaintainService maintainService, QueryUtil queryUtil, TaskDAO taskDAO, ApplicationEventPublisher eventPublisher, CommandDAO commandDAO) {
     super(executionService, maintainService, queryUtil, taskDAO, eventPublisher);
     this.commandDAO = commandDAO;

@@ -27,10 +27,10 @@ import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADE
 public class SettingsController extends ServiceConfig {
 
   // Autowired services
-  private Environment environment;
-  private MenuService menuService;
-  private InitService initService;
-  private AweRequest request;
+  private final Environment environment;
+  private final MenuService menuService;
+  private final InitService initService;
+  private final AweRequest request;
 
   /**
    * Initialize controller
@@ -38,7 +38,7 @@ public class SettingsController extends ServiceConfig {
    * @param environment Environment
    * @param menuService Menu service
    * @param initService Init service
-   * @param request AWE request
+   * @param request     AWE request
    */
   @Autowired
   public SettingsController(Environment environment, MenuService menuService, InitService initService, AweRequest request) {
@@ -50,8 +50,9 @@ public class SettingsController extends ServiceConfig {
 
   /**
    * Retrieve application settings
-   * @param token initial token
-   * @param httpServletRequest  Servlet request
+   *
+   * @param token              initial token
+   * @param httpServletRequest Servlet request
    * @return WebSettings
    * @throws AWException Error generating settings
    */

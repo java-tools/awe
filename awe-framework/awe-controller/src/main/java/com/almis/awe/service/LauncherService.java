@@ -1,15 +1,13 @@
 package com.almis.awe.service;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-
 import com.almis.awe.config.ServiceConfig;
-import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.exception.AWException;
+import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.services.ServiceType;
 import com.almis.awe.service.connector.ServiceConnector;
+import org.springframework.context.ApplicationContext;
+
+import java.util.Map;
 
 /**
  * LauncherService Class
@@ -21,14 +19,13 @@ import com.almis.awe.service.connector.ServiceConnector;
 public class LauncherService extends ServiceConfig {
 
   // Application context
-  private ApplicationContext context;
+  private final ApplicationContext context;
 
   /**
    * Initialize service with aweElements and application context
    *
    * @param context Application context
    */
-  @Autowired
   public LauncherService(ApplicationContext context) {
     this.context = context;
   }

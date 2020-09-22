@@ -37,11 +37,9 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -58,7 +56,6 @@ import static com.almis.awe.scheduler.constant.MaintainConstants.*;
 import static com.almis.awe.scheduler.constant.QueryConstants.*;
 import static com.almis.awe.scheduler.constant.TaskConstants.*;
 
-@Repository
 @Log4j2
 public class TaskDAO extends ServiceConfig {
 
@@ -74,20 +71,19 @@ public class TaskDAO extends ServiceConfig {
   private static final String WARNING_MESSAGE_TASK_DEPENDENCY_ERROR = "WARNING_MESSAGE_TASK_DEPENDENCY_ERROR";
 
   // Autowired services
-  private QueryService queryService;
-  private MaintainService maintainService;
-  private Scheduler scheduler;
-  private QueryUtil queryUtil;
-  private CalendarDAO calendarDAO;
-  private ServerDAO serverDAO;
-  private FileChecker fileChecker;
+  private final QueryService queryService;
+  private final MaintainService maintainService;
+  private final Scheduler scheduler;
+  private final QueryUtil queryUtil;
+  private final CalendarDAO calendarDAO;
+  private final ServerDAO serverDAO;
+  private final FileChecker fileChecker;
 
   /**
    * Autowired constructor
    *
    * @param queryService
    */
-  @Autowired
   public TaskDAO(Scheduler scheduler, QueryService queryService, MaintainService maintainService, QueryUtil queryUtil,
                  CalendarDAO calendarDAO, ServerDAO serverDAO, FileChecker fileChecker) {
     this.scheduler = scheduler;
@@ -280,6 +276,7 @@ public class TaskDAO extends ServiceConfig {
 
   /**
    * Retrieve executions to purge (sorted)
+   *
    * @param taskId
    * @param executions
    * @return
@@ -1033,7 +1030,8 @@ public class TaskDAO extends ServiceConfig {
 
   /**
    * Get execution from Database
-   * @param taskId Task id
+   *
+   * @param taskId      Task id
    * @param executionId Execution id
    * @return
    * @throws AWException
@@ -1049,7 +1047,8 @@ public class TaskDAO extends ServiceConfig {
 
   /**
    * Get last execution from Database
-   * @param taskId Task id
+   *
+   * @param taskId    Task id
    * @param taskGroup Task group
    * @return
    * @throws AWException
@@ -1080,6 +1079,7 @@ public class TaskDAO extends ServiceConfig {
 
   /**
    * Get the average time as string
+   *
    * @param taskId Task identifier
    * @return Average time as string
    * @throws AWException

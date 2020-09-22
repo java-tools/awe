@@ -7,6 +7,13 @@ import com.almis.awe.scheduler.filechecker.FTPFileChecker;
 import com.almis.awe.scheduler.filechecker.FileChecker;
 import com.almis.awe.scheduler.filechecker.FileClient;
 import com.almis.awe.scheduler.filechecker.FolderFileChecker;
+import com.almis.awe.scheduler.job.execution.ProgressJob;
+import com.almis.awe.scheduler.job.execution.TimeoutJob;
+import com.almis.awe.scheduler.job.report.BroadcastReportJob;
+import com.almis.awe.scheduler.job.report.EmailReportJob;
+import com.almis.awe.scheduler.job.report.MaintainReportJob;
+import com.almis.awe.scheduler.job.scheduled.CommandJob;
+import com.almis.awe.scheduler.job.scheduled.MaintainJob;
 import com.almis.awe.scheduler.listener.SchedulerEventListener;
 import com.almis.awe.scheduler.listener.SchedulerJobListener;
 import com.almis.awe.scheduler.listener.SchedulerTriggerListener;
@@ -103,7 +110,7 @@ public class SchedulerConfig {
   }
 
   /*********************************************************************************************************************
-   JOB TYPES
+   JOB SERVICES
    ********************************************************************************************************************/
 
   /**
@@ -124,6 +131,87 @@ public class SchedulerConfig {
   @Bean
   public CommandJobService commandJobService(ExecutionService executionService, MaintainService maintainService, QueryUtil queryUtil, TaskDAO taskDAO, ApplicationEventPublisher eventPublisher, CommandDAO commandDAO) {
     return new CommandJobService(executionService, maintainService, queryUtil, taskDAO, eventPublisher, commandDAO);
+  }
+
+  /*********************************************************************************************************************
+   JOB TYPES
+   ********************************************************************************************************************/
+
+  /**
+   * Define progress job
+   *
+   * @return Scheduler job
+   */
+  @Bean
+  @Scope("prototype")
+  public ProgressJob progressJob(ApplicationEventPublisher eventPublisher) {
+    return new ProgressJob(eventPublisher);
+  }
+
+  /**
+   * Define timeout job
+   *
+   * @return Scheduler job
+   */
+  @Bean
+  @Scope("prototype")
+  public TimeoutJob timeoutJob() {
+    return new TimeoutJob();
+  }
+
+  /**
+   * Define Maintain job
+   *
+   * @return Scheduler job
+   */
+  @Bean
+  @Scope("prototype")
+  public MaintainJob maintainJob(MaintainJobService jobService) {
+    return new MaintainJob(jobService);
+  }
+
+  /**
+   * Define Command job
+   *
+   * @return Scheduler job
+   */
+  @Bean
+  @Scope("prototype")
+  public CommandJob commandJob(CommandJobService jobService) {
+    return new CommandJob(jobService);
+  }
+
+  /**
+   * Define maintain report job
+   *
+   * @return Scheduler job
+   */
+  @Bean
+  @Scope("prototype")
+  public MaintainReportJob maintainReportJob(QueryUtil queryUtil, MaintainService maintainService) {
+    return new MaintainReportJob(queryUtil, maintainService);
+  }
+
+  /**
+   * Define email report job
+   *
+   * @return Scheduler job
+   */
+  @Bean
+  @Scope("prototype")
+  public EmailReportJob emailReportJob(QueryUtil queryUtil, MaintainService maintainService, QueryService queryService) {
+    return new EmailReportJob(queryUtil, maintainService, queryService);
+  }
+
+  /**
+   * Define broadcast report job
+   *
+   * @return Scheduler job
+   */
+  @Bean
+  @Scope("prototype")
+  public BroadcastReportJob broadcastReportJob(BroadcastService broadcastService) {
+    return new BroadcastReportJob(broadcastService);
   }
 
   /*********************************************************************************************************************

@@ -27,9 +27,9 @@ import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADE
 public class FileController extends ServiceConfig {
 
   // Autowired services
-  private FileService fileService;
-  private LogUtil logger;
-  private MaintainService maintainService;
+  private final FileService fileService;
+  private final LogUtil logger;
+  private final MaintainService maintainService;
 
   /**
    * Autowired constructor

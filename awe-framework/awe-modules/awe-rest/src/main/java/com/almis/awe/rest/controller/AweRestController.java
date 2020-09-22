@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.*;
 public class AweRestController {
 
   // Autowired services
-  private QueryService queryService;
-  private MaintainService maintainService;
-  private AweRequest request;
+  private final QueryService queryService;
+  private final MaintainService maintainService;
+  private final AweRequest request;
 
   /**
    * Autowired constructor

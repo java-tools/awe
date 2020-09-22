@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * WebTooltip options
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Accessors(chain = true)
-@Component
 @ConfigurationProperties(prefix = "settings.pivot.options")
 public class WebPivotOptions {
   private Integer numGroup;

@@ -30,7 +30,6 @@ import java.util.List;
  * Controller for File Manager
  *
  * @author jbellon
- *
  */
 @Controller
 @RequestMapping("/fm")
@@ -39,11 +38,12 @@ public class FileManagerController {
   private static final Logger LOGGER = LogManager.getLogger(FileManagerController.class);
 
   // Autowired services
-  FileManagerService service;
-  ServletContext context;
+  private final FileManagerService service;
+  private final ServletContext context;
 
   /**
    * Autowired constructor
+   *
    * @param service File manager service
    * @param context Servlet context
    */
@@ -55,9 +55,10 @@ public class FileManagerController {
 
   /**
    * Handler for home page
+   *
    * @param response Response
-   * @param request Request
-   * @param session Session
+   * @param request  Request
+   * @param session  Session
    * @return Index page
    */
   @GetMapping("/home")
@@ -68,7 +69,7 @@ public class FileManagerController {
   /**
    * Get method
    *
-   * @param request HttpServletRequest
+   * @param request  HttpServletRequest
    * @param response HttpServletResponse
    * @throws IOException
    * @throws AWException
@@ -106,10 +107,10 @@ public class FileManagerController {
     response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
 
     try (FileInputStream input = new FileInputStream(file);
-         BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())){
+         BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
 
       byte[] buffer = new byte[8192];
-      for (int length = 0; (length = input.read(buffer)) > 0;) {
+      for (int length = 0; (length = input.read(buffer)) > 0; ) {
         output.write(buffer, 0, length);
       }
     } catch (Exception ex) {
@@ -129,10 +130,9 @@ public class FileManagerController {
   /**
    * POST method
    *
-   * @param request HttpServletRequest
+   * @param request  HttpServletRequest
    * @param response HttpServletResponse
    * @throws IOException
-   *
    */
   @PostMapping("/{actionId}")
   @ResponseBody
@@ -157,11 +157,10 @@ public class FileManagerController {
   /**
    * POST upload method
    *
-   * @param files Upload files
-   * @param request HttpServletRequest
+   * @param files    Upload files
+   * @param request  HttpServletRequest
    * @param response HttpServletResponse
    * @throws IOException Error uploading
-   *
    */
   @PostMapping("/uploadUrl")
   @ResponseBody
@@ -188,6 +187,7 @@ public class FileManagerController {
 
   /**
    * Get parameters of request body as Json
+   *
    * @param request Request
    * @return Parameters
    */
@@ -214,7 +214,7 @@ public class FileManagerController {
    * Writes a JsonNode in the output
    *
    * @param response Response
-   * @param node Node
+   * @param node     Node
    * @throws IOException Error writing output
    */
   private void writeResponse(HttpServletResponse response, JsonNode node) throws IOException {

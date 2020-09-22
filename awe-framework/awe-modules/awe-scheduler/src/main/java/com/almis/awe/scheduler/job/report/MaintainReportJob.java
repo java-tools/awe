@@ -8,27 +8,23 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import static com.almis.awe.scheduler.constant.JobConstants.TASK;
 import static com.almis.awe.scheduler.constant.JobConstants.TASK_JOB_EXECUTION;
 
 @Log4j2
-@Component
 public class MaintainReportJob extends ReportJob {
 
   // Autowired services
-  private QueryUtil queryUtil;
-  private MaintainService maintainService;
+  private final QueryUtil queryUtil;
+  private final MaintainService maintainService;
 
   /**
    * Autowired constructor
    *
-   * @param queryUtil
-   * @param maintainService
+   * @param queryUtil       Query utilities
+   * @param maintainService Maintain service
    */
-  @Autowired
   public MaintainReportJob(QueryUtil queryUtil, MaintainService maintainService) {
     this.queryUtil = queryUtil;
     this.maintainService = maintainService;

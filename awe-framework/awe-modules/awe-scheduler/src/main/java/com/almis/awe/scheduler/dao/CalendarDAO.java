@@ -23,8 +23,6 @@ import lombok.extern.log4j.Log4j2;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.quartz.spi.OperableTrigger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -36,7 +34,6 @@ import static com.almis.awe.scheduler.constant.QueryConstants.*;
 import static com.almis.awe.scheduler.constant.TaskConstants.YEAR_LABEL;
 import static com.almis.awe.scheduler.constant.TaskConstants.YEAR_VALUE;
 
-@Repository
 @Log4j2
 public class CalendarDAO extends ServiceConfig {
 
@@ -46,18 +43,17 @@ public class CalendarDAO extends ServiceConfig {
   private static final String MESSAGE_SCHEDULER_DELETE_CALENDAR_WITH_ASSOCIATED_TASKS = "MESSAGE_SCHEDULER_DELETE_CALENDAR_WITH_ASSOCIATED_TASKS";
 
   // Autowired services
-  private Scheduler scheduler;
-  private QueryService queryService;
-  private QueryUtil queryUtil;
+  private final Scheduler scheduler;
+  private final QueryService queryService;
+  private final QueryUtil queryUtil;
 
   /**
    * Autowired constructor
    *
-   * @param scheduler
-   * @param queryService
-   * @param queryUtil
+   * @param scheduler    Scheduler
+   * @param queryService Query service
+   * @param queryUtil    Query utilities
    */
-  @Autowired
   public CalendarDAO(Scheduler scheduler, QueryService queryService, QueryUtil queryUtil) {
     this.scheduler = scheduler;
     this.queryService = queryService;

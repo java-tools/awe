@@ -18,7 +18,6 @@ import com.almis.awe.model.util.file.FileUtil;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 
@@ -58,7 +57,6 @@ public class ReportGenerator extends ServiceConfig {
    * @param reportDesigner Report designer
    * @param adeAPI         ADE API
    */
-  @Autowired
   public ReportGenerator(ReportDesigner reportDesigner, ADE adeAPI) {
     this.designer = reportDesigner;
     this.adeAPI = adeAPI;

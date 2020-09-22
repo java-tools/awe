@@ -16,7 +16,6 @@ import com.almis.awe.model.entities.screen.component.TagList;
 import com.almis.awe.model.type.LoadType;
 import com.almis.awe.model.util.data.StringUtil;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
 import org.stringtemplate.v4.ST;
@@ -35,12 +34,12 @@ import java.util.regex.Matcher;
 public class TemplateService extends ServiceConfig {
 
   // Autowired services
-  private MenuService menuService;
-  private STGroup elementsTemplateGroup;
-  private STGroup helpTemplateGroup;
-  private STGroup screensTemplateGroup;
-  private QueryService queryService;
-  private TemplateDao templateDao;
+  private final MenuService menuService;
+  private final STGroup elementsTemplateGroup;
+  private final STGroup helpTemplateGroup;
+  private final STGroup screensTemplateGroup;
+  private final QueryService queryService;
+  private final TemplateDao templateDao;
 
   /**
    * Autowired constructor
@@ -52,7 +51,6 @@ public class TemplateService extends ServiceConfig {
    * @param queryService          Query service
    * @param templateDao           Template DAO
    */
-  @Autowired
   public TemplateService(MenuService menuService,
                          @Qualifier("elementsTemplateGroup") STGroup elementsTemplateGroup,
                          @Qualifier("helpTemplateGroup") STGroup helpTemplateGroup,

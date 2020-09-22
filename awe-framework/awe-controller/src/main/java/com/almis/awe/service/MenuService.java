@@ -23,7 +23,6 @@ import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.service.screen.ScreenComponentGenerator;
 import com.almis.awe.service.screen.ScreenRestrictionGenerator;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.cache.annotation.CacheRemoveAll;
@@ -67,7 +66,6 @@ public class MenuService extends ServiceConfig {
    * @param screenComponentGenerator   Screen component generator
    * @param initialLoadDao             Initial load service
    */
-  @Autowired
   public MenuService(QueryService queryService, ScreenRestrictionGenerator screenRestrictionGenerator,
                      ScreenComponentGenerator screenComponentGenerator, InitialLoadDao initialLoadDao) {
     this.queryService = queryService;

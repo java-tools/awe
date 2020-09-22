@@ -11,13 +11,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import static com.almis.awe.scheduler.constant.ReportConstants.*;
 
 @Log4j2
-@Component
 public class EmailReportJob extends ReportJob {
 
   // Constants
@@ -28,18 +25,18 @@ public class EmailReportJob extends ReportJob {
   private static final String NEW_LINE = "\n";
 
   // Autowired services
-  private QueryUtil queryUtil;
-  private MaintainService maintainService;
-  private QueryService queryService;
-  private ObjectMapper mapper;
+  private final QueryUtil queryUtil;
+  private final MaintainService maintainService;
+  private final QueryService queryService;
+  private final ObjectMapper mapper;
 
   /**
    * Autowired constructor
    *
-   * @param queryUtil
-   * @param maintainService
+   * @param queryUtil       Query utilities
+   * @param maintainService Maintain service
+   * @param queryService    Query service
    */
-  @Autowired
   public EmailReportJob(QueryUtil queryUtil, MaintainService maintainService, QueryService queryService) {
     this.queryUtil = queryUtil;
     this.maintainService = maintainService;

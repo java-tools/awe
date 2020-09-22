@@ -28,7 +28,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.NonNull;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Arrays;
@@ -44,11 +43,11 @@ import static com.almis.awe.model.constant.AweConstants.NO_KEY;
 public class ScreenService extends ServiceConfig {
 
   // Autowired services
-  private MenuService menuService;
-  private MaintainService maintainService;
-  private ScreenComponentGenerator screenComponentGenerator;
-  private ApplicationEventPublisher eventPublisher;
-  private TemplateService templateService;
+  private final MenuService menuService;
+  private final MaintainService maintainService;
+  private final ScreenComponentGenerator screenComponentGenerator;
+  private final ApplicationEventPublisher eventPublisher;
+  private final TemplateService templateService;
 
   /**
    * Autowired constructor
@@ -59,7 +58,6 @@ public class ScreenService extends ServiceConfig {
    * @param screenComponentGenerator Screen component generator
    * @param eventPublisher           Event publisher
    */
-  @Autowired
   public ScreenService(MenuService menuService, MaintainService maintainService, TemplateService templateService, ScreenComponentGenerator screenComponentGenerator, ApplicationEventPublisher eventPublisher) {
     this.menuService = menuService;
     this.maintainService = maintainService;

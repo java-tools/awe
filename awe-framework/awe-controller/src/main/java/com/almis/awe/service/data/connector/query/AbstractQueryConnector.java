@@ -14,13 +14,12 @@ import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.service.data.builder.QueryBuilder;
 import com.almis.awe.service.data.processor.*;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
 /**
  * AbstractQueryConnector Class
- *
+ * <p>
  * Abstract class that all database-related query launcher should extend
  *
  * @author Jorge BELLON 24-02-2017
@@ -28,21 +27,22 @@ import java.util.Map;
 public abstract class AbstractQueryConnector extends ServiceConfig implements QueryConnector {
 
   // Autowired services
-  private QueryUtil queryUtil;
+  private final QueryUtil queryUtil;
 
   /**
    * Autowired constructor
+   *
    * @param queryUtil Query utilities
    */
-  @Autowired
   public AbstractQueryConnector(QueryUtil queryUtil) {
     this.queryUtil = queryUtil;
   }
 
   /**
    * Build results
+   *
    * @param builder Builder
-   * @param query Query launched
+   * @param query   Query launched
    * @return Final output
    * @throws AWException error generating results
    */
@@ -59,8 +59,9 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
 
   /**
    * Generate datalist result
-   * @param result Output
-   * @param query Query launched
+   *
+   * @param result       Output
+   * @param query        Query launched
    * @param parameterMap Parameters
    * @return Final output
    * @throws AWException error generating results
@@ -74,7 +75,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
       throw exc;
     } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_ERROR_EXECUTING_SERVICE_QUERY"),
-              getLocale("ERROR_MESSAGE_EXECUTING_SERVICE_QUERY", query.getId()), exc);
+        getLocale("ERROR_MESSAGE_EXECUTING_SERVICE_QUERY", query.getId()), exc);
     }
     result.setDataList(datalist);
     return result;
@@ -83,8 +84,8 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
   /**
    * Retrieves complete data list with totals
    *
-   * @param serviceData ServiceData
-   * @param query Query
+   * @param serviceData  ServiceData
+   * @param query        Query
    * @param parameterMap Parameters
    * @return Complete data list with totals
    * @throws AWException Complete list generation error
@@ -114,24 +115,24 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
           }
         }
         builder.setDataList(serviceDataList)
-                .setFieldList(query.getSqlFieldList())
-                .setMax(parameterMap.get(AweConstants.QUERY_MAX).getValue().asLong())
-                .setPage(parameterMap.get(AweConstants.QUERY_PAGE).getValue().asLong())
-                .setRecords(serviceDataList.getRecords());
+          .setFieldList(query.getSqlFieldList())
+          .setMax(parameterMap.get(AweConstants.QUERY_MAX).getValue().asLong())
+          .setPage(parameterMap.get(AweConstants.QUERY_PAGE).getValue().asLong())
+          .setRecords(serviceDataList.getRecords());
       } else {
         builder.setDataList(serviceDataList)
-                .setMax(parameterMap.get(AweConstants.QUERY_MAX).getValue().asLong())
-                .setPage(parameterMap.get(AweConstants.QUERY_PAGE).getValue().asLong())
-                .setRecords(serviceDataList.getRecords());
+          .setMax(parameterMap.get(AweConstants.QUERY_MAX).getValue().asLong())
+          .setPage(parameterMap.get(AweConstants.QUERY_PAGE).getValue().asLong())
+          .setRecords(serviceDataList.getRecords());
       }
 
 
     } else {
       // As string array
       builder.setServiceQueryResult((String[]) serviceData.getData())
-              .setFieldList(query.getSqlFieldList())
-              .setMax(parameterMap.get(AweConstants.QUERY_MAX).getValue().asLong())
-              .setPage(parameterMap.get(AweConstants.QUERY_PAGE).getValue().asLong());
+        .setFieldList(query.getSqlFieldList())
+        .setMax(parameterMap.get(AweConstants.QUERY_MAX).getValue().asLong())
+        .setPage(parameterMap.get(AweConstants.QUERY_PAGE).getValue().asLong());
     }
 
     // Add transformations & translations
@@ -146,8 +147,8 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
 
   /**
    * Sort data list
-   * 
-   * @param builder DataListBuilder
+   *
+   * @param builder   DataListBuilder
    * @param variables Query variables
    * @return Builder
    * @throws AWException Processing failed
@@ -166,9 +167,9 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
 
   /**
    * Process dataList
-   * 
-   * @param builder DataListBuilder
-   * @param query Query
+   *
+   * @param builder   DataListBuilder
+   * @param query     Query
    * @param variables Query variables
    * @return Builder
    * @throws AWException Processing failed
@@ -211,7 +212,8 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
 
   /**
    * Add field transformations to the builder
-   * @param field Field
+   *
+   * @param field   Field
    * @param builder Builder
    * @throws AWException
    */
@@ -238,8 +240,9 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
 
   /**
    * Add computed transformations to the builder
-   * @param computed Computed
-   * @param builder Builder
+   *
+   * @param computed  Computed
+   * @param builder   Builder
    * @param variables Variables
    * @throws AWException
    */
@@ -257,6 +260,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
 
   /**
    * Get query util
+   *
    * @return Query util
    */
   public QueryUtil getQueryUtil() {

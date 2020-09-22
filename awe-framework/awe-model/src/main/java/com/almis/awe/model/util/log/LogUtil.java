@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 
@@ -25,7 +24,7 @@ import java.util.List;
 public class LogUtil {
 
   // Log management
-  private ApplicationContext context;
+  private final ApplicationContext context;
 
   @Value("${application.log.users.level:info}")
   private String defaultLogLevel;
@@ -41,7 +40,6 @@ public class LogUtil {
    *
    * @param context Application context
    */
-  @Autowired
   public LogUtil(ApplicationContext context) {
     this.context = context;
   }
@@ -110,10 +108,10 @@ public class LogUtil {
   /**
    * Log a message with a parameter
    *
-   * @param logClass  Name of the class that generates the message
-   * @param level     Log level
-   * @param database  Database ALIAS
-   * @param message   Log message
+   * @param logClass   Name of the class that generates the message
+   * @param level      Log level
+   * @param database   Database ALIAS
+   * @param message    Log message
    * @param parameters Log parameters
    */
   public <T> void logWithDatabase(Class<T> logClass, Level level, String database, String message, Object... parameters) {
@@ -206,6 +204,7 @@ public class LogUtil {
 
   /**
    * Retrieve session user
+   *
    * @return Session user
    */
   private String getUser() {
@@ -218,6 +217,7 @@ public class LogUtil {
 
   /**
    * Retrieve session screen
+   *
    * @return Session screen
    */
   private String getScreen() {
@@ -230,6 +230,7 @@ public class LogUtil {
 
   /**
    * Retrieve session database
+   *
    * @param definedDatabase Specific defined database
    * @return Session database
    */

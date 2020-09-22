@@ -4,7 +4,6 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.dao.UserDAO;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,14 +21,13 @@ import java.util.*;
 public class AweUserDetailService extends ServiceConfig implements UserDetailsService {
 
   // Autowired services
-  private UserDAO userRepository;
+  private final UserDAO userRepository;
 
   /**
    * Autowired constructor
    *
    * @param userDAO User DAO
    */
-  @Autowired
   public AweUserDetailService(UserDAO userDAO) {
     this.userRepository = userDAO;
   }

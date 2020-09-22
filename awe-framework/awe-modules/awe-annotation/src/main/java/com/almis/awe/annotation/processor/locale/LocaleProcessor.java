@@ -6,7 +6,6 @@ import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.component.AweSession;
 import com.almis.awe.model.constant.AweConstants;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Locale annotation processor
@@ -19,17 +18,16 @@ public class LocaleProcessor {
   private static final String EMPTY = "";
 
   // Autowired objects
-  ObjectFactory<AweSession> aweSessionObjectFactory;
-  ObjectFactory<AweElements> aweElementsObjectFactory;
+  private final ObjectFactory<AweSession> aweSessionObjectFactory;
+  private final ObjectFactory<AweElements> aweElementsObjectFactory;
 
   /**
    * Autowired constructor
-   * @param aweSessionObjectFactory
-   * @param aweElementsObjectFactory
+   *
+   * @param aweSessionObjectFactory  Session object factory
+   * @param aweElementsObjectFactory Elements object factory
    */
-  @Autowired
-  public LocaleProcessor(final ObjectFactory<AweSession> aweSessionObjectFactory,
-                         final ObjectFactory<AweElements> aweElementsObjectFactory) {
+  public LocaleProcessor(ObjectFactory<AweSession> aweSessionObjectFactory, ObjectFactory<AweElements> aweElementsObjectFactory) {
     this.aweSessionObjectFactory = aweSessionObjectFactory;
     this.aweElementsObjectFactory = aweElementsObjectFactory;
   }
