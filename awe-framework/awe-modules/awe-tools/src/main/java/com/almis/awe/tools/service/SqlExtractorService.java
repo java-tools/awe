@@ -14,8 +14,6 @@ import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.tools.type.SqlExtractorQueriesType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.io.*;
@@ -29,12 +27,11 @@ import java.util.Map;
 /**
  * Sql Extractor Engine service
  */
-@Service
 public class SqlExtractorService extends ServiceConfig {
 
   // Autowired services
-  private DataListBuilder builder;
-  private DataSource dataSource;
+  private final DataListBuilder builder;
+  private final DataSource dataSource;
 
   private static final String[] WRITE_STATEMENTS = {"insert", "delete", "update", "drop", "create"};
   private static final String SELECTED_GRID = "selectGrid";
@@ -47,10 +44,10 @@ public class SqlExtractorService extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param builder
    * @param dataSource
    */
-  @Autowired
   public SqlExtractorService(DataListBuilder builder, DataSource dataSource) {
     this.builder = builder;
     this.dataSource = dataSource;
@@ -58,8 +55,9 @@ public class SqlExtractorService extends ServiceConfig {
 
   /**
    * Extract data
+   *
    * @param select Select
-   * @param type Data type
+   * @param type   Data type
    * @return Extracted data
    * @throws AWException Error in extraction
    */
@@ -74,7 +72,7 @@ public class SqlExtractorService extends ServiceConfig {
 
       // Try with resources
       try (Connection conn = dataSource.getConnection();
-           Statement stmt =  conn.createStatement();
+           Statement stmt = conn.createStatement();
            ResultSet resultSet = stmt.executeQuery(select)) {
 
         if (!isWriteQuery) {
@@ -114,6 +112,7 @@ public class SqlExtractorService extends ServiceConfig {
 
   /**
    * Check query statement
+   *
    * @param query Query
    * @return Is a write statement
    */
@@ -128,10 +127,11 @@ public class SqlExtractorService extends ServiceConfig {
 
   /**
    * Retrieve data row from resultset
-   * @param rowIndex Row index
+   *
+   * @param rowIndex    Row index
    * @param columnTotal Column total
-   * @param metaData Metadata
-   * @param resultSet Resultset
+   * @param metaData    Metadata
+   * @param resultSet   Resultset
    * @return Data row
    * @throws SQLException Error retrieving data row
    */
@@ -226,7 +226,7 @@ public class SqlExtractorService extends ServiceConfig {
    * Save select file
    *
    * @param fileName File name
-   * @param selects Select
+   * @param selects  Select
    * @return Selected file
    * @throws AWException Error storing file
    */
@@ -318,7 +318,7 @@ public class SqlExtractorService extends ServiceConfig {
    * Fill grid with data
    *
    * @param rsMetaData Metadata
-   * @param datalist Datalist
+   * @param datalist   Datalist
    * @return Client actions
    * @throws AWException Error filling grid
    */
@@ -340,7 +340,7 @@ public class SqlExtractorService extends ServiceConfig {
    * Generate columns structure
    *
    * @param rsMetaData Metadata
-   * @param index Index
+   * @param index      Index
    * @return Column
    * @throws SQLException Error retrieving column
    */
@@ -365,17 +365,17 @@ public class SqlExtractorService extends ServiceConfig {
     column.setLabel(columnName);
 
     switch (rsMetaData.getColumnType(index)) {
-    case java.sql.Types.FLOAT:
-    case java.sql.Types.DECIMAL:
-    case java.sql.Types.NUMERIC:
-      column.setAlign("right");
-      break;
-    case java.sql.Types.CHAR:
-    case java.sql.Types.VARCHAR:
-      column.setAlign("left");
-      break;
-    default:
-      column.setAlign("center");
+      case java.sql.Types.FLOAT:
+      case java.sql.Types.DECIMAL:
+      case java.sql.Types.NUMERIC:
+        column.setAlign("right");
+        break;
+      case java.sql.Types.CHAR:
+      case java.sql.Types.VARCHAR:
+        column.setAlign("left");
+        break;
+      default:
+        column.setAlign("center");
     }
 
     return column;

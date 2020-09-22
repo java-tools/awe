@@ -36,8 +36,8 @@ import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADE
 public class UploadController extends ServiceConfig {
 
   // Autowired services
-  private FileService fileService;
-  private BroadcastService broadcastService;
+  private final FileService fileService;
+  private final BroadcastService broadcastService;
 
   // Upload identifier
   @Value("${file.upload.identifier:u}")

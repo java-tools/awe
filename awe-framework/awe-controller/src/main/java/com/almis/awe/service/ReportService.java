@@ -5,12 +5,11 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.service.report.ReportGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
  * QueryService Class
- *
+ * <p>
  * AWE Data Engine
  * Provides generate function to get application data
  *
@@ -19,20 +18,20 @@ import org.springframework.beans.factory.annotation.Value;
 public class ReportService extends ServiceConfig {
 
   // Autowired services
-  private QueryService queryService;
-  private MenuService menuService;
-  private ReportGenerator reportGenerator;
+  private final QueryService queryService;
+  private final MenuService menuService;
+  private final ReportGenerator reportGenerator;
 
   @Value("${print.show.options:true}")
   private boolean showPrintOptions;
 
   /**
    * Autowired constructor
-   * @param queryService query service
-   * @param menuService menu service
+   *
+   * @param queryService    query service
+   * @param menuService     menu service
    * @param reportGenerator report generator
    */
-  @Autowired
   public ReportService(QueryService queryService, MenuService menuService, ReportGenerator reportGenerator) {
     this.queryService = queryService;
     this.menuService = menuService;
@@ -41,6 +40,7 @@ public class ReportService extends ServiceConfig {
 
   /**
    * Retrieve print actions
+   *
    * @return Print actions as service data
    * @throws AWException Error retrieving print actions
    */
@@ -59,6 +59,7 @@ public class ReportService extends ServiceConfig {
 
   /**
    * Print current screen
+   *
    * @return Screen print status
    * @throws AWException Error generating reports
    */

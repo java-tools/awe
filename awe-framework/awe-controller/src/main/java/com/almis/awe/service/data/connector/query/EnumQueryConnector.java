@@ -14,7 +14,6 @@ import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.service.data.builder.EnumBuilder;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
@@ -29,9 +28,9 @@ public class EnumQueryConnector extends AbstractQueryConnector {
 
   /**
    * Autowired constructor
+   *
    * @param queryUtil Query utilities
    */
-  @Autowired
   public EnumQueryConnector(QueryUtil queryUtil) {
     super(queryUtil);
   }
@@ -110,12 +109,12 @@ public class EnumQueryConnector extends AbstractQueryConnector {
 
     // Log query
     getLogger().log(EnumQueryConnector.class, Level.INFO, "[{0}] => {1} records. Create enumerated time: {2}s - Enumerated time: {3}s - Datalist time: {4}s - Total time: {5}s",
-            enumId,
-            result.getDataList().getRecords(),
-            getLogger().getElapsed(timeLapse, AweConstants.PREPARATION_TIME),
-            getLogger().getElapsed(timeLapse, AweConstants.EXECUTION_TIME),
-            getLogger().getElapsed(timeLapse, AweConstants.RESULTS_TIME),
-            getLogger().getTotalTime(timeLapse));
+      enumId,
+      result.getDataList().getRecords(),
+      getLogger().getElapsed(timeLapse, AweConstants.PREPARATION_TIME),
+      getLogger().getElapsed(timeLapse, AweConstants.EXECUTION_TIME),
+      getLogger().getElapsed(timeLapse, AweConstants.RESULTS_TIME),
+      getLogger().getTotalTime(timeLapse));
 
     return result;
   }
@@ -134,11 +133,11 @@ public class EnumQueryConnector extends AbstractQueryConnector {
     DataListBuilder builder = getBean(DataListBuilder.class);
     boolean paginate = query == null || !query.isPaginationManaged();
     builder.setEnumQueryResult(results)
-            .setRecords(records)
-            .setPage(parameterMap.get(AweConstants.QUERY_PAGE).getValue().asLong())
-            .setMax(parameterMap.get(AweConstants.QUERY_MAX).getValue().asLong())
-            .paginate(paginate)
-            .generateIdentifiers();
+      .setRecords(records)
+      .setPage(parameterMap.get(AweConstants.QUERY_PAGE).getValue().asLong())
+      .setMax(parameterMap.get(AweConstants.QUERY_MAX).getValue().asLong())
+      .paginate(paginate)
+      .generateIdentifiers();
 
     // If query is defined, fill with query data
     if (query != null) {

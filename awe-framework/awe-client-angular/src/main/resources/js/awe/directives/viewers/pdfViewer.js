@@ -1,10 +1,10 @@
-import { aweApplication } from "./../../awe";
-const PDFObject = require("pdfobject");
+import {aweApplication} from "../../awe";
+import PDFObject from "pdfobject";
 
 // PDF viewer
 aweApplication.directive('awePdfViewer',
-  ['ServerData', 'Connection', 'AweSettings', 'Component',
-    function (ServerData, Connection, $settings, Component) {
+  ['ServerData', 'Connection', 'AweSettings', 'Component', '$window',
+    function (ServerData, Connection, $settings, Component, $window) {
 
       return {
         restrict: 'E',
@@ -39,8 +39,8 @@ aweApplication.directive('awePdfViewer',
 
             Connection.getFile(ServerData.getFileUrl("stream/maintain/" + targetAction), parameters, "application/pdf", "blob")
                 .then(response => {
-                  let file = new Blob([response.data], { type: 'application/pdf' });
-                  let url = window.URL.createObjectURL(file);
+                  let file = new Blob([response.data], {type: 'application/pdf'});
+                  let url = $window.URL.createObjectURL(file);
                   PDFObject.embed(url, ".pdf-viewer");
                 });
           };

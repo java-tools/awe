@@ -36,7 +36,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.sf.dynamicreports.report.constant.HorizontalImageAlignment;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
 import net.sf.dynamicreports.report.constant.PageOrientation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.awt.*;
@@ -79,7 +78,6 @@ public class ReportDesigner extends ServiceConfig {
    *
    * @param queryService Query service
    */
-  @Autowired
   public ReportDesigner(QueryService queryService) {
     this.queryService = queryService;
   }

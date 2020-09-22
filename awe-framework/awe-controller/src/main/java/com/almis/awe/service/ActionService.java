@@ -12,7 +12,6 @@ import com.almis.awe.model.entities.actions.Parameter;
 import com.almis.awe.model.type.AnswerType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
@@ -23,7 +22,7 @@ import java.util.*;
 public class ActionService extends ServiceConfig {
 
   // Autowired services
-  private LauncherService launcherService;
+  private final LauncherService launcherService;
 
   // Password parameter
   @Value("${screen.parameter.password:pwd_usr}")
@@ -33,9 +32,9 @@ public class ActionService extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param launcherService Launcher service
    */
-  @Autowired
   public ActionService(LauncherService launcherService) {
     this.launcherService = launcherService;
   }

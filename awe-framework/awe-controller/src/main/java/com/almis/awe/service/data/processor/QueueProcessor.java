@@ -17,7 +17,6 @@ import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.service.data.builder.EnumBuilder;
 import org.springframework.beans.PropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
@@ -35,14 +34,13 @@ import java.util.List;
 public class QueueProcessor extends ServiceConfig {
 
   // Autowired services
-  private XStreamSerializer serializer;
+  private final XStreamSerializer serializer;
 
   /**
    * Autowired constructor
    *
    * @param serializer serializer
    */
-  @Autowired
   public QueueProcessor(XStreamSerializer serializer) {
     this.serializer = serializer;
   }

@@ -3,7 +3,6 @@ package com.almis.awe.service.data.builder;
 import com.almis.awe.component.AweJmsDestination;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.listener.QueueListener;
-import com.almis.awe.model.tracker.AweClientTracker;
 import com.almis.awe.model.dto.QueryParameter;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ComponentAddress;
@@ -12,12 +11,12 @@ import com.almis.awe.model.entities.queues.JmsConnectionInfo;
 import com.almis.awe.model.entities.queues.MessageBuilder;
 import com.almis.awe.model.entities.queues.Queue;
 import com.almis.awe.model.entities.queues.RequestMessage;
+import com.almis.awe.model.tracker.AweClientTracker;
 import com.almis.awe.model.type.QueueMessageType;
 import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.service.data.processor.QueueProcessor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jms.JmsProperties;
 import org.springframework.jms.core.JmsTemplate;
@@ -43,20 +42,20 @@ public class QueueBuilder extends AbstractQueryBuilder {
   private Long timeToLive;
 
   // Autowired services
-  private AweJmsDestination jmsDestination;
-  private ConnectionFactory connectionFactory;
-  private PlatformTransactionManager transactionManager;
+  private final AweJmsDestination jmsDestination;
+  private final ConnectionFactory connectionFactory;
+  private final PlatformTransactionManager transactionManager;
 
   private static final String ERROR_TITLE_BAD_QUEUE_DEFINITION_FORMAT = "ERROR_TITLE_BAD_QUEUE_DEFINITION_FORMAT";
 
   /**
    * Autowired constructor
-   * @param jmsDestination JMS Destination
-   * @param connectionFactory Connection factory
+   *
+   * @param jmsDestination     JMS Destination
+   * @param connectionFactory  Connection factory
    * @param transactionManager Transaction manager
-   * @param queryUtil Query utilities
+   * @param queryUtil          Query utilities
    */
-  @Autowired
   public QueueBuilder(AweJmsDestination jmsDestination, ConnectionFactory connectionFactory,
                       PlatformTransactionManager transactionManager, QueryUtil queryUtil) {
     super(queryUtil);

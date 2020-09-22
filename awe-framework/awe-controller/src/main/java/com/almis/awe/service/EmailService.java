@@ -10,7 +10,6 @@ import com.almis.awe.model.type.EmailMessageType;
 import com.almis.awe.service.data.builder.XMLEmailBuilder;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -38,16 +37,15 @@ public class EmailService extends ServiceConfig {
   private String encoding;
 
   // Autowired services
-  private JavaMailSender mailSender;
-  private XMLEmailBuilder emailBuilder;
+  private final JavaMailSender mailSender;
+  private final XMLEmailBuilder emailBuilder;
 
   /**
    * Autowired constructor
    *
    * @param mailSender
    */
-  @Autowired
-    public EmailService(JavaMailSender mailSender, XMLEmailBuilder emailBuilder) {
+  public EmailService(JavaMailSender mailSender, XMLEmailBuilder emailBuilder) {
     this.mailSender = mailSender;
     this.emailBuilder = emailBuilder;
   }

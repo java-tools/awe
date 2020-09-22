@@ -17,7 +17,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.internet.InternetAddress;
 import java.io.File;
@@ -36,8 +35,8 @@ import java.util.regex.Matcher;
 @Setter
 @Accessors(chain = true)
 public class XMLEmailBuilder extends EmailBuilder {
-  private QueryService queryService;
-  private QueryUtil queryUtil;
+  private final QueryService queryService;
+  private final QueryUtil queryUtil;
   private Email email;
   private Map<String, Variable> variables;
   private ObjectNode parameters;
@@ -48,9 +47,9 @@ public class XMLEmailBuilder extends EmailBuilder {
   /**
    * Builder constructor
    *
-   * @param queryService
+   * @param queryService Query service
+   * @param queryUtil    Query utilities
    */
-  @Autowired
   public XMLEmailBuilder(QueryService queryService, QueryUtil queryUtil) {
     super();
     this.queryService = queryService;

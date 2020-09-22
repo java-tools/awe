@@ -6,7 +6,6 @@ import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.tracker.AweConnectionTracker;
 import com.almis.awe.model.type.AnswerType;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.List;
@@ -24,8 +23,8 @@ import java.util.Set;
 public class BroadcastService extends ServiceConfig {
 
   // Autowired services
-  private SimpMessagingTemplate brokerMessagingTemplate;
-  private AweConnectionTracker connectionTracker;
+  private final SimpMessagingTemplate brokerMessagingTemplate;
+  private final AweConnectionTracker connectionTracker;
 
   /**
    * Autowired constructor
@@ -33,7 +32,6 @@ public class BroadcastService extends ServiceConfig {
    * @param brokerMessagingTemplate Broker messaging template
    * @param connectionTracker       Connection tracker
    */
-  @Autowired
   public BroadcastService(SimpMessagingTemplate brokerMessagingTemplate, AweConnectionTracker connectionTracker) {
     this.brokerMessagingTemplate = brokerMessagingTemplate;
     this.connectionTracker = connectionTracker;

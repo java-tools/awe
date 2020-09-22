@@ -5,7 +5,6 @@ import com.almis.awe.scheduler.bean.file.File;
 import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.enums.ServerConnectionType;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author dfuentes
@@ -14,16 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class FileChecker extends ServiceConfig {
 
   // Autowired services
-  private FTPFileChecker ftpFileChecker;
-  private FolderFileChecker folderFileChecker;
+  private final FTPFileChecker ftpFileChecker;
+  private final FolderFileChecker folderFileChecker;
 
   /**
    * Autowired constructor
    *
-   * @param ftpFileChecker
-   * @param folderFileChecker
+   * @param ftpFileChecker    FTP File checker
+   * @param folderFileChecker Folder file checker
    */
-  @Autowired
   public FileChecker(FTPFileChecker ftpFileChecker, FolderFileChecker folderFileChecker) {
     this.ftpFileChecker = ftpFileChecker;
     this.folderFileChecker = folderFileChecker;

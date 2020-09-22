@@ -24,7 +24,6 @@ import com.querydsl.sql.SQLExpressions;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -39,8 +38,8 @@ import java.util.Map;
 public class SQLQueryConnector extends AbstractQueryConnector {
 
   // Autowired services
-  private AweDatabaseContextHolder contextHolder;
-  private DataSource dataSource;
+  private final AweDatabaseContextHolder contextHolder;
+  private final DataSource dataSource;
 
   /**
    * Autowired constructor
@@ -49,7 +48,6 @@ public class SQLQueryConnector extends AbstractQueryConnector {
    * @param queryUtil     Query utilities
    * @param dataSource    Datasource
    */
-  @Autowired
   public SQLQueryConnector(AweDatabaseContextHolder contextHolder, QueryUtil queryUtil, DataSource dataSource) {
     super(queryUtil);
     this.contextHolder = contextHolder;

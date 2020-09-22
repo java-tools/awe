@@ -27,7 +27,6 @@ import com.querydsl.sql.dml.AbstractSQLClause;
 import com.querydsl.sql.dml.SQLDeleteClause;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Timestamp;
@@ -66,7 +65,6 @@ public class SQLMaintainBuilder extends SQLBuilder {
    *
    * @param queryUtil Query utilities
    */
-  @Autowired
   public SQLMaintainBuilder(QueryUtil queryUtil) {
     super(queryUtil);
   }

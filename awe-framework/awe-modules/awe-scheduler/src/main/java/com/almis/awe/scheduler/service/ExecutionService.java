@@ -12,7 +12,6 @@ import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.concurrent.Future;
@@ -31,14 +30,13 @@ import static com.almis.awe.scheduler.enums.JobType.JOB_TIMEOUT;
 public class ExecutionService {
 
   // Autowired services
-  private Scheduler scheduler;
+  private final Scheduler scheduler;
 
   /**
    * Autowired constructor
    *
-   * @param scheduler
+   * @param scheduler Scheduler service
    */
-  @Autowired
   public ExecutionService(Scheduler scheduler) {
     this.scheduler = scheduler;
   }

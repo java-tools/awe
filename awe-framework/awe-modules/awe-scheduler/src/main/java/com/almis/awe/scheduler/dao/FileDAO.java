@@ -9,28 +9,24 @@ import com.almis.awe.service.MaintainService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.TriggerKey;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 
 import static com.almis.awe.scheduler.constant.MaintainConstants.*;
 import static com.almis.awe.scheduler.constant.TaskConstants.*;
 
-@Repository
 @Log4j2
 public class FileDAO extends ServiceConfig {
 
   // Autowired services
-  private MaintainService maintainService;
-  private QueryUtil queryUtil;
+  private final MaintainService maintainService;
+  private final QueryUtil queryUtil;
 
   /**
    * Autowired constructor
    *
    * @param maintainService Maintain service
    */
-  @Autowired
   public FileDAO(MaintainService maintainService, QueryUtil queryUtil) {
     this.maintainService = maintainService;
     this.queryUtil = queryUtil;

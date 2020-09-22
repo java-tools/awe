@@ -17,7 +17,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -38,8 +37,8 @@ import java.util.regex.Pattern;
 public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
   // Autowired services
-  private LogUtil logger;
-  private ClientHttpRequestFactory requestFactory;
+  private final LogUtil logger;
+  private final ClientHttpRequestFactory requestFactory;
 
   /**
    * Autowired constructor
@@ -47,7 +46,6 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
    * @param logger         Logger
    * @param requestFactory Request factory
    */
-  @Autowired
   public AbstractRestConnector(LogUtil logger, ClientHttpRequestFactory requestFactory) {
     this.logger = logger;
     this.requestFactory = requestFactory;
@@ -276,8 +274,8 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
   /**
    * Read parameter POJO
    *
-   * @param param                 Parameter to read
-   * @param paramsMapFromRequest  Parameters from request
+   * @param param                Parameter to read
+   * @param paramsMapFromRequest Parameters from request
    */
   private ObjectNode readParameterPOJO(ServiceInputParameter param, Map<String, Object> paramsMapFromRequest) {
     // If it has parameters, expand the url avoiding parameters already used

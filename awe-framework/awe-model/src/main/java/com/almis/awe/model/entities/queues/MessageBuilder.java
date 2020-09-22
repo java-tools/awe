@@ -8,7 +8,6 @@ import com.almis.awe.model.type.QueueMessageWrapperType;
 import com.almis.awe.model.util.data.StringUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -38,7 +37,6 @@ public class MessageBuilder implements MessageCreator {
    * @param context    Application context
    * @param serializer XML Serializer
    */
-  @Autowired
   public MessageBuilder(WebApplicationContext context, XStreamSerializer serializer) {
     this.context = context;
     this.serializer = serializer;
@@ -216,7 +214,7 @@ public class MessageBuilder implements MessageCreator {
       requestWrapper = (RequestWrapper) context.getBean(wrapper.getClassName());
     } else {
       try {
-        Class wrapperClass = Class.forName(wrapper.getClassName());
+        Class<?> wrapperClass = Class.forName(wrapper.getClassName());
         requestWrapper = (RequestWrapper) wrapperClass.newInstance();
       } catch (Exception exc) {
         throw new JMSException("Wrapper class not found: " + wrapper.getClassName());

@@ -21,9 +21,9 @@ import java.nio.file.Paths;
 public class TemplateController {
 
   // Autowired services
-  private TemplateService templateService;
-  private HelpService helpService;
-  private LogUtil logger;
+  private final TemplateService templateService;
+  private final HelpService helpService;
+  private final LogUtil logger;
 
   // Angular templates path
   @Value("${application.paths.templates.angular:angular/}")
@@ -31,9 +31,10 @@ public class TemplateController {
 
   /**
    * Autowired constructor
+   *
    * @param templateService Template service
-   * @param helpService Help service
-   * @param logger Logger
+   * @param helpService     Help service
+   * @param logger          Logger
    */
   @Autowired
   public TemplateController(TemplateService templateService, HelpService helpService, LogUtil logger) {
@@ -50,7 +51,7 @@ public class TemplateController {
    */
   @GetMapping("/angular/{template}")
   public String getAngularTemplate(@PathVariable String template) {
-    return Paths.get(angularPath , template).toString();
+    return Paths.get(angularPath, template).toString();
   }
 
   /**
@@ -62,7 +63,7 @@ public class TemplateController {
    */
   @GetMapping("/angular/{module}/{template}")
   public String getAngularSubTemplate(@PathVariable String module, @PathVariable String template) {
-    return Paths.get(angularPath, module , template).toString();
+    return Paths.get(angularPath, module, template).toString();
   }
 
   /**
@@ -80,6 +81,7 @@ public class TemplateController {
 
   /**
    * Retrieve default screen template
+   *
    * @return Screen template
    */
   @GetMapping("/screen")
@@ -113,6 +115,7 @@ public class TemplateController {
 
   /**
    * Handle error
+   *
    * @param exc Exception to handle
    * @return Response error
    */

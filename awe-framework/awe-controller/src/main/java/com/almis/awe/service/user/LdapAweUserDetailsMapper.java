@@ -5,7 +5,6 @@ import com.almis.awe.dao.UserDAO;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.User;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,13 +31,13 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
   private boolean convertToUpperCase = true;
 
   // Autowired services
-  private UserDAO userRepository;
+  private final UserDAO userRepository;
 
   /**
    * Autowired constructor
+   *
    * @param userRepository AWE user DAO
    */
-  @Autowired
   public LdapAweUserDetailsMapper(UserDAO userRepository) {
     this.userRepository = userRepository;
   }
@@ -74,7 +73,7 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
     // Check for PPolicy data
 
     PasswordPolicyResponseControl passwordPolicy = (PasswordPolicyResponseControl) ctx
-            .getObjectAttribute(PasswordPolicyControl.OID);
+      .getObjectAttribute(PasswordPolicyControl.OID);
 
     if (passwordPolicy != null) {
       essence.setTimeBeforeExpiration(passwordPolicy.getTimeBeforeExpiration());
@@ -93,15 +92,16 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
   @Override
   public void mapUserToContext(UserDetails user, DirContextAdapter ctx) {
     throw new UnsupportedOperationException(
-            "LdapUserDetailsMapper only supports reading from a context. Please"
-                    + "use a subclass if mapUserToContext() is required.");
+      "LdapUserDetailsMapper only supports reading from a context. Please"
+        + "use a subclass if mapUserToContext() is required.");
   }
 
   /**
    * Map role attributes
-   * @param ctx Dir context operations
+   *
+   * @param ctx     Dir context operations
    * @param essence Essence
-   * @param dn DN
+   * @param dn      DN
    */
   private void mapRoleAttributes(DirContextOperations ctx, LdapUserDetailsImpl.Essence essence, String dn) {
     for (String roleAttribute : roleAttributes) {
@@ -196,6 +196,7 @@ public class LdapAweUserDetailsMapper extends ServiceConfig implements UserDetai
 
   /**
    * The prefix that should be applied to the role names
+   *
    * @param rolePrefix the prefix (defaults to "ROLE_").
    */
   public void setRolePrefix(String rolePrefix) {

@@ -437,6 +437,7 @@ public class SeleniumUtilities {
       return getGridScopeCss(gridId) + " [row-id='" + rowId + "'] [column-id='" + columnId + "'] ";
     }
   }
+
   /**
    * Get grid scope in css
    *
@@ -1743,7 +1744,7 @@ public class SeleniumUtilities {
   /**
    * Select all rows of grid
    *
-   * @param gridId   Grid id
+   * @param gridId Grid id
    */
   protected void selectAllRowsOfGrid(String gridId) {
     String parentSelector = getParentSelectorCss(gridId, null, null);
@@ -1987,11 +1988,11 @@ public class SeleniumUtilities {
     JavascriptExecutor js = ((JavascriptExecutor) driver);
     js.executeScript("var seleniumFollowerImg=document.createElement(\"span\");" +
       "seleniumFollowerImg.setAttribute('id', 'selenium_mouse');" +
-      "seleniumFollowerImg.setAttribute('style', 'position: absolute; z-index: 99999999999; pointer-events: none; transition: text-shadow 0.1s linear; color: white;-webkit-text-stroke-width: 2px;-webkit-text-stroke-color: #000;');" +
+      "seleniumFollowerImg.setAttribute('style', 'position: absolute; z-index: 99999999999; pointer-events: none; transition: all .1s ease, text-shadow .1s linear; -moz-transition: all .01s linear, text-shadow .1s linear; color: white;-webkit-text-stroke-width: 2px;-webkit-text-stroke-color: #000;');" +
       "$(seleniumFollowerImg).addClass('fa fa-mouse-pointer fa-2x');" +
       "document.body.appendChild(seleniumFollowerImg);" +
       "$(document).mousemove(function(e) {" +
-      "$('#selenium_mouse').animate({'left': e.pageX + 'px', 'top': e.pageY + 'px'}, 100);" +
+      "$('#selenium_mouse').css({'left': e.pageX + 'px', 'top': e.pageY + 'px'});" +
       "});" +
       "$(document).click(function(e) {" +
       "$('#selenium_mouse').css({'text-shadow': '0 0 20px blue'});" +

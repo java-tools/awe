@@ -7,7 +7,6 @@ import com.almis.awe.model.entities.maintain.MaintainQuery;
 import com.almis.awe.model.entities.queries.DatabaseConnection;
 import com.almis.awe.service.EmailService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by dfuentes on 28/04/2017.
@@ -15,14 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class EmailMaintainConnector extends ServiceConfig implements MaintainConnector {
 
   // Autowired services
-  private EmailService emailService;
+  private final EmailService emailService;
 
   /**
    * Autowired constructor
    *
    * @param emailService Email service
    */
-  @Autowired
   public EmailMaintainConnector(EmailService emailService) {
     this.emailService = emailService;
   }

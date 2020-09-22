@@ -79,7 +79,12 @@ public class PropertyConfig {
    */
   @Bean
   @ConditionalOnMissingBean
-  public WebSettings webSettings() {
-    return WebSettings.builder().build();
+  public WebSettings webSettings(WebNumberOptions numberOptions, WebChartOptions chartOptions, WebTooltip tooltip, WebPivotOptions pivotOptions) {
+    return WebSettings.builder()
+      .numericOptions(numberOptions)
+      .chartOptions(chartOptions)
+      .pivotOptions(pivotOptions)
+      .messageTimeout(tooltip)
+      .build();
   }
 }

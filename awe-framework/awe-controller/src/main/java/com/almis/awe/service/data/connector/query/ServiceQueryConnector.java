@@ -10,7 +10,6 @@ import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.service.data.builder.ServiceBuilder;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,6 @@ public class ServiceQueryConnector extends AbstractQueryConnector {
    *
    * @param queryUtil Query utilities
    */
-  @Autowired
   public ServiceQueryConnector(QueryUtil queryUtil) {
     super(queryUtil);
   }

@@ -27,7 +27,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
@@ -42,11 +41,11 @@ import static com.almis.awe.model.constant.AweConstants.NO_TAG;
 public class ScreenComponentGenerator extends ServiceConfig {
 
   // Autowired services
-  private AweRequest aweRequest;
-  private ScreenModelGenerator screenModelGenerator;
-  private ScreenConfigurationGenerator screenConfigurationGenerator;
-  private InitialLoadDao initialLoadDao;
-  private AweElementsDao aweElementsDao;
+  private final AweRequest aweRequest;
+  private final ScreenModelGenerator screenModelGenerator;
+  private final ScreenConfigurationGenerator screenConfigurationGenerator;
+  private final InitialLoadDao initialLoadDao;
+  private final AweElementsDao aweElementsDao;
 
   @Value("${settings.dataSuffix:.data}")
   private String dataSuffix;
@@ -60,7 +59,6 @@ public class ScreenComponentGenerator extends ServiceConfig {
    * @param initialLoadDao               Initial load service
    * @param aweElementsDao               AWE Elements DAO
    */
-  @Autowired
   public ScreenComponentGenerator(AweRequest request, ScreenModelGenerator screenModelGenerator,
                                   ScreenConfigurationGenerator screenConfigurationGenerator, InitialLoadDao initialLoadDao,
                                   AweElementsDao aweElementsDao) {

@@ -24,7 +24,6 @@ import com.almis.awe.model.type.LoadType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
@@ -49,7 +48,6 @@ public class ScreenModelGenerator extends ServiceConfig {
    * @param screenRestrictionGenerator Screen restriction generator
    * @param initialLoadDao             Initial load service
    */
-  @Autowired
   public ScreenModelGenerator(ScreenRestrictionGenerator screenRestrictionGenerator, InitialLoadDao initialLoadDao) {
     this.screenRestrictionGenerator = screenRestrictionGenerator;
     this.initialLoadDao = initialLoadDao;

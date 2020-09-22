@@ -7,7 +7,6 @@ import com.almis.awe.model.entities.XMLNode;
 import com.almis.awe.model.entities.locale.Locales;
 import com.almis.awe.model.util.data.StringUtil;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
@@ -16,7 +15,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
@@ -29,7 +27,6 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 
-@Repository
 @Log4j2
 public class AweElementsDao {
 
@@ -42,7 +39,6 @@ public class AweElementsDao {
    *
    * @param serializer Serializer
    */
-  @Autowired
   public AweElementsDao(XStreamSerializer serializer, WebApplicationContext context) {
     this.serializer = serializer;
     this.environment = context.getEnvironment();

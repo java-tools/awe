@@ -12,14 +12,11 @@ import org.quartz.InterruptableJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.Future;
 
 @Log4j2
-@Component
 @Getter
 @Setter
 public abstract class SchedulerJob implements InterruptableJob {
@@ -31,11 +28,10 @@ public abstract class SchedulerJob implements InterruptableJob {
   private JobService jobService;
 
   /**
-   * Autowired constructor
+   * Constructor
    *
-   * @param jobService
+   * @param jobService Job service
    */
-  @Autowired
   public SchedulerJob(JobService jobService) {
     this.jobService = jobService;
   }

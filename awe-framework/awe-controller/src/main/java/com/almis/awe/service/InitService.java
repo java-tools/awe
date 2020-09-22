@@ -7,7 +7,6 @@ import com.almis.awe.model.type.LaunchPhaseType;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
@@ -26,14 +25,13 @@ import static com.almis.awe.model.constant.AweConstants.LOG_LINE;
 public class InitService extends ServiceConfig implements DisposableBean {
 
   // Autowired services
-  private LauncherService launcherService;
+  private final LauncherService launcherService;
 
   /**
    * Autowired constructor
    *
    * @param launcherService Launcher service
    */
-  @Autowired
   public InitService(LauncherService launcherService) {
     this.launcherService = launcherService;
   }

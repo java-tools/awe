@@ -5,7 +5,6 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.FileData;
 import com.almis.awe.model.dto.ServiceData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
@@ -22,16 +21,16 @@ import java.io.IOException;
 public class HelpService extends ServiceConfig {
 
   // Autowired services
-  private TemplateService templateService;
+  private final TemplateService templateService;
 
   @Value("${module.app.documents:static/docs/awe/}")
   private String documentsPath;
 
   /**
    * Autowired constructor
+   *
    * @param templateService Template service
    */
-  @Autowired
   public HelpService(TemplateService templateService) {
     this.templateService = templateService;
   }
@@ -97,7 +96,7 @@ public class HelpService extends ServiceConfig {
       if (resource.exists()) {
         File helpFile = resource.getFile();
         fileData = new FileData(helpFile.getName(), resource.contentLength(), "application/pdf")
-                .setBasePath(helpFile.getParent());
+          .setBasePath(helpFile.getParent());
       }
       return serviceData.setData(fileData);
     } catch (IOException exc) {

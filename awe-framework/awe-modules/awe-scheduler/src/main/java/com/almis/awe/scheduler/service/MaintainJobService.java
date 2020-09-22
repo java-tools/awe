@@ -11,11 +11,9 @@ import com.almis.awe.service.MaintainService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.JobDataMap;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Service;
 
 import java.util.concurrent.Future;
 
@@ -24,7 +22,6 @@ import static com.almis.awe.scheduler.constant.JobConstants.TASK_LAUNCHER;
 /**
  * @author dfuentes
  */
-@Service
 @Log4j2
 public class MaintainJobService extends JobService {
 
@@ -34,7 +31,6 @@ public class MaintainJobService extends JobService {
    * @param executionService Timeout service
    * @param maintainService  Maintain service
    */
-  @Autowired
   public MaintainJobService(ExecutionService executionService, MaintainService maintainService, QueryUtil queryUtil, TaskDAO taskDAO, ApplicationEventPublisher eventPublisher) {
     super(executionService, maintainService, queryUtil, taskDAO, eventPublisher);
   }
