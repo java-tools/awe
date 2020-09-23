@@ -386,10 +386,48 @@ public class RegressionTestsIT extends SeleniumUtilities {
   }
 
   /**
+   * Test for fill over select
+   */
+  @Test
+  public void t020_checkDependenciesAfterRestore() {
+    t001_selectTestModule();
+
+    // Title
+    setTestTitle("Check if dependencies are working after restore (issue #279)");
+
+    // Wait for button
+    waitForButton("ButPrn");
+
+    // Write on criterion
+    writeText("Txt", "4decimales");
+
+    // Check that Num criterion contains JPY
+    checkCriterionContents("Num", "JPY");
+
+    // Wait for button
+    waitForButton("ButRst");
+
+    // Click on button
+    clickButton("ButRst");
+
+    // Check that Txt criterion has been restored
+    checkCriterionContents("Txt", "test");
+
+    // Check that Num criterion contains EUR
+    checkCriterionContents("Num", "EUR");
+
+    // Write on criterion
+    writeText("Txt", "4decimales");
+
+    // Check that Num criterion contains JPY
+    checkCriterionContents("Num", "JPY");
+  }
+
+  /**
    * Test for select all rows of grid
    */
   @Test
-  public void t013_selectAllRowsOfGrid() {
+  public void t030_selectAllRowsOfGrid() {
 
     // Title
     setTestTitle("Test select all rows of multi select grid");
