@@ -7,11 +7,10 @@ import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.actions.ComponentAddress;
 import com.almis.awe.model.entities.queries.Query;
 import com.almis.awe.model.entities.queues.Queue;
-import com.almis.awe.service.data.builder.QueueBuilder;
 import com.almis.awe.model.util.data.QueryUtil;
+import com.almis.awe.service.data.builder.QueueBuilder;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
@@ -26,9 +25,9 @@ public class QueueQueryConnector extends AbstractQueryConnector {
 
   /**
    * Autowired constructor
+   *
    * @param queryUtil Query utilities
    */
-  @Autowired
   public QueueQueryConnector(QueryUtil queryUtil) {
     super(queryUtil);
   }

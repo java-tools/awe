@@ -44,7 +44,7 @@ public class ThymeleafConfig {
 
   @Bean("htmlTemplateResolver")
   public SpringResourceTemplateResolver htmlTemplateResolver() {
-    SpringResourceTemplateResolver resolver =  generateTemplateResolver(htmlPrefix, 0, htmlCache, TemplateMode.HTML);
+    SpringResourceTemplateResolver resolver = generateTemplateResolver(htmlPrefix, 0, htmlCache, TemplateMode.HTML);
     resolver.setSuffix(htmlSuffix);
     return resolver;
   }
@@ -73,9 +73,10 @@ public class ThymeleafConfig {
 
   /**
    * Generate a template resolver
-   * @param prefix Prefix
-   * @param order Order
-   * @param cacheable Cacheable
+   *
+   * @param prefix       Prefix
+   * @param order        Order
+   * @param cacheable    Cacheable
    * @param templateMode Template mode
    * @return Template resolver
    */
@@ -92,10 +93,11 @@ public class ThymeleafConfig {
 
   /**
    * Generate a view resolver
+   *
    * @param templateEngine Template engine
-   * @param order Order
-   * @param contentType Content type
-   * @param viewNames View names
+   * @param order          Order
+   * @param contentType    Content type
+   * @param viewNames      View names
    * @return View resolver
    */
   private ViewResolver generateViewResolver(SpringTemplateEngine templateEngine, int order, String contentType, String viewNames) {

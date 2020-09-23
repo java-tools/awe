@@ -2,20 +2,19 @@ package com.almis.awe.listener;
 
 import com.almis.awe.model.util.log.LogUtil;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.stringtemplate.v4.STErrorListener;
 import org.stringtemplate.v4.misc.STMessage;
 
 public class TemplateErrorListener implements STErrorListener {
 
   // Autowired services
-  LogUtil logger;
+  private final LogUtil logger;
 
   /**
    * Autowired constructor
+   *
    * @param logger Logger
    */
-  @Autowired
   public TemplateErrorListener(LogUtil logger) {
     this.logger = logger;
   }
@@ -37,6 +36,6 @@ public class TemplateErrorListener implements STErrorListener {
 
   @Override
   public void internalError(STMessage stMessage) {
-    logger.log(TemplateErrorListener.class, Level.ERROR, "Internal error: " +stMessage.toString(), stMessage.cause);
+    logger.log(TemplateErrorListener.class, Level.ERROR, "Internal error: " + stMessage.toString(), stMessage.cause);
   }
 }

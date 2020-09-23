@@ -12,8 +12,9 @@ import com.almis.awe.model.entities.queries.Computed;
 import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.util.data.StringUtil;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Value;
 
-import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 import java.util.HashMap;
 import java.util.Map;
@@ -202,25 +203,29 @@ public class ComputedColumnProcessor implements ColumnProcessor {
   private CellData evaluateExpression(String value) throws AWException {
     CellData evaluatedExpression = new CellData();
     if (computed.isEval()) {
-      Object evaluated;
+      Value evaluated;
       try {
-        evaluated = StringUtil.eval(value, elements.getApplicationContext().getBean(ScriptEngine.class));
+        evaluated = StringUtil.eval(value, elements.getApplicationContext().getBean(Context.class));
       } catch (ScriptException exc) {
         throw new AWException(elements.getLocaleWithLanguage("ERROR_TITLE_EXPRESSION_EVALUATION", elements.getLanguage()),
           elements.getLocaleWithLanguage("ERROR_MESSAGE_EXPRESSION_EVALUATION", elements.getLanguage(), value), exc);
       }
       if (evaluated == null) {
         evaluatedExpression.setNull();
-      } else if (evaluated instanceof Integer) {
-        evaluatedExpression.setValue(evaluated);
-      } else if (evaluated instanceof Float) {
-        evaluatedExpression.setValue(evaluated);
-      } else if (evaluated instanceof Long) {
-        evaluatedExpression.setValue(evaluated);
-      } else if (evaluated instanceof Double) {
-        evaluatedExpression.setValue(evaluated);
+      } else if (evaluated.fitsInInt()) {
+        evaluatedExpression.setValue(evaluated.asInt());
+      } else if (evaluated.fitsInFloat()) {
+        evaluatedExpression.setValue(evaluated.asFloat());
+      } else if (evaluated.fitsInLong()) {
+        evaluatedExpression.setValue(evaluated.asLong());
+      } else if (evaluated.fitsInDouble()) {
+        evaluatedExpression.setValue(evaluated.asDouble());
+      } else if (evaluated.isBoolean()) {
+        evaluatedExpression.setValue(evaluated.asBoolean());
+      } else if (evaluated.isNull()) {
+        evaluatedExpression.setValue(null);
       } else {
-        evaluatedExpression.setValue(String.valueOf(evaluated));
+        evaluatedExpression.setValue(evaluated.asString());
       }
     } else {
       evaluatedExpression.setValue(value);

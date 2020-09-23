@@ -9,7 +9,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.annotation.Annotation;
 
@@ -24,13 +23,13 @@ import java.lang.annotation.Annotation;
 @Aspect
 public class LocaleAnnotation {
   // Autowired services
-  private LocaleProcessor localeProcessor;
+  private final LocaleProcessor localeProcessor;
 
   /**
    * Autowired constructor
+   *
    * @param localeProcessor Locale processor
    */
-  @Autowired
   public LocaleAnnotation(LocaleProcessor localeProcessor) {
     this.localeProcessor = localeProcessor;
   }
@@ -38,7 +37,7 @@ public class LocaleAnnotation {
   /**
    * Locale method pointcut
    */
-  @Pointcut ("@annotation(com.almis.awe.annotation.entities.locale.Locale)")
+  @Pointcut("@annotation(com.almis.awe.annotation.entities.locale.Locale)")
   public void localeMethodPointcut() {
     //This is a pointcut for Locale annotations
   }
@@ -46,7 +45,7 @@ public class LocaleAnnotation {
   /**
    * Locale arguments pointcut
    */
-  @Pointcut ("execution(* *(@com.almis.awe.annotation.entities.locale.Locale (*)))")
+  @Pointcut("execution(* *(@com.almis.awe.annotation.entities.locale.Locale (*)))")
   public void localeArgumentPointcut() {
     //This is a pointcut for Locale annotations
   }
@@ -56,12 +55,10 @@ public class LocaleAnnotation {
    * Locale annotation processor for method annotations
    *
    * @param proceedingJoinPoint Join point
-   *
    * @return Result
-   *
    * @throws AWException Error on pointcut
    */
-  @Around ("com.almis.awe.annotation.aspect.LocaleAnnotation.localeMethodPointcut()")
+  @Around("com.almis.awe.annotation.aspect.LocaleAnnotation.localeMethodPointcut()")
   public String localeMethodProcessor(ProceedingJoinPoint proceedingJoinPoint) throws AWException {
 
     // Process join point
@@ -73,10 +70,9 @@ public class LocaleAnnotation {
    * Locale annotation processor for argument annotations
    *
    * @param proceedingJoinPoint Join point
-   *
    * @throws AWException Error on pointcut
    */
-  @Around ("com.almis.awe.annotation.aspect.LocaleAnnotation.localeArgumentPointcut()")
+  @Around("com.almis.awe.annotation.aspect.LocaleAnnotation.localeArgumentPointcut()")
   public Object localeArgumentProcessor(ProceedingJoinPoint proceedingJoinPoint) throws AWException {
     MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
     Object[] args = proceedingJoinPoint.getArgs();

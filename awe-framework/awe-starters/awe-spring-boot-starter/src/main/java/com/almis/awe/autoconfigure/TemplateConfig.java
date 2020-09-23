@@ -52,7 +52,7 @@ public class TemplateConfig {
   private String templatePath;
 
   // Autowired services
-  private Environment environment;
+  private final Environment environment;
 
   // HTML Extension
   @Value("${extensions.html:.html}")

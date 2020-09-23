@@ -7,7 +7,6 @@ import com.almis.awe.model.entities.services.ServiceMicroservice;
 import com.almis.awe.model.entities.services.ServiceType;
 import com.almis.awe.model.type.ParameterType;
 import com.almis.awe.model.util.log.LogUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
@@ -32,7 +31,6 @@ public class MicroserviceConnector extends AbstractRestConnector {
    * @param logger         Logger
    * @param requestFactory Request factory
    */
-  @Autowired
   public MicroserviceConnector(LogUtil logger, ClientHttpRequestFactory requestFactory) {
     super(logger, requestFactory);
   }
@@ -64,7 +62,7 @@ public class MicroserviceConnector extends AbstractRestConnector {
         outData = doRequest(partialUrl, microservice, paramsMapFromRequest);
       } catch (RestClientException exc) {
         throw new AWException(getLocale("ERROR_TITLE_INVALID_CONNECTION"),
-                getLocale("ERROR_MESSAGE_CONNECTION_MICROSERVICE", microservice.getName()), exc);
+          getLocale("ERROR_MESSAGE_CONNECTION_MICROSERVICE", microservice.getName()), exc);
       }
     } else {
       outData = new ServiceData();

@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +28,7 @@ import java.util.Map;
 public abstract class AbstractQueryBuilder extends ServiceConfig implements QueryBuilder {
 
   // Autowired services
-  protected QueryUtil queryUtil;
+  protected final QueryUtil queryUtil;
 
   protected ObjectNode parameters;
   protected Map<String, QueryParameter> variables;
@@ -43,7 +42,6 @@ public abstract class AbstractQueryBuilder extends ServiceConfig implements Quer
    *
    * @param queryUtil Query utilities
    */
-  @Autowired
   public AbstractQueryBuilder(QueryUtil queryUtil) {
     this.queryUtil = queryUtil;
   }

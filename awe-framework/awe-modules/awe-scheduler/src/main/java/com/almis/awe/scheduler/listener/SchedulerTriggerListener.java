@@ -10,7 +10,6 @@ import lombok.extern.log4j.Log4j2;
 import org.quartz.JobExecutionContext;
 import org.quartz.Trigger;
 import org.quartz.TriggerListener;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.almis.awe.scheduler.constant.ListenerConstants.TRIGGER_LISTENER_NAME;
 
@@ -21,7 +20,7 @@ import static com.almis.awe.scheduler.constant.ListenerConstants.TRIGGER_LISTENE
 public class SchedulerTriggerListener extends ServiceConfig implements TriggerListener {
 
   // Autowired services
-  private TaskDAO taskDAO;
+  private final TaskDAO taskDAO;
 
   // Locales
   private static final String SCHEDULER_ERROR_MESSAGE_TRIGGER_MISFIRED = "ERROR_MESSAGE_TRIGGER_MISFIRED";
@@ -29,7 +28,6 @@ public class SchedulerTriggerListener extends ServiceConfig implements TriggerLi
   /**
    * Autowired constructor
    */
-  @Autowired
   public SchedulerTriggerListener(TaskDAO taskDAO) {
     this.taskDAO = taskDAO;
   }

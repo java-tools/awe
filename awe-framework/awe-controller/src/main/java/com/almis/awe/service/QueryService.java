@@ -19,7 +19,6 @@ import com.almis.awe.service.data.connector.query.QueueQueryConnector;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
@@ -33,8 +32,8 @@ import java.util.Map;
 public class QueryService extends ServiceConfig {
 
   // Autowired services
-  private QueryLauncher queryLauncher;
-  private QueryUtil queryUtil;
+  private final QueryLauncher queryLauncher;
+  private final QueryUtil queryUtil;
 
   // Constants
   private static final String ERROR_TITLE_RETRIEVING_DATA = "ERROR_TITLE_RETRIEVING_DATA";
@@ -46,7 +45,6 @@ public class QueryService extends ServiceConfig {
    * @param queryLauncher Query launcher
    * @param queryUtil     Query utilities
    */
-  @Autowired
   public QueryService(QueryLauncher queryLauncher, QueryUtil queryUtil) {
     this.queryLauncher = queryLauncher;
     this.queryUtil = queryUtil;

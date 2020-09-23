@@ -22,7 +22,6 @@ import com.querydsl.sql.dml.SQLDeleteClause;
 import com.querydsl.sql.dml.SQLInsertClause;
 import com.querydsl.sql.dml.SQLUpdateClause;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.inject.Provider;
@@ -45,14 +44,13 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
   private Integer logLimit;
 
   // Autowired services
-  private QueryUtil queryUtil;
+  private final QueryUtil queryUtil;
 
   /**
    * Autowired constructor
    *
    * @param queryUtil Query utilities
    */
-  @Autowired
   public SQLMaintainConnector(QueryUtil queryUtil) {
     this.queryUtil = queryUtil;
   }

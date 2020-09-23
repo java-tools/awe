@@ -13,7 +13,6 @@ import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -35,10 +34,10 @@ import java.util.List;
 public class FileService extends ServiceConfig {
 
   // Autowired services
-  private BroadcastService broadcastService;
-  private FileUtil fileUtil;
-  private LogUtil logger;
-  private AweRequest request;
+  private final BroadcastService broadcastService;
+  private final FileUtil fileUtil;
+  private final LogUtil logger;
+  private final AweRequest request;
 
   // Upload identifier
   @Value("${file.upload.path:/}")
@@ -49,12 +48,12 @@ public class FileService extends ServiceConfig {
 
   /**
    * Autowired constructor
+   *
    * @param broadcastService Broadcaster
-   * @param fileUtil File utilities
-   * @param logger Logger
-   * @param request Request
+   * @param fileUtil         File utilities
+   * @param logger           Logger
+   * @param request          Request
    */
-  @Autowired
   public FileService(BroadcastService broadcastService, FileUtil fileUtil, LogUtil logger, AweRequest request) {
     this.broadcastService = broadcastService;
     this.fileUtil = fileUtil;

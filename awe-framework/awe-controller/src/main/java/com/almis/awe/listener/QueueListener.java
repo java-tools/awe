@@ -12,7 +12,6 @@ import com.almis.awe.service.BroadcastService;
 import com.almis.awe.service.QueryService;
 import com.almis.awe.service.data.processor.QueueProcessor;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.jms.Message;
 import javax.jms.MessageListener;
@@ -27,8 +26,8 @@ import java.util.Map;
 public class QueueListener extends ServiceConfig implements MessageListener {
 
   // Autowired services
-  private QueryService queryService;
-  private BroadcastService broadcastService;
+  private final QueryService queryService;
+  private final BroadcastService broadcastService;
 
   private Query query;
   private ComponentAddress address;
@@ -38,10 +37,9 @@ public class QueueListener extends ServiceConfig implements MessageListener {
   /**
    * Autowired constructor
    *
-   * @param queryService query service
+   * @param queryService     query service
    * @param broadcastService broadcast service
    */
-  @Autowired
   public QueueListener(QueryService queryService, BroadcastService broadcastService) {
     this.queryService = queryService;
     this.broadcastService = broadcastService;

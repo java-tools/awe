@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-starter-parent</artifactId>
-    <version>4.2.7</version>
+    <version>4.2.8</version>
     <relativePath>../../awe-framework/awe-starters/awe-starter-parent</relativePath>
   </parent>
 
@@ -22,7 +22,7 @@
     <application.acronym>awe-boot</application.acronym>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <plugin-war.version>2.6</plugin-war.version>
+    <ehcache.version>3.6.1</ehcache.version>
     <selenium.version>3.141.59</selenium.version>
     <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
     <webdrivermanager.version>3.2.0</webdrivermanager.version>
@@ -92,6 +92,11 @@
     <dependency>
       <groupId>com.almis.awe</groupId>
       <artifactId>awe-developer</artifactId>
+    </dependency>
+    <!-- ehcache and JSR dependencies-->
+    <dependency>
+      <groupId>org.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
     </dependency>
     <dependency>
       <groupId>com.almis.awe</groupId>
@@ -180,6 +185,14 @@
           <groupId>org.json</groupId>
           <artifactId>json</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>org.mongodb</groupId>
+          <artifactId>mongodb-driver</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.mongodb</groupId>
+          <artifactId>mongodb-driver-core</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -208,7 +221,6 @@
 
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
-        <version>${plugin-war.version}</version>
         <configuration>
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>

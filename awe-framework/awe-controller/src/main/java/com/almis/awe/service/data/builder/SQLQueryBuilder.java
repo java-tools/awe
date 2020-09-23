@@ -17,7 +17,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -35,9 +34,9 @@ public class SQLQueryBuilder extends SQLBuilder {
 
   /**
    * Autowired constructor
+   *
    * @param queryUtil Query utilities
    */
-  @Autowired
   public SQLQueryBuilder(QueryUtil queryUtil) {
     super(queryUtil);
   }
@@ -79,6 +78,7 @@ public class SQLQueryBuilder extends SQLBuilder {
 
   /**
    * Set query for count only
+   *
    * @return this
    */
   public SQLQueryBuilder queryForCount() {
@@ -251,7 +251,7 @@ public class SQLQueryBuilder extends SQLBuilder {
   /**
    * Adds JOIN operation to the SQLQuery
    *
-   * @param join Join
+   * @param join       Join
    * @param finalQuery SQLQuery created in build method
    * @throws AWException Error adding join operation
    */
@@ -286,30 +286,30 @@ public class SQLQueryBuilder extends SQLBuilder {
       }
     } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_LAUNCHING_SQL_QUERY"),
-              getLocale("ERROR_MESSAGE_QUERY_JOIN", join.toString(), getQuery().getId()), exc);
+        getLocale("ERROR_MESSAGE_QUERY_JOIN", join.toString(), getQuery().getId()), exc);
     }
   }
 
   /**
    * Retrieve the join type
-   * 
+   *
    * @param joinType Join type
    * @return Join operator
    */
   private String getJoinOperator(JoinType joinType) {
     String stringType;
     switch (joinType) {
-    case FULL:
-      stringType = "fullJoin";
-      break;
-    case LEFT:
-      stringType = "leftJoin";
-      break;
-    case RIGHT:
-      stringType = "rightJoin";
-      break;
-    default:
-      stringType = "innerJoin";
+      case FULL:
+        stringType = "fullJoin";
+        break;
+      case LEFT:
+        stringType = "leftJoin";
+        break;
+      case RIGHT:
+        stringType = "rightJoin";
+        break;
+      default:
+        stringType = "innerJoin";
     }
     return stringType;
   }
@@ -395,6 +395,7 @@ public class SQLQueryBuilder extends SQLBuilder {
 
   /**
    * Add component sorts
+   *
    * @param finalQuery Query
    * @return Added sorts
    * @throws AWException Error adding component sorts
@@ -420,6 +421,7 @@ public class SQLQueryBuilder extends SQLBuilder {
 
   /**
    * Add query sorts
+   *
    * @param addedSorts Added sorts
    * @param finalQuery Query
    * @throws AWException Error sorting

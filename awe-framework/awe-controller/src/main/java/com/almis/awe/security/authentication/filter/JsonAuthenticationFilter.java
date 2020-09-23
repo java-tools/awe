@@ -24,7 +24,7 @@ import java.io.IOException;
  */
 public class JsonAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-  private AweElements elements;
+  private final AweElements elements;
 
   /**
    * Autowired constructor

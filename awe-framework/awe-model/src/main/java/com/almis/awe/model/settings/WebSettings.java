@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * WebSettings component
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Component;
 @Accessors(chain = true)
 @Builder(toBuilder = true)
 @ConfigurationProperties(prefix = "settings")
-@Component
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class WebSettings {
 
@@ -64,15 +61,11 @@ public class WebSettings {
   // Help timeout
   private Integer helpTimeout;
   // Message timeouts
-  @Autowired
   private WebTooltip messageTimeout;
   // Number options
-  @Autowired
   private WebNumberOptions numericOptions;
   // Pivot options
-  @Autowired
   private WebPivotOptions pivotOptions;
   // Chart options
-  @Autowired
   private WebChartOptions chartOptions;
 }

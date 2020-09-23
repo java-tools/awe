@@ -56,33 +56,32 @@ public class DownloadAnnotation {
     Download downloadAnnotation = org.springframework.core.annotation.AnnotationUtils.getAnnotation(methodSignature.getMethod(), Download.class);
 
     Object result = proceedingJoinPoint.proceed();
-    File file;
+    File file = null;
 
-    // Get file dynamically with Spring Expression Language
-    try {
+    if (downloadAnnotation != null) {
+      // Get file dynamically with Spring Expression Language
       file = new SpringExpressionLanguageParser(
-        methodSignature.getParameterNames(),
-        proceedingJoinPoint.getArgs())
-        .getDynamicValue(
-          downloadAnnotation.value(),
-          File.class);
-    } catch (Exception exc) {
-      file = null;
-    }
+              methodSignature.getParameterNames(),
+              proceedingJoinPoint.getArgs())
+              .getDynamicValue(
+                      downloadAnnotation.value(),
+                      File.class);
 
-    if (!downloadAnnotation.file().isEmpty() && Paths.get(downloadAnnotation.file()).toFile().exists()) {
-      switch (downloadAnnotation.basePath()) {
-        case APPLICATION_BASEPATH:
-          file = new File(applicationBasePath + File.separator + downloadAnnotation.file());
-          break;
-        case CUSTOM:
-          file = new File(downloadAnnotation.file());
-          break;
-        case TEMPORAL_FOLDER:
-        default:
-          file = new File(tempBasePath + File.separator + downloadAnnotation.file());
+      if (!downloadAnnotation.file().isEmpty() && Paths.get(downloadAnnotation.file()).toFile().exists()) {
+        switch (downloadAnnotation.basePath()) {
+          case APPLICATION_BASEPATH:
+            file = new File(applicationBasePath + File.separator + downloadAnnotation.file());
+            break;
+          case CUSTOM:
+            file = new File(downloadAnnotation.file());
+            break;
+          case TEMPORAL_FOLDER:
+          default:
+            file = new File(tempBasePath + File.separator + downloadAnnotation.file());
+        }
       }
     }
+
 
     // Generate client action and return
     if (file != null) {

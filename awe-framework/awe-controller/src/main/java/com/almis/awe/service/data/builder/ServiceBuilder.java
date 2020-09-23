@@ -5,7 +5,6 @@ import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.queries.Query;
 import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.service.LauncherService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Generate service datalists
@@ -13,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ServiceBuilder extends AbstractQueryBuilder {
 
   // Autowired services
-  private LauncherService launcherService;
+  private final LauncherService launcherService;
 
   @Override
   public ServiceBuilder setQuery(Query query) {
@@ -23,10 +22,10 @@ public class ServiceBuilder extends AbstractQueryBuilder {
 
   /**
    * Autowired constructor
+   *
    * @param launcherService Launcher service
-   * @param queryUtil Query utilities
+   * @param queryUtil       Query utilities
    */
-  @Autowired
   public ServiceBuilder(LauncherService launcherService, QueryUtil queryUtil) {
     super(queryUtil);
     this.launcherService = launcherService;
@@ -34,7 +33,7 @@ public class ServiceBuilder extends AbstractQueryBuilder {
 
   /**
    * Call the service and returns the ServiceData
-   * 
+   *
    * @return serviceData
    * @throws AWException Error calling service
    */

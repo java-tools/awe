@@ -32,6 +32,7 @@ cache:
   policy: pull
   paths:
     - .m2/repository/
+    - website/node_modules/
     - awe-framework/awe-client-angular/node_modules/
     - awe-framework/awe-modules/awe-tools/node_modules/
 
@@ -67,16 +68,10 @@ stages:
 
 .build:
   stage: build
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-jdk11-node-maven:latest
   cache:
     key: $CACHE_KEY
     policy: push
-    paths:
-      - .m2/repository/
-      - awe-framework/awe-client-angular/node_modules/
-      - awe-framework/awe-modules/awe-tools/node_modules/
-  script:
-    - mvn $MAVEN_CLI_OPTS clean install $SKIP_TESTS
   retry: 2
 
 Build project:
@@ -84,6 +79,28 @@ Build project:
   artifacts:
     paths:
       - awe-tests/awe-boot/target/awe-boot.war
+    expire_in: 1 day
+  cache:
+    paths:
+      - .m2/repository/
+      - awe-framework/awe-client-angular/node_modules/
+      - awe-framework/awe-modules/awe-tools/node_modules/
+  script:
+    - mvn $MAVEN_CLI_OPTS clean install $SKIP_TESTS
+  rules:
+    - <<: *if-default
+
+Build website:
+  extends: .build
+  cache:
+    paths:
+      - website/node_modules/
+  script:
+    - npm install --prefix website
+    - npm run build --prefix website
+  artifacts:
+    paths:
+      - website/build
     expire_in: 1 day
   rules:
     - <<: *if-default
@@ -95,7 +112,7 @@ Build project:
 # Unit testing extension
 .unit-testing:
   stage: unit test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-jdk11-node-maven:latest
   allow_failure: false
   dependencies: []
   script:
@@ -155,7 +172,7 @@ SQL Server UT:
 
 Frontend UT:
   stage: unit test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-jdk11-node-maven:latest
   script:
     - mvn -f awe-framework/awe-client-angular/pom.xml $MAVEN_CLI_OPTS test
   artifacts:
@@ -186,7 +203,7 @@ Javadoc test:
 # Browser testing extension
 .browser-testing:
   stage: integration test
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-jdk11-node-maven:latest
   allow_failure: true
   dependencies: []
   script:
@@ -209,7 +226,7 @@ Javadoc test:
         - awe-tests/awe-boot/target/surefire-reports/TEST-*.xml
     when: always
   rules:
-      - <<: *if-default
+    - <<: *if-default
 
 Firefox IT:
   extends: .browser-testing
@@ -229,7 +246,7 @@ Chrome IT:
 
 Launch Sonar:
   stage: analysis
-  image: registry.gitlab.com/aweframework/docker-tools/browsers-node-maven:latest
+  image: registry.gitlab.com/aweframework/docker-tools/browsers-jdk11-node-maven:latest
   cache:
     key: $CACHE_KEY
     paths:
@@ -255,16 +272,6 @@ Launch Sonar:
 ##############################
 # Site stage
 ##############################
-
-Publish docs:
-  image: cfmanteiga/alpine-bash-curl-jq:latest
-  stage: site
-  cache: {}
-  dependencies: []
-  script:
-    - curl -H "$DINAMIQ_HEADERS" $DINAMIQ_URL
-  rules:
-    - <<: *if-develop
 
 Generate javadoc & schemas:
   stage: site
@@ -372,10 +379,12 @@ pages:
   cache: {}
   dependencies:
     - Generate javadoc & schemas
+    - Build website
   script:
     - mkdir -p .public/docs/schemas
     - cp -r awe-framework/target/site/apidocs .public/javadoc-api/
     - cp -r awe-framework/awe-generic-screens/src/main/resources/schemas/awe/*.xsd .public/docs/schemas/
+    - cp -a website/build/. .public/
     - mv .public public
   artifacts:
     paths:
@@ -438,3 +447,15 @@ Start a new release:
     - <<: *if-develop
       when: manual
       allow_failure: true
+
+Notify new release:
+  image: cfmanteiga/alpine-bash-curl-jq:latest
+  stage: release
+  script:
+    ## Generate milestone
+    - chmod +x ./bin/sendmail.sh
+    - ./bin/sendmail.sh $SENDGRID_API_KEY $RELEASE_MAIL_FROM $RELEASE_MAIL_TO $RELEASE_MAIL_ID
+  rules:
+    - <<: *if-tag
+      when: delayed
+      start_in: 1 hour

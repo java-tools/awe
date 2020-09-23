@@ -5,7 +5,6 @@ import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.services.ServiceRest;
 import com.almis.awe.model.entities.services.ServiceType;
 import com.almis.awe.model.util.log.LogUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 
@@ -18,10 +17,10 @@ public class RestConnector extends AbstractRestConnector {
 
   /**
    * Autowired constructor
-   * @param logger Logger
+   *
+   * @param logger         Logger
    * @param requestFactory Request factory
    */
-  @Autowired
   public RestConnector(LogUtil logger, ClientHttpRequestFactory requestFactory) {
     super(logger, requestFactory);
   }
@@ -39,7 +38,7 @@ public class RestConnector extends AbstractRestConnector {
 
       // Retrieve rest server (if defined)
       if (rest.getServer() != null) {
-        String serverProperty = "rest.server." +  rest.getServer();
+        String serverProperty = "rest.server." + rest.getServer();
         url = getProperty(serverProperty);
         rest.setAuthentication(getProperty(serverProperty + ".authentication"));
         rest.setUsername(getProperty(serverProperty + ".authentication.username"));
@@ -54,7 +53,7 @@ public class RestConnector extends AbstractRestConnector {
         outData = doRequest(url, rest, paramsMapFromRequest);
       } catch (RestClientException exc) {
         throw new AWException(getLocale("ERROR_TITLE_INVALID_CONNECTION"),
-                getLocale("ERROR_MESSAGE_CONNECTION_REST", url), exc);
+          getLocale("ERROR_MESSAGE_CONNECTION_REST", url), exc);
       }
     } else {
       outData = new ServiceData();

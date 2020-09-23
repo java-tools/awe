@@ -6,8 +6,8 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-starters</artifactId>
-    <version>4.2.7</version>
-    <relativePath>..</relativePath>
+    <version>4.2.8</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>awe-spring-boot-starter</artifactId>

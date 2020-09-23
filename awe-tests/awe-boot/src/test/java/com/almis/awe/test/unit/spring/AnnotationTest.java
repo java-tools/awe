@@ -1,21 +1,33 @@
 package com.almis.awe.test.unit.spring;
 
+import com.almis.awe.annotation.aspect.AuditAnnotation;
+import com.almis.awe.annotation.aspect.DownloadAnnotation;
 import com.almis.awe.annotation.entities.security.Hash;
+import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.FileData;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.util.file.FileUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.test.service.AnnotationTestService;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Assert;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Class used for testing rest services through ActionController
@@ -38,17 +50,17 @@ public class AnnotationTest extends AweSpringBootTests {
     String valueFromInput = annotationTestService.localeFromParameters("ENUM_LAN_ES");
     String valueFromReturn = annotationTestService.localeFromReturnedValue();
 
-    Assert.assertEquals("Español", valueFromInput);
-    Assert.assertEquals("Español", valueFromReturn);
-    Assert.assertEquals("Español", annotationTestService.localeFromAnnotationValue("This value should be overwritten"));
+    assertEquals("Español", valueFromInput);
+    assertEquals("Español", valueFromReturn);
+    assertEquals("Español", annotationTestService.localeFromAnnotationValue("This value should be overwritten"));
   }
 
   @Test
   public void checkHashAnnotations() throws Exception {
     //Hashing
     logger.warn("Check hash annotations");
-    Assert.assertEquals(EncodeUtil.hash(Hash.HashingAlgorithm.SHA_256.getAlgorithm(), "Moderdonio", "1234"), annotationTestService.hashParameter("Moderdonio"));
-    Assert.assertEquals(EncodeUtil.hash(Hash.HashingAlgorithm.SHA_256.getAlgorithm(), "Moderdonio", "1234"), annotationTestService.hashReturnedValue("Moderdonio"));
+    assertEquals(EncodeUtil.hash(Hash.HashingAlgorithm.SHA_256.getAlgorithm(), "Moderdonio", "1234"), annotationTestService.hashParameter("Moderdonio"));
+    assertEquals(EncodeUtil.hash(Hash.HashingAlgorithm.SHA_256.getAlgorithm(), "Moderdonio", "1234"), annotationTestService.hashReturnedValue("Moderdonio"));
   }
 
   @Test
@@ -60,32 +72,88 @@ public class AnnotationTest extends AweSpringBootTests {
     String encryptedText = annotationTestService.encryptText("Moderdonio");
     logger.warn("Annotation => " + encryptedText);
 
-    Assert.assertEquals("Moderdonio", EncodeUtil.decryptAes(encryptedText, "1234"));
-    Assert.assertEquals("Moderdonio", annotationTestService.decryptText(encriptedTextUtil));
+    assertEquals("Moderdonio", EncodeUtil.decryptAes(encryptedText, "1234"));
+    assertEquals("Moderdonio", annotationTestService.decryptText(encriptedTextUtil));
 
     // Crypto annotation on return values
     logger.warn("Check crypto annotations on return values");
-    Assert.assertEquals("Moderdonio", EncodeUtil.decryptAes(annotationTestService.encryptReturnedText("Moderdonio"), "1234"));
-    Assert.assertEquals("Moderdonio", annotationTestService.decryptReturnedText(encriptedTextUtil));
+    assertEquals("Moderdonio", EncodeUtil.decryptAes(annotationTestService.encryptReturnedText("Moderdonio"), "1234"));
+    assertEquals("Moderdonio", annotationTestService.decryptReturnedText(encriptedTextUtil));
   }
 
   @Test
   public void checkAuditAnnotation() {
     // Test message audit | Symbolic, some Audit messages should appear on the log files
-    annotationTestService.testAuditParamToConsole("Test message");
+    String auditMessage = annotationTestService.testAuditParamToConsole("Test message");
+    assertNotNull(auditMessage);
   }
 
   @Test
-  public void checkSessionAnnotation() throws Exception {
+  public void checkAuditAnnotationPrivateMethodsAsTrue() {
+    // Test message audit | Symbolic, some Audit messages should appear on the log files
+    String auditMessage = annotationTestService.testAuditPrivateMethodToConsole("Test message of private method");
+    assertNotNull(auditMessage);
+  }
+
+  @Test
+  public void checkAuditAnnotationPrivateMethodsAsFalse() {
+    // Test message audit | Symbolic, no Audit messages should appear on the log files
+    String auditMessage = annotationTestService.testAuditPrivateMethodAsFalseToConsole("Test message of private method");
+    assertNull(auditMessage);
+  }
+
+  @Test
+  public void checkAuditAnnotationReturnValue() {
+    // Test message audit | Symbolic, some Audit messages should appear on the log files
+    String auditMessage = annotationTestService.testAuditMethodReturnValuesToConsole("Test message of private method");
+    assertNotNull(auditMessage);
+  }
+
+  @Test
+  public void checkAuditAnnotationReturnValueList() {
+    // Test message audit | Symbolic, some Audit messages should appear on the log files
+    annotationTestService.testAuditMethodReturnList(Arrays.asList("Elem1", "Elem2", "Elem3"));
+  }
+
+  @Test
+  public void checkAuditAnnotationReturnValueMap() {
+    // Test message audit | Symbolic, some Audit messages should appear on the log files
+    Map<String, String> dummyMap = new HashMap<String, String>() {{
+      put("key1", "value1");
+      put("key2", "value2");
+      put("key3", "value3");
+    }};
+
+    annotationTestService.testAuditMethodReturnMap(dummyMap);
+  }
+
+  @Test
+  public void checkAuditGetAuditAnnotationIsNull() throws AWException, NoSuchMethodException {
+    // Test audit annotation is null
+    AuditAnnotation auditAnnotation = new AuditAnnotation();
+
+    //Mocks
+    ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
+    MethodSignature signature = mock(MethodSignature.class);
+    when(joinPoint.getSignature()).thenReturn(signature);
+    when(signature.getDeclaringType()).thenReturn(String.class);
+    when(signature.getMethod()).thenReturn(getDummyMethod());
+
+    // Assert
+    assertNull(auditAnnotation.auditClassProcessor(joinPoint));
+  }
+
+  @Test
+  public void checkSessionAnnotation() {
     // Test variable input
     String inputValue = "This is the variable input value";
     String returnValue = "This is the return value";
     given(aweSession.getParameter(any(), anyString())).willReturn(inputValue, returnValue);
     String inputVariableText = annotationTestService.addParameterToSessionFromInputVariable(inputValue);
-    Assert.assertEquals(inputVariableText, annotationTestService.getValueFromSessionOnInputVariable("This text should be overwritten"));
+    assertEquals(inputVariableText, annotationTestService.getValueFromSessionOnInputVariable("This text should be overwritten"));
 
     String returnValueText = annotationTestService.addParameterToSessionFromReturnValue(returnValue);
-    Assert.assertEquals(returnValueText, annotationTestService.getValueFromSessionOnReturnValue());
+    assertEquals(returnValueText, annotationTestService.getValueFromSessionOnReturnValue());
 
     given(aweSession.hasParameter(anyString())).willReturn(true);
     annotationTestService.addParameterToSessionFromInputVariable("test");
@@ -94,21 +162,21 @@ public class AnnotationTest extends AweSpringBootTests {
   @Test
   public void checkGoToAnnotation() {
     // Test message audit | Symbolic, some Audit messages should appear on the log files
-    Assert.assertEquals("index", annotationTestService.testGoToAnnotation().getClientActionList().get(0).getTarget());
+    assertEquals("index", annotationTestService.testGoToAnnotation().getClientActionList().get(0).getTarget());
 
     // Test message audit | Symbolic, some Audit messages should appear on the log files
-    Assert.assertEquals("index", annotationTestService.testGoToAnnotationClientAction().getTarget());
+    assertEquals("index", annotationTestService.testGoToAnnotationClientAction().getTarget());
 
     // Test message audit | Symbolic, some Audit messages should appear on the log files
-    Assert.assertEquals("default", annotationTestService.testGoToAnnotationWithoutScreen().getTarget());
+    assertEquals("default", annotationTestService.testGoToAnnotationWithoutScreen().getTarget());
 
     // Test message audit | Symbolic, some Audit messages should appear on the log files
-    Assert.assertEquals("default", annotationTestService.testGoToAnnotationReturningString());
+    assertEquals("default", annotationTestService.testGoToAnnotationReturningString());
   }
 
   @Test
   public void checkDownloadAnnotation() throws Exception {
-    String file = this.getClass().getClassLoader().getResource("application.properties").getFile();
+    String file = Objects.requireNonNull(this.getClass().getClassLoader().getResource("application.properties")).getFile();
 
     FileData fileData = new FileData(new java.io.File(file).getName(), new java.io.File(file).length(), "application/octet-stream");
     fileData.setBasePath(new File(file).getParent());
@@ -116,15 +184,38 @@ public class AnnotationTest extends AweSpringBootTests {
     String fileDataString = FileUtil.fileDataToString(fileData);
 
     ClientAction clientAction = annotationTestService.downloadFile();
-    Assert.assertEquals(fileDataString, clientAction.getParameterMap().get("filename"));
+    assertEquals(fileDataString, clientAction.getParameterMap().get("filename"));
 
     ClientAction clientAction2 = annotationTestService.downloadFileNoParam();
-    Assert.assertEquals(fileDataString, clientAction2.getParameterMap().get("filename"));
+    assertEquals(fileDataString, clientAction2.getParameterMap().get("filename"));
 
     ClientAction clientAction3 = annotationTestService.downloadFileFromVar(new File(file));
-    Assert.assertEquals(fileDataString, clientAction3.getParameterMap().get("filename"));
+    assertEquals(fileDataString, clientAction3.getParameterMap().get("filename"));
 
     ClientAction clientAction4 = annotationTestService.downloadFileFromVarMixed(file);
-    Assert.assertEquals(fileDataString, clientAction4.getParameterMap().get("filename"));
+    assertEquals(fileDataString, clientAction4.getParameterMap().get("filename"));
+  }
+
+  @Test
+  public void checkDownloadAnnotationNull() throws Throwable {
+    // Test audit annotation is null
+    DownloadAnnotation downloadAnnotation = new DownloadAnnotation();
+
+    //Mocks
+    ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
+    MethodSignature signature = mock(MethodSignature.class);
+    when(joinPoint.getSignature()).thenReturn(signature);
+    when(signature.getMethod()).thenReturn(getDummyMethod());
+
+    // Assert
+    assertNull(downloadAnnotation.goToMethodProcessor(joinPoint));
+
+  }
+
+  private Method getDummyMethod() throws NoSuchMethodException {
+    return getClass().getDeclaredMethod("dummyMethod");
+  }
+
+  private void dummyMethod() {
   }
 }

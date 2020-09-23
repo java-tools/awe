@@ -4,18 +4,14 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.constant.AweConstants;
-import com.almis.awe.model.dto.CellData;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.ServiceData;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.MutablePropertySources;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -28,15 +24,15 @@ public class PropertyService extends ServiceConfig {
   private boolean databaseEnabled;
 
   // Autowired services
-  private QueryService queryService;
-  private ConfigurableEnvironment environment;
+  private final QueryService queryService;
+  private final ConfigurableEnvironment environment;
 
   /**
    * Autowired constructor
-   * @param queryService Query service
+   *
+   * @param queryService            Query service
    * @param configurableEnvironment Configurable environment
    */
-  @Autowired
   public PropertyService(QueryService queryService, ConfigurableEnvironment configurableEnvironment) {
     this.queryService = queryService;
     this.environment = configurableEnvironment;
@@ -44,6 +40,7 @@ public class PropertyService extends ServiceConfig {
 
   /**
    * Generate application properties
+   *
    * @return Service data
    */
   public ServiceData refreshDatabaseProperties() {

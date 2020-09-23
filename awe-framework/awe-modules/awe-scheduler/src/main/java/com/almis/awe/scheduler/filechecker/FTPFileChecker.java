@@ -6,8 +6,6 @@ import com.almis.awe.scheduler.dao.FileDAO;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,19 +15,18 @@ import java.util.List;
 /**
  * @author dfuentes
  */
-@Component
 @Log4j2
 public class FTPFileChecker extends Connector {
 
   // Autowired services
-  private FTPClient ftpClient;
+  private final FTPClient ftpClient;
 
   /**
    * Autowired constructor
    *
-   * @param fileDAO
+   * @param fileDAO   File DAO
+   * @param ftpClient FTP client
    */
-  @Autowired
   public FTPFileChecker(FileDAO fileDAO, FTPClient ftpClient) {
     super(fileDAO);
     this.ftpClient = ftpClient;

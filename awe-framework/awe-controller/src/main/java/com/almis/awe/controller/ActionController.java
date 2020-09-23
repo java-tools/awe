@@ -19,13 +19,14 @@ import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADE
 public class ActionController {
 
   // Autowired services
-  private ActionService actionService;
-  private AweRequest request;
+  private final ActionService actionService;
+  private final AweRequest request;
 
   /**
    * Autowired constructor
-   * @param actionService
-   * @param aweRequest
+   *
+   * @param actionService Action service
+   * @param aweRequest    Awe request
    */
   @Autowired
   public ActionController(ActionService actionService, AweRequest aweRequest) {
@@ -35,8 +36,9 @@ public class ActionController {
 
   /**
    * Launch server action
-   * @param token Connection token
-   * @param actionId Action identifier
+   *
+   * @param token      Connection token
+   * @param actionId   Action identifier
    * @param parameters Parameters
    * @return Client action list
    */
@@ -54,9 +56,10 @@ public class ActionController {
 
   /**
    * Launch server action with target
-   * @param token Connection token
-   * @param actionId Action identifier
-   * @param targetId Target action
+   *
+   * @param token      Connection token
+   * @param actionId   Action identifier
+   * @param targetId   Target action
    * @param parameters Parameters
    * @return Client action list
    */

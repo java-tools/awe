@@ -1,4 +1,20 @@
 
+# Changelog for awe 4.2.8
+*23/09/2020*
+
+- Set `none` as default cache as `ehcache` has JDK8 dependencies. [MR #242](https://gitlab.com/aweframework/awe/-/merge_requests/242) (Pablo Vidal Otero)
+- Remove `@Component` from already initialized beans like WebSettings. [MR #241](https://gitlab.com/aweframework/awe/-/merge_requests/241) (Pablo Javier García Mora)
+- Load-all grid doesn't draw the rows well when page is defined and it's not the first one. [MR #240](https://gitlab.com/aweframework/awe/-/merge_requests/240) (Pablo Javier García Mora)
+- Update Spring Boot version to 2.2. [MR #239](https://gitlab.com/aweframework/awe/-/merge_requests/239) (Pablo Vidal Otero)
+- Review documentation. [MR #238](https://gitlab.com/aweframework/awe/-/merge_requests/238) (Mario Bastardo)
+- Bug in SeleniumUtilities.selectDate(). [MR #237](https://gitlab.com/aweframework/awe/-/merge_requests/237) (Pablo Javier García Mora)
+- Bug in SeleniumUtilities.selectDate(). [MR #236](https://gitlab.com/aweframework/awe/-/merge_requests/236) (Pablo Javier García Mora)
+- Update version in docusaurus framework. [MR #235](https://gitlab.com/aweframework/awe/-/merge_requests/235) (Pablo Vidal Otero)
+- Yandex translation API v1 has been deprecated. [MR #234](https://gitlab.com/aweframework/awe/-/merge_requests/234) (Pablo Vidal Otero)
+- Add filter version in search tool bar of website. [MR #233](https://gitlab.com/aweframework/awe/-/merge_requests/233) (Pablo Vidal Otero)
+- Build a new doc website with docusaurus. [MR #232](https://gitlab.com/aweframework/awe/-/merge_requests/232) (Pablo Vidal Otero)
+- Compile error with Jdk 11. [MR #231](https://gitlab.com/aweframework/awe/-/merge_requests/231) (Pablo Vidal Otero)
+
 # Changelog for awe 4.2.7
 *09/07/2020*
 

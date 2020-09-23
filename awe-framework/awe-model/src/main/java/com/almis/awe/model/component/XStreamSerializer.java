@@ -1,8 +1,6 @@
 package com.almis.awe.model.component;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.oxm.XmlMappingException;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
@@ -12,11 +10,11 @@ import java.nio.charset.StandardCharsets;
 /**
  * @author pgarcia
  */
+@Log4j2
 public class XStreamSerializer {
 
   // Xml Xstream factory
-  private XStreamMarshaller xmlXStreamMarshaller;
-  private final Logger logger = LogManager.getLogger(this.getClass());
+  private final XStreamMarshaller xmlXStreamMarshaller;
 
   private static final String ERROR_SERIALIZING = "[XStreamSerializer] The object {} cannot be serialized";
   private static final String ERROR_DESERIALIZING = "[XStreamSerializer] The object {} cannot be deserialized";
@@ -26,7 +24,6 @@ public class XStreamSerializer {
    *
    * @param xStreamMarshaller Marshaller
    */
-  @Autowired
   public XStreamSerializer(XStreamMarshaller xStreamMarshaller) {
     this.xmlXStreamMarshaller = xStreamMarshaller;
   }
@@ -39,14 +36,14 @@ public class XStreamSerializer {
    * @param object       Object to serialize
    * @param outputStream OutputStream to set
    */
-  public void writeXmlFromObject(Class wrapperClass, Object object, OutputStream outputStream) {
+  public <T> void writeXmlFromObject(Class<T> wrapperClass, Object object, OutputStream outputStream) {
     try {
       // Process annotations
       xmlXStreamMarshaller.getXStream().processAnnotations(wrapperClass);
       // Marshall object to Xml
       xmlXStreamMarshaller.marshalOutputStream(object, outputStream);
     } catch (IOException | XmlMappingException ex) {
-      logger.error(ERROR_SERIALIZING, object.getClass().getCanonicalName(), ex);
+      log.error(ERROR_SERIALIZING, object.getClass().getCanonicalName(), ex);
     }
   }
 
@@ -58,14 +55,14 @@ public class XStreamSerializer {
    * @param object       Object to serialize
    * @param writer       Writer to set
    */
-  public void writeXmlFromObject(Class wrapperClass, Object object, Writer writer) {
+  public <T> void writeXmlFromObject(Class<T> wrapperClass, Object object, Writer writer) {
     try {
       // Process annotations
       xmlXStreamMarshaller.getXStream().processAnnotations(wrapperClass);
       // Marshall object to Xml
       xmlXStreamMarshaller.marshalWriter(object, writer);
     } catch (IOException | XmlMappingException ex) {
-      logger.error(ERROR_SERIALIZING, object.getClass().getCanonicalName(), ex);
+      log.error(ERROR_SERIALIZING, object.getClass().getCanonicalName(), ex);
     }
   }
 
@@ -76,13 +73,13 @@ public class XStreamSerializer {
    * @param wrapperClass Class with XStream annotations
    * @param object       Object to serialize
    */
-  public String writeStringFromObject(Class wrapperClass, Object object) {
+  public <T> String writeStringFromObject(Class<T> wrapperClass, Object object) {
     String output = null;
     try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
       writeXmlFromObject(wrapperClass, object, outputStream);
       output = outputStream.toString(StandardCharsets.UTF_8.toString());
     } catch (IOException | XmlMappingException ex) {
-      logger.error(ERROR_SERIALIZING, object.getClass().getCanonicalName(), ex);
+      log.error(ERROR_SERIALIZING, object.getClass().getCanonicalName(), ex);
     }
     return output;
   }
@@ -104,7 +101,7 @@ public class XStreamSerializer {
       // Marshall object to Xml
       object = (T) xmlXStreamMarshaller.unmarshalReader(reader);
     } catch (IOException | XmlMappingException exc) {
-      logger.error(ERROR_DESERIALIZING, wrapperClass.getCanonicalName(), exc);
+      log.error(ERROR_DESERIALIZING, wrapperClass.getCanonicalName(), exc);
     }
     return object;
   }
@@ -126,7 +123,7 @@ public class XStreamSerializer {
       // Marshall object to Xml
       object = (T) xmlXStreamMarshaller.unmarshalInputStream(inputStream);
     } catch (IOException | XmlMappingException exc) {
-      logger.error(ERROR_DESERIALIZING, wrapperClass.getCanonicalName(), exc);
+      log.error(ERROR_DESERIALIZING, wrapperClass.getCanonicalName(), exc);
     }
     return object;
   }
@@ -145,7 +142,7 @@ public class XStreamSerializer {
     try (ByteArrayInputStream inputStream = new ByteArrayInputStream(template.getBytes(StandardCharsets.UTF_8.toString()))) {
       object = getObjectFromXml(wrapperClass, inputStream);
     } catch (IOException | XmlMappingException exc) {
-      logger.error(ERROR_DESERIALIZING, wrapperClass.getCanonicalName(), exc);
+      log.error(ERROR_DESERIALIZING, wrapperClass.getCanonicalName(), exc);
     }
     return object;
   }

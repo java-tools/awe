@@ -16,7 +16,6 @@ import com.almis.awe.service.QueryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,18 +39,17 @@ public class NotifierService {
   private static final String WEB = "web";
 
   // Autowired services
-  private QueryService queryService;
-  private MaintainService maintainService;
-  private BroadcastService broadcastService;
+  private final QueryService queryService;
+  private final MaintainService maintainService;
+  private final BroadcastService broadcastService;
 
   /**
    * Autowired constructor
    *
-   * @param queryService    Query service
-   * @param maintainService Maintain service
+   * @param queryService     Query service
+   * @param maintainService  Maintain service
    * @param broadcastService Broadcast service
    */
-  @Autowired
   public NotifierService(QueryService queryService, MaintainService maintainService, BroadcastService broadcastService) {
     this.queryService = queryService;
     this.maintainService = maintainService;
@@ -127,6 +125,7 @@ public class NotifierService {
 
   /**
    * Go to notification screen
+   *
    * @param notificationId Notification id
    * @return Service data
    */

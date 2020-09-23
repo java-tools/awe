@@ -11,7 +11,6 @@ import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.QueryService;
 import com.almis.awe.service.SessionService;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DatabaseDriver;
 import org.springframework.context.EmbeddedValueResolverAware;
@@ -20,6 +19,7 @@ import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.util.StringValueResolver;
 
 import javax.sql.DataSource;
+import java.sql.DatabaseMetaData;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,10 +29,10 @@ import java.util.Map;
 public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
 
   // Autowired services
-  private AweElements elements;
-  private QueryService queryService;
-  private SessionService sessionService;
-  private LogUtil logger;
+  private final AweElements elements;
+  private final QueryService queryService;
+  private final SessionService sessionService;
+  private final LogUtil logger;
   private StringValueResolver resolver;
 
   // Database jndi-url
@@ -67,7 +67,6 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
    * @param sessionService Session Service
    * @param logger         Logger
    */
-  @Autowired
   public AweDatabaseContextHolder(AweElements elements, QueryService queryService, SessionService sessionService, LogUtil logger) {
     this.elements = elements;
     this.queryService = queryService;
@@ -199,7 +198,7 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
    */
   public String getDatabaseType(DataSource dataSource) throws AWException {
     try {
-      String url = JdbcUtils.extractDatabaseMetaData(dataSource, "getURL");
+      String url = JdbcUtils.extractDatabaseMetaData(dataSource, DatabaseMetaData::getURL);
       return DatabaseDriver.fromJdbcUrl(url).getId();
     } catch (Exception exc) {
       throw new AWException("Error retrieving database type from datasource", dataSource.toString(), exc);

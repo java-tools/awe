@@ -17,7 +17,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -38,8 +37,8 @@ import java.util.regex.Pattern;
 public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
   // Autowired services
-  private LogUtil logger;
-  private ClientHttpRequestFactory requestFactory;
+  private final LogUtil logger;
+  private final ClientHttpRequestFactory requestFactory;
 
   /**
    * Autowired constructor
@@ -47,7 +46,6 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
    * @param logger         Logger
    * @param requestFactory Request factory
    */
-  @Autowired
   public AbstractRestConnector(LogUtil logger, ClientHttpRequestFactory requestFactory) {
     this.logger = logger;
     this.requestFactory = requestFactory;
@@ -141,14 +139,14 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
    * @param urlParameters        Url parameters
    * @param paramsMapFromRequest Request parameters
    * @return Request
-   * @throws com.fasterxml.jackson.core.JsonProcessingException
+   * @throws com.fasterxml.jackson.core.JsonProcessingException {@link JsonProcessingException}
    */
   protected HttpEntity generateRequest(AbstractServiceRest rest, UriComponentsBuilder uriBuilder, Map<String, Object> urlParameters, Map<String, Object> paramsMapFromRequest) throws JsonProcessingException {
     // Define request headers
     HttpHeaders headers = new HttpHeaders();
 
     RestContentType restContentType = rest.getContentType() != null ? RestContentType.valueOf(rest.getContentType()) : RestContentType.URLENCODED;
-    MediaType contentType = restContentType.equals(RestContentType.JSON) ? MediaType.APPLICATION_JSON_UTF8 : MediaType.APPLICATION_FORM_URLENCODED;
+    MediaType contentType = restContentType.equals(RestContentType.JSON) ? MediaType.APPLICATION_JSON : MediaType.APPLICATION_FORM_URLENCODED;
 
     // Set content type
     if (!rest.getMethod().equalsIgnoreCase("GET")) {
@@ -276,8 +274,8 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
   /**
    * Read parameter POJO
    *
-   * @param param                 Parameter to read
-   * @param paramsMapFromRequest  Parameters from request
+   * @param param                Parameter to read
+   * @param paramsMapFromRequest Parameters from request
    */
   private ObjectNode readParameterPOJO(ServiceInputParameter param, Map<String, Object> paramsMapFromRequest) {
     // If it has parameters, expand the url avoiding parameters already used
@@ -305,10 +303,9 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
    *
    * @param query Subscribed query
    * @return Service data
-   * @throws AWException Error in subscription
    */
   @Override
-  public ServiceData subscribe(Query query) throws AWException {
+  public ServiceData subscribe(Query query) {
     // Return service output
     return new ServiceData();
   }

@@ -8,20 +8,18 @@ import com.almis.awe.service.BroadcastService;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Log4j2
-@Component
 public class BroadcastReportJob extends ReportJob {
 
   // Autowired services
-  private BroadcastService broadcastService;
+  private final BroadcastService broadcastService;
 
   /**
-   * Autowired constructor
+   * Constructor
+   *
+   * @param broadcastService Broadcast service
    */
-  @Autowired
   public BroadcastReportJob(BroadcastService broadcastService) {
     this.broadcastService = broadcastService;
   }

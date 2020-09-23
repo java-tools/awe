@@ -20,14 +20,12 @@ import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.model.util.data.DataListUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.*;
@@ -66,8 +64,8 @@ public class LiteralsService extends ServiceConfig {
   private String textParameter;
 
   // Autowired services
-  private PathService pathService;
-  private XStreamSerializer serializer;
+  private final PathService pathService;
+  private final XStreamSerializer serializer;
 
   /**
    * Autowired constructor
@@ -75,7 +73,6 @@ public class LiteralsService extends ServiceConfig {
    * @param pathService Path service
    * @param serializer  Serializer
    */
-  @Autowired
   public LiteralsService(PathService pathService, XStreamSerializer serializer) {
     this.pathService = pathService;
     this.serializer = serializer;
@@ -92,7 +89,15 @@ public class LiteralsService extends ServiceConfig {
    */
   public ServiceData translate(String text, String fromLanguage, String toLanguage) throws AWException {
     ServiceData serDat = new ServiceData();
-    String result = getTranslation(text, fromLanguage, toLanguage);
+    String result;
+
+    if (Objects.equals(fromLanguage, toLanguage)) {
+      // Skip translation
+      result = text;
+    } else {
+      // Call translation API
+      result = getTranslation(text, fromLanguage, toLanguage);
+    }
 
     String[] arr = {result};
     serDat.setData(arr);
@@ -285,8 +290,8 @@ public class LiteralsService extends ServiceConfig {
    * @throws AWException Error retrieving markdown
    */
   public ServiceData getSelectedLocale(String codeLang, String code) throws AWException {
-    List<String> values = new ArrayList();
-    List<String> types = new ArrayList();
+    List<String> values = new ArrayList<>();
+    List<String> types = new ArrayList<>();
     FormatType format = FormatType.TEXT;
     ServiceData serviceData = new ServiceData();
 
@@ -329,8 +334,8 @@ public class LiteralsService extends ServiceConfig {
    */
   public ServiceData switchLanguages(String fromLanguage, String toLanguage, String fromTarget, String toTarget) {
     return new ServiceData()
-      .addClientAction(new SelectActionBuilder(fromTarget, Arrays.asList(toLanguage)).build())
-      .addClientAction(new SelectActionBuilder(toTarget, Arrays.asList(fromLanguage)).build());
+      .addClientAction(new SelectActionBuilder(fromTarget, Collections.singletonList(toLanguage)).build())
+      .addClientAction(new SelectActionBuilder(toTarget, Collections.singletonList(fromLanguage)).build());
   }
 
   /**
@@ -344,23 +349,23 @@ public class LiteralsService extends ServiceConfig {
    */
   private String getTranslation(String literal, String fromLang, String toLang) throws AWException {
 
-    String translation = null;
+    String translation;
 
     try {
+
       // Get translation from cloud
       String result = getUrlString(literal, fromLang, toLang);
 
-      // Extrar translation of the result
+      // Extract translation of the result
       ObjectMapper mapper = new ObjectMapper();
       JsonNode jsonResponse = mapper.readTree(result);
-      ArrayNode textList = (ArrayNode) jsonResponse.get("text");
-      translation = textList.get(0).asText();
+      translation = jsonResponse.path("responseData").path("translatedText").asText();
 
       if ("".equalsIgnoreCase(translation)) {
         throw new AWException(getLocale("ERROR_TITLE_RETRIEVING_TRANSLATION"),
           getLocale("ERROR_MESSAGE_RETRIEVING_TRANSLATION", toLang, literal));
       }
-    } catch (IOException exc) {
+    } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_RETRIEVING_TRANSLATION"),
         getLocale("ERROR_MESSAGE_RETRIEVING_TRANSLATION", toLang, literal), exc);
     }
@@ -525,7 +530,7 @@ public class LiteralsService extends ServiceConfig {
       // Fix markdown attribute
       fixMarkdown(globals);
 
-      Collections.sort(globals, new CompareLocal());
+      globals.sort(new CompareLocal());
       localesFromFile.setLocales(globals);
     }
 
@@ -588,24 +593,23 @@ public class LiteralsService extends ServiceConfig {
     String fileName = localeFile + codeLang;
     String path = pathService.getPath() + fileName + xmlExtension;
 
-    return (Locales) readXmlFile(Locales.class, path);
+    return (Locales) readXmlFile(path);
   }
 
   /**
    * Read all XML files and return them
    *
-   * @param fileClass File class
-   * @param path      File path
+   * @param path File path
    * @return Xml file object
    */
-  private XMLFile readXmlFile(Class<? extends XMLFile> fileClass, String path) {
+  private XMLFile readXmlFile(String path) {
     XMLFile xml = null;
     try {
       // Unmarshall XML
       File file = new File(path);
       if (file.exists()) {
         InputStream resourceInputStream = new FileInputStream(file);
-        xml = serializer.getObjectFromXml(fileClass, resourceInputStream);
+        xml = serializer.getObjectFromXml((Class<? extends XMLFile>) Locales.class, resourceInputStream);
         getLogger().log(AweElements.class, Level.DEBUG, "Reading ''{0}'' - OK", path);
       } else {
         getLogger().log(AweElements.class, Level.DEBUG, "Reading ''{0}'' - NOT FOUND", path);
@@ -672,10 +676,10 @@ public class LiteralsService extends ServiceConfig {
 
     /* GLOSBE */
     String encodedText = URLEncoder.encode(literal, StandardCharsets.UTF_8.toString());
-    String url = new StringBuilder().append(translationApiUrl)
-      .append("?").append(keyParameter).append("=").append(translationApiKey)
-      .append("&").append(languageParameter).append("=").append(fromLang.toLowerCase()).append("-").append(toLang.toLowerCase())
-      .append("&").append(textParameter).append("=").append(encodedText).toString();
+    String url = translationApiUrl +
+      "?" + keyParameter + "=" + translationApiKey +
+      "&" + languageParameter + "=" + fromLang.toLowerCase() + "|" + toLang.toLowerCase() +
+      "&" + textParameter + "=" + encodedText;
 
     URLConnection connection = new URL(url).openConnection();
 

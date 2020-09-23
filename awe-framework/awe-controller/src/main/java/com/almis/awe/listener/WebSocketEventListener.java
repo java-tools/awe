@@ -5,12 +5,14 @@ import com.almis.awe.model.tracker.AweConnectionTracker;
 import com.almis.awe.model.type.LaunchPhaseType;
 import com.almis.awe.service.InitService;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import java.security.Principal;
+import java.util.Objects;
 
 /**
  * Event when websocket is connected
@@ -19,15 +21,14 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 public class WebSocketEventListener {
 
   // Autowired services
-  private InitService initService;
-  private AweConnectionTracker connectionTracker;
+  private final InitService initService;
+  private final AweConnectionTracker connectionTracker;
 
   /**
    * Autowired constructor
    *
    * @param initService Init service
    */
-  @Autowired
   public WebSocketEventListener(InitService initService, AweConnectionTracker connectionTracker) {
     this.initService = initService;
     this.connectionTracker = connectionTracker;
@@ -36,16 +37,17 @@ public class WebSocketEventListener {
   /**
    * On connect event
    *
-   * @param event
+   * @param event Session connect event
    */
   @EventListener
   public void onConnectEvent(SessionConnectEvent event) {
     log.info("[WebSocket Connect Event]");
     StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
+    Principal user = event.getUser();
 
-    if (event.getUser() != null) {
-      String token = accessor.getNativeHeader(AweConstants.SESSION_CONNECTION_HEADER).get(0);
-      connectionTracker.initializeUserConnections(event.getUser().getName(), token, (String) accessor.getSessionAttributes().get("HTTP.SESSION.ID"));
+    if (user != null) {
+      String token = Objects.requireNonNull(accessor.getNativeHeader(AweConstants.SESSION_CONNECTION_HEADER)).get(0);
+      connectionTracker.initializeUserConnections(user.getName(), token, (String) Objects.requireNonNull(accessor.getSessionAttributes()).get("HTTP.SESSION.ID"));
     }
   }
 

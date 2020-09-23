@@ -26,10 +26,8 @@ import javax.sql.DataSource;
 @ConditionalOnProperty(name = "spring.flyway.enabled", havingValue = "true")
 public class FlywayMigrationConfig {
 
-  private DataSource dataSource;
-
-  @Autowired
-  private Flyway flyway;
+  private final DataSource dataSource;
+  private final Flyway flyway;
 
   @Value("${awe.database.migration.prefix:V}")
   private String prefixPattern;
@@ -43,10 +41,12 @@ public class FlywayMigrationConfig {
   /**
    * Constructor
    *
+   * @param flyway     Flyway
    * @param dataSource Awe routing datasource
    */
   @Autowired
-  public FlywayMigrationConfig(DataSource dataSource) {
+  public FlywayMigrationConfig(Flyway flyway, DataSource dataSource) {
+    this.flyway = flyway;
     this.dataSource = dataSource;
   }
 
@@ -82,11 +82,11 @@ public class FlywayMigrationConfig {
         log.info("========== Migrating databases of [AweDbs] table defined in default database ... ==========");
         for (String module : modulesToMigrate) {
           ((AweRoutingDataSource) dataSource).getContextHolder().getDataSources().forEach((key, value) -> {
-                    log.info("========== Migrating database {} for module {} ... ==========", key, module);
-                    Flyway customFlyway = customizeFlywayConfig(module, (DataSource) value, indexBaseLine);
-                    customFlyway.migrate();
-                    log.info("======= Current version of module {} from database {}: {}", module, key, customFlyway.info().current().getVersion());
-                  }
+              log.info("========== Migrating database {} for module {} ... ==========", key, module);
+              Flyway customFlyway = customizeFlywayConfig(module, (DataSource) value, indexBaseLine);
+              customFlyway.migrate();
+              log.info("======= Current version of module {} from database {}: {}", module, key, customFlyway.info().current().getVersion());
+            }
           );
         }
       }
@@ -106,13 +106,13 @@ public class FlywayMigrationConfig {
     String scriptPrefix = !"".equalsIgnoreCase(prefixPattern) ? String.format(prefixPattern, module) : prefixPattern;
     String repeatableScriptPrefix = !"".equalsIgnoreCase(repeatablePrefixPattern) ? String.format(repeatablePrefixPattern, module) : repeatablePrefixPattern;
     FluentConfiguration configuration = new FluentConfiguration()
-            .baselineOnMigrate(true)
-            .baselineVersion(indexBaseLine.toString())
-            .sqlMigrationPrefix(scriptPrefix)
-            .repeatableSqlMigrationPrefix(repeatableScriptPrefix)
-            .table("flyway_schema_" + module)
-            .locations(flyway.getConfiguration().getLocations())
-            .dataSource(dataSource);
+      .baselineOnMigrate(true)
+      .baselineVersion(indexBaseLine.toString())
+      .sqlMigrationPrefix(scriptPrefix)
+      .repeatableSqlMigrationPrefix(repeatableScriptPrefix)
+      .table("flyway_schema_" + module)
+      .locations(flyway.getConfiguration().getLocations())
+      .dataSource(dataSource);
     return Flyway.configure().configuration(configuration).load();
   }
 }

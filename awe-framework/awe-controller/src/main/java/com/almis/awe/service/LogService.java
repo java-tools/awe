@@ -10,7 +10,6 @@ import com.almis.awe.model.util.security.EncodeUtil;
 import com.almis.awe.service.data.builder.DataListBuilder;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
@@ -28,7 +27,7 @@ import java.util.Map;
 public class LogService extends ServiceConfig {
 
   // Autowired services
-  private QueryUtil queryUtil;
+  private final QueryUtil queryUtil;
 
   @Value("${application.log.file.path}")
   private String logBasePath;
@@ -44,7 +43,6 @@ public class LogService extends ServiceConfig {
    *
    * @param queryUtil Query utilities
    */
-  @Autowired
   public LogService(QueryUtil queryUtil) {
     this.queryUtil = queryUtil;
   }
@@ -130,6 +128,7 @@ public class LogService extends ServiceConfig {
 
   /**
    * Retrieve log path
+   *
    * @return Log path
    */
   public String getLogPath() {

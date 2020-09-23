@@ -3,6 +3,7 @@ package com.almis.awe.test;
 import com.almis.awe.test.categories.CIDatabaseTest;
 import com.almis.awe.test.categories.NotHSQLDatabaseTest;
 import com.almis.awe.test.unit.builder.BuildersTestsSuite;
+import com.almis.awe.test.unit.developer.DeveloperTestSuite;
 import com.almis.awe.test.unit.hsql.SpringHsqlTestsSuite;
 import com.almis.awe.test.unit.notifier.NotifierTestsSuite;
 import com.almis.awe.test.unit.pojo.PojoTestsSuite;
@@ -20,16 +21,17 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Categories.class)
 @ExcludeCategory({CIDatabaseTest.class, NotHSQLDatabaseTest.class})
 @SuiteClasses({
-  SpringHsqlTestsSuite.class,
-  SpringBootTestsSuite.class,
-  SpringRestTestsSuite.class,
-  ServicesTestSuite.class,
-  UtilitiesTestsSuite.class,
-  PojoTestsSuite.class,
-  BuildersTestsSuite.class,
-  SchedulerTestSuite.class,
-  NotifierTestsSuite.class,
-  PrintTestSuite.class
+        SpringHsqlTestsSuite.class,
+        SpringBootTestsSuite.class,
+        SpringRestTestsSuite.class,
+        ServicesTestSuite.class,
+        UtilitiesTestsSuite.class,
+        PojoTestsSuite.class,
+        BuildersTestsSuite.class,
+        SchedulerTestSuite.class,
+        DeveloperTestSuite.class,
+        NotifierTestsSuite.class,
+        PrintTestSuite.class
 })
 public class AllTestsSuite {
 }

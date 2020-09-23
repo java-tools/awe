@@ -14,7 +14,6 @@ import com.almis.awe.model.util.data.DataListUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.HashMap;
@@ -57,14 +56,13 @@ public class AccessService extends ServiceConfig {
   private String jasyptStringOutputType;
 
   // Autowire
-  private MenuService menuService;
+  private final MenuService menuService;
 
   /**
    * Autowired constructor
    *
    * @param menuService menu service
    */
-  @Autowired
   public AccessService(MenuService menuService) {
     this.menuService = menuService;
   }

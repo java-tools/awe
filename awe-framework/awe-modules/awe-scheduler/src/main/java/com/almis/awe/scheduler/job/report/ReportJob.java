@@ -9,27 +9,17 @@ import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import static com.almis.awe.scheduler.constant.JobConstants.TASK;
 import static com.almis.awe.scheduler.constant.JobConstants.TASK_JOB_EXECUTION;
 
 @Log4j2
-@Component
 @Getter
 @Setter
 public abstract class ReportJob extends ServiceConfig implements Job {
 
   private Task task;
   private TaskExecution execution;
-
-  /**
-   * Autowired constructor
-   */
-  @Autowired
-  public ReportJob() {
-  }
 
   @Override
   public void execute(JobExecutionContext context) throws JobExecutionException {

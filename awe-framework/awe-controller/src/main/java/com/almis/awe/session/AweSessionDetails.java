@@ -13,7 +13,6 @@ import com.almis.awe.model.tracker.AweClientTracker;
 import com.almis.awe.model.tracker.AweConnectionTracker;
 import com.almis.awe.service.BroadcastService;
 import com.almis.awe.service.QueryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -34,10 +33,10 @@ import static com.almis.awe.model.constant.AweConstants.*;
 public class AweSessionDetails extends ServiceConfig {
 
   // Autowired services
-  private AweClientTracker clientTracker;
-  private QueryService queryService;
-  private AweConnectionTracker connectionTracker;
-  private BroadcastService broadcastService;
+  private final AweClientTracker clientTracker;
+  private final QueryService queryService;
+  private final AweConnectionTracker connectionTracker;
+  private final BroadcastService broadcastService;
 
   // Change password screen
   @Value("#{'${session.parameters:}'.split(',')}")
@@ -64,8 +63,8 @@ public class AweSessionDetails extends ServiceConfig {
    * @param aweClientTracker  awe client tracker
    * @param queryService      query service
    * @param connectionTracker connection tracker
+   * @param broadcastService  Broadcasting service
    */
-  @Autowired
   public AweSessionDetails(AweClientTracker aweClientTracker, QueryService queryService, AweConnectionTracker connectionTracker, BroadcastService broadcastService) {
     this.clientTracker = aweClientTracker;
     this.queryService = queryService;

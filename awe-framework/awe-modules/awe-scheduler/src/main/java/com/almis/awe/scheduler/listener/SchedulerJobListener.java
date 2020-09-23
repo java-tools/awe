@@ -9,7 +9,6 @@ import lombok.extern.log4j.Log4j2;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 
 import static com.almis.awe.scheduler.constant.JobConstants.TASK;
@@ -22,9 +21,8 @@ import static com.almis.awe.scheduler.constant.ListenerConstants.JOB_LISTENER_NA
 public class SchedulerJobListener extends ServiceConfig implements JobListener {
 
   // Autowired services
-  private ApplicationEventPublisher eventPublisher;
+  private final ApplicationEventPublisher eventPublisher;
 
-  @Autowired
   public SchedulerJobListener(ApplicationEventPublisher eventPublisher) {
     this.eventPublisher = eventPublisher;
   }

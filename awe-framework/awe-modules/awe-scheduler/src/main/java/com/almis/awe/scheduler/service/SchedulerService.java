@@ -10,9 +10,6 @@ import com.almis.awe.scheduler.dao.TaskDAO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,17 +17,13 @@ import java.util.List;
 /**
  * @author pgarcia
  */
-@Service
 @Log4j2
 public class SchedulerService extends ServiceConfig {
 
   // Autowired services
-  private TaskDAO taskDAO;
-  private SchedulerDAO schedulerDAO;
-  private CalendarDAO calendarDAO;
-
-  @Value("${scheduler.max.stored.executions:5}")
-  private Integer maxStoredExecutions;
+  private final TaskDAO taskDAO;
+  private final SchedulerDAO schedulerDAO;
+  private final CalendarDAO calendarDAO;
 
   // Locales
   private static final String ERROR_MESSAGE_SCHEDULER_PAUSE_TASK = "ERROR_MESSAGE_SCHEDULER_PAUSE_TASK";
@@ -41,7 +34,6 @@ public class SchedulerService extends ServiceConfig {
   /**
    * Constructor
    */
-  @Autowired
   public SchedulerService(TaskDAO taskDAO, SchedulerDAO schedulerDAO, CalendarDAO calendarDAO) {
     this.taskDAO = taskDAO;
     this.schedulerDAO = schedulerDAO;

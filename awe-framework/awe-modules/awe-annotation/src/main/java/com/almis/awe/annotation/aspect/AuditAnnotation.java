@@ -32,7 +32,7 @@ public class AuditAnnotation {
   /**
    * Pointcut for annotated methods
    */
-  @Pointcut ("execution(@com.almis.awe.annotation.entities.audit.Audit * *.*(..))")
+  @Pointcut("execution(@com.almis.awe.annotation.entities.audit.Audit * *.*(..))")
   void annotatedMethod() {
     //This is a pointcut for Audit annotations
   }
@@ -40,7 +40,7 @@ public class AuditAnnotation {
   /**
    * Pointcut for methods in annotated classes
    */
-  @Pointcut ("execution(* (@com.almis.awe.annotation.entities.audit.Audit *).*(..))")
+  @Pointcut("execution(* (@com.almis.awe.annotation.entities.audit.Audit *).*(..))")
   void methodOfAnnotatedClass() {
     //This is a pointcut for Audit annotations
   }
@@ -50,10 +50,9 @@ public class AuditAnnotation {
    * Audit advise method for class and method Audit annotations
    *
    * @param proceedingJoinPoint Join point
-   *
    * @throws AWException Error on pointcut
    */
-  @Around ("com.almis.awe.annotation.aspect.AuditAnnotation.annotatedMethod() || com.almis.awe.annotation.aspect.AuditAnnotation.methodOfAnnotatedClass()")
+  @Around("com.almis.awe.annotation.aspect.AuditAnnotation.annotatedMethod() || com.almis.awe.annotation.aspect.AuditAnnotation.methodOfAnnotatedClass()")
   public Object auditClassProcessor(ProceedingJoinPoint proceedingJoinPoint) throws AWException {
     MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
     Audit audit = org.springframework.core.annotation.AnnotationUtils.getAnnotation(proceedingJoinPoint.getSignature().getDeclaringType(), Audit.class);
@@ -61,19 +60,21 @@ public class AuditAnnotation {
     String currentExecutionId = UUID.randomUUID().toString();
 
     //Method audit has preference
-    if (audit == null || annotationAudit != null) {
+    if (annotationAudit != null) {
       audit = annotationAudit;
     }
 
-    AuditParams params = audit.value();
+    if (audit != null) {
+      AuditParams params = audit.value();
 
-    if (methodSignature.getMethod().isAccessible() || params.privateMethods()) {
-      methodOutput(methodSignature.getMethod(), proceedingJoinPoint.getArgs(), methodSignature.getParameterNames(), methodSignature.getParameterTypes(), currentExecutionId);
+      if (methodSignature.getMethod() != null && params.privateMethods()) {
+        methodOutput(methodSignature.getMethod(), proceedingJoinPoint.getArgs(), methodSignature.getParameterNames(), methodSignature.getParameterTypes(), currentExecutionId);
 
-      // Process join point
-      Object result = AnnotationUtils.processJoinPoint(proceedingJoinPoint);
-      returnOutput(audit, result, currentExecutionId);
-      return result;
+        // Process join point
+        Object result = AnnotationUtils.processJoinPoint(proceedingJoinPoint);
+        returnOutput(audit, result, currentExecutionId);
+        return result;
+      }
     }
     return null;
   }
@@ -90,10 +91,10 @@ public class AuditAnnotation {
   private void methodOutput(Method method, Object[] args, String[] parameterNames, Class[] parameterClasses, String currentExecutionId) {
     StringBuilder methodAudit = new StringBuilder();
     methodAudit.append("[AUDIT] [EXECUTION_")
-      .append(currentExecutionId)
-      .append("] Executed method: ")
-      .append(method.getName())
-      .append("(");
+            .append(currentExecutionId)
+            .append("] Executed method: ")
+            .append(method.getName())
+            .append("(");
     for (int i = 0; i < args.length; i++) {
       Object value = args[i];
       String name = parameterNames[i];
@@ -110,10 +111,10 @@ public class AuditAnnotation {
       } else {
         processEntry(methodAudit, type.getName(), name);
         methodAudit.append(value.toString())
-          .append(i == args.length - 1 ? "" : ",");
+                .append(i == args.length - 1 ? "" : ",");
       }
       methodAudit.append(i == args.length - 1 ? "" : ",")
-        .append(")");
+              .append(")");
       logger.info(methodAudit);
     }
   }
@@ -129,10 +130,10 @@ public class AuditAnnotation {
     if (audit.value().returnValues() && result != null) {
       StringBuilder methodAudit = new StringBuilder();
       methodAudit.append("[AUDIT] [EXECUTION_")
-        .append(currentExecutionId)
-        .append("] [RESULT] Return value: <")
-        .append(result.getClass().getName())
-        .append("> ");
+              .append(currentExecutionId)
+              .append("] [RESULT] Return value: <")
+              .append(result.getClass().getName())
+              .append("> ");
       if (Collection.class.isAssignableFrom(result.getClass())) {
         methodAudit.append("\n");
         processIterator(methodAudit, ((Collection) result).iterator());
@@ -148,35 +149,38 @@ public class AuditAnnotation {
 
   /**
    * Process entry
+   *
    * @param builder
    * @param type
    * @param name
    */
   private void processEntry(StringBuilder builder, String type, String name) {
     builder.append("<")
-      .append(type)
-      .append("> (")
-      .append(name)
-      .append(") ");
+            .append(type)
+            .append("> (")
+            .append(name)
+            .append(") ");
   }
 
   /**
    * Process entry set
+   *
    * @param builder
    * @param entrySet
    */
   private void processEntrySet(StringBuilder builder, Set<Map.Entry> entrySet) {
     for (Map.Entry entry : entrySet) {
       builder.append("[")
-        .append(entry.getKey())
-        .append("] ")
-        .append(entry.getValue())
-        .append(",\n");
+              .append(entry.getKey())
+              .append("] ")
+              .append(entry.getValue())
+              .append(",\n");
     }
   }
 
   /**
    * Process iterator
+   *
    * @param builder
    * @param iterator
    */
@@ -184,10 +188,10 @@ public class AuditAnnotation {
     int indexParam = 0;
     while (iterator.hasNext()) {
       builder.append("[")
-        .append(indexParam++)
-        .append("] ")
-        .append(iterator.next())
-        .append(",\n");
+              .append(indexParam++)
+              .append("] ")
+              .append(iterator.next())
+              .append(",\n");
     }
   }
 }

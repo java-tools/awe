@@ -14,7 +14,6 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.sql.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +34,6 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    *
    * @param queryUtil Query utilities
    */
-  @Autowired
   public SQLBuilder(QueryUtil queryUtil) {
     super(queryUtil);
   }
@@ -1059,6 +1057,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
   /**
    * Avoid null or empty values in list
+   *
    * @param list List to add value
    * @param node Node to check
    */

@@ -4,7 +4,6 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.model.util.security.EncodeUtil;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -13,13 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class Sha256PasswordEncoder implements PasswordEncoder {
 
   // Autowired services
-  private LogUtil logger;
+  private final LogUtil logger;
 
   /**
    * Autowired constructor
+   *
    * @param logger Logger
    */
-  @Autowired
   public Sha256PasswordEncoder(LogUtil logger) {
     this.logger = logger;
   }

@@ -5,7 +5,6 @@ import com.almis.awe.annotation.entities.session.FromSession;
 import com.almis.awe.annotation.entities.session.ToSession;
 import com.almis.awe.model.component.AweSession;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Session annotation processor
@@ -19,14 +18,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SessionProcessor {
 
   // Autowired objects
-  ObjectFactory<AweSession> aweSessionObjectFactory;
+  private final ObjectFactory<AweSession> aweSessionObjectFactory;
 
   /**
    * Autowired constructor
-   * @param aweSessionObjectFactory
+   *
+   * @param aweSessionObjectFactory Session object factory
    */
-  @Autowired
-  public SessionProcessor(final ObjectFactory<AweSession> aweSessionObjectFactory) {
+  public SessionProcessor(ObjectFactory<AweSession> aweSessionObjectFactory) {
     this.aweSessionObjectFactory = aweSessionObjectFactory;
   }
 

@@ -12,16 +12,13 @@ import com.almis.awe.scheduler.service.TaskService;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.almis.awe.scheduler.constant.JobConstants.TASK_VISIBLE;
 
-@Repository
 @Log4j2
 public class SchedulerDAO extends ServiceConfig {
 
@@ -34,16 +31,21 @@ public class SchedulerDAO extends ServiceConfig {
   private boolean waitForTasksOnStop;
 
   // Autowired services
-  private Scheduler scheduler;
-  private CalendarDAO calendarDAO;
-  private TaskService taskService;
-  private SchedulerTriggerListener triggerListener;
-  private SchedulerJobListener jobListener;
+  private final Scheduler scheduler;
+  private final CalendarDAO calendarDAO;
+  private final TaskService taskService;
+  private final SchedulerTriggerListener triggerListener;
+  private final SchedulerJobListener jobListener;
 
   /**
    * Constructor
+   *
+   * @param scheduler       Scheduler
+   * @param calendarDAO     Calendar DAO
+   * @param taskService     Task service
+   * @param triggerListener Trigger listener
+   * @param jobListener     Job listener
    */
-  @Autowired
   public SchedulerDAO(Scheduler scheduler, CalendarDAO calendarDAO, TaskService taskService,
                       SchedulerTriggerListener triggerListener, SchedulerJobListener jobListener) {
     this.scheduler = scheduler;

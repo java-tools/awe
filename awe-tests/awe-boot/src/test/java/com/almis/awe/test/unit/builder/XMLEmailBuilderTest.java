@@ -17,8 +17,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.context.ApplicationContext;
 
-import javax.naming.NamingException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
@@ -45,6 +45,7 @@ public class XMLEmailBuilderTest extends TestUtil {
   @Before
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
+    emailBuilder.setApplicationContext(context);
     doReturn(aweElements).when(context).getBean(any(Class.class));
     given(aweElements.getLanguage()).willReturn("ES");
     given(aweElements.getLocaleWithLanguage(anyString(), anyString())).willReturn("LOCALE");
@@ -54,8 +55,6 @@ public class XMLEmailBuilderTest extends TestUtil {
 
   /**
    * Test context loaded
-   *
-   * @throws NamingException Test error
    */
   @Test
   public void contextLoads() {
@@ -81,9 +80,9 @@ public class XMLEmailBuilderTest extends TestUtil {
   public void parseAttachments() throws Exception {
     Email email = new Email();
     email.setFrom(new EmailItem());
-    email.setSubjectList(Arrays.asList(new EmailMessage()));
+    email.setSubjectList(Collections.singletonList(new EmailMessage()));
     email.setBodyList(Arrays.asList(new EmailMessage().setType("HTML"), new EmailMessage().setType("TEXT")));
-    email.setAttachmentList(Arrays.asList(new EmailItem()));
+    email.setAttachmentList(Collections.singletonList(new EmailItem()));
     emailBuilder.setEmail(email);
     XMLEmailBuilder builder = emailBuilder.parseEmail();
 
@@ -98,13 +97,13 @@ public class XMLEmailBuilderTest extends TestUtil {
   public void parseAttachmentsWithValues() throws Exception {
     Email email = new Email();
     email.setFrom(new EmailItem());
-    email.setToList(Arrays.asList(new EmailItem()));
-    email.setCcList(Arrays.asList(new EmailItem()));
-    email.setCcoList(Arrays.asList(new EmailItem()));
-    email.setSubjectList(Arrays.asList(new EmailMessage().setValue("path").setLabel("name")));
+    email.setToList(Collections.singletonList(new EmailItem()));
+    email.setCcList(Collections.singletonList(new EmailItem()));
+    email.setCcoList(Collections.singletonList(new EmailItem()));
+    email.setSubjectList(Collections.singletonList(new EmailMessage().setValue("path").setLabel("name")));
     email.setBodyList(Arrays.asList(new EmailMessage().setType("HTML").setValue("path").setLabel("name"),
-      new EmailMessage().setType("TEXT").setValue("path").setLabel("name")));
-    email.setAttachmentList(Arrays.asList((EmailItem) new EmailItem().setValue("path").setLabel("name")));
+            new EmailMessage().setType("TEXT").setValue("path").setLabel("name")));
+    email.setAttachmentList(Collections.singletonList((EmailItem) new EmailItem().setValue("path").setLabel("name")));
     email.setVariableList(Arrays.asList(new Variable().setId("path"), new Variable().setId("name")));
     emailBuilder.setEmail(email);
     emailBuilder.getParsedEmail().setMessageType(EmailMessageType.TEXT);

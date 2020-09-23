@@ -44,7 +44,7 @@ public class GoToAnnotation {
     GoTo goToAnnotation = org.springframework.core.annotation.AnnotationUtils.getAnnotation(methodSignature.getMethod(), GoTo.class);
 
     Object result = proceedingJoinPoint.proceed();
-    if (!goToAnnotation.screenName().isEmpty()) {
+    if (goToAnnotation != null && !goToAnnotation.screenName().isEmpty()) {
       ScreenActionBuilder actionBuilder = new ScreenActionBuilder(goToAnnotation.screenName());
       if (result instanceof ServiceData) {
         return ((ServiceData) result).addClientAction(actionBuilder.build());

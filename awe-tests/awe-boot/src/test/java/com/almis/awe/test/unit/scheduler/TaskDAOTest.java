@@ -28,7 +28,6 @@ import org.mockito.MockitoAnnotations;
 import org.quartz.*;
 import org.springframework.context.ApplicationContext;
 
-import javax.naming.NamingException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -80,6 +79,7 @@ public class TaskDAOTest extends TestUtil {
   @Before
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
+    taskDAO.setApplicationContext(context);
     doReturn(aweElements).when(context).getBean(any(Class.class));
     given(aweElements.getLanguage()).willReturn("ES");
     given(aweElements.getLocaleWithLanguage(anyString(), anyString())).willReturn("LOCALE");
@@ -89,8 +89,6 @@ public class TaskDAOTest extends TestUtil {
 
   /**
    * Test context loaded
-   *
-   * @throws NamingException Test error
    */
   @Test
   public void contextLoads() {
@@ -221,7 +219,7 @@ public class TaskDAOTest extends TestUtil {
    * Get task execution from trigger
    */
   @Test
-  public void getTaskExecutionFromTrigger() throws Exception {
+  public void getTaskExecutionFromTrigger() {
     // Mock and spy
     Trigger trigger = TriggerBuilder.newTrigger().withIdentity("1-121", "TASK_GROUP").build();
 
@@ -401,7 +399,7 @@ public class TaskDAOTest extends TestUtil {
   /**
    * Mock task
    *
-   * @return
+   * @return Task task
    */
   private Task mockTask() throws Exception {
     return mockTask(true);
@@ -411,7 +409,7 @@ public class TaskDAOTest extends TestUtil {
    * Mock a task
    *
    * @return Task mocked
-   * @throws Exception
+   * @throws Exception exception
    */
   private Task mockTask(boolean setTaskOnWarning) throws Exception {
     // Mock

@@ -9,7 +9,6 @@ import com.almis.awe.scheduler.bean.task.Task;
 import com.almis.awe.scheduler.dao.TaskDAO;
 import com.almis.awe.service.QueryService;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +22,17 @@ import static com.almis.awe.scheduler.constant.QueryConstants.SCHEDULER_LOAD_TAS
 public class TaskService {
 
   // Autowired services
-  private QueryService queryService;
-  private QueryUtil queryUtil;
-  private TaskDAO taskDAO;
+  private final QueryService queryService;
+  private final QueryUtil queryUtil;
+  private final TaskDAO taskDAO;
 
   /**
    * Autowired constructor
-   * @param queryService
-   * @param queryUtil
-   * @param taskDAO
+   *
+   * @param queryService Query service
+   * @param queryUtil    Query utilities
+   * @param taskDAO      Task DAO
    */
-  @Autowired
   public TaskService(QueryService queryService, QueryUtil queryUtil, TaskDAO taskDAO) {
     this.queryService = queryService;
     this.queryUtil = queryUtil;

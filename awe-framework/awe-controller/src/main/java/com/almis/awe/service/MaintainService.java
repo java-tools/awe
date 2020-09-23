@@ -5,7 +5,9 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.details.MaintainResultDetails;
-import com.almis.awe.model.dto.*;
+import com.almis.awe.model.dto.CellData;
+import com.almis.awe.model.dto.DataList;
+import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.maintain.*;
 import com.almis.awe.model.entities.queries.*;
 import com.almis.awe.model.type.ParameterType;
@@ -20,7 +22,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.querydsl.sql.Configuration;
 import com.querydsl.sql.SQLQueryFactory;
 import org.apache.logging.log4j.Level;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.inject.Provider;
@@ -39,9 +40,9 @@ import static com.almis.awe.model.constant.AweConstants.COMPONENT_DATABASE;
 public class MaintainService extends ServiceConfig {
 
   // Autowired services
-  private MaintainLauncher maintainLauncher;
-  private AccessService accessService;
-  private QueryUtil queryUtil;
+  private final MaintainLauncher maintainLauncher;
+  private final AccessService accessService;
+  private final QueryUtil queryUtil;
 
   // Constants
   private static final String ERROR_TITLE_LAUNCHING_MAINTAIN = "ERROR_TITLE_LAUNCHING_MAINTAIN";
@@ -54,7 +55,6 @@ public class MaintainService extends ServiceConfig {
    * @param accessService    Access service
    * @param queryUtil        Query utilities
    */
-  @Autowired
   public MaintainService(MaintainLauncher maintainLauncher, AccessService accessService, QueryUtil queryUtil) {
     this.maintainLauncher = maintainLauncher;
     this.accessService = accessService;
@@ -73,6 +73,7 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Retrieve maintain list
+   *
    * @param search Search text
    * @return Maintain list
    */
@@ -243,6 +244,7 @@ public class MaintainService extends ServiceConfig {
 
   /**
    * Retrieve database connection from parameters
+   *
    * @param parameters Parameters
    * @return Database connection
    * @throws AWException
