@@ -4,7 +4,7 @@ import com.almis.awe.model.dto.FileData;
 import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.service.FileService;
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

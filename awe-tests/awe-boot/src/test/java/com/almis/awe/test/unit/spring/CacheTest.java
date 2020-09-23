@@ -7,22 +7,22 @@ import com.almis.awe.model.entities.menu.Menu;
 import com.almis.awe.model.entities.menu.Option;
 import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.model.entities.screen.Tag;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.cache.CacheManager;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 public class CacheTest extends AweSpringBootTests {
 
   private AweElements aweElements;
   private CacheManager cacheManager;
 
-  @Before
+  @BeforeEach
   public void loadBeans() {
     aweElements = getElements();
     cacheManager = getBean(CacheManager.class);

@@ -1,8 +1,8 @@
 package com.almis.awe.test.unit.util;
 
 import com.almis.awe.model.util.security.EncodeUtil;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class EncodeUtilTest {
 
-  @Before
+  @BeforeEach
   public void setUp() {
     EncodeUtil.init(null);
   }

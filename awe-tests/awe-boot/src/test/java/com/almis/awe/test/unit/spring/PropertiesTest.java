@@ -1,7 +1,7 @@
 package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.exception.AWException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 
 import static org.junit.Assert.assertEquals;

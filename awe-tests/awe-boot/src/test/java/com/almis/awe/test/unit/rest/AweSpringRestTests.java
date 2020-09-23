@@ -2,7 +2,7 @@ package com.almis.awe.test.unit.rest;
 
 import com.almis.awe.service.TemplateService;
 import com.almis.awe.test.unit.TestUtil;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,7 +26,7 @@ public abstract class AweSpringRestTests extends TestUtil {
    * Initializes json mapper for tests
    * @throws Exception error updating user
    */
-  @Before
+  @BeforeEach
   public void setup() throws Exception{
     super.setup();
   }

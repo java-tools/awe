@@ -5,7 +5,7 @@ import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.component.action.DependencyElement;
 import com.almis.awe.model.entities.screen.component.widget.WidgetParameter;
 import com.almis.awe.test.unit.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;

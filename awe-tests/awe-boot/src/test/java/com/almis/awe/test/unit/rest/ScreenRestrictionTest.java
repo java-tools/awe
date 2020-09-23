@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -35,7 +35,7 @@ public class ScreenRestrictionTest extends AweSpringRestTests {
    *
    * @throws Exception error updating user
    */
-  @Before
+  @BeforeEach
   public void setup() throws Exception {
     super.setup();
 
@@ -48,7 +48,7 @@ public class ScreenRestrictionTest extends AweSpringRestTests {
    *
    * @throws Exception error updating user
    */
-  @After
+  @AfterEach
   public void clean() throws Exception {
     // Clean up
     cleanUp("CleanUpScreenRestriction");

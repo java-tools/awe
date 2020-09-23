@@ -5,22 +5,19 @@ import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.component.AweSession;
 import com.almis.awe.service.BroadcastService;
 import com.almis.awe.test.unit.TestUtil;
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Class used for testing rest services through ActionController
  *
  * @author pgarcia
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @WithMockUser(username = "test", password = "test")
 @TestPropertySource({
@@ -50,7 +47,7 @@ public abstract class AweSpringBootTests extends TestUtil {
    * Initializes json mapper for tests
    * @throws Exception error updating user
    */
-  @Before
+  @BeforeEach
   public void setup() throws Exception{
     super.setup();
   }

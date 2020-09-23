@@ -8,8 +8,8 @@ import com.almis.awe.test.unit.TestUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
@@ -32,7 +32,7 @@ public class AweRequestTest extends TestUtil {
   /**
    * Initializes json mapper for tests
    */
-  @Before
+  @BeforeEach
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
   }

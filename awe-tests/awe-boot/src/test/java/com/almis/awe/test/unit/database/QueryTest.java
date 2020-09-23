@@ -2,17 +2,14 @@ package com.almis.awe.test.unit.database;
 
 import com.almis.awe.component.AweDatabaseContextHolder;
 import com.almis.awe.model.util.security.EncodeUtil;
-import com.almis.awe.test.categories.CIDatabaseTest;
-import com.almis.awe.test.categories.NotCIDatabaseTest;
-import com.almis.awe.test.categories.NotHSQLDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -27,9 +24,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author jbellon
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 @Log4j2
 public class QueryTest extends AweSpringDatabaseTests {
 
@@ -289,7 +286,7 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
-  @Category(NotHSQLDatabaseTest.class)
+  @Tag(value = "NotHSQLDatabaseTest")
   public void testDatabaseQueryFieldGroupByFunctions() throws Exception {
     String queryName = "TestFieldGroupByFunctions";
     String variables = "";
@@ -2781,7 +2778,7 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
-  @Category(NotCIDatabaseTest.class)
+  @Tag(value = "NotCIDatabaseTest")
   public void testOverPartitionOrderNotSupported() throws Exception {
     String queryName = "testOverPartitionOrder";
     assumeTrue(isInMemoryDatabase());
@@ -2796,7 +2793,7 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
-  @Category(CIDatabaseTest.class)
+  @Tag(value = "CIDatabaseTest")
   public void testOverPartitionOrder() throws Exception {
     String queryName = "testOverPartitionOrder";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"name\":\"donald\",\"id\":1,\"rowNumber\":\"donald\",\"rankValue\":1},{\"name\":\"jaimito\",\"id\":2,\"rowNumber\":\"jaimito\",\"rankValue\":1},{\"name\":\"jorgito\",\"id\":3,\"rowNumber\":\"jorgito\",\"rankValue\":1},{\"name\":\"juanito\",\"id\":4,\"rowNumber\":\"juanito\",\"rankValue\":1},{\"name\":\"test\",\"id\":5,\"rowNumber\":null,\"rankValue\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
@@ -2812,7 +2809,7 @@ public class QueryTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
-  @Category(CIDatabaseTest.class)
+  @Tag(value = "CIDatabaseTest")
   public void testOverPartitionOrderOperation() throws Exception {
     String queryName = "testOverPartitionOrderOperation";
     String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":5,\"rows\":[{\"name\":\"donald\",\"id\":1,\"rowNumber\":2},{\"name\":\"jaimito\",\"id\":2,\"rowNumber\":4},{\"name\":\"jorgito\",\"id\":3,\"rowNumber\":6},{\"name\":\"juanito\",\"id\":4,\"rowNumber\":8},{\"name\":\"test\",\"id\":5,\"rowNumber\":10}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";

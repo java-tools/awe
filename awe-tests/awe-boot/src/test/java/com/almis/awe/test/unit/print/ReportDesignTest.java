@@ -10,8 +10,8 @@ import com.almis.awe.service.QueryService;
 import com.almis.awe.service.report.ReportDesigner;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -33,7 +33,7 @@ public class ReportDesignTest {
   @Mock
   private QueryService queryService;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     ReflectionTestUtils.setField(reportDesigner, "dataSuffix", ".data");
   }

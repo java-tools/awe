@@ -58,15 +58,15 @@ import com.almis.awe.model.entities.screen.component.panelable.Wizard;
 import com.almis.awe.model.entities.screen.component.pivottable.PivotTable;
 import com.almis.awe.model.entities.screen.component.widget.Widget;
 import com.almis.awe.model.entities.screen.component.widget.WidgetParameter;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.HashMap;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -75,7 +75,7 @@ public class ScreenBuilderTest {
 
   AweElements aweElements;
 
-  @Before
+  @BeforeEach
   public void beforeEachTest() throws Exception {
     aweElements = Mockito.mock(AweElements.class);
     when(aweElements.getMenu(anyString())).thenReturn(new Menu());
@@ -125,12 +125,13 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with an invalid id
-    * @throws AWException exception
    */
-  @Test(expected = AWException.class)
-  public void buildScreenInvalidId() throws AWException {
-    ScreenBuilder builder = new ScreenBuilder().setId("aR!$fg");
-    builder.build();
+  @Test
+  public void buildScreenInvalidId() {
+    assertThrows(AWException.class, () -> {
+      ScreenBuilder builder = new ScreenBuilder().setId("aR!$fg");
+      builder.build();
+    });
   }
 
   /**
@@ -1099,9 +1100,9 @@ public class ScreenBuilderTest {
   /**
    * Set null screen
    */
-  @Test(expected = NullPointerException.class)
+  @Test
   public void setNullScreen() {
     when(aweElements.setScreen(any())).thenCallRealMethod();
-    aweElements.setScreen(null);
+    assertThrows(NullPointerException.class, () -> aweElements.setScreen(null));
   }
 }

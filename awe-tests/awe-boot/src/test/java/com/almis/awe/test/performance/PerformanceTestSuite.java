@@ -1,11 +1,11 @@
 package com.almis.awe.test.performance;
 
-import org.junit.experimental.categories.Categories;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectClasses;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite.SuiteClasses;
 
-@RunWith(Categories.class)
-@SuiteClasses({
+@RunWith(JUnitPlatform.class)
+@SelectClasses({
   InitializationTest.class,
   PerformanceTestGroup.class
 })

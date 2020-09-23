@@ -2,7 +2,7 @@ package com.almis.awe.test.unit.util;
 
 import com.almis.awe.model.util.data.DateUtil;
 import com.almis.awe.test.unit.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

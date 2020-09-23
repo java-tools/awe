@@ -8,13 +8,15 @@ import com.almis.awe.scheduler.filechecker.FileClient;
 import com.almis.awe.scheduler.filechecker.FolderFileChecker;
 import com.almis.awe.test.unit.TestUtil;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.quartz.TriggerBuilder;
 
 import javax.naming.NamingException;
@@ -31,8 +33,9 @@ import static org.mockito.BDDMockito.given;
  *
  * @author jbellon
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 @Log4j2
+@RunWith(PowerMockRunner.class)
 public class FolderFileCheckerTest extends TestUtil {
 
   @InjectMocks
@@ -47,7 +50,7 @@ public class FolderFileCheckerTest extends TestUtil {
   /**
    * Initializes json mapper for tests
    */
-  @Before
+  @BeforeEach
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
   }

@@ -5,10 +5,11 @@ import com.almis.awe.scheduler.bean.calendar.Schedule;
 import com.almis.awe.scheduler.builder.cron.CronPatternBuilder;
 import com.almis.awe.test.unit.TestUtil;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.quartz.CronScheduleBuilder;
@@ -25,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author jbellon
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 @Log4j2
 public class CronPatternBuilderTest extends TestUtil {
 
@@ -35,15 +36,13 @@ public class CronPatternBuilderTest extends TestUtil {
   /**
    * Initializes json mapper for tests
    */
-  @Before
+  @BeforeEach
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
   }
 
   /**
    * Test context loaded
-   *
-   * @throws NamingException Test error
    */
   @Test
   public void contextLoads() {
@@ -53,18 +52,15 @@ public class CronPatternBuilderTest extends TestUtil {
 
   /**
    * Check triggers contains calendars without calendar list
-   *
-   * @throws NamingException Test error
    */
-  @Test(expected = AWException.class)
-  public void buildPatternWithError() throws Exception {
+  @Test
+  public void buildPatternWithError() {
     // Mock
     Schedule schedule = new Schedule();
     schedule.setRepeatType(11);
     cronPatternBuilder.setSchedule(schedule);
 
-    // Call
-    cronPatternBuilder.build();
+    Assertions.assertThrows(AWException.class, () -> cronPatternBuilder.build());
   }
 
   /**
@@ -121,8 +117,8 @@ public class CronPatternBuilderTest extends TestUtil {
     schedule.setRepeatType(3);
     schedule.setRepeatNumber(1);
     schedule.setHourList(Arrays.asList("9", "15"));
-    schedule.setWeekDayList(Arrays.asList(""));
-    schedule.setWeekList(Arrays.asList(""));
+    schedule.setWeekDayList(Collections.singletonList(""));
+    schedule.setWeekList(Collections.singletonList(""));
     cronPatternBuilder.setSchedule(schedule);
 
     // Call

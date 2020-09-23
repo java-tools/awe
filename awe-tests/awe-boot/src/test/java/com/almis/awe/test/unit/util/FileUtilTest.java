@@ -1,7 +1,7 @@
 package com.almis.awe.test.unit.util;
 
 import com.almis.awe.model.util.file.FileUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.nio.file.Paths;
 

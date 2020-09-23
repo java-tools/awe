@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -39,7 +39,7 @@ public class MaintainRestControllerTest extends AweSpringRestTests {
    *
    * @throws Exception error updating user
    */
-  @Before
+  @BeforeEach
   public void initHeaders() throws Exception {
     headers.put("Authorization", Arrays.asList("Basic dGVzdDp0ZXN0"));
   }

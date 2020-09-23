@@ -1,11 +1,8 @@
 package com.almis.awe.test.unit.spring;
 
 import com.almis.awe.service.MenuService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Test;
-
-import javax.naming.NamingException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
@@ -19,7 +16,7 @@ public class MenuServiceTest extends AweSpringBootTests {
 
   private MenuService menuService;
 
-  @Before
+  @BeforeEach
   public void loadBeans() {
     menuService = getBean(MenuService.class);
   }

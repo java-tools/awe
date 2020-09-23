@@ -1,6 +1,5 @@
 package com.almis.awe.test.unit.pojo;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.DataList;
 import com.almis.awe.model.dto.FilterColumn;
 import com.almis.awe.model.dto.SortColumn;
@@ -10,13 +9,15 @@ import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.test.bean.NoAttributes;
 import com.almis.awe.test.bean.Planet;
 import com.almis.awe.test.unit.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * DataList, DataListUtil and DataListBuilder tests
@@ -247,16 +248,13 @@ public class DataListTest extends TestUtil {
 
   /**
    * Test null datalist conversion to bean list
-   *
-   * @throws Exception Test error
    */
-  @Test(expected = NullPointerException.class)
-  public void testNullDataListToBeanList() throws Exception {
+  @Test
+  public void testNullDataListToBeanList() {
     // Prepare
     DataList output = null;
-
     // Generate bean list
-    DataListUtil.asBeanList(output, Planet.class);
+    assertThrows(NullPointerException.class, () -> DataListUtil.asBeanList(output, Planet.class));
   }
 
   /**
@@ -333,9 +331,9 @@ public class DataListTest extends TestUtil {
   /**
    * Export as bean list a null datalist
    */
-  @Test(expected = NullPointerException.class)
-  public void asBeanListNull() throws AWException {
-    DataListUtil.asBeanList(null, null);
+  @Test
+  public void asBeanListNull() {
+    Assertions.assertThrows(NullPointerException.class, () -> DataListUtil.asBeanList(null, null));
   }
 
 }

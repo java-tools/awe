@@ -1,9 +1,10 @@
 package com.almis.awe.test.unit.spring;
 
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectClasses;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
-@Suite.SuiteClasses({
+@SelectClasses({
   CacheTest.class,
   AnnotationTest.class,
   EncryptTest.class,
@@ -18,7 +19,7 @@ import org.junit.runners.Suite;
   ScreenModelGeneratorTest.class,
   PropertiesTest.class
 })
-@RunWith(Suite.class)
+@RunWith(JUnitPlatform.class)
 public class SpringBootTestsSuite {
 }
 

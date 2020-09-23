@@ -2,12 +2,12 @@ package com.almis.awe.test.integration;
 
 import com.almis.awe.testing.utilities.SeleniumUtilities;
 import lombok.extern.log4j.Log4j2;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 @Log4j2
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 public class CRUDTestsIT extends SeleniumUtilities {
 
   /**

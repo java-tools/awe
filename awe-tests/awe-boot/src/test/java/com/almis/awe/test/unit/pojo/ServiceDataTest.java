@@ -3,11 +3,9 @@ package com.almis.awe.test.unit.pojo;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.test.unit.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Service data tests

@@ -5,13 +5,15 @@ import com.almis.awe.model.entities.queries.*;
 import com.almis.awe.service.data.connector.query.QueryLauncher;
 import com.almis.awe.test.unit.TestUtil;
 import com.thoughtworks.xstream.XStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * DataList, DataListUtil and DataListBuilder tests
@@ -75,27 +77,27 @@ public class QueryTest extends TestUtil {
     try {
       query = new Query()
         .setId("query")
-        .setTableList(Arrays.asList(table.copy()))
+        .setTableList(Collections.singletonList(table.copy()))
         .setSqlFieldList(Arrays.asList(
           (SqlField) new Field().setVariable("fieldVariable").setAlias("alias1"),
           new Field().setTable("fieldTable").setId("fieldId"),
           (SqlField) concatOperation.copy().setAlias("alias3"),
           (SqlField) caseExample.copy().setAlias("alias4"),
           (SqlField) new Over()
-            .setFieldList(Arrays.asList(
-              new Operation()
-                .setOperator("ADD")
-                .setOperandList(Arrays.asList(
-                  new Field().setId("fieldx").setTable("tablex"),
-                  new Constant().setValue("2").setType("INTEGER")
-                ))
-                .setFunction("MAX")
+            .setFieldList(Collections.singletonList(
+                    new Operation()
+                            .setOperator("ADD")
+                            .setOperandList(Arrays.asList(
+                                    new Field().setId("fieldx").setTable("tablex"),
+                                    new Constant().setValue("2").setType("INTEGER")
+                            ))
+                            .setFunction("MAX")
             ))
-            .setPartitionByList(Arrays.asList(
-              (PartitionBy) new PartitionBy().setField("fieldPartition")
+            .setPartitionByList(Collections.singletonList(
+                    (PartitionBy) new PartitionBy().setField("fieldPartition")
             ))
-            .setOrderByList(Arrays.asList(
-              new OrderBy().setField("fieldOrder")
+            .setOrderByList(Collections.singletonList(
+                    new OrderBy().setField("fieldOrder")
             ))
             .setAlias("alias5")
         ))
@@ -114,32 +116,31 @@ public class QueryTest extends TestUtil {
               .setOptional(true)
             )
           ))
-        .setJoinList(Arrays.asList(new Join()
-          .setType("left")
-          .setTable(table.copy().setAlias("joinTable"))
-          .setFilterGroupList(Arrays.asList(new FilterOr()
-            .setFilterList(Arrays.asList(filter.copy())
-            )))
+        .setJoinList(Collections.singletonList(new Join()
+                .setType("left")
+                .setTable(table.copy().setAlias("joinTable"))
+                .setFilterGroupList(Collections.singletonList(new FilterOr()
+                        .setFilterList(Collections.singletonList(filter.copy())
+                        )))
         ))
-        .setUnionList(Arrays.asList(new Union().setQuery("unionQuery").setType("all")))
-        .setGroupByList(Arrays.asList(new GroupBy()
-          .setField("fieldGroup")
-          .setTable("tableGroup")))
-        .setOrderByList(Arrays.asList(new OrderBy()
-          .setField("fieldSort")
-          .setTable("tableSort")
-          .setType("ASC")));
-    } catch (AWException exc) {
+        .setUnionList(Collections.singletonList(new Union().setQuery("unionQuery").setType("all")))
+        .setGroupByList(Collections.singletonList(new GroupBy()
+                .setField("fieldGroup")
+                .setTable("tableGroup")))
+        .setOrderByList(Collections.singletonList(new OrderBy()
+                .setField("fieldSort")
+                .setTable("tableSort")
+                .setType("ASC")));
+    } catch (AWException ignored) {
     }
   }
 
   /**
    * Query print toString
    *
-   * @throws Exception Test error
    */
   @Test
-  public void testQuery() throws Exception {
+  public void testQuery() {
     // Assert
     assertEquals(expectedQuery, query.toString());
     assertEquals(" OVER ()", new Over().toString());
@@ -325,8 +326,8 @@ public class QueryTest extends TestUtil {
     assertNull(transitionField.getField());
   }
 
-  @Test(expected = NullPointerException.class)
-  public void testNullQuery() throws AWException {
-    queryLauncher.launchQuery(null, null);
+  @Test
+  public void testNullQuery() {
+    assertThrows(NullPointerException.class, () -> queryLauncher.launchQuery(null, null));
   }
 }

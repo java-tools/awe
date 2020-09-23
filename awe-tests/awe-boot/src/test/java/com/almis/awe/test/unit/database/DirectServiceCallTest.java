@@ -9,14 +9,15 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.verify;
  * @author pgarcia
  */
 @Log4j2
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 @WithMockUser(username = "test", password = "test")
 public class DirectServiceCallTest extends AweSpringBootTests {
 
@@ -38,19 +39,17 @@ public class DirectServiceCallTest extends AweSpringBootTests {
   @Autowired
   private QueryService queryService;
 
-  @Before
+  @BeforeEach
   public void setSessionDatabase() {
     given(aweSession.getParameter(String.class, "database")).willReturn("testDatabase");
   }
 
   /**
    * Test of maintain not defined.
-   *
-   * @throws AWException Test error
    */
-  @Test(expected = AWException.class)
-  public void testMaintainNotDefined() throws Exception {
-    maintainService.launchMaintain("MaintainNotDefined");
+  @Test
+  public void testMaintainNotDefined() {
+    assertThrows(AWException.class, () -> maintainService.launchMaintain("MaintainNotDefined"));
   }
 
   /**
@@ -107,12 +106,10 @@ public class DirectServiceCallTest extends AweSpringBootTests {
 
   /**
    * Test of query not defined.
-   *
-   * @throws AWException Test error
    */
-  @Test(expected = AWException.class)
-  public void testDatabaseQueryNotDefined() throws Exception {
-    queryService.launchQuery("QueryNotDefined");
+  @Test
+  public void testDatabaseQueryNotDefined() {
+    assertThrows(AWException.class, () -> queryService.launchQuery("QueryNotDefined"));
   }
 
   /**
@@ -121,7 +118,7 @@ public class DirectServiceCallTest extends AweSpringBootTests {
    * @throws AWException Test error
    */
   @Test
-  public void testLogDatabase() throws Exception {
+  public void testLogDatabase() {
     LogUtil spyLog = Mockito.spy(getLogger());
     Logger spyLogger = Mockito.spy(LogManager.getLogger(DirectServiceCallTest.class));
     spyLog.logWithDatabase(DirectServiceCallTest.class, Level.DEBUG, "testDatabase", "test log message");

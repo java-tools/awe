@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang.SerializationUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
  * DataList, DataListUtil and DataListBuilder tests

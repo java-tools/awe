@@ -3,9 +3,10 @@ package com.almis.awe.test.unit.spring;
 import com.almis.awe.model.util.security.Crypto;
 import com.almis.awe.test.service.EncryptService;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Class used for testing rest services through ActionController
@@ -30,7 +31,6 @@ public class EncryptTest extends AweSpringBootTests {
 
   /**
    * Check pbkdf2 static method
-   * @throws Exception
    */
   @Test
   public void checkPbkdf2() throws Exception {
@@ -88,16 +88,16 @@ public class EncryptTest extends AweSpringBootTests {
   /**
    * Check encrypt with AES a null value
    */
-  @Test(expected = NullPointerException.class)
+  @Test
   public void checkEncryptNull() {
-    Crypto.AES.encrypt(null, null, "UTF-8");
+    assertThrows(NullPointerException.class, () -> Crypto.AES.encrypt(null, null, "UTF-8"));
   }
 
   /**
    * Check decrypt with AES a null value
    */
-  @Test(expected = NullPointerException.class)
+  @Test
   public void checkDecryptNull() {
-    Crypto.AES.decrypt(null, null, "UTF-8");
+    assertThrows(NullPointerException.class, () -> Crypto.AES.decrypt(null, null, "UTF-8"));
   }
 }

@@ -5,10 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 public class DataRestControllerTest extends AweSpringRestTests {
   @LocalServerPort
   private int port;
@@ -34,7 +34,7 @@ public class DataRestControllerTest extends AweSpringRestTests {
    * Initializes json mapper for tests
    * @throws Exception error updating user
    */
-  @Before
+  @BeforeEach
   public void initHeaders() {
     headers.put("Authorization", Arrays.asList("Basic dGVzdDp0ZXN0"));
   }

@@ -4,8 +4,8 @@ import com.almis.awe.builder.client.ScreenActionBuilder;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.tracker.AweConnectionTracker;
 import com.almis.awe.service.BroadcastService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -40,7 +40,7 @@ public class BroadcastServiceTest {
   /**
    * Initializes json mapper for tests
    */
-  @Before
+  @BeforeEach
   public void initBeans() {
     MockitoAnnotations.initMocks(this);
 

@@ -6,8 +6,8 @@ import com.almis.awe.model.entities.screen.data.ComponentModel;
 import com.almis.awe.model.entities.screen.data.ScreenComponent;
 import com.almis.awe.service.screen.ScreenModelGenerator;
 import com.almis.awe.service.screen.ScreenRestrictionGenerator;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -27,7 +27,7 @@ public class ScreenModelGeneratorTest {
   /**
    * Initialize beans
    */
-  @Before
+  @BeforeEach
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
   }

@@ -3,18 +3,15 @@ package com.almis.awe.test.unit.database;
 import com.almis.awe.model.details.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
 import com.almis.awe.service.MaintainService;
-import com.almis.awe.test.categories.NotOracleDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Joiner;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -23,7 +20,9 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author jbellon
  */
 @Log4j2
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 public class MaintainTest extends AweSpringDatabaseTests {
 
   /**
@@ -44,7 +43,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
    * @param variables    Variables
    * @param expected     Expected value
    * @return Maintain result
-   * @throws Exception
+   * @throws Exception exception
    */
   private String launchMaintain(String maintainName, String variables, String expected) throws Exception {
     return launchPostRequest("maintain", maintainName, variables, expected);
@@ -57,7 +56,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
    * @param variables Variables
    * @param expected  Expected value
    * @return Maintain result
-   * @throws Exception
+   * @throws Exception exception
    */
   private String launchQuery(String queryName, String variables, String expected) throws Exception {
     return launchPostRequest("data", queryName, variables, expected);
@@ -71,7 +70,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
    * @param variables Variables
    * @param expected  Expected value
    * @return Maintain result
-   * @throws Exception
+   * @throws Exception exception
    */
   private String launchPostRequest(String type, String name, String variables, String expected) throws Exception {
     MvcResult mvcResult = mockMvc.perform(post("/action/" + type + "/" + name)
@@ -136,7 +135,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L)
     });
 
     // Clean the mess
@@ -157,7 +156,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
       String result = launchMaintain(maintainName, variables, expected);
       logger.debug(result);
       assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
-        new MaintainResultDetails(MaintainType.INSERT, 1l)
+        new MaintainResultDetails(MaintainType.INSERT, 1L)
       });
 
       // Clean the mess
@@ -178,7 +177,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L)
     });
 
     // Clean the mess
@@ -216,8 +215,8 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.INSERT, 1L)
     });
 
     // Clean the mess
@@ -237,10 +236,10 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.DELETE, 2l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.DELETE, 2L)
     });
 
     // Clean the mess
@@ -265,16 +264,16 @@ public class MaintainTest extends AweSpringDatabaseTests {
       String result = launchMaintain(maintainName, variables, expected);
       logger.debug(result);
       assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
-        new MaintainResultDetails(MaintainType.INSERT, 1l),
-        new MaintainResultDetails(MaintainType.INSERT, 1l)
+        new MaintainResultDetails(MaintainType.INSERT, 1L),
+        new MaintainResultDetails(MaintainType.INSERT, 1L)
       });
 
       variables = "\"variable\": [\"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\"],";
       result = launchMaintain(maintainName, variables, expected);
       logger.debug(result);
       assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
-        new MaintainResultDetails(MaintainType.INSERT, 1l),
-        new MaintainResultDetails(MaintainType.INSERT, 1l)
+        new MaintainResultDetails(MaintainType.INSERT, 1L),
+        new MaintainResultDetails(MaintainType.INSERT, 1L)
       });
     } finally {
       // Clean the mess
@@ -295,7 +294,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L)
     });
 
     maintainName = "SimpleSingleUpdate";
@@ -304,7 +303,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
     result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.UPDATE, 1l)
+      new MaintainResultDetails(MaintainType.UPDATE, 1L)
     });
 
     // Clean the mess
@@ -324,7 +323,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.DELETE, 0l)
+      new MaintainResultDetails(MaintainType.DELETE, 0L)
     });
   }
 
@@ -343,8 +342,8 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L)
     });
 
     // Clean the mess
@@ -366,8 +365,8 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.info(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L)
     });
 
     // Clean the mess
@@ -389,12 +388,12 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.info(result);
     assertResultJson(maintainName, result, 6, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L)
 
     });
 
@@ -405,7 +404,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
   /**
    * Launch a simple single insert from variable
    *
-   * @throws Exception
+   * @throws Exception exception
    */
   private void launchSimpleSingleInsertFromVariable() throws Exception {
     for (int i = 0; i < 5; i++) {
@@ -415,7 +414,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
       String result = launchMaintain(maintainName, variables, expected);
       logger.debug(result);
       assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
-        new MaintainResultDetails(MaintainType.INSERT, 1l)
+        new MaintainResultDetails(MaintainType.INSERT, 1L)
       });
     }
   }
@@ -435,12 +434,12 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 6, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.UPDATE, 5l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+      new MaintainResultDetails(MaintainType.UPDATE, 5L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L)
     });
 
     // Clean the mess
@@ -462,8 +461,8 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.UPDATE, 5l),
-      new MaintainResultDetails(MaintainType.AUDIT, 5l)
+      new MaintainResultDetails(MaintainType.UPDATE, 5L),
+      new MaintainResultDetails(MaintainType.AUDIT, 5L)
     });
 
     // Clean the mess
@@ -485,11 +484,11 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 5, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l)
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L)
     });
 
     // Clean the mess
@@ -511,16 +510,16 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 10, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L)
     });
 
     // Clean the mess
@@ -542,8 +541,8 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.UPDATE, 5l),
-      new MaintainResultDetails(MaintainType.AUDIT, 5l)
+      new MaintainResultDetails(MaintainType.UPDATE, 5L),
+      new MaintainResultDetails(MaintainType.AUDIT, 5L)
     });
 
     // Clean the mess
@@ -563,9 +562,9 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 3, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.DELETE, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.DELETE, 1L)
     });
 
     // Clean the mess
@@ -585,11 +584,11 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 5, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.DELETE, 2l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.DELETE, 2L)
     });
 
     // Clean the mess
@@ -651,10 +650,10 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L)
     });
 
     // Clean the mess
@@ -674,8 +673,8 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 2, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L)
     });
 
     // Clean the mess
@@ -688,7 +687,7 @@ public class MaintainTest extends AweSpringDatabaseTests {
    * @throws Exception Test error
    */
   @Test
-  @Category(NotOracleDatabaseTest.class)
+  @Tag(value = "NotOracleDatabaseTest")
   public void testGridMultipleAutoIncrement() throws Exception {
     String maintainName = "GridMultipleAutoIncrement";
     String variables = "\"grid-RowTyp\": [\"INSERT\", \"INSERT\", \"UPDATE\", \"DELETE\"], \"id\": [null, null, 101, 100], \"name\": [\"AWEBOOT-TEST-0\", \"AWEBOOT-TEST-1\", \"AWEBOOT-TEST-2\", \"AWEBOOT-TEST-3\"], \"email\":[\"test@test.es\", \"test2@test.es\", \"test3@test.es\", \"test4@test.es\"],";
@@ -696,10 +695,10 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.DELETE, 1l),
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.DELETE, 1L),
     });
   }
 
@@ -715,9 +714,9 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, "", expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 3, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.UPDATE, 1l),
-      new MaintainResultDetails(MaintainType.DELETE, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.UPDATE, 1L),
+      new MaintainResultDetails(MaintainType.DELETE, 1L)
     });
 
     // Clean the mess
@@ -740,10 +739,10 @@ public class MaintainTest extends AweSpringDatabaseTests {
     String result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.INSERT, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L)
     });
 
     Set<String> keys = new HashSet<>();
@@ -764,10 +763,10 @@ public class MaintainTest extends AweSpringDatabaseTests {
     result = launchMaintain(maintainName, variables, expected);
     logger.debug(result);
     assertResultJson(maintainName, result, 4, new MaintainResultDetails[]{
-      new MaintainResultDetails(MaintainType.DELETE, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l),
-      new MaintainResultDetails(MaintainType.DELETE, 1l),
-      new MaintainResultDetails(MaintainType.AUDIT, 1l)
+      new MaintainResultDetails(MaintainType.DELETE, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L),
+      new MaintainResultDetails(MaintainType.DELETE, 1L),
+      new MaintainResultDetails(MaintainType.AUDIT, 1L)
     });
   }
 
@@ -856,6 +855,6 @@ public class MaintainTest extends AweSpringDatabaseTests {
       ex = e;
     }
 
-    Assert.assertTrue(ex == null);
+    assertNull(ex);
   }
 }

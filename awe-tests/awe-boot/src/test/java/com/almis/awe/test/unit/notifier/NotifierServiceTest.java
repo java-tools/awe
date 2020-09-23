@@ -13,8 +13,8 @@ import com.almis.awe.service.BroadcastService;
 import com.almis.awe.service.MaintainService;
 import com.almis.awe.service.QueryService;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -42,7 +42,7 @@ public class NotifierServiceTest {
   @Mock
   private BroadcastService broadcastService;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
   }

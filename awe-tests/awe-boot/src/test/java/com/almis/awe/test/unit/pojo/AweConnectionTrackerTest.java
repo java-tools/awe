@@ -3,8 +3,8 @@ package com.almis.awe.test.unit.pojo;
 import com.almis.awe.model.details.ConnectionDetails;
 import com.almis.awe.model.event.ScreenChangeEvent;
 import com.almis.awe.model.tracker.AweConnectionTracker;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -28,7 +28,7 @@ public class AweConnectionTrackerTest {
   /**
    * Initializes json mapper for tests
    */
-  @Before
+  @BeforeEach
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
 

@@ -9,10 +9,10 @@ import com.almis.awe.scheduler.job.report.BroadcastReportJob;
 import com.almis.awe.service.BroadcastService;
 import com.almis.awe.test.unit.TestUtil;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author jbellon
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 @Log4j2
 public class BroadcastReportJobTest extends TestUtil {
 
@@ -49,7 +49,7 @@ public class BroadcastReportJobTest extends TestUtil {
   /**
    * Initializes json mapper for tests
    */
-  @Before
+  @BeforeEach
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
   }

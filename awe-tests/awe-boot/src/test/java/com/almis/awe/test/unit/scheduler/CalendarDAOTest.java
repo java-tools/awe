@@ -12,10 +12,10 @@ import com.almis.awe.test.unit.TestUtil;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -29,6 +29,7 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -39,7 +40,7 @@ import static org.mockito.Mockito.doReturn;
  *
  * @author jbellon
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 @Log4j2
 public class CalendarDAOTest extends TestUtil {
 
@@ -64,7 +65,7 @@ public class CalendarDAOTest extends TestUtil {
   /**
    * Initializes json mapper for tests
    */
-  @Before
+  @BeforeEach
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
     calendarDAO.setApplicationContext(context);
@@ -88,15 +89,15 @@ public class CalendarDAOTest extends TestUtil {
   /**
    * Check triggers contains calendars
    *
-   * @throws NamingException Test error
+   * @throws Exception Test error
    */
-  @Test(expected = AWException.class)
+  @Test
   public void checkTriggersContainsCalendars() throws Exception {
     // Mock
     prepareCalendarForTests(1);
 
     // Check that controller are active
-    calendarDAO.checkTriggersContainsCalendar(1, 2, 3);
+    assertThrows(AWException.class, () -> calendarDAO.checkTriggersContainsCalendar(1, 2, 3));
   }
 
   /**

@@ -89,7 +89,7 @@ To develop integration tests with WebDrivers on AWE, just follow the next steps:
 To generate a selenium test just extend the `SeleniumUtilities` class on your integration test classes (XxxxxXxxIT.class):
 
 ```java
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 public class WebsocketTestsIT extends SeleniumUtilities {
 
   /**

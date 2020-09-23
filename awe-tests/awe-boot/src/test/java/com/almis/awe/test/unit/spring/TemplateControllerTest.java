@@ -5,8 +5,8 @@ import com.almis.awe.controller.SettingsController;
 import com.almis.awe.controller.TemplateController;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
@@ -16,7 +16,8 @@ import org.springframework.test.web.servlet.ResultMatcher;
 import javax.naming.NamingException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,7 +36,7 @@ public class TemplateControllerTest extends AweSpringBootTests {
   private SettingsController settingsController;
   private TemplateController templateController;
 
-  @Before
+  @BeforeEach
   public void initBeans() {
     actionController = getBean(ActionController.class);
     settingsController = getBean(SettingsController.class);

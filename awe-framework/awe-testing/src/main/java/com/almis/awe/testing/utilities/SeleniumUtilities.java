@@ -4,8 +4,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.junit.AfterClass;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -101,7 +101,7 @@ public class SeleniumUtilities {
   /**
    * Set up test
    */
-  @Before
+  @BeforeEach
   public void setUpTest() {
     // Setup window size
     String windowSize = "--window-size=" + browserWidth + "," + browserHeight;
@@ -194,7 +194,7 @@ public class SeleniumUtilities {
   /**
    * Clean driver after a test suite
    */
-  @AfterClass
+  @AfterAll
   public static void cleanDrivers() {
     if (getDriver() != null) {
       log.info("Disposing web driver...");

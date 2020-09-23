@@ -20,19 +20,19 @@ import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.model.util.file.FileUtil;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClientActionBuilderTest {
 
   // Column list
-  private List<Column> columnList = Arrays.asList(
+  private final List<Column> columnList = Arrays.asList(
     Column.builder().name("column1").build(),
     Column.builder().name("column2").build(),
     Column.builder().name("column3").build(),
@@ -40,7 +40,7 @@ public class ClientActionBuilderTest {
     Column.builder().name("column5").build());
 
   // Column array
-  private Column[] columnArray = new Column[]{
+  private final Column[] columnArray = new Column[]{
     Column.builder().name("column1").build(),
     Column.builder().name("column2").build(),
     Column.builder().name("column3").build(),
@@ -48,7 +48,7 @@ public class ClientActionBuilderTest {
     Column.builder().name("column5").build()};
 
   // Chart serie list
-  private List<ChartSerie> chartSeries = Arrays.asList(
+  private final List<ChartSerie> chartSeries = Arrays.asList(
     ChartSerie.builder().id("serie1").build(),
     ChartSerie.builder().id("serie2").build(),
     ChartSerie.builder().id("serie3").build(),
@@ -56,15 +56,15 @@ public class ClientActionBuilderTest {
     ChartSerie.builder().id("serie5").build());
 
   // Chart serie array
-  private ChartSerie[] chartSeriesArray = new ChartSerie[]{
+  private final ChartSerie[] chartSeriesArray = new ChartSerie[]{
     ChartSerie.builder().id("serie1").build(),
     ChartSerie.builder().id("serie2").build(),
     ChartSerie.builder().id("serie3").build(),
     ChartSerie.builder().id("serie4").build(),
     ChartSerie.builder().id("serie5").build()};
 
-  private Map<String, Object> rowMap = new HashMap<>();
-  private ObjectNode rowNode = JsonNodeFactory.instance.objectNode();
+  private final Map<String, Object> rowMap = new HashMap<>();
+  private final ObjectNode rowNode = JsonNodeFactory.instance.objectNode();
 
   // Component address
   ComponentAddress address = new ComponentAddress("view", "component", "row", "column");

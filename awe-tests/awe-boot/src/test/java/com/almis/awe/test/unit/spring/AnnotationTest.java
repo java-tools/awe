@@ -12,8 +12,8 @@ import com.almis.awe.test.service.AnnotationTestService;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -39,7 +39,7 @@ public class AnnotationTest extends AweSpringBootTests {
 
   private AnnotationTestService annotationTestService;
 
-  @Before
+  @BeforeEach
   public void loadBeans() {
     annotationTestService = getBean(AnnotationTestService.class);
   }

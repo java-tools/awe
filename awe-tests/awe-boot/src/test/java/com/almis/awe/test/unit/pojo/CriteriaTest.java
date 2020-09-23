@@ -2,7 +2,7 @@ package com.almis.awe.test.unit.pojo;
 
 import com.almis.awe.model.entities.screen.component.criteria.Criteria;
 import com.almis.awe.test.unit.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;

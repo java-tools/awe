@@ -6,10 +6,10 @@ import com.almis.awe.model.details.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
 import lombok.extern.log4j.Log4j2;
 import org.hamcrest.Matcher;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -37,7 +37,7 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    *
    * @throws Exception error updating user
    */
-  @Before
+  @BeforeEach
   public void setup() throws Exception {
     super.setup();
 
@@ -56,7 +56,7 @@ public class ScreenConfigurationTest extends AweSpringRestTests {
    *
    * @throws Exception error updating user
    */
-  @After
+  @AfterEach
   public void clean() throws Exception {
     // Clean up
     cleanUp("CleanUpScreenConfiguration");

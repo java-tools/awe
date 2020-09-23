@@ -3,8 +3,8 @@ package com.almis.awe.test.unit.spring;
 import com.almis.awe.controller.UploadController;
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.actions.ClientAction;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -31,7 +31,7 @@ public class UploadControllerTest extends AweSpringBootTests {
   /**
    * Initializes json mapper for tests
    */
-  @Before
+  @BeforeEach
   public void initBeans() throws Exception {
     uploadIdentifierKey = getProperty("file.upload.identifier");
     uploadController = getBean(UploadController.class);

@@ -1,10 +1,11 @@
 package com.almis.awe.test.unit.util;
 
-import com.almis.awe.exception.AWException;
 import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.test.unit.TestUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author pgarcia
@@ -17,16 +18,16 @@ public class QueryUtilTest extends TestUtil {
   /**
    * Test null get parameters
    */
-  @Test(expected = NullPointerException.class)
+  @Test
   public void testNullGetParameters() {
-    queryUtil.getParameters(null, null, null, null);
+    assertThrows(NullPointerException.class,() -> queryUtil.getParameters(null, null, null, null));
   }
 
   /**
    * Test null get parameters
    */
-  @Test(expected = NullPointerException.class)
-  public void testNullVariableIsList() throws AWException {
-    queryUtil.variableIsList(null, null);
+  @Test
+  public void testNullVariableIsList() {
+    assertThrows(NullPointerException.class,() ->     queryUtil.variableIsList(null, null));
   }
 }

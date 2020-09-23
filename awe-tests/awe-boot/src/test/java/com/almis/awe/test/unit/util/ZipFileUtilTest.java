@@ -2,9 +2,9 @@ package com.almis.awe.test.unit.util;
 
 import com.almis.awe.test.unit.TestUtil;
 import com.almis.awe.tools.filemanager.utils.ZipFileUtil;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author pgarcia
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 public class ZipFileUtilTest extends TestUtil {
   private static final String TEMP_PATH = "target/tests";
   private static final String FULL_PATH = Paths.get("target", "tests").toAbsolutePath().toString();

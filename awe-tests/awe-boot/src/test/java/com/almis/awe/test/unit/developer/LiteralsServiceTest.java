@@ -6,10 +6,10 @@ import com.almis.awe.model.component.AweElements;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.test.unit.TestUtil;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
  *
  * @author pvidal
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(Alphanumeric.class)
 @Log4j2
 public class LiteralsServiceTest extends TestUtil {
 
@@ -43,7 +43,7 @@ public class LiteralsServiceTest extends TestUtil {
   /**
    * Initializes beans for tests
    */
-  @Before
+  @BeforeEach
   public void initBeans() throws Exception {
     MockitoAnnotations.initMocks(this);
     doReturn(aweElements).when(context).getBean(any(Class.class));
