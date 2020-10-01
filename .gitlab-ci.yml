@@ -301,9 +301,15 @@ Build package:
   tags:
     - docker
   script:
+    # Gitlab container
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
     - docker build -t registry.gitlab.com/aweframework/awe/awe-boot:latest ./awe-tests/awe-boot
     - docker push registry.gitlab.com/aweframework/awe/awe-boot:latest
+    - docker logout
+    # Docker Hub container
+    - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
+    - docker build -t aweframework/awe:awe-boot:latest ./awe-tests/awe-boot
+    - docker push aweframework/awe:awe-boot:latest
   rules:
     - <<: *if-develop
 
