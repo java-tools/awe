@@ -307,8 +307,8 @@ Build package:
     - docker push registry.gitlab.com/aweframework/awe/awe-boot:latest
     # Docker Hub container
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
-    - docker build -t awe-boot:latest ./awe-tests/awe-boot
-    - docker push aweframework/awe:latest
+    - docker build -t aweframework/awe-boot:latest ./awe-tests/awe-boot
+    - docker push aweframework/awe-boot:latest
   rules:
     - <<: *if-develop
 
