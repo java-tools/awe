@@ -1,5 +1,5 @@
-import { aweApplication } from "./../awe";
-import { getUID } from "../data/options";
+import {aweApplication} from "../awe";
+import {getUID} from "../data/options";
 import _ from 'lodash';
 
 /**
@@ -433,10 +433,8 @@ aweApplication.factory('AweUtilities',
           switch (type) {
             case 'int':
               return parseInt(value, 10);
-              break;
             case 'boolean':
               return Utilities.parseBoolean(value);
-              break;
             default:
               return value;
           }
