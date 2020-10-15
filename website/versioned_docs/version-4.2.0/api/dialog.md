@@ -90,7 +90,7 @@ This example shows a dialog screen included in modal section of a window.
 
 <include target-screen="PrnOpt" target-source="center"/>
 
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../sch/screen.xsd" template="window">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="window">
   <tag source="center">
     <dialog id="PrnOpt" modal="true" style="normal" label="SCREEN_TEXT_PRINT_EMAIL" icon="print" help="HELP_SCREEN_TEXT_PRINT_EMAIL">
       <tag type="div" style="modal-body row">

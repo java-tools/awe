@@ -33,7 +33,7 @@ The full queue structure is the next one:
 
 ```xml
 <queues xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:noNamespaceSchemaLocation="../../sch/queues.xsd">
+xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/queues.xsd">
 <queue id="[queue_ID]">
   <request-message destination="[queue_name]" type="[message_type]" [selector="[selector]" separator="[separator_char]" timeout="[timeOut]"]>
    <message-parameter id="[param_message_id]" type="[param_type]"   name="[param_name]" [list="[list]" value="[static_value]"] />

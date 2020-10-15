@@ -11,7 +11,7 @@
   <Appenders>
     <!-- Console appender -->
     <Console name="CONSOLE" target="SYSTEM_OUT">
-      <PatternLayout charset="${bundle:log4j2-app:log.charset}" pattern="${bundle:log4j2-app:log.pattern.layout}"/>
+      <PatternLayout charset="${bundle:log4j2-app:log.charset}" pattern="${bundle:log4j2-app:log.pattern.layout}" disableAnsi="false"/>
     </Console>
 
     <!-- Null appender (avoid log) -->

@@ -15,7 +15,7 @@ The xml structure of services is:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation = "../../sch/services.xsd">
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation = "https://aweframework.gitlab.io/awe/docs/schemas/services.xsd">
   <service id="[Service Id]">
     <java classname="[Java class]" method="[Java method]">
       <service-parameter type="[Type]" name="[Parameter name]" qualifier="[Bean name]" />
