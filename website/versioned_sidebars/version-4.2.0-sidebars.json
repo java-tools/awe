@@ -288,5 +288,22 @@
         }
       ]
     }
+  ],
+  "version-4.2.0/training": [
+    {
+      "type": "category",
+      "label": "Basic tutorials",
+      "collapsed": false,
+      "items": [
+        "version-4.2.0/training/awe-101",
+        "version-4.2.0/training/awe-102",
+        "version-4.2.0/training/awe-103",
+        "version-4.2.0/training/awe-104",
+        "version-4.2.0/training/awe-105",
+        "version-4.2.0/training/awe-106",
+        "version-4.2.0/training/awe-107",
+        "version-4.2.0/training/awe-108"
+      ]
+    }
   ]
 }

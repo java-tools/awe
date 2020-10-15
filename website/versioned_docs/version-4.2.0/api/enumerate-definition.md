@@ -27,7 +27,7 @@ Its structure is the next one:
 ```xml
 <enumerated
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:noNamespaceSchemaLocation = "../../sch/enumerated.xsd">
+xsi:noNamespaceSchemaLocation = "https://aweframework.gitlab.io/awe/docs/schemas/enumerated.xsd">
 
   <group id="[Group Id]">
     <option label="[Option label]"  value="[Option value]" />

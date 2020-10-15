@@ -20,8 +20,18 @@ module.exports = {
 			hideOnScroll: true,
 			items: [
 				{
-					type: 'docsVersionDropdown',
+					type: 'docsVersion',
 					position: 'left',
+					label: 'Docs',
+				},
+				{
+					type: 'docsVersionDropdown',
+					position: 'right',
+				},
+				{
+					to: 'docs/training/awe-101',
+					position: 'left',
+					label: 'Training',
 				},
 				{
 					to: 'blog',
