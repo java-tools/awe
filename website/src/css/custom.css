@@ -43,10 +43,6 @@ html[data-theme='dark'] .header-gitlab-link:before {
   no-repeat;
 }
 
-.navbar__item.dropdown .navbar__link[href] {
-  pointer-events: all;
-}
-
 .video-container {
   height: 0;
   margin: 0;
