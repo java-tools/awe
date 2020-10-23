@@ -29,9 +29,11 @@ module.exports = {
 					position: 'right',
 				},
 				{
-					to: 'docs/training/awe-101',
+					type: 'doc',
+					docId: 'training/awe-101',
 					position: 'left',
 					label: 'Training',
+					activeSidebarClassName: 'navbar__link--active',
 				},
 				{
 					to: 'blog',
