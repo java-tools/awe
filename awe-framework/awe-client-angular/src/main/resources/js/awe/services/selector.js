@@ -1,4 +1,4 @@
-import { aweApplication } from "./../awe";
+import {aweApplication} from "./../awe";
 import "../directives/plugins/uiSelect";
 
 // Selector template
@@ -38,7 +38,7 @@ export const templateSelectorColumn =
 aweApplication.factory('Selector',
   ['Control', 'Criterion', '$translate', 'AweUtilities', 'AweSettings', 'ActionController',
     /**
-     * Criterion generic methods
+     * @constructor Criterion generic methods
      * @param {object} Control
      * @param {object} Criterion
      * @param {object} $translate

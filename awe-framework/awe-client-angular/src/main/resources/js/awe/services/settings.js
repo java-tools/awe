@@ -1,5 +1,5 @@
-import { aweApplication } from "./../awe";
-import { DefaultSettings } from "../data/options";
+import {aweApplication} from "./../awe";
+import {DefaultSettings} from "../data/options";
 
 // $settings service
 aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtilities', '$http', '$location', '$rootScope', '$state', '$injector',
@@ -138,7 +138,7 @@ aweApplication.factory('AweSettings', ['Storage', '$translate', '$log', 'AweUtil
       changeLanguage: function (language, forceChange) {
         if (language !== null) {
           var newLanguage = language.toLowerCase();
-          if (newLanguage !== $settings.getLanguage() || forceChange) {
+          if (newLanguage != $settings.getLanguage() || forceChange) {
             // Change language $settings
             $settings.update({language: newLanguage});
 
