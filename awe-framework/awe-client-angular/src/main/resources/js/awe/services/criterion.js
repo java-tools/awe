@@ -16,7 +16,7 @@ aweApplication.factory('Criterion',
 
 
       /**
-       * @constructor Criterion constructor
+       * Criterion constructor
        * @param {Scope} scope Criterion scope
        * @param {String} id Criterion id
        * @param {String} element Criterion element
