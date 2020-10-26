@@ -48,7 +48,7 @@ aweApplication.factory('Numeric',
      */
     function (Criterion, Utilities, $settings, Control) {
       /**
-       * @constructor Numeric constructor
+       * Numeric constructor
        * @param {Scope} scope Numeric scope
        * @param {String} id Numeric id
        * @param {String} element Numeric element

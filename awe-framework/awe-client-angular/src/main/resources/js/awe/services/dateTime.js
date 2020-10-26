@@ -8,7 +8,6 @@ aweApplication.factory('DateTime',
   ['Criterion', 'AweUtilities', 'AweSettings',
     /**
      * DateTime generic methods
-     * @constructor Criterion constructor
      * @param {object} Criterion
      * @param {object} Utilities Utilities service
      * @param {object} $settings $settings service
