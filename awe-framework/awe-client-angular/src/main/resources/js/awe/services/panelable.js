@@ -4,7 +4,7 @@ import {aweApplication} from "./../awe";
 aweApplication.factory('Panelable',
   ['Criterion', 'AweUtilities', 'Storage', '$translate', 'AweSettings',
     /**
-     * @constructor
+     * @constructor Panelable generic methods
      * @param {object} Criterion
      * @param {object} $utilities
      * @param {object} $storage
