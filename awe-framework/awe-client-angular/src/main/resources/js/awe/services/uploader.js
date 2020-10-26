@@ -1,5 +1,5 @@
-import { aweApplication } from "../awe";
-import { ClientActions } from "../data/actions";
+import {aweApplication} from "../awe";
+import {ClientActions} from "../data/actions";
 import ngFileUpload from "ng-file-upload";
 
 // Require file upload
