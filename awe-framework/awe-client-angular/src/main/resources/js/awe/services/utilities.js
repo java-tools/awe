@@ -397,7 +397,7 @@ aweApplication.factory('AweUtilities',
          * @returns {String} Parameter list
          */
         decodeData: function (data, decode) {
-          return decode === "1" ? Utilities.parseJSON(Utilities.decodeSymetric(data)) : Utilities.parseJSON(data);
+          return String(decode) == "1" ? Utilities.parseJSON(Utilities.decodeSymetric(data)) : Utilities.parseJSON(data);
         },
         /**
          * Sanitize $settings
