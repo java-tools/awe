@@ -40,7 +40,7 @@ export const templateNumericColumn =
 aweApplication.factory('Numeric',
   ['Criterion', 'AweUtilities', 'AweSettings', 'Control',
     /**
-     * Numeric generic methods
+     * @constructor
      * @param {object} Criterion
      * @param {object} Utilities
      * @param {object} $settings
@@ -48,7 +48,7 @@ aweApplication.factory('Numeric',
      */
     function (Criterion, Utilities, $settings, Control) {
       /**
-       * @constructor Numeric constructor
+       * @constructor
        * @param {Scope} scope Numeric scope
        * @param {String} id Numeric id
        * @param {String} element Numeric element

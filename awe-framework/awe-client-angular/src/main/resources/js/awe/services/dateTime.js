@@ -7,8 +7,7 @@ import moment from "moment";
 aweApplication.factory('DateTime',
   ['Criterion', 'AweUtilities', 'AweSettings',
     /**
-     * DateTime generic methods
-     * @constructor Criterion constructor
+     * @constructor
      * @param {object} Criterion
      * @param {object} Utilities Utilities service
      * @param {object} $settings $settings service
@@ -16,7 +15,7 @@ aweApplication.factory('DateTime',
     function (Criterion, Utilities, $settings) {
 
       /**
-       * DateTime constructor
+       * @constructor
        * @param {Scope} scope DateTime scope
        * @param {String} id DateTime id
        * @param {String} element DateTime element

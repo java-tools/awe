@@ -1,5 +1,5 @@
-import { aweApplication } from "../awe";
-import { ClientActions } from "../data/actions";
+import {aweApplication} from "../awe";
+import {ClientActions} from "../data/actions";
 import ngFileUpload from "ng-file-upload";
 
 // Require file upload
@@ -9,7 +9,7 @@ aweApplication.requires.push(ngFileUpload);
 aweApplication.factory('Uploader',
   ['Criterion', 'AweSettings', 'Upload', 'ActionController', 'ServerData', 'AweUtilities', '$translate',
     /**
-     * Uploader service methods
+     * @constructor
      * @param {object} Criterion
      * @param {object} $settings
      * @param {object} Upload
@@ -20,7 +20,7 @@ aweApplication.factory('Uploader',
      */
     function (Criterion, $settings, Upload, $actionController, ServerData, $utilities, $translate) {
       /**
-       * Uploader constructor
+       * @constructor
        * @param {Scope} scope Numeric scope
        * @param {String} id Numeric id
        * @param {String} element Numeric element
@@ -153,7 +153,7 @@ aweApplication.factory('Uploader',
               var parameters = {
                 filename: component.model.selected,
                 destination: destination
-              }
+              };
 
               // Generate url parameter
               var fileData = ServerData.getFileData("download", parameters);
