@@ -1,4 +1,4 @@
-import { aweApplication } from "./../awe";
+import {aweApplication} from "./../awe";
 import "../directives/plugins/uiNumeric";
 import "../directives/plugins/uiSlider";
 
@@ -48,7 +48,7 @@ aweApplication.factory('Numeric',
      */
     function (Criterion, Utilities, $settings, Control) {
       /**
-       * Numeric constructor
+       * @constructor Numeric constructor
        * @param {Scope} scope Numeric scope
        * @param {String} id Numeric id
        * @param {String} element Numeric element

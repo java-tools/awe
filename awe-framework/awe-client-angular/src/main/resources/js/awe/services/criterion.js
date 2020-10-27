@@ -6,6 +6,7 @@ aweApplication.factory('Criterion',
   ['Component', 'AweUtilities', 'Control', 'AweSettings', 'Validator',
     /**
      * Criterion generic methods
+     * @constructor Generic Component constructor
      * @param {object} Component
      * @param {object} Utilities Awe Utilities
      * @param {object} Control Controller service
