@@ -38,7 +38,7 @@ export const templateSelectorColumn =
 aweApplication.factory('Selector',
   ['Control', 'Criterion', '$translate', 'AweUtilities', 'AweSettings', 'ActionController',
     /**
-     * @constructor Criterion generic methods
+     * Criterion generic methods
      * @param {object} Control
      * @param {object} Criterion
      * @param {object} $translate
