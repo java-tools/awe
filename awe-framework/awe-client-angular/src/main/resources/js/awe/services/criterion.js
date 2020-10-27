@@ -1,5 +1,5 @@
-import { aweApplication } from "./../awe";
-import { DefaultSpin } from "./../data/options";
+import {aweApplication} from "./../awe";
+import {DefaultSpin} from "./../data/options";
 
 // Criterion service
 aweApplication.factory('Criterion',
@@ -16,7 +16,7 @@ aweApplication.factory('Criterion',
 
 
       /**
-       * Criterion constructor
+       * @constructor Criterion constructor
        * @param {Scope} scope Criterion scope
        * @param {String} id Criterion id
        * @param {String} element Criterion element
