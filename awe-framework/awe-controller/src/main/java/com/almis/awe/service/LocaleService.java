@@ -56,7 +56,7 @@ public class LocaleService extends ServiceConfig {
 
   /**
    * Retrieve application locales
-   * 
+   *
    * @param language language
    * @return Map with application locales
    */
@@ -79,4 +79,14 @@ public class LocaleService extends ServiceConfig {
     return locales;
   }
 
+  /**
+   * Generate json object with application locals
+   *
+   * @param language Language
+   * @return Locale resource
+   */
+  public Map<String, String> getLocaleResource(String language) {
+    // Write application settings in output
+    return getElements().getLocales().get(language.toLowerCase());
+  }
 }

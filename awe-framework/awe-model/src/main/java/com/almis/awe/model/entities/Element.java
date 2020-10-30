@@ -11,10 +11,7 @@ import com.almis.awe.model.entities.screen.component.grid.GroupHeader;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
-import com.thoughtworks.xstream.annotations.XStreamInclude;
+import com.thoughtworks.xstream.annotations.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,6 +43,9 @@ import java.util.List;
 public abstract class Element implements XMLNode, Copyable {
 
   private static final long serialVersionUID = -5600527339665790940L;
+
+  @XStreamOmitField
+  private final String elementType = this.getClass().getSimpleName();
 
   // Element identifier
   @XStreamAlias("id")
@@ -97,7 +97,6 @@ public abstract class Element implements XMLNode, Copyable {
    * @param <T> element list
    * @return Children List
    */
-  @JsonIgnore
   public <T extends Element> List<T> getElementList() {
     return elementList == null ? Collections.emptyList() : (List<T>) elementList;
   }

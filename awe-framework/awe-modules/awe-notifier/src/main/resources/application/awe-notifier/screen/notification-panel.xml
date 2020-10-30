@@ -6,10 +6,12 @@
     <info id="notifications" icon="bell" unit="" style="nav-icon-btn-success"
           dropdown-style="dropdown-xl widget-notifications no-padding">
       <button-action type="filter" target="notification-bulletin"/>
-      <tag><criteria component="hidden" id="selected-notification"></criteria></tag>
+      <tag>
+        <criteria component="hidden" id="selected-notification"/>
+      </tag>
       <tag type="div" style="notifications-list scrollable">
         <tag-list id="notification-bulletin" initial-load="query" target-action="notifications" max="12" autoload="true">
-          <button type="div" id="notification-[value]" style="no-class notification" value="[value]">
+          <info-button type="div" id="notification-[value]" style="no-class notification" value="[value]">
             <tag type="div" style="notification-title text-[type] text-left" label="[title]"/>
             <tag type="div" style="notification-description text-left" label="[description]"/>
             <tag type="div" style="notification-ago text-left" label="[date]"/>
@@ -17,24 +19,24 @@
             <button-action type="value" target="selected-notification" value="[code]" async="true" silent="true"/>
             <button-action type="server" server-action="maintain-silent" target-action="read-notification" silent="true"/>
             <button-action type="filter" target="notification-bulletin" async="true" silent="true"/>
-          </button>
+          </info-button>
         </tag-list>
       </tag>
       <tag>
-        <button id="show-all-notifications" label="BUTTON_SHOW_NOTIFICATIONS" style="no-class notifications-link text-uppercase">
+        <info-button id="show-all-notifications" label="BUTTON_SHOW_NOTIFICATIONS" style="no-class notifications-link text-uppercase">
           <button-action type="screen" target="notifications" context="screen/private/home"/>
           <dependency target-type="show" initial="true">
             <dependency-element id="notification-bulletin" attribute="totalValues" condition="gt" value="10"/>
           </dependency>
-        </button>
-        <button id="no-notifications" label="NO_NOTIFICATIONS" style="no-class notifications-link text-uppercase">
+        </info-button>
+        <info-button id="no-notifications" label="NO_NOTIFICATIONS" style="no-class notifications-link text-uppercase">
           <dependency target-type="show" initial="true">
             <dependency-element id="notification-bulletin" attribute="totalValues" condition="eq" value="0"/>
           </dependency>
           <dependency target-type="disable" initial="true">
             <dependency-element id="notification-bulletin" attribute="totalValues" condition="eq" value="0"/>
           </dependency>
-        </button>
+        </info-button>
       </tag>
     </info>
   </tag>

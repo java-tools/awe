@@ -34,8 +34,14 @@ public class ThymeleafConfig {
   @Value("${spring.thymeleaf.css.prefix:classpath:static/css/}")
   private String cssPrefix;
 
+  @Value("${spring.thymeleaf.js.prefix:classpath:static/js/}")
+  private String jsPrefix;
+
   @Value("${spring.thymeleaf.css.cache:true}")
   private Boolean cssCache;
+
+  @Value("${spring.thymeleaf.js.cache:true}")
+  private Boolean jsCache;
 
   @Autowired
   public ThymeleafConfig(WebApplicationContext applicationContext) {
@@ -54,6 +60,11 @@ public class ThymeleafConfig {
     return generateTemplateResolver(cssPrefix, 1, cssCache, TemplateMode.CSS);
   }
 
+  @Bean("javascriptTemplateResolver")
+  public SpringResourceTemplateResolver javascriptTemplateResolver() {
+    return generateTemplateResolver(jsPrefix, 2, jsCache, TemplateMode.JAVASCRIPT);
+  }
+
   @Bean
   public ViewResolver htmlViewResolver(SpringTemplateEngine templateEngine) {
     return generateViewResolver(templateEngine, 0, "text/html", "*.html");
@@ -62,6 +73,11 @@ public class ThymeleafConfig {
   @Bean
   public ViewResolver cssViewResolver(SpringTemplateEngine templateEngine) {
     return generateViewResolver(templateEngine, 1, "text/css", "*.css");
+  }
+
+  @Bean
+  public ViewResolver javascriptViewResolver(SpringTemplateEngine templateEngine) {
+    return generateViewResolver(templateEngine, 2, "application/javascript", "*.js");
   }
 
   @Bean

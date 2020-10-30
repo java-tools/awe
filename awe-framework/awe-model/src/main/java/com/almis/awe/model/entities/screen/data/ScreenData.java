@@ -4,6 +4,7 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.entities.actions.ClientAction;
 import com.almis.awe.model.entities.screen.Message;
+import com.almis.awe.model.entities.screen.Screen;
 import com.almis.awe.model.entities.screen.component.Component;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 /**
  * Screen data Class
- *
+ * <p>
  * Used to retrieve screen data in JSON format
  *
  * @author Pablo GARCIA - 28/JUN/2010
@@ -39,6 +40,9 @@ public class ScreenData {
 
   // Screen properties
   private Map<String, String> screenProperties;
+
+  // Screen structure
+  private Screen structure;
 
   // Screen actions
   private final List<ClientAction> actions = new ArrayList<>();
@@ -65,9 +69,9 @@ public class ScreenData {
   public ScreenData addComponent(String key, Component controller, ComponentModel model) {
     // Add element
     return addComponent(new ScreenComponent()
-            .setId(key)
-            .setController(controller)
-            .setModel(model));
+      .setId(key)
+      .setController(controller)
+      .setModel(model));
   }
 
   /**
@@ -85,6 +89,7 @@ public class ScreenData {
 
   /**
    * Getter for screen properties (to retrieve it empty if not defined)
+   *
    * @return Screen properties
    */
   @JsonGetter("screen")
@@ -120,11 +125,11 @@ public class ScreenData {
   public ScreenData addError(AWException error) {
     // Add element
     return addAction(new ClientAction("message")
-            .addParameter(AweConstants.ACTION_MESSAGE_TYPE_ATTRIBUTE, error.getType().toString())
-            .addParameter(AweConstants.ACTION_MESSAGE_TITLE_ATTRIBUTE, error.getTitle())
-            .addParameter(AweConstants.ACTION_MESSAGE_DESCRIPTION_ATTRIBUTE, error.getMessage())
-            .setAsync(true)
-            .setSilent(true));
+      .addParameter(AweConstants.ACTION_MESSAGE_TYPE_ATTRIBUTE, error.getType().toString())
+      .addParameter(AweConstants.ACTION_MESSAGE_TITLE_ATTRIBUTE, error.getTitle())
+      .addParameter(AweConstants.ACTION_MESSAGE_DESCRIPTION_ATTRIBUTE, error.getMessage())
+      .setAsync(true)
+      .setSilent(true));
   }
 
   /**
