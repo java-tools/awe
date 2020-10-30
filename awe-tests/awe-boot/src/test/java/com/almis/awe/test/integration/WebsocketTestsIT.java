@@ -52,7 +52,7 @@ public class WebsocketTestsIT extends SeleniumUtilities {
     checkAndCloseMessage("danger");
 
     // Do login
-    checkLogin("test", "test", "span.info-text", "Manager (test)");
+    checkLogin("test", "test", "#ButUsrAct span.info-text", "Manager (test)");
 
     // Do broadcast test
     broadcastMessageToUser("test", "This is a broadcast message test");

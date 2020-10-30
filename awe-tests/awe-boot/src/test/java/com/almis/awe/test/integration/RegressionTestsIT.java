@@ -233,7 +233,7 @@ public class RegressionTestsIT extends SeleniumUtilities {
     checkLogin("tutu", "lala", ".alert.alert-warning div", "Wrong username  Username -tutu- is wrong or inactive");
 
     // Do right login
-    checkLogin("test", "test", "span.info-text", "Manager (test)");
+    checkLogin("test", "test", "#ButUsrAct span.info-text", "Manager (test)");
   }
 
   /**
