@@ -14,8 +14,8 @@ let jsonify = (div => json => {
 
 // Utilities service
 aweApplication.factory('AweUtilities',
-  ['$log', '$window', '$compile', '$timeout', '$interval', '$rootScope', 'Storage', '$q', '$location',
-    function ($log, $window, $compile, $timeout, $interval, $rootScope, Storage, $q, $location) {
+  ['$log', '$window', '$compile', '$timeout', '$interval', '$rootScope', 'Storage', '$q', '$location', '$base64',
+    function ($log, $window, $compile, $timeout, $interval, $rootScope, Storage, $q, $location, $base64) {
       let Utilities = {
         /**
          * Indicates if parameter is a string
@@ -232,8 +232,7 @@ aweApplication.factory('AweUtilities',
          * @return String encoded
          */
         encodeSymetric: function (s) {
-          var out = Base64.encode(s, false);
-          return Utilities.urlEncode(out);
+          return Utilities.urlEncode($base64.encode(s));
         },
         /**
          * Decodes a string
@@ -241,8 +240,7 @@ aweApplication.factory('AweUtilities',
          * @return String decoded
          */
         decodeSymetric: function (s) {
-          var out = Utilities.urlDecode(s);
-          return Base64.decode(out, false);
+          return $base64.decode(Utilities.urlDecode(s));
         },
         /**
          * Removes new lines

@@ -7,12 +7,13 @@ import ngAnimate from "angular-animate";
 import ngTranslate from "angular-translate";
 import ngLoadingBar from "angular-loading-bar";
 import uiBootstrap from "angular-ui-bootstrap";
+import "angular-base64";
 
 import "jquery-ui";
 import "bootstrap";
 
 // Route methods
-import { states } from './data/routes';
+import {states} from './data/routes';
 
 // Fix for jquery special events
 function fixSpecialEvents(events) {
@@ -43,6 +44,7 @@ export const aweApplication = angular.module("aweApplication", [
   ngAnimate,
   ngCookies,
   ngSanitize,
+  "base64",
   ngTranslate])
 // Config state router
 .config(["$stateProvider", ($stateProvider) => states.forEach((state) => $stateProvider.state(state))])

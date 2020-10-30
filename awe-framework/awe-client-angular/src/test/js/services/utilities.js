@@ -64,13 +64,21 @@ describe('awe-framework/awe-client-angular/src/test/js/services/utilities.js', f
     ];
 
     // Assert
-    expect($utilities.getRowIndex(values, 2,"_ID")).toEqual(-1);
-    expect($utilities.getRowIndex(values, 3,"_ID")).toEqual(1);
-    expect($utilities.getRowIndex(values, 7,"_ID")).toEqual(4);
-    expect($utilities.getRowIndex(values, "1","_ID")).toEqual(0);
-    expect($utilities.getRowIndex(values, 2,"id")).toEqual(1);
-    expect($utilities.getRowIndex(values, "a","id")).toEqual(-1);
-    expect($utilities.getRowIndex(values, "3","id")).toEqual(2);
-    expect($utilities.getRowIndex(values, 1,"id")).toEqual(0);
+    expect($utilities.getRowIndex(values, 2, "_ID")).toEqual(-1);
+    expect($utilities.getRowIndex(values, 3, "_ID")).toEqual(1);
+    expect($utilities.getRowIndex(values, 7, "_ID")).toEqual(4);
+    expect($utilities.getRowIndex(values, "1", "_ID")).toEqual(0);
+    expect($utilities.getRowIndex(values, 2, "id")).toEqual(1);
+    expect($utilities.getRowIndex(values, "a", "id")).toEqual(-1);
+    expect($utilities.getRowIndex(values, "3", "id")).toEqual(2);
+    expect($utilities.getRowIndex(values, 1, "id")).toEqual(0);
+  });
+
+  it('should decode data', function () {
+    let data = '{"test": 1}';
+
+    // Assert
+    expect($utilities.decodeData($utilities.encodeSymetric(data), "1")).toEqual({"test": 1});
+    expect($utilities.decodeData(data, "0")).toEqual({"test": 1});
   });
 });
