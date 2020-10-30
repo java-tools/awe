@@ -3,12 +3,14 @@ package com.almis.awe.model.entities.screen.component.widget;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.component.Component;
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.xstream.annotations.XStreamInclude;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,5 +47,11 @@ public abstract class AbstractWidget extends Component {
 
     // Return parameter list
     return parameterMap;
+  }
+
+  @JsonIgnore
+  @Override
+  public <T extends Element> List<T> getElementList() {
+    return super.getElementList();
   }
 }

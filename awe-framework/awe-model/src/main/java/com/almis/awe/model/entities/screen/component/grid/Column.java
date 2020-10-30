@@ -2,6 +2,7 @@ package com.almis.awe.model.entities.screen.component.grid;
 
 import com.almis.awe.exception.AWException;
 import com.almis.awe.model.constant.AweConstants;
+import com.almis.awe.model.dto.SortColumn;
 import com.almis.awe.model.entities.Element;
 import com.almis.awe.model.entities.screen.component.action.ButtonAction;
 import com.almis.awe.model.entities.screen.component.criteria.AbstractCriteria;
@@ -11,8 +12,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
@@ -146,6 +145,7 @@ public class Column extends AbstractCriteria {
 
   /**
    * Returns if column is hidden
+   *
    * @return Column is hidden
    */
   @JsonGetter("hidden")
@@ -155,6 +155,7 @@ public class Column extends AbstractCriteria {
 
   /**
    * Returns if column is sendable
+   *
    * @return Column is sendable
    */
   @JsonGetter("sendable")
@@ -165,6 +166,7 @@ public class Column extends AbstractCriteria {
 
   /**
    * Returns if column is movable
+   *
    * @return Column is movable
    */
   @JsonGetter("movable")
@@ -174,6 +176,7 @@ public class Column extends AbstractCriteria {
 
   /**
    * Returns if column is sortable
+   *
    * @return Column is sortable
    */
   @JsonGetter("sortable")
@@ -183,6 +186,7 @@ public class Column extends AbstractCriteria {
 
   /**
    * Returns if column is frozen
+   *
    * @return Column is frozen
    */
   @JsonGetter("frozen")
@@ -192,6 +196,7 @@ public class Column extends AbstractCriteria {
 
   /**
    * Returns if column is visible
+   *
    * @return Column is visible
    */
   @Override
@@ -231,11 +236,9 @@ public class Column extends AbstractCriteria {
    * @return the sort object
    */
   @JsonGetter("sort")
-  public ObjectNode getSortColumnHandler() {
+  public SortColumn getSortColumnHandler() {
     if (sortColumn != null) {
-      ObjectNode sortDirection = JsonNodeFactory.instance.objectNode();
-      sortDirection.put(AweConstants.SORT_DIRECTION, sortColumn.toLowerCase());
-      return sortDirection;
+      return new SortColumn(null, sortColumn);
     }
     return null;
   }

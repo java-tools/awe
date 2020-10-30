@@ -3,6 +3,7 @@
  */
 package com.almis.awe.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ import lombok.Data;
  * @author Pablo GARCIA - 18/Jan/2016
  */
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SortColumn {
 
   private String columnId;

@@ -82,7 +82,17 @@ public class Screen extends Element {
   }
 
   /**
+   * Avoid to retrieve screen template
+   *
+   * @return Screen template
+   */
+  public String getScreenTemplate() {
+    return this.template;
+  }
+
+  /**
    * Returns if is keep criteria
+   *
    * @return Is keep criteria
    */
   public boolean isKeepCriteria() {

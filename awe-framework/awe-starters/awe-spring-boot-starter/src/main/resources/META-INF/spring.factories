@@ -18,5 +18,7 @@ com.almis.awe.controller.ActionController,\
 com.almis.awe.controller.FileController,\
 com.almis.awe.controller.SettingsController,\
 com.almis.awe.controller.TemplateController,\
+com.almis.awe.controller.ScreenDataController,\
+com.almis.awe.controller.LocalesController,\
 com.almis.awe.controller.StaticResourcesController,\
 com.almis.awe.controller.UploadController
