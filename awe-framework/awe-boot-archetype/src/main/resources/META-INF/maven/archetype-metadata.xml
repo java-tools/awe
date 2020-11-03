@@ -4,7 +4,7 @@
                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <fileSets>
     <fileSet filtered="true" encoding="UTF-8">
-      <directory></directory>
+      <directory/>
       <includes>
         <include>package.json</include>
         <include>webpack.config.js</include>
@@ -51,12 +51,21 @@
     </fileSet>
     <fileSet encoding="UTF-8">
       <directory>src/main/resources/application/__artifactId__/profile</directory>
+      <includes>
+        <include>**/*.xml</include>
+      </includes>
     </fileSet>
     <fileSet encoding="UTF-8">
       <directory>src/main/resources/application/__artifactId__/screen</directory>
+      <includes>
+        <include>**/*.xml</include>
+      </includes>
     </fileSet>
     <fileSet encoding="UTF-8">
       <directory>src/main/resources/static</directory>
+      <includes>
+        <include>**/*.*</include>
+      </includes>
     </fileSet>
   </fileSets>
 </archetype-descriptor>

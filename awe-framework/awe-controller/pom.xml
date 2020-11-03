@@ -55,7 +55,7 @@
     <!-- Spring session and session repository dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jdbc</artifactId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
       <exclusions>
         <exclusion>
           <groupId>com.zaxxer</groupId>
