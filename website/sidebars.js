@@ -15,6 +15,7 @@ module.exports = {
         'intro',
         'purpose',
         'architecture',
+        'security'
       ],
     },
     {
@@ -128,7 +129,7 @@ module.exports = {
       ],
     },
   ],
-  "training": [
+  training: [
     {
       "type": "category",
       "label": "Basic tutorials",
