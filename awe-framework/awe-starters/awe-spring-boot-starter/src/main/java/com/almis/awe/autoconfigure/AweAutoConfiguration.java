@@ -50,7 +50,7 @@ import org.springframework.web.context.annotation.RequestScope;
 public class AweAutoConfiguration {
 
   // Autowired beans
-  private WebApplicationContext context;
+  private final WebApplicationContext context;
 
   /**
    * Autowired constructor
@@ -339,6 +339,17 @@ public class AweAutoConfiguration {
   @ConditionalOnMissingBean
   public SystemService systemService() {
     return new SystemService();
+  }
+
+  /**
+   * Chart service
+   *
+   * @return Chart service bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public ChartService chartService() {
+    return new ChartService();
   }
 
   /////////////////////////////////////////////

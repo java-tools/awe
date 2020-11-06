@@ -635,3 +635,91 @@ The chart widget in Highcharts library are based on Json language. With `<chart-
         </chart-parameter>
      </chart-parameter>
   </chart-parameter>
+```
+
+# Chart render service
+
+Highcharts has an export server which allows you to generate high quality charts on the server side:
+
+https://www.highcharts.com/docs/export-module/setting-up-the-server
+
+We have developed a new render service which allows you to generate charts in `SVG` format using this export server and 
+AWE charts.
+
+## Defining charts
+
+Defining a chart to be generated on server is similar to defining a chart to be shown on a browser. 
+
+You define a screen and inside the chart, as shown before. 
+This screen can be or not in the application, it doesn't matter.
+
+The charts defined for server generation doesn't need `server-action` and `target-action` attributes, as
+data sources are going to be passed as parameters.
+
+## Usage
+
+There is a new service designed to generate charts in server side, called `ChartService`.
+This service has two methods which allows the developer to generate charts using a single datasource or multiple datasources:
+
+### Render a chart with a single `DataList`
+
+Render chart method (with a single `DataList`) generates a chart using only one 
+DataList as datasource.
+
+```java
+public String renderChart(String screenName, String chartName, DataList data) throws AWException
+```
+
+* `screenName` is the name of the screen file where chart is
+* `chartName` is the `id` of the chart to be generated
+* `data` is the source `DataList`
+
+This method will return a chart in SVG+XML format (or AWException if there is an error).
+
+### Render a chart with multiple `DataList`
+
+Render chart method (with a map of `DataList`) generates a chart using multiples datalists.
+
+```java
+public String renderChart(String screenName, String chartName, Map<String, DataList> datasources) throws AWException
+```
+
+* `screenName` is the name of the screen file where chart is
+* `chartName` is the `id` of the chart to be generated
+* `datasources` is a map of String and DataList which will contain all data sources.
+
+This method will return a chart in SVG+XML format (or AWException if there is an error).
+
+One of the data must be called `main`, and will be the default one, the rest will match a parameter `datasource` defined
+on the serie which should pick the data. For example, this serie would pick the DataList inside the `detail` map key:
+
+```xml
+<chart-serie id="data" x-value="name" y-value="value"/>
+<chart-serie id="detail" x-value="name" y-value="value">
+  <chart-parameter type="string" name="datasource" value="detail"/>
+</chart-serie>
+```
+
+the corresponding map for this serie should be:
+
+```java
+Map<String, DataList> datasources = new HashMap<>();
+datasources.put("main", mainDataList);
+datasources.put("detail", detailDataList);
+```
+
+The first serie (`data`) will pick the data defined on `main` key 
+and the second serie (`detail`) will pick the data defined on `detail` key
+
+## Render server
+
+You can configure the render server on `application.properties` file updating the `highcharts.server.url` property:
+
+```properties
+################################################
+# Chart properties
+################################################
+highcharts.server.url=http://export.highcharts.com
+```
+
+The default export server is pointing to Highcharts export server: `http://export.highcharts.com`

@@ -4,8 +4,10 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.entities.Copyable;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,29 +34,14 @@ public class ChartSeriePoint implements Copyable {
   }
 
   /**
-   * Constructor two dimension point
-   *
-   * @param xPoint X point
-   * @param yPoint Y point
-   */
-  public ChartSeriePoint(JsonNode xPoint, JsonNode yPoint) {
-    this.positionPoint = new ArrayList<>();
-    this.positionPoint.add(xPoint);
-    this.positionPoint.add(yPoint);
-  }
-
-  /**
    * Constructor range point
    *
-   * @param xPoint X point
-   * @param yPoint Y point
-   * @param zPoint Z point
+   * @param points Point list
    */
-  public ChartSeriePoint(JsonNode xPoint, JsonNode yPoint, JsonNode zPoint) {
+  public ChartSeriePoint(Object... points) {
+    ObjectMapper mapper = new ObjectMapper();
     this.positionPoint = new ArrayList<>();
-    this.positionPoint.add(xPoint);
-    this.positionPoint.add(yPoint);
-    this.positionPoint.add(zPoint);
+    Arrays.stream(points).forEach(point -> positionPoint.add(mapper.valueToTree(point)));
   }
 
   /**
