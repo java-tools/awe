@@ -112,10 +112,10 @@ public class ChartParameter extends AbstractChart {
     List<Object> modelList = (List<Object>) (model.containsKey(getName()) ? model.get(getName()) : new ArrayList<>());
 
     // Get chart parameter list
-    List<ChartParameter> parameterList = getElementList();
-    for (ChartParameter parameter : parameterList) {
-      modelList.add(parameter.getParameterValue(model));
-    }
+    Optional.ofNullable(getParameterList())
+      .orElse(Collections.emptyList())
+      .forEach(parameter -> modelList.add(parameter.getParameterValue(model)));
+
     return modelList;
   }
 
