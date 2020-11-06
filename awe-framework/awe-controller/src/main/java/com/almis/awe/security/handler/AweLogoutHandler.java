@@ -1,6 +1,5 @@
 package com.almis.awe.security.handler;
 
-import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.session.AweSessionDetails;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
@@ -16,23 +15,20 @@ import javax.servlet.http.HttpServletResponse;
 @Log4j2
 public class AweLogoutHandler extends SecurityContextLogoutHandler {
 
-  private AweSessionDetails sessionDetails;
-  private AweRequest request;
+  private final AweSessionDetails sessionDetails;
 
   /**
    * Constructor
    *
    * @param sessionDetails session details
    */
-  public AweLogoutHandler(AweSessionDetails sessionDetails, AweRequest request) {
+  public AweLogoutHandler(AweSessionDetails sessionDetails) {
     this.sessionDetails = sessionDetails;
-    this.request = request;
   }
 
   @Override
   public void logout(HttpServletRequest httpServletRequest, HttpServletResponse response, Authentication authentication) {
     if (!response.isCommitted()) {
-      request.init(httpServletRequest);
       sessionDetails.onLogoutSuccess();
       setClearAuthentication(true);
       setInvalidateHttpSession(true);

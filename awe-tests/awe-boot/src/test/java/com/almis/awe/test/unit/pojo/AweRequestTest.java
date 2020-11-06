@@ -8,11 +8,14 @@ import com.almis.awe.test.unit.TestUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
@@ -24,18 +27,17 @@ import static org.junit.Assert.assertEquals;
  *
  * @author pgarcia
  */
+@RunWith(MockitoJUnitRunner.class)
 public class AweRequestTest extends TestUtil {
 
   @InjectMocks
   private AweRequest aweRequest;
 
-  /**
-   * Initializes json mapper for tests
-   */
-  @Before
-  public void initBeans() throws Exception {
-    MockitoAnnotations.initMocks(this);
-  }
+  @Mock
+  private HttpServletRequest request;
+
+  @Mock
+  private HttpServletResponse response;
 
   /**
    * Test of set parameter

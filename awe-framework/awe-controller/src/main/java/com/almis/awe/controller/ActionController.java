@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADER;
-
 /**
  * Manage all incoming action requests
  */
@@ -37,18 +35,16 @@ public class ActionController {
   /**
    * Launch server action
    *
-   * @param token      Connection token
    * @param actionId   Action identifier
    * @param parameters Parameters
    * @return Client action list
    */
   @PostMapping("/{actionId}")
-  public List<ClientAction> launchAction(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
-                                         @PathVariable("actionId") String actionId,
+  public List<ClientAction> launchAction(@PathVariable("actionId") String actionId,
                                          @RequestBody ObjectNode parameters) {
 
     // Initialize parameters
-    request.init(parameters, token);
+    request.setParameterList(parameters);
 
     // Launch action
     return actionService.launchAction(actionId);
@@ -57,20 +53,19 @@ public class ActionController {
   /**
    * Launch server action with target
    *
-   * @param token      Connection token
    * @param actionId   Action identifier
    * @param targetId   Target action
    * @param parameters Parameters
    * @return Client action list
    */
   @PostMapping("/{actionId}/{targetId}")
-  public List<ClientAction> launchAction(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
-                                         @PathVariable("actionId") String actionId,
+  public List<ClientAction> launchAction(@PathVariable("actionId") String actionId,
                                          @PathVariable("targetId") String targetId,
                                          @RequestBody ObjectNode parameters) {
 
     // Initialize parameters
-    request.init(targetId, parameters, token);
+    request.setTargetAction(targetId);
+    request.setParameterList(parameters);
 
     // Launch action
     return actionService.launchAction(actionId);

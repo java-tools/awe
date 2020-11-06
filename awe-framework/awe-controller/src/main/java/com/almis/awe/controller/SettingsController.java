@@ -2,12 +2,10 @@ package com.almis.awe.controller;
 
 import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.exception.AWException;
-import com.almis.awe.model.component.AweRequest;
 import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.settings.WebSettings;
 import com.almis.awe.service.InitService;
 import com.almis.awe.service.MenuService;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +28,6 @@ public class SettingsController extends ServiceConfig {
   private final Environment environment;
   private final MenuService menuService;
   private final InitService initService;
-  private final AweRequest request;
 
   /**
    * Initialize controller
@@ -38,14 +35,12 @@ public class SettingsController extends ServiceConfig {
    * @param environment Environment
    * @param menuService Menu service
    * @param initService Init service
-   * @param request     AWE request
    */
   @Autowired
-  public SettingsController(Environment environment, MenuService menuService, InitService initService, AweRequest request) {
+  public SettingsController(Environment environment, MenuService menuService, InitService initService) {
     this.environment = environment;
     this.menuService = menuService;
     this.initService = initService;
-    this.request = request;
   }
 
   /**
@@ -60,9 +55,6 @@ public class SettingsController extends ServiceConfig {
   public WebSettings getSettings(@RequestHeader(SESSION_CONNECTION_HEADER) String token,
                                  HttpServletRequest httpServletRequest) throws AWException {
     WebSettings settings = getBean(WebSettings.class).toBuilder().build();
-
-    // Initialize parameters
-    request.init(JsonNodeFactory.instance.objectNode(), token);
 
     // Launch client start service
     initService.onClientStart();
