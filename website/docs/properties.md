@@ -269,6 +269,11 @@ application.log.users.level=info
 application.log.users.enabled=true
 # Flag to build log path within system user home directory (true | false)
 application.log.users.home=false
+
+################################################
+# Chart properties
+################################################
+highcharts.server.url=http://export.highcharts.com
 ```
 
 ## Library properties

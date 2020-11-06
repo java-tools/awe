@@ -58,6 +58,7 @@ public abstract class AbstractChart extends Component {
 
   /**
    * Get text parameter
+   *
    * @param value
    * @return
    */
@@ -69,6 +70,7 @@ public abstract class AbstractChart extends Component {
 
   /**
    * Get label parameter
+   *
    * @param format
    * @param formatter
    * @param rotation

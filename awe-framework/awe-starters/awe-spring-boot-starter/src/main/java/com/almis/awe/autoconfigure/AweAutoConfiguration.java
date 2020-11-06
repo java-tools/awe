@@ -344,6 +344,17 @@ public class AweAutoConfiguration {
     return new SystemService();
   }
 
+  /**
+   * Chart service
+   *
+   * @return Chart service bean
+   */
+  @Bean
+  @ConditionalOnMissingBean
+  public ChartService chartService() {
+    return new ChartService();
+  }
+
   /////////////////////////////////////////////
   // LAUNCHERS
   /////////////////////////////////////////////
