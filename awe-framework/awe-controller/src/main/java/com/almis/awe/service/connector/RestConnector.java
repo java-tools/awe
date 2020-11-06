@@ -4,7 +4,6 @@ import com.almis.awe.exception.AWException;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.services.ServiceRest;
 import com.almis.awe.model.entities.services.ServiceType;
-import com.almis.awe.model.util.log.LogUtil;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 
@@ -18,11 +17,10 @@ public class RestConnector extends AbstractRestConnector {
   /**
    * Autowired constructor
    *
-   * @param logger         Logger
    * @param requestFactory Request factory
    */
-  public RestConnector(LogUtil logger, ClientHttpRequestFactory requestFactory) {
-    super(logger, requestFactory);
+  public RestConnector(ClientHttpRequestFactory requestFactory) {
+    super(requestFactory);
   }
 
   @Override

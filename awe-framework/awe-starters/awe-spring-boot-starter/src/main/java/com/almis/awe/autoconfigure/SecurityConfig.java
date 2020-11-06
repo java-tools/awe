@@ -5,8 +5,6 @@ import com.almis.awe.config.ServiceConfig;
 import com.almis.awe.dao.UserDAO;
 import com.almis.awe.dao.UserDAOImpl;
 import com.almis.awe.model.component.AweElements;
-import com.almis.awe.model.component.AweRequest;
-import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.security.accessbean.LoginAccessControl;
 import com.almis.awe.security.authentication.encoder.Ripemd160PasswordEncoder;
@@ -19,7 +17,6 @@ import com.almis.awe.service.user.AweUserDetailService;
 import com.almis.awe.service.user.LdapAweUserDetailsMapper;
 import com.almis.awe.session.AweSessionDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +40,7 @@ import org.springframework.security.ldap.authentication.LdapAuthenticationProvid
 import org.springframework.security.ldap.search.FilterBasedLdapUserSearch;
 import org.springframework.security.ldap.userdetails.UserDetailsContextMapper;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,9 +59,9 @@ import java.util.Map;
 public class SecurityConfig extends ServiceConfig {
 
   // Autowired services
-  private AweSessionDetails aweSessionDetails;
-  private LogUtil logger;
-  private AweElements elements;
+  private final AweSessionDetails aweSessionDetails;
+  private final LogUtil logger;
+  private final AweElements elements;
 
   /**
    * Autowired constructor
@@ -84,7 +82,7 @@ public class SecurityConfig extends ServiceConfig {
     IN_MEMORY("in_memory"),
     CUSTOM("custom");
 
-    private String mode;
+    private final String mode;
 
     AUTHENTICATION_MODE(String mode) {
       this.mode = mode;
@@ -178,13 +176,14 @@ public class SecurityConfig extends ServiceConfig {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
       http
-        .csrf().disable()
+        .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+        .headers().xssProtection().block(false).and().and()
         .authorizeRequests().antMatchers("css/**", "js/**", "images/**", "fonts/**").permitAll().and()
         // Add a filter to parse login parameters
         .addFilterAt(getBean(JsonAuthenticationFilter.class), UsernamePasswordAuthenticationFilter.class)
         //.formLogin().permitAll().and()
         .logout().logoutUrl("/action/logout")
-        .deleteCookies(cookieName)
+        .deleteCookies(cookieName).clearAuthentication(true).invalidateHttpSession(true)
         .addLogoutHandler(getBean(AweLogoutHandler.class));
 
       if (sameOrigin) {
@@ -237,21 +236,20 @@ public class SecurityConfig extends ServiceConfig {
       if (request instanceof AweHttpServletRequestWrapper) {
         body = ((AweHttpServletRequestWrapper) request).getBody();
       }
-      String token = request.getHeader(AweConstants.SESSION_CONNECTION_HEADER);
       try {
         // Read the parameters
         ObjectNode parameters = (ObjectNode) new ObjectMapper().readTree(body);
-        getRequest().init(parameters, token);
+        getRequest().setParameterList(parameters);
       } catch (IOException exc) {
-        getRequest().init(JsonNodeFactory.instance.objectNode(), token);
+        // Do nothing
       }
     }
 
     /**
      * Required by Spring Boot 2
      *
-     * @return
-     * @throws Exception
+     * @return Authentication manager
+     * @throws Exception Error retrieving authentication manager
      */
     @Override
     @Bean
@@ -315,8 +313,8 @@ public class SecurityConfig extends ServiceConfig {
      * @return Logout handler
      */
     @Bean
-    public AweLogoutHandler logoutHandler(AweSessionDetails sessionDetails, AweRequest request) {
-      return new AweLogoutHandler(sessionDetails, request);
+    public AweLogoutHandler logoutHandler(AweSessionDetails sessionDetails) {
+      return new AweLogoutHandler(sessionDetails);
     }
 
     /**

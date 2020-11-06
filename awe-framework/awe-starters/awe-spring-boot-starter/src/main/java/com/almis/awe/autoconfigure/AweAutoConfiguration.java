@@ -42,6 +42,9 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.annotation.RequestScope;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * AWE Autoconfiguration
  */
@@ -50,7 +53,7 @@ import org.springframework.web.context.annotation.RequestScope;
 public class AweAutoConfiguration {
 
   // Autowired beans
-  private WebApplicationContext context;
+  private final WebApplicationContext context;
 
   /**
    * Autowired constructor
@@ -75,8 +78,8 @@ public class AweAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   @RequestScope
-  public AweRequest aweRequest() {
-    return new AweRequest();
+  public AweRequest aweRequest(HttpServletRequest request, HttpServletResponse response) {
+    return new AweRequest(request, response);
   }
 
   /**
@@ -475,27 +478,25 @@ public class AweAutoConfiguration {
   /**
    * Microservice connector
    *
-   * @param logUtil        logger
    * @param requestFactory Request factory
    * @return Microservice connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public MicroserviceConnector microserviceConnector(LogUtil logUtil, ClientHttpRequestFactory requestFactory) {
-    return new MicroserviceConnector(logUtil, requestFactory);
+  public MicroserviceConnector microserviceConnector(ClientHttpRequestFactory requestFactory) {
+    return new MicroserviceConnector(requestFactory);
   }
 
   /**
    * REST connector
    *
-   * @param logUtil        logger
    * @param requestFactory Request factory
    * @return REST connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public RestConnector restConnector(LogUtil logUtil, ClientHttpRequestFactory requestFactory) {
-    return new RestConnector(logUtil, requestFactory);
+  public RestConnector restConnector(ClientHttpRequestFactory requestFactory) {
+    return new RestConnector(requestFactory);
   }
 
   /**
