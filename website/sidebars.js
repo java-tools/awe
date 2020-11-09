@@ -46,6 +46,7 @@ module.exports = {
             'session',
           ],
         },
+        'deployment'
       ],
     },
     {
