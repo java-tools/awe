@@ -1,4 +1,21 @@
 
+# Changelog for awe 4.2.9
+*09/11/2020*
+
+- Add common deployment scenarios to documentation. [MR #257](https://gitlab.com/aweframework/awe/-/merge_requests/257) (Pablo Vidal Otero)
+- Activate csrf protection by default. [MR #256](https://gitlab.com/aweframework/awe/-/merge_requests/256) (Pablo Javier García Mora)
+- Explain in detail security meassures that AWE has.. [MR #255](https://gitlab.com/aweframework/awe/-/merge_requests/255) (Pablo Vidal Otero)
+- Update QueryDSL lib. [MR #254](https://gitlab.com/aweframework/awe/-/merge_requests/254) (Pablo Vidal Otero)
+- Add a service to generate Highcharts charts from server. [MR #253](https://gitlab.com/aweframework/awe/-/merge_requests/253) (Pablo Javier García Mora)
+- Add a new method isWebDate to check date format dd/MM/yyyy. [MR #252](https://gitlab.com/aweframework/awe/-/merge_requests/252) (Pablo Javier García Mora)
+- Update spring-boot dependency to 3.3.5. [MR #251](https://gitlab.com/aweframework/awe/-/merge_requests/251) (Pablo Vidal Otero)
+- Allow to put names of the alias in the fieds of the querys equal to the id with uppercase. [MR #250](https://gitlab.com/aweframework/awe/-/merge_requests/250) (Pablo Javier García Mora)
+- Add repo AWE Training. [MR #249](https://gitlab.com/aweframework/awe/-/merge_requests/249) (Pablo Vidal Otero)
+- Allow to retrieve screen data in an endpoint. [MR #248](https://gitlab.com/aweframework/awe/-/merge_requests/248) (Pablo Javier García Mora)
+- Assure that sequence retrieving is thread safe. [MR #247](https://gitlab.com/aweframework/awe/-/merge_requests/247) (Pablo Javier García Mora)
+- Move template files (stg) to front-end client to allow working with different front-end clients. [MR #246](https://gitlab.com/aweframework/awe/-/merge_requests/246) (Pablo Javier García Mora)
+- Dependencies not working after a restore action. [MR #245](https://gitlab.com/aweframework/awe/-/merge_requests/245) (Pablo Javier García Mora)
+
 # Changelog for awe 4.2.8
 *23/09/2020*
 
