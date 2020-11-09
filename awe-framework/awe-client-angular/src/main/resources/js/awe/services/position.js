@@ -1,4 +1,4 @@
-import { aweApplication } from "./../awe";
+import {aweApplication} from "./../awe";
 
 // Position service
 aweApplication.factory('Position', function () {
@@ -200,7 +200,7 @@ aweApplication.factory('Position', function () {
       _.merge(_position, position);
 
       /* Launch recalculation */
-      while (_inside !== "ok" && _retries > 0) {
+      while (_inside != "ok" && _retries > 0) {
         _position = Position._readjustPosition(_position, _inside);
 
         // Recalculate vertical position

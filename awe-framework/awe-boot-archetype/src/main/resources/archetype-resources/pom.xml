@@ -14,7 +14,7 @@
   <artifactId>\${artifactId}</artifactId>
   <version>\${version}</version>
   <packaging>jar</packaging>
-  <name>\${artifactId} V\${version}</name>
+  <name>\${artifactId}</name>
 
   <properties>
     <!-- Application maven properties -->
@@ -86,19 +86,7 @@
     <resources>
       <resource>
         <directory>src/main/resources</directory>
-        <includes>
-          <include>**/application/**</include>
-          <include>**/config/**</include>
-          <include>**/sql/**</include>
-          <include>**/static/**</include>
-          <include>*</include>
-        </includes>
         <filtering>true</filtering>
-      </resource>
-      <resource>
-        <directory>src/main/resources/images</directory>
-        <targetPath>\${project.build.directory}/classes/static/images</targetPath>
-        <filtering>false</filtering>
       </resource>
     </resources>
     <plugins>

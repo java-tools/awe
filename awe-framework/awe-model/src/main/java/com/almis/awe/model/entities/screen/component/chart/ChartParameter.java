@@ -14,10 +14,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ChartParameter Class
@@ -112,13 +109,13 @@ public class ChartParameter extends AbstractChart {
    */
   public List<Object> getParameterArray(Map<String, Object> model) {
     // Get array node if it has already the parameter
-    List modelList = (List) (model.containsKey(getName()) ? model.get(getName()) : new ArrayList<>());
+    List<Object> modelList = (List<Object>) (model.containsKey(getName()) ? model.get(getName()) : new ArrayList<>());
 
     // Get chart parameter list
-    List<ChartParameter> parameterList = getElementList();
-    for (ChartParameter parameter : parameterList) {
-      modelList.add(parameter.getParameterValue(model));
-    }
+    Optional.ofNullable(getParameterList())
+      .orElse(Collections.emptyList())
+      .forEach(parameter -> modelList.add(parameter.getParameterValue(model)));
+
     return modelList;
   }
 
@@ -133,10 +130,9 @@ public class ChartParameter extends AbstractChart {
     Map<String, Object> objectMap = (Map<String, Object>) (model.containsKey(getName()) ? model.get(getName()) : new HashMap<>());
 
     // Get elements (columns)
-    List<ChartParameter> parameterList = getElementList();
-    for (ChartParameter parameter : parameterList) {
-      objectMap.put(parameter.getName(), parameter.getParameterValue(objectMap));
-    }
+    Optional.ofNullable(getParameterList())
+      .orElse(Collections.emptyList())
+      .forEach(parameter -> objectMap.put(parameter.getName(), parameter.getParameterValue(objectMap)));
 
     return objectMap;
   }

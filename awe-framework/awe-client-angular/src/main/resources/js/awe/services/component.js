@@ -1,4 +1,4 @@
-import {aweApplication} from "./../awe";
+import {aweApplication} from "../awe";
 import {ClientActions} from "../data/actions";
 
 // Component service
@@ -486,7 +486,6 @@ aweApplication.factory('Component',
           var changed = this.model.previous !== this.model.selected;
           if (changed) {
             Control.changeModelAttribute(this.address, {selected: this.model.selected}, this.model.previous !== this.model.selected);
-            this.model.previous = _.cloneDeep(this.model.selected);
           }
         },
         /**

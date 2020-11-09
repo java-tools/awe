@@ -20,8 +20,20 @@ module.exports = {
 			hideOnScroll: true,
 			items: [
 				{
-					type: 'docsVersionDropdown',
+					type: 'docsVersion',
 					position: 'left',
+					label: 'Docs',
+				},
+				{
+					type: 'docsVersionDropdown',
+					position: 'right',
+				},
+				{
+					type: 'doc',
+					docId: 'training/awe-101',
+					position: 'left',
+					label: 'Training',
+					activeSidebarClassName: 'navbar__link--active',
 				},
 				{
 					to: 'blog',
@@ -101,16 +113,14 @@ module.exports = {
 				docs: {
 					sidebarPath: require.resolve('./sidebars.js'),
 					// Please change this to your repo.
-					editUrl:
-						'https://github.com/facebook/docusaurus/edit/master/website/',
+					editUrl: 'https://gitlab.com/aweframework/awe/edit/master/website/',
 					includeCurrentVersion: true,
 					showLastUpdateTime: true,
 					showLastUpdateAuthor: true,
 				},
 				blog: {
 					showReadingTime: true,
-					editUrl:
-						'https://gitlab.com/aweframework/awe/edit/develop/website/',
+					editUrl: 'https://gitlab.com/aweframework/awe/edit/master/website/',
 					postsPerPage: 3,
 					feedOptions: {
 						type: 'all',

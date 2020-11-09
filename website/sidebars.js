@@ -15,6 +15,7 @@ module.exports = {
         'intro',
         'purpose',
         'architecture',
+        'security'
       ],
     },
     {
@@ -45,6 +46,7 @@ module.exports = {
             'session',
           ],
         },
+        'deployment'
       ],
     },
     {
@@ -127,5 +129,22 @@ module.exports = {
         'guides/dependency-task',
       ],
     },
+  ],
+  training: [
+    {
+      "type": "category",
+      "label": "Basic tutorials",
+      "collapsed": false,
+      "items": [
+        "training/awe-101",
+        "training/awe-102",
+        "training/awe-103",
+        "training/awe-104",
+        "training/awe-105",
+        "training/awe-106",
+        "training/awe-107",
+        "training/awe-108"
+      ]
+    }
   ]
 };

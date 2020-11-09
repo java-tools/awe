@@ -7,16 +7,16 @@ import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
- *
  * @author pgarcia
  */
 public class DateUtilTest extends TestUtil {
 
   /**
    * Test of check public addresses
+   *
    * @throws Exception Test error
    */
   @Test
@@ -43,6 +43,7 @@ public class DateUtilTest extends TestUtil {
 
   /**
    * Test of check public addresses
+   *
    * @throws Exception Test error
    */
   @Test
@@ -64,5 +65,33 @@ public class DateUtilTest extends TestUtil {
     assertEquals(expect5, date6);
     assertEquals(expect2, date7);
     assertEquals(expect2, date8);
+  }
+
+  /**
+   * Test of check date type
+   */
+  @Test
+  public void testIsDateFormat() {
+    // Assert
+    assertTrue(DateUtil.isWebDate("23/10/1978"));
+    assertFalse(DateUtil.isWebDate("10231978"));
+
+    assertTrue(DateUtil.isWbsDate("1978-10-23"));
+    assertFalse(DateUtil.isWbsDate("23/10/1978"));
+
+    assertTrue(DateUtil.isSqlDate("1978-10-23 21:55:31.012"));
+    assertFalse(DateUtil.isSqlDate("23/10/1978 21:55:31.012"));
+
+    assertTrue(DateUtil.isWebTimestamp("23/10/1978 10:00:02"));
+    assertFalse(DateUtil.isWebTimestamp("1978-10-23 10:00:02"));
+
+    assertTrue(DateUtil.isWebTimestampWithMs("23/10/1978 10:00:02.202"));
+    assertFalse(DateUtil.isWebTimestampWithMs("1978-10-23 10:00:02.121"));
+
+    assertTrue(DateUtil.isJsonDate("1978-10-23@12:23:33.221+0100"));
+    assertFalse(DateUtil.isJsonDate("1978-10-23"));
+
+    String textDate = DateUtil.dat2WebDate(new Date());
+    assertEquals(DateUtil.web2Date(textDate), DateUtil.autoDetectDateFormat(textDate));
   }
 }

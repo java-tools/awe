@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -107,51 +108,56 @@ public class ChartSerie extends AbstractChart {
     Map<String, Object> model = new HashMap<>();
 
     // Add id serie
-    if (getId() != null) {
+    if (StringUtils.isNotBlank(getId())) {
       model.put(ChartConstants.ID, getId());
     }
 
     // Add name of serie
-    if (getLabel() != null && !getLabel().isEmpty()) {
+    if (StringUtils.isNotBlank(getLabel())) {
       model.put(ChartConstants.NAME, getLabel());
     }
 
     // Add type of serie
-    if (getType() != null) {
+    if (StringUtils.isNotBlank(getType())) {
       model.put(ChartConstants.TYPE, getType());
     }
 
     // Add color of serie
-    if (getColor() != null) {
+    if (StringUtils.isNotBlank(getColor())) {
       model.put(ChartConstants.COLOR, getColor());
     }
 
     // Add index xAxix
-    if (getXAxis() != null) {
+    if (StringUtils.isNotBlank(getXAxis())) {
       model.put(ChartConstants.X_AXIS, Integer.valueOf(getXAxis()));
     }
 
     // Add index yAxix
-    if (getYAxis() != null) {
+    if (StringUtils.isNotBlank(getYAxis())) {
       model.put(ChartConstants.Y_AXIS, Integer.valueOf(getYAxis()));
     }
 
     // Add xValue field name
-    if (getXValue() != null && !getXValue().isEmpty()) {
+    if (StringUtils.isNotBlank(getXValue())) {
       model.put(ChartConstants.X_VALUE, getXValue());
     }
     // Add yValue field name
-    if (getYValue() != null && !getYValue().isEmpty()) {
+    if (StringUtils.isNotBlank(getYValue())) {
       model.put(ChartConstants.Y_VALUE, getYValue());
     }
     // Add zValue field name
-    if (getZValue() != null && !getZValue().isEmpty()) {
+    if (StringUtils.isNotBlank(getZValue())) {
       model.put(ChartConstants.Z_VALUE, getZValue());
     }
 
     // Add drilldown serie id
-    if (isDrillDown() && getDrillDownSerie() != null) {
+    if (isDrillDown() && StringUtils.isNotBlank(getDrillDownSerie())) {
       model.put(ChartConstants.DRILL_DOWN, getDrillDownSerie());
+    }
+
+    // Add data to serie id
+    if (getData() != null) {
+      model.put(ChartConstants.DATA, getData());
     }
 
     // Add extra parameters

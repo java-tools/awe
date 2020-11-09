@@ -7,9 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +23,8 @@ import static com.almis.awe.model.constant.AweConstants.SESSION_CONNECTION_HEADE
 /**
  * @author pgarcia
  */
+@Data
+@Accessors(chain = true)
 public class AweRequest {
 
   // Application encoding
@@ -35,46 +40,22 @@ public class AweRequest {
   // Parameters
   private ObjectNode parameters = null;
 
+  // Request
+  private final HttpServletRequest httpRequest;
+  private final HttpServletResponse httpResponse;
+
   /**
-   * Initialize parameters with targetId
+   * Autowired constructor
    *
-   * @param request Request
+   * @param request  Request
+   * @param response Response
    */
-  public void init(HttpServletRequest request) {
+  public AweRequest(HttpServletRequest request, HttpServletResponse response) {
+    this.httpRequest = request;
+    this.httpResponse = response;
+
     // Set token
     setToken(request.getHeader(SESSION_CONNECTION_HEADER));
-  }
-
-  /**
-   * Initialize parameters with targetId
-   *
-   * @param targetId   Action target
-   * @param parameters Servlet request
-   * @param token      token
-   */
-  public void init(String targetId, ObjectNode parameters, String token) {
-    // Set target action
-    setTargetAction(targetId);
-
-    // Read parameters
-    setParameterList(parameters);
-
-    // Set token
-    setToken(token);
-  }
-
-  /**
-   * Initialize parameters
-   *
-   * @param parameters Request parameters
-   * @param token      token
-   */
-  public void init(ObjectNode parameters, String token) {
-    // Read parameters
-    setParameterList(parameters);
-
-    // Read token
-    setToken(token);
   }
 
   /**
@@ -259,41 +240,5 @@ public class AweRequest {
   public JsonNode getCellDataAsParameter(CellData cellData) {
     ObjectMapper mapper = new ObjectMapper();
     return mapper.convertValue(cellData, JsonNode.class);
-  }
-
-  /**
-   * @return the targetAction
-   */
-  public String getTargetAction() {
-    return targetAction;
-  }
-
-  /**
-   * @param targetAction the targetAction to set
-   * @return this
-   */
-  public AweRequest setTargetAction(String targetAction) {
-    this.targetAction = targetAction;
-    return this;
-  }
-
-  /**
-   * Get connection token
-   *
-   * @return Connection token
-   */
-  public String getToken() {
-    return token;
-  }
-
-  /**
-   * Set connection token
-   *
-   * @param token Connection token
-   * @return this
-   */
-  public AweRequest setToken(String token) {
-    this.token = token;
-    return this;
   }
 }

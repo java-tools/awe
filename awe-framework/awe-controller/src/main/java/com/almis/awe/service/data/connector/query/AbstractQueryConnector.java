@@ -110,7 +110,7 @@ public abstract class AbstractQueryConnector extends ServiceConfig implements Qu
       if (query.getSqlFieldList() != null) {
         // As datalist
         for (Field field : query.getFieldList()) {
-          if (field.getAlias() != null && !field.getId().equalsIgnoreCase(field.getAlias())) {
+          if (field.getAlias() != null && !field.getId().equals(field.getAlias())) {
             DataListUtil.copyColumn(serviceDataList, field.getAlias(), serviceDataList, field.getId());
           }
         }

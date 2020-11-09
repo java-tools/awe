@@ -15,6 +15,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * MenuContainer Class
@@ -61,6 +62,6 @@ public class MenuContainer extends Component {
    */
   @JsonGetter("options")
   public List<Element> getOptions() {
-    return menu.getElementList();
+    return Optional.ofNullable(menu).orElse(new Menu()).getElementList();
   }
 }

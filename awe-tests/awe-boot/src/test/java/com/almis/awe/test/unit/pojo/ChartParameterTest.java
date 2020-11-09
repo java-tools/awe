@@ -4,10 +4,7 @@ import com.almis.awe.model.entities.screen.component.chart.ChartParameter;
 import com.almis.awe.test.unit.TestUtil;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -31,10 +28,17 @@ public class ChartParameterTest extends TestUtil {
       .setValue("33")
       .setType(null);
 
-    List<String> values = Arrays.asList("1", "3", "4", "4");
+    List<String> values = new ArrayList<>();
+    values.add("1");
+    values.add("3");
+    values.add("4");
+    values.add("4");
     Map<String, Object> map = new HashMap<>();
     model.put("list", values);
     model.put("object", map);
+
+    parameter.addParameterModel(model);
+    parameter.addParameterModel(null);
 
     // Run
     assertEquals("33", parameter.getParameterValue(model));
@@ -47,6 +51,14 @@ public class ChartParameterTest extends TestUtil {
     assertFalse((Boolean) ((ChartParameter) parameter.setValue("false").setType("BOOLEAN")).getParameterValue(model));
     assertNull(((ChartParameter) parameter.setType("NULL")).getParameterValue(model));
     assertEquals(values, ((ChartParameter) parameter.setName("list").setType("ARRAY")).getParameterValue(model));
+    assertEquals(map, ((ChartParameter) parameter.setName("object").setType("OBJECT")).getParameterValue(model));
+
+    assertEquals(values, ((ChartParameter) parameter.setName("list").setParameterList(Arrays.asList(
+      new ChartParameter().setValue("1"),
+      new ChartParameter().setValue("3"),
+      new ChartParameter().setValue("4"),
+      new ChartParameter().setValue("4")
+    )).setType("ARRAY")).getParameterValue(model));
     assertEquals(map, ((ChartParameter) parameter.setName("object").setType("OBJECT")).getParameterValue(model));
 
     // Test add parameter model with null model

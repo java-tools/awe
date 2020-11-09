@@ -6,7 +6,9 @@
     <info id="notifications" icon="bell" unit="" style="nav-icon-btn-success"
           dropdown-style="dropdown-xl widget-notifications no-padding">
       <button-action type="filter" target="notification-bulletin"/>
-      <tag><criteria component="hidden" id="selected-notification"></criteria></tag>
+      <tag>
+        <criteria component="hidden" id="selected-notification"/>
+      </tag>
       <tag type="div" style="notifications-list scrollable">
         <tag-list id="notification-bulletin" initial-load="query" target-action="notifications" max="12" autoload="true">
           <button type="div" id="notification-[value]" style="no-class notification" value="[value]">

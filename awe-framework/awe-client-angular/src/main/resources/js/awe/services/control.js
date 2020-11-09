@@ -1,13 +1,13 @@
-import { aweApplication } from "./../awe";
+import { aweApplication } from "../awe";
 
 // Control service
 aweApplication.factory('Control',
   ['AweUtilities', 'Storage', '$log',
     /**
      * General control methods
-     * @param {Service} Utilities
-     * @param {Service} Storage
-     * @param {Service} $log Log service
+     * @param {AweUtilities} Utilities
+     * @param {Storage} Storage
+     * @param {$log} $log Log service
      */
     function (Utilities, Storage, $log) {
 
@@ -391,6 +391,11 @@ aweApplication.factory('Control',
                 } else {
                   model[initialAttribute] = _.cloneDeep(attribute);
                 }
+              }
+
+              // Store previous value if selected has changed
+              if (attributeId === SELECTED) {
+                model[PREVIOUS] = _.cloneDeep(attribute);
               }
             });
 

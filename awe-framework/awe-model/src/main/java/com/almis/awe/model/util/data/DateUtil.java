@@ -901,6 +901,16 @@ public final class DateUtil {
   }
 
   /**
+   * Returns true if date is an WEB date
+   *
+   * @param date (Web service formatted)
+   * @return Is an WEB date
+   */
+  public static boolean isWebDate(String date) {
+    return isXXX(date, DATE_FORMAT_WEB);
+  }
+
+  /**
    * Returns true if date is an WBS date
    *
    * @param date (Web service formatted)
@@ -1177,6 +1187,8 @@ public final class DateUtil {
         return jsonDate(dateString);
       } else if (isSqlDate(dateString)) {
         return sql2JavaDate(dateString);
+      } else if (isWebDate(dateString)) {
+        return web2Date(dateString);
       } else if (isWbsDate(dateString)) {
         return wbs2JavaDate(dateString);
       } else if (isWebTimestamp(dateString)) {

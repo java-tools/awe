@@ -9,14 +9,13 @@ import com.almis.awe.model.entities.queries.Query;
 import com.almis.awe.model.entities.services.AbstractServiceRest;
 import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.type.RestContentType;
-import com.almis.awe.model.util.log.LogUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.logging.log4j.Level;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -34,20 +33,18 @@ import java.util.regex.Pattern;
 /**
  * Launches a Rest service
  */
+@Log4j2
 public abstract class AbstractRestConnector extends AbstractServiceConnector {
 
   // Autowired services
-  private final LogUtil logger;
   private final ClientHttpRequestFactory requestFactory;
 
   /**
    * Autowired constructor
    *
-   * @param logger         Logger
    * @param requestFactory Request factory
    */
-  public AbstractRestConnector(LogUtil logger, ClientHttpRequestFactory requestFactory) {
-    this.logger = logger;
+  protected AbstractRestConnector(ClientHttpRequestFactory requestFactory) {
     this.requestFactory = requestFactory;
   }
 
@@ -116,7 +113,7 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
     }
 
     // Do request
-    logger.log(AbstractRestConnector.class, Level.INFO, "Doing {0} request to url {1}", service.getMethod(), finalUrl);
+    log.info("Doing {} request to url {}", service.getMethod(), finalUrl);
     try {
       response = restTemplate.exchange(finalUrl, HttpMethod.valueOf(service.getMethod()), request, wrapper, urlParameters);
     } catch (Exception e) {

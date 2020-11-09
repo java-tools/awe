@@ -81,7 +81,7 @@ public class UploadController extends ServiceConfig {
     parameters.put(uploadIdentifierKey, uploadIdentifier);
 
     // Initialize parameters
-    aweRequest.init(parameters, token);
+    aweRequest.setParameterList(parameters);
 
     // Upload the file
     FileData fileData = fileService.uploadFile(file, parameters.get(AweConstants.PARAMETER_DESTINATION).asText());

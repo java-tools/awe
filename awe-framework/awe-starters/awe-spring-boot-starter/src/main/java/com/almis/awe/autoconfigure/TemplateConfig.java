@@ -2,7 +2,6 @@ package com.almis.awe.autoconfigure;
 
 import com.almis.awe.dao.TemplateDao;
 import com.almis.awe.listener.TemplateErrorListener;
-import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dao.AweElementsDao;
 import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.HelpService;
@@ -43,20 +42,12 @@ public class TemplateConfig {
   @Value("${modules.prefix:module.}")
   private String modulePrefix;
 
-  // Application files path
-  @Value("${application.paths.application:application/}")
-  private String applicationPath;
-
   // Template path
   @Value("${application.paths.templates:templates/}")
   private String templatePath;
 
   // Autowired services
   private final Environment environment;
-
-  // HTML Extension
-  @Value("${extensions.html:.html}")
-  private String htmlExtension;
 
   /**
    * Autowired constructor
@@ -78,8 +69,8 @@ public class TemplateConfig {
     List<STGroupFile> paths = new ArrayList<>();
 
     for (String module : modules) {
-      String modulePath = environment.getProperty(modulePrefix + module) + AweConstants.FILE_SEPARATOR;
-      String path = Paths.get(applicationPath, modulePath, templatePath, filePath).toString();
+      String modulePath = environment.getProperty(modulePrefix + module);
+      String path = Paths.get(templatePath, modulePath, filePath).toString();
       ClassPathResource resource = new ClassPathResource(path);
       if (resource.exists()) {
         paths.add(new STGroupFile(resource.getPath()));
@@ -128,7 +119,7 @@ public class TemplateConfig {
    */
   @Bean("elementsTemplateGroup")
   public STGroup elementsTemplateGroup(STErrorListener errorListener) {
-    return defineGroup(errorListener, "screen/elements.stg");
+    return defineGroup(errorListener, "elements.stg");
   }
 
   /**
@@ -138,7 +129,7 @@ public class TemplateConfig {
    */
   @Bean("helpTemplateGroup")
   public STGroup helpTemplateGroup(STErrorListener errorListener) {
-    return defineGroup(errorListener, "screen/help.stg");
+    return defineGroup(errorListener, "help.stg");
   }
 
   /**
@@ -148,7 +139,7 @@ public class TemplateConfig {
    */
   @Bean("screensTemplateGroup")
   public STGroup screensTemplateGroup(STErrorListener errorListener) {
-    return defineGroup(errorListener, "screen/templates.stg");
+    return defineGroup(errorListener, "templates.stg");
   }
 
   /////////////////////////////////////////////

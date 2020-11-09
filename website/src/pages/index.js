@@ -111,6 +111,11 @@ function Home() {
               to={useBaseUrl('docs/')}>
               Start using AWE
             </Link>
+            <Link
+              className={clsx('margin-left--md', styles.indexLearnMoreButton)}
+              to="https://www.youtube.com/watch?v=ePxY319YnFA">
+              Learn More
+            </Link>
           </div>
         </div>
       </div>

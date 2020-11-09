@@ -109,15 +109,35 @@ public class ScreenService extends ServiceConfig {
    * @throws AWException Screen data generation failed
    */
   public ScreenData generateScreenData(String optionId) throws AWException {
-    // Check Screen Access
-    Screen screen = null;
+    // Get screen
+    Screen screen = getScreenFromOptionId(optionId);
 
-    if (optionId != null) {
-      screen = menuService.getOptionScreen(optionId);
-    } else {
-      screen = menuService.getDefaultScreen();
-    }
+    // Initialize screen
+    initializeScreenNavigation(screen, optionId);
 
+    // Generate map with model and controller data
+    return getScreenData(screen, optionId);
+  }
+
+  /**
+   * Retrieve screen from optionId
+   *
+   * @param optionId Option id
+   * @return Screen
+   * @throws AWException Error retrieving screen
+   */
+  private Screen getScreenFromOptionId(String optionId) throws AWException {
+    return optionId == null ? menuService.getDefaultScreen() : menuService.getOptionScreen(optionId);
+  }
+
+  /**
+   * Initialize screen navigation
+   *
+   * @param screen   Screen navigation
+   * @param optionId Option id
+   * @throws AWException Error initializing screen
+   */
+  private void initializeScreenNavigation(Screen screen, String optionId) throws AWException {
     // Store current screen
     storeCurrentScreen(optionId == null ? screen.getId() : optionId, screen);
 
@@ -135,9 +155,31 @@ public class ScreenService extends ServiceConfig {
 
     // Launch on load
     launchScreenOnLoadEvent(screen);
+  }
 
-    // Generate map with model and controller data
-    return getScreenData(screen, optionId);
+  /**
+   * Retrieve screen data
+   *
+   * @return Screen data
+   */
+  public ScreenData getScreenData() {
+    return getScreenData(null);
+  }
+
+  /**
+   * Retrieve an option screen data
+   *
+   * @param optionId Option id
+   * @return Screen data
+   */
+  public ScreenData getScreenData(String optionId) {
+    try {
+      ScreenData screenData = generateScreenData(optionId);
+      screenData.setStructure(getScreenFromOptionId(optionId));
+      return screenData;
+    } catch (AWException exc) {
+      return new ScreenData();
+    }
   }
 
   /**
@@ -449,7 +491,7 @@ public class ScreenService extends ServiceConfig {
    * @return Taglist data
    */
   public ServiceData getTaglistData(String option, String tagListId) throws AWException {
-    TagList tagList = null;
+    TagList tagList;
     if (option == null) {
       tagList = templateService.getTagList(tagListId);
     } else {

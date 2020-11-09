@@ -8,6 +8,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,6 +62,7 @@ public class MicroserviceTest extends AweSpringRestTests {
   private void doRestTest(String name, String action, String parameters, String expected) throws Exception {
 
     MvcResult mvcResult = mockMvc.perform(post("/action/" + action + "/" + name)
+      .with(csrf())
       .header("Authorization", "16617f0d-97ee-4f6b-ad54-905d6ce3c328")
       .contentType(MediaType.APPLICATION_JSON)
       .content("{" + parameters + "\"max\":30}")

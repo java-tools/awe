@@ -304,8 +304,8 @@ public class SQLMaintainBuilder extends SQLBuilder {
    */
   public String getSequence(String sequence) throws AWException {
 
-    // SELECT KeyVal FROM AweKey WHERE KeyNam = ?
-    SQLQuery<Long> getKey = getFactory().select(Expressions.numberPath(Long.class, "KeyVal")).from(buildPath("AweKey")).where(Expressions.stringPath("KeyNam").eq(sequence));
+    // SELECT KeyVal FROM AweKey WHERE KeyNam = ? FOR UPDATE
+    SQLQuery<Long> getKey = getFactory().select(Expressions.numberPath(Long.class, "KeyVal")).from(buildPath("AweKey")).where(Expressions.stringPath("KeyNam").eq(sequence)).forUpdate();
     List<Long> idsStored = getKey.fetch();
     if (idsStored.size() != 1) {
       throw new AWException(getLocale(ERROR_TITLE_LAUNCHING_MAINTAIN),

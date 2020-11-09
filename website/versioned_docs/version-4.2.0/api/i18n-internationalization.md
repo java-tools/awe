@@ -15,7 +15,7 @@ The full local structure is the next one:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<locals xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../sch/local.xsd">
+<locals xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
   <local name="[local-name]" value=[local-value]" />
     <![CDATA[ Markdown content ]]>
   <local name="[local-name]" value=[local-value]">
@@ -51,7 +51,7 @@ Some examples of locals in differents languages:
 
 **File Local-EN.xml**
 ```xml
-<locals xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../sch/local.xsd">
+<locals xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
   <local name="BUTTON_ACCEPT" value="Accept" />
   <local name="CONFIRM_MESSAGE_DELETE" value="You will delete the selected records. Do you agree?" />
   <local name="ERROR_MESSAGE_BAD_QUEUE_REQUEST_DEFINITION_FORMAT" value="Bad request definition format for queue {0}" />
@@ -63,7 +63,7 @@ Some examples of locals in differents languages:
 
 **File Local-ES.xml**
 ```xml
-<locals xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../sch/local.xsd">
+<locals xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
   <local name="BUTTON_ACCEPT" value="Aceptar" />
   <local name="CONFIRM_MESSAGE_DELETE" value="Vas a borrar el registro seleccionado. ¿Estás de acuerdo?" />
   <local name="ERROR_MESSAGE_BAD_QUEUE_REQUEST_DEFINITION_FORMAT" value="El formato de la petición a la cola {0} es erróneo" />
@@ -75,7 +75,7 @@ Some examples of locals in differents languages:
 
 **File Local-FR.xml**
 ```xml
-<locals xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../sch/local.xsd">
+<locals xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/locale.xsd">
   <local name="BUTTON_ACCEPT" value="Accepter" />
   <local name="CONFIRM_MESSAGE_DELETE" value="Donnees selectionees vont etre effacees. Etes vous d&apos;accord?" />
   <local name="ERROR_MESSAGE_BAD_QUEUE_REQUEST_DEFINITION_FORMAT" value="Le format du message pour l&apos;envoy à la queue {0} n&apos;a pas été définie" />

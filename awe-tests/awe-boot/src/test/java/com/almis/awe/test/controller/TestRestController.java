@@ -87,7 +87,6 @@ public class TestRestController {
   @ResponseBody
   public ServiceData testGetQueryParameters(@PathVariable String name, @PathVariable Integer value) throws AWException {
     // Initialize parameters
-    aweRequest.init(JsonNodeFactory.instance.objectNode(), "sdsf");
     aweRequest.setParameter("value", JsonNodeFactory.instance.numberNode(value));
 
     return queryService.launchPrivateQuery(name);
@@ -102,7 +101,6 @@ public class TestRestController {
   @ResponseBody
   public ServiceData testLaunchMaintainParameters(@PathVariable String name, @RequestParam(name = "value", required = true) Integer value) throws AWException {
     // Initialize parameters
-    aweRequest.init(JsonNodeFactory.instance.objectNode(), "asada");
     aweRequest.setParameter("value", JsonNodeFactory.instance.numberNode(value));
 
     return maintainService.launchPrivateMaintain(name);
@@ -143,7 +141,6 @@ public class TestRestController {
   @ResponseBody
   public ServiceData testPostParameterListJson(@RequestBody ObjectNode result) throws AWException {
     // Initialize parameters
-    aweRequest.init(JsonNodeFactory.instance.objectNode(), "asasd");
     aweRequest.setParameterList(result);
     return new ServiceData();
   }
@@ -157,8 +154,6 @@ public class TestRestController {
   @ResponseBody
   public ServiceData testPostParameterListPOJO(@PathVariable("tutu") String tutu, @RequestBody Concert concert) throws AWException {
     // Initialize parameters
-    aweRequest.init(JsonNodeFactory.instance.objectNode(), "asasd");
-
     return new ServiceData();
   }
 
@@ -172,7 +167,6 @@ public class TestRestController {
   public ServiceData testLaunchMaintainParametersJson(@PathVariable String name,
                                                       @RequestBody ObjectNode result) throws AWException {
     // Initialize parameters
-    aweRequest.init(JsonNodeFactory.instance.objectNode(), "asasdas");
     aweRequest.setParameter("value", result.get("value"));
 
     return maintainService.launchPrivateMaintain(name);
