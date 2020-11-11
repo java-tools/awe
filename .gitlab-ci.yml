@@ -354,6 +354,8 @@ Deploy Maven Central:
     - kubectl config use-context default-system
     - kubectl delete secret registry.gitlab.com --ignore-not-found
     - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
+    - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
+    - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/" awe-tests/awe-boot/deployment.yaml
     - kubectl delete --all pods --namespace=$KUBE_NAMESPACE
     - kubectl apply -f awe-tests/awe-boot/deployment.yaml
 

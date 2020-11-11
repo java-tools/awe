@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: awe-boot-$CI_ENVIRONMENT_SLUG
+  name: __CI_PROJECT_PATH_SLUG__
   annotations:
-    app.gitlab.com/env: $CI_ENVIRONMENT_SLUG
-    app.gitlab.com/app: $CI_PROJECT_PATH_SLUG
+    app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
+    app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
   labels:
-    app: $CI_PROJECT_PATH_SLUG
+    app: __CI_PROJECT_PATH_SLUG__
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: $CI_PROJECT_PATH_SLUG
+      app: __CI_PROJECT_PATH_SLUG__
   template:
     metadata:
       annotations:
-        app.gitlab.com/env: $CI_ENVIRONMENT_SLUG
-        app.gitlab.com/app: $CI_PROJECT_PATH_SLUG
+        app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
+        app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
       labels:
-        app: $CI_PROJECT_PATH_SLUG
+        app: __CI_PROJECT_PATH_SLUG__
     spec:
       containers:
       - name: awe-boot
