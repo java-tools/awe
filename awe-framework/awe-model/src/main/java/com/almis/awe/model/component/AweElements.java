@@ -488,7 +488,11 @@ public class AweElements {
     String path = screenPath + screenId + xmlExtension;
 
     // Clone from list
-    screen = elementsDao.readXmlFile(Screen.class, path);
+    if (screenMap.containsKey(screenId)) {
+      screen = screenMap.get(screenId);
+    } else {
+      screen = elementsDao.readXmlFile(Screen.class, path);
+    }
 
     if (screen == null) {
       throw new AWException("Screen" + NOT_FOUND + screenId);
