@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-framework</artifactId>
-    <version>4.2.10-SNAPSHOT</version>
+    <version>4.3.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -21,7 +21,7 @@
     <ade.version>2.0.14</ade.version>
     <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
     <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
-    <ehcache.version>3.6.1</ehcache.version>
+    <ehcache.version>3.8.1</ehcache.version>
     <javax.activation.version>1.2.0</javax.activation.version>
     <jaxb.api.version>2.3.0</jaxb.api.version>
     <node.version>v12.1.0</node.version>
@@ -260,6 +260,11 @@
         <version>${annotation-api.version}</version>
       </dependency>
       <!-- Jaxb-api for ehcache > Jdk11 -->
+      <dependency>
+        <groupId>org.ehcache</groupId>
+        <artifactId>ehcache</artifactId>
+        <version>${ehcache.version}</version>
+      </dependency>
       <dependency>
         <groupId>com.sun.activation</groupId>
         <artifactId>javax.activation</artifactId>
