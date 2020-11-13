@@ -5,7 +5,7 @@ FROM openjdk:8-jdk-alpine
 RUN apk add --no-cache fontconfig msttcorefonts-installer ttf-opensans && fc-cache -f
 
 # Image maintainer
-LABEL maintainer="pablo.vidal@almis.com"
+LABEL maintainer="awe@almis.com"
 
 # Copy the current directory contents into the container at /app
 ADD target/awe-boot.war awe-boot.war
@@ -17,7 +17,7 @@ VOLUME /logs
 VOLUME /tmp
 
 # Set JAVA options
-ENV JAVA_OPTS="-Xmx512m -Xmx512m"
+ENV JAVA_OPTS="-Xms256m -Xmx512m"
 
 # Execute jar
 ENTRYPOINT ["java", "-Dspring.devtools.restart.enabled=false", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/awe-boot.war"]
