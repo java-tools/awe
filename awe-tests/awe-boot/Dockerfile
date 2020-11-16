@@ -2,7 +2,7 @@
 FROM openjdk:11.0.4-jre-slim
 
 # Add fonts package
-RUN apk add --no-cache fontconfig msttcorefonts-installer ttf-opensans && fc-cache -f
+RUN apt-get install fontconfig msttcorefonts-installer ttf-opensans && fc-cache -f
 
 # Image maintainer
 LABEL maintainer="awe@almis.com"
