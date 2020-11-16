@@ -1,5 +1,5 @@
 # Use an official Open jdk runtime as a parent image
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11.0.4-jre-slim
 
 # Add fonts package
 RUN apk add --no-cache fontconfig msttcorefonts-installer ttf-opensans && fc-cache -f
