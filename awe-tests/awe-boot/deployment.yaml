@@ -30,6 +30,6 @@ spec:
           limits:
             memory: 2Gi
           requests:
-            memory: 640Mi
+            memory: 256Mi
       imagePullSecrets:
         - name: registry.gitlab.com
