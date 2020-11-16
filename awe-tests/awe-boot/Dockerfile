@@ -1,5 +1,5 @@
 # Use an official Open jdk runtime as a parent image
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11-jdk-alpine
 
 # Add fonts package
 RUN apk add --no-cache fontconfig msttcorefonts-installer ttf-opensans && fc-cache -f
@@ -17,6 +17,6 @@ VOLUME /logs
 VOLUME /tmp
 
 # Execute jar
-ENTRYPOINT ["java", "-Xms512m", "-Xmx1g", "-XshowSettings:vm", "-Dspring.devtools.restart.enabled=false", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/awe-boot.war"]
+ENTRYPOINT ["java", "-Xms256m", "-Xmx1g", "-XshowSettings:vm", "-Dspring.devtools.restart.enabled=false", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/awe-boot.war"]
 
 
