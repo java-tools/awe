@@ -16,10 +16,7 @@ VOLUME /logs
 # Volume of app data
 VOLUME /tmp
 
-# Set JAVA options
-ENV JAVA_OPTS="-Xms256m -Xmx512m"
-
 # Execute jar
-ENTRYPOINT ["java", "-Dspring.devtools.restart.enabled=false", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/awe-boot.war"]
+ENTRYPOINT ["java", "-Xms512m -Xmx512m -Dspring.devtools.restart.enabled=false", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/awe-boot.war"]
 
 
