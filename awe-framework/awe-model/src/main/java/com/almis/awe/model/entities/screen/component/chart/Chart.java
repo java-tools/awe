@@ -19,10 +19,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Chart Class
@@ -433,11 +430,11 @@ public class Chart extends AbstractChart {
     List<Object> seriesModel = new ArrayList<>();
 
     // Add axis controller attributes
-    for (ChartSerie serie : serieList) {
-      if (serie.isDrillDown() == drilldown) {
-        seriesModel.add(serie.getModel());
-      }
-    }
+    Optional.ofNullable(serieList).orElse(Collections.emptyList())
+      .stream()
+      .filter(series -> Optional.ofNullable(series.getDrillDown()).orElse(Boolean.FALSE).equals(drilldown))
+      .forEach(series -> seriesModel.add(series.getModel()));
+
     return seriesModel;
   }
 
