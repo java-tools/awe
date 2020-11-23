@@ -59,7 +59,6 @@
     <plugin-info-reports.version>2.9</plugin-info-reports.version>
     <plugin-dependency.version>3.0.2</plugin-dependency.version>
     <gitflow-maven-plugin.version>1.13.0</gitflow-maven-plugin.version>
-    <plugin-lombok.version>1.18.6.0</plugin-lombok.version>
 
     <!-- Build environment -->
     <build.environment>development</build.environment>
