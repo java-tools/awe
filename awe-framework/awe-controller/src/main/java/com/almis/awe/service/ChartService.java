@@ -161,7 +161,9 @@ public class ChartService extends ServiceConfig {
    */
   private List<ChartSeriePoint> getSerieData(ChartSerie serie, DataList data) {
     List<ChartSeriePoint> result = new ArrayList<>();
-    data.getRows().forEach(row -> {
+    data.getRows().stream()
+      .filter(row -> row.containsKey(serie.getXValue()))
+      .forEach(row -> {
       if (serie.getZValue() != null) {
         result.add(new ChartSeriePoint(row.get(serie.getXValue()).getValue(), row.get(serie.getYValue()).getValue(), row.get(serie.getZValue()).getValue()));
       } else {
