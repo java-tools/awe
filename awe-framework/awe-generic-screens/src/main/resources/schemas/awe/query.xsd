@@ -588,6 +588,7 @@
       <xs:enumeration value="DIV" />
       <xs:enumeration value="MOD" />
       <xs:enumeration value="POWER" />
+      <xs:enumeration value="ROUND" />
       <xs:enumeration value="ADD_SECONDS" />
       <xs:enumeration value="ADD_MINUTES" />
       <xs:enumeration value="ADD_HOURS" />

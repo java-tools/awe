@@ -289,6 +289,7 @@ These are the possible values for the `operator` attribute:
 * **DIV**: Divides two fields
 * **MOD**: Operator `MOD`
 * **POWER**: Power of two fields
+* **ROUND**: Operator 'ROUND'
 * **ADD_SECONDS**: Adds seconds to a date field
 * **ADD_MINUTES**: Adds minutes to a date field
 * **ADD_HOURS**: Adds hours to a date field
@@ -332,6 +333,14 @@ Add 1 to a field: `(pro.Nam + 1) as parent`
   <constant value="1" type="INTEGER"/>
 </field>
 ```
+
+Round field with 2 decimals: 'round(column, 2)'
+```xml
+<operation operator="ROUND" alias="roundField">
+  <field id="Rate" table="User" />
+  <constant value="2" type="INTEGER"/>
+</field>
+``` 
 
 ### Case element
 

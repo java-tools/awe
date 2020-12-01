@@ -2686,6 +2686,43 @@
     <order-by field="l1_nom" type="ASC"/>
   </query>
 
+  <query id="testRoundField">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="ROUND" alias="roundField">
+      <constant value="2.1234" type="DOUBLE"/>
+    </operation>
+    <where>
+      <filter condition="eq">
+        <left-operand>
+          <field id="l1_nom"/>
+        </left-operand>
+        <right-operand>
+          <constant value="donald"/>
+        </right-operand>
+      </filter>
+    </where>
+  </query>
+
+  <query id="testRoundFieldWithDecimals">
+    <table id="ope"/>
+    <field id="l1_nom" alias="name"/>
+    <operation operator="ROUND" alias="roundField">
+      <constant value="2.1264" type="DOUBLE"/>
+      <constant value="2" type="INTEGER"/>
+    </operation>
+    <where>
+      <filter condition="eq">
+        <left-operand>
+          <field id="l1_nom"/>
+        </left-operand>
+        <right-operand>
+          <constant value="donald"/>
+        </right-operand>
+      </filter>
+    </where>
+  </query>
+
   <query id="testPowerOfFieldOperation">
     <table id="ope"/>
     <field id="l1_nom" alias="name"/>
