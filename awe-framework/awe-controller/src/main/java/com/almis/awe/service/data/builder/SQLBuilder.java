@@ -277,6 +277,9 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       case "SUB_YEARS":
         String operator = operation.getOperator().replace("SUB", "ADD");
         return Expressions.dateOperation(Date.class, Ops.DateTimeOps.valueOf(operator), operands[0], Expressions.numberOperation(Integer.class, Ops.MULT, operands[1], substractExpression));
+      case "ROUND":
+        Operator roundType = operands.length == 1 ? Ops.MathOps.ROUND : Ops.MathOps.ROUND2;
+        return Expressions.numberOperation(Long.class, roundType, operands);
       case "POWER":
         return Expressions.numberOperation(Long.class, Ops.MathOps.valueOf(operation.getOperator()), operands);
       default:
