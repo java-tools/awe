@@ -1030,10 +1030,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @return String expression with quotes
    */
   protected Expression getStringExpression(String value) {
-    if (value != null && !value.isEmpty()) {
+    if (value != null) {
       return Expressions.asString(value);
-    } else if (value.isEmpty()) {
-      return Expressions.constant(value);
     } else {
       return Expressions.nullExpression();
     }
