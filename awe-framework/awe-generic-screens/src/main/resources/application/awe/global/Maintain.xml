@@ -110,7 +110,9 @@
       <where>
         <and>
           <filter left-field="IdeOpe" condition="eq" right-variable="IdeOpe" />
-          <filter left-variable="one" condition="eq" right-variable="FlgPwdUpd" />
+          <filter condition="eq" right-variable="FlgPwdUpd">
+            <left-operand><constant value="1" type="INTEGER" cast="INTEGER"/></left-operand>
+          </filter>
         </and>
       </where>
       <variable id="IdeOpe" type="INTEGER" name="IdeOpe" />
@@ -120,7 +122,6 @@
       <variable id="PwdLck" type="INTEGER" value="0" />
       <variable id="NumLog" type="INTEGER" value="0" />
       <variable id="FlgPwdUpd" type="INTEGER" name="FlgPwdUpd" />
-      <variable id="one" type="INTEGER" value="1" />
     </update>
   </target>
 
@@ -765,14 +766,15 @@
       <field id="DbsPwd" variable="DbsPwd" />
       <where>
         <and>
-          <filter left-variable="one" condition="eq" right-variable="FlgPwd" />
+          <filter condition="eq" right-variable="FlgPwd">
+            <left-operand><constant value="1" type="INTEGER" cast="INTEGER"/></left-operand>
+          </filter>
           <filter left-field="IdeDbs" condition="eq" right-variable="IdeDbs" />
         </and>
       </where>
       <variable id="FlgPwd" type="INTEGER" name="FlgPwd" />
       <variable id="DbsPwd" type="STRING_ENCRYPT" name="DbsPwd" />
       <variable id="IdeDbs" type="INTEGER" name="IdeDbs" />
-      <variable id="one" type="INTEGER" value="1" />
     </update>
     <multiple audit="HISAweSitModDbs" grid="SitModDbsLst">
       <table id="AweSitModDbs" />
@@ -1106,13 +1108,14 @@
       <where>
         <and>
           <filter left-field="IdeAweEmlSrv" condition="eq" right-variable="IdeAweEmlSrv" />
-          <filter left-variable="one" condition="eq" right-variable="FlgPwdUpd" />
+          <filter condition="eq" right-variable="FlgPwdUpd">
+            <left-operand><constant value="1" type="INTEGER" cast="INTEGER"/></left-operand>
+          </filter>
         </and>
       </where>
       <variable id="IdeAweEmlSrv" type="INTEGER" name="IdeAweEmlSrv" />
       <variable id="EmlPwd" type="STRING_ENCRYPT" name="EmlPwd" />
       <variable id="FlgPwdUpd" type="INTEGER" name="FlgPwdUpd" />
-      <variable id="one" type="INTEGER" value="1" />
     </update>
   </target>
 
@@ -1179,13 +1182,14 @@
       <where>
         <and>
           <filter left-field="IdeAweQue" condition="eq" right-variable="IdeAweQue" />
-          <filter left-variable="one" condition="eq" right-variable="FlgPwdUpd" />
+          <filter condition="eq" right-variable="FlgPwdUpd">
+            <left-operand><constant value="1" type="INTEGER" cast="INTEGER"/></left-operand>
+          </filter>
         </and>
       </where>
       <variable id="IdeAweQue" type="INTEGER" name="IdeAweQue" />
       <variable id="JmsPwd" type="STRING_ENCRYPT" name="JmsPwd" />
       <variable id="FlgPwdUpd" type="INTEGER" name="FlgPwdUpd" />
-      <variable id="one" type="INTEGER" value="1" />
     </update>
     <commit />
     <serve service="RelJmsCon" />

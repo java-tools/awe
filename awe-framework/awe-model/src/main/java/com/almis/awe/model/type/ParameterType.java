@@ -57,6 +57,8 @@ public enum ParameterType {
   LONG,
   // object
   OBJECT,
+  // CLOB
+  CLOB,
   // JsonNode
   JSON,
   // null

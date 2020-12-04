@@ -14,7 +14,9 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.sql.*;
+import com.querydsl.sql.types.ClobType;
 
+import java.sql.Clob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,8 +28,8 @@ import static com.almis.awe.model.type.ParameterType.LIST_TO_STRING;
  */
 public abstract class SQLBuilder extends AbstractQueryBuilder {
 
-  private SQLQueryFactory factory;
   private static final String ERROR_TITLE_GENERATING_FILTER = "ERROR_TITLE_GENERATING_FILTER";
+  private SQLQueryFactory factory;
 
   /**
    * Autowired constructor
@@ -39,6 +41,15 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   }
 
   /**
+   * Retrieve sql factory
+   *
+   * @return SQL Factory
+   */
+  protected SQLQueryFactory getFactory() {
+    return factory;
+  }
+
+  /**
    * Sets the SQLQueryFactory used by QueryDSL to create the SQLQuery
    *
    * @param factory Factory
@@ -47,15 +58,6 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   public SQLBuilder setFactory(SQLQueryFactory factory) {
     this.factory = factory;
     return this;
-  }
-
-  /**
-   * Retrieve sql factory
-   *
-   * @return SQL Factory
-   */
-  protected SQLQueryFactory getFactory() {
-    return factory;
   }
 
   /**
@@ -488,7 +490,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
 
     // If filter is set to ignore cases or trim, trim operands
-    if (filter.isTrim() || filter.isIgnoreCase()) {
+    if (operand.getId() != null && (filter.isTrim() || filter.isIgnoreCase())) {
       operandExpression = Expressions.stringTemplate("{0}", operandExpression).trim();
     }
 
@@ -538,6 +540,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return queryUtil.isEmptyString(value) ? getStringExpression("%") : getStringExpression(value + "%");
       case STRINGB:
         return queryUtil.isEmptyString(value) ? getStringExpression("%%") : getStringExpression("%" + value + "%");
+      case CLOB:
+        return ExpressionUtils.template(Clob.class, "{0}", value);
       case SYSTEM_DATE:
         return Expressions.currentDate();
       case SYSTEM_TIME:
@@ -1026,8 +1030,10 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @return String expression with quotes
    */
   protected Expression getStringExpression(String value) {
-    if (value != null) {
-      return Expressions.stringTemplate("{0}", value);
+    if (value != null && !value.isEmpty()) {
+      return Expressions.asString(value);
+    } else if (value.isEmpty()) {
+      return Expressions.constant(value);
     } else {
       return Expressions.nullExpression();
     }
