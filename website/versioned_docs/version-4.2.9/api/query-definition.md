@@ -821,6 +821,7 @@ These are the possible variable types:
 * **SYSTEM_TIMESTAMP**: Server Date (stored as timestamp with milliseconds) (`dd/MM/aaaa HH:mm:ss.SSS`)
 * **NULL**: To pass a `null` value
 * **OBJECT**: To define a variable as a java object
+* **CLOB**: To define a variable as a big text file
 * **LIST_TO_STRING**: Retrieve a list of values and manage them as a comma separated values in a string
 	
      

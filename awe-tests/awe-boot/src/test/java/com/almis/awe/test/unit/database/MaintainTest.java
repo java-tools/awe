@@ -2,6 +2,7 @@ package com.almis.awe.test.unit.database;
 
 import com.almis.awe.model.details.MaintainResultDetails;
 import com.almis.awe.model.type.MaintainType;
+import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.service.MaintainService;
 import com.almis.awe.test.categories.NotOracleDatabaseTest;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -594,6 +595,41 @@ public class MaintainTest extends AweSpringDatabaseTests {
 
     // Clean the mess
     cleanUp("CleanUp");
+  }
+
+  /**
+   * Test of insert Clob
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testInsertClob() throws Exception {
+    String maintainName = "insertClobData";
+    String longFile = readFileAsText("/static/tree_data.json");
+    String variables = "\"file\": \""+ StringUtil.fixJSonValue(longFile) +"\",";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.debug(result);
+    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.INSERT, 1L),
+    });
+  }
+
+  /**
+   * Test of insert Clob
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testUpdateClob() throws Exception {
+    String maintainName = "updateClobData";
+    String variables = "\"file\": \"\",\"flag\":\"0\",";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"UPDATE\",\"rowsAffected\":0}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.debug(result);
+    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
+      new MaintainResultDetails(MaintainType.UPDATE, 0L),
+    });
   }
 
   /**

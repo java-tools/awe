@@ -16,6 +16,7 @@ import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.service.data.builder.SQLMaintainBuilder;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.querydsl.sql.Configuration;
+import com.querydsl.sql.SQLBindings;
 import com.querydsl.sql.SQLQueryFactory;
 import com.querydsl.sql.dml.AbstractSQLClause;
 import com.querydsl.sql.dml.SQLDeleteClause;
@@ -403,7 +404,8 @@ public class SQLMaintainConnector extends ServiceConfig implements MaintainConne
     // Audit message
     String auditMessage = isAudit ? "[AUDIT] " : "";
     String indexMessage = index == null ? "" : " (" + index.toString() + ")";
-    String sql = StringUtil.toUnilineText(statement.getSQL().get(statement.getSQL().size() - 1).getSQL());
+    SQLBindings bindings = statement.getSQL().get(statement.getSQL().size() - 1);
+    String sql = StringUtil.toUnilineText(queryUtil.getFullSQL(bindings.getSQL(), bindings.getNullFriendlyBindings()));
 
     // Shorten sql clause
     String sqlShortened = StringUtil.shortenText(sql, logLimit, "...");

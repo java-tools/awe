@@ -21,4 +21,14 @@ public class FixedOracleTemplates extends OracleTemplates {
     add(Ops.DateTimeOps.DIFF_MINUTES, "round((cast({1} as date) - cast({0} as date)) * 1440)");
     add(Ops.DateTimeOps.DIFF_SECONDS, "round((cast({1} as date) - cast({0} as date)) * 86400)");
   }
+
+  public String serialize(String literal, int jdbcType) {
+    switch (jdbcType) {
+      case 2005:
+      case 2011:
+        return "to_clob('" + this.escapeLiteral(literal) + "')";
+      default:
+        return super.serialize(literal, jdbcType);
+    }
+  }
 }

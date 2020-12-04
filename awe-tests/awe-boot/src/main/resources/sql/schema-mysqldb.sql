@@ -575,6 +575,15 @@ CREATE TABLE IF NOT EXISTS HisAweSchTskPar
 );
 
 --------------------------------------------------------
+--  TESTING TABLES
+--------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS DummyClobTestTable
+(
+    textFile TEXT
+);
+
+--------------------------------------------------------
 --  DDL for CONSTRAINTS
 --------------------------------------------------------
 

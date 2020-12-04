@@ -1050,3 +1050,13 @@ ALTER TABLE AweSchTskLch
     ADD CONSTRAINT PK_AweSchTskLch PRIMARY KEY (Ide);
 ALTER TABLE AweSchTskPar
     ADD CONSTRAINT PK_AweSchTskPar PRIMARY KEY (Ide);
+
+--------------------------------------------------------
+--  TESTING TABLES
+--------------------------------------------------------
+
+CREATE TABLE DummyClobTestTable
+(
+    id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    textFile VARCHAR(MAX) -- CLOB TYPE
+);

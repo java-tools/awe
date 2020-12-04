@@ -3,8 +3,7 @@
 <!-- Document : Maintain.xml Created on : 11 de marzo de 2010, 11:03 Author
 : Ismael SERRANO Description: AWE Maintain File -->
 
-<maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/maintain.xsd">
+<maintain xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/maintain.xsd">
 
 
   <!-- Test HSQL Initialization -->
@@ -260,7 +259,7 @@
       <field id="HISdat" variable="date"/>
       <where>
         <and>
-          <filter left-field="Des" condition="eq" right-variable="variable"/>
+          <filter left-field="Des" condition="eq" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRING" id="variable" value="AWEBOOT-TEST"/>
@@ -275,7 +274,7 @@
       <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true"/>
       <where>
         <and>
-          <filter left-field="Des" condition="in" right-variable="variable"/>
+          <filter left-field="Des" condition="in" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRING" id="variable" name="variable"/>
@@ -290,7 +289,7 @@
       <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true"/>
       <where>
         <and>
-          <filter left-field="Des" condition="in" right-variable="variable"/>
+          <filter left-field="Des" condition="in" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRING" id="variable" name="variable"/>
@@ -304,7 +303,7 @@
       <field id="HISdat" variable="date"/>
       <where>
         <and>
-          <filter left-field="Des" condition="eq" right-variable="variable"/>
+          <filter left-field="Des" condition="eq" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRING" id="variable" name="variable"/>
@@ -319,7 +318,7 @@
       <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true"/>
       <where>
         <and>
-          <filter left-field="Des" condition="eq" right-variable="variable"/>
+          <filter left-field="Des" condition="eq" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRING" id="variable" name="variable"/>
@@ -334,7 +333,7 @@
       <constant id="Des" value="AWEBOOT-TEST-AUDIT" audit="true"/>
       <where>
         <and>
-          <filter left-field="Des" condition="eq" right-variable="variable"/>
+          <filter left-field="Des" condition="eq" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRING" id="variable" name="variable"/>
@@ -402,7 +401,7 @@
       <field id="HISdat" variable="date"/>
       <where>
         <and>
-          <filter left-field="Des" condition="eq" right-variable="variable"/>
+          <filter left-field="Des" condition="eq" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRING" id="variable" value="AWEBOOT-TEST"/>
@@ -412,7 +411,7 @@
       <table id="HISAweDbs"/>
       <where>
         <and>
-          <filter left-field="Des" condition="eq" right-variable="variable"/>
+          <filter left-field="Des" condition="eq" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRING" id="variable" value="AWEBOOT-TEST"/>
@@ -441,7 +440,7 @@
       <field id="HISdat" variable="date"/>
       <where>
         <and>
-          <filter left-field="Des" condition="eq" right-variable="variable"/>
+          <filter left-field="Des" condition="eq" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRING" id="variable" name="var1"/>
@@ -452,7 +451,7 @@
       <field id="HISdat" variable="date"/>
       <where>
         <and>
-          <filter left-field="Des" condition="eq" right-variable="variable"/>
+          <filter left-field="Des" condition="eq" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRING" id="variable" name="var2"/>
@@ -462,8 +461,7 @@
       <table id="HISAweDbs"/>
       <where>
         <and>
-          <filter left-field="Des" condition="like"
-                  right-variable="variable"/>
+          <filter left-field="Des" condition="like" right-variable="variable" trim="true"/>
         </and>
       </where>
       <variable type="STRINGR" id="variable" value="AWEBOOT-TEST"/>
@@ -829,6 +827,31 @@
     <serve service="waitSomeSeconds">
       <variable id="secondsToWait" type="INTEGER" name="secondsToWait"/>
     </serve>
+  </target>
+
+  <target name="insertClobData">
+    <insert>
+      <table id="DummyClobTestTable"/>
+      <field id="textFile" variable="file"/>
+      <variable id="file" type="CLOB" name="file"/>
+    </insert>
+  </target>
+
+  <target name="updateClobData">
+    <update>
+      <table id="DummyClobTestTable"/>
+      <field id="textFile" variable="file"/>
+     <where>
+        <and>
+          <filter condition="eq">
+            <left-operand><constant value="1" type="INTEGER"/></left-operand>
+            <right-operand><field variable="flag" cast="INTEGER"/></right-operand>
+          </filter>
+        </and>
+      </where>
+      <variable id="file" type="CLOB" name="file"/>
+      <variable id="flag" type="INTEGER" name="flag" />
+    </update>
   </target>
 
 </maintain>

@@ -933,3 +933,12 @@ ALTER TABLE "HISAWESCHTSKPAR"
     MODIFY ("HISDAT" NOT NULL ENABLE);
 ALTER TABLE "HISAWESCHTSKPAR"
     MODIFY ("HISACT" NOT NULL ENABLE);
+
+--------------------------------------------------------
+--  TESTING TABLES
+--------------------------------------------------------
+
+CREATE TABLE "DUMMYCLOBTESTTABLE"
+(
+    "TEXTFILE" CLOB
+);

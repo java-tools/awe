@@ -38,6 +38,7 @@
       <xs:enumeration value="INTEGER"/>
       <xs:enumeration value="LONG"/>
       <xs:enumeration value="OBJECT"/>
+      <xs:enumeration value="CLOB"/>
       <xs:enumeration value="NULL"/>
       <xs:enumeration value="BOOLEAN"/>
       <xs:enumeration value="STRING_ENCRYPT"/>

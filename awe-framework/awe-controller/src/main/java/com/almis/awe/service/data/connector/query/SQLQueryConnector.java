@@ -98,6 +98,7 @@ public class SQLQueryConnector extends AbstractQueryConnector {
     }
 
     // Get query preparation time
+    String sql = StringUtil.toUnilineText(getQueryUtil().getFullSQL(queryBuilt.getSQL().getSQL(), queryBuilt.getSQL().getNullFriendlyBindings()));
     getLogger().checkpoint(timeLapse);
 
     List<Tuple> results;
@@ -117,8 +118,7 @@ public class SQLQueryConnector extends AbstractQueryConnector {
       }
       results = allResults;
     } catch (Exception exc) {
-      throw new AWEQueryException(getLocale("ERROR_TITLE_RETRIEVING_DATA"), getLocale("ERROR_MESSAGE_EXECUTING_SERVICE_QUERY", query.getId()),
-        StringUtil.toUnilineText(queryBuilt.toString()), exc);
+      throw new AWEQueryException(getLocale("ERROR_TITLE_RETRIEVING_DATA"), getLocale("ERROR_MESSAGE_EXECUTING_SERVICE_QUERY", query.getId()), sql, exc);
     }
 
     // Get query preparation time
@@ -134,16 +134,15 @@ public class SQLQueryConnector extends AbstractQueryConnector {
 
       // Log query
       getLogger().logWithDatabase(SQLQueryConnector.class, Level.INFO, getQueryUtil().getDatabaseAlias(variableMap), "[{0}] [{1}] => {2} records. Create query time: {3}s - Sql time: {4}s - Datalist time: {5}s - Total time: {6}s",
-        query.getId(), StringUtil.toUnilineText(queryBuilt.toString()), records,
+        query.getId(), sql, records,
         getLogger().getElapsed(timeLapse, AweConstants.PREPARATION_TIME),
         getLogger().getElapsed(timeLapse, AweConstants.EXECUTION_TIME),
         getLogger().getElapsed(timeLapse, AweConstants.RESULTS_TIME),
         getLogger().getTotalTime(timeLapse));
     } catch (AWException exc) {
-      throw new AWEQueryException(exc.getTitle(), exc.getMessage(), StringUtil.toUnilineText(queryBuilt.toString()), exc);
+      throw new AWEQueryException(exc.getTitle(), exc.getMessage(), sql, exc);
     } catch (Exception exc) {
-      throw new AWEQueryException(getLocale("ERROR_TITLE_RETRIEVING_DATA"), getLocale("ERROR_MESSAGE_EXECUTING_SERVICE_QUERY", query.getId()),
-        StringUtil.toUnilineText(queryBuilt.toString()), exc);
+      throw new AWEQueryException(getLocale("ERROR_TITLE_RETRIEVING_DATA"), getLocale("ERROR_MESSAGE_EXECUTING_SERVICE_QUERY", query.getId()), sql, exc);
     }
 
     ServiceData out = new ServiceData();

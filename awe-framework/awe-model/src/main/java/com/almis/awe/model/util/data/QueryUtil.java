@@ -21,10 +21,8 @@ import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.MessageFormat;
+import java.util.*;
 
 /**
  * Abstract query builder
@@ -639,5 +637,33 @@ public class QueryUtil extends ServiceConfig {
 
     // Retrieve alias
     return alias;
+  }
+
+  /**
+   * Retrieve full sql statement as string
+   *
+   * @param sql        SQL Statement
+   * @param parameters Parameter list
+   * @return SQL statement
+   */
+  public String getFullSQL(String sql, List<Object> parameters) {
+    return parameters
+      .stream()
+      .map(this::formatParameter)
+      .reduce(sql, (fixed, binding) -> fixed.replaceFirst("\\?", binding));
+  }
+
+  /**
+   * Format log parameters
+   * @param binding Binding to format
+   * @return Formatted parameter
+   */
+  private String formatParameter(Object binding) {
+    if (binding instanceof String) {
+      return MessageFormat.format("''{0}''", binding);
+    } else if (binding instanceof Date) {
+      return MessageFormat.format("(timestamp ''{0}'')", DateUtil.dat2SqlTimeString((Date) binding));
+    }
+    return binding.toString();
   }
 }
