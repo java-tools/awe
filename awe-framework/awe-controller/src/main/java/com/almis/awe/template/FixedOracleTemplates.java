@@ -22,6 +22,7 @@ public class FixedOracleTemplates extends OracleTemplates {
     add(Ops.DateTimeOps.DIFF_SECONDS, "round((cast({1} as date) - cast({0} as date)) * 86400)");
   }
 
+  @Override
   public String serialize(String literal, int jdbcType) {
     switch (jdbcType) {
       case 2005:

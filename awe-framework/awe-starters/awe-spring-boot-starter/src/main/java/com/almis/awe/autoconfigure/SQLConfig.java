@@ -135,7 +135,6 @@ public class SQLConfig {
   private Configuration getConfiguration(SQLTemplates templates) {
     Configuration configuration = new Configuration(templates);
     configuration.addListener(new SpringSQLCloseListener());
-    //configuration.setUseLiterals(false);
     configuration.register(new ClobType());
     return configuration;
   }

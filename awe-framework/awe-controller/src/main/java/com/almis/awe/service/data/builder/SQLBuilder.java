@@ -14,7 +14,6 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.sql.*;
-import com.querydsl.sql.types.ClobType;
 
 import java.sql.Clob;
 import java.util.ArrayList;
@@ -79,12 +78,12 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve field expression
    *
-   * @param field
+   * @param field Field to retrieve
    * @return Expression field expression
    * @throws AWException Error retrieving field expression
    */
   protected Expression getFieldExpression(Field field) throws AWException {
-    Expression fieldExpression = null;
+    Expression fieldExpression;
 
     if (field.getQuery() != null) {
       // Field as Subquery
@@ -116,7 +115,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Apply function to field
    *
    * @param function        Function to apply
-   * @param fieldExpression
+   * @param fieldExpression Field expression
    * @return Field expression with function applied
    */
   private Expression applyFunctionToField(String function, Expression fieldExpression) {
@@ -131,8 +130,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Apply cast to field
    *
-   * @param field
-   * @param fieldExpression
+   * @param field           Field to apply cast
+   * @param fieldExpression Field expression
    * @return Field expression with function applied
    */
   private Expression applyCastToField(SqlField field, Expression fieldExpression) {
@@ -147,7 +146,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve field expression
    *
-   * @param field
+   * @param field Field to retrieve
    * @return Expression field expression
    * @throws AWException Error retrieving field expression
    */
@@ -162,7 +161,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve a single variable as an Expression
    *
-   * @param variableName
+   * @param variableName Variable name
    * @return Expression
    * @throws AWException
    */
@@ -187,8 +186,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve field expression
    *
-   * @param field
-   * @param table
+   * @param field Field to retrieve
+   * @param table Table of the field
    * @return Expression field expression
    */
   protected Expression getFieldAliasExpression(SqlField field, String table) {
@@ -500,8 +499,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve sql field from transition field (operand, then, else)
    *
-   * @param transitionField
-   * @return
+   * @param transitionField Transition field
+   * @return SQL Field from transition field
    */
   private SqlField getSqlFieldFromTransition(TransitionField transitionField) {
     return transitionField == null ? null : transitionField.getField();
@@ -510,10 +509,10 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Get variable as expression of a JSON node
    *
-   * @param nodeValue
-   * @param type
-   * @return
-   * @throws AWException
+   * @param nodeValue Node value
+   * @param type      Parameter type
+   * @return Variable as expression
+   * @throws AWException Error retrieving variable as expression
    */
   Expression getVariableAsExpression(JsonNode nodeValue, ParameterType type) throws AWException {
     if (LIST_TO_STRING.equals(type)) {
@@ -975,7 +974,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @param type           Variable type
    * @param filter         Filter
    * @return Variable as expression
-   * @throws AWException
+   * @throws AWException Error converting variable list to expression
    */
   private Expression convertVariableListToExpression(List<Expression> expressionList, JsonNode variableValue, ParameterType type, Filter filter) throws AWException {
     int variableValuesLength = variableValue.size();
@@ -1010,7 +1009,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @param value         String value
    * @param filter        Filter
    * @return Variable as expression
-   * @throws AWException
+   * @throws AWException Error converting variable list to expression with index
    */
   private Expression convertVariableListToExpressionWithIndex(JsonNode variableValue, ParameterType type, String value, Filter filter) throws AWException {
     // OPTIONAL filter and EMPTY variable, removing filter
