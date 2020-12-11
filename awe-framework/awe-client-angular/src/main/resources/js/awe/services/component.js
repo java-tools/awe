@@ -3,7 +3,7 @@ import {ClientActions} from "../data/actions";
 
 // Component service
 aweApplication.factory('Component',
-  ['Control', 'AweSettings', 'AweUtilities', 'ServerData', 'ActionController', '$log',
+  ['Control', 'AweSettings', 'AweUtilities', 'ServerData', 'ActionController', 'DependencyController', '$log',
     /**
      * Component generic methods
      * @param {object} Control
@@ -11,9 +11,10 @@ aweApplication.factory('Component',
      * @param {object} Utilities Awe utilities
      * @param {object} ServerData Server data calls
      * @param {object} $actionController Action controller
+     * @param {object} $dependencyController Dependency controller
      * @param {object} $log Log
      */
-    function (Control, $settings, Utilities, ServerData, $actionController, $log) {
+    function (Control, $settings, Utilities, ServerData, $actionController, $dependencyController, $log) {
 
       /**
        * Destroys autorefresh timer
@@ -35,6 +36,9 @@ aweApplication.factory('Component',
         destroyTimers(component);
         // Clear listeners
         Utilities.clearListeners(component.listeners);
+
+        // Clear dependencies (!needed for cell components!)
+        $dependencyController.unregister(component);
       }
 
       /**
