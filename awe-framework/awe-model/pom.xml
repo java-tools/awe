@@ -17,7 +17,7 @@
   <description>Awe Model Module</description>
 
   <properties>
-    <xstream.version>1.4.11.1</xstream.version>
+    <xstream.version>1.4.14</xstream.version>
     <!-- Sonar properties -->
     <application.folder>.</application.folder>
     <sonar.sources>src</sonar.sources>

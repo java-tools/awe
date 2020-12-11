@@ -24,7 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -221,13 +223,15 @@ public class FileService extends ServiceConfig {
         String fullPath = fileUtil.getFullPath(fileData, true);
 
         // Save file on upload path
-        File saveTo = new File(fullPath + fileData.getFileName());
+        Path destinationFile = Paths.get(fullPath, fileData.getFileName());
 
         // Log saving file
-        logger.log(FileService.class, Level.DEBUG, "Saving file on {0}", saveTo.getCanonicalPath());
+        logger.log(FileService.class, Level.DEBUG, "Saving file on {0}", destinationFile);
 
         // Store file
-        file.transferTo(saveTo);
+        try (InputStream inputStream = file.getInputStream()) {
+          Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
+        }
       }
     } catch (Exception exc) {
       throw new AWException(getLocale("ERROR_TITLE_SAVING_ITEM"),
