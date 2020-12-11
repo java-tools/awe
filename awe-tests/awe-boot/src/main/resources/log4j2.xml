@@ -157,9 +157,9 @@
     </Logger>
 
     <!-- Ehcache logger -->
-    <Logger name="org.ehcache" includeLocation="true" level="debug">
-      <AppenderRef ref="CONSOLE"/>
-    </Logger>
+<!--    <Logger name="org.ehcache" includeLocation="true" level="debug">-->
+<!--      <AppenderRef ref="CONSOLE"/>-->
+<!--    </Logger>-->
 
     <!-- Scheduler logger -->
     <Logger name="com.almis.awe.scheduler" includeLocation="true" level="info" additivity="false">

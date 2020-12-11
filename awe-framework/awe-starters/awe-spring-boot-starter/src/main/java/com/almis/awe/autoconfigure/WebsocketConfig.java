@@ -29,8 +29,8 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
   @Value("${application.acronym}")
   private String applicationAcronym;
 
-  @Value("${security.headers.allowedOrigins:*}")
-  private String allowedOrigins;
+  @Value("${security.headers.allowedOriginsPatterns:*}")
+  private String allowedOriginsPatterns;
 
   @Value("${server.port:8080}")
   private Integer serverPort;
@@ -54,9 +54,9 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
   @Override
   public void registerStompEndpoints(StompEndpointRegistry registry) {
     registry.addEndpoint("/websocket")
-      .setAllowedOrigins(allowedOrigins)
-      .addInterceptors(new HttpSessionHandshakeInterceptor())
-      .withSockJS();
+            .setAllowedOriginPatterns(allowedOriginsPatterns)
+            .addInterceptors(new HttpSessionHandshakeInterceptor())
+            .withSockJS();
   }
 
   /**
