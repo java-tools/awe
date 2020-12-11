@@ -57,8 +57,8 @@ aweApplication.factory('Text',
             // Changed selected
             if ("values" in changed) {
               component.model.selected = values[0].value;
-            } else {
-              values[0] = {value: selected, label: selected || ""};
+            } else if ("selected" in changed) {
+              values[0] = {...(values[0] || {}), value: selected, label: selected || ""};
             }
           }
 
