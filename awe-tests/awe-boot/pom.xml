@@ -7,7 +7,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-starter-parent</artifactId>
-    <version>4.2.9</version>
+    <version>4.3.0</version>
     <relativePath>../../awe-framework/awe-starters/awe-starter-parent</relativePath>
   </parent>
 
@@ -22,7 +22,6 @@
     <application.acronym>awe-boot</application.acronym>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <ehcache.version>3.6.1</ehcache.version>
     <selenium.version>3.141.59</selenium.version>
     <phantomjsdriver.version>1.4.3</phantomjsdriver.version>
     <webdrivermanager.version>3.2.0</webdrivermanager.version>
@@ -103,6 +102,10 @@
       <artifactId>ehcache</artifactId>
     </dependency>
     <dependency>
+      <groupId>javax.cache</groupId>
+      <artifactId>cache-api</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.almis.awe</groupId>
       <artifactId>awe-notifier</artifactId>
     </dependency>
@@ -166,6 +169,17 @@
     </dependency>
 
     <!-- Test dependencies -->
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <dependency>
       <groupId>com.almis.awe</groupId>
       <artifactId>awe-testing</artifactId>
@@ -316,7 +330,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <profiles>
-            <profile>dev</profile>
+            <profile>gitlab-ci</profile>
           </profiles>
         </configuration>
         <executions>

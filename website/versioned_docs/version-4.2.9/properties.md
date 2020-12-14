@@ -580,8 +580,8 @@ security.auth.ldap.timeout=5000
 ################################################
 # Avoid cross domain frame requests
 security.headers.frameOptions.sameOrigin=true
-# Allowed origins when starting websocket connection
-security.headers.allowedOrigins=*
+# Allowed origins patterns when starting websocket connection
+security.headers.allowedOriginsPatterns=*
 ```
 
 ## Session properties

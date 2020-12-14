@@ -376,18 +376,27 @@ public class SeleniumUtilities {
    * @param selector Element selector
    */
   private void click(By selector) {
+    click(getElement(selector));
+  }
+
+  /**
+   * Click on an element
+   *
+   * @param element Element
+   */
+  private void click(WebElement element) {
     String conditionMessage = "";
     try {
-      WebElement element = getElement(selector);
       new Actions(driver)
         .moveToElement(element)
         .click(element)
+        .pause(100)
         .perform();
 
       // Assert true on condition
       assertTrue(conditionMessage, true);
     } catch (Exception exc) {
-      assertWithScreenshot("Error clicking on element: " + selector.toString() + "\n" + exc.getMessage(), false, exc);
+      assertWithScreenshot("Error clicking on element: " + element.toString() + "\n" + exc.getMessage(), false, exc);
     }
   }
 
@@ -403,6 +412,7 @@ public class SeleniumUtilities {
       new Actions(driver)
         .moveToElement(element)
         .contextClick(element)
+        .pause(100)
         .perform();
       assertTrue(conditionMessage, true);
     } catch (Exception exc) {
@@ -663,7 +673,6 @@ public class SeleniumUtilities {
         new Actions(driver)
           .pause(100)
           .moveToElement(popovers.get(0))
-          .click(getElements(BODY).get(0))
           .pause(100)
           .build()
           .perform();
@@ -671,6 +680,24 @@ public class SeleniumUtilities {
         popovers = getElements(popoverSelector);
         safecheck++;
       }
+    } catch (Exception exc) {
+      // Assert error moving mouse
+      assertWithScreenshot(exc.getMessage(), true);
+    }
+  }
+
+  /**
+   * Move mouse out of criterion
+   */
+  private void moveMouseOutOfCriterion() {
+    try {
+      // Move mouse out of criterion (up)
+        new Actions(driver)
+          .moveByOffset(0, -30)
+          .click()
+          .pause(100)
+          .build()
+          .perform();
     } catch (Exception exc) {
       // Assert error moving mouse
       assertWithScreenshot(exc.getMessage(), true);
@@ -686,6 +713,15 @@ public class SeleniumUtilities {
    * @param clickSelector Selector for click element
    */
   private void writeTextFromSelector(By selector, CharSequence text, boolean clearText, By clickSelector) {
+    // Write text from selector
+    writeTextFromSelector(selector, text, clearText);
+
+    // Click on click selector
+    waitUntil(elementToBeClickable(clickSelector));
+    clickSelector(clickSelector);
+  }
+
+  private void writeTextFromSelector(By selector, CharSequence text, boolean clearText) {
     // Wait for element present
     waitUntil(presenceOfElementLocated(selector));
 
@@ -696,10 +732,6 @@ public class SeleniumUtilities {
 
     // Write text
     sendKeys(selector, text);
-
-    // Click on click selector
-    waitUntil(elementToBeClickable(clickSelector));
-    clickSelector(clickSelector);
   }
 
   /**
@@ -1562,7 +1594,8 @@ public class SeleniumUtilities {
    * @param clearText     Clear text
    */
   protected void writeText(String criterionName, CharSequence text, boolean clearText) {
-    writeTextFromSelector(getCriterionInputSelector(getCriterionSelectorCss(criterionName)), text, clearText, BODY);
+    writeTextFromSelector(getCriterionInputSelector(getCriterionSelectorCss(criterionName)), text, clearText);
+    moveMouseOutOfCriterion();
   }
 
   /**
@@ -1995,8 +2028,8 @@ public class SeleniumUtilities {
       "$('#selenium_mouse').css({'left': e.pageX + 'px', 'top': e.pageY + 'px'});" +
       "});" +
       "$(document).click(function(e) {" +
-      "$('#selenium_mouse').css({'text-shadow': '0 0 20px blue'});" +
-      "setTimeout(function() {$('#selenium_mouse').css({'text-shadow': '0 0 0px blue'});}, 100);" +
+      "$('#selenium_mouse').css({'text-shadow': '0 0 20px blue', 'color': 'blue'});" +
+      "setTimeout(function() {$('#selenium_mouse').css({'text-shadow': '0 0 0px blue', 'color': 'white'});}, 100);" +
       "});");
   }
 

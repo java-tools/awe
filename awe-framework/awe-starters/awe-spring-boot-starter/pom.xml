@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-starters</artifactId>
-    <version>4.2.9</version>
+    <version>4.3.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -53,6 +53,12 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-configuration-processor</artifactId>
       <optional>true</optional>
+    </dependency>
+
+    <!-- Xstream -->
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
     </dependency>
 
     <!-- Mail -->

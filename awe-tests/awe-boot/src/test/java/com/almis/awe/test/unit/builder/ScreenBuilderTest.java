@@ -58,7 +58,6 @@ import com.almis.awe.model.entities.screen.component.panelable.Wizard;
 import com.almis.awe.model.entities.screen.component.pivottable.PivotTable;
 import com.almis.awe.model.entities.screen.component.widget.Widget;
 import com.almis.awe.model.entities.screen.component.widget.WidgetParameter;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -83,6 +82,7 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen without elements
+   *
    * @throws Exception exception
    */
   @Test
@@ -125,7 +125,8 @@ public class ScreenBuilderTest {
 
   /**
    * Build a single screen with an invalid id
-    * @throws AWException exception
+   *
+   * @throws AWException exception
    */
   @Test(expected = AWException.class)
   public void buildScreenInvalidId() throws AWException {
@@ -668,7 +669,7 @@ public class ScreenBuilderTest {
 
     ChartSerie chartSerie = (ChartSerie) chart.getElementList().get(1);
     assertEquals("red", chartSerie.getColor());
-    assertSame(true, chartSerie.isDrillDown());
+    assertSame(true, chartSerie.getDrillDown());
     assertEquals("xAxis", chartSerie.getXAxis());
     assertEquals("yAxis", chartSerie.getYAxis());
     assertEquals("x", chartSerie.getXValue());
@@ -886,26 +887,26 @@ public class ScreenBuilderTest {
           .addGroupHeader(new GroupHeaderBuilder()
             .setLabel("LABEL1")
             .addColumnList(new CheckboxColumnBuilder()
-              .setIcon("criterion_icon")
-              .setAutorefresh(5)
-              .setAlign(Align.CENTER)
-              .setChecked(true)
-              .setCheckInitial(true)
-              .setPrintable(Printable.EXCEL)
-              .setReadonly(true)
-              .setUnit("unit1")
-              .setValidation("required")
-              .setValue("asada")
-              .setId("column1"),
-            new CalendarColumnBuilder()
-              .setDateFormat("dd/mm/yyyy")
-              .setDateShowTodayButton(true)
-              .setDateViewMode(DateViewMode.MONTHS)
-              .setShowFutureDates(true)
-              .setDataType(DataType.STRING)
-              .setShowWeekends(true)
-              .setPrintable(Printable.ALL)
-              .setId("column2")
+                .setIcon("criterion_icon")
+                .setAutorefresh(5)
+                .setAlign(Align.CENTER)
+                .setChecked(true)
+                .setCheckInitial(true)
+                .setPrintable(Printable.EXCEL)
+                .setReadonly(true)
+                .setUnit("unit1")
+                .setValidation("required")
+                .setValue("asada")
+                .setId("column1"),
+              new CalendarColumnBuilder()
+                .setDateFormat("dd/mm/yyyy")
+                .setDateShowTodayButton(true)
+                .setDateViewMode(DateViewMode.MONTHS)
+                .setShowFutureDates(true)
+                .setDataType(DataType.STRING)
+                .setShowWeekends(true)
+                .setPrintable(Printable.ALL)
+                .setId("column2")
             ))
           .setId("grid1")));
 

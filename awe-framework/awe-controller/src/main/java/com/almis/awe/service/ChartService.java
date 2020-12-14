@@ -37,9 +37,7 @@ public class ChartService extends ServiceConfig {
    * @throws AWException Error rendering chart
    */
   public String renderChart(String screenName, String chartName, DataList data) throws AWException {
-    Map<String, DataList> datasources = new HashMap<>();
-    datasources.put("main", data);
-    return renderChartWithDatasources(screenName, chartName, datasources);
+    return renderChart(getChart(screenName, chartName), data);
   }
 
   /**
@@ -52,22 +50,56 @@ public class ChartService extends ServiceConfig {
    * @throws AWException Error rendering chart
    */
   public String renderChart(String screenName, String chartName, Map<String, DataList> datasources) throws AWException {
-    return renderChartWithDatasources(screenName, chartName, datasources);
+    return renderChart(getChart(screenName, chartName), datasources);
   }
 
   /**
    * Render chart with highcharts export server
    *
-   * @param screenName  Screen name where chart is
-   * @param chartName   Chart identifier
+   * @param chart Chart
+   * @param data  Data to fill the chart
+   * @return SVG image as string
+   * @throws AWException Error rendering chart
+   */
+  public String renderChart(Chart chart, DataList data) throws AWException {
+    Map<String, DataList> datasources = new HashMap<>();
+    datasources.put("main", data);
+    return renderChart(chart, datasources);
+  }
+
+  /**
+   * Render chart with highcharts export server
+   *
+   * @param chart       Chart
    * @param datasources Data sources map
    * @return SVG image as string
    * @throws AWException Error rendering chart
    */
-  private String renderChartWithDatasources(String screenName, String chartName, Map<String, DataList> datasources) throws AWException {
-    Screen screen = getElements().getScreen(screenName).copy();
+  public String renderChart(Chart chart, Map<String, DataList> datasources) throws AWException {
+    return renderChartWithDatasources(chart, datasources);
+  }
 
-    Chart chart = (Chart) screen.getElementsById(chartName).stream().findFirst().orElse(null);
+  /**
+   * Retrieve a chart from a screen and a name
+   *
+   * @param screenName Screen name
+   * @param chartName  Chart name
+   * @return Found chart or null
+   */
+  public Chart getChart(String screenName, String chartName) throws AWException {
+    Screen screen = getElements().getScreen(screenName).copy();
+    return (Chart) screen.getElementsById(chartName).stream().findFirst().orElse(null);
+  }
+
+  /**
+   * Render chart with highcharts export server
+   *
+   * @param chart       Chart
+   * @param datasources Data sources map
+   * @return SVG image as string
+   * @throws AWException Error rendering chart
+   */
+  private String renderChartWithDatasources(Chart chart, Map<String, DataList> datasources) throws AWException {
     if (chart != null) {
       // Add data to chart model
       generateData(chart, datasources);
@@ -129,7 +161,9 @@ public class ChartService extends ServiceConfig {
    */
   private List<ChartSeriePoint> getSerieData(ChartSerie serie, DataList data) {
     List<ChartSeriePoint> result = new ArrayList<>();
-    data.getRows().forEach(row -> {
+    data.getRows().stream()
+      .filter(row -> row.containsKey(serie.getXValue()))
+      .forEach(row -> {
       if (serie.getZValue() != null) {
         result.add(new ChartSeriePoint(row.get(serie.getXValue()).getValue(), row.get(serie.getYValue()).getValue(), row.get(serie.getZValue()).getValue()));
       } else {

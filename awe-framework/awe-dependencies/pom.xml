@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-framework</artifactId>
-    <version>4.2.9</version>
+    <version>4.3.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -19,11 +19,12 @@
     <!-- dependency versions -->
     <awe.version>${revision}</awe.version>
     <ade.version>2.0.14</ade.version>
-    <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
+    <spring-boot.version>2.4.1</spring-boot.version>
     <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
-    <ehcache.version>3.6.1</ehcache.version>
+    <ehcache.version>3.8.1</ehcache.version>
     <javax.activation.version>1.2.0</javax.activation.version>
-    <jaxb.api.version>2.3.0</jaxb.api.version>
+    <jaxb.api.version>2.3.1</jaxb.api.version>
+    <jaxb.api-impl.version>3.0.0-M5</jaxb.api-impl.version>
     <node.version>v12.1.0</node.version>
     <yarn.version>v1.15.2</yarn.version>
     <npm.version>v6.9.0</npm.version>
@@ -35,10 +36,10 @@
     <commons-text.version>1.8</commons-text.version>
     <annotation-api.version>1.3.2</annotation-api.version>
     <aspectjweaver.version>1.9.2</aspectjweaver.version>
-    <xtream.version>1.4.10</xtream.version>
+    <xtream.version>1.4.14</xtream.version>
     <graalvm.version>20.2.0</graalvm.version>
     <selenium.version>3.141.59</selenium.version>
-    <lombok.version>1.18.6</lombok.version>
+    <lombok.version>1.18.16</lombok.version>
     <querydsl.version>4.3.1</querydsl.version>
     <jacoco.version>0.8.5</jacoco.version>
 
@@ -48,7 +49,7 @@
     <java.version>1.8</java.version>
 
     <!-- plugin versions -->
-    <plugin-spring-boot.version>2.1.5.RELEASE</plugin-spring-boot.version>
+    <plugin-spring-boot.version>${spring-boot.version}</plugin-spring-boot.version>
     <plugin-frontend.version>1.9.1</plugin-frontend.version>
     <plugin-compiler.version>3.5.1</plugin-compiler.version>
     <plugin-war.version>3.3.1</plugin-war.version>
@@ -62,6 +63,8 @@
     <plugin-javadoc.version>3.1.1</plugin-javadoc.version>
     <plugin-resources.version>3.1.0</plugin-resources.version>
     <plugin-lombok.version>${lombok.version}.0</plugin-lombok.version>
+    <plugin-maven-archetype.version>3.2.0</plugin-maven-archetype.version>
+    <plugin-maven-install.version>3.0.0-M1</plugin-maven-install.version>
     <!-- Karma configuration -->
     <karma.launch.edge>true</karma.launch.edge>
     <karma.launch.gitlab>false</karma.launch.gitlab>
@@ -261,6 +264,11 @@
       </dependency>
       <!-- Jaxb-api for ehcache > Jdk11 -->
       <dependency>
+        <groupId>org.ehcache</groupId>
+        <artifactId>ehcache</artifactId>
+        <version>${ehcache.version}</version>
+      </dependency>
+      <dependency>
         <groupId>com.sun.activation</groupId>
         <artifactId>javax.activation</artifactId>
         <version>${javax.activation.version}</version>
@@ -272,13 +280,8 @@
       </dependency>
       <dependency>
         <groupId>com.sun.xml.bind</groupId>
-        <artifactId>jaxb-core</artifactId>
-        <version>${jaxb.api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.sun.xml.bind</groupId>
         <artifactId>jaxb-impl</artifactId>
-        <version>${jaxb.api.version}</version>
+        <version>${jaxb.api-impl.version}</version>
       </dependency>
       <dependency>
         <groupId>org.graalvm.js</groupId>
@@ -374,6 +377,18 @@
         <plugin>
           <artifactId>maven-war-plugin</artifactId>
           <version>${plugin-war.version}</version>
+        </plugin>
+        <!-- install plugin -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>${plugin-maven-install.version}</version>
+        </plugin>
+        <!-- archetype plugin -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-archetype-plugin</artifactId>
+          <version>${plugin-maven-archetype.version}</version>
         </plugin>
         <!-- Spring boot -->
         <plugin>

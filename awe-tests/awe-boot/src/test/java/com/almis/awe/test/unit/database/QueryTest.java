@@ -2743,6 +2743,40 @@ public class QueryTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of ROUND operation
+   * Round to nearest integer
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testRoundFieldOperation() throws Exception {
+    assumeTrue(isInMemoryDatabase());
+    String queryName = "testRoundField";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"name\":\"donald\",\"roundField\":2,\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertResultJson(queryName, result, 1);
+  }
+
+  /**
+   * Test of ROUND operation
+   * Round to a decimal places
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testRoundFieldOperationWithDecimals() throws Exception {
+    assumeTrue(isInMemoryDatabase());
+    String queryName = "testRoundFieldWithDecimals";
+    String variables = "";
+    String expected = "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":1,\"rows\":[{\"name\":\"donald\",\"roundField\":2.13,\"id\":1}]}}},{\"type\":\"end-load\",\"parameters\":{}}]";
+
+    String result = performRequest(queryName, variables, DATABASE, expected);
+    assertResultJson(queryName, result, 1);
+  }
+
+  /**
    * Test of launchAction method, of class ActionController.
    *
    * @throws Exception Test error

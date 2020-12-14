@@ -365,10 +365,10 @@ public class ScreenModelGenerator extends ServiceConfig {
         .values()
         .stream()
         .filter(screenComponent -> Optional.ofNullable(screenComponent.getController().getComponentType()).orElse("").toUpperCase().contains("RADIO"))
-        .filter(screenComponent -> ((Criteria) screenComponent.getController()).getGroup().equalsIgnoreCase(componentId))
+        .filter(screenComponent -> Optional.ofNullable(((Criteria) screenComponent.getController()).getGroup()).orElse(screenComponent.getId()).equalsIgnoreCase(componentId))
         .forEach(screenComponent -> {
           // Set checked
-          ((Criteria) screenComponent.getController()).setChecked(((Criteria) screenComponent.getController()).getValue().equalsIgnoreCase(values.get(0).getStringValue()));
+          ((Criteria) screenComponent.getController()).setChecked(Optional.ofNullable(((Criteria) screenComponent.getController()).getValue()).orElse("").equalsIgnoreCase(values.get(0).getStringValue()));
           // Set selected
           screenComponent.getModel().setSelected(values);
         });

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Profile;
  * Created by dfuentes on 06/03/2017.
  */
 @Configuration
-@Profile({"dev", "gitlab-ci"})
+@Profile({"gitlab-ci"})
 public class SpecificSecurityConfig extends ServiceConfig {
 
   @Bean

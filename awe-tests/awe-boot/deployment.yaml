@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: awe-boot-__CI_ENVIRONMENT_SLUG__
+  name: __CI_PROJECT_PATH_SLUG__
   annotations:
     app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
-    app.gitlab.com/app: awe-boot-__CI_ENVIRONMENT_SLUG__
+    app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
   labels:
-    app: __CI_ENVIRONMENT_SLUG__
+    app: __CI_PROJECT_PATH_SLUG__
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: __CI_ENVIRONMENT_SLUG__
+      app: __CI_PROJECT_PATH_SLUG__
   template:
     metadata:
       annotations:
         app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
-        app.gitlab.com/app: awe-boot-__CI_ENVIRONMENT_SLUG__
+        app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
       labels:
-        app: __CI_ENVIRONMENT_SLUG__
+        app: __CI_PROJECT_PATH_SLUG__
     spec:
       containers:
       - name: awe-boot
@@ -28,7 +28,7 @@ spec:
         - containerPort: 8080
         resources:
           limits:
-            memory: 512Mi
+            memory: 2Gi
           requests:
             memory: 256Mi
       imagePullSecrets:

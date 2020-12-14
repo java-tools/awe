@@ -15,6 +15,7 @@ import com.querydsl.core.types.*;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.sql.*;
 
+import java.sql.Clob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,8 +27,8 @@ import static com.almis.awe.model.type.ParameterType.LIST_TO_STRING;
  */
 public abstract class SQLBuilder extends AbstractQueryBuilder {
 
-  private SQLQueryFactory factory;
   private static final String ERROR_TITLE_GENERATING_FILTER = "ERROR_TITLE_GENERATING_FILTER";
+  private SQLQueryFactory factory;
 
   /**
    * Autowired constructor
@@ -39,6 +40,15 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   }
 
   /**
+   * Retrieve sql factory
+   *
+   * @return SQL Factory
+   */
+  protected SQLQueryFactory getFactory() {
+    return factory;
+  }
+
+  /**
    * Sets the SQLQueryFactory used by QueryDSL to create the SQLQuery
    *
    * @param factory Factory
@@ -47,15 +57,6 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   public SQLBuilder setFactory(SQLQueryFactory factory) {
     this.factory = factory;
     return this;
-  }
-
-  /**
-   * Retrieve sql factory
-   *
-   * @return SQL Factory
-   */
-  protected SQLQueryFactory getFactory() {
-    return factory;
   }
 
   /**
@@ -77,12 +78,12 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve field expression
    *
-   * @param field
+   * @param field Field to retrieve
    * @return Expression field expression
    * @throws AWException Error retrieving field expression
    */
   protected Expression getFieldExpression(Field field) throws AWException {
-    Expression fieldExpression = null;
+    Expression fieldExpression;
 
     if (field.getQuery() != null) {
       // Field as Subquery
@@ -114,7 +115,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * Apply function to field
    *
    * @param function        Function to apply
-   * @param fieldExpression
+   * @param fieldExpression Field expression
    * @return Field expression with function applied
    */
   private Expression applyFunctionToField(String function, Expression fieldExpression) {
@@ -129,8 +130,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Apply cast to field
    *
-   * @param field
-   * @param fieldExpression
+   * @param field           Field to apply cast
+   * @param fieldExpression Field expression
    * @return Field expression with function applied
    */
   private Expression applyCastToField(SqlField field, Expression fieldExpression) {
@@ -145,7 +146,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve field expression
    *
-   * @param field
+   * @param field Field to retrieve
    * @return Expression field expression
    * @throws AWException Error retrieving field expression
    */
@@ -160,7 +161,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve a single variable as an Expression
    *
-   * @param variableName
+   * @param variableName Variable name
    * @return Expression
    * @throws AWException
    */
@@ -185,8 +186,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve field expression
    *
-   * @param field
-   * @param table
+   * @param field Field to retrieve
+   * @param table Table of the field
    * @return Expression field expression
    */
   protected Expression getFieldAliasExpression(SqlField field, String table) {
@@ -277,6 +278,9 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
       case "SUB_YEARS":
         String operator = operation.getOperator().replace("SUB", "ADD");
         return Expressions.dateOperation(Date.class, Ops.DateTimeOps.valueOf(operator), operands[0], Expressions.numberOperation(Integer.class, Ops.MULT, operands[1], substractExpression));
+      case "ROUND":
+        Operator roundType = operands.length == 1 ? Ops.MathOps.ROUND : Ops.MathOps.ROUND2;
+        return Expressions.numberOperation(Long.class, roundType, operands);
       case "POWER":
         return Expressions.numberOperation(Long.class, Ops.MathOps.valueOf(operation.getOperator()), operands);
       default:
@@ -485,7 +489,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
 
 
     // If filter is set to ignore cases or trim, trim operands
-    if (filter.isTrim() || filter.isIgnoreCase()) {
+    if (operand.getId() != null && (filter.isTrim() || filter.isIgnoreCase())) {
       operandExpression = Expressions.stringTemplate("{0}", operandExpression).trim();
     }
 
@@ -495,8 +499,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Retrieve sql field from transition field (operand, then, else)
    *
-   * @param transitionField
-   * @return
+   * @param transitionField Transition field
+   * @return SQL Field from transition field
    */
   private SqlField getSqlFieldFromTransition(TransitionField transitionField) {
     return transitionField == null ? null : transitionField.getField();
@@ -505,10 +509,10 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
   /**
    * Get variable as expression of a JSON node
    *
-   * @param nodeValue
-   * @param type
-   * @return
-   * @throws AWException
+   * @param nodeValue Node value
+   * @param type      Parameter type
+   * @return Variable as expression
+   * @throws AWException Error retrieving variable as expression
    */
   Expression getVariableAsExpression(JsonNode nodeValue, ParameterType type) throws AWException {
     if (LIST_TO_STRING.equals(type)) {
@@ -535,6 +539,8 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
         return queryUtil.isEmptyString(value) ? getStringExpression("%") : getStringExpression(value + "%");
       case STRINGB:
         return queryUtil.isEmptyString(value) ? getStringExpression("%%") : getStringExpression("%" + value + "%");
+      case CLOB:
+        return ExpressionUtils.template(Clob.class, "{0}", value);
       case SYSTEM_DATE:
         return Expressions.currentDate();
       case SYSTEM_TIME:
@@ -968,7 +974,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @param type           Variable type
    * @param filter         Filter
    * @return Variable as expression
-   * @throws AWException
+   * @throws AWException Error converting variable list to expression
    */
   private Expression convertVariableListToExpression(List<Expression> expressionList, JsonNode variableValue, ParameterType type, Filter filter) throws AWException {
     int variableValuesLength = variableValue.size();
@@ -1003,7 +1009,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    * @param value         String value
    * @param filter        Filter
    * @return Variable as expression
-   * @throws AWException
+   * @throws AWException Error converting variable list to expression with index
    */
   private Expression convertVariableListToExpressionWithIndex(JsonNode variableValue, ParameterType type, String value, Filter filter) throws AWException {
     // OPTIONAL filter and EMPTY variable, removing filter
@@ -1024,7 +1030,7 @@ public abstract class SQLBuilder extends AbstractQueryBuilder {
    */
   protected Expression getStringExpression(String value) {
     if (value != null) {
-      return Expressions.stringTemplate("{0}", value);
+      return Expressions.asString(value);
     } else {
       return Expressions.nullExpression();
     }

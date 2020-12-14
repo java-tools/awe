@@ -89,15 +89,6 @@ public class ChartSerie extends AbstractChart {
   }
 
   /**
-   * Returns is drill down
-   *
-   * @return Is drill down
-   */
-  public boolean isDrillDown() {
-    return drillDown != null && drillDown;
-  }
-
-  /**
    * Retrieve Json model node
    *
    * @return Model node
@@ -151,7 +142,7 @@ public class ChartSerie extends AbstractChart {
     }
 
     // Add drilldown serie id
-    if (isDrillDown() && StringUtils.isNotBlank(getDrillDownSerie())) {
+    if (StringUtils.isNotBlank(getDrillDownSerie())) {
       model.put(ChartConstants.DRILL_DOWN, getDrillDownSerie());
     }
 

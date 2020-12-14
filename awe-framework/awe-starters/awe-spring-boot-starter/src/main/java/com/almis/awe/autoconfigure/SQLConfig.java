@@ -15,6 +15,7 @@ import com.almis.awe.service.data.connector.query.SQLQueryConnector;
 import com.almis.awe.template.FixedOracleTemplates;
 import com.almis.awe.template.FixedSQLServerTemplates;
 import com.querydsl.sql.*;
+import com.querydsl.sql.types.ClobType;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -100,7 +101,7 @@ public class SQLConfig {
   @Bean
   @Scope("prototype")
   public Configuration hsqldbDatabaseConfiguration() {
-    return getConfiguration(new HSQLDBTemplates());
+    return getConfiguration(HSQLDBTemplates.builder().build());
   }
 
   /**
@@ -111,7 +112,7 @@ public class SQLConfig {
   @Bean
   @Scope("prototype")
   public Configuration h2DatabaseConfiguration() {
-    return getConfiguration(new H2Templates());
+    return getConfiguration(H2Templates.builder().build());
   }
 
   /**
@@ -122,7 +123,7 @@ public class SQLConfig {
   @Bean
   @Scope("prototype")
   public Configuration mysqlDatabaseConfiguration() {
-    return getConfiguration(new MySQLTemplates());
+    return getConfiguration(MySQLTemplates.builder().build());
   }
 
   /**
@@ -134,7 +135,7 @@ public class SQLConfig {
   private Configuration getConfiguration(SQLTemplates templates) {
     Configuration configuration = new Configuration(templates);
     configuration.addListener(new SpringSQLCloseListener());
-    configuration.setUseLiterals(true);
+    configuration.register(new ClobType());
     return configuration;
   }
 
