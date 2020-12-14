@@ -1,4 +1,17 @@
 
+# Changelog for awe 4.3.0
+*14/12/2020*
+
+- Generate AWE doc to version 4.3.0. [MR #266](https://gitlab.com/aweframework/awe/-/merge_requests/266) (Pablo Vidal Otero)
+- Several downloads at once when a grid is filtered.. [MR #265](https://gitlab.com/aweframework/awe/-/merge_requests/265) (Pablo Javier García Mora)
+- Icon in text-view component inside a grid dissapears when clicked. [MR #264](https://gitlab.com/aweframework/awe/-/merge_requests/264) (Pablo Javier García Mora)
+- Add CLOB compatibility for queries/maintains. [MR #263](https://gitlab.com/aweframework/awe/-/merge_requests/263) (Pablo Javier García Mora)
+- Add ROUND operation. [MR #262](https://gitlab.com/aweframework/awe/-/merge_requests/262) (Pablo Vidal Otero)
+- Filter data without x coordinate when generating a chart in server side. [MR #261](https://gitlab.com/aweframework/awe/-/merge_requests/261) (Pablo Javier García Mora)
+- **[HAS IMPACTS]** Update AWE to Spring Boot 2.4. [MR #260](https://gitlab.com/aweframework/awe/-/merge_requests/260) (Pablo Vidal Otero)
+- Add a new interface in ChartService to allow sending a Chart object instead of a predefined chart inside a screen. [MR #259](https://gitlab.com/aweframework/awe/-/merge_requests/259) (Pablo Javier García Mora)
+- Method writeText() of SeleniumUtilities clicks on the body after inserting the value in the criteria. [MR #258](https://gitlab.com/aweframework/awe/-/merge_requests/258) (Pablo Javier García Mora)
+
 # Changelog for awe 4.2.9
 *09/11/2020*
 
