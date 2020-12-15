@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.regex.Matcher;
 
 /**
  * Abstract query builder
@@ -650,7 +651,7 @@ public class QueryUtil extends ServiceConfig {
     return parameters
       .stream()
       .map(this::formatParameter)
-      .reduce(sql, (fixed, binding) -> fixed.replaceFirst("\\?", binding));
+      .reduce(sql, (fixed, binding) -> fixed.replaceFirst("\\?", Matcher.quoteReplacement(binding)));
   }
 
   /**
@@ -660,7 +661,7 @@ public class QueryUtil extends ServiceConfig {
    */
   private String formatParameter(Object binding) {
     if (binding instanceof String) {
-      return MessageFormat.format("''{0}''", binding);
+      return MessageFormat.format("''{0}''", StringUtil.shortenText((String) binding, 25, "..."));
     } else if (binding instanceof Date) {
       return MessageFormat.format("(timestamp ''{0}'')", DateUtil.dat2SqlTimeString((Date) binding));
     }

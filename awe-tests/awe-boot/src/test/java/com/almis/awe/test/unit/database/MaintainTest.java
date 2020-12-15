@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Joiner;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -24,6 +23,7 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -616,6 +616,24 @@ public class MaintainTest extends AweSpringDatabaseTests {
   }
 
   /**
+   * Test of insert Clob with special characters like '$'
+   *
+   * @throws Exception Test error
+   */
+  @Test
+  public void testInsertClobWithSpecialCharacters() throws Exception {
+    String maintainName = "insertClobData";
+    String longFile = readFileAsText("/static/clob.txt");
+    String variables = "\"file\": \""+ StringUtil.fixFormatValue(StringUtil.fixJSonValue(longFile))+"\",";
+    String expected = "[{\"type\":\"end-load\"},{\"type\":\"message\",\"parameters\":{\"message\":\"The selected maintain operation has been successfully performed\",\"result_details\":[{\"operationType\":\"INSERT\",\"rowsAffected\":1}],\"title\":\"Operation successful\",\"type\":\"ok\"}}]";
+    String result = launchMaintain(maintainName, variables, expected);
+    logger.debug(result);
+    assertResultJson(maintainName, result, 1, new MaintainResultDetails[]{
+            new MaintainResultDetails(MaintainType.INSERT, 1L),
+    });
+  }
+
+  /**
    * Test of insert Clob
    *
    * @throws Exception Test error
@@ -892,6 +910,6 @@ public class MaintainTest extends AweSpringDatabaseTests {
       ex = e;
     }
 
-    Assert.assertTrue(ex == null);
+    assertNull(ex);
   }
 }
