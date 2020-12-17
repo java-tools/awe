@@ -9,11 +9,13 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.quartz.TriggerBuilder;
 
 import javax.naming.NamingException;
@@ -34,6 +36,7 @@ import static org.mockito.Mockito.verify;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Log4j2
+@RunWith(MockitoJUnitRunner.class)
 public class CommandDAOTest extends TestUtil {
 
   @InjectMocks
@@ -42,7 +45,9 @@ public class CommandDAOTest extends TestUtil {
   @Mock
   private Runtime runtime;
 
+  @Mock
   private Process process;
+
   private InputStream errorStream;
   private InputStream outputStream;
 
@@ -51,8 +56,6 @@ public class CommandDAOTest extends TestUtil {
    */
   @Before
   public void initBeans() throws Exception {
-    MockitoAnnotations.initMocks(this);
-    process = Mockito.mock(Process.class);
     errorStream = IOUtils.toInputStream("error stream data", "UTF-8");
     outputStream = IOUtils.toInputStream("output stream data", "UTF-8");
 

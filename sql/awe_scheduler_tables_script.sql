@@ -1354,8 +1354,10 @@ END_ORACLE */
 	RepMsg VARCHAR(250),
 	Act INT DEFAULT 1  not NULL,
 	RepUsrDst VARCHAR(250),
-  RepMntId VARCHAR(200),
-  CmdExePth VARCHAR(200)
+    RepMntId VARCHAR(200),
+    CmdExePth VARCHAR(200),
+    db        VARCHAR(200),
+    site      VARCHAR(200)
    )
 
      go
@@ -1513,8 +1515,10 @@ END_ORACLE */
 	RepMsg VARCHAR(250),
 	Act INT,
 	RepUsrDst VARCHAR(250),
-  RepMntId VARCHAR(200),
-  CmdExePth VARCHAR(200)
+    RepMntId VARCHAR(200),
+    CmdExePth VARCHAR(200),
+    db        VARCHAR(200),
+    site      VARCHAR(200)
    )
 
      go

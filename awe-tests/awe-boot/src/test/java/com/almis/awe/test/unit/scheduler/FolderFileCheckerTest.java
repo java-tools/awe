@@ -11,10 +11,12 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.quartz.TriggerBuilder;
 
 import javax.naming.NamingException;
@@ -33,6 +35,7 @@ import static org.mockito.BDDMockito.given;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Log4j2
+@RunWith(MockitoJUnitRunner.class)
 public class FolderFileCheckerTest extends TestUtil {
 
   @InjectMocks
@@ -43,14 +46,6 @@ public class FolderFileCheckerTest extends TestUtil {
 
   @Mock
   private FileClient fileClient;
-
-  /**
-   * Initializes json mapper for tests
-   */
-  @Before
-  public void initBeans() throws Exception {
-    MockitoAnnotations.initMocks(this);
-  }
 
   /**
    * Test context loaded
