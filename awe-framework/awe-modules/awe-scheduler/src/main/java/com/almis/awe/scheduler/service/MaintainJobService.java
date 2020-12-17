@@ -38,10 +38,10 @@ public class MaintainJobService extends JobService {
   /**
    * Execute Job
    *
-   * @param task
-   * @param execution
-   * @param dataMap
-   * @return
+   * @param task Task to execute
+   * @param execution Execution
+   * @param dataMap Job data map
+   * @return Service data with execution data
    */
   @Async("schedulerJobPool")
   public Future<ServiceData> executeJob(Task task, TaskExecution execution, JobDataMap dataMap) {
@@ -56,7 +56,11 @@ public class MaintainJobService extends JobService {
 
     // Insert task parameters
     for (TaskParameter taskParameter : task.getParameterList()) {
-      parameters.put(taskParameter.getName(), taskParameter.getValue());
+      if ("2".equalsIgnoreCase(taskParameter.getSource())) {
+        parameters.put(taskParameter.getName(), getProperty(taskParameter.getValue()));
+      } else {
+        parameters.put(taskParameter.getName(), taskParameter.getValue());
+      }
     }
 
     // Set default parameters

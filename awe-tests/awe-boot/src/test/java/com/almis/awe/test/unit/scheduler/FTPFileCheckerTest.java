@@ -12,10 +12,12 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.quartz.TriggerBuilder;
 
 import javax.naming.NamingException;
@@ -37,6 +39,7 @@ import static org.mockito.BDDMockito.given;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Log4j2
+@RunWith(MockitoJUnitRunner.class)
 public class FTPFileCheckerTest extends TestUtil {
 
   @InjectMocks
@@ -47,14 +50,6 @@ public class FTPFileCheckerTest extends TestUtil {
 
   @Mock
   private FTPClient ftpClient;
-
-  /**
-   * Initializes json mapper for tests
-   */
-  @Before
-  public void initBeans() throws Exception {
-    MockitoAnnotations.initMocks(this);
-  }
 
   /**
    * Test context loaded

@@ -59,17 +59,10 @@ import static com.almis.awe.scheduler.constant.TaskConstants.*;
 @Log4j2
 public class TaskDAO extends ServiceConfig {
 
-  @Value("${scheduler.execution.log.path}")
-  private String executionLogPath;
-
-  @Value("${scheduler.stored.executions:5}")
-  private Integer defaultStoredExecutions;
-
   // locales
   private static final String TITLE_SCHEDULER_NEW_TASK = "TITLE_SCHEDULER_NEW_TASK";
   private static final String MESSAGE_SCHEDULER_NEW_TASK = "MESSAGE_SCHEDULER_NEW_TASK";
   private static final String WARNING_MESSAGE_TASK_DEPENDENCY_ERROR = "WARNING_MESSAGE_TASK_DEPENDENCY_ERROR";
-
   // Autowired services
   private final QueryService queryService;
   private final MaintainService maintainService;
@@ -78,11 +71,21 @@ public class TaskDAO extends ServiceConfig {
   private final CalendarDAO calendarDAO;
   private final ServerDAO serverDAO;
   private final FileChecker fileChecker;
+  @Value("${scheduler.execution.log.path}")
+  private String executionLogPath;
+  @Value("${scheduler.stored.executions:5}")
+  private Integer defaultStoredExecutions;
 
   /**
    * Autowired constructor
    *
-   * @param queryService
+   * @param scheduler       Scheduler
+   * @param queryService    Query service
+   * @param maintainService Maintain service
+   * @param queryUtil       Query utilities
+   * @param calendarDAO     Calendar DAO
+   * @param serverDAO       Server DAO
+   * @param fileChecker     File checker
    */
   public TaskDAO(Scheduler scheduler, QueryService queryService, MaintainService maintainService, QueryUtil queryUtil,
                  CalendarDAO calendarDAO, ServerDAO serverDAO, FileChecker fileChecker) {
@@ -98,7 +101,7 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Load task from trigger
    *
-   * @param trigger
+   * @param trigger Trigger
    * @return Generated task
    */
   public Task getTask(Trigger trigger) {
@@ -108,7 +111,7 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Load task from job detail
    *
-   * @param jobDetail
+   * @param jobDetail Job detail
    * @return Generated task
    */
   public Task getTask(JobDetail jobDetail) {
@@ -120,7 +123,7 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param taskId Task id
    * @return Generated task
-   * @throws AWException
+   * @throws AWException Error retrieving task
    */
   @Async("schedulerTaskPool")
   public Future<Task> getTask(Integer taskId) throws AWException {
@@ -133,7 +136,7 @@ public class TaskDAO extends ServiceConfig {
    * @param taskId     Task id
    * @param launchType forced launch type
    * @return Generated task
-   * @throws AWException
+   * @throws AWException Error retrieving task
    */
   @Async("schedulerTaskPool")
   public Future<Task> getTask(Integer taskId, TaskLaunchType launchType) throws AWException {
@@ -147,7 +150,7 @@ public class TaskDAO extends ServiceConfig {
    * @param database   Database
    * @param launchType forced launch type
    * @return Generated task
-   * @throws AWException
+   * @throws AWException Error retrieving task
    */
   @Async("schedulerTaskPool")
   public Future<Task> getTask(Integer taskId, String database, TaskLaunchType launchType) throws AWException {
@@ -186,8 +189,8 @@ public class TaskDAO extends ServiceConfig {
   /**
    * load file modification hashmap from database
    *
-   * @param task
-   * @throws AWException
+   * @param task Task
+   * @throws AWException Error loading modification hashmap
    */
   private void setFileModificationsFromDb(Task task) throws AWException {
     // Set server ip to the context
@@ -230,10 +233,10 @@ public class TaskDAO extends ServiceConfig {
    * Start a task
    *
    * @param task Task
-   * @return
+   * @return Task execution
    */
   public TaskExecution startTask(Task task) throws AWException {
-    ObjectNode parameters = queryUtil.getParameters();
+    ObjectNode parameters = queryUtil.getParameters(task.getDatabase());
     parameters.put(TASK_ID, task.getTaskId());
     parameters.put(TASK_GROUP, task.getGroup());
     parameters.put(TASK_LAUNCHER, task.getLauncher());
@@ -241,7 +244,7 @@ public class TaskDAO extends ServiceConfig {
     maintainService.launchPrivateMaintain(TASK_START, parameters);
 
     // Retrieve task execution
-    TaskExecution execution = getLastExecutionFromDB(task.getTaskId(), task.getTrigger().getKey().getGroup());
+    TaskExecution execution = getLastExecutionFromDB(task, task.getTrigger().getKey().getGroup());
 
     // Set parent execution if defined
     if (execution != null) {
@@ -256,10 +259,10 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param task      Task
    * @param execution Task execution
-   * @return
+   * @return Task execution
    */
   public TaskExecution endTask(Task task, TaskExecution execution) throws AWException {
-    ObjectNode parameters = queryUtil.getParameters();
+    ObjectNode parameters = queryUtil.getParameters(task.getDatabase());
     parameters.put(TASK_ID, task.getTaskId());
     parameters.put(TASK_JOB_EXECUTION, execution.getExecutionId());
     parameters.put("status", task.getStatus().getValue());
@@ -267,7 +270,7 @@ public class TaskDAO extends ServiceConfig {
     maintainService.launchPrivateMaintain(TASK_END, parameters);
 
     // Retrieve updated task execution from database
-    execution = getTaskExecution(task.getTaskId(), execution.getExecutionId());
+    execution = getTaskExecution(task, execution.getExecutionId());
     execution.setParentExecution(task.getParentExecution());
 
     // Retrieve task execution
@@ -277,10 +280,10 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Retrieve executions to purge (sorted)
    *
-   * @param taskId
-   * @param executions
-   * @return
-   * @throws AWException
+   * @param taskId     Task identifier
+   * @param executions Executions to purge
+   * @return Purge results
+   * @throws AWException Error retrieving executions to be purged
    */
   public ServiceData getExecutionsToPurge(Integer taskId, Integer executions) throws AWException {
     ObjectNode parameters = queryUtil.getParameters(null, "1", "0");
@@ -301,8 +304,8 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Purge execution log files
    *
-   * @param taskId
-   * @throws AWException
+   * @param taskId Task identifier
+   * @throws AWException Error on purge
    */
   public ServiceData purgeExecutionLogFiles(Integer taskId, Integer executions) throws AWException {
     ArrayNode executionsToPurge = JsonNodeFactory.instance.arrayNode();
@@ -337,7 +340,7 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Purge executions at start
    *
-   * @throws AWException
+   * @throws AWException Error on purge
    */
   public ServiceData purgeExecutionsAtStart() throws AWException {
     log.info("===== Deleting old execution logs =====");
@@ -374,7 +377,7 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Update running task status [4] to interrupted [6]
    *
-   * @return
+   * @return Interrupt task status
    */
   public ServiceData updateInterruptedTasks() throws AWException {
     return maintainService.launchPrivateMaintain(UPDATE_INTERRUPTED_TASKS);
@@ -385,15 +388,15 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param execution Task execution
    * @param status    New status
-   * @return
+   * @return Change status
    */
-  public ServiceData changeStatus(TaskExecution execution, TaskStatus status, String reason) throws AWException {
+  public ServiceData changeStatus(Task task, TaskExecution execution, TaskStatus status, String reason) throws AWException {
     // Set execution status
     execution.setStatus(status.getValue());
     execution.setDescription(reason);
 
     // Update execution status
-    ObjectNode parameters = queryUtil.getParameters();
+    ObjectNode parameters = queryUtil.getParameters(task.getDatabase());
     parameters.put(TASK_ID, execution.getTaskId());
     parameters.put(TASK_JOB_EXECUTION, execution.getExecutionId());
     parameters.put("status", status.getValue());
@@ -405,7 +408,7 @@ public class TaskDAO extends ServiceConfig {
    * Add task to the scheduler
    *
    * @param task Task to add
-   * @throws AWException
+   * @throws AWException Error adding task to scheduler
    */
   public void addTaskToScheduler(Task task) throws AWException {
     // Add new scheduled job to the scheduler
@@ -426,13 +429,12 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param taskId Task identifier
    * @return ServiceData
-   * @throws AWException
+   * @throws AWException Error inserting task
    */
   public ServiceData insertTask(Integer taskId) throws AWException {
     ServiceData serviceData = new ServiceData();
-    Task task = null;
     try {
-      task = getTask(taskId).get();
+      Task task = getTask(taskId).get();
 
       // Clear file modification table from database
       if (TaskLaunchType.FILE_TRACKING.getValue().equals(task.getLaunchType())) {
@@ -464,7 +466,7 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param taskId Task identifier list
    * @return ServiceData
-   * @throws AWException
+   * @throws AWException Error updating task
    */
   public ServiceData updateTask(Integer taskId) throws AWException {
     // delete the task to update from the scheduler instance
@@ -482,7 +484,7 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param ideTsk Task identifier list
    * @return ServiceData
-   * @throws AWException
+   * @throws AWException Error deleting task
    */
   public ServiceData deleteTask(List<Integer> ideTsk) throws AWException {
     ServiceData serviceData = new ServiceData();
@@ -497,7 +499,7 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param ideTsk Task i dentifier list
    * @return ServiceData
-   * @throws AWException
+   * @throws AWException Error deleting task
    */
   public ServiceData deleteTask(Integer ideTsk) throws AWException {
     ServiceData serviceData = new ServiceData();
@@ -530,8 +532,8 @@ public class TaskDAO extends ServiceConfig {
    * Update execution time
    *
    * @param taskId Task id
-   * @return
-   * @throws AWException
+   * @return Execution time
+   * @throws AWException Error updating execution time
    */
   public ServiceData updateExecutionTime(Integer taskId, Integer executionId) throws AWException {
     // Get task execution
@@ -555,7 +557,7 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param taskId Task id
    * @return Task execution list fixed
-   * @throws AWException
+   * @throws AWException Error retrieving task execution list
    */
   public ServiceData getTaskExecutionList(Integer taskId) throws AWException {
     ObjectNode parameters = queryUtil.getParameters(null, "1", "0");
@@ -608,10 +610,10 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Retrieve execution log file node
    *
-   * @param logPath
-   * @param taskId
-   * @param executionId
-   * @return
+   * @param logPath     Log path
+   * @param taskId      Task identifier
+   * @param executionId Execution identifier
+   * @return Execution log file node
    */
   private ObjectNode getExecutionLogFileNode(String logPath, Integer taskId, Integer executionId) throws AWException {
     Path executionLogFilePath = getExecutionLogFilePath(logPath, taskId, executionId);
@@ -687,9 +689,9 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Execute the selected task now
    *
-   * @param taskId
+   * @param taskId Task identifier
    * @return ServiceData
-   * @throws AWException
+   * @throws AWException Error executing immediate task
    */
   public ServiceData executeTaskNow(Integer taskId) throws AWException {
     // Creates a task that is executed at the moment it is added to the scheduler
@@ -705,8 +707,9 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Execute the task ask dependency
    *
-   * @param taskId
-   * @throws AWException
+   * @param taskId          Task identifier
+   * @param parentExecution Parent execution
+   * @throws AWException Error executing dependency task
    */
   public void executeDependency(Integer taskId, TaskExecution parentExecution) throws AWException {
     // Creates a task that is executed at the moment it is added to the scheduler
@@ -722,7 +725,7 @@ public class TaskDAO extends ServiceConfig {
    * @param taskId      Task id
    * @param triggerType Trigger type
    * @param launcher    Task launcher
-   * @throws AWException
+   * @throws AWException Error executing immediate task
    */
   private void executeImmediateTask(Integer taskId, TriggerType triggerType, String launcher, TaskExecution parent) throws AWException {
     try {
@@ -752,9 +755,9 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Pause the selected task
    *
-   * @param task
+   * @param task Task to pause
    * @return ServiceData
-   * @throws SchedulerException
+   * @throws SchedulerException Error pausing task
    */
   public ServiceData pauseTask(Task task) throws SchedulerException {
     TriggerKey key = new TriggerKey(String.valueOf(task.getTaskId()), task.getGroup());
@@ -769,9 +772,9 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Resume the selected task
    *
-   * @param task
+   * @param task Task to resume
    * @return ServiceData
-   * @throws AWException
+   * @throws AWException Error resuming task
    */
   public ServiceData resumeTask(Task task) throws AWException {
     if (task.getLaunchType() != 0) {
@@ -783,8 +786,8 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Schedule a task
    *
-   * @param task
-   * @throws AWException
+   * @param task Task to schedule
+   * @throws AWException Error scheduling task
    */
   private void scheduleTask(Task task) throws AWException {
     try {
@@ -812,7 +815,7 @@ public class TaskDAO extends ServiceConfig {
    * Retrieve the task list
    *
    * @return ServiceData
-   * @throws AWException
+   * @throws AWException Error retrieving task list
    */
   public ServiceData getTaskList() throws AWException {
     // Get task list details
@@ -830,9 +833,9 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Load needed variables from the selected maintain
    *
-   * @param maintainStr
+   * @param maintainStr Maintain identifier
    * @return ServiceData
-   * @throws AWException
+   * @throws AWException Error loading maintain variables
    */
   public ServiceData loadMaintainVariables(String maintainStr) throws AWException {
     ServiceData serviceData = new ServiceData();
@@ -877,7 +880,7 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Load execution screen parameters
    *
-   * @param path
+   * @param path    Log path
    * @param address Button address
    * @return ServiceData
    */
@@ -898,10 +901,10 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Reload execution task parameters
    *
-   * @param taskId
-   * @param executionId
-   * @return
-   * @throws AWException
+   * @param taskId      Task identifier
+   * @param executionId Execution identifier
+   * @return Service Data
+   * @throws AWException Error reloading execution screen
    */
   public ServiceData reloadExecutionScreen(Integer taskId, Integer executionId) throws AWException {
     ServiceData serviceData = new ServiceData();
@@ -920,11 +923,11 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Refresh execution screen data
    *
-   * @param taskExecution
-   * @param serviceData
+   * @param taskExecution Task execution
+   * @param serviceData   Service data
    */
   private void refreshExecutionScreen(TaskExecution taskExecution, ServiceData serviceData) throws AWException {
-    serviceData.addClientAction(new SelectActionBuilder("task-id", taskExecution.getTaskId()).setAsync(true).setSilent(true).build());
+    serviceData.addClientAction(new SelectActionBuilder("task-id", taskExecution.getName()).setAsync(true).setSilent(true).build());
     serviceData.addClientAction(new SelectActionBuilder("execution-id", taskExecution.getExecutionId()).setAsync(true).setSilent(true).build());
     serviceData.addClientAction(new SelectActionBuilder("execution-start-time", DateUtil.dat2WebTimestampMs(taskExecution.getInitialDate())).setAsync(true).setSilent(true).build());
     serviceData.addClientAction(new SelectActionBuilder("execution-end-time", taskExecution.getEndDate() == null ? "" : DateUtil.dat2WebTimestampMs(taskExecution.getEndDate())).setAsync(true).setSilent(true).build());
@@ -947,7 +950,7 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param launchType Launch type
    * @param launchedBy Launched by
-   * @return
+   * @return Launched by text
    */
   private String getLaunchedByText(String launchType, String launchedBy) {
     return DEPENDENCY_GROUP.equalsIgnoreCase(launchType) ? getLocale("PARAMETER_TASK") + " " + launchedBy : launchedBy;
@@ -956,9 +959,9 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Add parameters from the scheduler to the task list
    *
-   * @return Map<String, CellData>
-   * @throws AWException
-   * @parameter HashMap<String, CellData> row
+   * @param row Parameters row
+   * @return Parameters row
+   * @throws AWException Error adding scheduler parameters
    */
   private Map<String, CellData> addSchedulerParameters(Map<String, CellData> row) throws AWException {
     Integer ide;
@@ -1013,8 +1016,8 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Get task execution from trigger
    *
-   * @param trigger
-   * @return String
+   * @param trigger Trigger
+   * @return Task execution from trigger
    */
   public TaskExecution getTaskExecution(Trigger trigger) {
     String[] splittedTriggerId = trigger.getKey().getName().split(TASK_SEPARATOR);
@@ -1033,12 +1036,37 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param taskId      Task id
    * @param executionId Execution id
-   * @return
-   * @throws AWException
+   * @return Task execution
+   * @throws AWException Error retrieving task execution from database
    */
   public TaskExecution getTaskExecution(Integer taskId, Integer executionId) throws AWException {
+    return getTaskExecution(taskId, null, executionId);
+  }
+
+  /**
+   * Get execution from Database
+   *
+   * @param task        Task
+   * @param executionId Execution id
+   * @return Task execution
+   * @throws AWException Error retrieving task execution from database
+   */
+  public TaskExecution getTaskExecution(Task task, Integer executionId) throws AWException {
+    return getTaskExecution(task.getTaskId(), task.getDatabase(), executionId);
+  }
+
+  /**
+   * Get execution from Database
+   *
+   * @param taskId      Task id
+   * @param database    Database
+   * @param executionId Execution id
+   * @return Task execution
+   * @throws AWException Error retrieving task execution from database
+   */
+  private TaskExecution getTaskExecution(Integer taskId, String database, Integer executionId) throws AWException {
     // Set context from the query
-    ObjectNode parameters = queryUtil.getParameters(null, "1", "0");
+    ObjectNode parameters = queryUtil.getParameters(database, "1", "0");
     parameters.put(TASK_ID, taskId);
     parameters.put(TASK_JOB_EXECUTION, executionId);
 
@@ -1048,15 +1076,15 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Get last execution from Database
    *
-   * @param taskId    Task id
+   * @param task      Task
    * @param taskGroup Task group
-   * @return
-   * @throws AWException
+   * @return Task execution
+   * @throws AWException Error retrieving last task execution from database
    */
-  private TaskExecution getLastExecutionFromDB(Integer taskId, String taskGroup) throws AWException {
+  private TaskExecution getLastExecutionFromDB(Task task, String taskGroup) throws AWException {
     // Set context from the query
-    ObjectNode parameters = queryUtil.getParameters(null, "1", "0");
-    parameters.put(TASK_ID, taskId);
+    ObjectNode parameters = queryUtil.getParameters(task.getDatabase(), "1", "0");
+    parameters.put(TASK_ID, task.getTaskId());
     parameters.put(TASK_GROUP, taskGroup);
 
     return getTaskExecution(SCHEDULER_LAST_TASK_EXECUTION, parameters);
@@ -1068,7 +1096,7 @@ public class TaskDAO extends ServiceConfig {
    * @param query      Query
    * @param parameters Parameters
    * @return Task execution
-   * @throws AWException
+   * @throws AWException Error retrieving task execution from database
    */
   private TaskExecution getTaskExecution(String query, ObjectNode parameters) throws AWException {
     // Get task average time datalist
@@ -1082,7 +1110,7 @@ public class TaskDAO extends ServiceConfig {
    *
    * @param taskId Task identifier
    * @return Average time as string
-   * @throws AWException
+   * @throws AWException Error retrieving average time
    */
   public Integer getAverageTime(Integer taskId) throws AWException {
     // Get task average time datalist
@@ -1096,9 +1124,9 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Check if the job is running
    *
-   * @return boolean
-   * @throws Exception
-   * @parameter job
+   * @param job Job detail
+   * @return boolean Job is running
+   * @throws SchedulerException Error checking if job is running
    */
   private boolean isJobRunning(JobDetail job) throws SchedulerException {
     // check if the job is in the scheduler currently executing job list
@@ -1113,7 +1141,7 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Clear the file modification table from database
    *
-   * @param taskId
+   * @param taskId Task identifier
    */
   private void clearFileModificationTable(Integer taskId) throws AWException {
     getRequest().setParameter(TASK_IDE_TASK, JsonNodeFactory.instance.numberNode(taskId));
@@ -1123,9 +1151,9 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Check if trigger exists
    *
-   * @param triggerKey
-   * @return
-   * @throws SchedulerException
+   * @param triggerKey Trigger key
+   * @return Trigger exists
+   * @throws SchedulerException Error checking trigger
    */
   private boolean checkTrigger(TriggerKey triggerKey) throws SchedulerException {
     return scheduler.checkExists(triggerKey);
@@ -1134,8 +1162,8 @@ public class TaskDAO extends ServiceConfig {
   /**
    * On finish task event
    *
-   * @param task
-   * @param execution
+   * @param task      Finished task
+   * @param execution Task execution
    */
   public void onFinishTask(Task task, TaskExecution execution) throws AWException {
     // Update parent status if failed
@@ -1150,14 +1178,14 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Set task status checking sependencies status and task configuration
    *
-   * @param execution
+   * @param execution Task execution
    */
   private void updateParentStatus(TaskExecution execution) throws AWException {
     if (execution.getParentExecution() != null) {
       try {
         Task parentTask = getTask(execution.getParentExecution().getTaskId()).get();
         if (TaskStatus.JOB_ERROR.equals(TaskStatus.valueOf(execution.getStatus())) && parentTask.isSetTaskOnWarningIfDependencyError()) {
-          changeStatus(execution.getParentExecution(), TaskStatus.JOB_WARNING,
+          changeStatus(parentTask, execution.getParentExecution(), TaskStatus.JOB_WARNING,
             getLocale(WARNING_MESSAGE_TASK_DEPENDENCY_ERROR, execution.getTaskId().toString(), execution.getExecutionId().toString()));
         }
       } catch (Exception exc) {
@@ -1191,7 +1219,8 @@ public class TaskDAO extends ServiceConfig {
   /**
    * Executes the dependencies for the given task
    *
-   * @param task
+   * @param task      Task to execute dependencies
+   * @param execution Task execution
    */
   private void executeDependencies(Task task, TaskExecution execution) throws AWException {
     // Iterate dependencies and create a new task for each.

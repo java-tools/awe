@@ -12,11 +12,13 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -38,6 +40,7 @@ import static org.mockito.Mockito.verify;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Log4j2
+@RunWith(MockitoJUnitRunner.class)
 public class BroadcastReportJobTest extends TestUtil {
 
   @InjectMocks
@@ -45,14 +48,6 @@ public class BroadcastReportJobTest extends TestUtil {
 
   @Mock
   private BroadcastService broadcastService;
-
-  /**
-   * Initializes json mapper for tests
-   */
-  @Before
-  public void initBeans() throws Exception {
-    MockitoAnnotations.initMocks(this);
-  }
 
   /**
    * Test context loaded

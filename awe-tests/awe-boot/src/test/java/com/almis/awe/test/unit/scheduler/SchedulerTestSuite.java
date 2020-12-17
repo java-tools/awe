@@ -17,7 +17,8 @@ import org.junit.runners.Suite;
   EmailReportJobTest.class,
   CronPatternBuilderTest.class,
   ExecutionServiceTest.class,
-  TaskBuilderTest.class
+  TaskBuilderTest.class,
+  MaintainJobServiceTest.class
 })
 @RunWith(Suite.class)
 public class SchedulerTestSuite {

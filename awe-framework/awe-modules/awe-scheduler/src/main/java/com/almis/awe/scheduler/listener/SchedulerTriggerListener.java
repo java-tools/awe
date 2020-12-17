@@ -51,7 +51,7 @@ public class SchedulerTriggerListener extends ServiceConfig implements TriggerLi
     if (task != null && execution != null) {
       try {
         // Set job status as interrupted
-        taskDAO.changeStatus(taskDAO.getTaskExecution(trigger), TaskStatus.JOB_ERROR, getLocale(SCHEDULER_ERROR_MESSAGE_TRIGGER_MISFIRED));
+        taskDAO.changeStatus(task, execution, TaskStatus.JOB_ERROR, getLocale(SCHEDULER_ERROR_MESSAGE_TRIGGER_MISFIRED));
       } catch (AWException exc) {
         log.error("Error trying to change task status: {}", task.getTaskId(), exc);
       }
