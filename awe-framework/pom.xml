@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-parent</artifactId>
-    <version>4.3.1</version>
+    <version>4.3.2-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
 
