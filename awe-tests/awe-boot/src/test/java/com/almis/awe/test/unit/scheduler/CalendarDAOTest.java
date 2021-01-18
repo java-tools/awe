@@ -15,10 +15,11 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.quartz.Scheduler;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
@@ -41,6 +42,7 @@ import static org.mockito.Mockito.doReturn;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Log4j2
+@RunWith(MockitoJUnitRunner.class)
 public class CalendarDAOTest extends TestUtil {
 
   @InjectMocks
@@ -66,7 +68,6 @@ public class CalendarDAOTest extends TestUtil {
    */
   @Before
   public void initBeans() throws Exception {
-    MockitoAnnotations.initMocks(this);
     calendarDAO.setApplicationContext(context);
     doReturn(aweElements).when(context).getBean(any(Class.class));
     given(aweElements.getLanguage()).willReturn("ES");
@@ -152,7 +153,7 @@ public class CalendarDAOTest extends TestUtil {
     prepareCalendarForTests(1);
 
     // Delete calendars
-    calendarDAO.deleteSchedulerCalendar(Arrays.asList(1,2,3));
+    calendarDAO.deleteSchedulerCalendar(Arrays.asList(1, 2, 3));
 
     // Check that controller are active
     assertEquals(new ServiceData().setTitle("LOCALE").setMessage("LOCALE"), calendarDAO.checkTriggersContainsCalendar());

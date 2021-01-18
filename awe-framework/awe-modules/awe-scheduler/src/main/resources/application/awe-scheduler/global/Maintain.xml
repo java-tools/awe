@@ -130,6 +130,8 @@
       <field id="RepEmaDst" variable="emails"/>
       <field id="RepUsrDst" variable="users"/>
       <field id="RepMntId" variable="RepMntId" />
+      <field id="db" variable="database" />
+      <field id="site" variable="site" />
 
       <variable id="IdeTsk" type="INTEGER" name="IdeTsk" />
       <variable id="Nam" type="STRING" name="Nam" />
@@ -153,6 +155,8 @@
       <variable id="users" type="LIST_TO_STRING" name="RepUsrDst"/>
       <variable id="inCaseOf" type="LIST_TO_STRING" name="RepSndSta"/>
       <variable id="RepMntId" type="STRING" name="RepMntId"/>
+      <variable id="database" type="STRING" session="database"/>
+      <variable id="site" type="STRING" session="site"/>
     </insert>
 
     <insert audit="HISAweSchTskLch">
@@ -265,7 +269,6 @@
       <field id="RepEmaDst" variable="emails"/>
       <field id="RepUsrDst" variable="users"/>
       <field id="RepMntId" variable="RepMntId" />
-
       <where>
         <and>
           <filter left-field="Ide"  condition="eq" right-variable="IdeTsk"/>

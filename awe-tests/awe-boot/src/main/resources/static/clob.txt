@@ -1,0 +1,21 @@
+## PRODUCTS [IRS] FIX_FLOAT
+ 
+#set ($timeout_str = $!utils.getValueAt("timeout", false, false, -1, -1))
+#set ($timeout = 90)
+#set ($timeout = $timeout.parseInt($timeout_str) * 1000)
+#set ($sign = $!utils.getValueAt('direction', false, true, -1, -1))
+#set ($quoteConv = $!utils.getValueAt("quoteConv", false, true, -1 , -1))
+ 
+#if ($quoteConv == "Price")
+              #if(($sign == "Buy") || ($sign == "Sell")) 
+                           #set ($price = $!utils.getValueAt("price", false, true, -1 , -1))
+    #else
+    ## twoway
+              #set ($priceBuy = $!utils.getValueAt("priceBuy", false, true, -1 , -1))
+              #set ($priceSell = $!utils.getValueAt("priceSell", false, true, -1 , -1))
+    #end
+#else
+    #set ($price = "")
+    #set ($priceBuy = "")
+    #set ($priceSell = "")
+#end

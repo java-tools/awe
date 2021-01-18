@@ -1,4 +1,12 @@
 
+# Changelog for awe 4.3.1
+*18/01/2021*
+
+- Update awe to Spring Boot 2.4.2. [MR #270](https://gitlab.com/aweframework/awe/-/merge_requests/270) (Pablo Vidal Otero)
+- Fix AWE email template. [MR #269](https://gitlab.com/aweframework/awe/-/merge_requests/269) (Pablo Javier García Mora)
+- Scheduler executions are not stored on the same database as tasks. [MR #268](https://gitlab.com/aweframework/awe/-/merge_requests/268) (Pablo Javier García Mora)
+- Error with sql logging. [MR #267](https://gitlab.com/aweframework/awe/-/merge_requests/267) (Pablo Vidal Otero)
+
 # Changelog for awe 4.3.0
 *14/12/2020*
 

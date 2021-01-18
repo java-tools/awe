@@ -825,8 +825,8 @@ CREATE TABLE AweSchTsk
     RepUsrDst VARCHAR(250),
     RepMntId  VARCHAR(200),
     CmdExePth VARCHAR(200),
-    db        VARCHAR(200)  not NULL,
-    site      VARCHAR(200)  not NULL
+    db        VARCHAR(200),
+    site      VARCHAR(200)
 );
 
 --------------------------------------------------------

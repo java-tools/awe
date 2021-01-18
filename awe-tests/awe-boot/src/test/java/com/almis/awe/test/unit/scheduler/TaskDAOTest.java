@@ -21,10 +21,12 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.quartz.*;
 import org.springframework.context.ApplicationContext;
 
@@ -47,6 +49,7 @@ import static org.mockito.Mockito.*;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Log4j2
+@RunWith(MockitoJUnitRunner.class)
 public class TaskDAOTest extends TestUtil {
 
   @InjectMocks
@@ -78,12 +81,12 @@ public class TaskDAOTest extends TestUtil {
    */
   @Before
   public void initBeans() throws Exception {
-    MockitoAnnotations.initMocks(this);
     taskDAO.setApplicationContext(context);
     doReturn(aweElements).when(context).getBean(any(Class.class));
     given(aweElements.getLanguage()).willReturn("ES");
     given(aweElements.getLocaleWithLanguage(anyString(), anyString())).willReturn("LOCALE");
     given(queryUtil.getParameters()).willReturn(JsonNodeFactory.instance.objectNode());
+    given(queryUtil.getParameters((String) isNull())).willReturn(JsonNodeFactory.instance.objectNode());
     given(queryUtil.getParameters(any(), any(), any())).willReturn(JsonNodeFactory.instance.objectNode());
   }
 
@@ -107,7 +110,7 @@ public class TaskDAOTest extends TestUtil {
     execution.setDescription("Allright");
 
     // Run method
-    taskDAO.changeStatus(execution, TaskStatus.JOB_WARNING, "Because reasons");
+    taskDAO.changeStatus(new Task(), execution, TaskStatus.JOB_WARNING, "Because reasons");
 
     // Assert
     assertSame(TaskStatus.JOB_WARNING.getValue(), execution.getStatus());

@@ -95,7 +95,9 @@ CREATE TABLE IF NOT EXISTS AweSchTsk
     Act       INTEGER DEFAULT 1 not NULL,
     RepUsrDst VARCHAR(250),
     RepMntId  VARCHAR(200),
-    CmdExePth VARCHAR(200)
+    CmdExePth VARCHAR(200),
+    db        VARCHAR(200),
+    site      VARCHAR(200)
 );
 
 --------------------------------------------------------
@@ -223,7 +225,9 @@ CREATE TABLE IF NOT EXISTS HisAweSchTsk
     Act       INTEGER,
     RepUsrDst VARCHAR(250),
     RepMntId  VARCHAR(200),
-    CmdExePth VARCHAR(200)
+    CmdExePth VARCHAR(200),
+    db        VARCHAR(200),
+    site      VARCHAR(200)
 );
 
 CREATE TABLE IF NOT EXISTS HisAweSchTskLch

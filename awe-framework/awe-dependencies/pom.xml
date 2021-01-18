@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.almis.awe</groupId>
     <artifactId>awe-framework</artifactId>
-    <version>4.3.0</version>
+    <version>4.3.1</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
@@ -19,8 +19,8 @@
     <!-- dependency versions -->
     <awe.version>${revision}</awe.version>
     <ade.version>2.0.14</ade.version>
-    <spring-boot.version>2.4.1</spring-boot.version>
-    <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
+    <spring-boot.version>2.4.2</spring-boot.version>
+    <spring-cloud.version>2020.0.0</spring-cloud.version>
     <ehcache.version>3.8.1</ehcache.version>
     <javax.activation.version>1.2.0</javax.activation.version>
     <jaxb.api.version>2.3.1</jaxb.api.version>

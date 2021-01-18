@@ -12,6 +12,7 @@ import static com.almis.awe.scheduler.constant.TaskConstants.TASK_SEPARATOR;
 @Accessors(chain = true)
 public class TaskExecution implements Serializable {
   private Integer taskId;
+  private String name;
   private String groupId;
   private Integer executionId;
   private Date initialDate;

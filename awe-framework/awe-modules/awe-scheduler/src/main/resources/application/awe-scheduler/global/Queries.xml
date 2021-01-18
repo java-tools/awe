@@ -279,21 +279,24 @@
 
   <!-- Get task last execution -->
   <query id="getLastExecution">
-    <table id="AweSchExe"/>
-    <field id="IdeTsk" alias="taskId"/>
-    <field id="GrpTsk" alias="groupId"/>
-    <field id="ExeTsk" alias="executionId"/>
-    <field id="IniDat" alias="initialDate"/>
-    <field id="EndDat" alias="endDate"/>
-    <field id="ExeTim" alias="executionTime"/>
-    <field id="Sta" alias="status"/>
-    <field id="LchBy" alias="launchedBy"/>
-    <field id="Des" alias="description"/>
+    <table id="AweSchTsk" alias="Tsk"/>
+    <table id="AweSchExe" alias="Exe"/>
+    <field id="IdeTsk" alias="taskId" table="Exe"/>
+    <field id="Nam" alias="name" table="Tsk"/>
+    <field id="GrpTsk" alias="groupId" table="Exe"/>
+    <field id="ExeTsk" alias="executionId" table="Exe"/>
+    <field id="IniDat" alias="initialDate" table="Exe"/>
+    <field id="EndDat" alias="endDate" table="Exe"/>
+    <field id="ExeTim" alias="executionTime" table="Exe"/>
+    <field id="Sta" alias="status" table="Exe"/>
+    <field id="LchBy" alias="launchedBy" table="Exe"/>
+    <field id="Des" alias="description" table="Exe"/>
     <where>
       <and>
-        <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
-        <filter left-field="GrpTsk" condition="eq" right-variable="taskGroup"/>
-        <filter left-field="IniDat" condition="eq" query="getMaxDate"/>
+        <filter left-field="Ide" left-table="Tsk" condition="eq" right-variable="taskId"/>
+        <filter left-field="IdeTsk" left-table="Exe" condition="eq" right-variable="taskId"/>
+        <filter left-field="GrpTsk" left-table="Exe" condition="eq" right-variable="taskGroup"/>
+        <filter left-field="IniDat" left-table="Exe" condition="eq" query="getMaxDate"/>
       </and>
     </where>
     <variable id="taskId" type="INTEGER" name="taskId"/>
@@ -302,20 +305,23 @@
 
   <!-- Get task execution -->
   <query id="getTaskExecution">
-    <table id="AweSchExe"/>
-    <field id="IdeTsk" alias="taskId"/>
-    <field id="GrpTsk" alias="groupId"/>
-    <field id="ExeTsk" alias="executionId"/>
-    <field id="IniDat" alias="initialDate"/>
-    <field id="EndDat" alias="endDate"/>
-    <field id="ExeTim" alias="executionTime"/>
-    <field id="Sta" alias="status"/>
-    <field id="LchBy" alias="launchedBy"/>
-    <field id="Des" alias="description"/>
+    <table id="AweSchTsk" alias="Tsk"/>
+    <table id="AweSchExe" alias="Exe"/>
+    <field id="IdeTsk" alias="taskId" table="Exe"/>
+    <field id="Nam" alias="name" table="Tsk"/>
+    <field id="GrpTsk" alias="groupId" table="Exe"/>
+    <field id="ExeTsk" alias="executionId" table="Exe"/>
+    <field id="IniDat" alias="initialDate" table="Exe"/>
+    <field id="EndDat" alias="endDate" table="Exe"/>
+    <field id="ExeTim" alias="executionTime" table="Exe"/>
+    <field id="Sta" alias="status" table="Exe"/>
+    <field id="LchBy" alias="launchedBy" table="Exe"/>
+    <field id="Des" alias="description" table="Exe"/>
     <where>
       <and>
-        <filter left-field="IdeTsk" condition="eq" right-variable="taskId"/>
-        <filter left-field="ExeTsk" condition="eq" right-variable="taskExecution"/>
+        <filter left-field="Ide" left-table="Tsk" condition="eq" right-variable="taskId"/>
+        <filter left-field="IdeTsk" left-table="Exe" condition="eq" right-variable="taskId"/>
+        <filter left-field="ExeTsk" left-table="Exe" condition="eq" right-variable="taskExecution"/>
       </and>
     </where>
     <variable id="taskId" type="INTEGER" name="taskId"/>

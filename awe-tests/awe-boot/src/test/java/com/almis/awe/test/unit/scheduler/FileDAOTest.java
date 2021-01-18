@@ -12,10 +12,12 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.naming.NamingException;
 import java.util.Date;
@@ -36,6 +38,7 @@ import static org.mockito.Mockito.verify;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @Log4j2
+@RunWith(MockitoJUnitRunner.class)
 public class FileDAOTest extends TestUtil {
 
   @InjectMocks
@@ -52,7 +55,6 @@ public class FileDAOTest extends TestUtil {
    */
   @Before
   public void initBeans() throws Exception {
-    MockitoAnnotations.initMocks(this);
     given(queryUtil.getParameters((String) null)).willReturn(JsonNodeFactory.instance.objectNode());
   }
 
