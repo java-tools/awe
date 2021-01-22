@@ -37,34 +37,35 @@ public class MicroserviceConnector extends AbstractRestConnector {
   public ServiceData launch(ServiceType service, Map<String, Object> paramsMapFromRequest) throws AWException {
     // Variable definition
     ServiceData outData;
-    String partialUrl;
+    StringBuilder urlBuilder = new StringBuilder();
 
-    ServiceMicroservice microservice;
-    if (service != null) {
-      microservice = (ServiceMicroservice) service;
-      String microserviceProperty = MICROSERVICE + microservice.getName();
-      String microServiceName = Optional.ofNullable(getProperty(microserviceProperty)).orElse(microservice.getName());
+    ServiceMicroservice microservice = (ServiceMicroservice) service;
+    String microserviceProperty = MICROSERVICE + microservice.getName();
+    String microServiceName = Optional.ofNullable(getProperty(microserviceProperty)).orElse(microservice.getName());
 
-      partialUrl = endpointBaseUrl + microServiceName + microservice.getEndpoint();
+    urlBuilder
+      .append(endpointBaseUrl)
+      .append(microServiceName)
+      .append(microservice.getEndpoint());
 
-      // Retrieve microservice auth (if defined)
-      microservice.setAuthentication(getProperty(microserviceProperty + ".authentication"));
-      microservice.setUsername(getProperty(microserviceProperty + ".authentication.username"));
-      microservice.setPassword(getProperty(microserviceProperty + ".authentication.password"));
+    // Retrieve microservice auth (if defined)
+    microservice.setAuthentication(getProperty(microserviceProperty + ".authentication"));
+    microservice.setUsername(getProperty(microserviceProperty + ".authentication.username"));
+    microservice.setPassword(getProperty(microserviceProperty + ".authentication.password"));
 
-      // Add specific parameters to the microservice call
-      addDefinedParameters(microservice, paramsMapFromRequest);
+    // Add specific parameters to the microservice call
+    addDefinedParameters(microservice, paramsMapFromRequest);
 
-      // Create request to microservice
-      try {
-        outData = doRequest(partialUrl, microservice, paramsMapFromRequest);
-      } catch (RestClientException exc) {
-        throw new AWException(getLocale("ERROR_TITLE_INVALID_CONNECTION"),
-          getLocale("ERROR_MESSAGE_CONNECTION_MICROSERVICE", microservice.getName()), exc);
-      }
-    } else {
-      outData = new ServiceData();
+    // Create request to microservice
+    try {
+      outData = doRequest(urlBuilder.toString(), microservice, paramsMapFromRequest);
+    } catch (RestClientException exc) {
+      throw new AWException(getLocale("ERROR_TITLE_INVALID_CONNECTION"),
+        getLocale("ERROR_MESSAGE_CONNECTION_MICROSERVICE", microservice.getName()), exc);
     }
+
+    // Check service response
+    checkServiceResponse(outData);
 
     return outData;
   }

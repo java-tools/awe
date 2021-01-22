@@ -8,6 +8,7 @@ import com.almis.awe.model.dto.ServiceDataWrapper;
 import com.almis.awe.model.entities.queries.Query;
 import com.almis.awe.model.entities.services.AbstractServiceRest;
 import com.almis.awe.model.entities.services.ServiceInputParameter;
+import com.almis.awe.model.type.AnswerType;
 import com.almis.awe.model.type.RestContentType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,6 +25,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -156,6 +158,17 @@ public abstract class AbstractRestConnector extends AbstractServiceConnector {
       return new HttpEntity<>(getParameterMap(rest, uriBuilder, urlParameters, paramsMapFromRequest), headers);
     } else {
       return new HttpEntity<>(getParametersJson(rest, uriBuilder, urlParameters, paramsMapFromRequest), headers);
+    }
+  }
+
+  /**
+   * Check service response and send exception if failed or warning
+   * @param serviceData Service data
+   * @throws AWException Service data is error or warning
+   */
+  protected void checkServiceResponse(ServiceData serviceData) throws AWException {
+    if (Arrays.asList(AnswerType.ERROR, AnswerType.WARNING).contains(serviceData.getType())) {
+      throw new AWException(serviceData.getTitle(), serviceData.getMessage(), serviceData.getType());
     }
   }
 
