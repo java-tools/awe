@@ -1,5 +1,6 @@
 package com.almis.awe.test.unit.rest;
 
+import com.almis.awe.exception.AWException;
 import lombok.extern.log4j.Log4j2;
 import org.junit.After;
 import org.junit.Before;
@@ -141,5 +142,21 @@ public class MicroserviceTest extends AweSpringRestTests {
   @Test
   public void overwriteMicroserviceNameTest() throws Exception {
     doRestTest("CallOverWriteMicroserviceName", "data", "", "[{\"type\":\"fill\",\"parameters\":{\"datalist\":{\"total\":1,\"page\":1,\"records\":0,\"rows\":[]}}},{\"type\":\"end-load\"}]");
+  }
+
+  /**
+   * Simple call with overwrite microservice name returning an AWException
+   */
+  @Test
+  public void testMicroserviceCallError() throws Exception {
+    doRestTest("CallOverWriteMicroserviceNameError", "data", "", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"error\",\"title\":\"Error in query\",\"message\":\"\"}}]");
+  }
+
+  /**
+   * Simple call with overwrite microservice name returning an AWException
+   */
+  @Test
+  public void testMicroserviceCallWarning() throws Exception {
+    doRestTest("CallOverWriteMicroserviceNameWarning", "data", "", "[{\"type\":\"end-load\",\"parameters\":{}},{\"type\":\"message\",\"parameters\":{\"type\":\"error\",\"title\":\"Error in query\",\"message\":\"\"}}]");
   }
 }
