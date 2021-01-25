@@ -344,8 +344,8 @@ Deploy Maven Central:
   script:
     - echo "$GOOGLE_KEY" > key.json
     - gcloud auth activate-service-account --key-file key.json
-    - gcloud config set compute/zone $KUBE_ZONE
     - gcloud config set project $KUBERNETES_PROJECT_ID
+    - gcloud config set compute/zone $KUBE_ZONE
     - gcloud config set container/use_client_certificate True
     - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
     - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
