@@ -1,4 +1,9 @@
 
+# Changelog for awe 4.3.2
+*25/01/2021*
+
+- Return AWException when service data retrieved by Rest or Microservice is ERROR or WARNING. [MR #271](https://gitlab.com/aweframework/awe/-/merge_requests/271) (Pablo Javier García Mora)
+
 # Changelog for awe 4.3.1
 *18/01/2021*
 

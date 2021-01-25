@@ -27,35 +27,32 @@ public class RestConnector extends AbstractRestConnector {
   public ServiceData launch(ServiceType service, Map<String, Object> paramsMapFromRequest) throws AWException {
     // Variable definition
     ServiceData outData;
-    String url = null;
+    StringBuilder urlBuilder = new StringBuilder();
 
-    ServiceRest rest = null;
-    if (service != null) {
-      url = "";
-      rest = (ServiceRest) service;
+    ServiceRest rest = (ServiceRest) service;
 
-      // Retrieve rest server (if defined)
-      if (rest.getServer() != null) {
-        String serverProperty = "rest.server." + rest.getServer();
-        url = getProperty(serverProperty);
-        rest.setAuthentication(getProperty(serverProperty + ".authentication"));
-        rest.setUsername(getProperty(serverProperty + ".authentication.username"));
-        rest.setPassword(getProperty(serverProperty + ".authentication.password"));
-      }
-
-      // Add endpoint to url
-      url += rest.getEndpoint();
-
-      // Create request to rest service
-      try {
-        outData = doRequest(url, rest, paramsMapFromRequest);
-      } catch (RestClientException exc) {
-        throw new AWException(getLocale("ERROR_TITLE_INVALID_CONNECTION"),
-          getLocale("ERROR_MESSAGE_CONNECTION_REST", url), exc);
-      }
-    } else {
-      outData = new ServiceData();
+    // Retrieve rest server (if defined)
+    if (rest.getServer() != null) {
+      String serverProperty = "rest.server." + rest.getServer();
+      urlBuilder.append(getProperty(serverProperty));
+      rest.setAuthentication(getProperty(serverProperty + ".authentication"));
+      rest.setUsername(getProperty(serverProperty + ".authentication.username"));
+      rest.setPassword(getProperty(serverProperty + ".authentication.password"));
     }
+
+    // Add endpoint to url
+    urlBuilder.append(rest.getEndpoint());
+
+    // Create request to rest service
+    try {
+      outData = doRequest(urlBuilder.toString(), rest, paramsMapFromRequest);
+    } catch (RestClientException exc) {
+      throw new AWException(getLocale("ERROR_TITLE_INVALID_CONNECTION"),
+        getLocale("ERROR_MESSAGE_CONNECTION_REST", urlBuilder.toString()), exc);
+    }
+
+    // Check service response
+    checkServiceResponse(outData);
 
     return outData;
   }

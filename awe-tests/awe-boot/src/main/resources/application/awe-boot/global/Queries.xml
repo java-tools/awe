@@ -2315,6 +2315,10 @@
 
   <query id="CallOverWriteMicroserviceName" service="simpleMicroservice4"/>
 
+  <query id="CallOverWriteMicroserviceNameError" service="simpleMicroservice4Error"/>
+
+  <query id="CallOverWriteMicroserviceNameWarning" service="simpleMicroservice4Warning"/>
+
 
   <query id="CallAluMicroserviceWithoutParameters" service="aluGetKeyNoParam"/>
 
