@@ -6,31 +6,33 @@ import com.almis.awe.model.entities.services.ServiceInputParameter;
 import com.almis.awe.model.entities.services.ServiceMicroservice;
 import com.almis.awe.model.entities.services.ServiceType;
 import com.almis.awe.model.type.ParameterType;
+import com.almis.awe.model.util.data.QueryUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Launches a Microservice
  */
+@Log4j2
 public class MicroserviceConnector extends AbstractRestConnector {
 
-  public static final String MICROSERVICE = "microservice.";
+  public static final String MICROSERVICE = "microservice";
   @Value("${awe.microservices.endpoint}")
   private String endpointBaseUrl;
+  private final QueryUtil queryUtil;
 
   /**
    * Autowired constructor
    *
    * @param requestFactory Request factory
    */
-  public MicroserviceConnector(ClientHttpRequestFactory requestFactory) {
+  public MicroserviceConnector(ClientHttpRequestFactory requestFactory, QueryUtil queryUtil) {
     super(requestFactory);
+    this.queryUtil = queryUtil;
   }
 
   @Override
@@ -40,7 +42,7 @@ public class MicroserviceConnector extends AbstractRestConnector {
     StringBuilder urlBuilder = new StringBuilder();
 
     ServiceMicroservice microservice = (ServiceMicroservice) service;
-    String microserviceProperty = MICROSERVICE + microservice.getName();
+    String microserviceProperty = String.format("%s.%s",MICROSERVICE, microservice.getName());
     String microServiceName = Optional.ofNullable(getProperty(microserviceProperty)).orElse(microservice.getName());
 
     urlBuilder
@@ -49,9 +51,9 @@ public class MicroserviceConnector extends AbstractRestConnector {
       .append(microservice.getEndpoint());
 
     // Retrieve microservice auth (if defined)
-    microservice.setAuthentication(getProperty(microserviceProperty + ".authentication"));
-    microservice.setUsername(getProperty(microserviceProperty + ".authentication.username"));
-    microservice.setPassword(getProperty(microserviceProperty + ".authentication.password"));
+    microservice.setAuthentication(getProperty(String.format("%s.authentication", microserviceProperty)));
+    microservice.setUsername(getProperty(String.format("%s.authentication.username", microserviceProperty)));
+    microservice.setPassword(getProperty(String.format("%s.authentication.password", microserviceProperty)));
 
     // Add specific parameters to the microservice call
     addDefinedParameters(microservice, paramsMapFromRequest);
@@ -77,25 +79,32 @@ public class MicroserviceConnector extends AbstractRestConnector {
    * @param paramsMapFromRequest Parameter map
    */
   private void addDefinedParameters(ServiceMicroservice microservice, Map<String, Object> paramsMapFromRequest) {
-
     // Read session parameters
-    List<String> parameterList = getProperty(MICROSERVICE + microservice.getName() + ".session", List.class);
-    if (parameterList != null) {
-      for (String parameterName : parameterList) {
-        String sessionParameter = getProperty(MICROSERVICE + "parameter." + parameterName);
-        paramsMapFromRequest.put(parameterName, getSession().getParameter(sessionParameter));
-        addParameterToService(microservice, parameterName);
-      }
-    }
+    List<String> parameterList = getProperty(String.format("%s.%s.parameters", MICROSERVICE, microservice.getName()), List.class);
+    Optional.ofNullable(parameterList).orElse(Collections.emptyList())
+      .forEach(parameter -> {
+        paramsMapFromRequest.put(parameter, getParameter(parameter));
+        addParameterToService(microservice, parameter);
+      });
+  }
 
-    // Read static parameters
-    parameterList = getProperty(MICROSERVICE + microservice.getName() + ".static", List.class);
-    if (parameterList != null) {
-      for (String parameterName : parameterList) {
-        String staticValue = getProperty(MICROSERVICE + "parameter." + parameterName);
-        paramsMapFromRequest.put(parameterName, staticValue);
-        addParameterToService(microservice, parameterName);
-      }
+  /**
+   * Retrieve parameter value
+   * @param parameterName Parameter name
+   * @return Parameter value
+   */
+  private Object getParameter(String parameterName) {
+    String parameter = getProperty(String.format("%s.parameter.%s", MICROSERVICE, parameterName));
+    String type = getProperty(String.format("%s.parameter.%s.type", MICROSERVICE, parameterName));
+
+    switch (Optional.ofNullable(type).orElse("default")) {
+      case "session":
+        return getSession().getParameter(parameter);
+      case "request":
+        return queryUtil.getRequestParameter(parameter);
+      case "static":
+      default:
+        return parameter;
     }
   }
 

@@ -417,6 +417,50 @@ Microservices are connectors to REST-defined services. It's xml structure is:
 </service>
 ```
 
+### Microservice default parameters
+
+You can define a set of default parameters which will be sent in **all** microservice calls.
+These parameters can be `session parameters`, `request parameters` or `static parameters`.
+
+To define a parameter list you must fill the parameter list in the order you need the
+parameters to be sent:
+
+```properties
+microservice.[microservice-name].parameters=parameter1,parameter2,parameter3,parameter4
+```
+
+where `[microservice-name]` is the name you defined in `<microservice name="[microservice-name]"` attribute.
+
+#### Default session parameters
+
+These parameters will be retrieved from session:
+
+```properties
+microservice.parameter.parameter1=user
+microservice.parameter.parameter1.type=session
+```
+
+#### Default request parameters
+
+These parameters will be retrieved from screen parameters:
+
+```properties
+microservice.parameter.parameter2=_database_
+microservice.parameter.parameter2.type=request
+```
+
+#### Default static parameters
+
+These parameters are static values. 
+`static` is the default value in case you don't define a type for the parameter
+
+```properties
+microservice.parameter.parameter3=static_value
+microservice.parameter.parameter3.type=static
+
+microservice.parameter.parameter4=another_static_value
+```
+
 ### Microservice examples
 
 ```xml

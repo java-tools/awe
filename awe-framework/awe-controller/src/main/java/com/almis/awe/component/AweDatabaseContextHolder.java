@@ -28,37 +28,33 @@ import java.util.Map;
  */
 public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
 
+  private static final String ERROR_TITLE_INVALID_CONNECTION = "ERROR_TITLE_INVALID_CONNECTION";
   // Autowired services
   private final AweElements elements;
   private final QueryService queryService;
   private final SessionService sessionService;
   private final LogUtil logger;
   private StringValueResolver resolver;
-
   // Database jndi-url
   @Value("${spring.datasource.jndi-name}")
   private String databaseJndi;
-
   // Database url
   @Value("${spring.datasource.url:}")
   private String databaseUrl;
-
   // Database user
   @Value("${spring.datasource.username:}")
   private String databaseUser;
-
   // Database password
   @Value("${spring.datasource.password:}")
   private String databasePassword;
-
   // Database driver
   @Value("${spring.datasource.driver-class-name:}")
   private String databaseDriver;
-
   // Validation query
   @Value("${spring.datasource.validation-query:}")
   private String validationQuery;
-
+  // Store datasources list
+  private Map<Object, Object> dataSourceMap;
   /**
    * Autowired constructor
    *
@@ -74,24 +70,19 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
     this.logger = logger;
   }
 
-  // Store datasources list
-  private Map<String, DatabaseConnectionInfo> connectionInfoMap = new HashMap<>();
-  private Map<Object, Object> dataSourceMap = new HashMap<>();
-  private static final String ERROR_TITLE_INVALID_CONNECTION = "ERROR_TITLE_INVALID_CONNECTION";
-
   /**
    * Load datasources from current connection
    *
    * @return datasource map
    */
   public Map<Object, Object> getDataSources() {
-    dataSourceMap = new HashMap<>();
-    connectionInfoMap = loadDataSources();
+    Map<Object, Object> dataSources = new HashMap<>();
+    Map<String, DatabaseConnectionInfo> connectionInfoMap = loadDataSources();
 
     // Retrieve datasources
     for (DatabaseConnectionInfo connectionInfo : connectionInfoMap.values()) {
       try {
-        dataSourceMap.put(connectionInfo.getAlias(), getDataSource(connectionInfo.getJndi(), connectionInfo.getUrl(),
+        dataSources.put(connectionInfo.getAlias(), getDataSource(connectionInfo.getJndi(), connectionInfo.getUrl(),
           connectionInfo.getUser(), connectionInfo.getPassword(), connectionInfo.getDriver(), validationQuery));
       } catch (Exception exc) {
         // Log datasource failure
@@ -100,7 +91,8 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
     }
 
     // Redefine target datasources
-    return dataSourceMap;
+    dataSourceMap = dataSources;
+    return dataSources;
   }
 
   /**
@@ -165,7 +157,7 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
    * @return datasource map
    */
   private Map<String, DatabaseConnectionInfo> loadDataSources() {
-    connectionInfoMap = new HashMap<>();
+    Map<String, DatabaseConnectionInfo> connectionMap = new HashMap<>();
     ServiceData serviceData = null;
     try {
       serviceData = queryService.launchPrivateQuery(AweConstants.DATABASE_CONNECTIONS_QUERY, "1", "0");
@@ -178,7 +170,7 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
       for (Map<String, CellData> row : serviceData.getDataList().getRows()) {
         DatabaseConnectionInfo connectionInfo = new DatabaseConnectionInfo(row);
         try {
-          connectionInfoMap.put(connectionInfo.getAlias(), connectionInfo);
+          connectionMap.put(connectionInfo.getAlias(), connectionInfo);
         } catch (Exception exc) {
           // Log datasource failure
           logger.log(AweDatabaseContextHolder.class, Level.ERROR, "Error retrieving datasource ''{0}''", exc, connectionInfo.getAlias());
@@ -187,7 +179,7 @@ public class AweDatabaseContextHolder implements EmbeddedValueResolverAware {
     }
 
     // Redefine target datasources
-    return connectionInfoMap;
+    return connectionMap;
   }
 
   /**

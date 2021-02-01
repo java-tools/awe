@@ -33,6 +33,9 @@ public class QueryUtil extends ServiceConfig {
   @Value("${application.data.rowsPerPage:30}")
   private Long rowsPerPage;
 
+  @Value("${awe.database.parameter.name:_database_}")
+  private String databaseParameterName;
+
   /**
    * Generate sort list
    *
@@ -55,9 +58,8 @@ public class QueryUtil extends ServiceConfig {
    *
    * @param parameters Parameter list
    * @return Query parameter map
-   * @throws AWException Error generating variables
    */
-  public Map<String, QueryParameter> getDefaultVariableMap(ObjectNode parameters) throws AWException {
+  public Map<String, QueryParameter> getDefaultVariableMap(ObjectNode parameters) {
     Map<String, QueryParameter> variableMap = new HashMap<>();
 
     // Add sort variable
@@ -84,7 +86,7 @@ public class QueryUtil extends ServiceConfig {
     }
 
     // Add database variable
-    JsonNode aliasParameter = getRequestParameter(AweConstants.COMPONENT_DATABASE, parameters);
+    JsonNode aliasParameter = getRequestParameter(databaseParameterName, parameters);
     if (aliasParameter != null && !aliasParameter.isNull()) {
       variableMap.put(AweConstants.QUERY_DATABASE, new QueryParameter(aliasParameter, false, ParameterType.STRING));
     }
@@ -325,7 +327,7 @@ public class QueryUtil extends ServiceConfig {
     ObjectNode forcedParameters = parameters.deepCopy();
     // Force alias if not null
     if (alias != null) {
-      forcedParameters.set(AweConstants.COMPONENT_DATABASE, JsonNodeFactory.instance.textNode(alias));
+      forcedParameters.set(databaseParameterName, JsonNodeFactory.instance.textNode(alias));
     }
 
     // Force page if not null
@@ -352,7 +354,7 @@ public class QueryUtil extends ServiceConfig {
   public JsonNode getParameter(Variable variable, ObjectNode parameters) throws AWException {
     // Variable definition
     JsonNode parameter = variable.getName() != null ? getRequestParameter(variable.getName(), parameters) : null;
-    boolean parseList = false;
+    boolean parseList;
 
     // Check value as static
     String stringParameter;
@@ -473,13 +475,9 @@ public class QueryUtil extends ServiceConfig {
   private JsonNode getStringParameter(JsonNode parameter, String stringParameter) {
     JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
     JsonNode output = parameter;
-    if (parameter == null) {
-      if (stringParameter == null) {
-        output = nodeFactory.textNode("");
-      } else {
-        output = nodeFactory.textNode(stringParameter);
-      }
-    } else if (parameter.isNull()) {
+    if (parameter == null && stringParameter != null) {
+      output = nodeFactory.textNode(stringParameter);
+    } else if (parameter == null || parameter.isNull()) {
       output = nodeFactory.textNode("");
     }
     return output;
@@ -491,23 +489,28 @@ public class QueryUtil extends ServiceConfig {
    * @param name       Parameter name
    * @param parameters Parameters list
    * @return Parameter
-   * @throws AWException Error retrieving variable value
    */
-  public JsonNode getRequestParameter(String name, ObjectNode parameters) throws AWException {
-    if (parameters == null) {
-      try {
-        if (getRequest() == null) {
-          return null;
-        }
-        // Retrieve Json node
-        return getRequest().getParameter(name);
-      } catch (Exception exc) {
-        throw new AWException(getLocale("ERROR_TITLE_RETRIEVING_ELEMENT_PARAMETERS"), getLocale("ERROR_MESSAGE_READING_PARAMETER", name));
-      }
-    } else {
-      return parameters.get(name);
-    }
+  public JsonNode getRequestParameter(String name, ObjectNode parameters) {
+    ObjectNode safeParameters = Optional.ofNullable(parameters).orElse(JsonNodeFactory.instance.objectNode());
+    return safeParameters.has(name) ? safeParameters.get(name) : getRequestParameter(name);
+  }
 
+  /**
+   * Retrieve parameter from request
+   *
+   * @param name       Parameter name
+   * @return Parameter
+   */
+  public JsonNode getRequestParameter(String name) {
+    try {
+      if (getRequest() == null) {
+        return null;
+      }
+      // Retrieve Json node
+      return getRequest().getParameter(name);
+    } catch (Exception exc) {
+      return null;
+    }
   }
 
   /**

@@ -957,10 +957,10 @@
   <target name="SesVarDbs">
     <serve service="storeSessionString">
       <variable id="name" type="STRING" value="database" />
-      <variable id="value" type="STRING" name="database" />
+      <variable id="value" type="STRING" name="_database_" />
     </serve>
     <serve service="LogChgDbs">
-      <variable id="database" type="STRING" session="database" />
+      <variable id="database" type="STRING" name="_database_" />
     </serve>
   </target>
 

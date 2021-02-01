@@ -22,7 +22,7 @@
       <button-action type="check-records-saved" target="SitModDbsLst" />
       <button-action type="confirm" target="UpdMsg" />
       <button-action type="server" server-action="maintain" target-action="DbsUpd" />
-      <button-action type="server" server-action="data" target-action="DbsAlsBySitModSel" target="database" context="base" />
+      <button-action type="server" server-action="data" target-action="DbsAlsBySitModSel" target="_database_" context="base" />
       <button-action type="back" />
     </button>
   </tag>
