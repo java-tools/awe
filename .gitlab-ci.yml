@@ -350,13 +350,13 @@ Deploy Maven Central:
     - gcloud container clusters get-credentials $KUBERNETES_CLUSTER_NAME
     - kubectl config set-cluster $KUBERNETES_CLUSTER_NAME --server="$KUBE_URL" --insecure-skip-tls-verify=true
     - kubectl config set-credentials admin --username="$KUBE_USER" --password="$KUBE_PASSWORD"
-    - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$KUBE_NAMESPACE
+    - kubectl config set-context default-system --cluster=$KUBERNETES_CLUSTER_NAME --user=admin --namespace=$CI_ENVIRONMENT_SLUG
     - kubectl config use-context default-system
     - kubectl delete secret registry.gitlab.com --ignore-not-found
     - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
     - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
     - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/" awe-tests/awe-boot/deployment.yaml
-    - kubectl delete --all pods --namespace=$KUBE_NAMESPACE
+    - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
     - kubectl apply -f awe-tests/awe-boot/deployment.yaml
 
 Deploy staging:
