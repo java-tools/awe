@@ -24,7 +24,7 @@
       <button-action type="server" server-action="control-unique-cancel" target-action="DbsAlsUni" target="DbsAlsUni" />
       <button-action type="confirm" target="NewMsg" />
       <button-action type="server" server-action="maintain" target-action="DbsNew" />
-      <button-action type="server" server-action="data" target-action="DbsAlsBySitModSel" target="database" context="base" />
+      <button-action type="server" server-action="data" target-action="DbsAlsBySitModSel" target="_database_" context="base" />
       <button-action type="back" />
     </button>
   </tag>

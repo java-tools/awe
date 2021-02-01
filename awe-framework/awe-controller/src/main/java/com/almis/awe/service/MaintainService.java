@@ -17,11 +17,14 @@ import com.almis.awe.model.util.data.QueryUtil;
 import com.almis.awe.service.data.builder.SQLMaintainBuilder;
 import com.almis.awe.service.data.connector.maintain.MaintainLauncher;
 import com.almis.awe.service.data.connector.query.QueryLauncher;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.querydsl.sql.Configuration;
 import com.querydsl.sql.SQLQueryFactory;
 import org.apache.logging.log4j.Level;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.inject.Provider;
@@ -30,8 +33,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 
-import static com.almis.awe.model.constant.AweConstants.COMPONENT_DATABASE;
-
 /**
  * Provides methods to insert/update/delete application data
  *
@@ -39,14 +40,16 @@ import static com.almis.awe.model.constant.AweConstants.COMPONENT_DATABASE;
  */
 public class MaintainService extends ServiceConfig {
 
+  // Constants
+  private static final String ERROR_TITLE_LAUNCHING_MAINTAIN = "ERROR_TITLE_LAUNCHING_MAINTAIN";
+  private static final String ERROR_MESSAGE_MAINTAIN_NOT_FOUND = "ERROR_MESSAGE_MAINTAIN_NOT_FOUND";
   // Autowired services
   private final MaintainLauncher maintainLauncher;
   private final AccessService accessService;
   private final QueryUtil queryUtil;
 
-  // Constants
-  private static final String ERROR_TITLE_LAUNCHING_MAINTAIN = "ERROR_TITLE_LAUNCHING_MAINTAIN";
-  private static final String ERROR_MESSAGE_MAINTAIN_NOT_FOUND = "ERROR_MESSAGE_MAINTAIN_NOT_FOUND";
+  @Value("${awe.database.parameter.name:_database_}")
+  private String databaseParameterName;
 
   /**
    * Autowired constructor
@@ -126,7 +129,7 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchMaintain(String maintainId, ObjectNode parameters) throws AWException {
-    return launchMaintain(maintainId, parameters, getDatabaseConnectionFromParameters(parameters), false);
+    return launchMaintain(maintainId, parameters, getDatabaseConnection(parameters), false);
   }
 
   /**
@@ -192,7 +195,7 @@ public class MaintainService extends ServiceConfig {
    * @throws AWException Error launching maintain
    */
   public ServiceData launchPrivateMaintain(String maintainId, ObjectNode parameters) throws AWException {
-    return launchPrivateMaintain(maintainId, parameters, getDatabaseConnectionFromParameters(parameters), false);
+    return launchPrivateMaintain(maintainId, parameters, getDatabaseConnection(parameters), false);
   }
 
   /**
@@ -231,15 +234,11 @@ public class MaintainService extends ServiceConfig {
    * Retrieve database connection from alias checking nulls
    *
    * @param alias Alias
-   * @return
-   * @throws AWException
+   * @return Database connection
+   * @throws AWException Error retrieving database connection
    */
   private DatabaseConnection getSafeDatabaseConnection(String alias) throws AWException {
-    if (alias == null) {
-      return getCurrentDatabaseConnection();
-    } else {
-      return getDatabaseConnection(alias);
-    }
+    return alias == null ? getSessionDatabaseConnection() : getDatabaseConnection(alias);
   }
 
   /**
@@ -247,14 +246,21 @@ public class MaintainService extends ServiceConfig {
    *
    * @param parameters Parameters
    * @return Database connection
-   * @throws AWException
+   * @throws AWException Error retrieving database connection
    */
-  private DatabaseConnection getDatabaseConnectionFromParameters(ObjectNode parameters) throws AWException {
-    if (parameters.has(COMPONENT_DATABASE)) {
-      return getSafeDatabaseConnection(parameters.get(COMPONENT_DATABASE).asText());
-    } else {
-      return getCurrentDatabaseConnection();
-    }
+  public DatabaseConnection getDatabaseConnection(ObjectNode parameters) throws AWException {
+    JsonNode database = queryUtil.getRequestParameter(databaseParameterName, parameters);
+    return getSafeDatabaseConnection(Optional.ofNullable(database).orElse(JsonNodeFactory.instance.nullNode()).textValue());
+  }
+
+  /**
+   * Retrieve database connection
+   *
+   * @return Database connection
+   * @throws AWException Error retrieving database connection
+   */
+  public DatabaseConnection getDatabaseConnection() throws AWException {
+    return getDatabaseConnection(queryUtil.getParameters());
   }
 
   /**
@@ -285,8 +291,8 @@ public class MaintainService extends ServiceConfig {
    * @return Database connection
    * @throws AWException AWE exception
    */
-  public DatabaseConnection getCurrentDatabaseConnection() throws AWException {
-    return getBean(AweDatabaseContextHolder.class).getDatabaseConnection(getCurrentDataSource());
+  private DatabaseConnection getSessionDatabaseConnection() throws AWException {
+    return getDatabaseConnection(getSessionDataSource());
   }
 
   /**
@@ -294,7 +300,7 @@ public class MaintainService extends ServiceConfig {
    *
    * @return Datasource
    */
-  public DataSource getCurrentDataSource() {
+  private DataSource getSessionDataSource() {
     return getBean(DataSource.class);
   }
 
@@ -340,10 +346,10 @@ public class MaintainService extends ServiceConfig {
    *
    * @param sequence Sequence identifier
    * @return Sequence value
-   * @throws AWException
+   * @throws AWException Error retrieving next sequence value
    */
   public Integer getNextSequenceValue(String sequence) throws AWException {
-    return getNextSequenceValue(sequence, getCurrentDatabaseConnection());
+    return getNextSequenceValue(sequence, getDatabaseConnection());
   }
 
   /**
@@ -352,7 +358,7 @@ public class MaintainService extends ServiceConfig {
    * @param sequence      Sequence identifier
    * @param databaseAlias Database alias
    * @return Sequence value
-   * @throws AWException
+   * @throws AWException Error retrieving next sequence value
    */
   public Integer getNextSequenceValue(String sequence, String databaseAlias) throws AWException {
     return getNextSequenceValue(sequence, getDatabaseConnection(databaseAlias));
@@ -364,7 +370,7 @@ public class MaintainService extends ServiceConfig {
    * @param sequence           Sequence identifier
    * @param databaseConnection Database alias
    * @return Sequence value
-   * @throws AWException
+   * @throws AWException Error retrieving next sequence value
    */
   public Integer getNextSequenceValue(String sequence, DatabaseConnection databaseConnection) throws AWException {
     final Connection connection = databaseConnection.getConnection();
@@ -393,7 +399,7 @@ public class MaintainService extends ServiceConfig {
    */
   private Target prepareMaintain(String maintainId, boolean checkSession) throws AWException {
     // Variable Definition
-    Target maintain = null;
+    Target maintain;
     try {
       if (getElements().getMaintain(maintainId) != null) {
         // Get maintain
@@ -548,7 +554,7 @@ public class MaintainService extends ServiceConfig {
       try (Connection connection = databaseConnection.getConnection()) {
         connection.commit();
       } catch (SQLException exc) {
-        doRollback(databaseConnection, statementList, manageConnection);
+        doRollback(databaseConnection, statementList, true);
         throw new AWException(getLocale("ERROR_TITLE_DURING_COMMIT"),
           getLocale("ERROR_MESSAGE_DURING_COMMIT") + "\n[" + statementList + "]", exc);
       }

@@ -36,7 +36,7 @@
       <button-action type="check-some-selected" target="GrdDbsLst" />
       <button-action type="confirm" target="DelMsg" />
       <button-action type="server" server-action="maintain" target-action="DbsDel" />
-      <button-action type="server" server-action="data" target-action="DbsAlsBySitModSel" target="database" context="base" />
+      <button-action type="server" server-action="data" target-action="DbsAlsBySitModSel" target="_database_" context="base" />
       <button-action type="filter" target="GrdDbsLst" />
       <dependency target-type="disable" initial="true">
         <dependency-element id="GrdDbsLst" condition="lt" value="1" />

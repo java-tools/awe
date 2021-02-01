@@ -15,6 +15,7 @@ import com.almis.awe.model.util.data.StringUtil;
 import com.almis.awe.service.data.builder.DataListBuilder;
 import com.almis.awe.service.data.builder.SQLQueryBuilder;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
@@ -24,10 +25,12 @@ import com.querydsl.sql.SQLExpressions;
 import com.querydsl.sql.SQLQuery;
 import com.querydsl.sql.SQLQueryFactory;
 import org.apache.logging.log4j.Level;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * SQLQueryConnector Class
@@ -40,6 +43,9 @@ public class SQLQueryConnector extends AbstractQueryConnector {
   // Autowired services
   private final AweDatabaseContextHolder contextHolder;
   private final DataSource dataSource;
+
+  @Value("${awe.database.parameter.name:_database_}")
+  private String databaseParameterName;
 
   /**
    * Autowired constructor
@@ -155,7 +161,7 @@ public class SQLQueryConnector extends AbstractQueryConnector {
    *
    * @param parameters Parameters
    * @return Query factory
-   * @throws AWException
+   * @throws AWException Error retrieving query factory
    */
   private SQLQueryFactory getQueryFactory(ObjectNode parameters) throws AWException {
     // Retrieve current datasource
@@ -163,8 +169,10 @@ public class SQLQueryConnector extends AbstractQueryConnector {
     DatabaseConnection databaseConnection = contextHolder.getDatabaseConnection(dataSource);
 
     // Check if call refers to a specific database
-    if (parameters.get(AweConstants.COMPONENT_DATABASE) != null) {
-      databaseConnection = contextHolder.getDatabaseConnection(parameters.get(AweConstants.COMPONENT_DATABASE).asText());
+    String database = Optional.ofNullable(getQueryUtil().getRequestParameter(databaseParameterName, parameters))
+      .orElse(JsonNodeFactory.instance.nullNode()).textValue();
+    if (database != null) {
+      databaseConnection = contextHolder.getDatabaseConnection(database);
       currentDataSource = databaseConnection.getDataSource();
     }
 

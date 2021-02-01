@@ -237,7 +237,7 @@ public class ScreenModelGenerator extends ServiceConfig {
       DataList screenRestriction = (DataList) screenConfigurationOutput.getVariableMap().get(AweConstants.ACTION_DATA).getObjectValue();
       screenRestrictionGenerator.applyScreenRestriction(screenRestriction, menuContainer.getMenu());
     } catch (Exception exc) {
-      String screen = data.getScreenProperties().get(AweConstants.JSON_SCREEN);
+      String screen = data.getScreenProperties().get(AweConstants.JSON_OPTION);
       String errorMessage = getLocale("ERROR_MESSAGE_SCREEN_RESTRICTIONS", screen);
       data.addError(new AWException(getLocale("ERROR_TITLE_SCREEN_GENERATION_ERROR"), errorMessage, exc));
       getLogger().log(ScreenModelGenerator.class, Level.ERROR, errorMessage + screen, exc);

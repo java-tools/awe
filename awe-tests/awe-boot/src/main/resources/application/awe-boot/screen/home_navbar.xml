@@ -55,15 +55,15 @@
                   <dependency-element id="site"/>
                   <dependency-action type="server" server-action="maintain-silent" target-action="SesVarSit"/>
                   <dependency-action type="server" server-action="data" target-action="DbsAlsBySitModSel"
-                                     target="database"/>
+                                     target="_database_"/>
                 </dependency>
               </info-criteria>
-              <info-criteria icon="database" title="SCREEN_TEXT_DBS" component="select" id="database"
+              <info-criteria icon="database" title="SCREEN_TEXT_DBS" component="select" id="_database_"
                              initial-load="query" target-action="DbsAlsBySitModSel" session="database"
                              style="col-xs-12 no-label"
                              info-style="form-group">
                 <dependency>
-                  <dependency-element id="database"/>
+                  <dependency-element id="_database_"/>
                   <dependency-action type="server" server-action="maintain-silent" target-action="SesVarDbs"
                                      silent="true"/>
                 </dependency>
