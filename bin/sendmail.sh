@@ -5,7 +5,8 @@ new_version=$(cat ./pom.xml | grep -o '<version>[0-9\.]*[A-Z\-]*</version>' | se
 echo "Sending release mail for version ${new_version}"
 
 curl --request POST \
-     --url https://api.sendgrid.com/v3/mail/send \
+     --url https://api.mailersend.com/v1/email \
      --header "Authorization: Bearer ${0}" \
-     --header 'Content-Type: application/json' \
-     --data "{\"from\": {\"email\": \"${1}\", \"name\": \"AWE Team\"}, \"template_id\": \"${3}\", \"personalizations\": [{\"to\": [{\"email\": \"${2}\"}}], \"dynamic_template_data\": {\"version\": \"${new_version}\"}}]}"
+     --header "Content-Type: application/json" \
+     --header "X-Requested-With: XMLHttpRequest" \
+     --data "{\"from\": {\"email\": \"${1}\", \"name\": \"AWE Team\"}, \"to\": [{\"email\": \"${2}\"}], \"template_id\": \"${3}\", \"variables\": [{\"email\":\"${2}\", \"substitutions\": [{\"var\": \"version\",\"value\": \"${new_version}\"}]}]}"

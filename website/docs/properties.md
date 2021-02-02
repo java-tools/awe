@@ -451,6 +451,9 @@ Here you can define the database connection
 # Enable database
 awe.database.enabled=false
 
+# Database criterion name
+awe.database.parameter.name=_database_
+
 # Limit log size (0 to disable)
 awe.database.limit.log.size=0
 

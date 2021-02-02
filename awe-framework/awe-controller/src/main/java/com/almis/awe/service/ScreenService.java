@@ -200,17 +200,18 @@ public class ScreenService extends ServiceConfig {
     // Important! Move first the parameter list over the stored parameters to avoid losing view, option and screen parameters
     updateParameterList(storedParameters, screen);
 
+    // Add screen information to screen data
+    addScreenInformationToScreenData(screen, data, optionId);
+
+    // Add messages to screen data
+    addMessagesToScreenData(screen, data);
+
     // Generate component map with initial load data
     Map<String, ScreenComponent> componentMap = screenComponentGenerator.generateComponentMap(screen, data, menu, storedParameters);
 
     // Add components to screen data
     addComponentsToScreenData(data, componentMap);
 
-    // Add messages to screen data
-    addMessagesToScreenData(screen, data);
-
-    // Add screen information to screen data
-    addScreenInformationToScreenData(screen, data, optionId);
     return data;
   }
 

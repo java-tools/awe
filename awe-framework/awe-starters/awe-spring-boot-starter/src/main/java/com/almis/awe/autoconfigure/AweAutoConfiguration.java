@@ -490,12 +490,13 @@ public class AweAutoConfiguration {
    * Microservice connector
    *
    * @param requestFactory Request factory
+   * @param queryUtil Query utilities
    * @return Microservice connector bean
    */
   @Bean
   @ConditionalOnMissingBean
-  public MicroserviceConnector microserviceConnector(ClientHttpRequestFactory requestFactory) {
-    return new MicroserviceConnector(requestFactory);
+  public MicroserviceConnector microserviceConnector(ClientHttpRequestFactory requestFactory, QueryUtil queryUtil) {
+    return new MicroserviceConnector(requestFactory, queryUtil);
   }
 
   /**

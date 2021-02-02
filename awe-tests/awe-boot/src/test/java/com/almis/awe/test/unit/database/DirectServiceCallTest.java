@@ -5,6 +5,7 @@ import com.almis.awe.model.util.log.LogUtil;
 import com.almis.awe.service.MaintainService;
 import com.almis.awe.service.QueryService;
 import com.almis.awe.test.unit.spring.AweSpringBootTests;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -63,7 +64,7 @@ public class DirectServiceCallTest extends AweSpringBootTests {
     given(aweSession.isAuthenticated()).willReturn(true);
     MaintainService mock = Mockito.spy(maintainService);
     mock.launchMaintain("SimpleSingleInsertFromVariableValue");
-    verify(mock, times(1)).getCurrentDatabaseConnection();
+    verify(mock, times(1)).getDatabaseConnection(any(ObjectNode.class));
   }
 
   /**
@@ -75,7 +76,7 @@ public class DirectServiceCallTest extends AweSpringBootTests {
   public void testMaintainWithValidAlias() throws Exception {
     given(aweSession.isAuthenticated()).willReturn(true);
     MaintainService mock = Mockito.spy(maintainService);
-    Mockito.doReturn(maintainService.getCurrentDatabaseConnection()).when(mock).getDatabaseConnection(anyString());
+    Mockito.doReturn(maintainService.getDatabaseConnection()).when(mock).getDatabaseConnection(anyString());
     mock.launchMaintain("SimpleSingleInsertFromVariableValue", "aweora1");
     verify(mock, times(1)).getDatabaseConnection("aweora1");
   }
@@ -89,7 +90,7 @@ public class DirectServiceCallTest extends AweSpringBootTests {
   public void testPrivateMaintain() throws Exception {
     MaintainService mock = Mockito.spy(maintainService);
     mock.launchPrivateMaintain("SimpleSingleInsertFromVariableValue");
-    verify(mock, times(1)).getCurrentDatabaseConnection();
+    verify(mock, times(1)).getDatabaseConnection(any(ObjectNode.class));
   }
 
   /**
@@ -100,7 +101,7 @@ public class DirectServiceCallTest extends AweSpringBootTests {
   @Test
   public void testPrivateMaintainWithValidAlias() throws Exception {
     MaintainService mock = Mockito.spy(maintainService);
-    Mockito.doReturn(maintainService.getCurrentDatabaseConnection()).when(mock).getDatabaseConnection(anyString());
+    Mockito.doReturn(maintainService.getDatabaseConnection()).when(mock).getDatabaseConnection(anyString());
     mock.launchPrivateMaintain("SimpleSingleInsertFromVariableValue", "aweora1");
     verify(mock, times(1)).getDatabaseConnection("aweora1");
   }
@@ -121,7 +122,7 @@ public class DirectServiceCallTest extends AweSpringBootTests {
    * @throws AWException Test error
    */
   @Test
-  public void testLogDatabase() throws Exception {
+  public void testLogDatabase() {
     LogUtil spyLog = Mockito.spy(getLogger());
     Logger spyLogger = Mockito.spy(LogManager.getLogger(DirectServiceCallTest.class));
     spyLog.logWithDatabase(DirectServiceCallTest.class, Level.DEBUG, "testDatabase", "test log message");

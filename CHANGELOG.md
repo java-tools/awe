@@ -1,4 +1,11 @@
 
+# Changelog for awe 4.3.3
+*02/02/2021*
+
+- Change notification system. [MR #274](https://gitlab.com/aweframework/awe/-/merge_requests/274) (Pablo Javier García Mora)
+- Problem with /startup actuator endpoint. [MR #273](https://gitlab.com/aweframework/awe/-/merge_requests/273) (Pablo Vidal Otero)
+- **[HAS IMPACTS]** Make database variable allowed to be configured in properties. [MR #272](https://gitlab.com/aweframework/awe/-/merge_requests/272) (Pablo Javier García Mora)
+
 # Changelog for awe 4.3.2
 *25/01/2021*
 
