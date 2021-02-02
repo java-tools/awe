@@ -462,7 +462,7 @@ Notify new release:
   script:
     ## Generate milestone
     - chmod +x ./bin/sendmail.sh
-    - ./bin/sendmail.sh $SENDGRID_API_KEY $RELEASE_MAIL_FROM $RELEASE_MAIL_TO $RELEASE_MAIL_ID
+    - ./bin/sendmail.sh $RELEASE_MAIL_TOKEN $RELEASE_MAIL_FROM $RELEASE_MAIL_TO $RELEASE_MAIL_TEMPLATE_ID
   rules:
     - <<: *if-tag
       when: delayed
