@@ -2,6 +2,9 @@
 # Pipeline definition
 ##############################
 
+include:
+  - template: DAST.gitlab-ci.yml
+
 image: maven:3.6-jdk-8
 
 variables:
@@ -26,6 +29,13 @@ variables:
   CACHE_KEY: "$CI_PIPELINE_IID-$CI_COMMIT_REF_SLUG"
   API_URL: "$CI_API_V4_URL/projects/$CI_PROJECT_ID"
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the sonar task.
+  DAST_WEBSITE: http://staging.aweframework.com
+  DAST_AUTH_URL: http://staging.aweframework.com/
+  DAST_USERNAME: test
+  DAST_PASSWORD: $DAST_PASSWORD
+  DAST_USERNAME_FIELD: cod_usr # the name of username field at the sign-in HTML form
+  DAST_PASSWORD_FIELD: cod_pwd # the name of password field at the sign-in HTML form
+  DAST_SUBMIT_FIELD: ButLogIn # the `id` or `name` of the element that when clicked will submit the login form or the password form of a multi-page login process
 
 cache:
   key: $CACHE_KEY
@@ -44,6 +54,7 @@ stages:
   - site
   - package
   - deploy
+  - dast
   - release
 
 ##############################
