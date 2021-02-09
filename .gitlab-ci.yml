@@ -34,7 +34,7 @@ variables:
   DAST_USERNAME: test
   DAST_PASSWORD: $DAST_PASSWORD
   DAST_USERNAME_FIELD: cod_usr # the name of username field at the sign-in HTML form
-  DAST_PASSWORD_FIELD: cod_pwd # the name of password field at the sign-in HTML form
+  DAST_PASSWORD_FIELD: pwd_usr # the name of password field at the sign-in HTML form
   DAST_SUBMIT_FIELD: ButLogIn # the `id` or `name` of the element that when clicked will submit the login form or the password form of a multi-page login process
 
 cache:
