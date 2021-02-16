@@ -6,6 +6,7 @@ import com.almis.awe.model.constant.AweConstants;
 import com.almis.awe.model.dto.ServiceData;
 import com.almis.awe.model.entities.email.Email;
 import com.almis.awe.model.entities.email.ParsedEmail;
+import com.almis.awe.model.type.EmailMessageType;
 import com.almis.awe.service.data.builder.XMLEmailBuilder;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.log4j.Log4j2;
@@ -40,7 +41,8 @@ public class EmailService extends ServiceConfig {
   /**
    * Autowired constructor
    *
-   * @param mailSender
+   * @param mailSender   Email sender
+   * @param emailBuilder Email builder
    */
   public EmailService(JavaMailSender mailSender, XMLEmailBuilder emailBuilder) {
     this.mailSender = mailSender;
@@ -83,7 +85,8 @@ public class EmailService extends ServiceConfig {
       message.setSubject(getLocale(email.getSubject()));
 
       // Append to message
-      message.setContent(generateMultipartMessage(email));
+      message.setText(getLocale(email.getBody()).replace("\\n", CRLF), encoding);
+      message.setContent(generateMultipartMessage(email), "html");
 
       // Send mail
       mailSender.send(message);
@@ -101,20 +104,24 @@ public class EmailService extends ServiceConfig {
    * @throws IOException        Error retrieving file
    */
   protected Multipart generateMultipartMessage(ParsedEmail email) throws MessagingException, IOException {
+    // Message content type
+    String messageContentType = email.getMessageType() + "; charset=" + encoding;
+
     // Set the message body
     Multipart multipart = new MimeMultipart();
 
-    // creates text body part for the message
-    MimeBodyPart textPart = new MimeBodyPart();
-    textPart.setText(getLocale(email.getBody()).replace("\\n", CRLF), encoding);
+    // creates body part for the message
+    MimeBodyPart messageBodyPart = new MimeBodyPart();
 
-    // creates html body part for the message
-    MimeBodyPart htmlPart = new MimeBodyPart();
-    htmlPart.setContent(getLocale(email.getBody()), "text/html;charset=" + encoding);
+    // Content type
+    if (email.getMessageType() == EmailMessageType.HTML) {
+      messageBodyPart.setText(getLocale(email.getBody()), null, messageContentType);
+    } else {
+      messageBodyPart.setText(getLocale(email.getBody()));
+    }
 
     // Add body to multiPart
-    multipart.addBodyPart(textPart);
-    multipart.addBodyPart(htmlPart);
+    multipart.addBodyPart(messageBodyPart);
 
     // Add attachments
     if (!email.getAttachments().isEmpty()) {
@@ -151,8 +158,9 @@ public class EmailService extends ServiceConfig {
   /**
    * Set email recipients
    *
+   * @param email   Email
    * @param message Mime message
-   * @throws MessagingException
+   * @throws MessagingException Error generating email
    */
   protected void setRecipients(ParsedEmail email, MimeMessage message) throws MessagingException {
     // Set from
