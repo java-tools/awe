@@ -250,50 +250,6 @@ public class CellData implements Comparable<CellData>, Copyable {
   }
 
   /**
-   * Stores an object value
-   *
-   * @param value Object value
-   * @return this
-   */
-  @JsonIgnore
-  public CellData setValue(Object value) {
-    if (value == null) {
-      setNull();
-    } else if (value instanceof String) {
-      if (DateUtil.isJsonDate((String) value)) {
-        Date date = stringToDate((String) value);
-        setValue(date);
-      } else {
-        setValue(value, STRING);
-      }
-    } else if (value instanceof Integer) {
-      setValue(value, INTEGER);
-    } else if (value instanceof Long) {
-      setValue(value, LONG);
-    } else if (value instanceof BigDecimal) {
-      setValue(value, DECIMAL);
-    } else if (value instanceof Float) {
-      setValue(value, FLOAT);
-    } else if (value instanceof Double) {
-      setValue(value, DOUBLE);
-    } else if (value instanceof Boolean) {
-      setValue(value, BOOLEAN);
-    } else if (value instanceof Date) {
-      String dateString = DateUtil.dat2WebTimestamp((Date) value);
-      setValue(dateString, value, DATE);
-    } else if (value instanceof JsonNode) {
-      setValue(value, JSON);
-    } else if (value instanceof CellData) {
-      CellData cell = (CellData) value;
-      setValue(cell.getStringValue(), cell.getObjectValue(), cell.getType());
-    } else {
-      log.debug("CellData of type '{}'", value.getClass().getSimpleName());
-      setValue(value.toString(), value, OBJECT);
-    }
-    return this;
-  }
-
-  /**
    * Stores a null value
    *
    * @return this
@@ -404,6 +360,52 @@ public class CellData implements Comparable<CellData>, Copyable {
           return getStringValue();
       }
     }
+  }
+
+  /**
+   * Stores an object value
+   *
+   * @param value Object value
+   * @return this
+   */
+  @JsonIgnore
+  public CellData setValue(Object value) {
+    if (value == null) {
+      setNull();
+    } else if (value instanceof String) {
+      if (DateUtil.isJsonDate((String) value)) {
+        Date date = stringToDate((String) value);
+        setValue(date);
+      } else {
+        setValue(value, STRING);
+      }
+    } else if (value instanceof Integer) {
+      setValue(value, INTEGER);
+    } else if (value instanceof Long) {
+      setValue(value, LONG);
+    } else if (value instanceof BigDecimal) {
+      setValue(value, DECIMAL);
+    } else if (value instanceof Float) {
+      setValue(value, FLOAT);
+    } else if (value instanceof Double) {
+      setValue(value, DOUBLE);
+    } else if (value instanceof Boolean) {
+      setValue(value, BOOLEAN);
+    } else if (value instanceof Date) {
+      String dateString = DateUtil.dat2WebTimestamp((Date) value);
+      setValue(dateString, value, DATE);
+    } else if (value instanceof JsonNode) {
+      setValue(value, JSON);
+    } else if (value instanceof CellData) {
+      CellData cell = (CellData) value;
+      setValue(cell.getStringValue(), cell.getObjectValue(), cell.getType());
+      setSendStringValue(cell.isSendStringValue());
+      setPrintable(cell.isPrintable());
+    } else {
+      log.debug("CellData of type '{}'", value.getClass().getSimpleName());
+      setValue(value.toString(), value, OBJECT);
+    }
+    return this;
   }
 
   @Override
