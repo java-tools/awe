@@ -392,6 +392,10 @@ Deploy production:
     refs:
       - master
 
+dast:
+  rules:
+    - <<: *if-develop
+
 pages:
   image: docker:latest
   stage: deploy
