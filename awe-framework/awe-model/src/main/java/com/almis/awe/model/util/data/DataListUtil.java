@@ -12,6 +12,8 @@ import org.springframework.beans.PropertyAccessorFactory;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * DataList Class
@@ -81,17 +83,10 @@ public final class DataListUtil {
    * @return Row index
    */
   public static int getRowIndex(DataList list, String columnIdentifier, Object rowIdentifier) {
-    // Init variables
-    int index = 0;
-    for (Map<String, CellData> row : list.getRows()) {
-      CellData cell = row.get(columnIdentifier);
-      if (cell != null && cell.getObjectValue().equals(rowIdentifier)) {
-        return index;
-      }
-      index++;
-    }
-
-    return -1;
+    return IntStream.range(0, list.getRows().size())
+      .filter(i -> rowIdentifier.equals(list.getRows().get(i).get(columnIdentifier).getValue()))
+      .findFirst()
+      .orElse(-1);
   }
 
   /**
@@ -254,7 +249,7 @@ public final class DataListUtil {
    * Return the datalist as bean list
    *
    * @param beanList bean class
-   * @param <T>       class type
+   * @param <T>      class type
    * @return bean list
    */
   public static <T> DataList fromBeanList(List<T> beanList) {
@@ -304,14 +299,8 @@ public final class DataListUtil {
    * @return Column object list
    */
   public static List<CellData> getColumn(DataList list, String columnName) {
-    List<CellData> columnData = new ArrayList<>();
-
     // Add alias row by row
-    for (Map<String, CellData> row : list.getRows()) {
-      columnData.add(new CellData(row.get(columnName)));
-    }
-
-    return columnData;
+    return list.getRows().stream().map(row -> new CellData(row.get(columnName))).collect(Collectors.toList());
   }
 
   /**
@@ -326,9 +315,7 @@ public final class DataListUtil {
     ObjectMapper mapper = new ObjectMapper();
 
     // Add alias row by row
-    for (Map<String, CellData> row : list.getRows()) {
-      arrayNode.add(mapper.valueToTree(row.get(columnName)));
-    }
+    list.getRows().forEach(row -> arrayNode.add(mapper.valueToTree(row.get(columnName))));
 
     return arrayNode;
   }
@@ -360,12 +347,12 @@ public final class DataListUtil {
   /**
    * Sort datalist set nulls values position
    *
-   * @param list DataList to sort
+   * @param list           DataList to sort
    * @param sortColumnList List with sort columns
-   * @param nullsFirst Null values at first
+   * @param nullsFirst     Null values at first
    */
   public static void sort(DataList list, List<SortColumn> sortColumnList, boolean nullsFirst) {
-      list.getRows().sort(new CompareRow(sortColumnList, nullsFirst));
+    list.getRows().sort(new CompareRow(sortColumnList, nullsFirst));
   }
 
   /**
@@ -473,11 +460,6 @@ public final class DataListUtil {
    * @param comparator row comparator
    */
   private static boolean in(List<Map<String, CellData>> list, Map<String, CellData> rowToCheck, CompareRow comparator) {
-    for (Map<String, CellData> row : list) {
-      if (comparator.compare(row, rowToCheck) == 0) {
-        return true;
-      }
-    }
-    return false;
+    return list.stream().anyMatch(row -> comparator.compare(row, rowToCheck) == 0);
   }
 }
