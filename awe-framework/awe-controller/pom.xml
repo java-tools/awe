@@ -86,6 +86,11 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
+    <!-- Sleuth metrics -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-sleuth-api</artifactId>
+    </dependency>
     <!-- Jasypt -->
     <dependency>
       <groupId>com.github.ulisesbocchio</groupId>
