@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : Lgn.xml
+    Created on : 8 de febrero de 2010, 16:30
+    Author     : Pablo GARCIA
+    Description: Login screen
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://aweframework.gitlab.io/awe/docs/schemas/screen.xsd" template="full"
+        label="SCREEN_TITLE_LOGIN" help="HELP_SCREEN_TITLE_LOGIN">
+  <tag source="center" type="div" style="fullScreen">
+    <tag type="div" id="page-signin-bg" style="fullScreen">
+      <!-- Background overlay -->
+      <tag type="div" style="overlay-image fullScreen"/>
+      <tag type="div" style="overlay fullScreen"/>
+    </tag>
+    <tag type="div" style="awe-signin signin-container">
+
+      <!-- Left side -->
+      <tag type="div" style="signin-info">
+        <tag type="h1">
+          <tag type="span" label="APP_CLIENT"></tag>
+        </tag>
+        <tag type="div" style="slogan" label="APP_NAME"/>
+      </tag>
+      <!-- / Left side -->
+
+      <!-- Right side -->
+      <tag type="div" style="signin-form">
+        <tag type="div" style="signin-text">
+          <tag type="span" label="SCREEN_TITLE_LOGIN"></tag>
+        </tag>
+        <criteria placeholder="SCREEN_TEXT_USER" component="text" id="cod_usr" validation="required" size="lg"
+                  icon="user signin-form-icon" style="no-label"/>
+        <criteria placeholder="SCREEN_TEXT_PASS" component="password" id="pwd_usr" validation="required" size="lg"
+                  icon="key signin-form-icon" style="no-label"/>
+        <tag type="div" style="signin-with">
+          <tag type="div" style="form-actions">
+            <button button-type="submit" label="BUTTON_LOGIN" style="no-class btn btn-primary signin-btn bg-primary"
+                    icon="sign-in" id="ButLogIn">
+              <button-action type="validate"/>
+              <button-action type="server" server-action="login"/>
+            </button>
+          </tag>
+        </tag>
+      </tag>
+      <!-- Right side -->
+    </tag>
+
+    <!-- Info credentials -->
+    <tag type="div" style="demo-credentials-info">
+      <tag type="h4" style="header-credentials-info" label="AWE demo site credentials"/>
+      <tag type="p" label="User: test"/>
+      <tag type="p" label="Password: test"/>
+    </tag>
+  </tag>
+</screen>

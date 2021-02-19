@@ -93,7 +93,7 @@
   padding: 18px 45px;
 }
 
-.indexLearnMoreButton {
+.indexTryMeButton {
   border: 2px solid var(--ifm-color-primary);
   display: inline-block;
   line-height: 1.2em;
@@ -108,7 +108,7 @@
   padding: 18px 45px;
 }
 
-.indexLearnMoreButton:hover {
+.indexTryMeButton:hover {
   opacity: 0.8;
   color: white
 }

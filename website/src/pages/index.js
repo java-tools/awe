@@ -112,9 +112,9 @@ function Home() {
               Start using AWE
             </Link>
             <Link
-              className={clsx('margin-left--md', styles.indexLearnMoreButton)}
-              to="https://www.youtube.com/watch?v=ePxY319YnFA">
-              Learn More
+              className={clsx('margin-left--md', styles.indexTryMeButton)}
+              to="http://demo.aweframework.com">
+              Try a Demo
             </Link>
           </div>
         </div>
