@@ -11,6 +11,7 @@ import com.almis.awe.test.unit.print.PrintTestSuite;
 import com.almis.awe.test.unit.rest.SpringRestTestsSuite;
 import com.almis.awe.test.unit.scheduler.SchedulerTestSuite;
 import com.almis.awe.test.unit.services.ServicesTestSuite;
+import com.almis.awe.test.unit.session.AweSessionDetailsTest;
 import com.almis.awe.test.unit.spring.SpringBootTestsSuite;
 import com.almis.awe.test.unit.util.UtilitiesTestsSuite;
 import org.junit.experimental.categories.Categories;
@@ -21,17 +22,18 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Categories.class)
 @ExcludeCategory({CIDatabaseTest.class, NotHSQLDatabaseTest.class})
 @SuiteClasses({
-        SpringHsqlTestsSuite.class,
-        SpringBootTestsSuite.class,
-        SpringRestTestsSuite.class,
-        ServicesTestSuite.class,
-        UtilitiesTestsSuite.class,
-        PojoTestsSuite.class,
-        BuildersTestsSuite.class,
-        SchedulerTestSuite.class,
-        DeveloperTestSuite.class,
-        NotifierTestsSuite.class,
-        PrintTestSuite.class
+  SpringHsqlTestsSuite.class,
+  SpringBootTestsSuite.class,
+  SpringRestTestsSuite.class,
+  ServicesTestSuite.class,
+  UtilitiesTestsSuite.class,
+  PojoTestsSuite.class,
+  BuildersTestsSuite.class,
+  SchedulerTestSuite.class,
+  DeveloperTestSuite.class,
+  NotifierTestsSuite.class,
+  PrintTestSuite.class,
+  AweSessionDetailsTest.class
 })
 public class AllTestsSuite {
 }
