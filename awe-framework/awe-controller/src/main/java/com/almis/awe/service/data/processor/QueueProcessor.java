@@ -400,8 +400,8 @@ public class QueueProcessor extends ServiceConfig {
       responseWrapper = (ResponseWrapper) getBean(wrapper.getClassName());
     } else {
       try {
-        Class wrapperClass = Class.forName(wrapper.getClassName());
-        responseWrapper = (ResponseWrapper) wrapperClass.newInstance();
+        Class<?> wrapperClass = Class.forName(wrapper.getClassName());
+        responseWrapper = (ResponseWrapper) wrapperClass.getConstructor().newInstance();
       } catch (Exception exc) {
         // TODO: Generate locales
         throw new AWException("Wrapper class not found: " + wrapper.getClassName(), exc);

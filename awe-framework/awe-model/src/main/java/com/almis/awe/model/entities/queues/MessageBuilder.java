@@ -215,7 +215,7 @@ public class MessageBuilder implements MessageCreator {
     } else {
       try {
         Class<?> wrapperClass = Class.forName(wrapper.getClassName());
-        requestWrapper = (RequestWrapper) wrapperClass.newInstance();
+        requestWrapper = (RequestWrapper) wrapperClass.getConstructor().newInstance();
       } catch (Exception exc) {
         throw new JMSException("Wrapper class not found: " + wrapper.getClassName());
       }

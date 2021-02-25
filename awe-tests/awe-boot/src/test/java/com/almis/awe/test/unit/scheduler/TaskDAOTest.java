@@ -322,7 +322,7 @@ public class TaskDAOTest extends TestUtil {
   public void isTaskExecutionAllowed() throws Exception {
     Task task = mockTask();
     task.setLaunchType(TaskLaunchType.FILE_TRACKING.getValue());
-    given(fileChecker.checkFile(eq(task))).willReturn("File");
+    given(fileChecker.checkFile(task)).willReturn("File");
 
     // Finish task
     boolean allowed = taskDAO.isTaskExecutionAllowed(task);

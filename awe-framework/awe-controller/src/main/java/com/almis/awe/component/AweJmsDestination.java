@@ -121,24 +121,15 @@ public class AweJmsDestination {
    * @return Destination
    */
   private Destination getDestination(JmsDestination destinationInfo) throws AWException {
-    Destination destination = null;
-
     try {
-      // Find and retrieve connection
-      switch (destinationInfo.getConnectionType()) {
-        case J: // JNDI
-        default:
-          destination = getDestinationWithJNDI(destinationInfo);
-          break;
-      }
+      // TODO: ¿Remove remote destination?
+      return getDestinationWithJNDI(destinationInfo);
     } catch (AWException exc) {
       throw exc;
     } catch (Exception exc) {
       throw new AWException(elements.getLocaleWithLanguage("ERROR_TITLE_DESTINATION_FAILED", elements.getLanguage()),
         elements.getLocaleWithLanguage("ERROR_MESSAGE_DESTINATION_FAILED", elements.getLanguage(), destinationInfo.getDestination()), exc);
     }
-
-    return destination;
   }
 
   /**
@@ -149,21 +140,16 @@ public class AweJmsDestination {
    * @throws AWException Error retrieving destination
    */
   private Destination getDestinationWithJNDI(JmsDestination destinationInfo) throws AWException {
-
-    // Variable definition
-    Destination destination = null;
     try {
       // Define initial context
       Context ctx = new InitialContext();
       Context envContext = (Context) ctx.lookup("java:/comp/env");
 
       // Get destination
-      destination = (Destination) envContext.lookup(destinationInfo.getDestination());
+      return (Destination) envContext.lookup(destinationInfo.getDestination());
     } catch (Exception exc) {
       throw new AWException(elements.getLocaleWithLanguage("ERROR_TITLE_QUEUE_DESTINATION_NOT_FOUND", elements.getLanguage()),
         elements.getLocaleWithLanguage("ERROR_MESSAGE_QUEUE_DESTINATION_NOT_FOUND", elements.getLanguage(), destinationInfo.getDestination()), exc);
     }
-
-    return destination;
   }
 }

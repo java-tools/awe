@@ -49,7 +49,7 @@ public final class ListUtil {
     if (source != null) {
       try {
         Constructor<T> constructor = clazz.getConstructors().length > 1 ? clazz.getConstructor(clazz) : null;
-        copy = source.getClass().newInstance();
+        copy = source.getClass().getConstructor().newInstance();
         for (T item : source) {
           if (constructor != null) {
             copy.add(constructor.newInstance(item));
@@ -103,7 +103,7 @@ public final class ListUtil {
     if (source != null) {
       try {
         Constructor<T> constructor = clazz.getConstructors().length > 1 ? clazz.getConstructor(clazz) : null;
-        copy = source.getClass().newInstance();
+        copy = source.getClass().getConstructor().newInstance();
         for (Map.Entry<String, T> entry : source.entrySet()) {
           if (constructor != null) {
             copy.put(entry.getKey(), constructor.newInstance(entry.getValue()));

@@ -218,13 +218,14 @@ Javadoc test:
   allow_failure: true
   dependencies: []
   script:
-    - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $IT_OPTS $BROWSER_OPTS
+    - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $IT_OPTS $BROWSER_OPTS -Dfailsafe.suite=**/${TEST_CLASS}.class
   after_script:
-    - cp awe-tests/awe-boot/target/jacoco-it.exec awe-tests/awe-boot/target/jacoco-$TEST_NAME-it.exec
-    - search=`cat awe-tests/awe-boot/target/surefire-reports/TEST-com.almis.awe.test.AllTestsSuiteIT.xml`
+    - cp awe-tests/awe-boot/target/jacoco-it.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-it.exec
+    - search=`cat awe-tests/awe-boot/target/surefire-reports/TEST-*.${TEST_CLASS}.xml`
     - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - echo "$errors errors and $failures failures found"
+    - read -t 5 -p "I am going to wait for 5 seconds only to ensure .exec file generation"
   artifacts:
     expose_as: 'Selenium reports'
     paths:
@@ -239,17 +240,63 @@ Javadoc test:
   rules:
     - <<: *if-default
 
-Firefox IT:
+.firefox-testing:
   extends: .browser-testing
   variables:
     BROWSER_OPTS: $FIREFOX_OPTS
-    TEST_NAME: firefox
 
-Chrome IT:
+.chrome-testing:
   extends: .browser-testing
   variables:
     BROWSER_OPTS: $CHROME_OPTS
-    TEST_NAME: chrome
+
+Firefox IT Application and Integration:
+  extends: .firefox-testing
+  variables:
+    TEST_NAME: firefox-application-integration
+    TEST_CLASS: ApplicationIntegrationTestsIT
+
+Firefox IT CRUD Criteria and Matrix:
+  extends: .firefox-testing
+  variables:
+    TEST_NAME: firefox-crud-criteria-matrix
+    TEST_CLASS: CRUDCriteriaMatrixTestsIT
+
+Firefox IT Regression Websocket and Print:
+  extends: .firefox-testing
+  variables:
+    TEST_NAME: firefox-regression-websocket-print
+    TEST_CLASS: RegressionWebsocketPrintTestsIT
+
+Firefox IT Scheduler:
+  extends: .firefox-testing
+  variables:
+    TEST_NAME: firefox-scheduler
+    TEST_CLASS: SchedulerTestsIT
+
+Chrome IT Application and Integration:
+  extends: .chrome-testing
+  variables:
+    TEST_NAME: chrome-application-integration
+    TEST_CLASS: ApplicationIntegrationTestsIT
+
+Chrome IT CRUD Criteria and Matrix:
+  extends: .chrome-testing
+  variables:
+    TEST_NAME: chrome-crud-criteria-matrix
+    TEST_CLASS: CRUDCriteriaMatrixTestsIT
+
+Chrome IT Regression Websocket and Print:
+  extends: .chrome-testing
+  variables:
+    TEST_NAME: chrome-regression-websocket-print
+    TEST_CLASS: RegressionWebsocketPrintTestsIT
+
+Chrome IT Scheduler:
+  extends: .chrome-testing
+  variables:
+    TEST_NAME: chrome-scheduler
+    TEST_CLASS: SchedulerTestsIT
 
 ##############################
 # Analysis stage
@@ -268,10 +315,16 @@ Launch Sonar:
     - SQL Server UT
     - MySQL UT
     - Frontend UT
-    - Firefox IT
-    - Chrome IT
+    - Firefox IT Application and Integration
+    - Firefox IT CRUD Criteria and Matrix
+    - Firefox IT Regression Websocket and Print
+    - Firefox IT Scheduler
+    - Chrome IT Application and Integration
+    - Chrome IT CRUD Criteria and Matrix
+    - Chrome IT Regression Websocket and Print
+    - Chrome IT Scheduler
   script:
-    - mvn $MAVEN_CLI_OPTS verify -Dskip.frontend=true -DgenerateCoverageReport=true sonar:sonar $SKIP_TESTS $SONAR_OPTS
+    - mvn $MAVEN_CLI_OPTS verify -Dskip.frontend=true -DgenerateCoverageReport=true sonar:sonar $SKIP_TESTS -Darchetype.test.skip=true $SONAR_OPTS
     - cat awe-tests/awe-boot/target/coverage-reports/index.html | grep -o 'Total[^%]*%' | sed -e 's/Total/Jacoco-Test-Coverage:/g'
   artifacts:
     paths:

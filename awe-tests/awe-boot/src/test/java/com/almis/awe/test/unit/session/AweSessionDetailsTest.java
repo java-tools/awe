@@ -84,7 +84,7 @@ public class AweSessionDetailsTest {
     when(aweSession.setAuthentication(any())).thenReturn(aweSession);
     when(aweSession.getUser()).thenReturn("user");
     when(aweSession.getSessionId()).thenReturn("session-id");
-    when(aweSession.getParameter(eq(User.class), eq(SESSION_USER_DETAILS))).thenReturn(userDetails);
+    when(aweSession.getParameter(User.class, SESSION_USER_DETAILS)).thenReturn(userDetails);
     when(userDetails.getLanguage()).thenReturn("ES");
     when(userDetails.getUserTheme()).thenReturn("sunset");
     when(userDetails.getProfileTheme()).thenReturn("sky");
