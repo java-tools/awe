@@ -41,7 +41,7 @@
     <selenium.version>3.141.59</selenium.version>
     <lombok.version>1.18.16</lombok.version>
     <querydsl.version>4.3.1</querydsl.version>
-    <jacoco.version>0.8.5</jacoco.version>
+    <jacoco.version>0.8.6</jacoco.version>
 
     <!-- Compilation -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -74,6 +74,9 @@
     <skip.main>false</skip.main>
     <skip.frontend>false</skip.frontend>
     <skip.delombok>true</skip.delombok>
+
+    <!-- Jacoco configuration -->
+    <jacoco.port>6300</jacoco.port>
   </properties>
 
   <dependencies>
@@ -710,6 +713,7 @@
                   <skip>${skip.selenium}</skip>
                   <append>true</append>
                   <dumpOnExit>true</dumpOnExit>
+                  <port>${jacoco.port}</port>
                   <destFile>${jacoco.base.reports}/jacoco-it.exec</destFile>
                   <propertyName>failsafe.argLine</propertyName>
                 </configuration>

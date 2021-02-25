@@ -218,7 +218,7 @@ Javadoc test:
   allow_failure: true
   dependencies: []
   script:
-    - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $IT_OPTS $BROWSER_OPTS -Dfailsafe.suite=**/${TEST_CLASS}.class
+    - mvn -f awe-tests/awe-boot/pom.xml $MAVEN_CLI_OPTS verify $IT_OPTS $BROWSER_OPTS -Dfailsafe.suite=**/${TEST_CLASS}.class -Djacoco.port=$TEST_PORT
   after_script:
     - cp awe-tests/awe-boot/target/jacoco-it.exec awe-tests/awe-boot/target/jacoco-${TEST_NAME}-it.exec
     - search=`cat awe-tests/awe-boot/target/surefire-reports/TEST-*.${TEST_CLASS}.xml`
@@ -255,48 +255,56 @@ Firefox IT Application and Integration:
   variables:
     TEST_NAME: firefox-application-integration
     TEST_CLASS: ApplicationIntegrationTestsIT
+    TEST_PORT: 6301
 
 Firefox IT CRUD Criteria and Matrix:
   extends: .firefox-testing
   variables:
     TEST_NAME: firefox-crud-criteria-matrix
     TEST_CLASS: CRUDCriteriaMatrixTestsIT
+    TEST_PORT: 6302
 
 Firefox IT Regression Websocket and Print:
   extends: .firefox-testing
   variables:
     TEST_NAME: firefox-regression-websocket-print
     TEST_CLASS: RegressionWebsocketPrintTestsIT
+    TEST_PORT: 6303
 
 Firefox IT Scheduler:
   extends: .firefox-testing
   variables:
     TEST_NAME: firefox-scheduler
     TEST_CLASS: SchedulerTestsIT
+    TEST_PORT: 6304
 
 Chrome IT Application and Integration:
   extends: .chrome-testing
   variables:
     TEST_NAME: chrome-application-integration
     TEST_CLASS: ApplicationIntegrationTestsIT
+    TEST_PORT: 6305
 
 Chrome IT CRUD Criteria and Matrix:
   extends: .chrome-testing
   variables:
     TEST_NAME: chrome-crud-criteria-matrix
     TEST_CLASS: CRUDCriteriaMatrixTestsIT
+    TEST_PORT: 6306
 
 Chrome IT Regression Websocket and Print:
   extends: .chrome-testing
   variables:
     TEST_NAME: chrome-regression-websocket-print
     TEST_CLASS: RegressionWebsocketPrintTestsIT
+    TEST_PORT: 6307
 
 Chrome IT Scheduler:
   extends: .chrome-testing
   variables:
     TEST_NAME: chrome-scheduler
     TEST_CLASS: SchedulerTestsIT
+    TEST_PORT: 6308
 
 ##############################
 # Analysis stage
