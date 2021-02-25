@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 
-import javax.script.ScriptException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -73,18 +72,6 @@ public class ComputedColumnProcessor implements ColumnProcessor {
   }
 
   /**
-   * Set Awe Elements
-   *
-   * @param elements AWE Elements
-   * @return Computed processor
-   */
-  public ComputedColumnProcessor setElements(AweElements elements) {
-    this.elements = elements;
-    emptyOnNull = Boolean.valueOf(elements.getProperty(AweConstants.PROPERTY_EMPTY_IF_NULL, "true"));
-    return this;
-  }
-
-  /**
    * Retrieve Awe Elements
    *
    * @return Awe elements
@@ -94,6 +81,18 @@ public class ComputedColumnProcessor implements ColumnProcessor {
       throw new AWException("No elements defined", "Define elements before building the computed processor");
     }
     return elements;
+  }
+
+  /**
+   * Set Awe Elements
+   *
+   * @param elements AWE Elements
+   * @return Computed processor
+   */
+  public ComputedColumnProcessor setElements(AweElements elements) {
+    this.elements = elements;
+    emptyOnNull = Boolean.valueOf(elements.getProperty(AweConstants.PROPERTY_EMPTY_IF_NULL, "true"));
+    return this;
   }
 
   /**
@@ -206,7 +205,7 @@ public class ComputedColumnProcessor implements ColumnProcessor {
       Value evaluated;
       try {
         evaluated = StringUtil.eval(value, elements.getApplicationContext().getBean(Context.class));
-      } catch (ScriptException exc) {
+      } catch (Exception exc) {
         throw new AWException(elements.getLocaleWithLanguage("ERROR_TITLE_EXPRESSION_EVALUATION", elements.getLanguage()),
           elements.getLocaleWithLanguage("ERROR_MESSAGE_EXPRESSION_EVALUATION", elements.getLanguage(), value), exc);
       }

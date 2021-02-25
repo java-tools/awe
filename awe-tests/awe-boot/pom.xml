@@ -472,6 +472,30 @@
           <scope>test</scope>
         </dependency>
       </dependencies>
+      <repositories>
+        <repository>
+          <id>maven.oracle.com</id>
+          <name>oracle-maven-repo</name>
+          <url>https://maven.oracle.com</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </releases>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>maven.oracle.com</id>
+          <name>oracle-maven-repo</name>
+          <url>https://maven.oracle.com</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </releases>
+        </pluginRepository>
+      </pluginRepositories>
     </profile>
 
     <!-- Performance tests -->
@@ -627,8 +651,14 @@
                     <dataFileInclude>target/jacoco-oracle-ut.exec</dataFileInclude>
                     <dataFileInclude>target/jacoco-sqlserver-ut.exec</dataFileInclude>
                     <dataFileInclude>target/jacoco-mysql-ut.exec</dataFileInclude>
-                    <dataFileInclude>target/jacoco-chrome-it.exec</dataFileInclude>
-                    <dataFileInclude>target/jacoco-firefox-it.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-chrome-application-integration-it.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-chrome-crud-criteria-matrix-it.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-chrome-regression-websocket-print-it.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-chrome-scheduler-it.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-firefox-application-integration-it.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-firefox-crud-criteria-matrix-it.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-firefox-regression-websocket-print-it.exec</dataFileInclude>
+                    <dataFileInclude>target/jacoco-firefox-scheduler-it.exec</dataFileInclude>
                   </dataFileIncludes>
                   <outputDirectory>${jacoco.reportPaths}</outputDirectory>
                 </configuration>
@@ -658,31 +688,5 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <repositories>
-    <repository>
-      <id>maven.oracle.com</id>
-      <name>oracle-maven-repo</name>
-      <url>https://maven.oracle.com</url>
-      <layout>default</layout>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </releases>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>maven.oracle.com</id>
-      <name>oracle-maven-repo</name>
-      <url>https://maven.oracle.com</url>
-      <layout>default</layout>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-      </releases>
-    </pluginRepository>
-  </pluginRepositories>
 
 </project>

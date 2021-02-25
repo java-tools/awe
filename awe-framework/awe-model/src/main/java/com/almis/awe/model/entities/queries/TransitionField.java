@@ -6,7 +6,6 @@ import com.almis.awe.model.util.data.ListUtil;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
@@ -41,6 +40,7 @@ public class TransitionField implements Copyable {
 
   /**
    * Retrieve field
+   *
    * @return Field
    */
   public SqlField getField() {
@@ -49,6 +49,7 @@ public class TransitionField implements Copyable {
 
   /**
    * Set field
+   *
    * @return this
    */
   public TransitionField setField(SqlField field) {

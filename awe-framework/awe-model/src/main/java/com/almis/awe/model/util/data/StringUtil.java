@@ -11,7 +11,6 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 
-import javax.script.ScriptException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,7 +33,7 @@ public final class StringUtil {
 
   // EXPRESSIONS
   private static final String WILDCARD_START = "\\{\\{\\{";
-  private static final String WILDCARD_END = "\\}\\}\\}";
+  private static final String WILDCARD_END = "}}}";
   private static final String MULTI_COMMENT = "/\\*.*?\\*/";
   private static final String NEW_LINE = "/[\n\r\t]*/";
   private static final String BREAK_LINE_START = "<br>";
@@ -145,7 +144,7 @@ public final class StringUtil {
   public static String fixFormatValue(String value) {
     String fixed = value;
     fixed = fixed.replace("\\'", "\"");
-    fixed = fixed.replace("\'", "\"");
+    fixed = fixed.replace("'", "\"");
     return StringUtil.fixJSonValue(fixed);
   }
 
@@ -378,7 +377,6 @@ public final class StringUtil {
 
     // Change \' to '
     fixedValue = fixedValue.replace("\\'", "'");
-    fixedValue = fixedValue.replace("\'", "'");
 
     // Fix $ issue
     fixedValue = Matcher.quoteReplacement(fixedValue);
@@ -410,9 +408,8 @@ public final class StringUtil {
    * @param expression Expression to evaluate
    * @param context    Javascript engine context
    * @return Evaluated expression
-   * @throws javax.script.ScriptException Script exception
    */
-  public static Value eval(String expression, Context context) throws ScriptException {
+  public static Value eval(String expression, Context context) {
     return context.eval("js", expression);
   }
 
@@ -424,13 +421,7 @@ public final class StringUtil {
    */
   public static String evalMarkdown(String expression) {
     Node document = PARSER.parse(expression);
-    String html = HTML_RENDERER.render(document);
-
-    // There is only one paragraph, remove it
-    if (html.indexOf("") == html.lastIndexOf("")) {
-      html = html.replace("", "").replace("", "");
-    }
-    return html;
+    return HTML_RENDERER.render(document);
   }
 
   /**
