@@ -225,7 +225,7 @@ Javadoc test:
     - errors=`echo $search | grep 'errors="[^"]*' | sed -e 's/.*errors="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - failures=`echo $search | grep 'failures="[^"]*' | sed -e 's/.*failures="//g' | sed -e 's/".*//g' | awk 'BEGIN { FPAT="[0-9]+"} {printf $1}'`
     - echo "$errors errors and $failures failures found"
-    - read -t 5 -p "I am going to wait for 5 seconds only to ensure .exec file generation"
+    - read -t 10 -p "I am going to wait for 10 seconds only to ensure .exec file generation"
   artifacts:
     expose_as: 'Selenium reports'
     paths:

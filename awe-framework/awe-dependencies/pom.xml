@@ -711,7 +711,6 @@
                 </goals>
                 <configuration>
                   <skip>${skip.selenium}</skip>
-                  <append>true</append>
                   <dumpOnExit>true</dumpOnExit>
                   <port>${jacoco.port}</port>
                   <destFile>${jacoco.base.reports}/jacoco-it.exec</destFile>
