@@ -7,13 +7,13 @@ metadata:
     app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
   labels:
     app: __CI_PROJECT_PATH_SLUG__
-    env: __ENVIRONMENT__
+    env: __CI_ENVIRONMENT_SLUG__
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: __CI_PROJECT_PATH_SLUG__
-      env: __ENVIRONMENT__
+      env: __CI_ENVIRONMENT_SLUG__
   template:
     metadata:
       annotations:
