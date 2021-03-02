@@ -22,6 +22,7 @@ spec:
         version: __VERSION__
       labels:
         app: __CI_PROJECT_PATH_SLUG__
+        env: __CI_ENVIRONMENT_SLUG__
     spec:
       containers:
       - name: awe-boot
