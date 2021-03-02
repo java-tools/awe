@@ -7,22 +7,25 @@ metadata:
     app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
   labels:
     app: __CI_PROJECT_PATH_SLUG__
+    env: __ENVIRONMENT__
 spec:
   replicas: 2
   selector:
     matchLabels:
       app: __CI_PROJECT_PATH_SLUG__
+      env: __ENVIRONMENT__
   template:
     metadata:
       annotations:
         app.gitlab.com/env: __CI_ENVIRONMENT_SLUG__
         app.gitlab.com/app: __CI_PROJECT_PATH_SLUG__
+        version: __VERSION__
       labels:
         app: __CI_PROJECT_PATH_SLUG__
     spec:
       containers:
       - name: awe-boot
-        image: registry.gitlab.com/aweframework/awe/awe-boot:latest
+        image: registry.gitlab.com/aweframework/awe/awe-boot:__VERSION__
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

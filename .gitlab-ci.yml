@@ -87,17 +87,21 @@ stages:
 
 Build project:
   extends: .build
+  script:
+    - mvn $MAVEN_CLI_OPTS clean install $SKIP_TESTS
+    - version = $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+    - echo "PROJECT_VERSION=$version" >> build.env
   artifacts:
+    reports:
+      dotenv: build.env
     paths:
       - awe-tests/awe-boot/target/awe-boot.war
     expire_in: 1 day
   cache:
-    paths:
-      - .m2/repository/
-      - awe-framework/awe-client-angular/node_modules/
-      - awe-framework/awe-modules/awe-tools/node_modules/
-  script:
-    - mvn $MAVEN_CLI_OPTS clean install $SKIP_TESTS
+      paths:
+        - .m2/repository/
+        - awe-framework/awe-client-angular/node_modules/
+        - awe-framework/awe-modules/awe-tools/node_modules/
   rules:
     - <<: *if-default
 
@@ -314,14 +318,15 @@ Build package:
   script:
     # Gitlab container
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-    - docker build -t registry.gitlab.com/aweframework/awe/awe-boot:latest ./awe-tests/awe-boot
-    - docker push registry.gitlab.com/aweframework/awe/awe-boot:latest
+    - docker build -t registry.gitlab.com/aweframework/awe/awe-boot:$PROJECT_VERSION ./awe-tests/awe-boot
+    - docker push registry.gitlab.com/aweframework/awe/awe-boot:$PROJECT_VERSION
     # Docker Hub container
     - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
-    - docker build -t aweframework/awe-boot:latest ./awe-tests/awe-boot
-    - docker push aweframework/awe-boot:latest
+    - docker build -t aweframework/awe-boot:$PROJECT_VERSION ./awe-tests/awe-boot
+    - docker push aweframework/awe-boot:$PROJECT_VERSION
   rules:
     - <<: *if-develop
+    - <<: *if-master
 
 ##############################
 # Deploy stage
@@ -350,7 +355,8 @@ Deploy Maven Central:
 .k8s_deploy:
   image: google/cloud-sdk
   cache: {}
-  dependencies: []
+  dependencies:
+    - Build project
   stage: deploy
   script:
     - echo "$GOOGLE_KEY" > key.json
@@ -367,6 +373,7 @@ Deploy Maven Central:
     - kubectl create secret docker-registry registry.gitlab.com --docker-server=https://registry.gitlab.com --docker-username=$CI_USERNAME --docker-password=$CI_PASSWORD --docker-email=$CI_EMAIL
     - sed -i "s/__CI_ENVIRONMENT_SLUG__/${CI_ENVIRONMENT_SLUG}/" awe-tests/awe-boot/deployment.yaml
     - sed -i "s/__CI_PROJECT_PATH_SLUG__/${CI_PROJECT_PATH_SLUG}/" awe-tests/awe-boot/deployment.yaml
+    - sed -i "s/__VERSION__/${PROJECT_VERSION}/" awe-tests/awe-boot/deployment.yaml
     - kubectl delete --all pods --namespace=$CI_ENVIRONMENT_SLUG
     - kubectl apply -f awe-tests/awe-boot/deployment.yaml
 
