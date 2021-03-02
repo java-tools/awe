@@ -89,7 +89,7 @@ Build project:
   extends: .build
   script:
     - mvn $MAVEN_CLI_OPTS clean install $SKIP_TESTS
-    - version = $(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+    - version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
     - echo "PROJECT_VERSION=$version" >> build.env
   artifacts:
     reports:
